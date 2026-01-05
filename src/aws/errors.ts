@@ -1,3 +1,4 @@
+import * as Data from "effect/Data";
 import * as S from "effect/Schema";
 import {
   ERROR_CATEGORIES,
@@ -207,6 +208,16 @@ export class InternalError extends S.TaggedError<InternalError>()(
   ),
   withRetryable(),
 ) {}
+
+/** Error when endpoint resolution fails due to a rule error */
+export class EndpointError extends Data.TaggedError("EndpointError")<{
+  message: string;
+}> {}
+
+/** Error when no rule matches in the ruleset */
+export class NoMatchingRuleError extends Data.TaggedError(
+  "NoMatchingRuleError",
+)<{}> {}
 
 export const COMMON_ERRORS = [
   AccessDeniedException,

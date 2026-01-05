@@ -8,20 +8,19 @@ import type * as ParseResult from "effect/ParseResult";
 import * as Redacted from "effect/Redacted";
 import * as Ref from "effect/Ref";
 import * as Stream from "effect/Stream";
-import { Credentials } from "./aws/credentials.ts";
-import { Endpoint } from "./aws/endpoint.ts";
-import { UnknownAwsError, type CommonAwsError } from "./aws/errors.ts";
-import { Region } from "./aws/region.ts";
+
 import type { Operation } from "./operation.ts";
 import { makeRequestBuilder } from "./request-builder.ts";
 import { makeResponseParser } from "./response-parser.ts";
 import { makeDefault, Retry } from "./retry-policy.ts";
-import type {
-  EndpointError,
-  NoMatchingRuleError,
-} from "./rules-engine/index.ts";
 import { makeRulesResolver } from "./rules-engine/resolver.ts";
 import { getAwsAuthSigv4, getPath } from "./traits.ts";
+
+import { Credentials as _Credentials } from "./aws/credentials.ts";
+import { Endpoint as _Endpoint } from "./aws/endpoint.ts";
+import { Region as _Region } from "./aws/region.ts";
+// warning: we do a type-only import here so that our types are connected through public exports for portability
+import type { Credentials, Errors, Region } from "./index.ts";
 
 export const make = <Op extends Operation>(
   initOperation: () => Op,
@@ -31,12 +30,12 @@ export const make = <Op extends Operation>(
   Operation.Output<Op>,
   | Operation.Error<Op>
   | ParseResult.ParseError
-  | UnknownAwsError
-  | CommonAwsError
+  | Errors.UnknownAwsError
+  | Errors.CommonAwsError
   | HttpClientError.HttpClientError
-  | EndpointError
-  | NoMatchingRuleError,
-  Region | Credentials | HttpClient.HttpClient
+  | Errors.EndpointError
+  | Errors.NoMatchingRuleError,
+  Region.Region | Credentials.Credentials | HttpClient.HttpClient
 >) => {
   const op = initOperation();
   let _init;
@@ -72,14 +71,14 @@ export const make = <Op extends Operation>(
     yield* Effect.logDebug("Built Request", request);
 
     // Sign the request
-    const credentials = yield* Credentials;
-    const region = yield* Region;
+    const credentials = yield* _Credentials;
+    const region = yield* _Region;
     const serviceName = sigv4?.name ?? "s3";
 
     // Resolve endpoint and adjust request path if needed
     let endpoint: string;
     let resolvedRequest = request;
-    const customEndpoint = yield* Effect.serviceOption(Endpoint);
+    const customEndpoint = yield* Effect.serviceOption(_Endpoint);
 
     if (Option.isSome(customEndpoint)) {
       // User provided a custom endpoint - use it directly
@@ -272,11 +271,11 @@ export const make = <Op extends Operation>(
 /** Error types returned by paginated operations */
 type PaginatedErrors =
   | ParseResult.ParseError
-  | UnknownAwsError
-  | CommonAwsError
+  | Errors.UnknownAwsError
+  | Errors.CommonAwsError
   | HttpClientError.HttpClientError
-  | EndpointError
-  | NoMatchingRuleError;
+  | Errors.EndpointError
+  | Errors.NoMatchingRuleError;
 
 /** Extract the item type from a paginated operation's output */
 type PaginatedItemType<Op extends Operation> = Op["pagination"] extends {
@@ -299,7 +298,7 @@ export interface PaginatedOperation<Op extends Operation> {
   ): Effect.Effect<
     Operation.Output<Op>,
     Operation.Error<Op> | PaginatedErrors,
-    Region | Credentials | HttpClient.HttpClient
+    Region.Region | Credentials.Credentials | HttpClient.HttpClient
   >;
 
   /** Stream all pages (full response objects) */
@@ -308,7 +307,7 @@ export interface PaginatedOperation<Op extends Operation> {
   ) => Stream.Stream<
     Operation.Output<Op>,
     Operation.Error<Op> | PaginatedErrors,
-    Region | Credentials | HttpClient.HttpClient
+    Region.Region | Credentials.Credentials | HttpClient.HttpClient
   >;
 
   /** Stream individual items from the paginated field across all pages */
@@ -317,7 +316,7 @@ export interface PaginatedOperation<Op extends Operation> {
   ) => Stream.Stream<
     PaginatedItemType<Op>,
     Operation.Error<Op> | PaginatedErrors,
-    Region | Credentials | HttpClient.HttpClient
+    Region.Region | Credentials.Credentials | HttpClient.HttpClient
   >;
 
   /** The operation metadata */
@@ -344,7 +343,7 @@ export const makePaginated = <Op extends Operation>(
 
   type State = { token: unknown; done: boolean };
   type Errors = Operation.Error<Op> | PaginatedErrors;
-  type Deps = Region | Credentials | HttpClient.HttpClient;
+  type Deps = Region.Region | Credentials.Credentials | HttpClient.HttpClient;
 
   // Stream all pages (full response objects)
   const pagesFn = (

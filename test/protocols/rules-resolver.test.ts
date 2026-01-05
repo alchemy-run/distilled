@@ -2,33 +2,32 @@ import { it } from "@effect/vitest";
 import * as Effect from "effect/Effect";
 import * as S from "effect/Schema";
 import { describe, expect } from "vitest";
+import {
+  isVirtualHostableS3Bucket,
+  parseArn,
+  partition,
+} from "../../src/rules-engine/aws-functions.ts";
+import { resolveEndpointSync } from "../../src/rules-engine/evaluator.ts";
+import { RuleSetObject } from "../../src/rules-engine/model.ts";
 import { makeRulesResolver } from "../../src/rules-engine/resolver.ts";
+import {
+  booleanEquals,
+  getAttr,
+  isSet,
+  isValidHostLabel,
+  not,
+  parseURL,
+  stringEquals,
+  substring,
+  uriEncode,
+} from "../../src/rules-engine/standard-functions.ts";
+import { PutEventsRequest } from "../../src/services/eventbridge.ts";
 import {
   GetObjectRequest,
   ListBucketsRequest,
   PutObjectRequest,
 } from "../../src/services/s3.ts";
-import { PutEventsRequest } from "../../src/services/eventbridge.ts";
 import { GetCallerIdentityRequest } from "../../src/services/sts.ts";
-import {
-  // Standard functions
-  isSet,
-  not,
-  booleanEquals,
-  stringEquals,
-  getAttr,
-  substring,
-  parseURL,
-  uriEncode,
-  isValidHostLabel,
-  // AWS functions
-  parseArn,
-  partition,
-  isVirtualHostableS3Bucket,
-  // Evaluator
-  resolveEndpointSync,
-  type RuleSetObject,
-} from "../../src/rules-engine/index.ts";
 
 // Helper to resolve endpoint for a given schema and input
 const resolveEndpoint = <A, I>(

@@ -1,4 +1,27 @@
 /**
+ * AWS API client for making requests to AWS services.
+ *
+ * @example
+ * ```ts
+ * import { Api } from "distilled-aws"
+ *
+ * const api = Api.make(() => ({
+ *   input: S.Struct({
+ *     bucket: S.String,
+ *     key: S.String,
+ *   }),
+ *   output: S.Struct({
+ *     body: S.String,
+ *   }),
+ *   errors: [S.TaggedError("NoSuchKey")],
+ * }))
+ * ```
+ *
+ * @since 0.0.0
+ */
+export * as Api from "./api.ts";
+
+/**
  * AWS Credentials providers for obtaining temporary or long-lived credentials.
  *
  * @example
@@ -12,7 +35,7 @@
  * const ssoLayer = Credentials.fromSSO("my-profile")
  * ```
  *
- * @since 1.0.0
+ * @since 0.0.0
  */
 export * as Credentials from "./aws/credentials.ts";
 
@@ -28,46 +51,9 @@ export * as Credentials from "./aws/credentials.ts";
  * const localstack = Layer.succeed(Endpoint.Endpoint, "http://localhost:4566")
  * ```
  *
- * @since 1.0.0
+ * @since 0.0.0
  */
 export * as Endpoint from "./aws/endpoint.ts";
-
-/**
- * AWS Region configuration.
- *
- * @example
- * ```ts
- * import { Region } from "distilled-aws"
- * import { Layer } from "effect"
- *
- * const region = Layer.succeed(Region.Region, "us-east-1")
- * ```
- *
- * @since 1.0.0
- */
-export * as Region from "./aws/region.ts";
-
-/**
- * Common AWS error types shared across all services.
- *
- * @example
- * ```ts
- * import { Errors } from "distilled-aws"
- *
- * // Handle common errors
- * Effect.catchTag("ThrottlingException", (e) => ...)
- * ```
- *
- * @since 1.0.0
- */
-export * as Errors from "./aws/errors.ts";
-
-/**
- * Smithy trait annotations for AWS service schemas.
- *
- * @since 1.0.0
- */
-export * as Traits from "./traits.ts";
 
 /**
  * Error categories for classifying AWS errors.
@@ -87,9 +73,54 @@ export * as Traits from "./traits.ts";
  * )
  * ```
  *
- * @since 1.0.0
+ * @since 0.0.0
  */
 export * as ErrorCategory from "./error-category.ts";
+
+/**
+ * Common AWS error types shared across all services.
+ *
+ * @example
+ * ```ts
+ * import { Errors } from "distilled-aws"
+ *
+ * // Handle common errors
+ * Effect.catchTag("ThrottlingException", (e) => ...)
+ * ```
+ *
+ * @since 0.0.0
+ */
+export * as Errors from "./aws/errors.ts";
+
+/**
+ * AWS Region configuration.
+ *
+ * @example
+ * ```ts
+ * import { Region } from "distilled-aws"
+ * import { Layer } from "effect"
+ *
+ * const region = Layer.succeed(Region.Region, "us-east-1")
+ * ```
+ *
+ * @since 0.0.0
+ */
+export * as Region from "./aws/region.ts";
+
+/**
+ * Operation type for AWS API calls.
+ *
+ * @since 0.0.0
+ * @internal - only exported for type portability
+ */
+export type { Operation } from "./operation.ts";
+
+/**
+ * Smithy trait annotations for AWS service schemas.
+ *
+ * @since 0.0.0
+ */
+export * as Traits from "./traits.ts";
 
 /**
  * Retry policy configuration for AWS API calls.
@@ -130,6 +161,6 @@ export * as ErrorCategory from "./error-category.ts";
  * myEffect.pipe(Retry.transient)
  * ```
  *
- * @since 1.0.0
+ * @since 0.0.0
  */
 export * as Retry from "./retry-policy.ts";

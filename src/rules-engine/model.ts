@@ -5,8 +5,6 @@
  * @see https://smithy.io/2.0/additional-specs/rules-engine/index.html
  */
 
-import { Data } from "effect";
-
 /** Primitive values that can appear in rules engine expressions */
 export type RulesValue =
   | string
@@ -165,16 +163,6 @@ export type RulesFunction = (...args: RulesValue[]) => RulesValue;
 export interface FunctionRegistry {
   [name: string]: RulesFunction;
 }
-
-/** Error when endpoint resolution fails due to a rule error */
-export class EndpointError extends Data.TaggedError("EndpointError")<{
-  message: string;
-}> {}
-
-/** Error when no rule matches in the ruleset */
-export class NoMatchingRuleError extends Data.TaggedError(
-  "NoMatchingRuleError",
-)<{}> {}
 
 /** Check if expression is a reference */
 export function isReference(expr: Expression): expr is ReferenceObject {
