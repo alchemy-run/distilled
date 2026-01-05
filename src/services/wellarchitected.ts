@@ -1,6 +1,7 @@
 import * as S from "effect/Schema";
 import * as API from "../api.ts";
 import * as T from "../traits.ts";
+import { ERROR_CATEGORIES, withCategory } from "../error-category.ts";
 const svc = T.AwsApiService({
   sdkId: "WellArchitected",
   serviceShapeName: "WellArchitectedApiServiceLambda",
@@ -277,7 +278,10 @@ export const ReviewTemplateLensAliases = S.Array(S.String);
 export class AssociateLensesInput extends S.Class<AssociateLensesInput>(
   "AssociateLensesInput",
 )(
-  { WorkloadId: S.String.pipe(T.HttpLabel()), LensAliases: LensAliases },
+  {
+    WorkloadId: S.String.pipe(T.HttpLabel("WorkloadId")),
+    LensAliases: LensAliases,
+  },
   T.all(
     T.Http({ method: "PATCH", uri: "/workloads/{WorkloadId}/associateLenses" }),
     svc,
@@ -293,7 +297,10 @@ export class AssociateLensesResponse extends S.Class<AssociateLensesResponse>(
 export class AssociateProfilesInput extends S.Class<AssociateProfilesInput>(
   "AssociateProfilesInput",
 )(
-  { WorkloadId: S.String.pipe(T.HttpLabel()), ProfileArns: ProfileArns },
+  {
+    WorkloadId: S.String.pipe(T.HttpLabel("WorkloadId")),
+    ProfileArns: ProfileArns,
+  },
   T.all(
     T.Http({
       method: "PATCH",
@@ -313,7 +320,7 @@ export class CreateLensShareInput extends S.Class<CreateLensShareInput>(
   "CreateLensShareInput",
 )(
   {
-    LensAlias: S.String.pipe(T.HttpLabel()),
+    LensAlias: S.String.pipe(T.HttpLabel("LensAlias")),
     SharedWith: S.String,
     ClientRequestToken: S.String,
   },
@@ -330,7 +337,7 @@ export class CreateLensVersionInput extends S.Class<CreateLensVersionInput>(
   "CreateLensVersionInput",
 )(
   {
-    LensAlias: S.String.pipe(T.HttpLabel()),
+    LensAlias: S.String.pipe(T.HttpLabel("LensAlias")),
     LensVersion: S.String,
     IsMajorVersion: S.optional(S.Boolean),
     ClientRequestToken: S.String,
@@ -348,7 +355,7 @@ export class CreateMilestoneInput extends S.Class<CreateMilestoneInput>(
   "CreateMilestoneInput",
 )(
   {
-    WorkloadId: S.String.pipe(T.HttpLabel()),
+    WorkloadId: S.String.pipe(T.HttpLabel("WorkloadId")),
     MilestoneName: S.String,
     ClientRequestToken: S.String,
   },
@@ -365,7 +372,7 @@ export class CreateProfileShareInput extends S.Class<CreateProfileShareInput>(
   "CreateProfileShareInput",
 )(
   {
-    ProfileArn: S.String.pipe(T.HttpLabel()),
+    ProfileArn: S.String.pipe(T.HttpLabel("ProfileArn")),
     SharedWith: S.String,
     ClientRequestToken: S.String,
   },
@@ -403,7 +410,7 @@ export class CreateTemplateShareInput extends S.Class<CreateTemplateShareInput>(
   "CreateTemplateShareInput",
 )(
   {
-    TemplateArn: S.String.pipe(T.HttpLabel()),
+    TemplateArn: S.String.pipe(T.HttpLabel("TemplateArn")),
     SharedWith: S.String,
     ClientRequestToken: S.String,
   },
@@ -420,7 +427,7 @@ export class CreateWorkloadShareInput extends S.Class<CreateWorkloadShareInput>(
   "CreateWorkloadShareInput",
 )(
   {
-    WorkloadId: S.String.pipe(T.HttpLabel()),
+    WorkloadId: S.String.pipe(T.HttpLabel("WorkloadId")),
     SharedWith: S.String,
     PermissionType: S.String,
     ClientRequestToken: S.String,
@@ -438,7 +445,7 @@ export class DeleteLensInput extends S.Class<DeleteLensInput>(
   "DeleteLensInput",
 )(
   {
-    LensAlias: S.String.pipe(T.HttpLabel()),
+    LensAlias: S.String.pipe(T.HttpLabel("LensAlias")),
     ClientRequestToken: S.String.pipe(T.HttpQuery("ClientRequestToken")),
     LensStatus: S.String.pipe(T.HttpQuery("LensStatus")),
   },
@@ -458,8 +465,8 @@ export class DeleteLensShareInput extends S.Class<DeleteLensShareInput>(
   "DeleteLensShareInput",
 )(
   {
-    ShareId: S.String.pipe(T.HttpLabel()),
-    LensAlias: S.String.pipe(T.HttpLabel()),
+    ShareId: S.String.pipe(T.HttpLabel("ShareId")),
+    LensAlias: S.String.pipe(T.HttpLabel("LensAlias")),
     ClientRequestToken: S.String.pipe(T.HttpQuery("ClientRequestToken")),
   },
   T.all(
@@ -478,7 +485,7 @@ export class DeleteProfileInput extends S.Class<DeleteProfileInput>(
   "DeleteProfileInput",
 )(
   {
-    ProfileArn: S.String.pipe(T.HttpLabel()),
+    ProfileArn: S.String.pipe(T.HttpLabel("ProfileArn")),
     ClientRequestToken: S.String.pipe(T.HttpQuery("ClientRequestToken")),
   },
   T.all(
@@ -497,8 +504,8 @@ export class DeleteProfileShareInput extends S.Class<DeleteProfileShareInput>(
   "DeleteProfileShareInput",
 )(
   {
-    ShareId: S.String.pipe(T.HttpLabel()),
-    ProfileArn: S.String.pipe(T.HttpLabel()),
+    ShareId: S.String.pipe(T.HttpLabel("ShareId")),
+    ProfileArn: S.String.pipe(T.HttpLabel("ProfileArn")),
     ClientRequestToken: S.String.pipe(T.HttpQuery("ClientRequestToken")),
   },
   T.all(
@@ -520,7 +527,7 @@ export class DeleteReviewTemplateInput extends S.Class<DeleteReviewTemplateInput
   "DeleteReviewTemplateInput",
 )(
   {
-    TemplateArn: S.String.pipe(T.HttpLabel()),
+    TemplateArn: S.String.pipe(T.HttpLabel("TemplateArn")),
     ClientRequestToken: S.String.pipe(T.HttpQuery("ClientRequestToken")),
   },
   T.all(
@@ -539,8 +546,8 @@ export class DeleteTemplateShareInput extends S.Class<DeleteTemplateShareInput>(
   "DeleteTemplateShareInput",
 )(
   {
-    ShareId: S.String.pipe(T.HttpLabel()),
-    TemplateArn: S.String.pipe(T.HttpLabel()),
+    ShareId: S.String.pipe(T.HttpLabel("ShareId")),
+    TemplateArn: S.String.pipe(T.HttpLabel("TemplateArn")),
     ClientRequestToken: S.String.pipe(T.HttpQuery("ClientRequestToken")),
   },
   T.all(
@@ -562,7 +569,7 @@ export class DeleteWorkloadInput extends S.Class<DeleteWorkloadInput>(
   "DeleteWorkloadInput",
 )(
   {
-    WorkloadId: S.String.pipe(T.HttpLabel()),
+    WorkloadId: S.String.pipe(T.HttpLabel("WorkloadId")),
     ClientRequestToken: S.String.pipe(T.HttpQuery("ClientRequestToken")),
   },
   T.all(
@@ -581,8 +588,8 @@ export class DeleteWorkloadShareInput extends S.Class<DeleteWorkloadShareInput>(
   "DeleteWorkloadShareInput",
 )(
   {
-    ShareId: S.String.pipe(T.HttpLabel()),
-    WorkloadId: S.String.pipe(T.HttpLabel()),
+    ShareId: S.String.pipe(T.HttpLabel("ShareId")),
+    WorkloadId: S.String.pipe(T.HttpLabel("WorkloadId")),
     ClientRequestToken: S.String.pipe(T.HttpQuery("ClientRequestToken")),
   },
   T.all(
@@ -603,7 +610,10 @@ export class DeleteWorkloadShareResponse extends S.Class<DeleteWorkloadShareResp
 export class DisassociateLensesInput extends S.Class<DisassociateLensesInput>(
   "DisassociateLensesInput",
 )(
-  { WorkloadId: S.String.pipe(T.HttpLabel()), LensAliases: LensAliases },
+  {
+    WorkloadId: S.String.pipe(T.HttpLabel("WorkloadId")),
+    LensAliases: LensAliases,
+  },
   T.all(
     T.Http({
       method: "PATCH",
@@ -622,7 +632,10 @@ export class DisassociateLensesResponse extends S.Class<DisassociateLensesRespon
 export class DisassociateProfilesInput extends S.Class<DisassociateProfilesInput>(
   "DisassociateProfilesInput",
 )(
-  { WorkloadId: S.String.pipe(T.HttpLabel()), ProfileArns: ProfileArns },
+  {
+    WorkloadId: S.String.pipe(T.HttpLabel("WorkloadId")),
+    ProfileArns: ProfileArns,
+  },
   T.all(
     T.Http({
       method: "PATCH",
@@ -642,7 +655,7 @@ export class ExportLensInput extends S.Class<ExportLensInput>(
   "ExportLensInput",
 )(
   {
-    LensAlias: S.String.pipe(T.HttpLabel()),
+    LensAlias: S.String.pipe(T.HttpLabel("LensAlias")),
     LensVersion: S.optional(S.String).pipe(T.HttpQuery("LensVersion")),
   },
   T.all(
@@ -656,9 +669,9 @@ export class ExportLensInput extends S.Class<ExportLensInput>(
 ) {}
 export class GetAnswerInput extends S.Class<GetAnswerInput>("GetAnswerInput")(
   {
-    WorkloadId: S.String.pipe(T.HttpLabel()),
-    LensAlias: S.String.pipe(T.HttpLabel()),
-    QuestionId: S.String.pipe(T.HttpLabel()),
+    WorkloadId: S.String.pipe(T.HttpLabel("WorkloadId")),
+    LensAlias: S.String.pipe(T.HttpLabel("LensAlias")),
+    QuestionId: S.String.pipe(T.HttpLabel("QuestionId")),
     MilestoneNumber: S.optional(S.Number).pipe(T.HttpQuery("MilestoneNumber")),
   },
   T.all(
@@ -695,7 +708,7 @@ export class GetConsolidatedReportInput extends S.Class<GetConsolidatedReportInp
 ) {}
 export class GetLensInput extends S.Class<GetLensInput>("GetLensInput")(
   {
-    LensAlias: S.String.pipe(T.HttpLabel()),
+    LensAlias: S.String.pipe(T.HttpLabel("LensAlias")),
     LensVersion: S.optional(S.String).pipe(T.HttpQuery("LensVersion")),
   },
   T.all(
@@ -711,8 +724,8 @@ export class GetLensReviewInput extends S.Class<GetLensReviewInput>(
   "GetLensReviewInput",
 )(
   {
-    WorkloadId: S.String.pipe(T.HttpLabel()),
-    LensAlias: S.String.pipe(T.HttpLabel()),
+    WorkloadId: S.String.pipe(T.HttpLabel("WorkloadId")),
+    LensAlias: S.String.pipe(T.HttpLabel("LensAlias")),
     MilestoneNumber: S.optional(S.Number).pipe(T.HttpQuery("MilestoneNumber")),
   },
   T.all(
@@ -731,8 +744,8 @@ export class GetLensReviewReportInput extends S.Class<GetLensReviewReportInput>(
   "GetLensReviewReportInput",
 )(
   {
-    WorkloadId: S.String.pipe(T.HttpLabel()),
-    LensAlias: S.String.pipe(T.HttpLabel()),
+    WorkloadId: S.String.pipe(T.HttpLabel("WorkloadId")),
+    LensAlias: S.String.pipe(T.HttpLabel("LensAlias")),
     MilestoneNumber: S.optional(S.Number).pipe(T.HttpQuery("MilestoneNumber")),
   },
   T.all(
@@ -751,7 +764,7 @@ export class GetLensVersionDifferenceInput extends S.Class<GetLensVersionDiffere
   "GetLensVersionDifferenceInput",
 )(
   {
-    LensAlias: S.String.pipe(T.HttpLabel()),
+    LensAlias: S.String.pipe(T.HttpLabel("LensAlias")),
     BaseLensVersion: S.optional(S.String).pipe(T.HttpQuery("BaseLensVersion")),
     TargetLensVersion: S.optional(S.String).pipe(
       T.HttpQuery("TargetLensVersion"),
@@ -770,8 +783,8 @@ export class GetMilestoneInput extends S.Class<GetMilestoneInput>(
   "GetMilestoneInput",
 )(
   {
-    WorkloadId: S.String.pipe(T.HttpLabel()),
-    MilestoneNumber: S.Number.pipe(T.HttpLabel()),
+    WorkloadId: S.String.pipe(T.HttpLabel("WorkloadId")),
+    MilestoneNumber: S.Number.pipe(T.HttpLabel("MilestoneNumber")),
   },
   T.all(
     T.Http({
@@ -789,7 +802,7 @@ export class GetProfileInput extends S.Class<GetProfileInput>(
   "GetProfileInput",
 )(
   {
-    ProfileArn: S.String.pipe(T.HttpLabel()),
+    ProfileArn: S.String.pipe(T.HttpLabel("ProfileArn")),
     ProfileVersion: S.optional(S.String).pipe(T.HttpQuery("ProfileVersion")),
   },
   T.all(
@@ -804,7 +817,7 @@ export class GetProfileInput extends S.Class<GetProfileInput>(
 export class GetReviewTemplateInput extends S.Class<GetReviewTemplateInput>(
   "GetReviewTemplateInput",
 )(
-  { TemplateArn: S.String.pipe(T.HttpLabel()) },
+  { TemplateArn: S.String.pipe(T.HttpLabel("TemplateArn")) },
   T.all(
     T.Http({ method: "GET", uri: "/reviewTemplates/{TemplateArn}" }),
     svc,
@@ -818,9 +831,9 @@ export class GetReviewTemplateAnswerInput extends S.Class<GetReviewTemplateAnswe
   "GetReviewTemplateAnswerInput",
 )(
   {
-    TemplateArn: S.String.pipe(T.HttpLabel()),
-    LensAlias: S.String.pipe(T.HttpLabel()),
-    QuestionId: S.String.pipe(T.HttpLabel()),
+    TemplateArn: S.String.pipe(T.HttpLabel("TemplateArn")),
+    LensAlias: S.String.pipe(T.HttpLabel("LensAlias")),
+    QuestionId: S.String.pipe(T.HttpLabel("QuestionId")),
   },
   T.all(
     T.Http({
@@ -838,8 +851,8 @@ export class GetReviewTemplateLensReviewInput extends S.Class<GetReviewTemplateL
   "GetReviewTemplateLensReviewInput",
 )(
   {
-    TemplateArn: S.String.pipe(T.HttpLabel()),
-    LensAlias: S.String.pipe(T.HttpLabel()),
+    TemplateArn: S.String.pipe(T.HttpLabel("TemplateArn")),
+    LensAlias: S.String.pipe(T.HttpLabel("LensAlias")),
   },
   T.all(
     T.Http({
@@ -856,7 +869,7 @@ export class GetReviewTemplateLensReviewInput extends S.Class<GetReviewTemplateL
 export class GetWorkloadInput extends S.Class<GetWorkloadInput>(
   "GetWorkloadInput",
 )(
-  { WorkloadId: S.String.pipe(T.HttpLabel()) },
+  { WorkloadId: S.String.pipe(T.HttpLabel("WorkloadId")) },
   T.all(
     T.Http({ method: "GET", uri: "/workloads/{WorkloadId}" }),
     svc,
@@ -888,8 +901,8 @@ export class ListAnswersInput extends S.Class<ListAnswersInput>(
   "ListAnswersInput",
 )(
   {
-    WorkloadId: S.String.pipe(T.HttpLabel()),
-    LensAlias: S.String.pipe(T.HttpLabel()),
+    WorkloadId: S.String.pipe(T.HttpLabel("WorkloadId")),
+    LensAlias: S.String.pipe(T.HttpLabel("LensAlias")),
     PillarId: S.optional(S.String).pipe(T.HttpQuery("PillarId")),
     MilestoneNumber: S.optional(S.Number).pipe(T.HttpQuery("MilestoneNumber")),
     NextToken: S.optional(S.String).pipe(T.HttpQuery("NextToken")),
@@ -914,7 +927,7 @@ export class ListCheckDetailsInput extends S.Class<ListCheckDetailsInput>(
   "ListCheckDetailsInput",
 )(
   {
-    WorkloadId: S.String.pipe(T.HttpLabel()),
+    WorkloadId: S.String.pipe(T.HttpLabel("WorkloadId")),
     NextToken: S.optional(S.String),
     MaxResults: S.optional(S.Number),
     LensArn: S.String,
@@ -935,7 +948,7 @@ export class ListCheckSummariesInput extends S.Class<ListCheckSummariesInput>(
   "ListCheckSummariesInput",
 )(
   {
-    WorkloadId: S.String.pipe(T.HttpLabel()),
+    WorkloadId: S.String.pipe(T.HttpLabel("WorkloadId")),
     NextToken: S.optional(S.String),
     MaxResults: S.optional(S.Number),
     LensArn: S.String,
@@ -975,8 +988,8 @@ export class ListLensReviewImprovementsInput extends S.Class<ListLensReviewImpro
   "ListLensReviewImprovementsInput",
 )(
   {
-    WorkloadId: S.String.pipe(T.HttpLabel()),
-    LensAlias: S.String.pipe(T.HttpLabel()),
+    WorkloadId: S.String.pipe(T.HttpLabel("WorkloadId")),
+    LensAlias: S.String.pipe(T.HttpLabel("LensAlias")),
     PillarId: S.optional(S.String).pipe(T.HttpQuery("PillarId")),
     MilestoneNumber: S.optional(S.Number).pipe(T.HttpQuery("MilestoneNumber")),
     NextToken: S.optional(S.String).pipe(T.HttpQuery("NextToken")),
@@ -1001,7 +1014,7 @@ export class ListLensReviewsInput extends S.Class<ListLensReviewsInput>(
   "ListLensReviewsInput",
 )(
   {
-    WorkloadId: S.String.pipe(T.HttpLabel()),
+    WorkloadId: S.String.pipe(T.HttpLabel("WorkloadId")),
     MilestoneNumber: S.optional(S.Number).pipe(T.HttpQuery("MilestoneNumber")),
     NextToken: S.optional(S.String).pipe(T.HttpQuery("NextToken")),
     MaxResults: S.optional(S.Number).pipe(T.HttpQuery("MaxResults")),
@@ -1019,7 +1032,7 @@ export class ListLensSharesInput extends S.Class<ListLensSharesInput>(
   "ListLensSharesInput",
 )(
   {
-    LensAlias: S.String.pipe(T.HttpLabel()),
+    LensAlias: S.String.pipe(T.HttpLabel("LensAlias")),
     SharedWithPrefix: S.optional(S.String).pipe(
       T.HttpQuery("SharedWithPrefix"),
     ),
@@ -1040,7 +1053,7 @@ export class ListMilestonesInput extends S.Class<ListMilestonesInput>(
   "ListMilestonesInput",
 )(
   {
-    WorkloadId: S.String.pipe(T.HttpLabel()),
+    WorkloadId: S.String.pipe(T.HttpLabel("WorkloadId")),
     NextToken: S.optional(S.String),
     MaxResults: S.optional(S.Number),
   },
@@ -1117,7 +1130,7 @@ export class ListProfileSharesInput extends S.Class<ListProfileSharesInput>(
   "ListProfileSharesInput",
 )(
   {
-    ProfileArn: S.String.pipe(T.HttpLabel()),
+    ProfileArn: S.String.pipe(T.HttpLabel("ProfileArn")),
     SharedWithPrefix: S.optional(S.String).pipe(
       T.HttpQuery("SharedWithPrefix"),
     ),
@@ -1138,8 +1151,8 @@ export class ListReviewTemplateAnswersInput extends S.Class<ListReviewTemplateAn
   "ListReviewTemplateAnswersInput",
 )(
   {
-    TemplateArn: S.String.pipe(T.HttpLabel()),
-    LensAlias: S.String.pipe(T.HttpLabel()),
+    TemplateArn: S.String.pipe(T.HttpLabel("TemplateArn")),
+    LensAlias: S.String.pipe(T.HttpLabel("LensAlias")),
     PillarId: S.optional(S.String).pipe(T.HttpQuery("PillarId")),
     NextToken: S.optional(S.String).pipe(T.HttpQuery("NextToken")),
     MaxResults: S.optional(S.Number).pipe(T.HttpQuery("MaxResults")),
@@ -1204,7 +1217,7 @@ export class ListShareInvitationsInput extends S.Class<ListShareInvitationsInput
 export class ListTagsForResourceInput extends S.Class<ListTagsForResourceInput>(
   "ListTagsForResourceInput",
 )(
-  { WorkloadArn: S.String.pipe(T.HttpLabel()) },
+  { WorkloadArn: S.String.pipe(T.HttpLabel("WorkloadArn")) },
   T.all(
     T.Http({ method: "GET", uri: "/tags/{WorkloadArn}" }),
     svc,
@@ -1218,7 +1231,7 @@ export class ListTemplateSharesInput extends S.Class<ListTemplateSharesInput>(
   "ListTemplateSharesInput",
 )(
   {
-    TemplateArn: S.String.pipe(T.HttpLabel()),
+    TemplateArn: S.String.pipe(T.HttpLabel("TemplateArn")),
     SharedWithPrefix: S.optional(S.String).pipe(
       T.HttpQuery("SharedWithPrefix"),
     ),
@@ -1256,7 +1269,7 @@ export class ListWorkloadSharesInput extends S.Class<ListWorkloadSharesInput>(
   "ListWorkloadSharesInput",
 )(
   {
-    WorkloadId: S.String.pipe(T.HttpLabel()),
+    WorkloadId: S.String.pipe(T.HttpLabel("WorkloadId")),
     SharedWithPrefix: S.optional(S.String).pipe(
       T.HttpQuery("SharedWithPrefix"),
     ),
@@ -1276,7 +1289,7 @@ export class ListWorkloadSharesInput extends S.Class<ListWorkloadSharesInput>(
 export class TagResourceInput extends S.Class<TagResourceInput>(
   "TagResourceInput",
 )(
-  { WorkloadArn: S.String.pipe(T.HttpLabel()), Tags: TagMap },
+  { WorkloadArn: S.String.pipe(T.HttpLabel("WorkloadArn")), Tags: TagMap },
   T.all(
     T.Http({ method: "POST", uri: "/tags/{WorkloadArn}" }),
     svc,
@@ -1293,7 +1306,7 @@ export class UntagResourceInput extends S.Class<UntagResourceInput>(
   "UntagResourceInput",
 )(
   {
-    WorkloadArn: S.String.pipe(T.HttpLabel()),
+    WorkloadArn: S.String.pipe(T.HttpLabel("WorkloadArn")),
     TagKeys: TagKeyList.pipe(T.HttpQuery("tagKeys")),
   },
   T.all(
@@ -1312,7 +1325,7 @@ export class UpdateIntegrationInput extends S.Class<UpdateIntegrationInput>(
   "UpdateIntegrationInput",
 )(
   {
-    WorkloadId: S.String.pipe(T.HttpLabel()),
+    WorkloadId: S.String.pipe(T.HttpLabel("WorkloadId")),
     ClientRequestToken: S.String,
     IntegratingService: S.String,
   },
@@ -1343,7 +1356,7 @@ export class UpdateProfileInput extends S.Class<UpdateProfileInput>(
   "UpdateProfileInput",
 )(
   {
-    ProfileArn: S.String.pipe(T.HttpLabel()),
+    ProfileArn: S.String.pipe(T.HttpLabel("ProfileArn")),
     ProfileDescription: S.optional(S.String),
     ProfileQuestions: S.optional(ProfileQuestionUpdates),
   },
@@ -1360,7 +1373,7 @@ export class UpdateReviewTemplateInput extends S.Class<UpdateReviewTemplateInput
   "UpdateReviewTemplateInput",
 )(
   {
-    TemplateArn: S.String.pipe(T.HttpLabel()),
+    TemplateArn: S.String.pipe(T.HttpLabel("TemplateArn")),
     TemplateName: S.optional(S.String),
     Description: S.optional(S.String),
     Notes: S.optional(S.String),
@@ -1386,9 +1399,9 @@ export class UpdateReviewTemplateAnswerInput extends S.Class<UpdateReviewTemplat
   "UpdateReviewTemplateAnswerInput",
 )(
   {
-    TemplateArn: S.String.pipe(T.HttpLabel()),
-    LensAlias: S.String.pipe(T.HttpLabel()),
-    QuestionId: S.String.pipe(T.HttpLabel()),
+    TemplateArn: S.String.pipe(T.HttpLabel("TemplateArn")),
+    LensAlias: S.String.pipe(T.HttpLabel("LensAlias")),
+    QuestionId: S.String.pipe(T.HttpLabel("QuestionId")),
     SelectedChoices: S.optional(SelectedChoices),
     ChoiceUpdates: S.optional(ChoiceUpdates),
     Notes: S.optional(S.String),
@@ -1412,8 +1425,8 @@ export class UpdateReviewTemplateLensReviewInput extends S.Class<UpdateReviewTem
   "UpdateReviewTemplateLensReviewInput",
 )(
   {
-    TemplateArn: S.String.pipe(T.HttpLabel()),
-    LensAlias: S.String.pipe(T.HttpLabel()),
+    TemplateArn: S.String.pipe(T.HttpLabel("TemplateArn")),
+    LensAlias: S.String.pipe(T.HttpLabel("LensAlias")),
     LensNotes: S.optional(S.String),
     PillarNotes: S.optional(PillarNotes),
   },
@@ -1433,7 +1446,7 @@ export class UpdateShareInvitationInput extends S.Class<UpdateShareInvitationInp
   "UpdateShareInvitationInput",
 )(
   {
-    ShareInvitationId: S.String.pipe(T.HttpLabel()),
+    ShareInvitationId: S.String.pipe(T.HttpLabel("ShareInvitationId")),
     ShareInvitationAction: S.String,
   },
   T.all(
@@ -1463,7 +1476,7 @@ export class UpdateWorkloadInput extends S.Class<UpdateWorkloadInput>(
   "UpdateWorkloadInput",
 )(
   {
-    WorkloadId: S.String.pipe(T.HttpLabel()),
+    WorkloadId: S.String.pipe(T.HttpLabel("WorkloadId")),
     WorkloadName: S.optional(S.String),
     Description: S.optional(S.String),
     Environment: S.optional(S.String),
@@ -1495,8 +1508,8 @@ export class UpdateWorkloadShareInput extends S.Class<UpdateWorkloadShareInput>(
   "UpdateWorkloadShareInput",
 )(
   {
-    ShareId: S.String.pipe(T.HttpLabel()),
-    WorkloadId: S.String.pipe(T.HttpLabel()),
+    ShareId: S.String.pipe(T.HttpLabel("ShareId")),
+    WorkloadId: S.String.pipe(T.HttpLabel("WorkloadId")),
     PermissionType: S.String,
   },
   T.all(
@@ -1515,8 +1528,8 @@ export class UpgradeLensReviewInput extends S.Class<UpgradeLensReviewInput>(
   "UpgradeLensReviewInput",
 )(
   {
-    WorkloadId: S.String.pipe(T.HttpLabel()),
-    LensAlias: S.String.pipe(T.HttpLabel()),
+    WorkloadId: S.String.pipe(T.HttpLabel("WorkloadId")),
+    LensAlias: S.String.pipe(T.HttpLabel("LensAlias")),
     MilestoneName: S.String,
     ClientRequestToken: S.optional(S.String),
   },
@@ -1539,8 +1552,8 @@ export class UpgradeProfileVersionInput extends S.Class<UpgradeProfileVersionInp
   "UpgradeProfileVersionInput",
 )(
   {
-    WorkloadId: S.String.pipe(T.HttpLabel()),
-    ProfileArn: S.String.pipe(T.HttpLabel()),
+    WorkloadId: S.String.pipe(T.HttpLabel("WorkloadId")),
+    ProfileArn: S.String.pipe(T.HttpLabel("ProfileArn")),
     MilestoneName: S.optional(S.String),
     ClientRequestToken: S.optional(S.String),
   },
@@ -1563,8 +1576,8 @@ export class UpgradeReviewTemplateLensReviewInput extends S.Class<UpgradeReviewT
   "UpgradeReviewTemplateLensReviewInput",
 )(
   {
-    TemplateArn: S.String.pipe(T.HttpLabel()),
-    LensAlias: S.String.pipe(T.HttpLabel()),
+    TemplateArn: S.String.pipe(T.HttpLabel("TemplateArn")),
+    LensAlias: S.String.pipe(T.HttpLabel("LensAlias")),
     ClientRequestToken: S.optional(S.String),
   },
   T.all(
@@ -2254,9 +2267,9 @@ export class UpdateAnswerInput extends S.Class<UpdateAnswerInput>(
   "UpdateAnswerInput",
 )(
   {
-    WorkloadId: S.String.pipe(T.HttpLabel()),
-    LensAlias: S.String.pipe(T.HttpLabel()),
-    QuestionId: S.String.pipe(T.HttpLabel()),
+    WorkloadId: S.String.pipe(T.HttpLabel("WorkloadId")),
+    LensAlias: S.String.pipe(T.HttpLabel("LensAlias")),
+    QuestionId: S.String.pipe(T.HttpLabel("QuestionId")),
     SelectedChoices: S.optional(SelectedChoices),
     ChoiceUpdates: S.optional(ChoiceUpdates),
     Notes: S.optional(S.String),
@@ -2279,8 +2292,8 @@ export class UpdateLensReviewInput extends S.Class<UpdateLensReviewInput>(
   "UpdateLensReviewInput",
 )(
   {
-    WorkloadId: S.String.pipe(T.HttpLabel()),
-    LensAlias: S.String.pipe(T.HttpLabel()),
+    WorkloadId: S.String.pipe(T.HttpLabel("WorkloadId")),
+    LensAlias: S.String.pipe(T.HttpLabel("LensAlias")),
     LensNotes: S.optional(S.String),
     PillarNotes: S.optional(PillarNotes),
     JiraConfiguration: S.optional(JiraSelectedQuestionConfiguration),
@@ -2604,7 +2617,7 @@ export class AccessDeniedException extends S.TaggedError<AccessDeniedException>(
 export class InternalServerException extends S.TaggedError<InternalServerException>()(
   "InternalServerException",
   { Message: S.String },
-) {}
+).pipe(withCategory(ERROR_CATEGORIES.SERVER_ERROR)) {}
 export class ConflictException extends S.TaggedError<ConflictException>()(
   "ConflictException",
   { Message: S.String, ResourceId: S.String, ResourceType: S.String },
@@ -2620,7 +2633,7 @@ export class ThrottlingException extends S.TaggedError<ThrottlingException>()(
     QuotaCode: S.optional(S.String),
     ServiceCode: S.optional(S.String),
   },
-) {}
+).pipe(withCategory(ERROR_CATEGORIES.THROTTLING_ERROR)) {}
 export class ServiceQuotaExceededException extends S.TaggedError<ServiceQuotaExceededException>()(
   "ServiceQuotaExceededException",
   {

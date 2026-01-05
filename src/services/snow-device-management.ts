@@ -1,6 +1,7 @@
 import * as S from "effect/Schema";
 import * as API from "../api.ts";
 import * as T from "../traits.ts";
+import { ERROR_CATEGORIES, withCategory } from "../error-category.ts";
 const svc = T.AwsApiService({
   sdkId: "Snow Device Management",
   serviceShapeName: "SnowDeviceManagement",
@@ -247,7 +248,7 @@ export const TargetList = S.Array(S.String);
 export class ListTagsForResourceInput extends S.Class<ListTagsForResourceInput>(
   "ListTagsForResourceInput",
 )(
-  { resourceArn: S.String.pipe(T.HttpLabel()) },
+  { resourceArn: S.String.pipe(T.HttpLabel("resourceArn")) },
   T.all(
     T.Http({ method: "GET", uri: "/tags/{resourceArn}" }),
     svc,
@@ -261,7 +262,7 @@ export class UntagResourceInput extends S.Class<UntagResourceInput>(
   "UntagResourceInput",
 )(
   {
-    resourceArn: S.String.pipe(T.HttpLabel()),
+    resourceArn: S.String.pipe(T.HttpLabel("resourceArn")),
     tagKeys: TagKeys.pipe(T.HttpQuery("tagKeys")),
   },
   T.all(
@@ -279,7 +280,7 @@ export class UntagResourceResponse extends S.Class<UntagResourceResponse>(
 export class DescribeDeviceInput extends S.Class<DescribeDeviceInput>(
   "DescribeDeviceInput",
 )(
-  { managedDeviceId: S.String.pipe(T.HttpLabel()) },
+  { managedDeviceId: S.String.pipe(T.HttpLabel("managedDeviceId")) },
   T.all(
     T.Http({
       method: "POST",
@@ -313,7 +314,7 @@ export class DescribeDeviceEc2Input extends S.Class<DescribeDeviceEc2Input>(
   "DescribeDeviceEc2Input",
 )(
   {
-    managedDeviceId: S.String.pipe(T.HttpLabel()),
+    managedDeviceId: S.String.pipe(T.HttpLabel("managedDeviceId")),
     instanceIds: InstanceIdsList,
   },
   T.all(
@@ -332,7 +333,7 @@ export class ListDeviceResourcesInput extends S.Class<ListDeviceResourcesInput>(
   "ListDeviceResourcesInput",
 )(
   {
-    managedDeviceId: S.String.pipe(T.HttpLabel()),
+    managedDeviceId: S.String.pipe(T.HttpLabel("managedDeviceId")),
     type: S.optional(S.String).pipe(T.HttpQuery("type")),
     maxResults: S.optional(S.Number).pipe(T.HttpQuery("maxResults")),
     nextToken: S.optional(S.String).pipe(T.HttpQuery("nextToken")),
@@ -352,7 +353,7 @@ export class ListDeviceResourcesInput extends S.Class<ListDeviceResourcesInput>(
 export class DescribeTaskInput extends S.Class<DescribeTaskInput>(
   "DescribeTaskInput",
 )(
-  { taskId: S.String.pipe(T.HttpLabel()) },
+  { taskId: S.String.pipe(T.HttpLabel("taskId")) },
   T.all(
     T.Http({ method: "POST", uri: "/task/{taskId}" }),
     svc,
@@ -373,7 +374,7 @@ export class ListTasksInput extends S.Class<ListTasksInput>("ListTasksInput")(
 export class CancelTaskInput extends S.Class<CancelTaskInput>(
   "CancelTaskInput",
 )(
-  { taskId: S.String.pipe(T.HttpLabel()) },
+  { taskId: S.String.pipe(T.HttpLabel("taskId")) },
   T.all(
     T.Http({ method: "POST", uri: "/task/{taskId}/cancel" }),
     svc,
@@ -387,8 +388,8 @@ export class DescribeExecutionInput extends S.Class<DescribeExecutionInput>(
   "DescribeExecutionInput",
 )(
   {
-    taskId: S.String.pipe(T.HttpLabel()),
-    managedDeviceId: S.String.pipe(T.HttpLabel()),
+    taskId: S.String.pipe(T.HttpLabel("taskId")),
+    managedDeviceId: S.String.pipe(T.HttpLabel("managedDeviceId")),
   },
   T.all(
     T.Http({
@@ -433,7 +434,7 @@ export class ListTagsForResourceOutput extends S.Class<ListTagsForResourceOutput
 export class TagResourceInput extends S.Class<TagResourceInput>(
   "TagResourceInput",
 )(
-  { resourceArn: S.String.pipe(T.HttpLabel()), tags: TagMap },
+  { resourceArn: S.String.pipe(T.HttpLabel("resourceArn")), tags: TagMap },
   T.all(
     T.Http({ method: "POST", uri: "/tags/{resourceArn}" }),
     svc,
@@ -640,7 +641,8 @@ export class DescribeDeviceEc2Output extends S.Class<DescribeDeviceEc2Output>(
 export class InternalServerException extends S.TaggedError<InternalServerException>()(
   "InternalServerException",
   { message: S.String },
-) {}
+  T.Retryable(),
+).pipe(withCategory(ERROR_CATEGORIES.SERVER_ERROR)) {}
 export class ResourceNotFoundException extends S.TaggedError<ResourceNotFoundException>()(
   "ResourceNotFoundException",
   { message: S.String },
@@ -656,7 +658,8 @@ export class ValidationException extends S.TaggedError<ValidationException>()(
 export class ThrottlingException extends S.TaggedError<ThrottlingException>()(
   "ThrottlingException",
   { message: S.String },
-) {}
+  T.Retryable({ throttling: true }),
+).pipe(withCategory(ERROR_CATEGORIES.THROTTLING_ERROR)) {}
 export class ServiceQuotaExceededException extends S.TaggedError<ServiceQuotaExceededException>()(
   "ServiceQuotaExceededException",
   { message: S.String },

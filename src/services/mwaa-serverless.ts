@@ -1,6 +1,7 @@
 import * as S from "effect/Schema";
 import * as API from "../api.ts";
 import * as T from "../traits.ts";
+import { ERROR_CATEGORIES, withCategory } from "../error-category.ts";
 const svc = T.AwsApiService({
   sdkId: "MWAA Serverless",
   serviceShapeName: "AmazonMWAAServerless",
@@ -109,7 +110,7 @@ export const TagKeys = S.Array(S.String);
 export class ListTagsForResourceRequest extends S.Class<ListTagsForResourceRequest>(
   "ListTagsForResourceRequest",
 )(
-  { ResourceArn: S.String.pipe(T.HttpLabel()) },
+  { ResourceArn: S.String.pipe(T.HttpLabel("ResourceArn")) },
   T.all(
     T.Http({ method: "GET", uri: "/tags/{ResourceArn}" }),
     svc,
@@ -123,7 +124,7 @@ export class UntagResourceRequest extends S.Class<UntagResourceRequest>(
   "UntagResourceRequest",
 )(
   {
-    ResourceArn: S.String.pipe(T.HttpLabel()),
+    ResourceArn: S.String.pipe(T.HttpLabel("ResourceArn")),
     TagKeys: TagKeys.pipe(T.HttpQuery("tagKeys")),
   },
   T.all(
@@ -142,9 +143,9 @@ export class GetTaskInstanceRequest extends S.Class<GetTaskInstanceRequest>(
   "GetTaskInstanceRequest",
 )(
   {
-    WorkflowArn: S.String.pipe(T.HttpLabel()),
-    TaskInstanceId: S.String.pipe(T.HttpLabel()),
-    RunId: S.String.pipe(T.HttpLabel()),
+    WorkflowArn: S.String.pipe(T.HttpLabel("WorkflowArn")),
+    TaskInstanceId: S.String.pipe(T.HttpLabel("TaskInstanceId")),
+    RunId: S.String.pipe(T.HttpLabel("RunId")),
   },
   T.all(
     T.Http({
@@ -162,8 +163,8 @@ export class ListTaskInstancesRequest extends S.Class<ListTaskInstancesRequest>(
   "ListTaskInstancesRequest",
 )(
   {
-    WorkflowArn: S.String.pipe(T.HttpLabel()),
-    RunId: S.String.pipe(T.HttpLabel()),
+    WorkflowArn: S.String.pipe(T.HttpLabel("WorkflowArn")),
+    RunId: S.String.pipe(T.HttpLabel("RunId")),
     MaxResults: S.optional(S.Number).pipe(T.HttpQuery("maxResults")),
     NextToken: S.optional(S.String).pipe(T.HttpQuery("nextToken")),
   },
@@ -183,7 +184,7 @@ export class GetWorkflowRequest extends S.Class<GetWorkflowRequest>(
   "GetWorkflowRequest",
 )(
   {
-    WorkflowArn: S.String.pipe(T.HttpLabel()),
+    WorkflowArn: S.String.pipe(T.HttpLabel("WorkflowArn")),
     WorkflowVersion: S.optional(S.String).pipe(T.HttpQuery("workflowVersion")),
   },
   T.all(
@@ -213,7 +214,7 @@ export class UpdateWorkflowRequest extends S.Class<UpdateWorkflowRequest>(
   "UpdateWorkflowRequest",
 )(
   {
-    WorkflowArn: S.String.pipe(T.HttpLabel()),
+    WorkflowArn: S.String.pipe(T.HttpLabel("WorkflowArn")),
     DefinitionS3Location: DefinitionS3Location,
     RoleArn: S.String,
     Description: S.optional(S.String),
@@ -235,7 +236,7 @@ export class DeleteWorkflowRequest extends S.Class<DeleteWorkflowRequest>(
   "DeleteWorkflowRequest",
 )(
   {
-    WorkflowArn: S.String.pipe(T.HttpLabel()),
+    WorkflowArn: S.String.pipe(T.HttpLabel("WorkflowArn")),
     WorkflowVersion: S.optional(S.String).pipe(T.HttpQuery("workflowVersion")),
   },
   T.all(
@@ -267,8 +268,8 @@ export class GetWorkflowRunRequest extends S.Class<GetWorkflowRunRequest>(
   "GetWorkflowRunRequest",
 )(
   {
-    WorkflowArn: S.String.pipe(T.HttpLabel()),
-    RunId: S.String.pipe(T.HttpLabel()),
+    WorkflowArn: S.String.pipe(T.HttpLabel("WorkflowArn")),
+    RunId: S.String.pipe(T.HttpLabel("RunId")),
   },
   T.all(
     T.Http({ method: "GET", uri: "/workflows/{WorkflowArn}/runs/{RunId}" }),
@@ -283,8 +284,8 @@ export class StopWorkflowRunRequest extends S.Class<StopWorkflowRunRequest>(
   "StopWorkflowRunRequest",
 )(
   {
-    WorkflowArn: S.String.pipe(T.HttpLabel()),
-    RunId: S.String.pipe(T.HttpLabel()),
+    WorkflowArn: S.String.pipe(T.HttpLabel("WorkflowArn")),
+    RunId: S.String.pipe(T.HttpLabel("RunId")),
   },
   T.all(
     T.Http({ method: "DELETE", uri: "/workflows/{WorkflowArn}/runs/{RunId}" }),
@@ -301,7 +302,7 @@ export class ListWorkflowRunsRequest extends S.Class<ListWorkflowRunsRequest>(
   {
     MaxResults: S.optional(S.Number).pipe(T.HttpQuery("maxResults")),
     NextToken: S.optional(S.String).pipe(T.HttpQuery("nextToken")),
-    WorkflowArn: S.String.pipe(T.HttpLabel()),
+    WorkflowArn: S.String.pipe(T.HttpLabel("WorkflowArn")),
     WorkflowVersion: S.optional(S.String).pipe(T.HttpQuery("workflowVersion")),
   },
   T.all(
@@ -319,7 +320,7 @@ export class ListWorkflowVersionsRequest extends S.Class<ListWorkflowVersionsReq
   {
     MaxResults: S.optional(S.Number).pipe(T.HttpQuery("maxResults")),
     NextToken: S.optional(S.String).pipe(T.HttpQuery("nextToken")),
-    WorkflowArn: S.String.pipe(T.HttpLabel()),
+    WorkflowArn: S.String.pipe(T.HttpLabel("WorkflowArn")),
   },
   T.all(
     T.Http({ method: "GET", uri: "/workflows/{WorkflowArn}/versions" }),
@@ -342,7 +343,7 @@ export class ListTagsForResourceResponse extends S.Class<ListTagsForResourceResp
 export class TagResourceRequest extends S.Class<TagResourceRequest>(
   "TagResourceRequest",
 )(
-  { ResourceArn: S.String.pipe(T.HttpLabel()), Tags: Tags },
+  { ResourceArn: S.String.pipe(T.HttpLabel("ResourceArn")), Tags: Tags },
   T.all(
     T.Http({ method: "POST", uri: "/tags/{ResourceArn}" }),
     svc,
@@ -395,7 +396,7 @@ export class StartWorkflowRunRequest extends S.Class<StartWorkflowRunRequest>(
   "StartWorkflowRunRequest",
 )(
   {
-    WorkflowArn: S.String.pipe(T.HttpLabel()),
+    WorkflowArn: S.String.pipe(T.HttpLabel("WorkflowArn")),
     ClientToken: S.optional(S.String),
     OverrideParameters: S.optional(ObjectMap),
     WorkflowVersion: S.optional(S.String),
@@ -598,7 +599,8 @@ export class InternalServerException extends S.TaggedError<InternalServerExcepti
     Message: S.String,
     RetryAfterSeconds: S.optional(S.Number).pipe(T.HttpHeader("Retry-After")),
   },
-) {}
+  T.Retryable(),
+).pipe(withCategory(ERROR_CATEGORIES.SERVER_ERROR)) {}
 export class ConflictException extends S.TaggedError<ConflictException>()(
   "ConflictException",
   { Message: S.String, ResourceId: S.String, ResourceType: S.String },
@@ -606,7 +608,7 @@ export class ConflictException extends S.TaggedError<ConflictException>()(
 export class OperationTimeoutException extends S.TaggedError<OperationTimeoutException>()(
   "OperationTimeoutException",
   { Message: S.optional(S.String) },
-) {}
+).pipe(withCategory(ERROR_CATEGORIES.SERVER_ERROR)) {}
 export class ResourceNotFoundException extends S.TaggedError<ResourceNotFoundException>()(
   "ResourceNotFoundException",
   { Message: S.String, ResourceId: S.String, ResourceType: S.String },
@@ -619,7 +621,8 @@ export class ThrottlingException extends S.TaggedError<ThrottlingException>()(
     QuotaCode: S.String,
     RetryAfterSeconds: S.optional(S.Number).pipe(T.HttpHeader("Retry-After")),
   },
-) {}
+  T.Retryable({ throttling: true }),
+).pipe(withCategory(ERROR_CATEGORIES.THROTTLING_ERROR)) {}
 export class ServiceQuotaExceededException extends S.TaggedError<ServiceQuotaExceededException>()(
   "ServiceQuotaExceededException",
   {

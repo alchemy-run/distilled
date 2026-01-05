@@ -1,6 +1,7 @@
 import * as S from "effect/Schema";
 import * as API from "../api.ts";
 import * as T from "../traits.ts";
+import { ERROR_CATEGORIES, withCategory } from "../error-category.ts";
 const svc = T.AwsApiService({ sdkId: "EBS", serviceShapeName: "Ebs" });
 const auth = T.AwsAuthSigv4({ name: "ebs" });
 const ver = T.ServiceVersion("2019-11-02");
@@ -242,7 +243,7 @@ export class CompleteSnapshotRequest extends S.Class<CompleteSnapshotRequest>(
   "CompleteSnapshotRequest",
 )(
   {
-    SnapshotId: S.String.pipe(T.HttpLabel()),
+    SnapshotId: S.String.pipe(T.HttpLabel("SnapshotId")),
     ChangedBlocksCount: S.Number.pipe(T.HttpHeader("x-amz-ChangedBlocksCount")),
     Checksum: S.optional(S.String).pipe(T.HttpHeader("x-amz-Checksum")),
     ChecksumAlgorithm: S.optional(S.String).pipe(
@@ -265,8 +266,8 @@ export class GetSnapshotBlockRequest extends S.Class<GetSnapshotBlockRequest>(
   "GetSnapshotBlockRequest",
 )(
   {
-    SnapshotId: S.String.pipe(T.HttpLabel()),
-    BlockIndex: S.Number.pipe(T.HttpLabel()),
+    SnapshotId: S.String.pipe(T.HttpLabel("SnapshotId")),
+    BlockIndex: S.Number.pipe(T.HttpLabel("BlockIndex")),
     BlockToken: S.String.pipe(T.HttpQuery("blockToken")),
   },
   T.all(
@@ -286,7 +287,7 @@ export class ListChangedBlocksRequest extends S.Class<ListChangedBlocksRequest>(
 )(
   {
     FirstSnapshotId: S.optional(S.String).pipe(T.HttpQuery("firstSnapshotId")),
-    SecondSnapshotId: S.String.pipe(T.HttpLabel()),
+    SecondSnapshotId: S.String.pipe(T.HttpLabel("SecondSnapshotId")),
     NextToken: S.optional(S.String).pipe(T.HttpQuery("pageToken")),
     MaxResults: S.optional(S.Number).pipe(T.HttpQuery("maxResults")),
     StartingBlockIndex: S.optional(S.Number).pipe(
@@ -309,7 +310,7 @@ export class ListSnapshotBlocksRequest extends S.Class<ListSnapshotBlocksRequest
   "ListSnapshotBlocksRequest",
 )(
   {
-    SnapshotId: S.String.pipe(T.HttpLabel()),
+    SnapshotId: S.String.pipe(T.HttpLabel("SnapshotId")),
     NextToken: S.optional(S.String).pipe(T.HttpQuery("pageToken")),
     MaxResults: S.optional(S.Number).pipe(T.HttpQuery("maxResults")),
     StartingBlockIndex: S.optional(S.Number).pipe(
@@ -329,8 +330,8 @@ export class PutSnapshotBlockRequest extends S.Class<PutSnapshotBlockRequest>(
   "PutSnapshotBlockRequest",
 )(
   {
-    SnapshotId: S.String.pipe(T.HttpLabel()),
-    BlockIndex: S.Number.pipe(T.HttpLabel()),
+    SnapshotId: S.String.pipe(T.HttpLabel("SnapshotId")),
+    BlockIndex: S.Number.pipe(T.HttpLabel("BlockIndex")),
     BlockData: T.StreamingInput.pipe(T.HttpPayload()),
     DataLength: S.Number.pipe(T.HttpHeader("x-amz-Data-Length")),
     Progress: S.optional(S.Number).pipe(T.HttpHeader("x-amz-Progress")),
@@ -450,7 +451,7 @@ export class AccessDeniedException extends S.TaggedError<AccessDeniedException>(
 export class InternalServerException extends S.TaggedError<InternalServerException>()(
   "InternalServerException",
   { Message: S.optional(S.String) },
-) {}
+).pipe(withCategory(ERROR_CATEGORIES.SERVER_ERROR)) {}
 export class ConcurrentLimitExceededException extends S.TaggedError<ConcurrentLimitExceededException>()(
   "ConcurrentLimitExceededException",
   { Message: S.optional(S.String) },

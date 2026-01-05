@@ -1,6 +1,7 @@
 import * as S from "effect/Schema";
 import * as API from "../api.ts";
 import * as T from "../traits.ts";
+import { ERROR_CATEGORIES, withCategory } from "../error-category.ts";
 const ns = T.XmlNamespace(
   "https://license-manager.amazonaws.com/doc/2018_08_01",
 );
@@ -1726,7 +1727,7 @@ export class RateLimitExceededException extends S.TaggedError<RateLimitExceededE
   "RateLimitExceededException",
   { Message: S.optional(S.String) },
   T.AwsQueryError({ code: "RateLimitExceeded", httpResponseCode: 429 }),
-) {}
+).pipe(withCategory(ERROR_CATEGORIES.THROTTLING_ERROR)) {}
 export class FailedDependencyException extends S.TaggedError<FailedDependencyException>()(
   "FailedDependencyException",
   { Message: S.optional(S.String), ErrorCode: S.optional(S.String) },
@@ -1736,7 +1737,7 @@ export class ServerInternalException extends S.TaggedError<ServerInternalExcepti
   "ServerInternalException",
   { Message: S.optional(S.String) },
   T.AwsQueryError({ code: "InternalError", httpResponseCode: 500 }),
-) {}
+).pipe(withCategory(ERROR_CATEGORIES.SERVER_ERROR)) {}
 export class RedirectException extends S.TaggedError<RedirectException>()(
   "RedirectException",
   {

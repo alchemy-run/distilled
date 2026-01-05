@@ -1,6 +1,7 @@
 import * as S from "effect/Schema";
 import * as API from "../api.ts";
 import * as T from "../traits.ts";
+import { ERROR_CATEGORIES, withCategory } from "../error-category.ts";
 const svc = T.AwsApiService({
   sdkId: "Route53 Recovery Cluster",
   serviceShapeName: "ToggleCustomerAPI",
@@ -325,14 +326,14 @@ export class ConflictException extends S.TaggedError<ConflictException>()(
 export class EndpointTemporarilyUnavailableException extends S.TaggedError<EndpointTemporarilyUnavailableException>()(
   "EndpointTemporarilyUnavailableException",
   { message: S.String },
-) {}
+).pipe(withCategory(ERROR_CATEGORIES.SERVER_ERROR)) {}
 export class InternalServerException extends S.TaggedError<InternalServerException>()(
   "InternalServerException",
   {
     message: S.String,
     retryAfterSeconds: S.optional(S.Number).pipe(T.HttpHeader("Retry-After")),
   },
-) {}
+).pipe(withCategory(ERROR_CATEGORIES.SERVER_ERROR)) {}
 export class ResourceNotFoundException extends S.TaggedError<ResourceNotFoundException>()(
   "ResourceNotFoundException",
   { message: S.String, resourceId: S.String, resourceType: S.String },
@@ -343,7 +344,7 @@ export class ThrottlingException extends S.TaggedError<ThrottlingException>()(
     message: S.String,
     retryAfterSeconds: S.optional(S.Number).pipe(T.HttpHeader("Retry-After")),
   },
-) {}
+).pipe(withCategory(ERROR_CATEGORIES.THROTTLING_ERROR)) {}
 export class ServiceLimitExceededException extends S.TaggedError<ServiceLimitExceededException>()(
   "ServiceLimitExceededException",
   {

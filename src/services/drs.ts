@@ -1,6 +1,7 @@
 import * as S from "effect/Schema";
 import * as API from "../api.ts";
 import * as T from "../traits.ts";
+import { ERROR_CATEGORIES, withCategory } from "../error-category.ts";
 const svc = T.AwsApiService({
   sdkId: "drs",
   serviceShapeName: "ElasticDisasterRecoveryService",
@@ -315,7 +316,7 @@ export class ListStagingAccountsRequest extends S.Class<ListStagingAccountsReque
 export class ListTagsForResourceRequest extends S.Class<ListTagsForResourceRequest>(
   "ListTagsForResourceRequest",
 )(
-  { resourceArn: S.String.pipe(T.HttpLabel()) },
+  { resourceArn: S.String.pipe(T.HttpLabel("resourceArn")) },
   T.all(
     T.Http({ method: "GET", uri: "/tags/{resourceArn}" }),
     svc,
@@ -329,7 +330,7 @@ export const TagsMap = S.Record({ key: S.String, value: S.String });
 export class TagResourceRequest extends S.Class<TagResourceRequest>(
   "TagResourceRequest",
 )(
-  { resourceArn: S.String.pipe(T.HttpLabel()), tags: TagsMap },
+  { resourceArn: S.String.pipe(T.HttpLabel("resourceArn")), tags: TagsMap },
   T.all(
     T.Http({ method: "POST", uri: "/tags/{resourceArn}" }),
     svc,
@@ -346,7 +347,7 @@ export class UntagResourceRequest extends S.Class<UntagResourceRequest>(
   "UntagResourceRequest",
 )(
   {
-    resourceArn: S.String.pipe(T.HttpLabel()),
+    resourceArn: S.String.pipe(T.HttpLabel("resourceArn")),
     tagKeys: TagKeys.pipe(T.HttpQuery("tagKeys")),
   },
   T.all(
@@ -1801,7 +1802,7 @@ export class InternalServerException extends S.TaggedError<InternalServerExcepti
     message: S.String,
     retryAfterSeconds: S.optional(S.Number).pipe(T.HttpHeader("Retry-After")),
   },
-) {}
+).pipe(withCategory(ERROR_CATEGORIES.SERVER_ERROR)) {}
 export class ConflictException extends S.TaggedError<ConflictException>()(
   "ConflictException",
   {
@@ -1839,7 +1840,7 @@ export class ThrottlingException extends S.TaggedError<ThrottlingException>()(
     quotaCode: S.optional(S.String),
     retryAfterSeconds: S.optional(S.String).pipe(T.HttpHeader("Retry-After")),
   },
-) {}
+).pipe(withCategory(ERROR_CATEGORIES.THROTTLING_ERROR)) {}
 export class UninitializedAccountException extends S.TaggedError<UninitializedAccountException>()(
   "UninitializedAccountException",
   { message: S.optional(S.String), code: S.optional(S.String) },

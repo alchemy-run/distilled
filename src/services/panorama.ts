@@ -1,6 +1,7 @@
 import * as S from "effect/Schema";
 import * as API from "../api.ts";
 import * as T from "../traits.ts";
+import { ERROR_CATEGORIES, withCategory } from "../error-category.ts";
 const svc = T.AwsApiService({
   sdkId: "Panorama",
   serviceShapeName: "OmniCloudServiceLambda",
@@ -260,7 +261,7 @@ export class CreatePackageRequest extends S.Class<CreatePackageRequest>(
 export class DeleteDeviceRequest extends S.Class<DeleteDeviceRequest>(
   "DeleteDeviceRequest",
 )(
-  { DeviceId: S.String.pipe(T.HttpLabel()) },
+  { DeviceId: S.String.pipe(T.HttpLabel("DeviceId")) },
   T.all(
     T.Http({ method: "DELETE", uri: "/devices/{DeviceId}" }),
     svc,
@@ -274,7 +275,7 @@ export class DeletePackageRequest extends S.Class<DeletePackageRequest>(
   "DeletePackageRequest",
 )(
   {
-    PackageId: S.String.pipe(T.HttpLabel()),
+    PackageId: S.String.pipe(T.HttpLabel("PackageId")),
     ForceDelete: S.optional(S.Boolean).pipe(T.HttpQuery("ForceDelete")),
   },
   T.all(
@@ -294,9 +295,9 @@ export class DeregisterPackageVersionRequest extends S.Class<DeregisterPackageVe
 )(
   {
     OwnerAccount: S.optional(S.String).pipe(T.HttpQuery("OwnerAccount")),
-    PackageId: S.String.pipe(T.HttpLabel()),
-    PackageVersion: S.String.pipe(T.HttpLabel()),
-    PatchVersion: S.String.pipe(T.HttpLabel()),
+    PackageId: S.String.pipe(T.HttpLabel("PackageId")),
+    PackageVersion: S.String.pipe(T.HttpLabel("PackageVersion")),
+    PatchVersion: S.String.pipe(T.HttpLabel("PatchVersion")),
     UpdatedLatestPatchVersion: S.optional(S.String).pipe(
       T.HttpQuery("UpdatedLatestPatchVersion"),
     ),
@@ -319,7 +320,9 @@ export class DeregisterPackageVersionResponse extends S.Class<DeregisterPackageV
 export class DescribeApplicationInstanceRequest extends S.Class<DescribeApplicationInstanceRequest>(
   "DescribeApplicationInstanceRequest",
 )(
-  { ApplicationInstanceId: S.String.pipe(T.HttpLabel()) },
+  {
+    ApplicationInstanceId: S.String.pipe(T.HttpLabel("ApplicationInstanceId")),
+  },
   T.all(
     T.Http({
       method: "GET",
@@ -335,7 +338,9 @@ export class DescribeApplicationInstanceRequest extends S.Class<DescribeApplicat
 export class DescribeApplicationInstanceDetailsRequest extends S.Class<DescribeApplicationInstanceDetailsRequest>(
   "DescribeApplicationInstanceDetailsRequest",
 )(
-  { ApplicationInstanceId: S.String.pipe(T.HttpLabel()) },
+  {
+    ApplicationInstanceId: S.String.pipe(T.HttpLabel("ApplicationInstanceId")),
+  },
   T.all(
     T.Http({
       method: "GET",
@@ -351,7 +356,7 @@ export class DescribeApplicationInstanceDetailsRequest extends S.Class<DescribeA
 export class DescribeDeviceRequest extends S.Class<DescribeDeviceRequest>(
   "DescribeDeviceRequest",
 )(
-  { DeviceId: S.String.pipe(T.HttpLabel()) },
+  { DeviceId: S.String.pipe(T.HttpLabel("DeviceId")) },
   T.all(
     T.Http({ method: "GET", uri: "/devices/{DeviceId}" }),
     svc,
@@ -364,7 +369,7 @@ export class DescribeDeviceRequest extends S.Class<DescribeDeviceRequest>(
 export class DescribeDeviceJobRequest extends S.Class<DescribeDeviceJobRequest>(
   "DescribeDeviceJobRequest",
 )(
-  { JobId: S.String.pipe(T.HttpLabel()) },
+  { JobId: S.String.pipe(T.HttpLabel("JobId")) },
   T.all(
     T.Http({ method: "GET", uri: "/jobs/{JobId}" }),
     svc,
@@ -378,7 +383,7 @@ export class DescribeNodeRequest extends S.Class<DescribeNodeRequest>(
   "DescribeNodeRequest",
 )(
   {
-    NodeId: S.String.pipe(T.HttpLabel()),
+    NodeId: S.String.pipe(T.HttpLabel("NodeId")),
     OwnerAccount: S.optional(S.String).pipe(T.HttpQuery("OwnerAccount")),
   },
   T.all(
@@ -393,7 +398,7 @@ export class DescribeNodeRequest extends S.Class<DescribeNodeRequest>(
 export class DescribeNodeFromTemplateJobRequest extends S.Class<DescribeNodeFromTemplateJobRequest>(
   "DescribeNodeFromTemplateJobRequest",
 )(
-  { JobId: S.String.pipe(T.HttpLabel()) },
+  { JobId: S.String.pipe(T.HttpLabel("JobId")) },
   T.all(
     T.Http({ method: "GET", uri: "/packages/template-job/{JobId}" }),
     svc,
@@ -406,7 +411,7 @@ export class DescribeNodeFromTemplateJobRequest extends S.Class<DescribeNodeFrom
 export class DescribePackageRequest extends S.Class<DescribePackageRequest>(
   "DescribePackageRequest",
 )(
-  { PackageId: S.String.pipe(T.HttpLabel()) },
+  { PackageId: S.String.pipe(T.HttpLabel("PackageId")) },
   T.all(
     T.Http({ method: "GET", uri: "/packages/metadata/{PackageId}" }),
     svc,
@@ -419,7 +424,7 @@ export class DescribePackageRequest extends S.Class<DescribePackageRequest>(
 export class DescribePackageImportJobRequest extends S.Class<DescribePackageImportJobRequest>(
   "DescribePackageImportJobRequest",
 )(
-  { JobId: S.String.pipe(T.HttpLabel()) },
+  { JobId: S.String.pipe(T.HttpLabel("JobId")) },
   T.all(
     T.Http({ method: "GET", uri: "/packages/import-jobs/{JobId}" }),
     svc,
@@ -434,8 +439,8 @@ export class DescribePackageVersionRequest extends S.Class<DescribePackageVersio
 )(
   {
     OwnerAccount: S.optional(S.String).pipe(T.HttpQuery("OwnerAccount")),
-    PackageId: S.String.pipe(T.HttpLabel()),
-    PackageVersion: S.String.pipe(T.HttpLabel()),
+    PackageId: S.String.pipe(T.HttpLabel("PackageId")),
+    PackageVersion: S.String.pipe(T.HttpLabel("PackageVersion")),
     PatchVersion: S.optional(S.String).pipe(T.HttpQuery("PatchVersion")),
   },
   T.all(
@@ -454,7 +459,7 @@ export class ListApplicationInstanceDependenciesRequest extends S.Class<ListAppl
   "ListApplicationInstanceDependenciesRequest",
 )(
   {
-    ApplicationInstanceId: S.String.pipe(T.HttpLabel()),
+    ApplicationInstanceId: S.String.pipe(T.HttpLabel("ApplicationInstanceId")),
     MaxResults: S.optional(S.Number).pipe(T.HttpQuery("maxResults")),
     NextToken: S.optional(S.String).pipe(T.HttpQuery("nextToken")),
   },
@@ -474,7 +479,7 @@ export class ListApplicationInstanceNodeInstancesRequest extends S.Class<ListApp
   "ListApplicationInstanceNodeInstancesRequest",
 )(
   {
-    ApplicationInstanceId: S.String.pipe(T.HttpLabel()),
+    ApplicationInstanceId: S.String.pipe(T.HttpLabel("ApplicationInstanceId")),
     MaxResults: S.optional(S.Number).pipe(T.HttpQuery("maxResults")),
     NextToken: S.optional(S.String).pipe(T.HttpQuery("nextToken")),
   },
@@ -605,7 +610,7 @@ export class ListPackagesRequest extends S.Class<ListPackagesRequest>(
 export class ListTagsForResourceRequest extends S.Class<ListTagsForResourceRequest>(
   "ListTagsForResourceRequest",
 )(
-  { ResourceArn: S.String.pipe(T.HttpLabel()) },
+  { ResourceArn: S.String.pipe(T.HttpLabel("ResourceArn")) },
   T.all(
     T.Http({ method: "GET", uri: "/tags/{ResourceArn}" }),
     svc,
@@ -620,9 +625,9 @@ export class RegisterPackageVersionRequest extends S.Class<RegisterPackageVersio
 )(
   {
     OwnerAccount: S.optional(S.String),
-    PackageId: S.String.pipe(T.HttpLabel()),
-    PackageVersion: S.String.pipe(T.HttpLabel()),
-    PatchVersion: S.String.pipe(T.HttpLabel()),
+    PackageId: S.String.pipe(T.HttpLabel("PackageId")),
+    PackageVersion: S.String.pipe(T.HttpLabel("PackageVersion")),
+    PatchVersion: S.String.pipe(T.HttpLabel("PatchVersion")),
     MarkLatest: S.optional(S.Boolean),
   },
   T.all(
@@ -643,7 +648,9 @@ export class RegisterPackageVersionResponse extends S.Class<RegisterPackageVersi
 export class RemoveApplicationInstanceRequest extends S.Class<RemoveApplicationInstanceRequest>(
   "RemoveApplicationInstanceRequest",
 )(
-  { ApplicationInstanceId: S.String.pipe(T.HttpLabel()) },
+  {
+    ApplicationInstanceId: S.String.pipe(T.HttpLabel("ApplicationInstanceId")),
+  },
   T.all(
     T.Http({
       method: "DELETE",
@@ -662,7 +669,7 @@ export class RemoveApplicationInstanceResponse extends S.Class<RemoveApplication
 export class TagResourceRequest extends S.Class<TagResourceRequest>(
   "TagResourceRequest",
 )(
-  { ResourceArn: S.String.pipe(T.HttpLabel()), Tags: TagMap },
+  { ResourceArn: S.String.pipe(T.HttpLabel("ResourceArn")), Tags: TagMap },
   T.all(
     T.Http({ method: "POST", uri: "/tags/{ResourceArn}" }),
     svc,
@@ -679,7 +686,7 @@ export class UntagResourceRequest extends S.Class<UntagResourceRequest>(
   "UntagResourceRequest",
 )(
   {
-    ResourceArn: S.String.pipe(T.HttpLabel()),
+    ResourceArn: S.String.pipe(T.HttpLabel("ResourceArn")),
     TagKeys: TagKeyList.pipe(T.HttpQuery("tagKeys")),
   },
   T.all(
@@ -697,7 +704,10 @@ export class UntagResourceResponse extends S.Class<UntagResourceResponse>(
 export class UpdateDeviceMetadataRequest extends S.Class<UpdateDeviceMetadataRequest>(
   "UpdateDeviceMetadataRequest",
 )(
-  { DeviceId: S.String.pipe(T.HttpLabel()), Description: S.optional(S.String) },
+  {
+    DeviceId: S.String.pipe(T.HttpLabel("DeviceId")),
+    Description: S.optional(S.String),
+  },
   T.all(
     T.Http({ method: "PUT", uri: "/devices/{DeviceId}" }),
     svc,
@@ -855,7 +865,7 @@ export class SignalApplicationInstanceNodeInstancesRequest extends S.Class<Signa
   "SignalApplicationInstanceNodeInstancesRequest",
 )(
   {
-    ApplicationInstanceId: S.String.pipe(T.HttpLabel()),
+    ApplicationInstanceId: S.String.pipe(T.HttpLabel("ApplicationInstanceId")),
     NodeSignals: NodeSignalList,
   },
   T.all(
@@ -1327,7 +1337,7 @@ export class InternalServerException extends S.TaggedError<InternalServerExcepti
     Message: S.String,
     RetryAfterSeconds: S.optional(S.Number).pipe(T.HttpHeader("Retry-After")),
   },
-) {}
+).pipe(withCategory(ERROR_CATEGORIES.SERVER_ERROR)) {}
 export class ResourceNotFoundException extends S.TaggedError<ResourceNotFoundException>()(
   "ResourceNotFoundException",
   { Message: S.String, ResourceId: S.String, ResourceType: S.String },

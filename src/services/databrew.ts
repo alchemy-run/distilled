@@ -1,6 +1,7 @@
 import * as S from "effect/Schema";
 import * as API from "../api.ts";
 import * as T from "../traits.ts";
+import { ERROR_CATEGORIES, withCategory } from "../error-category.ts";
 const svc = T.AwsApiService({
   sdkId: "DataBrew",
   serviceShapeName: "AWSGlueDataBrew",
@@ -261,7 +262,10 @@ export const TagKeyList = S.Array(S.String);
 export class BatchDeleteRecipeVersionRequest extends S.Class<BatchDeleteRecipeVersionRequest>(
   "BatchDeleteRecipeVersionRequest",
 )(
-  { Name: S.String.pipe(T.HttpLabel()), RecipeVersions: RecipeVersionList },
+  {
+    Name: S.String.pipe(T.HttpLabel("Name")),
+    RecipeVersions: RecipeVersionList,
+  },
   T.all(
     T.Http({ method: "POST", uri: "/recipes/{Name}/batchDeleteRecipeVersion" }),
     svc,
@@ -293,7 +297,7 @@ export class CreateScheduleRequest extends S.Class<CreateScheduleRequest>(
 export class DeleteDatasetRequest extends S.Class<DeleteDatasetRequest>(
   "DeleteDatasetRequest",
 )(
-  { Name: S.String.pipe(T.HttpLabel()) },
+  { Name: S.String.pipe(T.HttpLabel("Name")) },
   T.all(
     T.Http({ method: "DELETE", uri: "/datasets/{Name}" }),
     svc,
@@ -306,7 +310,7 @@ export class DeleteDatasetRequest extends S.Class<DeleteDatasetRequest>(
 export class DeleteJobRequest extends S.Class<DeleteJobRequest>(
   "DeleteJobRequest",
 )(
-  { Name: S.String.pipe(T.HttpLabel()) },
+  { Name: S.String.pipe(T.HttpLabel("Name")) },
   T.all(
     T.Http({ method: "DELETE", uri: "/jobs/{Name}" }),
     svc,
@@ -319,7 +323,7 @@ export class DeleteJobRequest extends S.Class<DeleteJobRequest>(
 export class DeleteProjectRequest extends S.Class<DeleteProjectRequest>(
   "DeleteProjectRequest",
 )(
-  { Name: S.String.pipe(T.HttpLabel()) },
+  { Name: S.String.pipe(T.HttpLabel("Name")) },
   T.all(
     T.Http({ method: "DELETE", uri: "/projects/{Name}" }),
     svc,
@@ -333,8 +337,8 @@ export class DeleteRecipeVersionRequest extends S.Class<DeleteRecipeVersionReque
   "DeleteRecipeVersionRequest",
 )(
   {
-    Name: S.String.pipe(T.HttpLabel()),
-    RecipeVersion: S.String.pipe(T.HttpLabel()),
+    Name: S.String.pipe(T.HttpLabel("Name")),
+    RecipeVersion: S.String.pipe(T.HttpLabel("RecipeVersion")),
   },
   T.all(
     T.Http({
@@ -351,7 +355,7 @@ export class DeleteRecipeVersionRequest extends S.Class<DeleteRecipeVersionReque
 export class DeleteRulesetRequest extends S.Class<DeleteRulesetRequest>(
   "DeleteRulesetRequest",
 )(
-  { Name: S.String.pipe(T.HttpLabel()) },
+  { Name: S.String.pipe(T.HttpLabel("Name")) },
   T.all(
     T.Http({ method: "DELETE", uri: "/rulesets/{Name}" }),
     svc,
@@ -364,7 +368,7 @@ export class DeleteRulesetRequest extends S.Class<DeleteRulesetRequest>(
 export class DeleteScheduleRequest extends S.Class<DeleteScheduleRequest>(
   "DeleteScheduleRequest",
 )(
-  { Name: S.String.pipe(T.HttpLabel()) },
+  { Name: S.String.pipe(T.HttpLabel("Name")) },
   T.all(
     T.Http({ method: "DELETE", uri: "/schedules/{Name}" }),
     svc,
@@ -377,7 +381,7 @@ export class DeleteScheduleRequest extends S.Class<DeleteScheduleRequest>(
 export class DescribeDatasetRequest extends S.Class<DescribeDatasetRequest>(
   "DescribeDatasetRequest",
 )(
-  { Name: S.String.pipe(T.HttpLabel()) },
+  { Name: S.String.pipe(T.HttpLabel("Name")) },
   T.all(
     T.Http({ method: "GET", uri: "/datasets/{Name}" }),
     svc,
@@ -390,7 +394,7 @@ export class DescribeDatasetRequest extends S.Class<DescribeDatasetRequest>(
 export class DescribeJobRequest extends S.Class<DescribeJobRequest>(
   "DescribeJobRequest",
 )(
-  { Name: S.String.pipe(T.HttpLabel()) },
+  { Name: S.String.pipe(T.HttpLabel("Name")) },
   T.all(
     T.Http({ method: "GET", uri: "/jobs/{Name}" }),
     svc,
@@ -403,7 +407,10 @@ export class DescribeJobRequest extends S.Class<DescribeJobRequest>(
 export class DescribeJobRunRequest extends S.Class<DescribeJobRunRequest>(
   "DescribeJobRunRequest",
 )(
-  { Name: S.String.pipe(T.HttpLabel()), RunId: S.String.pipe(T.HttpLabel()) },
+  {
+    Name: S.String.pipe(T.HttpLabel("Name")),
+    RunId: S.String.pipe(T.HttpLabel("RunId")),
+  },
   T.all(
     T.Http({ method: "GET", uri: "/jobs/{Name}/jobRun/{RunId}" }),
     svc,
@@ -416,7 +423,7 @@ export class DescribeJobRunRequest extends S.Class<DescribeJobRunRequest>(
 export class DescribeProjectRequest extends S.Class<DescribeProjectRequest>(
   "DescribeProjectRequest",
 )(
-  { Name: S.String.pipe(T.HttpLabel()) },
+  { Name: S.String.pipe(T.HttpLabel("Name")) },
   T.all(
     T.Http({ method: "GET", uri: "/projects/{Name}" }),
     svc,
@@ -430,7 +437,7 @@ export class DescribeRecipeRequest extends S.Class<DescribeRecipeRequest>(
   "DescribeRecipeRequest",
 )(
   {
-    Name: S.String.pipe(T.HttpLabel()),
+    Name: S.String.pipe(T.HttpLabel("Name")),
     RecipeVersion: S.optional(S.String).pipe(T.HttpQuery("recipeVersion")),
   },
   T.all(
@@ -445,7 +452,7 @@ export class DescribeRecipeRequest extends S.Class<DescribeRecipeRequest>(
 export class DescribeRulesetRequest extends S.Class<DescribeRulesetRequest>(
   "DescribeRulesetRequest",
 )(
-  { Name: S.String.pipe(T.HttpLabel()) },
+  { Name: S.String.pipe(T.HttpLabel("Name")) },
   T.all(
     T.Http({ method: "GET", uri: "/rulesets/{Name}" }),
     svc,
@@ -458,7 +465,7 @@ export class DescribeRulesetRequest extends S.Class<DescribeRulesetRequest>(
 export class DescribeScheduleRequest extends S.Class<DescribeScheduleRequest>(
   "DescribeScheduleRequest",
 )(
-  { Name: S.String.pipe(T.HttpLabel()) },
+  { Name: S.String.pipe(T.HttpLabel("Name")) },
   T.all(
     T.Http({ method: "GET", uri: "/schedules/{Name}" }),
     svc,
@@ -488,7 +495,7 @@ export class ListJobRunsRequest extends S.Class<ListJobRunsRequest>(
   "ListJobRunsRequest",
 )(
   {
-    Name: S.String.pipe(T.HttpLabel()),
+    Name: S.String.pipe(T.HttpLabel("Name")),
     MaxResults: S.optional(S.Number).pipe(T.HttpQuery("maxResults")),
     NextToken: S.optional(S.String).pipe(T.HttpQuery("nextToken")),
   },
@@ -599,7 +606,7 @@ export class ListSchedulesRequest extends S.Class<ListSchedulesRequest>(
 export class ListTagsForResourceRequest extends S.Class<ListTagsForResourceRequest>(
   "ListTagsForResourceRequest",
 )(
-  { ResourceArn: S.String.pipe(T.HttpLabel()) },
+  { ResourceArn: S.String.pipe(T.HttpLabel("ResourceArn")) },
   T.all(
     T.Http({ method: "GET", uri: "/tags/{ResourceArn}" }),
     svc,
@@ -612,7 +619,10 @@ export class ListTagsForResourceRequest extends S.Class<ListTagsForResourceReque
 export class PublishRecipeRequest extends S.Class<PublishRecipeRequest>(
   "PublishRecipeRequest",
 )(
-  { Description: S.optional(S.String), Name: S.String.pipe(T.HttpLabel()) },
+  {
+    Description: S.optional(S.String),
+    Name: S.String.pipe(T.HttpLabel("Name")),
+  },
   T.all(
     T.Http({ method: "POST", uri: "/recipes/{Name}/publishRecipe" }),
     svc,
@@ -625,7 +635,7 @@ export class PublishRecipeRequest extends S.Class<PublishRecipeRequest>(
 export class StartJobRunRequest extends S.Class<StartJobRunRequest>(
   "StartJobRunRequest",
 )(
-  { Name: S.String.pipe(T.HttpLabel()) },
+  { Name: S.String.pipe(T.HttpLabel("Name")) },
   T.all(
     T.Http({ method: "POST", uri: "/jobs/{Name}/startJobRun" }),
     svc,
@@ -638,7 +648,10 @@ export class StartJobRunRequest extends S.Class<StartJobRunRequest>(
 export class StartProjectSessionRequest extends S.Class<StartProjectSessionRequest>(
   "StartProjectSessionRequest",
 )(
-  { Name: S.String.pipe(T.HttpLabel()), AssumeControl: S.optional(S.Boolean) },
+  {
+    Name: S.String.pipe(T.HttpLabel("Name")),
+    AssumeControl: S.optional(S.Boolean),
+  },
   T.all(
     T.Http({ method: "PUT", uri: "/projects/{Name}/startProjectSession" }),
     svc,
@@ -651,7 +664,10 @@ export class StartProjectSessionRequest extends S.Class<StartProjectSessionReque
 export class StopJobRunRequest extends S.Class<StopJobRunRequest>(
   "StopJobRunRequest",
 )(
-  { Name: S.String.pipe(T.HttpLabel()), RunId: S.String.pipe(T.HttpLabel()) },
+  {
+    Name: S.String.pipe(T.HttpLabel("Name")),
+    RunId: S.String.pipe(T.HttpLabel("RunId")),
+  },
   T.all(
     T.Http({ method: "POST", uri: "/jobs/{Name}/jobRun/{RunId}/stopJobRun" }),
     svc,
@@ -664,7 +680,7 @@ export class StopJobRunRequest extends S.Class<StopJobRunRequest>(
 export class TagResourceRequest extends S.Class<TagResourceRequest>(
   "TagResourceRequest",
 )(
-  { ResourceArn: S.String.pipe(T.HttpLabel()), Tags: TagMap },
+  { ResourceArn: S.String.pipe(T.HttpLabel("ResourceArn")), Tags: TagMap },
   T.all(
     T.Http({ method: "POST", uri: "/tags/{ResourceArn}" }),
     svc,
@@ -681,7 +697,7 @@ export class UntagResourceRequest extends S.Class<UntagResourceRequest>(
   "UntagResourceRequest",
 )(
   {
-    ResourceArn: S.String.pipe(T.HttpLabel()),
+    ResourceArn: S.String.pipe(T.HttpLabel("ResourceArn")),
     TagKeys: TagKeyList.pipe(T.HttpQuery("tagKeys")),
   },
   T.all(
@@ -783,7 +799,7 @@ export class UpdateDatasetRequest extends S.Class<UpdateDatasetRequest>(
   "UpdateDatasetRequest",
 )(
   {
-    Name: S.String.pipe(T.HttpLabel()),
+    Name: S.String.pipe(T.HttpLabel("Name")),
     Format: S.optional(S.String),
     FormatOptions: S.optional(FormatOptions),
     Input: Input,
@@ -858,7 +874,7 @@ export class UpdateProfileJobRequest extends S.Class<UpdateProfileJobRequest>(
     Configuration: S.optional(ProfileConfiguration),
     EncryptionKeyArn: S.optional(S.String),
     EncryptionMode: S.optional(S.String),
-    Name: S.String.pipe(T.HttpLabel()),
+    Name: S.String.pipe(T.HttpLabel("Name")),
     LogSubscription: S.optional(S.String),
     MaxCapacity: S.optional(S.Number),
     MaxRetries: S.optional(S.Number),
@@ -887,7 +903,7 @@ export class UpdateProjectRequest extends S.Class<UpdateProjectRequest>(
   {
     Sample: S.optional(Sample),
     RoleArn: S.String,
-    Name: S.String.pipe(T.HttpLabel()),
+    Name: S.String.pipe(T.HttpLabel("Name")),
   },
   T.all(
     T.Http({ method: "PUT", uri: "/projects/{Name}" }),
@@ -920,7 +936,7 @@ export class UpdateRecipeRequest extends S.Class<UpdateRecipeRequest>(
 )(
   {
     Description: S.optional(S.String),
-    Name: S.String.pipe(T.HttpLabel()),
+    Name: S.String.pipe(T.HttpLabel("Name")),
     Steps: S.optional(RecipeStepList),
   },
   T.all(
@@ -978,7 +994,7 @@ export class UpdateRecipeJobRequest extends S.Class<UpdateRecipeJobRequest>(
   {
     EncryptionKeyArn: S.optional(S.String),
     EncryptionMode: S.optional(S.String),
-    Name: S.String.pipe(T.HttpLabel()),
+    Name: S.String.pipe(T.HttpLabel("Name")),
     LogSubscription: S.optional(S.String),
     MaxCapacity: S.optional(S.Number),
     MaxRetries: S.optional(S.Number),
@@ -1015,7 +1031,7 @@ export class UpdateRulesetRequest extends S.Class<UpdateRulesetRequest>(
   "UpdateRulesetRequest",
 )(
   {
-    Name: S.String.pipe(T.HttpLabel()),
+    Name: S.String.pipe(T.HttpLabel("Name")),
     Description: S.optional(S.String),
     Rules: RuleList,
   },
@@ -1034,7 +1050,7 @@ export class UpdateScheduleRequest extends S.Class<UpdateScheduleRequest>(
   {
     JobNames: S.optional(JobNameList),
     CronExpression: S.String,
-    Name: S.String.pipe(T.HttpLabel()),
+    Name: S.String.pipe(T.HttpLabel("Name")),
   },
   T.all(
     T.Http({ method: "PUT", uri: "/schedules/{Name}" }),
@@ -1257,7 +1273,7 @@ export class SendProjectSessionActionRequest extends S.Class<SendProjectSessionA
 )(
   {
     Preview: S.optional(S.Boolean),
-    Name: S.String.pipe(T.HttpLabel()),
+    Name: S.String.pipe(T.HttpLabel("Name")),
     RecipeStep: S.optional(RecipeStep),
     StepIndex: S.optional(S.Number),
     ClientSessionId: S.optional(S.String),
@@ -1589,7 +1605,7 @@ export class CreateDatasetResponse extends S.Class<CreateDatasetResponse>(
 export class InternalServerException extends S.TaggedError<InternalServerException>()(
   "InternalServerException",
   { Message: S.optional(S.String) },
-) {}
+).pipe(withCategory(ERROR_CATEGORIES.SERVER_ERROR)) {}
 export class ConflictException extends S.TaggedError<ConflictException>()(
   "ConflictException",
   { Message: S.optional(S.String) },

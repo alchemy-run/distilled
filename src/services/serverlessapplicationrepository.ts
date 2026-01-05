@@ -1,6 +1,7 @@
 import * as S from "effect/Schema";
 import * as API from "../api.ts";
 import * as T from "../traits.ts";
+import { ERROR_CATEGORIES, withCategory } from "../error-category.ts";
 const svc = T.AwsApiService({
   sdkId: "ServerlessApplicationRepository",
   serviceShapeName: "ServerlessApplicationRepository",
@@ -297,8 +298,8 @@ export class CreateApplicationVersionRequest extends S.Class<CreateApplicationVe
   "CreateApplicationVersionRequest",
 )(
   {
-    ApplicationId: S.String.pipe(T.HttpLabel()),
-    SemanticVersion: S.String.pipe(T.HttpLabel()),
+    ApplicationId: S.String.pipe(T.HttpLabel("ApplicationId")),
+    SemanticVersion: S.String.pipe(T.HttpLabel("SemanticVersion")),
     SourceCodeArchiveUrl: S.optional(S.String).pipe(
       T.JsonName("sourceCodeArchiveUrl"),
     ),
@@ -322,7 +323,7 @@ export class CreateCloudFormationTemplateRequest extends S.Class<CreateCloudForm
   "CreateCloudFormationTemplateRequest",
 )(
   {
-    ApplicationId: S.String.pipe(T.HttpLabel()),
+    ApplicationId: S.String.pipe(T.HttpLabel("ApplicationId")),
     SemanticVersion: S.optional(S.String).pipe(T.JsonName("semanticVersion")),
   },
   T.all(
@@ -337,7 +338,7 @@ export class CreateCloudFormationTemplateRequest extends S.Class<CreateCloudForm
 export class DeleteApplicationRequest extends S.Class<DeleteApplicationRequest>(
   "DeleteApplicationRequest",
 )(
-  { ApplicationId: S.String.pipe(T.HttpLabel()) },
+  { ApplicationId: S.String.pipe(T.HttpLabel("ApplicationId")) },
   T.all(
     T.Http({ method: "DELETE", uri: "/applications/{ApplicationId}" }),
     svc,
@@ -354,7 +355,7 @@ export class GetApplicationRequest extends S.Class<GetApplicationRequest>(
   "GetApplicationRequest",
 )(
   {
-    ApplicationId: S.String.pipe(T.HttpLabel()),
+    ApplicationId: S.String.pipe(T.HttpLabel("ApplicationId")),
     SemanticVersion: S.optional(S.String).pipe(T.HttpQuery("semanticVersion")),
   },
   T.all(
@@ -369,7 +370,7 @@ export class GetApplicationRequest extends S.Class<GetApplicationRequest>(
 export class GetApplicationPolicyRequest extends S.Class<GetApplicationPolicyRequest>(
   "GetApplicationPolicyRequest",
 )(
-  { ApplicationId: S.String.pipe(T.HttpLabel()) },
+  { ApplicationId: S.String.pipe(T.HttpLabel("ApplicationId")) },
   T.all(
     T.Http({ method: "GET", uri: "/applications/{ApplicationId}/policy" }),
     svc,
@@ -383,8 +384,8 @@ export class GetCloudFormationTemplateRequest extends S.Class<GetCloudFormationT
   "GetCloudFormationTemplateRequest",
 )(
   {
-    ApplicationId: S.String.pipe(T.HttpLabel()),
-    TemplateId: S.String.pipe(T.HttpLabel()),
+    ApplicationId: S.String.pipe(T.HttpLabel("ApplicationId")),
+    TemplateId: S.String.pipe(T.HttpLabel("TemplateId")),
   },
   T.all(
     T.Http({
@@ -402,7 +403,7 @@ export class ListApplicationDependenciesRequest extends S.Class<ListApplicationD
   "ListApplicationDependenciesRequest",
 )(
   {
-    ApplicationId: S.String.pipe(T.HttpLabel()),
+    ApplicationId: S.String.pipe(T.HttpLabel("ApplicationId")),
     MaxItems: S.optional(S.Number).pipe(T.HttpQuery("maxItems")),
     NextToken: S.optional(S.String).pipe(T.HttpQuery("nextToken")),
     SemanticVersion: S.optional(S.String).pipe(T.HttpQuery("semanticVersion")),
@@ -439,7 +440,7 @@ export class ListApplicationVersionsRequest extends S.Class<ListApplicationVersi
   "ListApplicationVersionsRequest",
 )(
   {
-    ApplicationId: S.String.pipe(T.HttpLabel()),
+    ApplicationId: S.String.pipe(T.HttpLabel("ApplicationId")),
     MaxItems: S.optional(S.Number).pipe(T.HttpQuery("maxItems")),
     NextToken: S.optional(S.String).pipe(T.HttpQuery("nextToken")),
   },
@@ -456,7 +457,7 @@ export class UnshareApplicationRequest extends S.Class<UnshareApplicationRequest
   "UnshareApplicationRequest",
 )(
   {
-    ApplicationId: S.String.pipe(T.HttpLabel()),
+    ApplicationId: S.String.pipe(T.HttpLabel("ApplicationId")),
     OrganizationId: S.String.pipe(T.JsonName("organizationId")),
   },
   T.all(
@@ -475,7 +476,7 @@ export class UpdateApplicationRequest extends S.Class<UpdateApplicationRequest>(
   "UpdateApplicationRequest",
 )(
   {
-    ApplicationId: S.String.pipe(T.HttpLabel()),
+    ApplicationId: S.String.pipe(T.HttpLabel("ApplicationId")),
     Author: S.optional(S.String).pipe(T.JsonName("author")),
     Description: S.optional(S.String).pipe(T.JsonName("description")),
     HomePageUrl: S.optional(S.String).pipe(T.JsonName("homePageUrl")),
@@ -605,7 +606,7 @@ export class PutApplicationPolicyRequest extends S.Class<PutApplicationPolicyReq
   "PutApplicationPolicyRequest",
 )(
   {
-    ApplicationId: S.String.pipe(T.HttpLabel()),
+    ApplicationId: S.String.pipe(T.HttpLabel("ApplicationId")),
     Statements: __listOfApplicationPolicyStatement.pipe(
       T.JsonName("statements"),
     ),
@@ -724,7 +725,7 @@ export class CreateCloudFormationChangeSetRequest extends S.Class<CreateCloudFor
   "CreateCloudFormationChangeSetRequest",
 )(
   {
-    ApplicationId: S.String.pipe(T.HttpLabel()),
+    ApplicationId: S.String.pipe(T.HttpLabel("ApplicationId")),
     Capabilities: S.optional(__listOf__string).pipe(T.JsonName("capabilities")),
     ChangeSetName: S.optional(S.String).pipe(T.JsonName("changeSetName")),
     ClientToken: S.optional(S.String).pipe(T.JsonName("clientToken")),
@@ -821,7 +822,7 @@ export class InternalServerErrorException extends S.TaggedError<InternalServerEr
     ErrorCode: S.optional(S.String).pipe(T.JsonName("errorCode")),
     Message: S.optional(S.String).pipe(T.JsonName("message")),
   },
-) {}
+).pipe(withCategory(ERROR_CATEGORIES.SERVER_ERROR)) {}
 export class NotFoundException extends S.TaggedError<NotFoundException>()(
   "NotFoundException",
   {
@@ -835,7 +836,7 @@ export class TooManyRequestsException extends S.TaggedError<TooManyRequestsExcep
     ErrorCode: S.optional(S.String).pipe(T.JsonName("errorCode")),
     Message: S.optional(S.String).pipe(T.JsonName("message")),
   },
-) {}
+).pipe(withCategory(ERROR_CATEGORIES.THROTTLING_ERROR)) {}
 
 //# Operations
 /**

@@ -1,6 +1,7 @@
 import * as S from "effect/Schema";
 import * as API from "../api.ts";
 import * as T from "../traits.ts";
+import { ERROR_CATEGORIES, withCategory } from "../error-category.ts";
 const svc = T.AwsApiService({
   sdkId: "ApplicationCostProfiler",
   serviceShapeName: "AWSApplicationCostProfiler",
@@ -244,7 +245,7 @@ const rules = T.EndpointRuleSet({
 export class DeleteReportDefinitionRequest extends S.Class<DeleteReportDefinitionRequest>(
   "DeleteReportDefinitionRequest",
 )(
-  { reportId: S.String.pipe(T.HttpLabel()) },
+  { reportId: S.String.pipe(T.HttpLabel("reportId")) },
   T.all(
     T.Http({ method: "DELETE", uri: "/reportDefinition/{reportId}" }),
     svc,
@@ -257,7 +258,7 @@ export class DeleteReportDefinitionRequest extends S.Class<DeleteReportDefinitio
 export class GetReportDefinitionRequest extends S.Class<GetReportDefinitionRequest>(
   "GetReportDefinitionRequest",
 )(
-  { reportId: S.String.pipe(T.HttpLabel()) },
+  { reportId: S.String.pipe(T.HttpLabel("reportId")) },
   T.all(
     T.Http({ method: "GET", uri: "/reportDefinition/{reportId}" }),
     svc,
@@ -291,7 +292,7 @@ export class UpdateReportDefinitionRequest extends S.Class<UpdateReportDefinitio
   "UpdateReportDefinitionRequest",
 )(
   {
-    reportId: S.String.pipe(T.HttpLabel()),
+    reportId: S.String.pipe(T.HttpLabel("reportId")),
     reportDescription: S.String,
     reportFrequency: S.String,
     format: S.String,
@@ -391,11 +392,11 @@ export class AccessDeniedException extends S.TaggedError<AccessDeniedException>(
 export class InternalServerException extends S.TaggedError<InternalServerException>()(
   "InternalServerException",
   { message: S.optional(S.String) },
-) {}
+).pipe(withCategory(ERROR_CATEGORIES.SERVER_ERROR)) {}
 export class ThrottlingException extends S.TaggedError<ThrottlingException>()(
   "ThrottlingException",
   { message: S.optional(S.String) },
-) {}
+).pipe(withCategory(ERROR_CATEGORIES.THROTTLING_ERROR)) {}
 export class ServiceQuotaExceededException extends S.TaggedError<ServiceQuotaExceededException>()(
   "ServiceQuotaExceededException",
   { message: S.optional(S.String) },

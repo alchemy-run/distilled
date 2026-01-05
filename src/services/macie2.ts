@@ -1,6 +1,7 @@
 import * as S from "effect/Schema";
 import * as API from "../api.ts";
 import * as T from "../traits.ts";
+import { ERROR_CATEGORIES, withCategory } from "../error-category.ts";
 const svc = T.AwsApiService({ sdkId: "Macie2", serviceShapeName: "Macie2" });
 const auth = T.AwsAuthSigv4({ name: "macie2" });
 const ver = T.ServiceVersion("2020-01-01");
@@ -489,7 +490,7 @@ export class DeleteAllowListRequest extends S.Class<DeleteAllowListRequest>(
   "DeleteAllowListRequest",
 )(
   {
-    id: S.String.pipe(T.HttpLabel()),
+    id: S.String.pipe(T.HttpLabel("id")),
     ignoreJobChecks: S.optional(S.String).pipe(T.HttpQuery("ignoreJobChecks")),
   },
   T.all(
@@ -507,7 +508,7 @@ export class DeleteAllowListResponse extends S.Class<DeleteAllowListResponse>(
 export class DeleteCustomDataIdentifierRequest extends S.Class<DeleteCustomDataIdentifierRequest>(
   "DeleteCustomDataIdentifierRequest",
 )(
-  { id: S.String.pipe(T.HttpLabel()) },
+  { id: S.String.pipe(T.HttpLabel("id")) },
   T.all(
     T.Http({ method: "DELETE", uri: "/custom-data-identifiers/{id}" }),
     svc,
@@ -523,7 +524,7 @@ export class DeleteCustomDataIdentifierResponse extends S.Class<DeleteCustomData
 export class DeleteFindingsFilterRequest extends S.Class<DeleteFindingsFilterRequest>(
   "DeleteFindingsFilterRequest",
 )(
-  { id: S.String.pipe(T.HttpLabel()) },
+  { id: S.String.pipe(T.HttpLabel("id")) },
   T.all(
     T.Http({ method: "DELETE", uri: "/findingsfilters/{id}" }),
     svc,
@@ -552,7 +553,7 @@ export class DeleteInvitationsRequest extends S.Class<DeleteInvitationsRequest>(
 export class DeleteMemberRequest extends S.Class<DeleteMemberRequest>(
   "DeleteMemberRequest",
 )(
-  { id: S.String.pipe(T.HttpLabel()) },
+  { id: S.String.pipe(T.HttpLabel("id")) },
   T.all(
     T.Http({ method: "DELETE", uri: "/members/{id}" }),
     svc,
@@ -568,7 +569,7 @@ export class DeleteMemberResponse extends S.Class<DeleteMemberResponse>(
 export class DescribeClassificationJobRequest extends S.Class<DescribeClassificationJobRequest>(
   "DescribeClassificationJobRequest",
 )(
-  { jobId: S.String.pipe(T.HttpLabel()) },
+  { jobId: S.String.pipe(T.HttpLabel("jobId")) },
   T.all(
     T.Http({ method: "GET", uri: "/jobs/{jobId}" }),
     svc,
@@ -605,7 +606,7 @@ export class DisableOrganizationAdminAccountResponse extends S.Class<DisableOrga
 export class DisassociateMemberRequest extends S.Class<DisassociateMemberRequest>(
   "DisassociateMemberRequest",
 )(
-  { id: S.String.pipe(T.HttpLabel()) },
+  { id: S.String.pipe(T.HttpLabel("id")) },
   T.all(
     T.Http({ method: "POST", uri: "/members/disassociate/{id}" }),
     svc,
@@ -662,7 +663,7 @@ export class EnableOrganizationAdminAccountResponse extends S.Class<EnableOrgani
 export class GetAllowListRequest extends S.Class<GetAllowListRequest>(
   "GetAllowListRequest",
 )(
-  { id: S.String.pipe(T.HttpLabel()) },
+  { id: S.String.pipe(T.HttpLabel("id")) },
   T.all(
     T.Http({ method: "GET", uri: "/allow-lists/{id}" }),
     svc,
@@ -711,7 +712,7 @@ export class GetBucketStatisticsRequest extends S.Class<GetBucketStatisticsReque
 export class GetClassificationScopeRequest extends S.Class<GetClassificationScopeRequest>(
   "GetClassificationScopeRequest",
 )(
-  { id: S.String.pipe(T.HttpLabel()) },
+  { id: S.String.pipe(T.HttpLabel("id")) },
   T.all(
     T.Http({ method: "GET", uri: "/classification-scopes/{id}" }),
     svc,
@@ -724,7 +725,7 @@ export class GetClassificationScopeRequest extends S.Class<GetClassificationScop
 export class GetCustomDataIdentifierRequest extends S.Class<GetCustomDataIdentifierRequest>(
   "GetCustomDataIdentifierRequest",
 )(
-  { id: S.String.pipe(T.HttpLabel()) },
+  { id: S.String.pipe(T.HttpLabel("id")) },
   T.all(
     T.Http({ method: "GET", uri: "/custom-data-identifiers/{id}" }),
     svc,
@@ -737,7 +738,7 @@ export class GetCustomDataIdentifierRequest extends S.Class<GetCustomDataIdentif
 export class GetFindingsFilterRequest extends S.Class<GetFindingsFilterRequest>(
   "GetFindingsFilterRequest",
 )(
-  { id: S.String.pipe(T.HttpLabel()) },
+  { id: S.String.pipe(T.HttpLabel("id")) },
   T.all(
     T.Http({ method: "GET", uri: "/findingsfilters/{id}" }),
     svc,
@@ -783,7 +784,7 @@ export class GetMasterAccountResponse extends S.Class<GetMasterAccountResponse>(
 export class GetMemberRequest extends S.Class<GetMemberRequest>(
   "GetMemberRequest",
 )(
-  { id: S.String.pipe(T.HttpLabel()) },
+  { id: S.String.pipe(T.HttpLabel("id")) },
   T.all(
     T.Http({ method: "GET", uri: "/members/{id}" }),
     svc,
@@ -809,7 +810,7 @@ export class GetResourceProfileRequest extends S.Class<GetResourceProfileRequest
 export class GetSensitiveDataOccurrencesRequest extends S.Class<GetSensitiveDataOccurrencesRequest>(
   "GetSensitiveDataOccurrencesRequest",
 )(
-  { findingId: S.String.pipe(T.HttpLabel()) },
+  { findingId: S.String.pipe(T.HttpLabel("findingId")) },
   T.all(
     T.Http({ method: "GET", uri: "/findings/{findingId}/reveal" }),
     svc,
@@ -822,7 +823,7 @@ export class GetSensitiveDataOccurrencesRequest extends S.Class<GetSensitiveData
 export class GetSensitiveDataOccurrencesAvailabilityRequest extends S.Class<GetSensitiveDataOccurrencesAvailabilityRequest>(
   "GetSensitiveDataOccurrencesAvailabilityRequest",
 )(
-  { findingId: S.String.pipe(T.HttpLabel()) },
+  { findingId: S.String.pipe(T.HttpLabel("findingId")) },
   T.all(
     T.Http({ method: "GET", uri: "/findings/{findingId}/reveal/availability" }),
     svc,
@@ -835,7 +836,7 @@ export class GetSensitiveDataOccurrencesAvailabilityRequest extends S.Class<GetS
 export class GetSensitivityInspectionTemplateRequest extends S.Class<GetSensitivityInspectionTemplateRequest>(
   "GetSensitivityInspectionTemplateRequest",
 )(
-  { id: S.String.pipe(T.HttpLabel()) },
+  { id: S.String.pipe(T.HttpLabel("id")) },
   T.all(
     T.Http({ method: "GET", uri: "/templates/sensitivity-inspections/{id}" }),
     svc,
@@ -1081,7 +1082,7 @@ export class ListSensitivityInspectionTemplatesRequest extends S.Class<ListSensi
 export class ListTagsForResourceRequest extends S.Class<ListTagsForResourceRequest>(
   "ListTagsForResourceRequest",
 )(
-  { resourceArn: S.String.pipe(T.HttpLabel()) },
+  { resourceArn: S.String.pipe(T.HttpLabel("resourceArn")) },
   T.all(
     T.Http({ method: "GET", uri: "/tags/{resourceArn}" }),
     svc,
@@ -1152,7 +1153,7 @@ export class TagResourceRequest extends S.Class<TagResourceRequest>(
   "TagResourceRequest",
 )(
   {
-    resourceArn: S.String.pipe(T.HttpLabel()),
+    resourceArn: S.String.pipe(T.HttpLabel("resourceArn")),
     tags: TagMap.pipe(T.JsonName("tags")),
   },
   T.all(
@@ -1192,7 +1193,7 @@ export class UntagResourceRequest extends S.Class<UntagResourceRequest>(
   "UntagResourceRequest",
 )(
   {
-    resourceArn: S.String.pipe(T.HttpLabel()),
+    resourceArn: S.String.pipe(T.HttpLabel("resourceArn")),
     tagKeys: __listOf__string.pipe(T.HttpQuery("tagKeys")),
   },
   T.all(
@@ -1223,7 +1224,7 @@ export class UpdateAllowListRequest extends S.Class<UpdateAllowListRequest>(
   {
     criteria: AllowListCriteria.pipe(T.JsonName("criteria")),
     description: S.optional(S.String).pipe(T.JsonName("description")),
-    id: S.String.pipe(T.HttpLabel()),
+    id: S.String.pipe(T.HttpLabel("id")),
     name: S.String.pipe(T.JsonName("name")),
   },
   T.all(
@@ -1260,7 +1261,7 @@ export class UpdateClassificationJobRequest extends S.Class<UpdateClassification
   "UpdateClassificationJobRequest",
 )(
   {
-    jobId: S.String.pipe(T.HttpLabel()),
+    jobId: S.String.pipe(T.HttpLabel("jobId")),
     jobStatus: S.String.pipe(T.JsonName("jobStatus")),
   },
   T.all(
@@ -1285,7 +1286,7 @@ export class UpdateFindingsFilterRequest extends S.Class<UpdateFindingsFilterReq
     findingCriteria: S.optional(FindingCriteria).pipe(
       T.JsonName("findingCriteria"),
     ),
-    id: S.String.pipe(T.HttpLabel()),
+    id: S.String.pipe(T.HttpLabel("id")),
     name: S.optional(S.String).pipe(T.JsonName("name")),
     position: S.optional(S.Number).pipe(T.JsonName("position")),
   },
@@ -1323,7 +1324,7 @@ export class UpdateMemberSessionRequest extends S.Class<UpdateMemberSessionReque
   "UpdateMemberSessionRequest",
 )(
   {
-    id: S.String.pipe(T.HttpLabel()),
+    id: S.String.pipe(T.HttpLabel("id")),
     status: S.String.pipe(T.JsonName("status")),
   },
   T.all(
@@ -1808,7 +1809,7 @@ export class UpdateSensitivityInspectionTemplateRequest extends S.Class<UpdateSe
     excludes: S.optional(SensitivityInspectionTemplateExcludes).pipe(
       T.JsonName("excludes"),
     ),
-    id: S.String.pipe(T.HttpLabel()),
+    id: S.String.pipe(T.HttpLabel("id")),
     includes: S.optional(SensitivityInspectionTemplateIncludes).pipe(
       T.JsonName("includes"),
     ),
@@ -2472,7 +2473,7 @@ export class UpdateClassificationScopeRequest extends S.Class<UpdateClassificati
   "UpdateClassificationScopeRequest",
 )(
   {
-    id: S.String.pipe(T.HttpLabel()),
+    id: S.String.pipe(T.HttpLabel("id")),
     s3: S.optional(S3ClassificationScopeUpdate).pipe(T.JsonName("s3")),
   },
   T.all(
@@ -3348,11 +3349,11 @@ export class ConflictException extends S.TaggedError<ConflictException>()(
 export class InternalServerException extends S.TaggedError<InternalServerException>()(
   "InternalServerException",
   { message: S.optional(S.String).pipe(T.JsonName("message")) },
-) {}
+).pipe(withCategory(ERROR_CATEGORIES.SERVER_ERROR)) {}
 export class ThrottlingException extends S.TaggedError<ThrottlingException>()(
   "ThrottlingException",
   { message: S.optional(S.String).pipe(T.JsonName("message")) },
-) {}
+).pipe(withCategory(ERROR_CATEGORIES.THROTTLING_ERROR)) {}
 export class ResourceNotFoundException extends S.TaggedError<ResourceNotFoundException>()(
   "ResourceNotFoundException",
   { message: S.optional(S.String).pipe(T.JsonName("message")) },

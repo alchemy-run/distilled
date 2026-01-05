@@ -1,6 +1,7 @@
 import * as S from "effect/Schema";
 import * as API from "../api.ts";
 import * as T from "../traits.ts";
+import { ERROR_CATEGORIES, withCategory } from "../error-category.ts";
 const svc = T.AwsApiService({
   sdkId: "RolesAnywhere",
   serviceShapeName: "RolesAnywhere",
@@ -353,7 +354,7 @@ export class ImportCrlRequest extends S.Class<ImportCrlRequest>(
 export class ScalarCrlRequest extends S.Class<ScalarCrlRequest>(
   "ScalarCrlRequest",
 )(
-  { crlId: S.String.pipe(T.HttpLabel()) },
+  { crlId: S.String.pipe(T.HttpLabel("crlId")) },
   T.all(
     T.Http({ method: "GET", uri: "/crl/{crlId}" }),
     svc,
@@ -367,7 +368,7 @@ export class UpdateCrlRequest extends S.Class<UpdateCrlRequest>(
   "UpdateCrlRequest",
 )(
   {
-    crlId: S.String.pipe(T.HttpLabel()),
+    crlId: S.String.pipe(T.HttpLabel("crlId")),
     name: S.optional(S.String),
     crlData: S.optional(T.Blob),
   },
@@ -420,7 +421,7 @@ export class CreateProfileRequest extends S.Class<CreateProfileRequest>(
 export class ScalarProfileRequest extends S.Class<ScalarProfileRequest>(
   "ScalarProfileRequest",
 )(
-  { profileId: S.String.pipe(T.HttpLabel()) },
+  { profileId: S.String.pipe(T.HttpLabel("profileId")) },
   T.all(
     T.Http({ method: "GET", uri: "/profile/{profileId}" }),
     svc,
@@ -434,7 +435,7 @@ export class UpdateProfileRequest extends S.Class<UpdateProfileRequest>(
   "UpdateProfileRequest",
 )(
   {
-    profileId: S.String.pipe(T.HttpLabel()),
+    profileId: S.String.pipe(T.HttpLabel("profileId")),
     name: S.optional(S.String),
     sessionPolicy: S.optional(S.String),
     roleArns: S.optional(RoleArnList),
@@ -458,7 +459,7 @@ export class DeleteAttributeMappingRequest extends S.Class<DeleteAttributeMappin
   "DeleteAttributeMappingRequest",
 )(
   {
-    profileId: S.String.pipe(T.HttpLabel()),
+    profileId: S.String.pipe(T.HttpLabel("profileId")),
     certificateField: S.String.pipe(T.HttpQuery("certificateField")),
     specifiers: S.optional(SpecifierList).pipe(T.HttpQuery("specifiers")),
   },
@@ -474,7 +475,7 @@ export class DeleteAttributeMappingRequest extends S.Class<DeleteAttributeMappin
 export class ScalarSubjectRequest extends S.Class<ScalarSubjectRequest>(
   "ScalarSubjectRequest",
 )(
-  { subjectId: S.String.pipe(T.HttpLabel()) },
+  { subjectId: S.String.pipe(T.HttpLabel("subjectId")) },
   T.all(
     T.Http({ method: "GET", uri: "/subject/{subjectId}" }),
     svc,
@@ -487,7 +488,7 @@ export class ScalarSubjectRequest extends S.Class<ScalarSubjectRequest>(
 export class ScalarTrustAnchorRequest extends S.Class<ScalarTrustAnchorRequest>(
   "ScalarTrustAnchorRequest",
 )(
-  { trustAnchorId: S.String.pipe(T.HttpLabel()) },
+  { trustAnchorId: S.String.pipe(T.HttpLabel("trustAnchorId")) },
   T.all(
     T.Http({ method: "GET", uri: "/trustanchor/{trustAnchorId}" }),
     svc,
@@ -501,7 +502,7 @@ export class UpdateTrustAnchorRequest extends S.Class<UpdateTrustAnchorRequest>(
   "UpdateTrustAnchorRequest",
 )(
   {
-    trustAnchorId: S.String.pipe(T.HttpLabel()),
+    trustAnchorId: S.String.pipe(T.HttpLabel("trustAnchorId")),
     name: S.optional(S.String),
     source: S.optional(Source),
   },
@@ -612,7 +613,7 @@ export class PutAttributeMappingRequest extends S.Class<PutAttributeMappingReque
   "PutAttributeMappingRequest",
 )(
   {
-    profileId: S.String.pipe(T.HttpLabel()),
+    profileId: S.String.pipe(T.HttpLabel("profileId")),
     certificateField: S.String,
     mappingRules: MappingRules,
   },

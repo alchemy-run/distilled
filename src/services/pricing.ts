@@ -1,6 +1,7 @@
 import * as S from "effect/Schema";
 import * as API from "../api.ts";
 import * as T from "../traits.ts";
+import { ERROR_CATEGORIES, withCategory } from "../error-category.ts";
 const svc = T.AwsApiService({
   sdkId: "Pricing",
   serviceShapeName: "AWSPriceListService",
@@ -378,7 +379,8 @@ export class ExpiredNextTokenException extends S.TaggedError<ExpiredNextTokenExc
 export class InternalErrorException extends S.TaggedError<InternalErrorException>()(
   "InternalErrorException",
   { Message: S.optional(S.String) },
-) {}
+  T.Retryable(),
+).pipe(withCategory(ERROR_CATEGORIES.SERVER_ERROR)) {}
 export class InvalidParameterException extends S.TaggedError<InvalidParameterException>()(
   "InvalidParameterException",
   { Message: S.optional(S.String) },
@@ -398,7 +400,8 @@ export class ResourceNotFoundException extends S.TaggedError<ResourceNotFoundExc
 export class ThrottlingException extends S.TaggedError<ThrottlingException>()(
   "ThrottlingException",
   { Message: S.optional(S.String) },
-) {}
+  T.Retryable({ throttling: true }),
+).pipe(withCategory(ERROR_CATEGORIES.THROTTLING_ERROR)) {}
 
 //# Operations
 /**

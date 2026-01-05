@@ -1,6 +1,7 @@
 import * as S from "effect/Schema";
 import * as API from "../api.ts";
 import * as T from "../traits.ts";
+import { ERROR_CATEGORIES, withCategory } from "../error-category.ts";
 const svc = T.AwsApiService({
   sdkId: "Resource Groups",
   serviceShapeName: "Ardi",
@@ -336,7 +337,7 @@ export class GetGroupQueryInput extends S.Class<GetGroupQueryInput>(
   ),
 ) {}
 export class GetTagsInput extends S.Class<GetTagsInput>("GetTagsInput")(
-  { Arn: S.String.pipe(T.HttpLabel()) },
+  { Arn: S.String.pipe(T.HttpLabel("Arn")) },
   T.all(
     T.Http({ method: "GET", uri: "/resources/{Arn}/tags" }),
     svc,
@@ -445,7 +446,7 @@ export class StartTagSyncTaskInput extends S.Class<StartTagSyncTaskInput>(
 ) {}
 export const Tags = S.Record({ key: S.String, value: S.String });
 export class TagInput extends S.Class<TagInput>("TagInput")(
-  { Arn: S.String.pipe(T.HttpLabel()), Tags: Tags },
+  { Arn: S.String.pipe(T.HttpLabel("Arn")), Tags: Tags },
   T.all(
     T.Http({ method: "PUT", uri: "/resources/{Arn}/tags" }),
     svc,
@@ -469,7 +470,7 @@ export class UngroupResourcesInput extends S.Class<UngroupResourcesInput>(
   ),
 ) {}
 export class UntagInput extends S.Class<UntagInput>("UntagInput")(
-  { Arn: S.String.pipe(T.HttpLabel()), Keys: TagKeyList },
+  { Arn: S.String.pipe(T.HttpLabel("Arn")), Keys: TagKeyList },
   T.all(
     T.Http({ method: "PATCH", uri: "/resources/{Arn}/tags" }),
     svc,
@@ -872,7 +873,7 @@ export class ForbiddenException extends S.TaggedError<ForbiddenException>()(
 export class InternalServerErrorException extends S.TaggedError<InternalServerErrorException>()(
   "InternalServerErrorException",
   { Message: S.optional(S.String) },
-) {}
+).pipe(withCategory(ERROR_CATEGORIES.SERVER_ERROR)) {}
 export class MethodNotAllowedException extends S.TaggedError<MethodNotAllowedException>()(
   "MethodNotAllowedException",
   { Message: S.optional(S.String) },
@@ -880,7 +881,7 @@ export class MethodNotAllowedException extends S.TaggedError<MethodNotAllowedExc
 export class TooManyRequestsException extends S.TaggedError<TooManyRequestsException>()(
   "TooManyRequestsException",
   { Message: S.optional(S.String) },
-) {}
+).pipe(withCategory(ERROR_CATEGORIES.THROTTLING_ERROR)) {}
 export class NotFoundException extends S.TaggedError<NotFoundException>()(
   "NotFoundException",
   { Message: S.optional(S.String) },

@@ -1,6 +1,7 @@
 import * as S from "effect/Schema";
 import * as API from "../api.ts";
 import * as T from "../traits.ts";
+import { ERROR_CATEGORIES, withCategory } from "../error-category.ts";
 const svc = T.AwsApiService({
   sdkId: "NotificationsContacts",
   serviceShapeName: "NotificationsContacts",
@@ -125,7 +126,7 @@ export const TagKeys = S.Array(S.String);
 export class ListTagsForResourceRequest extends S.Class<ListTagsForResourceRequest>(
   "ListTagsForResourceRequest",
 )(
-  { arn: S.String.pipe(T.HttpLabel()) },
+  { arn: S.String.pipe(T.HttpLabel("arn")) },
   T.all(
     T.Http({ method: "GET", uri: "/tags/{arn}" }),
     svc,
@@ -139,7 +140,7 @@ export class UntagResourceRequest extends S.Class<UntagResourceRequest>(
   "UntagResourceRequest",
 )(
   {
-    arn: S.String.pipe(T.HttpLabel()),
+    arn: S.String.pipe(T.HttpLabel("arn")),
     tagKeys: TagKeys.pipe(T.HttpQuery("tagKeys")),
   },
   T.all(
@@ -171,7 +172,7 @@ export class CreateEmailContactRequest extends S.Class<CreateEmailContactRequest
 export class GetEmailContactRequest extends S.Class<GetEmailContactRequest>(
   "GetEmailContactRequest",
 )(
-  { arn: S.String.pipe(T.HttpLabel()) },
+  { arn: S.String.pipe(T.HttpLabel("arn")) },
   T.all(
     T.Http({ method: "GET", uri: "/emailcontacts/{arn}" }),
     svc,
@@ -184,7 +185,7 @@ export class GetEmailContactRequest extends S.Class<GetEmailContactRequest>(
 export class DeleteEmailContactRequest extends S.Class<DeleteEmailContactRequest>(
   "DeleteEmailContactRequest",
 )(
-  { arn: S.String.pipe(T.HttpLabel()) },
+  { arn: S.String.pipe(T.HttpLabel("arn")) },
   T.all(
     T.Http({ method: "DELETE", uri: "/emailcontacts/{arn}" }),
     svc,
@@ -216,7 +217,10 @@ export class ListEmailContactsRequest extends S.Class<ListEmailContactsRequest>(
 export class ActivateEmailContactRequest extends S.Class<ActivateEmailContactRequest>(
   "ActivateEmailContactRequest",
 )(
-  { arn: S.String.pipe(T.HttpLabel()), code: S.String.pipe(T.HttpLabel()) },
+  {
+    arn: S.String.pipe(T.HttpLabel("arn")),
+    code: S.String.pipe(T.HttpLabel("code")),
+  },
   T.all(
     T.Http({ method: "PUT", uri: "/emailcontacts/{arn}/activate/{code}" }),
     svc,
@@ -232,7 +236,7 @@ export class ActivateEmailContactResponse extends S.Class<ActivateEmailContactRe
 export class SendActivationCodeRequest extends S.Class<SendActivationCodeRequest>(
   "SendActivationCodeRequest",
 )(
-  { arn: S.String.pipe(T.HttpLabel()) },
+  { arn: S.String.pipe(T.HttpLabel("arn")) },
   T.all(
     T.Http({
       method: "POST",
@@ -263,7 +267,7 @@ export class ListTagsForResourceResponse extends S.Class<ListTagsForResourceResp
 export class TagResourceRequest extends S.Class<TagResourceRequest>(
   "TagResourceRequest",
 )(
-  { arn: S.String.pipe(T.HttpLabel()), tags: TagMap },
+  { arn: S.String.pipe(T.HttpLabel("arn")), tags: TagMap },
   T.all(
     T.Http({ method: "POST", uri: "/tags/{arn}" }),
     svc,
@@ -298,7 +302,8 @@ export class AccessDeniedException extends S.TaggedError<AccessDeniedException>(
 export class InternalServerException extends S.TaggedError<InternalServerException>()(
   "InternalServerException",
   { message: S.String },
-) {}
+  T.Retryable(),
+).pipe(withCategory(ERROR_CATEGORIES.SERVER_ERROR)) {}
 export class ConflictException extends S.TaggedError<ConflictException>()(
   "ConflictException",
   { message: S.String, resourceId: S.String, resourceType: S.String },
@@ -325,7 +330,8 @@ export class ThrottlingException extends S.TaggedError<ThrottlingException>()(
     quotaCode: S.optional(S.String),
     retryAfterSeconds: S.optional(S.Number).pipe(T.HttpHeader("Retry-After")),
   },
-) {}
+  T.Retryable({ throttling: true }),
+).pipe(withCategory(ERROR_CATEGORIES.THROTTLING_ERROR)) {}
 export class ValidationException extends S.TaggedError<ValidationException>()(
   "ValidationException",
   {

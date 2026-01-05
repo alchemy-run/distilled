@@ -1,6 +1,7 @@
 import * as S from "effect/Schema";
 import * as API from "../api.ts";
 import * as T from "../traits.ts";
+import { ERROR_CATEGORIES, withCategory } from "../error-category.ts";
 const ns = T.XmlNamespace("http://elasticache.amazonaws.com/doc/2015-02-02/");
 const svc = T.AwsApiService({
   sdkId: "ElastiCache",

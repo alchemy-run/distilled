@@ -546,6 +546,9 @@ interface ErrorShapeTraits {
     code: string;
     httpResponseCode: number;
   };
+  retryable?: {
+    throttling?: boolean;
+  };
 }
 
 //todo(pear): is this redundant over error in the file
@@ -565,7 +568,14 @@ function collectErrorShapeIds(
         const awsQueryError = errorShape?.traits?.[
           "aws.protocols#awsQueryError"
         ] as { code: string; httpResponseCode: number } | undefined;
-        errorShapeIds.set(error.target, { httpError, awsQueryError });
+        const retryable = errorShape?.traits?.["smithy.api#retryable"] as
+          | { throttling?: boolean }
+          | undefined;
+        errorShapeIds.set(error.target, {
+          httpError,
+          awsQueryError,
+          retryable,
+        });
       }
     }
   }
@@ -1397,6 +1407,7 @@ const addError = Effect.fn(function* (error: {
     // Get error traits for annotations
     const errorTraits = sdkFile.errorShapeIds.get(error.shapeId);
     const annotations: string[] = [];
+    const categories: string[] = [];
 
     // Add awsQueryError annotation if present
     if (errorTraits?.awsQueryError) {
@@ -1405,14 +1416,43 @@ const addError = Effect.fn(function* (error: {
       );
     }
 
-    // Build the class definition with optional annotations
-    const annotationsArg = annotations.length > 0 ? `, ${annotations[0]}` : "";
+    // Add retryable annotation if present (smithy.api#retryable)
+    if (errorTraits?.retryable) {
+      if (errorTraits.retryable.throttling) {
+        annotations.push(`T.Retryable({ throttling: true })`);
+      } else {
+        annotations.push(`T.Retryable()`);
+      }
+    }
+
+    // Add error categories based on HTTP status code
+    if (errorTraits?.httpError) {
+      if (errorTraits.httpError === 429) {
+        categories.push("ERROR_CATEGORIES.THROTTLING_ERROR");
+      } else if (errorTraits.httpError >= 500 && errorTraits.httpError < 600) {
+        categories.push("ERROR_CATEGORIES.SERVER_ERROR");
+      }
+    }
+
+    // Build the annotations argument (supports multiple via T.all)
+    let annotationsArg = "";
+    if (annotations.length === 1) {
+      annotationsArg = `, ${annotations[0]}`;
+    } else if (annotations.length > 1) {
+      annotationsArg = `, T.all(${annotations.join(", ")})`;
+    }
+
+    // Build the category pipe if needed
+    const categoryPipe =
+      categories.length > 0
+        ? `.pipe(withCategory(${categories.join(", ")}))`
+        : "";
 
     yield* Ref.update(sdkFile.errors, (errors) => [
       ...errors,
       {
         name: error.name,
-        definition: `export class ${error.name} extends S.TaggedError<${error.name}>()("${error.name}", ${fields}${annotationsArg}) {};`,
+        definition: `export class ${error.name} extends S.TaggedError<${error.name}>()("${error.name}", ${fields}${annotationsArg})${categoryPipe} {}`,
       },
     ]);
   }
@@ -1652,7 +1692,8 @@ const generateClient = Effect.fn(function* (
     const imports = dedent`
       import * as S from "effect/Schema";
       import * as API from "../api.ts";
-      import * as T from "../traits.ts";`;
+      import * as T from "../traits.ts";
+      import { ERROR_CATEGORIES, withCategory } from "../error-category.ts";`;
 
     // Define service-level constants
     const serviceConstants: string[] = [];

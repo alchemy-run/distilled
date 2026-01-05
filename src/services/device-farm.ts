@@ -1,6 +1,7 @@
 import * as S from "effect/Schema";
 import * as API from "../api.ts";
 import * as T from "../traits.ts";
+import { ERROR_CATEGORIES, withCategory } from "../error-category.ts";
 const ns = T.XmlNamespace("http://devicefarm.amazonaws.com/doc/2015-06-23/");
 const svc = T.AwsApiService({
   sdkId: "Device Farm",
@@ -1721,7 +1722,7 @@ export class NotFoundException extends S.TaggedError<NotFoundException>()(
 export class InternalServiceException extends S.TaggedError<InternalServiceException>()(
   "InternalServiceException",
   { message: S.optional(S.String) },
-) {}
+).pipe(withCategory(ERROR_CATEGORIES.SERVER_ERROR)) {}
 export class ServiceAccountException extends S.TaggedError<ServiceAccountException>()(
   "ServiceAccountException",
   { message: S.optional(S.String) },

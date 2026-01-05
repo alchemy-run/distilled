@@ -1,6 +1,7 @@
 import * as S from "effect/Schema";
 import * as API from "../api.ts";
 import * as T from "../traits.ts";
+import { ERROR_CATEGORIES, withCategory } from "../error-category.ts";
 const svc = T.AwsApiService({
   sdkId: "Launch Wizard",
   serviceShapeName: "LaunchWizard",
@@ -297,7 +298,7 @@ export const TagKeyList = S.Array(S.String);
 export class ListTagsForResourceInput extends S.Class<ListTagsForResourceInput>(
   "ListTagsForResourceInput",
 )(
-  { resourceArn: S.String.pipe(T.HttpLabel()) },
+  { resourceArn: S.String.pipe(T.HttpLabel("resourceArn")) },
   T.all(
     T.Http({ method: "GET", uri: "/tags/{resourceArn}" }),
     svc,
@@ -311,7 +312,7 @@ export class UntagResourceInput extends S.Class<UntagResourceInput>(
   "UntagResourceInput",
 )(
   {
-    resourceArn: S.String.pipe(T.HttpLabel()),
+    resourceArn: S.String.pipe(T.HttpLabel("resourceArn")),
     tagKeys: TagKeyList.pipe(T.HttpQuery("tagKeys")),
   },
   T.all(
@@ -441,7 +442,7 @@ export class ListTagsForResourceOutput extends S.Class<ListTagsForResourceOutput
 export class TagResourceInput extends S.Class<TagResourceInput>(
   "TagResourceInput",
 )(
-  { resourceArn: S.String.pipe(T.HttpLabel()), tags: Tags },
+  { resourceArn: S.String.pipe(T.HttpLabel("resourceArn")), tags: Tags },
   T.all(
     T.Http({ method: "POST", uri: "/tags/{resourceArn}" }),
     svc,
@@ -635,7 +636,7 @@ export class GetWorkloadDeploymentPatternOutput extends S.Class<GetWorkloadDeplo
 export class InternalServerException extends S.TaggedError<InternalServerException>()(
   "InternalServerException",
   { message: S.optional(S.String) },
-) {}
+).pipe(withCategory(ERROR_CATEGORIES.SERVER_ERROR)) {}
 export class ResourceNotFoundException extends S.TaggedError<ResourceNotFoundException>()(
   "ResourceNotFoundException",
   { message: S.optional(S.String) },

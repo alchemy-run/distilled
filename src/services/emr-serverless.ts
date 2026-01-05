@@ -1,6 +1,7 @@
 import * as S from "effect/Schema";
 import * as API from "../api.ts";
 import * as T from "../traits.ts";
+import { ERROR_CATEGORIES, withCategory } from "../error-category.ts";
 const svc = T.AwsApiService({
   sdkId: "EMR Serverless",
   serviceShapeName: "AwsToledoWebService",
@@ -247,7 +248,7 @@ export const JobRunStateSet = S.Array(S.String);
 export class ListTagsForResourceRequest extends S.Class<ListTagsForResourceRequest>(
   "ListTagsForResourceRequest",
 )(
-  { resourceArn: S.String.pipe(T.HttpLabel()) },
+  { resourceArn: S.String.pipe(T.HttpLabel("resourceArn")) },
   T.all(
     T.Http({ method: "GET", uri: "/tags/{resourceArn}" }),
     svc,
@@ -261,7 +262,7 @@ export class UntagResourceRequest extends S.Class<UntagResourceRequest>(
   "UntagResourceRequest",
 )(
   {
-    resourceArn: S.String.pipe(T.HttpLabel()),
+    resourceArn: S.String.pipe(T.HttpLabel("resourceArn")),
     tagKeys: TagKeyList.pipe(T.HttpQuery("tagKeys")),
   },
   T.all(
@@ -279,7 +280,7 @@ export class UntagResourceResponse extends S.Class<UntagResourceResponse>(
 export class GetApplicationRequest extends S.Class<GetApplicationRequest>(
   "GetApplicationRequest",
 )(
-  { applicationId: S.String.pipe(T.HttpLabel()) },
+  { applicationId: S.String.pipe(T.HttpLabel("applicationId")) },
   T.all(
     T.Http({ method: "GET", uri: "/applications/{applicationId}" }),
     svc,
@@ -396,7 +397,7 @@ export class UpdateApplicationRequest extends S.Class<UpdateApplicationRequest>(
   "UpdateApplicationRequest",
 )(
   {
-    applicationId: S.String.pipe(T.HttpLabel()),
+    applicationId: S.String.pipe(T.HttpLabel("applicationId")),
     clientToken: S.String,
     initialCapacity: S.optional(InitialCapacityConfigMap),
     maximumCapacity: S.optional(MaximumAllowedResources),
@@ -428,7 +429,7 @@ export class UpdateApplicationRequest extends S.Class<UpdateApplicationRequest>(
 export class DeleteApplicationRequest extends S.Class<DeleteApplicationRequest>(
   "DeleteApplicationRequest",
 )(
-  { applicationId: S.String.pipe(T.HttpLabel()) },
+  { applicationId: S.String.pipe(T.HttpLabel("applicationId")) },
   T.all(
     T.Http({ method: "DELETE", uri: "/applications/{applicationId}" }),
     svc,
@@ -461,7 +462,7 @@ export class ListApplicationsRequest extends S.Class<ListApplicationsRequest>(
 export class StartApplicationRequest extends S.Class<StartApplicationRequest>(
   "StartApplicationRequest",
 )(
-  { applicationId: S.String.pipe(T.HttpLabel()) },
+  { applicationId: S.String.pipe(T.HttpLabel("applicationId")) },
   T.all(
     T.Http({ method: "POST", uri: "/applications/{applicationId}/start" }),
     svc,
@@ -477,7 +478,7 @@ export class StartApplicationResponse extends S.Class<StartApplicationResponse>(
 export class StopApplicationRequest extends S.Class<StopApplicationRequest>(
   "StopApplicationRequest",
 )(
-  { applicationId: S.String.pipe(T.HttpLabel()) },
+  { applicationId: S.String.pipe(T.HttpLabel("applicationId")) },
   T.all(
     T.Http({ method: "POST", uri: "/applications/{applicationId}/stop" }),
     svc,
@@ -494,8 +495,8 @@ export class GetJobRunRequest extends S.Class<GetJobRunRequest>(
   "GetJobRunRequest",
 )(
   {
-    applicationId: S.String.pipe(T.HttpLabel()),
-    jobRunId: S.String.pipe(T.HttpLabel()),
+    applicationId: S.String.pipe(T.HttpLabel("applicationId")),
+    jobRunId: S.String.pipe(T.HttpLabel("jobRunId")),
     attempt: S.optional(S.Number).pipe(T.HttpQuery("attempt")),
   },
   T.all(
@@ -514,8 +515,8 @@ export class CancelJobRunRequest extends S.Class<CancelJobRunRequest>(
   "CancelJobRunRequest",
 )(
   {
-    applicationId: S.String.pipe(T.HttpLabel()),
-    jobRunId: S.String.pipe(T.HttpLabel()),
+    applicationId: S.String.pipe(T.HttpLabel("applicationId")),
+    jobRunId: S.String.pipe(T.HttpLabel("jobRunId")),
     shutdownGracePeriodInSeconds: S.optional(S.Number).pipe(
       T.HttpQuery("shutdownGracePeriodInSeconds"),
     ),
@@ -536,7 +537,7 @@ export class ListJobRunsRequest extends S.Class<ListJobRunsRequest>(
   "ListJobRunsRequest",
 )(
   {
-    applicationId: S.String.pipe(T.HttpLabel()),
+    applicationId: S.String.pipe(T.HttpLabel("applicationId")),
     nextToken: S.optional(S.String).pipe(T.HttpQuery("nextToken")),
     maxResults: S.optional(S.Number).pipe(T.HttpQuery("maxResults")),
     createdAtAfter: S.optional(
@@ -561,8 +562,8 @@ export class GetDashboardForJobRunRequest extends S.Class<GetDashboardForJobRunR
   "GetDashboardForJobRunRequest",
 )(
   {
-    applicationId: S.String.pipe(T.HttpLabel()),
-    jobRunId: S.String.pipe(T.HttpLabel()),
+    applicationId: S.String.pipe(T.HttpLabel("applicationId")),
+    jobRunId: S.String.pipe(T.HttpLabel("jobRunId")),
     attempt: S.optional(S.Number).pipe(T.HttpQuery("attempt")),
     accessSystemProfileLogs: S.optional(S.Boolean).pipe(
       T.HttpQuery("accessSystemProfileLogs"),
@@ -584,8 +585,8 @@ export class ListJobRunAttemptsRequest extends S.Class<ListJobRunAttemptsRequest
   "ListJobRunAttemptsRequest",
 )(
   {
-    applicationId: S.String.pipe(T.HttpLabel()),
-    jobRunId: S.String.pipe(T.HttpLabel()),
+    applicationId: S.String.pipe(T.HttpLabel("applicationId")),
+    jobRunId: S.String.pipe(T.HttpLabel("jobRunId")),
     nextToken: S.optional(S.String).pipe(T.HttpQuery("nextToken")),
     maxResults: S.optional(S.Number).pipe(T.HttpQuery("maxResults")),
   },
@@ -623,7 +624,7 @@ export class ListTagsForResourceResponse extends S.Class<ListTagsForResourceResp
 export class TagResourceRequest extends S.Class<TagResourceRequest>(
   "TagResourceRequest",
 )(
-  { resourceArn: S.String.pipe(T.HttpLabel()), tags: TagMap },
+  { resourceArn: S.String.pipe(T.HttpLabel("resourceArn")), tags: TagMap },
   T.all(
     T.Http({ method: "POST", uri: "/tags/{resourceArn}" }),
     svc,
@@ -774,7 +775,7 @@ export class StartJobRunRequest extends S.Class<StartJobRunRequest>(
   "StartJobRunRequest",
 )(
   {
-    applicationId: S.String.pipe(T.HttpLabel()),
+    applicationId: S.String.pipe(T.HttpLabel("applicationId")),
     clientToken: S.String,
     executionRoleArn: S.String,
     executionIamPolicy: S.optional(JobRunExecutionIamPolicy),
@@ -897,7 +898,7 @@ export class GetApplicationResponse extends S.Class<GetApplicationResponse>(
 export class InternalServerException extends S.TaggedError<InternalServerException>()(
   "InternalServerException",
   { message: S.String },
-) {}
+).pipe(withCategory(ERROR_CATEGORIES.SERVER_ERROR)) {}
 export class ResourceNotFoundException extends S.TaggedError<ResourceNotFoundException>()(
   "ResourceNotFoundException",
   { message: S.String },

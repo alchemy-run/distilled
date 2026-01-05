@@ -1,6 +1,7 @@
 import * as S from "effect/Schema";
 import * as API from "../api.ts";
 import * as T from "../traits.ts";
+import { ERROR_CATEGORIES, withCategory } from "../error-category.ts";
 const svc = T.AwsApiService({
   sdkId: "Timestream InfluxDB",
   serviceShapeName: "AmazonTimestreamInfluxDB",
@@ -306,7 +307,7 @@ export class ListTagsForResourceRequest extends S.Class<ListTagsForResourceReque
 export class UntagResourceRequest extends S.Class<UntagResourceRequest>(
   "UntagResourceRequest",
 )(
-  { resourceArn: S.String.pipe(T.HttpLabel()), tagKeys: TagKeys },
+  { resourceArn: S.String.pipe(T.HttpLabel("resourceArn")), tagKeys: TagKeys },
   T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
 ) {}
 export class UntagResourceResponse extends S.Class<UntagResourceResponse>(
@@ -923,7 +924,8 @@ export class ServiceQuotaExceededException extends S.TaggedError<ServiceQuotaExc
 export class InternalServerException extends S.TaggedError<InternalServerException>()(
   "InternalServerException",
   { message: S.String },
-) {}
+  T.Retryable(),
+).pipe(withCategory(ERROR_CATEGORIES.SERVER_ERROR)) {}
 export class ConflictException extends S.TaggedError<ConflictException>()(
   "ConflictException",
   { message: S.String, resourceId: S.String, resourceType: S.String },
@@ -934,7 +936,8 @@ export class ThrottlingException extends S.TaggedError<ThrottlingException>()(
     message: S.String,
     retryAfterSeconds: S.optional(S.Number).pipe(T.HttpHeader("Retry-After")),
   },
-) {}
+  T.Retryable(),
+).pipe(withCategory(ERROR_CATEGORIES.THROTTLING_ERROR)) {}
 export class ValidationException extends S.TaggedError<ValidationException>()(
   "ValidationException",
   { message: S.String, reason: S.String },

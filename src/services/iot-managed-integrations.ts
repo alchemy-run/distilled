@@ -1,6 +1,7 @@
 import * as S from "effect/Schema";
 import * as API from "../api.ts";
 import * as T from "../traits.ts";
+import { ERROR_CATEGORIES, withCategory } from "../error-category.ts";
 const svc = T.AwsApiService({
   sdkId: "IoT Managed Integrations",
   serviceShapeName: "IotManagedIntegrations",
@@ -165,7 +166,7 @@ export class GetCustomEndpointResponse extends S.Class<GetCustomEndpointResponse
 export class ListTagsForResourceRequest extends S.Class<ListTagsForResourceRequest>(
   "ListTagsForResourceRequest",
 )(
-  { ResourceArn: S.String.pipe(T.HttpLabel()) },
+  { ResourceArn: S.String.pipe(T.HttpLabel("ResourceArn")) },
   T.all(
     T.Http({ method: "GET", uri: "/tags/{ResourceArn}" }),
     svc,
@@ -182,7 +183,7 @@ export class UntagResourceRequest extends S.Class<UntagResourceRequest>(
   "UntagResourceRequest",
 )(
   {
-    ResourceArn: S.String.pipe(T.HttpLabel()),
+    ResourceArn: S.String.pipe(T.HttpLabel("ResourceArn")),
     TagKeys: TagKeyList.pipe(T.HttpQuery("tagKeys")),
   },
   T.all(
@@ -220,7 +221,7 @@ export class CreateAccountAssociationRequest extends S.Class<CreateAccountAssoci
 export class GetAccountAssociationRequest extends S.Class<GetAccountAssociationRequest>(
   "GetAccountAssociationRequest",
 )(
-  { AccountAssociationId: S.String.pipe(T.HttpLabel()) },
+  { AccountAssociationId: S.String.pipe(T.HttpLabel("AccountAssociationId")) },
   T.all(
     T.Http({
       method: "GET",
@@ -237,7 +238,7 @@ export class UpdateAccountAssociationRequest extends S.Class<UpdateAccountAssoci
   "UpdateAccountAssociationRequest",
 )(
   {
-    AccountAssociationId: S.String.pipe(T.HttpLabel()),
+    AccountAssociationId: S.String.pipe(T.HttpLabel("AccountAssociationId")),
     Name: S.optional(S.String),
     Description: S.optional(S.String),
   },
@@ -259,7 +260,7 @@ export class UpdateAccountAssociationResponse extends S.Class<UpdateAccountAssoc
 export class DeleteAccountAssociationRequest extends S.Class<DeleteAccountAssociationRequest>(
   "DeleteAccountAssociationRequest",
 )(
-  { AccountAssociationId: S.String.pipe(T.HttpLabel()) },
+  { AccountAssociationId: S.String.pipe(T.HttpLabel("AccountAssociationId")) },
   T.all(
     T.Http({
       method: "DELETE",
@@ -297,7 +298,7 @@ export class ListAccountAssociationsRequest extends S.Class<ListAccountAssociati
 export class StartAccountAssociationRefreshRequest extends S.Class<StartAccountAssociationRefreshRequest>(
   "StartAccountAssociationRefreshRequest",
 )(
-  { AccountAssociationId: S.String.pipe(T.HttpLabel()) },
+  { AccountAssociationId: S.String.pipe(T.HttpLabel("AccountAssociationId")) },
   T.all(
     T.Http({
       method: "POST",
@@ -313,7 +314,7 @@ export class StartAccountAssociationRefreshRequest extends S.Class<StartAccountA
 export class GetCloudConnectorRequest extends S.Class<GetCloudConnectorRequest>(
   "GetCloudConnectorRequest",
 )(
-  { Identifier: S.String.pipe(T.HttpLabel()) },
+  { Identifier: S.String.pipe(T.HttpLabel("Identifier")) },
   T.all(
     T.Http({ method: "GET", uri: "/cloud-connectors/{Identifier}" }),
     svc,
@@ -327,7 +328,7 @@ export class UpdateCloudConnectorRequest extends S.Class<UpdateCloudConnectorReq
   "UpdateCloudConnectorRequest",
 )(
   {
-    Identifier: S.String.pipe(T.HttpLabel()),
+    Identifier: S.String.pipe(T.HttpLabel("Identifier")),
     Name: S.optional(S.String),
     Description: S.optional(S.String),
   },
@@ -346,7 +347,7 @@ export class UpdateCloudConnectorResponse extends S.Class<UpdateCloudConnectorRe
 export class DeleteCloudConnectorRequest extends S.Class<DeleteCloudConnectorRequest>(
   "DeleteCloudConnectorRequest",
 )(
-  { Identifier: S.String.pipe(T.HttpLabel()) },
+  { Identifier: S.String.pipe(T.HttpLabel("Identifier")) },
   T.all(
     T.Http({ method: "DELETE", uri: "/cloud-connectors/{Identifier}" }),
     svc,
@@ -380,7 +381,7 @@ export class ListCloudConnectorsRequest extends S.Class<ListCloudConnectorsReque
 export class GetConnectorDestinationRequest extends S.Class<GetConnectorDestinationRequest>(
   "GetConnectorDestinationRequest",
 )(
-  { Identifier: S.String.pipe(T.HttpLabel()) },
+  { Identifier: S.String.pipe(T.HttpLabel("Identifier")) },
   T.all(
     T.Http({ method: "GET", uri: "/connector-destinations/{Identifier}" }),
     svc,
@@ -393,7 +394,7 @@ export class GetConnectorDestinationRequest extends S.Class<GetConnectorDestinat
 export class DeleteConnectorDestinationRequest extends S.Class<DeleteConnectorDestinationRequest>(
   "DeleteConnectorDestinationRequest",
 )(
-  { Identifier: S.String.pipe(T.HttpLabel()) },
+  { Identifier: S.String.pipe(T.HttpLabel("Identifier")) },
   T.all(
     T.Http({ method: "DELETE", uri: "/connector-destinations/{Identifier}" }),
     svc,
@@ -445,7 +446,7 @@ export class CreateCredentialLockerRequest extends S.Class<CreateCredentialLocke
 export class GetCredentialLockerRequest extends S.Class<GetCredentialLockerRequest>(
   "GetCredentialLockerRequest",
 )(
-  { Identifier: S.String.pipe(T.HttpLabel()) },
+  { Identifier: S.String.pipe(T.HttpLabel("Identifier")) },
   T.all(
     T.Http({ method: "GET", uri: "/credential-lockers/{Identifier}" }),
     svc,
@@ -458,7 +459,7 @@ export class GetCredentialLockerRequest extends S.Class<GetCredentialLockerReque
 export class DeleteCredentialLockerRequest extends S.Class<DeleteCredentialLockerRequest>(
   "DeleteCredentialLockerRequest",
 )(
-  { Identifier: S.String.pipe(T.HttpLabel()) },
+  { Identifier: S.String.pipe(T.HttpLabel("Identifier")) },
   T.all(
     T.Http({ method: "DELETE", uri: "/credential-lockers/{Identifier}" }),
     svc,
@@ -511,7 +512,7 @@ export class CreateDestinationRequest extends S.Class<CreateDestinationRequest>(
 export class DeleteDestinationRequest extends S.Class<DeleteDestinationRequest>(
   "DeleteDestinationRequest",
 )(
-  { Name: S.String.pipe(T.HttpLabel()) },
+  { Name: S.String.pipe(T.HttpLabel("Name")) },
   T.all(
     T.Http({ method: "DELETE", uri: "/destinations/{Name}" }),
     svc,
@@ -527,7 +528,7 @@ export class DeleteDestinationResponse extends S.Class<DeleteDestinationResponse
 export class GetDestinationRequest extends S.Class<GetDestinationRequest>(
   "GetDestinationRequest",
 )(
-  { Name: S.String.pipe(T.HttpLabel()) },
+  { Name: S.String.pipe(T.HttpLabel("Name")) },
   T.all(
     T.Http({ method: "GET", uri: "/destinations/{Name}" }),
     svc,
@@ -557,7 +558,7 @@ export class UpdateDestinationRequest extends S.Class<UpdateDestinationRequest>(
   "UpdateDestinationRequest",
 )(
   {
-    Name: S.String.pipe(T.HttpLabel()),
+    Name: S.String.pipe(T.HttpLabel("Name")),
     DeliveryDestinationArn: S.optional(S.String),
     DeliveryDestinationType: S.optional(S.String),
     RoleArn: S.optional(S.String),
@@ -578,7 +579,7 @@ export class UpdateDestinationResponse extends S.Class<UpdateDestinationResponse
 export class GetDeviceDiscoveryRequest extends S.Class<GetDeviceDiscoveryRequest>(
   "GetDeviceDiscoveryRequest",
 )(
-  { Identifier: S.String.pipe(T.HttpLabel()) },
+  { Identifier: S.String.pipe(T.HttpLabel("Identifier")) },
   T.all(
     T.Http({ method: "GET", uri: "/device-discoveries/{Identifier}" }),
     svc,
@@ -610,7 +611,7 @@ export class ListDiscoveredDevicesRequest extends S.Class<ListDiscoveredDevicesR
   "ListDiscoveredDevicesRequest",
 )(
   {
-    Identifier: S.String.pipe(T.HttpLabel()),
+    Identifier: S.String.pipe(T.HttpLabel("Identifier")),
     NextToken: S.optional(S.String).pipe(T.HttpQuery("NextToken")),
     MaxResults: S.optional(S.Number).pipe(T.HttpQuery("MaxResults")),
   },
@@ -644,7 +645,7 @@ export class CreateEventLogConfigurationRequest extends S.Class<CreateEventLogCo
 export class DeleteEventLogConfigurationRequest extends S.Class<DeleteEventLogConfigurationRequest>(
   "DeleteEventLogConfigurationRequest",
 )(
-  { Id: S.String.pipe(T.HttpLabel()) },
+  { Id: S.String.pipe(T.HttpLabel("Id")) },
   T.all(
     T.Http({ method: "DELETE", uri: "/event-log-configurations/{Id}" }),
     svc,
@@ -660,7 +661,7 @@ export class DeleteEventLogConfigurationResponse extends S.Class<DeleteEventLogC
 export class GetEventLogConfigurationRequest extends S.Class<GetEventLogConfigurationRequest>(
   "GetEventLogConfigurationRequest",
 )(
-  { Id: S.String.pipe(T.HttpLabel()) },
+  { Id: S.String.pipe(T.HttpLabel("Id")) },
   T.all(
     T.Http({ method: "GET", uri: "/event-log-configurations/{Id}" }),
     svc,
@@ -689,7 +690,7 @@ export class ListEventLogConfigurationsRequest extends S.Class<ListEventLogConfi
 export class UpdateEventLogConfigurationRequest extends S.Class<UpdateEventLogConfigurationRequest>(
   "UpdateEventLogConfigurationRequest",
 )(
-  { Id: S.String.pipe(T.HttpLabel()), EventLogLevel: S.String },
+  { Id: S.String.pipe(T.HttpLabel("Id")), EventLogLevel: S.String },
   T.all(
     T.Http({ method: "PATCH", uri: "/event-log-configurations/{Id}" }),
     svc,
@@ -790,7 +791,7 @@ export class RegisterAccountAssociationRequest extends S.Class<RegisterAccountAs
 export class GetManagedThingRequest extends S.Class<GetManagedThingRequest>(
   "GetManagedThingRequest",
 )(
-  { Identifier: S.String.pipe(T.HttpLabel()) },
+  { Identifier: S.String.pipe(T.HttpLabel("Identifier")) },
   T.all(
     T.Http({ method: "GET", uri: "/managed-things/{Identifier}" }),
     svc,
@@ -845,7 +846,7 @@ export class UpdateManagedThingRequest extends S.Class<UpdateManagedThingRequest
   "UpdateManagedThingRequest",
 )(
   {
-    Identifier: S.String.pipe(T.HttpLabel()),
+    Identifier: S.String.pipe(T.HttpLabel("Identifier")),
     Owner: S.optional(S.String),
     CredentialLockerId: S.optional(S.String),
     SerialNumber: S.optional(S.String),
@@ -875,7 +876,7 @@ export class DeleteManagedThingRequest extends S.Class<DeleteManagedThingRequest
   "DeleteManagedThingRequest",
 )(
   {
-    Identifier: S.String.pipe(T.HttpLabel()),
+    Identifier: S.String.pipe(T.HttpLabel("Identifier")),
     Force: S.optional(S.Boolean).pipe(T.HttpQuery("Force")),
   },
   T.all(
@@ -932,7 +933,7 @@ export class ListManagedThingsRequest extends S.Class<ListManagedThingsRequest>(
 export class GetManagedThingCapabilitiesRequest extends S.Class<GetManagedThingCapabilitiesRequest>(
   "GetManagedThingCapabilitiesRequest",
 )(
-  { Identifier: S.String.pipe(T.HttpLabel()) },
+  { Identifier: S.String.pipe(T.HttpLabel("Identifier")) },
   T.all(
     T.Http({ method: "GET", uri: "/managed-things-capabilities/{Identifier}" }),
     svc,
@@ -945,7 +946,7 @@ export class GetManagedThingCapabilitiesRequest extends S.Class<GetManagedThingC
 export class GetManagedThingCertificateRequest extends S.Class<GetManagedThingCertificateRequest>(
   "GetManagedThingCertificateRequest",
 )(
-  { Identifier: S.String.pipe(T.HttpLabel()) },
+  { Identifier: S.String.pipe(T.HttpLabel("Identifier")) },
   T.all(
     T.Http({ method: "GET", uri: "/managed-things-certificate/{Identifier}" }),
     svc,
@@ -958,7 +959,7 @@ export class GetManagedThingCertificateRequest extends S.Class<GetManagedThingCe
 export class GetManagedThingConnectivityDataRequest extends S.Class<GetManagedThingConnectivityDataRequest>(
   "GetManagedThingConnectivityDataRequest",
 )(
-  { Identifier: S.String.pipe(T.HttpLabel()) },
+  { Identifier: S.String.pipe(T.HttpLabel("Identifier")) },
   T.all(
     T.Http({
       method: "POST",
@@ -974,7 +975,7 @@ export class GetManagedThingConnectivityDataRequest extends S.Class<GetManagedTh
 export class GetManagedThingMetaDataRequest extends S.Class<GetManagedThingMetaDataRequest>(
   "GetManagedThingMetaDataRequest",
 )(
-  { Identifier: S.String.pipe(T.HttpLabel()) },
+  { Identifier: S.String.pipe(T.HttpLabel("Identifier")) },
   T.all(
     T.Http({ method: "GET", uri: "/managed-things-metadata/{Identifier}" }),
     svc,
@@ -988,7 +989,7 @@ export class ListManagedThingSchemasRequest extends S.Class<ListManagedThingSche
   "ListManagedThingSchemasRequest",
 )(
   {
-    Identifier: S.String.pipe(T.HttpLabel()),
+    Identifier: S.String.pipe(T.HttpLabel("Identifier")),
     EndpointIdFilter: S.optional(S.String).pipe(
       T.HttpQuery("EndpointIdFilter"),
     ),
@@ -1010,7 +1011,7 @@ export class ListManagedThingSchemasRequest extends S.Class<ListManagedThingSche
 export class GetManagedThingStateRequest extends S.Class<GetManagedThingStateRequest>(
   "GetManagedThingStateRequest",
 )(
-  { ManagedThingId: S.String.pipe(T.HttpLabel()) },
+  { ManagedThingId: S.String.pipe(T.HttpLabel("ManagedThingId")) },
   T.all(
     T.Http({ method: "GET", uri: "/managed-thing-states/{ManagedThingId}" }),
     svc,
@@ -1041,7 +1042,7 @@ export class CreateNotificationConfigurationRequest extends S.Class<CreateNotifi
 export class DeleteNotificationConfigurationRequest extends S.Class<DeleteNotificationConfigurationRequest>(
   "DeleteNotificationConfigurationRequest",
 )(
-  { EventType: S.String.pipe(T.HttpLabel()) },
+  { EventType: S.String.pipe(T.HttpLabel("EventType")) },
   T.all(
     T.Http({
       method: "DELETE",
@@ -1060,7 +1061,7 @@ export class DeleteNotificationConfigurationResponse extends S.Class<DeleteNotif
 export class GetNotificationConfigurationRequest extends S.Class<GetNotificationConfigurationRequest>(
   "GetNotificationConfigurationRequest",
 )(
-  { EventType: S.String.pipe(T.HttpLabel()) },
+  { EventType: S.String.pipe(T.HttpLabel("EventType")) },
   T.all(
     T.Http({ method: "GET", uri: "/notification-configurations/{EventType}" }),
     svc,
@@ -1089,7 +1090,10 @@ export class ListNotificationConfigurationsRequest extends S.Class<ListNotificat
 export class UpdateNotificationConfigurationRequest extends S.Class<UpdateNotificationConfigurationRequest>(
   "UpdateNotificationConfigurationRequest",
 )(
-  { EventType: S.String.pipe(T.HttpLabel()), DestinationName: S.String },
+  {
+    EventType: S.String.pipe(T.HttpLabel("EventType")),
+    DestinationName: S.String,
+  },
   T.all(
     T.Http({ method: "PUT", uri: "/notification-configurations/{EventType}" }),
     svc,
@@ -1105,7 +1109,7 @@ export class UpdateNotificationConfigurationResponse extends S.Class<UpdateNotif
 export class DeleteOtaTaskConfigurationRequest extends S.Class<DeleteOtaTaskConfigurationRequest>(
   "DeleteOtaTaskConfigurationRequest",
 )(
-  { Identifier: S.String.pipe(T.HttpLabel()) },
+  { Identifier: S.String.pipe(T.HttpLabel("Identifier")) },
   T.all(
     T.Http({ method: "DELETE", uri: "/ota-task-configurations/{Identifier}" }),
     svc,
@@ -1121,7 +1125,7 @@ export class DeleteOtaTaskConfigurationResponse extends S.Class<DeleteOtaTaskCon
 export class GetOtaTaskConfigurationRequest extends S.Class<GetOtaTaskConfigurationRequest>(
   "GetOtaTaskConfigurationRequest",
 )(
-  { Identifier: S.String.pipe(T.HttpLabel()) },
+  { Identifier: S.String.pipe(T.HttpLabel("Identifier")) },
   T.all(
     T.Http({ method: "GET", uri: "/ota-task-configurations/{Identifier}" }),
     svc,
@@ -1150,7 +1154,7 @@ export class ListOtaTaskConfigurationsRequest extends S.Class<ListOtaTaskConfigu
 export class GetOtaTaskRequest extends S.Class<GetOtaTaskRequest>(
   "GetOtaTaskRequest",
 )(
-  { Identifier: S.String.pipe(T.HttpLabel()) },
+  { Identifier: S.String.pipe(T.HttpLabel("Identifier")) },
   T.all(
     T.Http({ method: "GET", uri: "/ota-tasks/{Identifier}" }),
     svc,
@@ -1164,7 +1168,7 @@ export class UpdateOtaTaskRequest extends S.Class<UpdateOtaTaskRequest>(
   "UpdateOtaTaskRequest",
 )(
   {
-    Identifier: S.String.pipe(T.HttpLabel()),
+    Identifier: S.String.pipe(T.HttpLabel("Identifier")),
     Description: S.optional(S.String),
     TaskConfigurationId: S.optional(S.String),
   },
@@ -1183,7 +1187,7 @@ export class UpdateOtaTaskResponse extends S.Class<UpdateOtaTaskResponse>(
 export class DeleteOtaTaskRequest extends S.Class<DeleteOtaTaskRequest>(
   "DeleteOtaTaskRequest",
 )(
-  { Identifier: S.String.pipe(T.HttpLabel()) },
+  { Identifier: S.String.pipe(T.HttpLabel("Identifier")) },
   T.all(
     T.Http({ method: "DELETE", uri: "/ota-tasks/{Identifier}" }),
     svc,
@@ -1216,7 +1220,7 @@ export class ListOtaTaskExecutionsRequest extends S.Class<ListOtaTaskExecutionsR
   "ListOtaTaskExecutionsRequest",
 )(
   {
-    Identifier: S.String.pipe(T.HttpLabel()),
+    Identifier: S.String.pipe(T.HttpLabel("Identifier")),
     NextToken: S.optional(S.String).pipe(T.HttpQuery("NextToken")),
     MaxResults: S.optional(S.Number).pipe(T.HttpQuery("MaxResults")),
   },
@@ -1251,7 +1255,7 @@ export class CreateProvisioningProfileRequest extends S.Class<CreateProvisioning
 export class GetProvisioningProfileRequest extends S.Class<GetProvisioningProfileRequest>(
   "GetProvisioningProfileRequest",
 )(
-  { Identifier: S.String.pipe(T.HttpLabel()) },
+  { Identifier: S.String.pipe(T.HttpLabel("Identifier")) },
   T.all(
     T.Http({ method: "GET", uri: "/provisioning-profiles/{Identifier}" }),
     svc,
@@ -1264,7 +1268,7 @@ export class GetProvisioningProfileRequest extends S.Class<GetProvisioningProfil
 export class DeleteProvisioningProfileRequest extends S.Class<DeleteProvisioningProfileRequest>(
   "DeleteProvisioningProfileRequest",
 )(
-  { Identifier: S.String.pipe(T.HttpLabel()) },
+  { Identifier: S.String.pipe(T.HttpLabel("Identifier")) },
   T.all(
     T.Http({ method: "DELETE", uri: "/provisioning-profiles/{Identifier}" }),
     svc,
@@ -1296,7 +1300,7 @@ export class ListProvisioningProfilesRequest extends S.Class<ListProvisioningPro
 export class GetRuntimeLogConfigurationRequest extends S.Class<GetRuntimeLogConfigurationRequest>(
   "GetRuntimeLogConfigurationRequest",
 )(
-  { ManagedThingId: S.String.pipe(T.HttpLabel()) },
+  { ManagedThingId: S.String.pipe(T.HttpLabel("ManagedThingId")) },
   T.all(
     T.Http({
       method: "GET",
@@ -1312,7 +1316,7 @@ export class GetRuntimeLogConfigurationRequest extends S.Class<GetRuntimeLogConf
 export class ResetRuntimeLogConfigurationRequest extends S.Class<ResetRuntimeLogConfigurationRequest>(
   "ResetRuntimeLogConfigurationRequest",
 )(
-  { ManagedThingId: S.String.pipe(T.HttpLabel()) },
+  { ManagedThingId: S.String.pipe(T.HttpLabel("ManagedThingId")) },
   T.all(
     T.Http({
       method: "DELETE",
@@ -1332,8 +1336,8 @@ export class GetSchemaVersionRequest extends S.Class<GetSchemaVersionRequest>(
   "GetSchemaVersionRequest",
 )(
   {
-    Type: S.String.pipe(T.HttpLabel()),
-    SchemaVersionedId: S.String.pipe(T.HttpLabel()),
+    Type: S.String.pipe(T.HttpLabel("Type")),
+    SchemaVersionedId: S.String.pipe(T.HttpLabel("SchemaVersionedId")),
     Format: S.optional(S.String).pipe(T.HttpQuery("Format")),
   },
   T.all(
@@ -1352,7 +1356,7 @@ export class ListSchemaVersionsRequest extends S.Class<ListSchemaVersionsRequest
   "ListSchemaVersionsRequest",
 )(
   {
-    Type: S.String.pipe(T.HttpLabel()),
+    Type: S.String.pipe(T.HttpLabel("Type")),
     MaxResults: S.optional(S.Number).pipe(T.HttpQuery("MaxResults")),
     NextToken: S.optional(S.String).pipe(T.HttpQuery("NextToken")),
     SchemaId: S.optional(S.String).pipe(T.HttpQuery("SchemaIdFilter")),
@@ -1397,7 +1401,7 @@ export class ListTagsForResourceResponse extends S.Class<ListTagsForResourceResp
 export class TagResourceRequest extends S.Class<TagResourceRequest>(
   "TagResourceRequest",
 )(
-  { ResourceArn: S.String.pipe(T.HttpLabel()), Tags: TagsMap },
+  { ResourceArn: S.String.pipe(T.HttpLabel("ResourceArn")), Tags: TagsMap },
   T.all(
     T.Http({ method: "POST", uri: "/tags/{ResourceArn}" }),
     svc,
@@ -1725,7 +1729,7 @@ export class PutRuntimeLogConfigurationRequest extends S.Class<PutRuntimeLogConf
   "PutRuntimeLogConfigurationRequest",
 )(
   {
-    ManagedThingId: S.String.pipe(T.HttpLabel()),
+    ManagedThingId: S.String.pipe(T.HttpLabel("ManagedThingId")),
     RuntimeLogConfigurations: RuntimeLogConfigurations,
   },
   T.all(
@@ -2021,7 +2025,7 @@ export class UpdateConnectorDestinationRequest extends S.Class<UpdateConnectorDe
   "UpdateConnectorDestinationRequest",
 )(
   {
-    Identifier: S.String.pipe(T.HttpLabel()),
+    Identifier: S.String.pipe(T.HttpLabel("Identifier")),
     Description: S.optional(S.String),
     Name: S.optional(S.String),
     AuthType: S.optional(S.String),
@@ -2278,7 +2282,7 @@ export class SendManagedThingCommandRequest extends S.Class<SendManagedThingComm
   "SendManagedThingCommandRequest",
 )(
   {
-    ManagedThingId: S.String.pipe(T.HttpLabel()),
+    ManagedThingId: S.String.pipe(T.HttpLabel("ManagedThingId")),
     Endpoints: CommandEndpoints,
     ConnectorAssociationId: S.optional(S.String),
     AccountAssociationId: S.optional(S.String),
@@ -2419,7 +2423,7 @@ export class SendConnectorEventRequest extends S.Class<SendConnectorEventRequest
   "SendConnectorEventRequest",
 )(
   {
-    ConnectorId: S.String.pipe(T.HttpLabel()),
+    ConnectorId: S.String.pipe(T.HttpLabel("ConnectorId")),
     UserId: S.optional(S.String),
     Operation: S.String,
     OperationVersion: S.optional(S.String),
@@ -2459,7 +2463,7 @@ export class ConflictException extends S.TaggedError<ConflictException>()(
 export class InternalServerException extends S.TaggedError<InternalServerException>()(
   "InternalServerException",
   { Message: S.optional(S.String) },
-) {}
+).pipe(withCategory(ERROR_CATEGORIES.SERVER_ERROR)) {}
 export class InvalidRequestException extends S.TaggedError<InvalidRequestException>()(
   "InvalidRequestException",
   { Message: S.optional(S.String) },
@@ -2467,7 +2471,7 @@ export class InvalidRequestException extends S.TaggedError<InvalidRequestExcepti
 export class InternalFailureException extends S.TaggedError<InternalFailureException>()(
   "InternalFailureException",
   { Message: S.optional(S.String) },
-) {}
+).pipe(withCategory(ERROR_CATEGORIES.SERVER_ERROR)) {}
 export class ResourceNotFoundException extends S.TaggedError<ResourceNotFoundException>()(
   "ResourceNotFoundException",
   {
@@ -2479,11 +2483,11 @@ export class ResourceNotFoundException extends S.TaggedError<ResourceNotFoundExc
 export class ServiceUnavailableException extends S.TaggedError<ServiceUnavailableException>()(
   "ServiceUnavailableException",
   { Message: S.optional(S.String) },
-) {}
+).pipe(withCategory(ERROR_CATEGORIES.SERVER_ERROR)) {}
 export class ThrottlingException extends S.TaggedError<ThrottlingException>()(
   "ThrottlingException",
   { Message: S.optional(S.String) },
-) {}
+).pipe(withCategory(ERROR_CATEGORIES.THROTTLING_ERROR)) {}
 export class ServiceQuotaExceededException extends S.TaggedError<ServiceQuotaExceededException>()(
   "ServiceQuotaExceededException",
   { Message: S.optional(S.String) },

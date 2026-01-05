@@ -1,6 +1,7 @@
 import * as S from "effect/Schema";
 import * as API from "../api.ts";
 import * as T from "../traits.ts";
+import { ERROR_CATEGORIES, withCategory } from "../error-category.ts";
 const svc = T.AwsApiService({
   sdkId: "ApiGatewayManagementApi",
   serviceShapeName: "ApiGatewayManagementApi",
@@ -244,7 +245,7 @@ const rules = T.EndpointRuleSet({
 export class DeleteConnectionRequest extends S.Class<DeleteConnectionRequest>(
   "DeleteConnectionRequest",
 )(
-  { ConnectionId: S.String.pipe(T.HttpLabel()) },
+  { ConnectionId: S.String.pipe(T.HttpLabel("ConnectionId")) },
   T.all(
     T.Http({ method: "DELETE", uri: "/@connections/{ConnectionId}" }),
     svc,
@@ -260,7 +261,7 @@ export class DeleteConnectionResponse extends S.Class<DeleteConnectionResponse>(
 export class GetConnectionRequest extends S.Class<GetConnectionRequest>(
   "GetConnectionRequest",
 )(
-  { ConnectionId: S.String.pipe(T.HttpLabel()) },
+  { ConnectionId: S.String.pipe(T.HttpLabel("ConnectionId")) },
   T.all(
     T.Http({ method: "GET", uri: "/@connections/{ConnectionId}" }),
     svc,
@@ -275,7 +276,7 @@ export class PostToConnectionRequest extends S.Class<PostToConnectionRequest>(
 )(
   {
     Data: T.StreamingInput.pipe(T.HttpPayload()),
-    ConnectionId: S.String.pipe(T.HttpLabel()),
+    ConnectionId: S.String.pipe(T.HttpLabel("ConnectionId")),
   },
   T.all(
     T.Http({ method: "POST", uri: "/@connections/{ConnectionId}" }),
@@ -317,7 +318,7 @@ export class GoneException extends S.TaggedError<GoneException>()(
 export class LimitExceededException extends S.TaggedError<LimitExceededException>()(
   "LimitExceededException",
   {},
-) {}
+).pipe(withCategory(ERROR_CATEGORIES.THROTTLING_ERROR)) {}
 export class PayloadTooLargeException extends S.TaggedError<PayloadTooLargeException>()(
   "PayloadTooLargeException",
   { Message: S.optional(S.String).pipe(T.JsonName("message")) },

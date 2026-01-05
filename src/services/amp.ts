@@ -1,6 +1,7 @@
 import * as S from "effect/Schema";
 import * as API from "../api.ts";
 import * as T from "../traits.ts";
+import { ERROR_CATEGORIES, withCategory } from "../error-category.ts";
 const svc = T.AwsApiService({
   sdkId: "amp",
   serviceShapeName: "AmazonPrometheusService",
@@ -261,7 +262,7 @@ export class GetDefaultScraperConfigurationResponse extends S.Class<GetDefaultSc
 export class ListTagsForResourceRequest extends S.Class<ListTagsForResourceRequest>(
   "ListTagsForResourceRequest",
 )(
-  { resourceArn: S.String.pipe(T.HttpLabel()) },
+  { resourceArn: S.String.pipe(T.HttpLabel("resourceArn")) },
   T.all(
     T.Http({ method: "GET", uri: "/tags/{resourceArn}" }),
     svc,
@@ -275,7 +276,7 @@ export class UntagResourceRequest extends S.Class<UntagResourceRequest>(
   "UntagResourceRequest",
 )(
   {
-    resourceArn: S.String.pipe(T.HttpLabel()),
+    resourceArn: S.String.pipe(T.HttpLabel("resourceArn")),
     tagKeys: TagKeys.pipe(T.HttpQuery("tagKeys")),
   },
   T.all(
@@ -293,7 +294,7 @@ export class UntagResourceResponse extends S.Class<UntagResourceResponse>(
 export class DescribeScraperRequest extends S.Class<DescribeScraperRequest>(
   "DescribeScraperRequest",
 )(
-  { scraperId: S.String.pipe(T.HttpLabel()) },
+  { scraperId: S.String.pipe(T.HttpLabel("scraperId")) },
   T.all(
     T.Http({ method: "GET", uri: "/scrapers/{scraperId}" }),
     svc,
@@ -322,7 +323,7 @@ export class UpdateScraperRequest extends S.Class<UpdateScraperRequest>(
   "UpdateScraperRequest",
 )(
   {
-    scraperId: S.String.pipe(T.HttpLabel()),
+    scraperId: S.String.pipe(T.HttpLabel("scraperId")),
     alias: S.optional(S.String),
     scrapeConfiguration: S.optional(ScrapeConfiguration),
     destination: S.optional(Destination),
@@ -342,7 +343,7 @@ export class DeleteScraperRequest extends S.Class<DeleteScraperRequest>(
   "DeleteScraperRequest",
 )(
   {
-    scraperId: S.String.pipe(T.HttpLabel()),
+    scraperId: S.String.pipe(T.HttpLabel("scraperId")),
     clientToken: S.optional(S.String).pipe(T.HttpQuery("clientToken")),
   },
   T.all(
@@ -357,7 +358,7 @@ export class DeleteScraperRequest extends S.Class<DeleteScraperRequest>(
 export class DescribeScraperLoggingConfigurationRequest extends S.Class<DescribeScraperLoggingConfigurationRequest>(
   "DescribeScraperLoggingConfigurationRequest",
 )(
-  { scraperId: S.String.pipe(T.HttpLabel()) },
+  { scraperId: S.String.pipe(T.HttpLabel("scraperId")) },
   T.all(
     T.Http({
       method: "GET",
@@ -374,7 +375,7 @@ export class DeleteScraperLoggingConfigurationRequest extends S.Class<DeleteScra
   "DeleteScraperLoggingConfigurationRequest",
 )(
   {
-    scraperId: S.String.pipe(T.HttpLabel()),
+    scraperId: S.String.pipe(T.HttpLabel("scraperId")),
     clientToken: S.optional(S.String).pipe(T.HttpQuery("clientToken")),
   },
   T.all(
@@ -414,7 +415,7 @@ export class CreateWorkspaceRequest extends S.Class<CreateWorkspaceRequest>(
 export class DescribeWorkspaceRequest extends S.Class<DescribeWorkspaceRequest>(
   "DescribeWorkspaceRequest",
 )(
-  { workspaceId: S.String.pipe(T.HttpLabel()) },
+  { workspaceId: S.String.pipe(T.HttpLabel("workspaceId")) },
   T.all(
     T.Http({ method: "GET", uri: "/workspaces/{workspaceId}" }),
     svc,
@@ -428,7 +429,7 @@ export class UpdateWorkspaceAliasRequest extends S.Class<UpdateWorkspaceAliasReq
   "UpdateWorkspaceAliasRequest",
 )(
   {
-    workspaceId: S.String.pipe(T.HttpLabel()),
+    workspaceId: S.String.pipe(T.HttpLabel("workspaceId")),
     alias: S.optional(S.String),
     clientToken: S.optional(S.String),
   },
@@ -448,7 +449,7 @@ export class DeleteWorkspaceRequest extends S.Class<DeleteWorkspaceRequest>(
   "DeleteWorkspaceRequest",
 )(
   {
-    workspaceId: S.String.pipe(T.HttpLabel()),
+    workspaceId: S.String.pipe(T.HttpLabel("workspaceId")),
     clientToken: S.optional(S.String).pipe(T.HttpQuery("clientToken")),
   },
   T.all(
@@ -484,7 +485,7 @@ export class CreateAlertManagerDefinitionRequest extends S.Class<CreateAlertMana
   "CreateAlertManagerDefinitionRequest",
 )(
   {
-    workspaceId: S.String.pipe(T.HttpLabel()),
+    workspaceId: S.String.pipe(T.HttpLabel("workspaceId")),
     data: T.Blob,
     clientToken: S.optional(S.String),
   },
@@ -503,7 +504,7 @@ export class CreateAlertManagerDefinitionRequest extends S.Class<CreateAlertMana
 export class DescribeAlertManagerDefinitionRequest extends S.Class<DescribeAlertManagerDefinitionRequest>(
   "DescribeAlertManagerDefinitionRequest",
 )(
-  { workspaceId: S.String.pipe(T.HttpLabel()) },
+  { workspaceId: S.String.pipe(T.HttpLabel("workspaceId")) },
   T.all(
     T.Http({
       method: "GET",
@@ -520,7 +521,7 @@ export class PutAlertManagerDefinitionRequest extends S.Class<PutAlertManagerDef
   "PutAlertManagerDefinitionRequest",
 )(
   {
-    workspaceId: S.String.pipe(T.HttpLabel()),
+    workspaceId: S.String.pipe(T.HttpLabel("workspaceId")),
     data: T.Blob,
     clientToken: S.optional(S.String),
   },
@@ -540,7 +541,7 @@ export class DeleteAlertManagerDefinitionRequest extends S.Class<DeleteAlertMana
   "DeleteAlertManagerDefinitionRequest",
 )(
   {
-    workspaceId: S.String.pipe(T.HttpLabel()),
+    workspaceId: S.String.pipe(T.HttpLabel("workspaceId")),
     clientToken: S.optional(S.String).pipe(T.HttpQuery("clientToken")),
   },
   T.all(
@@ -586,8 +587,8 @@ export class PutAnomalyDetectorRequest extends S.Class<PutAnomalyDetectorRequest
   "PutAnomalyDetectorRequest",
 )(
   {
-    workspaceId: S.String.pipe(T.HttpLabel()),
-    anomalyDetectorId: S.String.pipe(T.HttpLabel()),
+    workspaceId: S.String.pipe(T.HttpLabel("workspaceId")),
+    anomalyDetectorId: S.String.pipe(T.HttpLabel("anomalyDetectorId")),
     evaluationIntervalInSeconds: S.optional(S.Number),
     missingDataAction: S.optional(AnomalyDetectorMissingDataAction),
     configuration: AnomalyDetectorConfiguration,
@@ -610,8 +611,8 @@ export class DescribeAnomalyDetectorRequest extends S.Class<DescribeAnomalyDetec
   "DescribeAnomalyDetectorRequest",
 )(
   {
-    workspaceId: S.String.pipe(T.HttpLabel()),
-    anomalyDetectorId: S.String.pipe(T.HttpLabel()),
+    workspaceId: S.String.pipe(T.HttpLabel("workspaceId")),
+    anomalyDetectorId: S.String.pipe(T.HttpLabel("anomalyDetectorId")),
   },
   T.all(
     T.Http({
@@ -629,8 +630,8 @@ export class DeleteAnomalyDetectorRequest extends S.Class<DeleteAnomalyDetectorR
   "DeleteAnomalyDetectorRequest",
 )(
   {
-    workspaceId: S.String.pipe(T.HttpLabel()),
-    anomalyDetectorId: S.String.pipe(T.HttpLabel()),
+    workspaceId: S.String.pipe(T.HttpLabel("workspaceId")),
+    anomalyDetectorId: S.String.pipe(T.HttpLabel("anomalyDetectorId")),
     clientToken: S.optional(S.String).pipe(T.HttpQuery("clientToken")),
   },
   T.all(
@@ -652,7 +653,7 @@ export class ListAnomalyDetectorsRequest extends S.Class<ListAnomalyDetectorsReq
   "ListAnomalyDetectorsRequest",
 )(
   {
-    workspaceId: S.String.pipe(T.HttpLabel()),
+    workspaceId: S.String.pipe(T.HttpLabel("workspaceId")),
     alias: S.optional(S.String).pipe(T.HttpQuery("alias")),
     maxResults: S.optional(S.Number).pipe(T.HttpQuery("maxResults")),
     nextToken: S.optional(S.String).pipe(T.HttpQuery("nextToken")),
@@ -673,7 +674,7 @@ export class CreateLoggingConfigurationRequest extends S.Class<CreateLoggingConf
   "CreateLoggingConfigurationRequest",
 )(
   {
-    workspaceId: S.String.pipe(T.HttpLabel()),
+    workspaceId: S.String.pipe(T.HttpLabel("workspaceId")),
     logGroupArn: S.String,
     clientToken: S.optional(S.String),
   },
@@ -689,7 +690,7 @@ export class CreateLoggingConfigurationRequest extends S.Class<CreateLoggingConf
 export class DescribeLoggingConfigurationRequest extends S.Class<DescribeLoggingConfigurationRequest>(
   "DescribeLoggingConfigurationRequest",
 )(
-  { workspaceId: S.String.pipe(T.HttpLabel()) },
+  { workspaceId: S.String.pipe(T.HttpLabel("workspaceId")) },
   T.all(
     T.Http({ method: "GET", uri: "/workspaces/{workspaceId}/logging" }),
     svc,
@@ -703,7 +704,7 @@ export class UpdateLoggingConfigurationRequest extends S.Class<UpdateLoggingConf
   "UpdateLoggingConfigurationRequest",
 )(
   {
-    workspaceId: S.String.pipe(T.HttpLabel()),
+    workspaceId: S.String.pipe(T.HttpLabel("workspaceId")),
     logGroupArn: S.String,
     clientToken: S.optional(S.String),
   },
@@ -720,7 +721,7 @@ export class DeleteLoggingConfigurationRequest extends S.Class<DeleteLoggingConf
   "DeleteLoggingConfigurationRequest",
 )(
   {
-    workspaceId: S.String.pipe(T.HttpLabel()),
+    workspaceId: S.String.pipe(T.HttpLabel("workspaceId")),
     clientToken: S.optional(S.String).pipe(T.HttpQuery("clientToken")),
   },
   T.all(
@@ -738,7 +739,7 @@ export class DeleteLoggingConfigurationResponse extends S.Class<DeleteLoggingCon
 export class DescribeQueryLoggingConfigurationRequest extends S.Class<DescribeQueryLoggingConfigurationRequest>(
   "DescribeQueryLoggingConfigurationRequest",
 )(
-  { workspaceId: S.String.pipe(T.HttpLabel()) },
+  { workspaceId: S.String.pipe(T.HttpLabel("workspaceId")) },
   T.all(
     T.Http({ method: "GET", uri: "/workspaces/{workspaceId}/logging/query" }),
     svc,
@@ -762,7 +763,7 @@ export class UpdateQueryLoggingConfigurationRequest extends S.Class<UpdateQueryL
   "UpdateQueryLoggingConfigurationRequest",
 )(
   {
-    workspaceId: S.String.pipe(T.HttpLabel()),
+    workspaceId: S.String.pipe(T.HttpLabel("workspaceId")),
     destinations: LoggingDestinations,
     clientToken: S.optional(S.String),
   },
@@ -779,7 +780,7 @@ export class DeleteQueryLoggingConfigurationRequest extends S.Class<DeleteQueryL
   "DeleteQueryLoggingConfigurationRequest",
 )(
   {
-    workspaceId: S.String.pipe(T.HttpLabel()),
+    workspaceId: S.String.pipe(T.HttpLabel("workspaceId")),
     clientToken: S.optional(S.String).pipe(T.HttpQuery("clientToken")),
   },
   T.all(
@@ -801,7 +802,7 @@ export class CreateRuleGroupsNamespaceRequest extends S.Class<CreateRuleGroupsNa
   "CreateRuleGroupsNamespaceRequest",
 )(
   {
-    workspaceId: S.String.pipe(T.HttpLabel()),
+    workspaceId: S.String.pipe(T.HttpLabel("workspaceId")),
     name: S.String,
     data: T.Blob,
     clientToken: S.optional(S.String),
@@ -823,8 +824,8 @@ export class DescribeRuleGroupsNamespaceRequest extends S.Class<DescribeRuleGrou
   "DescribeRuleGroupsNamespaceRequest",
 )(
   {
-    workspaceId: S.String.pipe(T.HttpLabel()),
-    name: S.String.pipe(T.HttpLabel()),
+    workspaceId: S.String.pipe(T.HttpLabel("workspaceId")),
+    name: S.String.pipe(T.HttpLabel("name")),
   },
   T.all(
     T.Http({
@@ -842,8 +843,8 @@ export class PutRuleGroupsNamespaceRequest extends S.Class<PutRuleGroupsNamespac
   "PutRuleGroupsNamespaceRequest",
 )(
   {
-    workspaceId: S.String.pipe(T.HttpLabel()),
-    name: S.String.pipe(T.HttpLabel()),
+    workspaceId: S.String.pipe(T.HttpLabel("workspaceId")),
+    name: S.String.pipe(T.HttpLabel("name")),
     data: T.Blob,
     clientToken: S.optional(S.String),
   },
@@ -863,8 +864,8 @@ export class DeleteRuleGroupsNamespaceRequest extends S.Class<DeleteRuleGroupsNa
   "DeleteRuleGroupsNamespaceRequest",
 )(
   {
-    workspaceId: S.String.pipe(T.HttpLabel()),
-    name: S.String.pipe(T.HttpLabel()),
+    workspaceId: S.String.pipe(T.HttpLabel("workspaceId")),
+    name: S.String.pipe(T.HttpLabel("name")),
     clientToken: S.optional(S.String).pipe(T.HttpQuery("clientToken")),
   },
   T.all(
@@ -886,7 +887,7 @@ export class ListRuleGroupsNamespacesRequest extends S.Class<ListRuleGroupsNames
   "ListRuleGroupsNamespacesRequest",
 )(
   {
-    workspaceId: S.String.pipe(T.HttpLabel()),
+    workspaceId: S.String.pipe(T.HttpLabel("workspaceId")),
     name: S.optional(S.String).pipe(T.HttpQuery("name")),
     nextToken: S.optional(S.String).pipe(T.HttpQuery("nextToken")),
     maxResults: S.optional(S.Number).pipe(T.HttpQuery("maxResults")),
@@ -906,7 +907,7 @@ export class ListRuleGroupsNamespacesRequest extends S.Class<ListRuleGroupsNames
 export class DescribeWorkspaceConfigurationRequest extends S.Class<DescribeWorkspaceConfigurationRequest>(
   "DescribeWorkspaceConfigurationRequest",
 )(
-  { workspaceId: S.String.pipe(T.HttpLabel()) },
+  { workspaceId: S.String.pipe(T.HttpLabel("workspaceId")) },
   T.all(
     T.Http({ method: "GET", uri: "/workspaces/{workspaceId}/configuration" }),
     svc,
@@ -920,7 +921,7 @@ export class PutResourcePolicyRequest extends S.Class<PutResourcePolicyRequest>(
   "PutResourcePolicyRequest",
 )(
   {
-    workspaceId: S.String.pipe(T.HttpLabel()),
+    workspaceId: S.String.pipe(T.HttpLabel("workspaceId")),
     policyDocument: S.String,
     clientToken: S.optional(S.String),
     revisionId: S.optional(S.String),
@@ -937,7 +938,7 @@ export class PutResourcePolicyRequest extends S.Class<PutResourcePolicyRequest>(
 export class DescribeResourcePolicyRequest extends S.Class<DescribeResourcePolicyRequest>(
   "DescribeResourcePolicyRequest",
 )(
-  { workspaceId: S.String.pipe(T.HttpLabel()) },
+  { workspaceId: S.String.pipe(T.HttpLabel("workspaceId")) },
   T.all(
     T.Http({ method: "GET", uri: "/workspaces/{workspaceId}/policy" }),
     svc,
@@ -951,7 +952,7 @@ export class DeleteResourcePolicyRequest extends S.Class<DeleteResourcePolicyReq
   "DeleteResourcePolicyRequest",
 )(
   {
-    workspaceId: S.String.pipe(T.HttpLabel()),
+    workspaceId: S.String.pipe(T.HttpLabel("workspaceId")),
     clientToken: S.optional(S.String).pipe(T.HttpQuery("clientToken")),
     revisionId: S.optional(S.String).pipe(T.HttpQuery("revisionId")),
   },
@@ -977,7 +978,7 @@ export class ListTagsForResourceResponse extends S.Class<ListTagsForResourceResp
 export class TagResourceRequest extends S.Class<TagResourceRequest>(
   "TagResourceRequest",
 )(
-  { resourceArn: S.String.pipe(T.HttpLabel()), tags: TagMap },
+  { resourceArn: S.String.pipe(T.HttpLabel("resourceArn")), tags: TagMap },
   T.all(
     T.Http({ method: "POST", uri: "/tags/{resourceArn}" }),
     svc,
@@ -1294,7 +1295,7 @@ export class CreateQueryLoggingConfigurationRequest extends S.Class<CreateQueryL
   "CreateQueryLoggingConfigurationRequest",
 )(
   {
-    workspaceId: S.String.pipe(T.HttpLabel()),
+    workspaceId: S.String.pipe(T.HttpLabel("workspaceId")),
     destinations: LoggingDestinations,
     clientToken: S.optional(S.String),
   },
@@ -1334,7 +1335,7 @@ export class UpdateWorkspaceConfigurationRequest extends S.Class<UpdateWorkspace
   "UpdateWorkspaceConfigurationRequest",
 )(
   {
-    workspaceId: S.String.pipe(T.HttpLabel()),
+    workspaceId: S.String.pipe(T.HttpLabel("workspaceId")),
     clientToken: S.optional(S.String),
     limitsPerLabelSet: S.optional(LimitsPerLabelSetList),
     retentionPeriodInDays: S.optional(S.Number),
@@ -1388,7 +1389,7 @@ export class UpdateScraperLoggingConfigurationRequest extends S.Class<UpdateScra
   "UpdateScraperLoggingConfigurationRequest",
 )(
   {
-    scraperId: S.String.pipe(T.HttpLabel()),
+    scraperId: S.String.pipe(T.HttpLabel("scraperId")),
     loggingDestination: ScraperLoggingDestination,
     scraperComponents: S.optional(ScraperComponents),
   },
@@ -1408,7 +1409,7 @@ export class CreateAnomalyDetectorRequest extends S.Class<CreateAnomalyDetectorR
   "CreateAnomalyDetectorRequest",
 )(
   {
-    workspaceId: S.String.pipe(T.HttpLabel()),
+    workspaceId: S.String.pipe(T.HttpLabel("workspaceId")),
     alias: S.String,
     evaluationIntervalInSeconds: S.optional(S.Number),
     missingDataAction: S.optional(AnomalyDetectorMissingDataAction),
@@ -1465,7 +1466,8 @@ export class InternalServerException extends S.TaggedError<InternalServerExcepti
     message: S.String,
     retryAfterSeconds: S.optional(S.Number).pipe(T.HttpHeader("Retry-After")),
   },
-) {}
+  T.Retryable(),
+).pipe(withCategory(ERROR_CATEGORIES.SERVER_ERROR)) {}
 export class ConflictException extends S.TaggedError<ConflictException>()(
   "ConflictException",
   { message: S.String, resourceId: S.String, resourceType: S.String },
@@ -1478,7 +1480,8 @@ export class ThrottlingException extends S.TaggedError<ThrottlingException>()(
     quotaCode: S.optional(S.String),
     retryAfterSeconds: S.optional(S.Number).pipe(T.HttpHeader("Retry-After")),
   },
-) {}
+  T.Retryable(),
+).pipe(withCategory(ERROR_CATEGORIES.THROTTLING_ERROR)) {}
 export class ResourceNotFoundException extends S.TaggedError<ResourceNotFoundException>()(
   "ResourceNotFoundException",
   { message: S.String, resourceId: S.String, resourceType: S.String },

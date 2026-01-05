@@ -1,6 +1,7 @@
 import * as S from "effect/Schema";
 import * as API from "../api.ts";
 import * as T from "../traits.ts";
+import { ERROR_CATEGORIES, withCategory } from "../error-category.ts";
 const svc = T.AwsApiService({
   sdkId: "SageMaker Runtime HTTP2",
   serviceShapeName: "AmazonSageMakerRuntimeHttp2",
@@ -989,7 +990,7 @@ export class InvokeEndpointWithBidirectionalStreamInput extends S.Class<InvokeEn
   "InvokeEndpointWithBidirectionalStreamInput",
 )(
   {
-    EndpointName: S.String.pipe(T.HttpLabel()),
+    EndpointName: S.String.pipe(T.HttpLabel("EndpointName")),
     Body: RequestStreamEvent.pipe(T.HttpPayload()),
     TargetVariant: S.optional(S.String).pipe(
       T.HttpHeader("X-Amzn-SageMaker-Target-Variant"),
@@ -1045,7 +1046,7 @@ export class InputValidationError extends S.TaggedError<InputValidationError>()(
 export class InternalServerError extends S.TaggedError<InternalServerError>()(
   "InternalServerError",
   { Message: S.optional(S.String), ErrorCode: S.optional(S.String) },
-) {}
+).pipe(withCategory(ERROR_CATEGORIES.SERVER_ERROR)) {}
 export class InternalStreamFailure extends S.TaggedError<InternalStreamFailure>()(
   "InternalStreamFailure",
   { Message: S.optional(S.String) },
@@ -1064,7 +1065,7 @@ export class ModelStreamError extends S.TaggedError<ModelStreamError>()(
 export class ServiceUnavailableError extends S.TaggedError<ServiceUnavailableError>()(
   "ServiceUnavailableError",
   { Message: S.optional(S.String), ErrorCode: S.optional(S.String) },
-) {}
+).pipe(withCategory(ERROR_CATEGORIES.SERVER_ERROR)) {}
 
 //# Operations
 /**

@@ -1,6 +1,7 @@
 import * as S from "effect/Schema";
 import * as API from "../api.ts";
 import * as T from "../traits.ts";
+import { ERROR_CATEGORIES, withCategory } from "../error-category.ts";
 const svc = T.AwsApiService({
   sdkId: "WorkSpaces Web",
   serviceShapeName: "AWSErmineControlPlaneService",
@@ -250,8 +251,8 @@ export class ExpireSessionRequest extends S.Class<ExpireSessionRequest>(
   "ExpireSessionRequest",
 )(
   {
-    portalId: S.String.pipe(T.HttpLabel()),
-    sessionId: S.String.pipe(T.HttpLabel()),
+    portalId: S.String.pipe(T.HttpLabel("portalId")),
+    sessionId: S.String.pipe(T.HttpLabel("sessionId")),
   },
   T.all(
     T.Http({
@@ -272,8 +273,8 @@ export class GetSessionRequest extends S.Class<GetSessionRequest>(
   "GetSessionRequest",
 )(
   {
-    portalId: S.String.pipe(T.HttpLabel()),
-    sessionId: S.String.pipe(T.HttpLabel()),
+    portalId: S.String.pipe(T.HttpLabel("portalId")),
+    sessionId: S.String.pipe(T.HttpLabel("sessionId")),
   },
   T.all(
     T.Http({ method: "GET", uri: "/portals/{portalId}/sessions/{sessionId}" }),
@@ -288,7 +289,7 @@ export class ListSessionsRequest extends S.Class<ListSessionsRequest>(
   "ListSessionsRequest",
 )(
   {
-    portalId: S.String.pipe(T.HttpLabel()),
+    portalId: S.String.pipe(T.HttpLabel("portalId")),
     username: S.optional(S.String).pipe(T.HttpQuery("username")),
     sessionId: S.optional(S.String).pipe(T.HttpQuery("sessionId")),
     sortBy: S.optional(S.String).pipe(T.HttpQuery("sortBy")),
@@ -308,7 +309,7 @@ export class ListSessionsRequest extends S.Class<ListSessionsRequest>(
 export class ListTagsForResourceRequest extends S.Class<ListTagsForResourceRequest>(
   "ListTagsForResourceRequest",
 )(
-  { resourceArn: S.String.pipe(T.HttpLabel()) },
+  { resourceArn: S.String.pipe(T.HttpLabel("resourceArn")) },
   T.all(
     T.Http({ method: "GET", uri: "/tags/{resourceArn+}" }),
     svc,
@@ -322,7 +323,7 @@ export class UntagResourceRequest extends S.Class<UntagResourceRequest>(
   "UntagResourceRequest",
 )(
   {
-    resourceArn: S.String.pipe(T.HttpLabel()),
+    resourceArn: S.String.pipe(T.HttpLabel("resourceArn")),
     tagKeys: TagKeyList.pipe(T.HttpQuery("tagKeys")),
   },
   T.all(
@@ -340,7 +341,7 @@ export class UntagResourceResponse extends S.Class<UntagResourceResponse>(
 export class GetBrowserSettingsRequest extends S.Class<GetBrowserSettingsRequest>(
   "GetBrowserSettingsRequest",
 )(
-  { browserSettingsArn: S.String.pipe(T.HttpLabel()) },
+  { browserSettingsArn: S.String.pipe(T.HttpLabel("browserSettingsArn")) },
   T.all(
     T.Http({ method: "GET", uri: "/browserSettings/{browserSettingsArn+}" }),
     svc,
@@ -363,7 +364,7 @@ export class UpdateBrowserSettingsRequest extends S.Class<UpdateBrowserSettingsR
   "UpdateBrowserSettingsRequest",
 )(
   {
-    browserSettingsArn: S.String.pipe(T.HttpLabel()),
+    browserSettingsArn: S.String.pipe(T.HttpLabel("browserSettingsArn")),
     browserPolicy: S.optional(S.String),
     clientToken: S.optional(S.String),
     webContentFilteringPolicy: S.optional(WebContentFilteringPolicy),
@@ -380,7 +381,7 @@ export class UpdateBrowserSettingsRequest extends S.Class<UpdateBrowserSettingsR
 export class DeleteBrowserSettingsRequest extends S.Class<DeleteBrowserSettingsRequest>(
   "DeleteBrowserSettingsRequest",
 )(
-  { browserSettingsArn: S.String.pipe(T.HttpLabel()) },
+  { browserSettingsArn: S.String.pipe(T.HttpLabel("browserSettingsArn")) },
   T.all(
     T.Http({ method: "DELETE", uri: "/browserSettings/{browserSettingsArn+}" }),
     svc,
@@ -412,7 +413,11 @@ export class ListBrowserSettingsRequest extends S.Class<ListBrowserSettingsReque
 export class GetDataProtectionSettingsRequest extends S.Class<GetDataProtectionSettingsRequest>(
   "GetDataProtectionSettingsRequest",
 )(
-  { dataProtectionSettingsArn: S.String.pipe(T.HttpLabel()) },
+  {
+    dataProtectionSettingsArn: S.String.pipe(
+      T.HttpLabel("dataProtectionSettingsArn"),
+    ),
+  },
   T.all(
     T.Http({
       method: "GET",
@@ -462,7 +467,9 @@ export class UpdateDataProtectionSettingsRequest extends S.Class<UpdateDataProte
   "UpdateDataProtectionSettingsRequest",
 )(
   {
-    dataProtectionSettingsArn: S.String.pipe(T.HttpLabel()),
+    dataProtectionSettingsArn: S.String.pipe(
+      T.HttpLabel("dataProtectionSettingsArn"),
+    ),
     inlineRedactionConfiguration: S.optional(InlineRedactionConfiguration),
     displayName: S.optional(S.String),
     description: S.optional(S.String),
@@ -483,7 +490,11 @@ export class UpdateDataProtectionSettingsRequest extends S.Class<UpdateDataProte
 export class DeleteDataProtectionSettingsRequest extends S.Class<DeleteDataProtectionSettingsRequest>(
   "DeleteDataProtectionSettingsRequest",
 )(
-  { dataProtectionSettingsArn: S.String.pipe(T.HttpLabel()) },
+  {
+    dataProtectionSettingsArn: S.String.pipe(
+      T.HttpLabel("dataProtectionSettingsArn"),
+    ),
+  },
   T.all(
     T.Http({
       method: "DELETE",
@@ -518,7 +529,7 @@ export class ListDataProtectionSettingsRequest extends S.Class<ListDataProtectio
 export class GetIdentityProviderRequest extends S.Class<GetIdentityProviderRequest>(
   "GetIdentityProviderRequest",
 )(
-  { identityProviderArn: S.String.pipe(T.HttpLabel()) },
+  { identityProviderArn: S.String.pipe(T.HttpLabel("identityProviderArn")) },
   T.all(
     T.Http({ method: "GET", uri: "/identityProviders/{identityProviderArn+}" }),
     svc,
@@ -536,7 +547,7 @@ export class UpdateIdentityProviderRequest extends S.Class<UpdateIdentityProvide
   "UpdateIdentityProviderRequest",
 )(
   {
-    identityProviderArn: S.String.pipe(T.HttpLabel()),
+    identityProviderArn: S.String.pipe(T.HttpLabel("identityProviderArn")),
     identityProviderName: S.optional(S.String),
     identityProviderType: S.optional(S.String),
     identityProviderDetails: S.optional(IdentityProviderDetails),
@@ -557,7 +568,7 @@ export class UpdateIdentityProviderRequest extends S.Class<UpdateIdentityProvide
 export class DeleteIdentityProviderRequest extends S.Class<DeleteIdentityProviderRequest>(
   "DeleteIdentityProviderRequest",
 )(
-  { identityProviderArn: S.String.pipe(T.HttpLabel()) },
+  { identityProviderArn: S.String.pipe(T.HttpLabel("identityProviderArn")) },
   T.all(
     T.Http({
       method: "DELETE",
@@ -579,7 +590,7 @@ export class ListIdentityProvidersRequest extends S.Class<ListIdentityProvidersR
   {
     nextToken: S.optional(S.String).pipe(T.HttpQuery("nextToken")),
     maxResults: S.optional(S.Number).pipe(T.HttpQuery("maxResults")),
-    portalArn: S.String.pipe(T.HttpLabel()),
+    portalArn: S.String.pipe(T.HttpLabel("portalArn")),
   },
   T.all(
     T.Http({ method: "GET", uri: "/portals/{portalArn+}/identityProviders" }),
@@ -593,7 +604,7 @@ export class ListIdentityProvidersRequest extends S.Class<ListIdentityProvidersR
 export class GetIpAccessSettingsRequest extends S.Class<GetIpAccessSettingsRequest>(
   "GetIpAccessSettingsRequest",
 )(
-  { ipAccessSettingsArn: S.String.pipe(T.HttpLabel()) },
+  { ipAccessSettingsArn: S.String.pipe(T.HttpLabel("ipAccessSettingsArn")) },
   T.all(
     T.Http({ method: "GET", uri: "/ipAccessSettings/{ipAccessSettingsArn+}" }),
     svc,
@@ -612,7 +623,7 @@ export class UpdateIpAccessSettingsRequest extends S.Class<UpdateIpAccessSetting
   "UpdateIpAccessSettingsRequest",
 )(
   {
-    ipAccessSettingsArn: S.String.pipe(T.HttpLabel()),
+    ipAccessSettingsArn: S.String.pipe(T.HttpLabel("ipAccessSettingsArn")),
     displayName: S.optional(S.String),
     description: S.optional(S.String),
     ipRules: S.optional(IpRuleList),
@@ -633,7 +644,7 @@ export class UpdateIpAccessSettingsRequest extends S.Class<UpdateIpAccessSetting
 export class DeleteIpAccessSettingsRequest extends S.Class<DeleteIpAccessSettingsRequest>(
   "DeleteIpAccessSettingsRequest",
 )(
-  { ipAccessSettingsArn: S.String.pipe(T.HttpLabel()) },
+  { ipAccessSettingsArn: S.String.pipe(T.HttpLabel("ipAccessSettingsArn")) },
   T.all(
     T.Http({
       method: "DELETE",
@@ -692,7 +703,7 @@ export class CreateNetworkSettingsRequest extends S.Class<CreateNetworkSettingsR
 export class GetNetworkSettingsRequest extends S.Class<GetNetworkSettingsRequest>(
   "GetNetworkSettingsRequest",
 )(
-  { networkSettingsArn: S.String.pipe(T.HttpLabel()) },
+  { networkSettingsArn: S.String.pipe(T.HttpLabel("networkSettingsArn")) },
   T.all(
     T.Http({ method: "GET", uri: "/networkSettings/{networkSettingsArn+}" }),
     svc,
@@ -706,7 +717,7 @@ export class UpdateNetworkSettingsRequest extends S.Class<UpdateNetworkSettingsR
   "UpdateNetworkSettingsRequest",
 )(
   {
-    networkSettingsArn: S.String.pipe(T.HttpLabel()),
+    networkSettingsArn: S.String.pipe(T.HttpLabel("networkSettingsArn")),
     vpcId: S.optional(S.String),
     subnetIds: S.optional(SubnetIdList),
     securityGroupIds: S.optional(SecurityGroupIdList),
@@ -724,7 +735,7 @@ export class UpdateNetworkSettingsRequest extends S.Class<UpdateNetworkSettingsR
 export class DeleteNetworkSettingsRequest extends S.Class<DeleteNetworkSettingsRequest>(
   "DeleteNetworkSettingsRequest",
 )(
-  { networkSettingsArn: S.String.pipe(T.HttpLabel()) },
+  { networkSettingsArn: S.String.pipe(T.HttpLabel("networkSettingsArn")) },
   T.all(
     T.Http({ method: "DELETE", uri: "/networkSettings/{networkSettingsArn+}" }),
     svc,
@@ -782,7 +793,7 @@ export class CreatePortalRequest extends S.Class<CreatePortalRequest>(
 export class GetPortalRequest extends S.Class<GetPortalRequest>(
   "GetPortalRequest",
 )(
-  { portalArn: S.String.pipe(T.HttpLabel()) },
+  { portalArn: S.String.pipe(T.HttpLabel("portalArn")) },
   T.all(
     T.Http({ method: "GET", uri: "/portals/{portalArn+}" }),
     svc,
@@ -796,7 +807,7 @@ export class UpdatePortalRequest extends S.Class<UpdatePortalRequest>(
   "UpdatePortalRequest",
 )(
   {
-    portalArn: S.String.pipe(T.HttpLabel()),
+    portalArn: S.String.pipe(T.HttpLabel("portalArn")),
     displayName: S.optional(S.String),
     authenticationType: S.optional(S.String),
     instanceType: S.optional(S.String),
@@ -814,7 +825,7 @@ export class UpdatePortalRequest extends S.Class<UpdatePortalRequest>(
 export class DeletePortalRequest extends S.Class<DeletePortalRequest>(
   "DeletePortalRequest",
 )(
-  { portalArn: S.String.pipe(T.HttpLabel()) },
+  { portalArn: S.String.pipe(T.HttpLabel("portalArn")) },
   T.all(
     T.Http({ method: "DELETE", uri: "/portals/{portalArn+}" }),
     svc,
@@ -847,7 +858,7 @@ export class AssociateBrowserSettingsRequest extends S.Class<AssociateBrowserSet
   "AssociateBrowserSettingsRequest",
 )(
   {
-    portalArn: S.String.pipe(T.HttpLabel()),
+    portalArn: S.String.pipe(T.HttpLabel("portalArn")),
     browserSettingsArn: S.String.pipe(T.HttpQuery("browserSettingsArn")),
   },
   T.all(
@@ -863,7 +874,7 @@ export class AssociateDataProtectionSettingsRequest extends S.Class<AssociateDat
   "AssociateDataProtectionSettingsRequest",
 )(
   {
-    portalArn: S.String.pipe(T.HttpLabel()),
+    portalArn: S.String.pipe(T.HttpLabel("portalArn")),
     dataProtectionSettingsArn: S.String.pipe(
       T.HttpQuery("dataProtectionSettingsArn"),
     ),
@@ -884,7 +895,7 @@ export class AssociateIpAccessSettingsRequest extends S.Class<AssociateIpAccessS
   "AssociateIpAccessSettingsRequest",
 )(
   {
-    portalArn: S.String.pipe(T.HttpLabel()),
+    portalArn: S.String.pipe(T.HttpLabel("portalArn")),
     ipAccessSettingsArn: S.String.pipe(T.HttpQuery("ipAccessSettingsArn")),
   },
   T.all(
@@ -900,7 +911,7 @@ export class AssociateNetworkSettingsRequest extends S.Class<AssociateNetworkSet
   "AssociateNetworkSettingsRequest",
 )(
   {
-    portalArn: S.String.pipe(T.HttpLabel()),
+    portalArn: S.String.pipe(T.HttpLabel("portalArn")),
     networkSettingsArn: S.String.pipe(T.HttpQuery("networkSettingsArn")),
   },
   T.all(
@@ -916,7 +927,7 @@ export class AssociateSessionLoggerRequest extends S.Class<AssociateSessionLogge
   "AssociateSessionLoggerRequest",
 )(
   {
-    portalArn: S.String.pipe(T.HttpLabel()),
+    portalArn: S.String.pipe(T.HttpLabel("portalArn")),
     sessionLoggerArn: S.String.pipe(T.HttpQuery("sessionLoggerArn")),
   },
   T.all(
@@ -932,7 +943,7 @@ export class AssociateTrustStoreRequest extends S.Class<AssociateTrustStoreReque
   "AssociateTrustStoreRequest",
 )(
   {
-    portalArn: S.String.pipe(T.HttpLabel()),
+    portalArn: S.String.pipe(T.HttpLabel("portalArn")),
     trustStoreArn: S.String.pipe(T.HttpQuery("trustStoreArn")),
   },
   T.all(
@@ -948,7 +959,7 @@ export class AssociateUserAccessLoggingSettingsRequest extends S.Class<Associate
   "AssociateUserAccessLoggingSettingsRequest",
 )(
   {
-    portalArn: S.String.pipe(T.HttpLabel()),
+    portalArn: S.String.pipe(T.HttpLabel("portalArn")),
     userAccessLoggingSettingsArn: S.String.pipe(
       T.HttpQuery("userAccessLoggingSettingsArn"),
     ),
@@ -969,7 +980,7 @@ export class AssociateUserSettingsRequest extends S.Class<AssociateUserSettingsR
   "AssociateUserSettingsRequest",
 )(
   {
-    portalArn: S.String.pipe(T.HttpLabel()),
+    portalArn: S.String.pipe(T.HttpLabel("portalArn")),
     userSettingsArn: S.String.pipe(T.HttpQuery("userSettingsArn")),
   },
   T.all(
@@ -984,7 +995,7 @@ export class AssociateUserSettingsRequest extends S.Class<AssociateUserSettingsR
 export class DisassociateBrowserSettingsRequest extends S.Class<DisassociateBrowserSettingsRequest>(
   "DisassociateBrowserSettingsRequest",
 )(
-  { portalArn: S.String.pipe(T.HttpLabel()) },
+  { portalArn: S.String.pipe(T.HttpLabel("portalArn")) },
   T.all(
     T.Http({ method: "DELETE", uri: "/portals/{portalArn+}/browserSettings" }),
     svc,
@@ -1000,7 +1011,7 @@ export class DisassociateBrowserSettingsResponse extends S.Class<DisassociateBro
 export class DisassociateDataProtectionSettingsRequest extends S.Class<DisassociateDataProtectionSettingsRequest>(
   "DisassociateDataProtectionSettingsRequest",
 )(
-  { portalArn: S.String.pipe(T.HttpLabel()) },
+  { portalArn: S.String.pipe(T.HttpLabel("portalArn")) },
   T.all(
     T.Http({
       method: "DELETE",
@@ -1019,7 +1030,7 @@ export class DisassociateDataProtectionSettingsResponse extends S.Class<Disassoc
 export class DisassociateIpAccessSettingsRequest extends S.Class<DisassociateIpAccessSettingsRequest>(
   "DisassociateIpAccessSettingsRequest",
 )(
-  { portalArn: S.String.pipe(T.HttpLabel()) },
+  { portalArn: S.String.pipe(T.HttpLabel("portalArn")) },
   T.all(
     T.Http({ method: "DELETE", uri: "/portals/{portalArn+}/ipAccessSettings" }),
     svc,
@@ -1035,7 +1046,7 @@ export class DisassociateIpAccessSettingsResponse extends S.Class<DisassociateIp
 export class DisassociateNetworkSettingsRequest extends S.Class<DisassociateNetworkSettingsRequest>(
   "DisassociateNetworkSettingsRequest",
 )(
-  { portalArn: S.String.pipe(T.HttpLabel()) },
+  { portalArn: S.String.pipe(T.HttpLabel("portalArn")) },
   T.all(
     T.Http({ method: "DELETE", uri: "/portals/{portalArn+}/networkSettings" }),
     svc,
@@ -1051,7 +1062,7 @@ export class DisassociateNetworkSettingsResponse extends S.Class<DisassociateNet
 export class DisassociateSessionLoggerRequest extends S.Class<DisassociateSessionLoggerRequest>(
   "DisassociateSessionLoggerRequest",
 )(
-  { portalArn: S.String.pipe(T.HttpLabel()) },
+  { portalArn: S.String.pipe(T.HttpLabel("portalArn")) },
   T.all(
     T.Http({ method: "DELETE", uri: "/portals/{portalArn+}/sessionLogger" }),
     svc,
@@ -1067,7 +1078,7 @@ export class DisassociateSessionLoggerResponse extends S.Class<DisassociateSessi
 export class DisassociateTrustStoreRequest extends S.Class<DisassociateTrustStoreRequest>(
   "DisassociateTrustStoreRequest",
 )(
-  { portalArn: S.String.pipe(T.HttpLabel()) },
+  { portalArn: S.String.pipe(T.HttpLabel("portalArn")) },
   T.all(
     T.Http({ method: "DELETE", uri: "/portals/{portalArn+}/trustStores" }),
     svc,
@@ -1083,7 +1094,7 @@ export class DisassociateTrustStoreResponse extends S.Class<DisassociateTrustSto
 export class DisassociateUserAccessLoggingSettingsRequest extends S.Class<DisassociateUserAccessLoggingSettingsRequest>(
   "DisassociateUserAccessLoggingSettingsRequest",
 )(
-  { portalArn: S.String.pipe(T.HttpLabel()) },
+  { portalArn: S.String.pipe(T.HttpLabel("portalArn")) },
   T.all(
     T.Http({
       method: "DELETE",
@@ -1102,7 +1113,7 @@ export class DisassociateUserAccessLoggingSettingsResponse extends S.Class<Disas
 export class DisassociateUserSettingsRequest extends S.Class<DisassociateUserSettingsRequest>(
   "DisassociateUserSettingsRequest",
 )(
-  { portalArn: S.String.pipe(T.HttpLabel()) },
+  { portalArn: S.String.pipe(T.HttpLabel("portalArn")) },
   T.all(
     T.Http({ method: "DELETE", uri: "/portals/{portalArn+}/userSettings" }),
     svc,
@@ -1118,7 +1129,7 @@ export class DisassociateUserSettingsResponse extends S.Class<DisassociateUserSe
 export class GetPortalServiceProviderMetadataRequest extends S.Class<GetPortalServiceProviderMetadataRequest>(
   "GetPortalServiceProviderMetadataRequest",
 )(
-  { portalArn: S.String.pipe(T.HttpLabel()) },
+  { portalArn: S.String.pipe(T.HttpLabel("portalArn")) },
   T.all(
     T.Http({ method: "GET", uri: "/portalIdp/{portalArn+}" }),
     svc,
@@ -1131,7 +1142,7 @@ export class GetPortalServiceProviderMetadataRequest extends S.Class<GetPortalSe
 export class GetSessionLoggerRequest extends S.Class<GetSessionLoggerRequest>(
   "GetSessionLoggerRequest",
 )(
-  { sessionLoggerArn: S.String.pipe(T.HttpLabel()) },
+  { sessionLoggerArn: S.String.pipe(T.HttpLabel("sessionLoggerArn")) },
   T.all(
     T.Http({ method: "GET", uri: "/sessionLoggers/{sessionLoggerArn+}" }),
     svc,
@@ -1162,7 +1173,7 @@ export class UpdateSessionLoggerRequest extends S.Class<UpdateSessionLoggerReque
   "UpdateSessionLoggerRequest",
 )(
   {
-    sessionLoggerArn: S.String.pipe(T.HttpLabel()),
+    sessionLoggerArn: S.String.pipe(T.HttpLabel("sessionLoggerArn")),
     eventFilter: S.optional(EventFilter),
     logConfiguration: S.optional(LogConfiguration),
     displayName: S.optional(S.String),
@@ -1179,7 +1190,7 @@ export class UpdateSessionLoggerRequest extends S.Class<UpdateSessionLoggerReque
 export class DeleteSessionLoggerRequest extends S.Class<DeleteSessionLoggerRequest>(
   "DeleteSessionLoggerRequest",
 )(
-  { sessionLoggerArn: S.String.pipe(T.HttpLabel()) },
+  { sessionLoggerArn: S.String.pipe(T.HttpLabel("sessionLoggerArn")) },
   T.all(
     T.Http({ method: "DELETE", uri: "/sessionLoggers/{sessionLoggerArn+}" }),
     svc,
@@ -1228,7 +1239,7 @@ export class CreateTrustStoreRequest extends S.Class<CreateTrustStoreRequest>(
 export class GetTrustStoreRequest extends S.Class<GetTrustStoreRequest>(
   "GetTrustStoreRequest",
 )(
-  { trustStoreArn: S.String.pipe(T.HttpLabel()) },
+  { trustStoreArn: S.String.pipe(T.HttpLabel("trustStoreArn")) },
   T.all(
     T.Http({ method: "GET", uri: "/trustStores/{trustStoreArn+}" }),
     svc,
@@ -1242,7 +1253,7 @@ export class UpdateTrustStoreRequest extends S.Class<UpdateTrustStoreRequest>(
   "UpdateTrustStoreRequest",
 )(
   {
-    trustStoreArn: S.String.pipe(T.HttpLabel()),
+    trustStoreArn: S.String.pipe(T.HttpLabel("trustStoreArn")),
     certificatesToAdd: S.optional(CertificateList),
     certificatesToDelete: S.optional(CertificateThumbprintList),
     clientToken: S.optional(S.String),
@@ -1259,7 +1270,7 @@ export class UpdateTrustStoreRequest extends S.Class<UpdateTrustStoreRequest>(
 export class DeleteTrustStoreRequest extends S.Class<DeleteTrustStoreRequest>(
   "DeleteTrustStoreRequest",
 )(
-  { trustStoreArn: S.String.pipe(T.HttpLabel()) },
+  { trustStoreArn: S.String.pipe(T.HttpLabel("trustStoreArn")) },
   T.all(
     T.Http({ method: "DELETE", uri: "/trustStores/{trustStoreArn+}" }),
     svc,
@@ -1292,7 +1303,7 @@ export class GetTrustStoreCertificateRequest extends S.Class<GetTrustStoreCertif
   "GetTrustStoreCertificateRequest",
 )(
   {
-    trustStoreArn: S.String.pipe(T.HttpLabel()),
+    trustStoreArn: S.String.pipe(T.HttpLabel("trustStoreArn")),
     thumbprint: S.String.pipe(T.HttpQuery("thumbprint")),
   },
   T.all(
@@ -1308,7 +1319,7 @@ export class ListTrustStoreCertificatesRequest extends S.Class<ListTrustStoreCer
   "ListTrustStoreCertificatesRequest",
 )(
   {
-    trustStoreArn: S.String.pipe(T.HttpLabel()),
+    trustStoreArn: S.String.pipe(T.HttpLabel("trustStoreArn")),
     nextToken: S.optional(S.String).pipe(T.HttpQuery("nextToken")),
     maxResults: S.optional(S.Number).pipe(T.HttpQuery("maxResults")),
   },
@@ -1344,7 +1355,11 @@ export class CreateUserAccessLoggingSettingsRequest extends S.Class<CreateUserAc
 export class GetUserAccessLoggingSettingsRequest extends S.Class<GetUserAccessLoggingSettingsRequest>(
   "GetUserAccessLoggingSettingsRequest",
 )(
-  { userAccessLoggingSettingsArn: S.String.pipe(T.HttpLabel()) },
+  {
+    userAccessLoggingSettingsArn: S.String.pipe(
+      T.HttpLabel("userAccessLoggingSettingsArn"),
+    ),
+  },
   T.all(
     T.Http({
       method: "GET",
@@ -1361,7 +1376,9 @@ export class UpdateUserAccessLoggingSettingsRequest extends S.Class<UpdateUserAc
   "UpdateUserAccessLoggingSettingsRequest",
 )(
   {
-    userAccessLoggingSettingsArn: S.String.pipe(T.HttpLabel()),
+    userAccessLoggingSettingsArn: S.String.pipe(
+      T.HttpLabel("userAccessLoggingSettingsArn"),
+    ),
     kinesisStreamArn: S.optional(S.String),
     clientToken: S.optional(S.String),
   },
@@ -1380,7 +1397,11 @@ export class UpdateUserAccessLoggingSettingsRequest extends S.Class<UpdateUserAc
 export class DeleteUserAccessLoggingSettingsRequest extends S.Class<DeleteUserAccessLoggingSettingsRequest>(
   "DeleteUserAccessLoggingSettingsRequest",
 )(
-  { userAccessLoggingSettingsArn: S.String.pipe(T.HttpLabel()) },
+  {
+    userAccessLoggingSettingsArn: S.String.pipe(
+      T.HttpLabel("userAccessLoggingSettingsArn"),
+    ),
+  },
   T.all(
     T.Http({
       method: "DELETE",
@@ -1415,7 +1436,7 @@ export class ListUserAccessLoggingSettingsRequest extends S.Class<ListUserAccess
 export class GetUserSettingsRequest extends S.Class<GetUserSettingsRequest>(
   "GetUserSettingsRequest",
 )(
-  { userSettingsArn: S.String.pipe(T.HttpLabel()) },
+  { userSettingsArn: S.String.pipe(T.HttpLabel("userSettingsArn")) },
   T.all(
     T.Http({ method: "GET", uri: "/userSettings/{userSettingsArn+}" }),
     svc,
@@ -1428,7 +1449,7 @@ export class GetUserSettingsRequest extends S.Class<GetUserSettingsRequest>(
 export class DeleteUserSettingsRequest extends S.Class<DeleteUserSettingsRequest>(
   "DeleteUserSettingsRequest",
 )(
-  { userSettingsArn: S.String.pipe(T.HttpLabel()) },
+  { userSettingsArn: S.String.pipe(T.HttpLabel("userSettingsArn")) },
   T.all(
     T.Http({ method: "DELETE", uri: "/userSettings/{userSettingsArn+}" }),
     svc,
@@ -1507,7 +1528,7 @@ export class TagResourceRequest extends S.Class<TagResourceRequest>(
   "TagResourceRequest",
 )(
   {
-    resourceArn: S.String.pipe(T.HttpLabel()),
+    resourceArn: S.String.pipe(T.HttpLabel("resourceArn")),
     tags: TagList,
     clientToken: S.optional(S.String),
   },
@@ -1760,7 +1781,7 @@ export class UpdateUserSettingsRequest extends S.Class<UpdateUserSettingsRequest
   "UpdateUserSettingsRequest",
 )(
   {
-    userSettingsArn: S.String.pipe(T.HttpLabel()),
+    userSettingsArn: S.String.pipe(T.HttpLabel("userSettingsArn")),
     copyAllowed: S.optional(S.String),
     pasteAllowed: S.optional(S.String),
     downloadAllowed: S.optional(S.String),
@@ -2185,7 +2206,7 @@ export class InternalServerException extends S.TaggedError<InternalServerExcepti
     message: S.optional(S.String),
     retryAfterSeconds: S.optional(S.Number).pipe(T.HttpHeader("Retry-After")),
   },
-) {}
+).pipe(withCategory(ERROR_CATEGORIES.SERVER_ERROR)) {}
 export class ConflictException extends S.TaggedError<ConflictException>()(
   "ConflictException",
   {
@@ -2210,7 +2231,7 @@ export class ThrottlingException extends S.TaggedError<ThrottlingException>()(
     quotaCode: S.optional(S.String),
     retryAfterSeconds: S.optional(S.Number).pipe(T.HttpHeader("Retry-After")),
   },
-) {}
+).pipe(withCategory(ERROR_CATEGORIES.THROTTLING_ERROR)) {}
 export class ServiceQuotaExceededException extends S.TaggedError<ServiceQuotaExceededException>()(
   "ServiceQuotaExceededException",
   {

@@ -1,6 +1,7 @@
 import * as S from "effect/Schema";
 import * as API from "../api.ts";
 import * as T from "../traits.ts";
+import { ERROR_CATEGORIES, withCategory } from "../error-category.ts";
 const svc = T.AwsApiService({
   sdkId: "Greengrass",
   serviceShapeName: "Greengrass",
@@ -344,7 +345,7 @@ export const __listOf__string = S.Array(S.String);
 export class AssociateRoleToGroupRequest extends S.Class<AssociateRoleToGroupRequest>(
   "AssociateRoleToGroupRequest",
 )(
-  { GroupId: S.String.pipe(T.HttpLabel()), RoleArn: S.String },
+  { GroupId: S.String.pipe(T.HttpLabel("GroupId")), RoleArn: S.String },
   T.all(
     T.Http({ method: "PUT", uri: "/greengrass/groups/{GroupId}/role" }),
     svc,
@@ -376,7 +377,7 @@ export class CreateDeploymentRequest extends S.Class<CreateDeploymentRequest>(
     ),
     DeploymentId: S.optional(S.String),
     DeploymentType: S.String,
-    GroupId: S.String.pipe(T.HttpLabel()),
+    GroupId: S.String.pipe(T.HttpLabel("GroupId")),
     GroupVersionId: S.optional(S.String),
   },
   T.all(
@@ -395,7 +396,7 @@ export class CreateGroupCertificateAuthorityRequest extends S.Class<CreateGroupC
     AmznClientToken: S.optional(S.String).pipe(
       T.HttpHeader("X-Amzn-Client-Token"),
     ),
-    GroupId: S.String.pipe(T.HttpLabel()),
+    GroupId: S.String.pipe(T.HttpLabel("GroupId")),
   },
   T.all(
     T.Http({
@@ -420,7 +421,7 @@ export class CreateGroupVersionRequest extends S.Class<CreateGroupVersionRequest
     CoreDefinitionVersionArn: S.optional(S.String),
     DeviceDefinitionVersionArn: S.optional(S.String),
     FunctionDefinitionVersionArn: S.optional(S.String),
-    GroupId: S.String.pipe(T.HttpLabel()),
+    GroupId: S.String.pipe(T.HttpLabel("GroupId")),
     LoggerDefinitionVersionArn: S.optional(S.String),
     ResourceDefinitionVersionArn: S.optional(S.String),
     SubscriptionDefinitionVersionArn: S.optional(S.String),
@@ -460,7 +461,9 @@ export class CreateSoftwareUpdateJobRequest extends S.Class<CreateSoftwareUpdate
 export class DeleteConnectorDefinitionRequest extends S.Class<DeleteConnectorDefinitionRequest>(
   "DeleteConnectorDefinitionRequest",
 )(
-  { ConnectorDefinitionId: S.String.pipe(T.HttpLabel()) },
+  {
+    ConnectorDefinitionId: S.String.pipe(T.HttpLabel("ConnectorDefinitionId")),
+  },
   T.all(
     T.Http({
       method: "DELETE",
@@ -479,7 +482,7 @@ export class DeleteConnectorDefinitionResponse extends S.Class<DeleteConnectorDe
 export class DeleteCoreDefinitionRequest extends S.Class<DeleteCoreDefinitionRequest>(
   "DeleteCoreDefinitionRequest",
 )(
-  { CoreDefinitionId: S.String.pipe(T.HttpLabel()) },
+  { CoreDefinitionId: S.String.pipe(T.HttpLabel("CoreDefinitionId")) },
   T.all(
     T.Http({
       method: "DELETE",
@@ -498,7 +501,7 @@ export class DeleteCoreDefinitionResponse extends S.Class<DeleteCoreDefinitionRe
 export class DeleteDeviceDefinitionRequest extends S.Class<DeleteDeviceDefinitionRequest>(
   "DeleteDeviceDefinitionRequest",
 )(
-  { DeviceDefinitionId: S.String.pipe(T.HttpLabel()) },
+  { DeviceDefinitionId: S.String.pipe(T.HttpLabel("DeviceDefinitionId")) },
   T.all(
     T.Http({
       method: "DELETE",
@@ -517,7 +520,7 @@ export class DeleteDeviceDefinitionResponse extends S.Class<DeleteDeviceDefiniti
 export class DeleteFunctionDefinitionRequest extends S.Class<DeleteFunctionDefinitionRequest>(
   "DeleteFunctionDefinitionRequest",
 )(
-  { FunctionDefinitionId: S.String.pipe(T.HttpLabel()) },
+  { FunctionDefinitionId: S.String.pipe(T.HttpLabel("FunctionDefinitionId")) },
   T.all(
     T.Http({
       method: "DELETE",
@@ -536,7 +539,7 @@ export class DeleteFunctionDefinitionResponse extends S.Class<DeleteFunctionDefi
 export class DeleteGroupRequest extends S.Class<DeleteGroupRequest>(
   "DeleteGroupRequest",
 )(
-  { GroupId: S.String.pipe(T.HttpLabel()) },
+  { GroupId: S.String.pipe(T.HttpLabel("GroupId")) },
   T.all(
     T.Http({ method: "DELETE", uri: "/greengrass/groups/{GroupId}" }),
     svc,
@@ -552,7 +555,7 @@ export class DeleteGroupResponse extends S.Class<DeleteGroupResponse>(
 export class DeleteLoggerDefinitionRequest extends S.Class<DeleteLoggerDefinitionRequest>(
   "DeleteLoggerDefinitionRequest",
 )(
-  { LoggerDefinitionId: S.String.pipe(T.HttpLabel()) },
+  { LoggerDefinitionId: S.String.pipe(T.HttpLabel("LoggerDefinitionId")) },
   T.all(
     T.Http({
       method: "DELETE",
@@ -571,7 +574,7 @@ export class DeleteLoggerDefinitionResponse extends S.Class<DeleteLoggerDefiniti
 export class DeleteResourceDefinitionRequest extends S.Class<DeleteResourceDefinitionRequest>(
   "DeleteResourceDefinitionRequest",
 )(
-  { ResourceDefinitionId: S.String.pipe(T.HttpLabel()) },
+  { ResourceDefinitionId: S.String.pipe(T.HttpLabel("ResourceDefinitionId")) },
   T.all(
     T.Http({
       method: "DELETE",
@@ -590,7 +593,11 @@ export class DeleteResourceDefinitionResponse extends S.Class<DeleteResourceDefi
 export class DeleteSubscriptionDefinitionRequest extends S.Class<DeleteSubscriptionDefinitionRequest>(
   "DeleteSubscriptionDefinitionRequest",
 )(
-  { SubscriptionDefinitionId: S.String.pipe(T.HttpLabel()) },
+  {
+    SubscriptionDefinitionId: S.String.pipe(
+      T.HttpLabel("SubscriptionDefinitionId"),
+    ),
+  },
   T.all(
     T.Http({
       method: "DELETE",
@@ -609,7 +616,7 @@ export class DeleteSubscriptionDefinitionResponse extends S.Class<DeleteSubscrip
 export class DisassociateRoleFromGroupRequest extends S.Class<DisassociateRoleFromGroupRequest>(
   "DisassociateRoleFromGroupRequest",
 )(
-  { GroupId: S.String.pipe(T.HttpLabel()) },
+  { GroupId: S.String.pipe(T.HttpLabel("GroupId")) },
   T.all(
     T.Http({ method: "DELETE", uri: "/greengrass/groups/{GroupId}/role" }),
     svc,
@@ -625,7 +632,7 @@ export class DisassociateServiceRoleFromAccountResponse extends S.Class<Disassoc
 export class GetAssociatedRoleRequest extends S.Class<GetAssociatedRoleRequest>(
   "GetAssociatedRoleRequest",
 )(
-  { GroupId: S.String.pipe(T.HttpLabel()) },
+  { GroupId: S.String.pipe(T.HttpLabel("GroupId")) },
   T.all(
     T.Http({ method: "GET", uri: "/greengrass/groups/{GroupId}/role" }),
     svc,
@@ -638,7 +645,7 @@ export class GetAssociatedRoleRequest extends S.Class<GetAssociatedRoleRequest>(
 export class GetBulkDeploymentStatusRequest extends S.Class<GetBulkDeploymentStatusRequest>(
   "GetBulkDeploymentStatusRequest",
 )(
-  { BulkDeploymentId: S.String.pipe(T.HttpLabel()) },
+  { BulkDeploymentId: S.String.pipe(T.HttpLabel("BulkDeploymentId")) },
   T.all(
     T.Http({
       method: "GET",
@@ -654,7 +661,7 @@ export class GetBulkDeploymentStatusRequest extends S.Class<GetBulkDeploymentSta
 export class GetConnectivityInfoRequest extends S.Class<GetConnectivityInfoRequest>(
   "GetConnectivityInfoRequest",
 )(
-  { ThingName: S.String.pipe(T.HttpLabel()) },
+  { ThingName: S.String.pipe(T.HttpLabel("ThingName")) },
   T.all(
     T.Http({
       method: "GET",
@@ -670,7 +677,9 @@ export class GetConnectivityInfoRequest extends S.Class<GetConnectivityInfoReque
 export class GetConnectorDefinitionRequest extends S.Class<GetConnectorDefinitionRequest>(
   "GetConnectorDefinitionRequest",
 )(
-  { ConnectorDefinitionId: S.String.pipe(T.HttpLabel()) },
+  {
+    ConnectorDefinitionId: S.String.pipe(T.HttpLabel("ConnectorDefinitionId")),
+  },
   T.all(
     T.Http({
       method: "GET",
@@ -687,8 +696,10 @@ export class GetConnectorDefinitionVersionRequest extends S.Class<GetConnectorDe
   "GetConnectorDefinitionVersionRequest",
 )(
   {
-    ConnectorDefinitionId: S.String.pipe(T.HttpLabel()),
-    ConnectorDefinitionVersionId: S.String.pipe(T.HttpLabel()),
+    ConnectorDefinitionId: S.String.pipe(T.HttpLabel("ConnectorDefinitionId")),
+    ConnectorDefinitionVersionId: S.String.pipe(
+      T.HttpLabel("ConnectorDefinitionVersionId"),
+    ),
     NextToken: S.optional(S.String).pipe(T.HttpQuery("NextToken")),
   },
   T.all(
@@ -706,7 +717,7 @@ export class GetConnectorDefinitionVersionRequest extends S.Class<GetConnectorDe
 export class GetCoreDefinitionRequest extends S.Class<GetCoreDefinitionRequest>(
   "GetCoreDefinitionRequest",
 )(
-  { CoreDefinitionId: S.String.pipe(T.HttpLabel()) },
+  { CoreDefinitionId: S.String.pipe(T.HttpLabel("CoreDefinitionId")) },
   T.all(
     T.Http({
       method: "GET",
@@ -723,8 +734,10 @@ export class GetCoreDefinitionVersionRequest extends S.Class<GetCoreDefinitionVe
   "GetCoreDefinitionVersionRequest",
 )(
   {
-    CoreDefinitionId: S.String.pipe(T.HttpLabel()),
-    CoreDefinitionVersionId: S.String.pipe(T.HttpLabel()),
+    CoreDefinitionId: S.String.pipe(T.HttpLabel("CoreDefinitionId")),
+    CoreDefinitionVersionId: S.String.pipe(
+      T.HttpLabel("CoreDefinitionVersionId"),
+    ),
   },
   T.all(
     T.Http({
@@ -742,8 +755,8 @@ export class GetDeploymentStatusRequest extends S.Class<GetDeploymentStatusReque
   "GetDeploymentStatusRequest",
 )(
   {
-    DeploymentId: S.String.pipe(T.HttpLabel()),
-    GroupId: S.String.pipe(T.HttpLabel()),
+    DeploymentId: S.String.pipe(T.HttpLabel("DeploymentId")),
+    GroupId: S.String.pipe(T.HttpLabel("GroupId")),
   },
   T.all(
     T.Http({
@@ -760,7 +773,7 @@ export class GetDeploymentStatusRequest extends S.Class<GetDeploymentStatusReque
 export class GetDeviceDefinitionRequest extends S.Class<GetDeviceDefinitionRequest>(
   "GetDeviceDefinitionRequest",
 )(
-  { DeviceDefinitionId: S.String.pipe(T.HttpLabel()) },
+  { DeviceDefinitionId: S.String.pipe(T.HttpLabel("DeviceDefinitionId")) },
   T.all(
     T.Http({
       method: "GET",
@@ -777,8 +790,10 @@ export class GetDeviceDefinitionVersionRequest extends S.Class<GetDeviceDefiniti
   "GetDeviceDefinitionVersionRequest",
 )(
   {
-    DeviceDefinitionId: S.String.pipe(T.HttpLabel()),
-    DeviceDefinitionVersionId: S.String.pipe(T.HttpLabel()),
+    DeviceDefinitionId: S.String.pipe(T.HttpLabel("DeviceDefinitionId")),
+    DeviceDefinitionVersionId: S.String.pipe(
+      T.HttpLabel("DeviceDefinitionVersionId"),
+    ),
     NextToken: S.optional(S.String).pipe(T.HttpQuery("NextToken")),
   },
   T.all(
@@ -796,7 +811,7 @@ export class GetDeviceDefinitionVersionRequest extends S.Class<GetDeviceDefiniti
 export class GetFunctionDefinitionRequest extends S.Class<GetFunctionDefinitionRequest>(
   "GetFunctionDefinitionRequest",
 )(
-  { FunctionDefinitionId: S.String.pipe(T.HttpLabel()) },
+  { FunctionDefinitionId: S.String.pipe(T.HttpLabel("FunctionDefinitionId")) },
   T.all(
     T.Http({
       method: "GET",
@@ -813,8 +828,10 @@ export class GetFunctionDefinitionVersionRequest extends S.Class<GetFunctionDefi
   "GetFunctionDefinitionVersionRequest",
 )(
   {
-    FunctionDefinitionId: S.String.pipe(T.HttpLabel()),
-    FunctionDefinitionVersionId: S.String.pipe(T.HttpLabel()),
+    FunctionDefinitionId: S.String.pipe(T.HttpLabel("FunctionDefinitionId")),
+    FunctionDefinitionVersionId: S.String.pipe(
+      T.HttpLabel("FunctionDefinitionVersionId"),
+    ),
     NextToken: S.optional(S.String).pipe(T.HttpQuery("NextToken")),
   },
   T.all(
@@ -832,7 +849,7 @@ export class GetFunctionDefinitionVersionRequest extends S.Class<GetFunctionDefi
 export class GetGroupRequest extends S.Class<GetGroupRequest>(
   "GetGroupRequest",
 )(
-  { GroupId: S.String.pipe(T.HttpLabel()) },
+  { GroupId: S.String.pipe(T.HttpLabel("GroupId")) },
   T.all(
     T.Http({ method: "GET", uri: "/greengrass/groups/{GroupId}" }),
     svc,
@@ -846,8 +863,10 @@ export class GetGroupCertificateAuthorityRequest extends S.Class<GetGroupCertifi
   "GetGroupCertificateAuthorityRequest",
 )(
   {
-    CertificateAuthorityId: S.String.pipe(T.HttpLabel()),
-    GroupId: S.String.pipe(T.HttpLabel()),
+    CertificateAuthorityId: S.String.pipe(
+      T.HttpLabel("CertificateAuthorityId"),
+    ),
+    GroupId: S.String.pipe(T.HttpLabel("GroupId")),
   },
   T.all(
     T.Http({
@@ -864,7 +883,7 @@ export class GetGroupCertificateAuthorityRequest extends S.Class<GetGroupCertifi
 export class GetGroupCertificateConfigurationRequest extends S.Class<GetGroupCertificateConfigurationRequest>(
   "GetGroupCertificateConfigurationRequest",
 )(
-  { GroupId: S.String.pipe(T.HttpLabel()) },
+  { GroupId: S.String.pipe(T.HttpLabel("GroupId")) },
   T.all(
     T.Http({
       method: "GET",
@@ -881,8 +900,8 @@ export class GetGroupVersionRequest extends S.Class<GetGroupVersionRequest>(
   "GetGroupVersionRequest",
 )(
   {
-    GroupId: S.String.pipe(T.HttpLabel()),
-    GroupVersionId: S.String.pipe(T.HttpLabel()),
+    GroupId: S.String.pipe(T.HttpLabel("GroupId")),
+    GroupVersionId: S.String.pipe(T.HttpLabel("GroupVersionId")),
   },
   T.all(
     T.Http({
@@ -899,7 +918,7 @@ export class GetGroupVersionRequest extends S.Class<GetGroupVersionRequest>(
 export class GetLoggerDefinitionRequest extends S.Class<GetLoggerDefinitionRequest>(
   "GetLoggerDefinitionRequest",
 )(
-  { LoggerDefinitionId: S.String.pipe(T.HttpLabel()) },
+  { LoggerDefinitionId: S.String.pipe(T.HttpLabel("LoggerDefinitionId")) },
   T.all(
     T.Http({
       method: "GET",
@@ -916,8 +935,10 @@ export class GetLoggerDefinitionVersionRequest extends S.Class<GetLoggerDefiniti
   "GetLoggerDefinitionVersionRequest",
 )(
   {
-    LoggerDefinitionId: S.String.pipe(T.HttpLabel()),
-    LoggerDefinitionVersionId: S.String.pipe(T.HttpLabel()),
+    LoggerDefinitionId: S.String.pipe(T.HttpLabel("LoggerDefinitionId")),
+    LoggerDefinitionVersionId: S.String.pipe(
+      T.HttpLabel("LoggerDefinitionVersionId"),
+    ),
     NextToken: S.optional(S.String).pipe(T.HttpQuery("NextToken")),
   },
   T.all(
@@ -935,7 +956,7 @@ export class GetLoggerDefinitionVersionRequest extends S.Class<GetLoggerDefiniti
 export class GetResourceDefinitionRequest extends S.Class<GetResourceDefinitionRequest>(
   "GetResourceDefinitionRequest",
 )(
-  { ResourceDefinitionId: S.String.pipe(T.HttpLabel()) },
+  { ResourceDefinitionId: S.String.pipe(T.HttpLabel("ResourceDefinitionId")) },
   T.all(
     T.Http({
       method: "GET",
@@ -952,8 +973,10 @@ export class GetResourceDefinitionVersionRequest extends S.Class<GetResourceDefi
   "GetResourceDefinitionVersionRequest",
 )(
   {
-    ResourceDefinitionId: S.String.pipe(T.HttpLabel()),
-    ResourceDefinitionVersionId: S.String.pipe(T.HttpLabel()),
+    ResourceDefinitionId: S.String.pipe(T.HttpLabel("ResourceDefinitionId")),
+    ResourceDefinitionVersionId: S.String.pipe(
+      T.HttpLabel("ResourceDefinitionVersionId"),
+    ),
   },
   T.all(
     T.Http({
@@ -973,7 +996,11 @@ export class GetServiceRoleForAccountResponse extends S.Class<GetServiceRoleForA
 export class GetSubscriptionDefinitionRequest extends S.Class<GetSubscriptionDefinitionRequest>(
   "GetSubscriptionDefinitionRequest",
 )(
-  { SubscriptionDefinitionId: S.String.pipe(T.HttpLabel()) },
+  {
+    SubscriptionDefinitionId: S.String.pipe(
+      T.HttpLabel("SubscriptionDefinitionId"),
+    ),
+  },
   T.all(
     T.Http({
       method: "GET",
@@ -991,8 +1018,12 @@ export class GetSubscriptionDefinitionVersionRequest extends S.Class<GetSubscrip
 )(
   {
     NextToken: S.optional(S.String).pipe(T.HttpQuery("NextToken")),
-    SubscriptionDefinitionId: S.String.pipe(T.HttpLabel()),
-    SubscriptionDefinitionVersionId: S.String.pipe(T.HttpLabel()),
+    SubscriptionDefinitionId: S.String.pipe(
+      T.HttpLabel("SubscriptionDefinitionId"),
+    ),
+    SubscriptionDefinitionVersionId: S.String.pipe(
+      T.HttpLabel("SubscriptionDefinitionVersionId"),
+    ),
   },
   T.all(
     T.Http({
@@ -1009,7 +1040,7 @@ export class GetSubscriptionDefinitionVersionRequest extends S.Class<GetSubscrip
 export class GetThingRuntimeConfigurationRequest extends S.Class<GetThingRuntimeConfigurationRequest>(
   "GetThingRuntimeConfigurationRequest",
 )(
-  { ThingName: S.String.pipe(T.HttpLabel()) },
+  { ThingName: S.String.pipe(T.HttpLabel("ThingName")) },
   T.all(
     T.Http({
       method: "GET",
@@ -1026,7 +1057,7 @@ export class ListBulkDeploymentDetailedReportsRequest extends S.Class<ListBulkDe
   "ListBulkDeploymentDetailedReportsRequest",
 )(
   {
-    BulkDeploymentId: S.String.pipe(T.HttpLabel()),
+    BulkDeploymentId: S.String.pipe(T.HttpLabel("BulkDeploymentId")),
     MaxResults: S.optional(S.String).pipe(T.HttpQuery("MaxResults")),
     NextToken: S.optional(S.String).pipe(T.HttpQuery("NextToken")),
   },
@@ -1078,7 +1109,7 @@ export class ListConnectorDefinitionVersionsRequest extends S.Class<ListConnecto
   "ListConnectorDefinitionVersionsRequest",
 )(
   {
-    ConnectorDefinitionId: S.String.pipe(T.HttpLabel()),
+    ConnectorDefinitionId: S.String.pipe(T.HttpLabel("ConnectorDefinitionId")),
     MaxResults: S.optional(S.String).pipe(T.HttpQuery("MaxResults")),
     NextToken: S.optional(S.String).pipe(T.HttpQuery("NextToken")),
   },
@@ -1114,7 +1145,7 @@ export class ListCoreDefinitionVersionsRequest extends S.Class<ListCoreDefinitio
   "ListCoreDefinitionVersionsRequest",
 )(
   {
-    CoreDefinitionId: S.String.pipe(T.HttpLabel()),
+    CoreDefinitionId: S.String.pipe(T.HttpLabel("CoreDefinitionId")),
     MaxResults: S.optional(S.String).pipe(T.HttpQuery("MaxResults")),
     NextToken: S.optional(S.String).pipe(T.HttpQuery("NextToken")),
   },
@@ -1134,7 +1165,7 @@ export class ListDeploymentsRequest extends S.Class<ListDeploymentsRequest>(
   "ListDeploymentsRequest",
 )(
   {
-    GroupId: S.String.pipe(T.HttpLabel()),
+    GroupId: S.String.pipe(T.HttpLabel("GroupId")),
     MaxResults: S.optional(S.String).pipe(T.HttpQuery("MaxResults")),
     NextToken: S.optional(S.String).pipe(T.HttpQuery("NextToken")),
   },
@@ -1167,7 +1198,7 @@ export class ListDeviceDefinitionVersionsRequest extends S.Class<ListDeviceDefin
   "ListDeviceDefinitionVersionsRequest",
 )(
   {
-    DeviceDefinitionId: S.String.pipe(T.HttpLabel()),
+    DeviceDefinitionId: S.String.pipe(T.HttpLabel("DeviceDefinitionId")),
     MaxResults: S.optional(S.String).pipe(T.HttpQuery("MaxResults")),
     NextToken: S.optional(S.String).pipe(T.HttpQuery("NextToken")),
   },
@@ -1203,7 +1234,7 @@ export class ListFunctionDefinitionVersionsRequest extends S.Class<ListFunctionD
   "ListFunctionDefinitionVersionsRequest",
 )(
   {
-    FunctionDefinitionId: S.String.pipe(T.HttpLabel()),
+    FunctionDefinitionId: S.String.pipe(T.HttpLabel("FunctionDefinitionId")),
     MaxResults: S.optional(S.String).pipe(T.HttpQuery("MaxResults")),
     NextToken: S.optional(S.String).pipe(T.HttpQuery("NextToken")),
   },
@@ -1222,7 +1253,7 @@ export class ListFunctionDefinitionVersionsRequest extends S.Class<ListFunctionD
 export class ListGroupCertificateAuthoritiesRequest extends S.Class<ListGroupCertificateAuthoritiesRequest>(
   "ListGroupCertificateAuthoritiesRequest",
 )(
-  { GroupId: S.String.pipe(T.HttpLabel()) },
+  { GroupId: S.String.pipe(T.HttpLabel("GroupId")) },
   T.all(
     T.Http({
       method: "GET",
@@ -1255,7 +1286,7 @@ export class ListGroupVersionsRequest extends S.Class<ListGroupVersionsRequest>(
   "ListGroupVersionsRequest",
 )(
   {
-    GroupId: S.String.pipe(T.HttpLabel()),
+    GroupId: S.String.pipe(T.HttpLabel("GroupId")),
     MaxResults: S.optional(S.String).pipe(T.HttpQuery("MaxResults")),
     NextToken: S.optional(S.String).pipe(T.HttpQuery("NextToken")),
   },
@@ -1288,7 +1319,7 @@ export class ListLoggerDefinitionVersionsRequest extends S.Class<ListLoggerDefin
   "ListLoggerDefinitionVersionsRequest",
 )(
   {
-    LoggerDefinitionId: S.String.pipe(T.HttpLabel()),
+    LoggerDefinitionId: S.String.pipe(T.HttpLabel("LoggerDefinitionId")),
     MaxResults: S.optional(S.String).pipe(T.HttpQuery("MaxResults")),
     NextToken: S.optional(S.String).pipe(T.HttpQuery("NextToken")),
   },
@@ -1326,7 +1357,7 @@ export class ListResourceDefinitionVersionsRequest extends S.Class<ListResourceD
   {
     MaxResults: S.optional(S.String).pipe(T.HttpQuery("MaxResults")),
     NextToken: S.optional(S.String).pipe(T.HttpQuery("NextToken")),
-    ResourceDefinitionId: S.String.pipe(T.HttpLabel()),
+    ResourceDefinitionId: S.String.pipe(T.HttpLabel("ResourceDefinitionId")),
   },
   T.all(
     T.Http({
@@ -1362,7 +1393,9 @@ export class ListSubscriptionDefinitionVersionsRequest extends S.Class<ListSubsc
   {
     MaxResults: S.optional(S.String).pipe(T.HttpQuery("MaxResults")),
     NextToken: S.optional(S.String).pipe(T.HttpQuery("NextToken")),
-    SubscriptionDefinitionId: S.String.pipe(T.HttpLabel()),
+    SubscriptionDefinitionId: S.String.pipe(
+      T.HttpLabel("SubscriptionDefinitionId"),
+    ),
   },
   T.all(
     T.Http({
@@ -1379,7 +1412,7 @@ export class ListSubscriptionDefinitionVersionsRequest extends S.Class<ListSubsc
 export class ListTagsForResourceRequest extends S.Class<ListTagsForResourceRequest>(
   "ListTagsForResourceRequest",
 )(
-  { ResourceArn: S.String.pipe(T.HttpLabel()) },
+  { ResourceArn: S.String.pipe(T.HttpLabel("ResourceArn")) },
   T.all(
     T.Http({ method: "GET", uri: "/tags/{ResourceArn}" }),
     svc,
@@ -1397,7 +1430,7 @@ export class ResetDeploymentsRequest extends S.Class<ResetDeploymentsRequest>(
       T.HttpHeader("X-Amzn-Client-Token"),
     ),
     Force: S.optional(S.Boolean),
-    GroupId: S.String.pipe(T.HttpLabel()),
+    GroupId: S.String.pipe(T.HttpLabel("GroupId")),
   },
   T.all(
     T.Http({
@@ -1435,7 +1468,7 @@ export class StartBulkDeploymentRequest extends S.Class<StartBulkDeploymentReque
 export class StopBulkDeploymentRequest extends S.Class<StopBulkDeploymentRequest>(
   "StopBulkDeploymentRequest",
 )(
-  { BulkDeploymentId: S.String.pipe(T.HttpLabel()) },
+  { BulkDeploymentId: S.String.pipe(T.HttpLabel("BulkDeploymentId")) },
   T.all(
     T.Http({
       method: "PUT",
@@ -1454,7 +1487,10 @@ export class StopBulkDeploymentResponse extends S.Class<StopBulkDeploymentRespon
 export class TagResourceRequest extends S.Class<TagResourceRequest>(
   "TagResourceRequest",
 )(
-  { ResourceArn: S.String.pipe(T.HttpLabel()), tags: S.optional(Tags) },
+  {
+    ResourceArn: S.String.pipe(T.HttpLabel("ResourceArn")),
+    tags: S.optional(Tags),
+  },
   T.all(
     T.Http({ method: "POST", uri: "/tags/{ResourceArn}" }),
     svc,
@@ -1471,7 +1507,7 @@ export class UntagResourceRequest extends S.Class<UntagResourceRequest>(
   "UntagResourceRequest",
 )(
   {
-    ResourceArn: S.String.pipe(T.HttpLabel()),
+    ResourceArn: S.String.pipe(T.HttpLabel("ResourceArn")),
     TagKeys: __listOf__string.pipe(T.HttpQuery("tagKeys")),
   },
   T.all(
@@ -1490,7 +1526,7 @@ export class UpdateConnectorDefinitionRequest extends S.Class<UpdateConnectorDef
   "UpdateConnectorDefinitionRequest",
 )(
   {
-    ConnectorDefinitionId: S.String.pipe(T.HttpLabel()),
+    ConnectorDefinitionId: S.String.pipe(T.HttpLabel("ConnectorDefinitionId")),
     Name: S.optional(S.String),
   },
   T.all(
@@ -1512,7 +1548,7 @@ export class UpdateCoreDefinitionRequest extends S.Class<UpdateCoreDefinitionReq
   "UpdateCoreDefinitionRequest",
 )(
   {
-    CoreDefinitionId: S.String.pipe(T.HttpLabel()),
+    CoreDefinitionId: S.String.pipe(T.HttpLabel("CoreDefinitionId")),
     Name: S.optional(S.String),
   },
   T.all(
@@ -1534,7 +1570,7 @@ export class UpdateDeviceDefinitionRequest extends S.Class<UpdateDeviceDefinitio
   "UpdateDeviceDefinitionRequest",
 )(
   {
-    DeviceDefinitionId: S.String.pipe(T.HttpLabel()),
+    DeviceDefinitionId: S.String.pipe(T.HttpLabel("DeviceDefinitionId")),
     Name: S.optional(S.String),
   },
   T.all(
@@ -1556,7 +1592,7 @@ export class UpdateFunctionDefinitionRequest extends S.Class<UpdateFunctionDefin
   "UpdateFunctionDefinitionRequest",
 )(
   {
-    FunctionDefinitionId: S.String.pipe(T.HttpLabel()),
+    FunctionDefinitionId: S.String.pipe(T.HttpLabel("FunctionDefinitionId")),
     Name: S.optional(S.String),
   },
   T.all(
@@ -1577,7 +1613,10 @@ export class UpdateFunctionDefinitionResponse extends S.Class<UpdateFunctionDefi
 export class UpdateGroupRequest extends S.Class<UpdateGroupRequest>(
   "UpdateGroupRequest",
 )(
-  { GroupId: S.String.pipe(T.HttpLabel()), Name: S.optional(S.String) },
+  {
+    GroupId: S.String.pipe(T.HttpLabel("GroupId")),
+    Name: S.optional(S.String),
+  },
   T.all(
     T.Http({ method: "PUT", uri: "/greengrass/groups/{GroupId}" }),
     svc,
@@ -1595,7 +1634,7 @@ export class UpdateGroupCertificateConfigurationRequest extends S.Class<UpdateGr
 )(
   {
     CertificateExpiryInMilliseconds: S.optional(S.String),
-    GroupId: S.String.pipe(T.HttpLabel()),
+    GroupId: S.String.pipe(T.HttpLabel("GroupId")),
   },
   T.all(
     T.Http({
@@ -1613,7 +1652,7 @@ export class UpdateLoggerDefinitionRequest extends S.Class<UpdateLoggerDefinitio
   "UpdateLoggerDefinitionRequest",
 )(
   {
-    LoggerDefinitionId: S.String.pipe(T.HttpLabel()),
+    LoggerDefinitionId: S.String.pipe(T.HttpLabel("LoggerDefinitionId")),
     Name: S.optional(S.String),
   },
   T.all(
@@ -1636,7 +1675,7 @@ export class UpdateResourceDefinitionRequest extends S.Class<UpdateResourceDefin
 )(
   {
     Name: S.optional(S.String),
-    ResourceDefinitionId: S.String.pipe(T.HttpLabel()),
+    ResourceDefinitionId: S.String.pipe(T.HttpLabel("ResourceDefinitionId")),
   },
   T.all(
     T.Http({
@@ -1658,7 +1697,9 @@ export class UpdateSubscriptionDefinitionRequest extends S.Class<UpdateSubscript
 )(
   {
     Name: S.optional(S.String),
-    SubscriptionDefinitionId: S.String.pipe(T.HttpLabel()),
+    SubscriptionDefinitionId: S.String.pipe(
+      T.HttpLabel("SubscriptionDefinitionId"),
+    ),
   },
   T.all(
     T.Http({
@@ -1920,7 +1961,7 @@ export class CreateCoreDefinitionVersionRequest extends S.Class<CreateCoreDefini
     AmznClientToken: S.optional(S.String).pipe(
       T.HttpHeader("X-Amzn-Client-Token"),
     ),
-    CoreDefinitionId: S.String.pipe(T.HttpLabel()),
+    CoreDefinitionId: S.String.pipe(T.HttpLabel("CoreDefinitionId")),
     Cores: S.optional(__listOfCore),
   },
   T.all(
@@ -1968,7 +2009,7 @@ export class CreateDeviceDefinitionVersionRequest extends S.Class<CreateDeviceDe
     AmznClientToken: S.optional(S.String).pipe(
       T.HttpHeader("X-Amzn-Client-Token"),
     ),
-    DeviceDefinitionId: S.String.pipe(T.HttpLabel()),
+    DeviceDefinitionId: S.String.pipe(T.HttpLabel("DeviceDefinitionId")),
     Devices: S.optional(__listOfDevice),
   },
   T.all(
@@ -2061,7 +2102,7 @@ export class CreateLoggerDefinitionVersionRequest extends S.Class<CreateLoggerDe
     AmznClientToken: S.optional(S.String).pipe(
       T.HttpHeader("X-Amzn-Client-Token"),
     ),
-    LoggerDefinitionId: S.String.pipe(T.HttpLabel()),
+    LoggerDefinitionId: S.String.pipe(T.HttpLabel("LoggerDefinitionId")),
     Loggers: S.optional(__listOfLogger),
   },
   T.all(
@@ -2130,7 +2171,9 @@ export class CreateSubscriptionDefinitionVersionRequest extends S.Class<CreateSu
     AmznClientToken: S.optional(S.String).pipe(
       T.HttpHeader("X-Amzn-Client-Token"),
     ),
-    SubscriptionDefinitionId: S.String.pipe(T.HttpLabel()),
+    SubscriptionDefinitionId: S.String.pipe(
+      T.HttpLabel("SubscriptionDefinitionId"),
+    ),
     Subscriptions: S.optional(__listOfSubscription),
   },
   T.all(
@@ -2478,7 +2521,7 @@ export class UpdateConnectivityInfoRequest extends S.Class<UpdateConnectivityInf
 )(
   {
     ConnectivityInfo: S.optional(__listOfConnectivityInfo),
-    ThingName: S.String.pipe(T.HttpLabel()),
+    ThingName: S.String.pipe(T.HttpLabel("ThingName")),
   },
   T.all(
     T.Http({
@@ -2504,7 +2547,7 @@ export class UpdateThingRuntimeConfigurationRequest extends S.Class<UpdateThingR
 )(
   {
     TelemetryConfiguration: S.optional(TelemetryConfigurationUpdate),
-    ThingName: S.String.pipe(T.HttpLabel()),
+    ThingName: S.String.pipe(T.HttpLabel("ThingName")),
   },
   T.all(
     T.Http({
@@ -2594,7 +2637,7 @@ export class CreateConnectorDefinitionVersionRequest extends S.Class<CreateConne
     AmznClientToken: S.optional(S.String).pipe(
       T.HttpHeader("X-Amzn-Client-Token"),
     ),
-    ConnectorDefinitionId: S.String.pipe(T.HttpLabel()),
+    ConnectorDefinitionId: S.String.pipe(T.HttpLabel("ConnectorDefinitionId")),
     Connectors: S.optional(__listOfConnector),
   },
   T.all(
@@ -2799,7 +2842,7 @@ export class CreateFunctionDefinitionVersionRequest extends S.Class<CreateFuncti
       T.HttpHeader("X-Amzn-Client-Token"),
     ),
     DefaultConfig: S.optional(FunctionDefaultConfig),
-    FunctionDefinitionId: S.String.pipe(T.HttpLabel()),
+    FunctionDefinitionId: S.String.pipe(T.HttpLabel("FunctionDefinitionId")),
     Functions: S.optional(__listOfFunction),
   },
   T.all(
@@ -2821,7 +2864,7 @@ export class CreateResourceDefinitionVersionRequest extends S.Class<CreateResour
     AmznClientToken: S.optional(S.String).pipe(
       T.HttpHeader("X-Amzn-Client-Token"),
     ),
-    ResourceDefinitionId: S.String.pipe(T.HttpLabel()),
+    ResourceDefinitionId: S.String.pipe(T.HttpLabel("ResourceDefinitionId")),
     Resources: S.optional(__listOfResource),
   },
   T.all(
@@ -2857,7 +2900,7 @@ export class CreateResourceDefinitionVersionResponse extends S.Class<CreateResou
 export class InternalServerErrorException extends S.TaggedError<InternalServerErrorException>()(
   "InternalServerErrorException",
   { ErrorDetails: S.optional(ErrorDetails), Message: S.optional(S.String) },
-) {}
+).pipe(withCategory(ERROR_CATEGORIES.SERVER_ERROR)) {}
 export class BadRequestException extends S.TaggedError<BadRequestException>()(
   "BadRequestException",
   { ErrorDetails: S.optional(ErrorDetails), Message: S.optional(S.String) },

@@ -1,6 +1,7 @@
 import * as S from "effect/Schema";
 import * as API from "../api.ts";
 import * as T from "../traits.ts";
+import { ERROR_CATEGORIES, withCategory } from "../error-category.ts";
 const ns = T.XmlNamespace("http://firehose.amazonaws.com/doc/2015-08-04");
 const svc = T.AwsApiService({
   sdkId: "Firehose",
@@ -1432,7 +1433,7 @@ export class InvalidSourceException extends S.TaggedError<InvalidSourceException
 export class ServiceUnavailableException extends S.TaggedError<ServiceUnavailableException>()(
   "ServiceUnavailableException",
   { message: S.optional(S.String) },
-) {}
+).pipe(withCategory(ERROR_CATEGORIES.SERVER_ERROR)) {}
 
 //# Operations
 /**

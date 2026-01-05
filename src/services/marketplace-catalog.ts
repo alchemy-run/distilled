@@ -1,6 +1,7 @@
 import * as S from "effect/Schema";
 import * as API from "../api.ts";
 import * as T from "../traits.ts";
+import { ERROR_CATEGORIES, withCategory } from "../error-category.ts";
 const svc = T.AwsApiService({
   sdkId: "Marketplace Catalog",
   serviceShapeName: "AWSMPSeymour",
@@ -1093,7 +1094,7 @@ export class AccessDeniedException extends S.TaggedError<AccessDeniedException>(
 export class InternalServiceException extends S.TaggedError<InternalServiceException>()(
   "InternalServiceException",
   { Message: S.optional(S.String) },
-) {}
+).pipe(withCategory(ERROR_CATEGORIES.SERVER_ERROR)) {}
 export class ResourceNotFoundException extends S.TaggedError<ResourceNotFoundException>()(
   "ResourceNotFoundException",
   { Message: S.optional(S.String) },
@@ -1105,7 +1106,7 @@ export class ResourceInUseException extends S.TaggedError<ResourceInUseException
 export class ThrottlingException extends S.TaggedError<ThrottlingException>()(
   "ThrottlingException",
   { Message: S.optional(S.String) },
-) {}
+).pipe(withCategory(ERROR_CATEGORIES.THROTTLING_ERROR)) {}
 export class ResourceNotSupportedException extends S.TaggedError<ResourceNotSupportedException>()(
   "ResourceNotSupportedException",
   { Message: S.optional(S.String) },

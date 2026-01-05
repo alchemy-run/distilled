@@ -1,6 +1,7 @@
 import * as S from "effect/Schema";
 import * as API from "../api.ts";
 import * as T from "../traits.ts";
+import { ERROR_CATEGORIES, withCategory } from "../error-category.ts";
 const svc = T.AwsApiService({
   sdkId: "finspace",
   serviceShapeName: "AWSHabaneroManagementService",
@@ -249,7 +250,7 @@ export class CreateKxDatabaseRequest extends S.Class<CreateKxDatabaseRequest>(
   "CreateKxDatabaseRequest",
 )(
   {
-    environmentId: S.String.pipe(T.HttpLabel()),
+    environmentId: S.String.pipe(T.HttpLabel("environmentId")),
     databaseName: S.String,
     description: S.optional(S.String),
     tags: S.optional(TagMap),
@@ -291,7 +292,7 @@ export class CreateKxScalingGroupRequest extends S.Class<CreateKxScalingGroupReq
 )(
   {
     clientToken: S.String,
-    environmentId: S.String.pipe(T.HttpLabel()),
+    environmentId: S.String.pipe(T.HttpLabel("environmentId")),
     scalingGroupName: S.String,
     hostType: S.String,
     availabilityZoneId: S.String,
@@ -313,7 +314,7 @@ export class CreateKxUserRequest extends S.Class<CreateKxUserRequest>(
   "CreateKxUserRequest",
 )(
   {
-    environmentId: S.String.pipe(T.HttpLabel()),
+    environmentId: S.String.pipe(T.HttpLabel("environmentId")),
     userName: S.String,
     iamRole: S.String,
     tags: S.optional(TagMap),
@@ -331,7 +332,7 @@ export class CreateKxUserRequest extends S.Class<CreateKxUserRequest>(
 export class DeleteEnvironmentRequest extends S.Class<DeleteEnvironmentRequest>(
   "DeleteEnvironmentRequest",
 )(
-  { environmentId: S.String.pipe(T.HttpLabel()) },
+  { environmentId: S.String.pipe(T.HttpLabel("environmentId")) },
   T.all(
     T.Http({ method: "DELETE", uri: "/environment/{environmentId}" }),
     svc,
@@ -348,8 +349,8 @@ export class DeleteKxClusterRequest extends S.Class<DeleteKxClusterRequest>(
   "DeleteKxClusterRequest",
 )(
   {
-    environmentId: S.String.pipe(T.HttpLabel()),
-    clusterName: S.String.pipe(T.HttpLabel()),
+    environmentId: S.String.pipe(T.HttpLabel("environmentId")),
+    clusterName: S.String.pipe(T.HttpLabel("clusterName")),
     clientToken: S.optional(S.String).pipe(T.HttpQuery("clientToken")),
   },
   T.all(
@@ -371,9 +372,9 @@ export class DeleteKxClusterNodeRequest extends S.Class<DeleteKxClusterNodeReque
   "DeleteKxClusterNodeRequest",
 )(
   {
-    environmentId: S.String.pipe(T.HttpLabel()),
-    clusterName: S.String.pipe(T.HttpLabel()),
-    nodeId: S.String.pipe(T.HttpLabel()),
+    environmentId: S.String.pipe(T.HttpLabel("environmentId")),
+    clusterName: S.String.pipe(T.HttpLabel("clusterName")),
+    nodeId: S.String.pipe(T.HttpLabel("nodeId")),
   },
   T.all(
     T.Http({
@@ -394,8 +395,8 @@ export class DeleteKxDatabaseRequest extends S.Class<DeleteKxDatabaseRequest>(
   "DeleteKxDatabaseRequest",
 )(
   {
-    environmentId: S.String.pipe(T.HttpLabel()),
-    databaseName: S.String.pipe(T.HttpLabel()),
+    environmentId: S.String.pipe(T.HttpLabel("environmentId")),
+    databaseName: S.String.pipe(T.HttpLabel("databaseName")),
     clientToken: S.String.pipe(T.HttpQuery("clientToken")),
   },
   T.all(
@@ -417,9 +418,9 @@ export class DeleteKxDataviewRequest extends S.Class<DeleteKxDataviewRequest>(
   "DeleteKxDataviewRequest",
 )(
   {
-    environmentId: S.String.pipe(T.HttpLabel()),
-    databaseName: S.String.pipe(T.HttpLabel()),
-    dataviewName: S.String.pipe(T.HttpLabel()),
+    environmentId: S.String.pipe(T.HttpLabel("environmentId")),
+    databaseName: S.String.pipe(T.HttpLabel("databaseName")),
+    dataviewName: S.String.pipe(T.HttpLabel("dataviewName")),
     clientToken: S.String.pipe(T.HttpQuery("clientToken")),
   },
   T.all(
@@ -441,7 +442,7 @@ export class DeleteKxEnvironmentRequest extends S.Class<DeleteKxEnvironmentReque
   "DeleteKxEnvironmentRequest",
 )(
   {
-    environmentId: S.String.pipe(T.HttpLabel()),
+    environmentId: S.String.pipe(T.HttpLabel("environmentId")),
     clientToken: S.optional(S.String).pipe(T.HttpQuery("clientToken")),
   },
   T.all(
@@ -460,8 +461,8 @@ export class DeleteKxScalingGroupRequest extends S.Class<DeleteKxScalingGroupReq
   "DeleteKxScalingGroupRequest",
 )(
   {
-    environmentId: S.String.pipe(T.HttpLabel()),
-    scalingGroupName: S.String.pipe(T.HttpLabel()),
+    environmentId: S.String.pipe(T.HttpLabel("environmentId")),
+    scalingGroupName: S.String.pipe(T.HttpLabel("scalingGroupName")),
     clientToken: S.optional(S.String).pipe(T.HttpQuery("clientToken")),
   },
   T.all(
@@ -483,8 +484,8 @@ export class DeleteKxUserRequest extends S.Class<DeleteKxUserRequest>(
   "DeleteKxUserRequest",
 )(
   {
-    userName: S.String.pipe(T.HttpLabel()),
-    environmentId: S.String.pipe(T.HttpLabel()),
+    userName: S.String.pipe(T.HttpLabel("userName")),
+    environmentId: S.String.pipe(T.HttpLabel("environmentId")),
     clientToken: S.optional(S.String).pipe(T.HttpQuery("clientToken")),
   },
   T.all(
@@ -506,8 +507,8 @@ export class DeleteKxVolumeRequest extends S.Class<DeleteKxVolumeRequest>(
   "DeleteKxVolumeRequest",
 )(
   {
-    environmentId: S.String.pipe(T.HttpLabel()),
-    volumeName: S.String.pipe(T.HttpLabel()),
+    environmentId: S.String.pipe(T.HttpLabel("environmentId")),
+    volumeName: S.String.pipe(T.HttpLabel("volumeName")),
     clientToken: S.optional(S.String).pipe(T.HttpQuery("clientToken")),
   },
   T.all(
@@ -528,7 +529,7 @@ export class DeleteKxVolumeResponse extends S.Class<DeleteKxVolumeResponse>(
 export class GetEnvironmentRequest extends S.Class<GetEnvironmentRequest>(
   "GetEnvironmentRequest",
 )(
-  { environmentId: S.String.pipe(T.HttpLabel()) },
+  { environmentId: S.String.pipe(T.HttpLabel("environmentId")) },
   T.all(
     T.Http({ method: "GET", uri: "/environment/{environmentId}" }),
     svc,
@@ -542,9 +543,9 @@ export class GetKxChangesetRequest extends S.Class<GetKxChangesetRequest>(
   "GetKxChangesetRequest",
 )(
   {
-    environmentId: S.String.pipe(T.HttpLabel()),
-    databaseName: S.String.pipe(T.HttpLabel()),
-    changesetId: S.String.pipe(T.HttpLabel()),
+    environmentId: S.String.pipe(T.HttpLabel("environmentId")),
+    databaseName: S.String.pipe(T.HttpLabel("databaseName")),
+    changesetId: S.String.pipe(T.HttpLabel("changesetId")),
   },
   T.all(
     T.Http({
@@ -562,8 +563,8 @@ export class GetKxClusterRequest extends S.Class<GetKxClusterRequest>(
   "GetKxClusterRequest",
 )(
   {
-    environmentId: S.String.pipe(T.HttpLabel()),
-    clusterName: S.String.pipe(T.HttpLabel()),
+    environmentId: S.String.pipe(T.HttpLabel("environmentId")),
+    clusterName: S.String.pipe(T.HttpLabel("clusterName")),
   },
   T.all(
     T.Http({
@@ -582,7 +583,7 @@ export class GetKxConnectionStringRequest extends S.Class<GetKxConnectionStringR
 )(
   {
     userArn: S.String.pipe(T.HttpQuery("userArn")),
-    environmentId: S.String.pipe(T.HttpLabel()),
+    environmentId: S.String.pipe(T.HttpLabel("environmentId")),
     clusterName: S.String.pipe(T.HttpQuery("clusterName")),
   },
   T.all(
@@ -601,8 +602,8 @@ export class GetKxDatabaseRequest extends S.Class<GetKxDatabaseRequest>(
   "GetKxDatabaseRequest",
 )(
   {
-    environmentId: S.String.pipe(T.HttpLabel()),
-    databaseName: S.String.pipe(T.HttpLabel()),
+    environmentId: S.String.pipe(T.HttpLabel("environmentId")),
+    databaseName: S.String.pipe(T.HttpLabel("databaseName")),
   },
   T.all(
     T.Http({
@@ -620,9 +621,9 @@ export class GetKxDataviewRequest extends S.Class<GetKxDataviewRequest>(
   "GetKxDataviewRequest",
 )(
   {
-    environmentId: S.String.pipe(T.HttpLabel()),
-    databaseName: S.String.pipe(T.HttpLabel()),
-    dataviewName: S.String.pipe(T.HttpLabel()),
+    environmentId: S.String.pipe(T.HttpLabel("environmentId")),
+    databaseName: S.String.pipe(T.HttpLabel("databaseName")),
+    dataviewName: S.String.pipe(T.HttpLabel("dataviewName")),
   },
   T.all(
     T.Http({
@@ -639,7 +640,7 @@ export class GetKxDataviewRequest extends S.Class<GetKxDataviewRequest>(
 export class GetKxEnvironmentRequest extends S.Class<GetKxEnvironmentRequest>(
   "GetKxEnvironmentRequest",
 )(
-  { environmentId: S.String.pipe(T.HttpLabel()) },
+  { environmentId: S.String.pipe(T.HttpLabel("environmentId")) },
   T.all(
     T.Http({ method: "GET", uri: "/kx/environments/{environmentId}" }),
     svc,
@@ -653,8 +654,8 @@ export class GetKxScalingGroupRequest extends S.Class<GetKxScalingGroupRequest>(
   "GetKxScalingGroupRequest",
 )(
   {
-    environmentId: S.String.pipe(T.HttpLabel()),
-    scalingGroupName: S.String.pipe(T.HttpLabel()),
+    environmentId: S.String.pipe(T.HttpLabel("environmentId")),
+    scalingGroupName: S.String.pipe(T.HttpLabel("scalingGroupName")),
   },
   T.all(
     T.Http({
@@ -672,8 +673,8 @@ export class GetKxUserRequest extends S.Class<GetKxUserRequest>(
   "GetKxUserRequest",
 )(
   {
-    userName: S.String.pipe(T.HttpLabel()),
-    environmentId: S.String.pipe(T.HttpLabel()),
+    userName: S.String.pipe(T.HttpLabel("userName")),
+    environmentId: S.String.pipe(T.HttpLabel("environmentId")),
   },
   T.all(
     T.Http({
@@ -691,8 +692,8 @@ export class GetKxVolumeRequest extends S.Class<GetKxVolumeRequest>(
   "GetKxVolumeRequest",
 )(
   {
-    environmentId: S.String.pipe(T.HttpLabel()),
-    volumeName: S.String.pipe(T.HttpLabel()),
+    environmentId: S.String.pipe(T.HttpLabel("environmentId")),
+    volumeName: S.String.pipe(T.HttpLabel("volumeName")),
   },
   T.all(
     T.Http({
@@ -726,8 +727,8 @@ export class ListKxChangesetsRequest extends S.Class<ListKxChangesetsRequest>(
   "ListKxChangesetsRequest",
 )(
   {
-    environmentId: S.String.pipe(T.HttpLabel()),
-    databaseName: S.String.pipe(T.HttpLabel()),
+    environmentId: S.String.pipe(T.HttpLabel("environmentId")),
+    databaseName: S.String.pipe(T.HttpLabel("databaseName")),
     nextToken: S.optional(S.String).pipe(T.HttpQuery("nextToken")),
     maxResults: S.optional(S.Number).pipe(T.HttpQuery("maxResults")),
   },
@@ -747,8 +748,8 @@ export class ListKxClusterNodesRequest extends S.Class<ListKxClusterNodesRequest
   "ListKxClusterNodesRequest",
 )(
   {
-    environmentId: S.String.pipe(T.HttpLabel()),
-    clusterName: S.String.pipe(T.HttpLabel()),
+    environmentId: S.String.pipe(T.HttpLabel("environmentId")),
+    clusterName: S.String.pipe(T.HttpLabel("clusterName")),
     nextToken: S.optional(S.String).pipe(T.HttpQuery("nextToken")),
     maxResults: S.optional(S.Number).pipe(T.HttpQuery("maxResults")),
   },
@@ -768,7 +769,7 @@ export class ListKxClustersRequest extends S.Class<ListKxClustersRequest>(
   "ListKxClustersRequest",
 )(
   {
-    environmentId: S.String.pipe(T.HttpLabel()),
+    environmentId: S.String.pipe(T.HttpLabel("environmentId")),
     clusterType: S.optional(S.String).pipe(T.HttpQuery("clusterType")),
     maxResults: S.optional(S.Number).pipe(T.HttpQuery("maxResults")),
     nextToken: S.optional(S.String).pipe(T.HttpQuery("nextToken")),
@@ -786,7 +787,7 @@ export class ListKxDatabasesRequest extends S.Class<ListKxDatabasesRequest>(
   "ListKxDatabasesRequest",
 )(
   {
-    environmentId: S.String.pipe(T.HttpLabel()),
+    environmentId: S.String.pipe(T.HttpLabel("environmentId")),
     nextToken: S.optional(S.String).pipe(T.HttpQuery("nextToken")),
     maxResults: S.optional(S.Number).pipe(T.HttpQuery("maxResults")),
   },
@@ -806,8 +807,8 @@ export class ListKxDataviewsRequest extends S.Class<ListKxDataviewsRequest>(
   "ListKxDataviewsRequest",
 )(
   {
-    environmentId: S.String.pipe(T.HttpLabel()),
-    databaseName: S.String.pipe(T.HttpLabel()),
+    environmentId: S.String.pipe(T.HttpLabel("environmentId")),
+    databaseName: S.String.pipe(T.HttpLabel("databaseName")),
     nextToken: S.optional(S.String).pipe(T.HttpQuery("nextToken")),
     maxResults: S.optional(S.Number).pipe(T.HttpQuery("maxResults")),
   },
@@ -843,7 +844,7 @@ export class ListKxScalingGroupsRequest extends S.Class<ListKxScalingGroupsReque
   "ListKxScalingGroupsRequest",
 )(
   {
-    environmentId: S.String.pipe(T.HttpLabel()),
+    environmentId: S.String.pipe(T.HttpLabel("environmentId")),
     maxResults: S.optional(S.Number).pipe(T.HttpQuery("maxResults")),
     nextToken: S.optional(S.String).pipe(T.HttpQuery("nextToken")),
   },
@@ -863,7 +864,7 @@ export class ListKxUsersRequest extends S.Class<ListKxUsersRequest>(
   "ListKxUsersRequest",
 )(
   {
-    environmentId: S.String.pipe(T.HttpLabel()),
+    environmentId: S.String.pipe(T.HttpLabel("environmentId")),
     nextToken: S.optional(S.String).pipe(T.HttpQuery("nextToken")),
     maxResults: S.optional(S.Number).pipe(T.HttpQuery("maxResults")),
   },
@@ -880,7 +881,7 @@ export class ListKxVolumesRequest extends S.Class<ListKxVolumesRequest>(
   "ListKxVolumesRequest",
 )(
   {
-    environmentId: S.String.pipe(T.HttpLabel()),
+    environmentId: S.String.pipe(T.HttpLabel("environmentId")),
     maxResults: S.optional(S.Number).pipe(T.HttpQuery("maxResults")),
     nextToken: S.optional(S.String).pipe(T.HttpQuery("nextToken")),
     volumeType: S.optional(S.String).pipe(T.HttpQuery("volumeType")),
@@ -900,7 +901,7 @@ export class ListKxVolumesRequest extends S.Class<ListKxVolumesRequest>(
 export class ListTagsForResourceRequest extends S.Class<ListTagsForResourceRequest>(
   "ListTagsForResourceRequest",
 )(
-  { resourceArn: S.String.pipe(T.HttpLabel()) },
+  { resourceArn: S.String.pipe(T.HttpLabel("resourceArn")) },
   T.all(
     T.Http({ method: "GET", uri: "/tags/{resourceArn}" }),
     svc,
@@ -913,7 +914,7 @@ export class ListTagsForResourceRequest extends S.Class<ListTagsForResourceReque
 export class TagResourceRequest extends S.Class<TagResourceRequest>(
   "TagResourceRequest",
 )(
-  { resourceArn: S.String.pipe(T.HttpLabel()), tags: TagMap },
+  { resourceArn: S.String.pipe(T.HttpLabel("resourceArn")), tags: TagMap },
   T.all(
     T.Http({ method: "POST", uri: "/tags/{resourceArn}" }),
     svc,
@@ -930,7 +931,7 @@ export class UntagResourceRequest extends S.Class<UntagResourceRequest>(
   "UntagResourceRequest",
 )(
   {
-    resourceArn: S.String.pipe(T.HttpLabel()),
+    resourceArn: S.String.pipe(T.HttpLabel("resourceArn")),
     tagKeys: TagKeyList.pipe(T.HttpQuery("tagKeys")),
   },
   T.all(
@@ -960,7 +961,7 @@ export class UpdateEnvironmentRequest extends S.Class<UpdateEnvironmentRequest>(
   "UpdateEnvironmentRequest",
 )(
   {
-    environmentId: S.String.pipe(T.HttpLabel()),
+    environmentId: S.String.pipe(T.HttpLabel("environmentId")),
     name: S.optional(S.String),
     description: S.optional(S.String),
     federationMode: S.optional(S.String),
@@ -979,8 +980,8 @@ export class UpdateKxDatabaseRequest extends S.Class<UpdateKxDatabaseRequest>(
   "UpdateKxDatabaseRequest",
 )(
   {
-    environmentId: S.String.pipe(T.HttpLabel()),
-    databaseName: S.String.pipe(T.HttpLabel()),
+    environmentId: S.String.pipe(T.HttpLabel("environmentId")),
+    databaseName: S.String.pipe(T.HttpLabel("databaseName")),
     description: S.optional(S.String),
     clientToken: S.String,
   },
@@ -1011,9 +1012,9 @@ export class UpdateKxDataviewRequest extends S.Class<UpdateKxDataviewRequest>(
   "UpdateKxDataviewRequest",
 )(
   {
-    environmentId: S.String.pipe(T.HttpLabel()),
-    databaseName: S.String.pipe(T.HttpLabel()),
-    dataviewName: S.String.pipe(T.HttpLabel()),
+    environmentId: S.String.pipe(T.HttpLabel("environmentId")),
+    databaseName: S.String.pipe(T.HttpLabel("databaseName")),
+    dataviewName: S.String.pipe(T.HttpLabel("dataviewName")),
     description: S.optional(S.String),
     changesetId: S.optional(S.String),
     segmentConfigurations: S.optional(KxDataviewSegmentConfigurationList),
@@ -1035,7 +1036,7 @@ export class UpdateKxEnvironmentRequest extends S.Class<UpdateKxEnvironmentReque
   "UpdateKxEnvironmentRequest",
 )(
   {
-    environmentId: S.String.pipe(T.HttpLabel()),
+    environmentId: S.String.pipe(T.HttpLabel("environmentId")),
     name: S.optional(S.String),
     description: S.optional(S.String),
     clientToken: S.optional(S.String),
@@ -1053,8 +1054,8 @@ export class UpdateKxUserRequest extends S.Class<UpdateKxUserRequest>(
   "UpdateKxUserRequest",
 )(
   {
-    environmentId: S.String.pipe(T.HttpLabel()),
-    userName: S.String.pipe(T.HttpLabel()),
+    environmentId: S.String.pipe(T.HttpLabel("environmentId")),
+    userName: S.String.pipe(T.HttpLabel("userName")),
     iamRole: S.String,
     clientToken: S.optional(S.String),
   },
@@ -1077,8 +1078,8 @@ export class UpdateKxVolumeRequest extends S.Class<UpdateKxVolumeRequest>(
   "UpdateKxVolumeRequest",
 )(
   {
-    environmentId: S.String.pipe(T.HttpLabel()),
-    volumeName: S.String.pipe(T.HttpLabel()),
+    environmentId: S.String.pipe(T.HttpLabel("environmentId")),
+    volumeName: S.String.pipe(T.HttpLabel("volumeName")),
     description: S.optional(S.String),
     clientToken: S.optional(S.String),
     nas1Configuration: S.optional(KxNAS1Configuration),
@@ -1195,8 +1196,8 @@ export class CreateKxChangesetRequest extends S.Class<CreateKxChangesetRequest>(
   "CreateKxChangesetRequest",
 )(
   {
-    environmentId: S.String.pipe(T.HttpLabel()),
-    databaseName: S.String.pipe(T.HttpLabel()),
+    environmentId: S.String.pipe(T.HttpLabel("environmentId")),
+    databaseName: S.String.pipe(T.HttpLabel("databaseName")),
     changeRequests: ChangeRequests,
     clientToken: S.String,
   },
@@ -1228,8 +1229,8 @@ export class CreateKxDataviewRequest extends S.Class<CreateKxDataviewRequest>(
   "CreateKxDataviewRequest",
 )(
   {
-    environmentId: S.String.pipe(T.HttpLabel()),
-    databaseName: S.String.pipe(T.HttpLabel()),
+    environmentId: S.String.pipe(T.HttpLabel("environmentId")),
+    databaseName: S.String.pipe(T.HttpLabel("databaseName")),
     dataviewName: S.String,
     azMode: S.String,
     availabilityZoneId: S.optional(S.String),
@@ -1292,7 +1293,7 @@ export class CreateKxVolumeRequest extends S.Class<CreateKxVolumeRequest>(
 )(
   {
     clientToken: S.optional(S.String),
-    environmentId: S.String.pipe(T.HttpLabel()),
+    environmentId: S.String.pipe(T.HttpLabel("environmentId")),
     volumeType: S.String,
     volumeName: S.String,
     description: S.optional(S.String),
@@ -1420,8 +1421,8 @@ export class UpdateKxClusterCodeConfigurationRequest extends S.Class<UpdateKxClu
   "UpdateKxClusterCodeConfigurationRequest",
 )(
   {
-    environmentId: S.String.pipe(T.HttpLabel()),
-    clusterName: S.String.pipe(T.HttpLabel()),
+    environmentId: S.String.pipe(T.HttpLabel("environmentId")),
+    clusterName: S.String.pipe(T.HttpLabel("clusterName")),
     clientToken: S.optional(S.String),
     code: CodeConfiguration,
     initializationScript: S.optional(S.String),
@@ -1475,8 +1476,8 @@ export class UpdateKxClusterDatabasesRequest extends S.Class<UpdateKxClusterData
   "UpdateKxClusterDatabasesRequest",
 )(
   {
-    environmentId: S.String.pipe(T.HttpLabel()),
-    clusterName: S.String.pipe(T.HttpLabel()),
+    environmentId: S.String.pipe(T.HttpLabel("environmentId")),
+    clusterName: S.String.pipe(T.HttpLabel("clusterName")),
     clientToken: S.optional(S.String),
     databases: KxDatabaseConfigurations,
     deploymentConfiguration: S.optional(KxDeploymentConfiguration),
@@ -1772,7 +1773,7 @@ export class CreateKxClusterRequest extends S.Class<CreateKxClusterRequest>(
 )(
   {
     clientToken: S.optional(S.String),
-    environmentId: S.String.pipe(T.HttpLabel()),
+    environmentId: S.String.pipe(T.HttpLabel("environmentId")),
     clusterName: S.String,
     clusterType: S.String,
     tickerplantLogConfiguration: S.optional(TickerplantLogConfiguration),
@@ -2011,7 +2012,7 @@ export class UpdateKxEnvironmentNetworkRequest extends S.Class<UpdateKxEnvironme
   "UpdateKxEnvironmentNetworkRequest",
 )(
   {
-    environmentId: S.String.pipe(T.HttpLabel()),
+    environmentId: S.String.pipe(T.HttpLabel("environmentId")),
     transitGatewayConfiguration: S.optional(TransitGatewayConfiguration),
     customDNSConfiguration: S.optional(CustomDNSConfiguration),
     clientToken: S.optional(S.String),
@@ -2056,7 +2057,7 @@ export class AccessDeniedException extends S.TaggedError<AccessDeniedException>(
 export class InternalServerException extends S.TaggedError<InternalServerException>()(
   "InternalServerException",
   { message: S.optional(S.String) },
-) {}
+).pipe(withCategory(ERROR_CATEGORIES.SERVER_ERROR)) {}
 export class ConflictException extends S.TaggedError<ConflictException>()(
   "ConflictException",
   { message: S.optional(S.String), reason: S.optional(S.String) },
@@ -2080,7 +2081,7 @@ export class LimitExceededException extends S.TaggedError<LimitExceededException
 export class ThrottlingException extends S.TaggedError<ThrottlingException>()(
   "ThrottlingException",
   { message: S.optional(S.String) },
-) {}
+).pipe(withCategory(ERROR_CATEGORIES.THROTTLING_ERROR)) {}
 export class ResourceAlreadyExistsException extends S.TaggedError<ResourceAlreadyExistsException>()(
   "ResourceAlreadyExistsException",
   { message: S.optional(S.String) },

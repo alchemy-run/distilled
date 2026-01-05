@@ -1,6 +1,7 @@
 import * as S from "effect/Schema";
 import * as API from "../api.ts";
 import * as T from "../traits.ts";
+import { ERROR_CATEGORIES, withCategory } from "../error-category.ts";
 const ns = T.XmlNamespace("https://route53.amazonaws.com/doc/2013-04-01/");
 const svc = T.AwsApiService({
   sdkId: "Route 53",
@@ -845,8 +846,8 @@ export class ActivateKeySigningKeyRequest extends S.Class<ActivateKeySigningKeyR
   "ActivateKeySigningKeyRequest",
 )(
   {
-    HostedZoneId: S.String.pipe(T.HttpLabel()),
-    Name: S.String.pipe(T.HttpLabel()),
+    HostedZoneId: S.String.pipe(T.HttpLabel("HostedZoneId")),
+    Name: S.String.pipe(T.HttpLabel("Name")),
   },
   T.all(
     ns,
@@ -961,7 +962,7 @@ export class CreateTrafficPolicyVersionRequest extends S.Class<CreateTrafficPoli
   "CreateTrafficPolicyVersionRequest",
 )(
   {
-    Id: S.String.pipe(T.HttpLabel()),
+    Id: S.String.pipe(T.HttpLabel("Id")),
     Document: S.String,
     Comment: S.optional(S.String),
   },
@@ -982,7 +983,7 @@ export class VPC extends S.Class<VPC>("VPC")({
 export class CreateVPCAssociationAuthorizationRequest extends S.Class<CreateVPCAssociationAuthorizationRequest>(
   "CreateVPCAssociationAuthorizationRequest",
 )(
-  { HostedZoneId: S.String.pipe(T.HttpLabel()), VPC: VPC },
+  { HostedZoneId: S.String.pipe(T.HttpLabel("HostedZoneId")), VPC: VPC },
   T.all(
     ns,
     T.Http({
@@ -1000,8 +1001,8 @@ export class DeactivateKeySigningKeyRequest extends S.Class<DeactivateKeySigning
   "DeactivateKeySigningKeyRequest",
 )(
   {
-    HostedZoneId: S.String.pipe(T.HttpLabel()),
-    Name: S.String.pipe(T.HttpLabel()),
+    HostedZoneId: S.String.pipe(T.HttpLabel("HostedZoneId")),
+    Name: S.String.pipe(T.HttpLabel("Name")),
   },
   T.all(
     ns,
@@ -1019,7 +1020,7 @@ export class DeactivateKeySigningKeyRequest extends S.Class<DeactivateKeySigning
 export class DeleteCidrCollectionRequest extends S.Class<DeleteCidrCollectionRequest>(
   "DeleteCidrCollectionRequest",
 )(
-  { Id: S.String.pipe(T.HttpLabel()) },
+  { Id: S.String.pipe(T.HttpLabel("Id")) },
   T.all(
     ns,
     T.Http({ method: "DELETE", uri: "/2013-04-01/cidrcollection/{Id}" }),
@@ -1036,7 +1037,7 @@ export class DeleteCidrCollectionResponse extends S.Class<DeleteCidrCollectionRe
 export class DeleteHealthCheckRequest extends S.Class<DeleteHealthCheckRequest>(
   "DeleteHealthCheckRequest",
 )(
-  { HealthCheckId: S.String.pipe(T.HttpLabel()) },
+  { HealthCheckId: S.String.pipe(T.HttpLabel("HealthCheckId")) },
   T.all(
     ns,
     T.Http({
@@ -1056,7 +1057,7 @@ export class DeleteHealthCheckResponse extends S.Class<DeleteHealthCheckResponse
 export class DeleteHostedZoneRequest extends S.Class<DeleteHostedZoneRequest>(
   "DeleteHostedZoneRequest",
 )(
-  { Id: S.String.pipe(T.HttpLabel()) },
+  { Id: S.String.pipe(T.HttpLabel("Id")) },
   T.all(
     ns,
     T.Http({ method: "DELETE", uri: "/2013-04-01/hostedzone/{Id}" }),
@@ -1071,8 +1072,8 @@ export class DeleteKeySigningKeyRequest extends S.Class<DeleteKeySigningKeyReque
   "DeleteKeySigningKeyRequest",
 )(
   {
-    HostedZoneId: S.String.pipe(T.HttpLabel()),
-    Name: S.String.pipe(T.HttpLabel()),
+    HostedZoneId: S.String.pipe(T.HttpLabel("HostedZoneId")),
+    Name: S.String.pipe(T.HttpLabel("Name")),
   },
   T.all(
     ns,
@@ -1090,7 +1091,7 @@ export class DeleteKeySigningKeyRequest extends S.Class<DeleteKeySigningKeyReque
 export class DeleteQueryLoggingConfigRequest extends S.Class<DeleteQueryLoggingConfigRequest>(
   "DeleteQueryLoggingConfigRequest",
 )(
-  { Id: S.String.pipe(T.HttpLabel()) },
+  { Id: S.String.pipe(T.HttpLabel("Id")) },
   T.all(
     ns,
     T.Http({ method: "DELETE", uri: "/2013-04-01/queryloggingconfig/{Id}" }),
@@ -1107,7 +1108,7 @@ export class DeleteQueryLoggingConfigResponse extends S.Class<DeleteQueryLogging
 export class DeleteReusableDelegationSetRequest extends S.Class<DeleteReusableDelegationSetRequest>(
   "DeleteReusableDelegationSetRequest",
 )(
-  { Id: S.String.pipe(T.HttpLabel()) },
+  { Id: S.String.pipe(T.HttpLabel("Id")) },
   T.all(
     ns,
     T.Http({ method: "DELETE", uri: "/2013-04-01/delegationset/{Id}" }),
@@ -1124,7 +1125,10 @@ export class DeleteReusableDelegationSetResponse extends S.Class<DeleteReusableD
 export class DeleteTrafficPolicyRequest extends S.Class<DeleteTrafficPolicyRequest>(
   "DeleteTrafficPolicyRequest",
 )(
-  { Id: S.String.pipe(T.HttpLabel()), Version: S.Number.pipe(T.HttpLabel()) },
+  {
+    Id: S.String.pipe(T.HttpLabel("Id")),
+    Version: S.Number.pipe(T.HttpLabel("Version")),
+  },
   T.all(
     ns,
     T.Http({
@@ -1144,7 +1148,7 @@ export class DeleteTrafficPolicyResponse extends S.Class<DeleteTrafficPolicyResp
 export class DeleteTrafficPolicyInstanceRequest extends S.Class<DeleteTrafficPolicyInstanceRequest>(
   "DeleteTrafficPolicyInstanceRequest",
 )(
-  { Id: S.String.pipe(T.HttpLabel()) },
+  { Id: S.String.pipe(T.HttpLabel("Id")) },
   T.all(
     ns,
     T.Http({ method: "DELETE", uri: "/2013-04-01/trafficpolicyinstance/{Id}" }),
@@ -1161,7 +1165,7 @@ export class DeleteTrafficPolicyInstanceResponse extends S.Class<DeleteTrafficPo
 export class DeleteVPCAssociationAuthorizationRequest extends S.Class<DeleteVPCAssociationAuthorizationRequest>(
   "DeleteVPCAssociationAuthorizationRequest",
 )(
-  { HostedZoneId: S.String.pipe(T.HttpLabel()), VPC: VPC },
+  { HostedZoneId: S.String.pipe(T.HttpLabel("HostedZoneId")), VPC: VPC },
   T.all(
     ns,
     T.Http({
@@ -1181,7 +1185,7 @@ export class DeleteVPCAssociationAuthorizationResponse extends S.Class<DeleteVPC
 export class DisableHostedZoneDNSSECRequest extends S.Class<DisableHostedZoneDNSSECRequest>(
   "DisableHostedZoneDNSSECRequest",
 )(
-  { HostedZoneId: S.String.pipe(T.HttpLabel()) },
+  { HostedZoneId: S.String.pipe(T.HttpLabel("HostedZoneId")) },
   T.all(
     ns,
     T.Http({
@@ -1199,7 +1203,7 @@ export class DisassociateVPCFromHostedZoneRequest extends S.Class<DisassociateVP
   "DisassociateVPCFromHostedZoneRequest",
 )(
   {
-    HostedZoneId: S.String.pipe(T.HttpLabel()),
+    HostedZoneId: S.String.pipe(T.HttpLabel("HostedZoneId")),
     VPC: VPC,
     Comment: S.optional(S.String),
   },
@@ -1219,7 +1223,7 @@ export class DisassociateVPCFromHostedZoneRequest extends S.Class<DisassociateVP
 export class EnableHostedZoneDNSSECRequest extends S.Class<EnableHostedZoneDNSSECRequest>(
   "EnableHostedZoneDNSSECRequest",
 )(
-  { HostedZoneId: S.String.pipe(T.HttpLabel()) },
+  { HostedZoneId: S.String.pipe(T.HttpLabel("HostedZoneId")) },
   T.all(
     ns,
     T.Http({
@@ -1236,7 +1240,7 @@ export class EnableHostedZoneDNSSECRequest extends S.Class<EnableHostedZoneDNSSE
 export class GetAccountLimitRequest extends S.Class<GetAccountLimitRequest>(
   "GetAccountLimitRequest",
 )(
-  { Type: S.String.pipe(T.HttpLabel()) },
+  { Type: S.String.pipe(T.HttpLabel("Type")) },
   T.all(
     ns,
     T.Http({ method: "GET", uri: "/2013-04-01/accountlimit/{Type}" }),
@@ -1250,7 +1254,7 @@ export class GetAccountLimitRequest extends S.Class<GetAccountLimitRequest>(
 export class GetChangeRequest extends S.Class<GetChangeRequest>(
   "GetChangeRequest",
 )(
-  { Id: S.String.pipe(T.HttpLabel()) },
+  { Id: S.String.pipe(T.HttpLabel("Id")) },
   T.all(
     ns,
     T.Http({ method: "GET", uri: "/2013-04-01/change/{Id}" }),
@@ -1267,7 +1271,7 @@ export class GetCheckerIpRangesResponse extends S.Class<GetCheckerIpRangesRespon
 export class GetDNSSECRequest extends S.Class<GetDNSSECRequest>(
   "GetDNSSECRequest",
 )(
-  { HostedZoneId: S.String.pipe(T.HttpLabel()) },
+  { HostedZoneId: S.String.pipe(T.HttpLabel("HostedZoneId")) },
   T.all(
     ns,
     T.Http({
@@ -1302,7 +1306,7 @@ export class GetGeoLocationRequest extends S.Class<GetGeoLocationRequest>(
 export class GetHealthCheckRequest extends S.Class<GetHealthCheckRequest>(
   "GetHealthCheckRequest",
 )(
-  { HealthCheckId: S.String.pipe(T.HttpLabel()) },
+  { HealthCheckId: S.String.pipe(T.HttpLabel("HealthCheckId")) },
   T.all(
     ns,
     T.Http({ method: "GET", uri: "/2013-04-01/healthcheck/{HealthCheckId}" }),
@@ -1319,7 +1323,7 @@ export class GetHealthCheckCountResponse extends S.Class<GetHealthCheckCountResp
 export class GetHealthCheckLastFailureReasonRequest extends S.Class<GetHealthCheckLastFailureReasonRequest>(
   "GetHealthCheckLastFailureReasonRequest",
 )(
-  { HealthCheckId: S.String.pipe(T.HttpLabel()) },
+  { HealthCheckId: S.String.pipe(T.HttpLabel("HealthCheckId")) },
   T.all(
     ns,
     T.Http({
@@ -1336,7 +1340,7 @@ export class GetHealthCheckLastFailureReasonRequest extends S.Class<GetHealthChe
 export class GetHealthCheckStatusRequest extends S.Class<GetHealthCheckStatusRequest>(
   "GetHealthCheckStatusRequest",
 )(
-  { HealthCheckId: S.String.pipe(T.HttpLabel()) },
+  { HealthCheckId: S.String.pipe(T.HttpLabel("HealthCheckId")) },
   T.all(
     ns,
     T.Http({
@@ -1353,7 +1357,7 @@ export class GetHealthCheckStatusRequest extends S.Class<GetHealthCheckStatusReq
 export class GetHostedZoneRequest extends S.Class<GetHostedZoneRequest>(
   "GetHostedZoneRequest",
 )(
-  { Id: S.String.pipe(T.HttpLabel()) },
+  { Id: S.String.pipe(T.HttpLabel("Id")) },
   T.all(
     ns,
     T.Http({ method: "GET", uri: "/2013-04-01/hostedzone/{Id}" }),
@@ -1371,8 +1375,8 @@ export class GetHostedZoneLimitRequest extends S.Class<GetHostedZoneLimitRequest
   "GetHostedZoneLimitRequest",
 )(
   {
-    Type: S.String.pipe(T.HttpLabel()),
-    HostedZoneId: S.String.pipe(T.HttpLabel()),
+    Type: S.String.pipe(T.HttpLabel("Type")),
+    HostedZoneId: S.String.pipe(T.HttpLabel("HostedZoneId")),
   },
   T.all(
     ns,
@@ -1390,7 +1394,7 @@ export class GetHostedZoneLimitRequest extends S.Class<GetHostedZoneLimitRequest
 export class GetQueryLoggingConfigRequest extends S.Class<GetQueryLoggingConfigRequest>(
   "GetQueryLoggingConfigRequest",
 )(
-  { Id: S.String.pipe(T.HttpLabel()) },
+  { Id: S.String.pipe(T.HttpLabel("Id")) },
   T.all(
     ns,
     T.Http({ method: "GET", uri: "/2013-04-01/queryloggingconfig/{Id}" }),
@@ -1404,7 +1408,7 @@ export class GetQueryLoggingConfigRequest extends S.Class<GetQueryLoggingConfigR
 export class GetReusableDelegationSetRequest extends S.Class<GetReusableDelegationSetRequest>(
   "GetReusableDelegationSetRequest",
 )(
-  { Id: S.String.pipe(T.HttpLabel()) },
+  { Id: S.String.pipe(T.HttpLabel("Id")) },
   T.all(
     ns,
     T.Http({ method: "GET", uri: "/2013-04-01/delegationset/{Id}" }),
@@ -1419,8 +1423,8 @@ export class GetReusableDelegationSetLimitRequest extends S.Class<GetReusableDel
   "GetReusableDelegationSetLimitRequest",
 )(
   {
-    Type: S.String.pipe(T.HttpLabel()),
-    DelegationSetId: S.String.pipe(T.HttpLabel()),
+    Type: S.String.pipe(T.HttpLabel("Type")),
+    DelegationSetId: S.String.pipe(T.HttpLabel("DelegationSetId")),
   },
   T.all(
     ns,
@@ -1438,7 +1442,10 @@ export class GetReusableDelegationSetLimitRequest extends S.Class<GetReusableDel
 export class GetTrafficPolicyRequest extends S.Class<GetTrafficPolicyRequest>(
   "GetTrafficPolicyRequest",
 )(
-  { Id: S.String.pipe(T.HttpLabel()), Version: S.Number.pipe(T.HttpLabel()) },
+  {
+    Id: S.String.pipe(T.HttpLabel("Id")),
+    Version: S.Number.pipe(T.HttpLabel("Version")),
+  },
   T.all(
     ns,
     T.Http({ method: "GET", uri: "/2013-04-01/trafficpolicy/{Id}/{Version}" }),
@@ -1452,7 +1459,7 @@ export class GetTrafficPolicyRequest extends S.Class<GetTrafficPolicyRequest>(
 export class GetTrafficPolicyInstanceRequest extends S.Class<GetTrafficPolicyInstanceRequest>(
   "GetTrafficPolicyInstanceRequest",
 )(
-  { Id: S.String.pipe(T.HttpLabel()) },
+  { Id: S.String.pipe(T.HttpLabel("Id")) },
   T.all(
     ns,
     T.Http({ method: "GET", uri: "/2013-04-01/trafficpolicyinstance/{Id}" }),
@@ -1470,7 +1477,7 @@ export class ListCidrBlocksRequest extends S.Class<ListCidrBlocksRequest>(
   "ListCidrBlocksRequest",
 )(
   {
-    CollectionId: S.String.pipe(T.HttpLabel()),
+    CollectionId: S.String.pipe(T.HttpLabel("CollectionId")),
     LocationName: S.optional(S.String).pipe(T.HttpQuery("location")),
     NextToken: S.optional(S.String).pipe(T.HttpQuery("nexttoken")),
     MaxResults: S.optional(S.Number).pipe(T.HttpQuery("maxresults")),
@@ -1509,7 +1516,7 @@ export class ListCidrLocationsRequest extends S.Class<ListCidrLocationsRequest>(
   "ListCidrLocationsRequest",
 )(
   {
-    CollectionId: S.String.pipe(T.HttpLabel()),
+    CollectionId: S.String.pipe(T.HttpLabel("CollectionId")),
     NextToken: S.optional(S.String).pipe(T.HttpQuery("nexttoken")),
     MaxResults: S.optional(S.Number).pipe(T.HttpQuery("maxresults")),
   },
@@ -1643,7 +1650,7 @@ export class ListResourceRecordSetsRequest extends S.Class<ListResourceRecordSet
   "ListResourceRecordSetsRequest",
 )(
   {
-    HostedZoneId: S.String.pipe(T.HttpLabel()),
+    HostedZoneId: S.String.pipe(T.HttpLabel("HostedZoneId")),
     StartRecordName: S.optional(S.String).pipe(T.HttpQuery("name")),
     StartRecordType: S.optional(S.String).pipe(T.HttpQuery("type")),
     StartRecordIdentifier: S.optional(S.String).pipe(T.HttpQuery("identifier")),
@@ -1683,8 +1690,8 @@ export class ListTagsForResourceRequest extends S.Class<ListTagsForResourceReque
   "ListTagsForResourceRequest",
 )(
   {
-    ResourceType: S.String.pipe(T.HttpLabel()),
-    ResourceId: S.String.pipe(T.HttpLabel()),
+    ResourceType: S.String.pipe(T.HttpLabel("ResourceType")),
+    ResourceId: S.String.pipe(T.HttpLabel("ResourceId")),
   },
   T.all(
     ns,
@@ -1703,7 +1710,7 @@ export class ListTagsForResourcesRequest extends S.Class<ListTagsForResourcesReq
   "ListTagsForResourcesRequest",
 )(
   {
-    ResourceType: S.String.pipe(T.HttpLabel()),
+    ResourceType: S.String.pipe(T.HttpLabel("ResourceType")),
     ResourceIds: TagResourceIdList,
   },
   T.all(
@@ -1816,7 +1823,7 @@ export class ListTrafficPolicyVersionsRequest extends S.Class<ListTrafficPolicyV
   "ListTrafficPolicyVersionsRequest",
 )(
   {
-    Id: S.String.pipe(T.HttpLabel()),
+    Id: S.String.pipe(T.HttpLabel("Id")),
     TrafficPolicyVersionMarker: S.optional(S.String).pipe(
       T.HttpQuery("trafficpolicyversion"),
     ),
@@ -1836,7 +1843,7 @@ export class ListVPCAssociationAuthorizationsRequest extends S.Class<ListVPCAsso
   "ListVPCAssociationAuthorizationsRequest",
 )(
   {
-    HostedZoneId: S.String.pipe(T.HttpLabel()),
+    HostedZoneId: S.String.pipe(T.HttpLabel("HostedZoneId")),
     NextToken: S.optional(S.String).pipe(T.HttpQuery("nexttoken")),
     MaxResults: S.optional(S.Number).pipe(T.HttpQuery("maxresults")),
   },
@@ -1881,7 +1888,7 @@ export class TestDNSAnswerRequest extends S.Class<TestDNSAnswerRequest>(
 export class UpdateHostedZoneCommentRequest extends S.Class<UpdateHostedZoneCommentRequest>(
   "UpdateHostedZoneCommentRequest",
 )(
-  { Id: S.String.pipe(T.HttpLabel()), Comment: S.optional(S.String) },
+  { Id: S.String.pipe(T.HttpLabel("Id")), Comment: S.optional(S.String) },
   T.all(
     ns,
     T.Http({ method: "POST", uri: "/2013-04-01/hostedzone/{Id}" }),
@@ -1896,7 +1903,7 @@ export class UpdateHostedZoneFeaturesRequest extends S.Class<UpdateHostedZoneFea
   "UpdateHostedZoneFeaturesRequest",
 )(
   {
-    HostedZoneId: S.String.pipe(T.HttpLabel()),
+    HostedZoneId: S.String.pipe(T.HttpLabel("HostedZoneId")),
     EnableAcceleratedRecovery: S.optional(S.Boolean),
   },
   T.all(
@@ -1919,8 +1926,8 @@ export class UpdateTrafficPolicyCommentRequest extends S.Class<UpdateTrafficPoli
   "UpdateTrafficPolicyCommentRequest",
 )(
   {
-    Id: S.String.pipe(T.HttpLabel()),
-    Version: S.Number.pipe(T.HttpLabel()),
+    Id: S.String.pipe(T.HttpLabel("Id")),
+    Version: S.Number.pipe(T.HttpLabel("Version")),
     Comment: S.String,
   },
   T.all(
@@ -1937,7 +1944,7 @@ export class UpdateTrafficPolicyInstanceRequest extends S.Class<UpdateTrafficPol
   "UpdateTrafficPolicyInstanceRequest",
 )(
   {
-    Id: S.String.pipe(T.HttpLabel()),
+    Id: S.String.pipe(T.HttpLabel("Id")),
     TTL: S.Number,
     TrafficPolicyId: S.String,
     TrafficPolicyVersion: S.Number,
@@ -2133,7 +2140,7 @@ export class AssociateVPCWithHostedZoneRequest extends S.Class<AssociateVPCWithH
   "AssociateVPCWithHostedZoneRequest",
 )(
   {
-    HostedZoneId: S.String.pipe(T.HttpLabel()),
+    HostedZoneId: S.String.pipe(T.HttpLabel("HostedZoneId")),
     VPC: VPC,
     Comment: S.optional(S.String),
   },
@@ -2154,7 +2161,7 @@ export class ChangeCidrCollectionRequest extends S.Class<ChangeCidrCollectionReq
   "ChangeCidrCollectionRequest",
 )(
   {
-    Id: S.String.pipe(T.HttpLabel()),
+    Id: S.String.pipe(T.HttpLabel("Id")),
     CollectionVersion: S.optional(S.Number),
     Changes: CidrCollectionChanges,
   },
@@ -2172,8 +2179,8 @@ export class ChangeTagsForResourceRequest extends S.Class<ChangeTagsForResourceR
   "ChangeTagsForResourceRequest",
 )(
   {
-    ResourceType: S.String.pipe(T.HttpLabel()),
-    ResourceId: S.String.pipe(T.HttpLabel()),
+    ResourceType: S.String.pipe(T.HttpLabel("ResourceType")),
+    ResourceId: S.String.pipe(T.HttpLabel("ResourceId")),
     AddTags: S.optional(TagList),
     RemoveTagKeys: S.optional(TagKeyList),
   },
@@ -2439,7 +2446,7 @@ export class UpdateHealthCheckRequest extends S.Class<UpdateHealthCheckRequest>(
   "UpdateHealthCheckRequest",
 )(
   {
-    HealthCheckId: S.String.pipe(T.HttpLabel()),
+    HealthCheckId: S.String.pipe(T.HttpLabel("HealthCheckId")),
     HealthCheckVersion: S.optional(S.Number),
     IPAddress: S.optional(S.String),
     Port: S.optional(S.Number),
@@ -2596,7 +2603,10 @@ export class ChangeCidrCollectionResponse extends S.Class<ChangeCidrCollectionRe
 export class ChangeResourceRecordSetsRequest extends S.Class<ChangeResourceRecordSetsRequest>(
   "ChangeResourceRecordSetsRequest",
 )(
-  { HostedZoneId: S.String.pipe(T.HttpLabel()), ChangeBatch: ChangeBatch },
+  {
+    HostedZoneId: S.String.pipe(T.HttpLabel("HostedZoneId")),
+    ChangeBatch: ChangeBatch,
+  },
   T.all(
     ns,
     T.Http({

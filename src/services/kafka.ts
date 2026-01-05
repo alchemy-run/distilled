@@ -1,6 +1,7 @@
 import * as S from "effect/Schema";
 import * as API from "../api.ts";
 import * as T from "../traits.ts";
+import { ERROR_CATEGORIES, withCategory } from "../error-category.ts";
 const svc = T.AwsApiService({ sdkId: "Kafka", serviceShapeName: "Kafka" });
 const auth = T.AwsAuthSigv4({ name: "kafka" });
 const ver = T.ServiceVersion("2018-11-14");
@@ -263,7 +264,7 @@ export class BatchAssociateScramSecretRequest extends S.Class<BatchAssociateScra
   "BatchAssociateScramSecretRequest",
 )(
   {
-    ClusterArn: S.String.pipe(T.HttpLabel()),
+    ClusterArn: S.String.pipe(T.HttpLabel("ClusterArn")),
     SecretArnList: __listOf__string.pipe(T.JsonName("secretArnList")),
   },
   T.all(
@@ -279,7 +280,7 @@ export class BatchDisassociateScramSecretRequest extends S.Class<BatchDisassocia
   "BatchDisassociateScramSecretRequest",
 )(
   {
-    ClusterArn: S.String.pipe(T.HttpLabel()),
+    ClusterArn: S.String.pipe(T.HttpLabel("ClusterArn")),
     SecretArnList: __listOf__string.pipe(T.JsonName("secretArnList")),
   },
   T.all(
@@ -336,7 +337,7 @@ export class DeleteClusterRequest extends S.Class<DeleteClusterRequest>(
   "DeleteClusterRequest",
 )(
   {
-    ClusterArn: S.String.pipe(T.HttpLabel()),
+    ClusterArn: S.String.pipe(T.HttpLabel("ClusterArn")),
     CurrentVersion: S.optional(S.String).pipe(T.HttpQuery("currentVersion")),
   },
   T.all(
@@ -351,7 +352,7 @@ export class DeleteClusterRequest extends S.Class<DeleteClusterRequest>(
 export class DeleteClusterPolicyRequest extends S.Class<DeleteClusterPolicyRequest>(
   "DeleteClusterPolicyRequest",
 )(
-  { ClusterArn: S.String.pipe(T.HttpLabel()) },
+  { ClusterArn: S.String.pipe(T.HttpLabel("ClusterArn")) },
   T.all(
     T.Http({ method: "DELETE", uri: "/v1/clusters/{ClusterArn}/policy" }),
     svc,
@@ -367,7 +368,7 @@ export class DeleteClusterPolicyResponse extends S.Class<DeleteClusterPolicyResp
 export class DeleteConfigurationRequest extends S.Class<DeleteConfigurationRequest>(
   "DeleteConfigurationRequest",
 )(
-  { Arn: S.String.pipe(T.HttpLabel()) },
+  { Arn: S.String.pipe(T.HttpLabel("Arn")) },
   T.all(
     T.Http({ method: "DELETE", uri: "/v1/configurations/{Arn}" }),
     svc,
@@ -382,7 +383,7 @@ export class DeleteReplicatorRequest extends S.Class<DeleteReplicatorRequest>(
 )(
   {
     CurrentVersion: S.optional(S.String).pipe(T.HttpQuery("currentVersion")),
-    ReplicatorArn: S.String.pipe(T.HttpLabel()),
+    ReplicatorArn: S.String.pipe(T.HttpLabel("ReplicatorArn")),
   },
   T.all(
     T.Http({
@@ -399,7 +400,7 @@ export class DeleteReplicatorRequest extends S.Class<DeleteReplicatorRequest>(
 export class DeleteVpcConnectionRequest extends S.Class<DeleteVpcConnectionRequest>(
   "DeleteVpcConnectionRequest",
 )(
-  { Arn: S.String.pipe(T.HttpLabel()) },
+  { Arn: S.String.pipe(T.HttpLabel("Arn")) },
   T.all(
     T.Http({ method: "DELETE", uri: "/v1/vpc-connection/{Arn}" }),
     svc,
@@ -412,7 +413,7 @@ export class DeleteVpcConnectionRequest extends S.Class<DeleteVpcConnectionReque
 export class DescribeClusterRequest extends S.Class<DescribeClusterRequest>(
   "DescribeClusterRequest",
 )(
-  { ClusterArn: S.String.pipe(T.HttpLabel()) },
+  { ClusterArn: S.String.pipe(T.HttpLabel("ClusterArn")) },
   T.all(
     T.Http({ method: "GET", uri: "/v1/clusters/{ClusterArn}" }),
     svc,
@@ -425,7 +426,7 @@ export class DescribeClusterRequest extends S.Class<DescribeClusterRequest>(
 export class DescribeClusterOperationRequest extends S.Class<DescribeClusterOperationRequest>(
   "DescribeClusterOperationRequest",
 )(
-  { ClusterOperationArn: S.String.pipe(T.HttpLabel()) },
+  { ClusterOperationArn: S.String.pipe(T.HttpLabel("ClusterOperationArn")) },
   T.all(
     T.Http({ method: "GET", uri: "/v1/operations/{ClusterOperationArn}" }),
     svc,
@@ -438,7 +439,7 @@ export class DescribeClusterOperationRequest extends S.Class<DescribeClusterOper
 export class DescribeClusterOperationV2Request extends S.Class<DescribeClusterOperationV2Request>(
   "DescribeClusterOperationV2Request",
 )(
-  { ClusterOperationArn: S.String.pipe(T.HttpLabel()) },
+  { ClusterOperationArn: S.String.pipe(T.HttpLabel("ClusterOperationArn")) },
   T.all(
     T.Http({ method: "GET", uri: "/api/v2/operations/{ClusterOperationArn}" }),
     svc,
@@ -451,7 +452,7 @@ export class DescribeClusterOperationV2Request extends S.Class<DescribeClusterOp
 export class DescribeClusterV2Request extends S.Class<DescribeClusterV2Request>(
   "DescribeClusterV2Request",
 )(
-  { ClusterArn: S.String.pipe(T.HttpLabel()) },
+  { ClusterArn: S.String.pipe(T.HttpLabel("ClusterArn")) },
   T.all(
     T.Http({ method: "GET", uri: "/api/v2/clusters/{ClusterArn}" }),
     svc,
@@ -464,7 +465,7 @@ export class DescribeClusterV2Request extends S.Class<DescribeClusterV2Request>(
 export class DescribeConfigurationRequest extends S.Class<DescribeConfigurationRequest>(
   "DescribeConfigurationRequest",
 )(
-  { Arn: S.String.pipe(T.HttpLabel()) },
+  { Arn: S.String.pipe(T.HttpLabel("Arn")) },
   T.all(
     T.Http({ method: "GET", uri: "/v1/configurations/{Arn}" }),
     svc,
@@ -477,7 +478,10 @@ export class DescribeConfigurationRequest extends S.Class<DescribeConfigurationR
 export class DescribeConfigurationRevisionRequest extends S.Class<DescribeConfigurationRevisionRequest>(
   "DescribeConfigurationRevisionRequest",
 )(
-  { Arn: S.String.pipe(T.HttpLabel()), Revision: S.Number.pipe(T.HttpLabel()) },
+  {
+    Arn: S.String.pipe(T.HttpLabel("Arn")),
+    Revision: S.Number.pipe(T.HttpLabel("Revision")),
+  },
   T.all(
     T.Http({
       method: "GET",
@@ -493,7 +497,7 @@ export class DescribeConfigurationRevisionRequest extends S.Class<DescribeConfig
 export class DescribeReplicatorRequest extends S.Class<DescribeReplicatorRequest>(
   "DescribeReplicatorRequest",
 )(
-  { ReplicatorArn: S.String.pipe(T.HttpLabel()) },
+  { ReplicatorArn: S.String.pipe(T.HttpLabel("ReplicatorArn")) },
   T.all(
     T.Http({
       method: "GET",
@@ -510,8 +514,8 @@ export class DescribeTopicRequest extends S.Class<DescribeTopicRequest>(
   "DescribeTopicRequest",
 )(
   {
-    ClusterArn: S.String.pipe(T.HttpLabel()),
-    TopicName: S.String.pipe(T.HttpLabel()),
+    ClusterArn: S.String.pipe(T.HttpLabel("ClusterArn")),
+    TopicName: S.String.pipe(T.HttpLabel("TopicName")),
   },
   T.all(
     T.Http({
@@ -529,8 +533,8 @@ export class DescribeTopicPartitionsRequest extends S.Class<DescribeTopicPartiti
   "DescribeTopicPartitionsRequest",
 )(
   {
-    ClusterArn: S.String.pipe(T.HttpLabel()),
-    TopicName: S.String.pipe(T.HttpLabel()),
+    ClusterArn: S.String.pipe(T.HttpLabel("ClusterArn")),
+    TopicName: S.String.pipe(T.HttpLabel("TopicName")),
     MaxResults: S.optional(S.Number).pipe(T.HttpQuery("maxResults")),
     NextToken: S.optional(S.String).pipe(T.HttpQuery("nextToken")),
   },
@@ -549,7 +553,7 @@ export class DescribeTopicPartitionsRequest extends S.Class<DescribeTopicPartiti
 export class DescribeVpcConnectionRequest extends S.Class<DescribeVpcConnectionRequest>(
   "DescribeVpcConnectionRequest",
 )(
-  { Arn: S.String.pipe(T.HttpLabel()) },
+  { Arn: S.String.pipe(T.HttpLabel("Arn")) },
   T.all(
     T.Http({ method: "GET", uri: "/v1/vpc-connection/{Arn}" }),
     svc,
@@ -562,7 +566,7 @@ export class DescribeVpcConnectionRequest extends S.Class<DescribeVpcConnectionR
 export class GetBootstrapBrokersRequest extends S.Class<GetBootstrapBrokersRequest>(
   "GetBootstrapBrokersRequest",
 )(
-  { ClusterArn: S.String.pipe(T.HttpLabel()) },
+  { ClusterArn: S.String.pipe(T.HttpLabel("ClusterArn")) },
   T.all(
     T.Http({
       method: "GET",
@@ -578,7 +582,7 @@ export class GetBootstrapBrokersRequest extends S.Class<GetBootstrapBrokersReque
 export class GetClusterPolicyRequest extends S.Class<GetClusterPolicyRequest>(
   "GetClusterPolicyRequest",
 )(
-  { ClusterArn: S.String.pipe(T.HttpLabel()) },
+  { ClusterArn: S.String.pipe(T.HttpLabel("ClusterArn")) },
   T.all(
     T.Http({ method: "GET", uri: "/v1/clusters/{ClusterArn}/policy" }),
     svc,
@@ -605,7 +609,7 @@ export class ListClientVpcConnectionsRequest extends S.Class<ListClientVpcConnec
   "ListClientVpcConnectionsRequest",
 )(
   {
-    ClusterArn: S.String.pipe(T.HttpLabel()),
+    ClusterArn: S.String.pipe(T.HttpLabel("ClusterArn")),
     MaxResults: S.optional(S.Number).pipe(T.HttpQuery("maxResults")),
     NextToken: S.optional(S.String).pipe(T.HttpQuery("nextToken")),
   },
@@ -625,7 +629,7 @@ export class ListClusterOperationsRequest extends S.Class<ListClusterOperationsR
   "ListClusterOperationsRequest",
 )(
   {
-    ClusterArn: S.String.pipe(T.HttpLabel()),
+    ClusterArn: S.String.pipe(T.HttpLabel("ClusterArn")),
     MaxResults: S.optional(S.Number).pipe(T.HttpQuery("maxResults")),
     NextToken: S.optional(S.String).pipe(T.HttpQuery("nextToken")),
   },
@@ -642,7 +646,7 @@ export class ListClusterOperationsV2Request extends S.Class<ListClusterOperation
   "ListClusterOperationsV2Request",
 )(
   {
-    ClusterArn: S.String.pipe(T.HttpLabel()),
+    ClusterArn: S.String.pipe(T.HttpLabel("ClusterArn")),
     MaxResults: S.optional(S.Number).pipe(T.HttpQuery("maxResults")),
     NextToken: S.optional(S.String).pipe(T.HttpQuery("nextToken")),
   },
@@ -700,7 +704,7 @@ export class ListConfigurationRevisionsRequest extends S.Class<ListConfiguration
   "ListConfigurationRevisionsRequest",
 )(
   {
-    Arn: S.String.pipe(T.HttpLabel()),
+    Arn: S.String.pipe(T.HttpLabel("Arn")),
     MaxResults: S.optional(S.Number).pipe(T.HttpQuery("maxResults")),
     NextToken: S.optional(S.String).pipe(T.HttpQuery("nextToken")),
   },
@@ -749,7 +753,7 @@ export class ListNodesRequest extends S.Class<ListNodesRequest>(
   "ListNodesRequest",
 )(
   {
-    ClusterArn: S.String.pipe(T.HttpLabel()),
+    ClusterArn: S.String.pipe(T.HttpLabel("ClusterArn")),
     MaxResults: S.optional(S.Number).pipe(T.HttpQuery("maxResults")),
     NextToken: S.optional(S.String).pipe(T.HttpQuery("nextToken")),
   },
@@ -785,7 +789,7 @@ export class ListScramSecretsRequest extends S.Class<ListScramSecretsRequest>(
   "ListScramSecretsRequest",
 )(
   {
-    ClusterArn: S.String.pipe(T.HttpLabel()),
+    ClusterArn: S.String.pipe(T.HttpLabel("ClusterArn")),
     MaxResults: S.optional(S.Number).pipe(T.HttpQuery("maxResults")),
     NextToken: S.optional(S.String).pipe(T.HttpQuery("nextToken")),
   },
@@ -801,7 +805,7 @@ export class ListScramSecretsRequest extends S.Class<ListScramSecretsRequest>(
 export class ListTagsForResourceRequest extends S.Class<ListTagsForResourceRequest>(
   "ListTagsForResourceRequest",
 )(
-  { ResourceArn: S.String.pipe(T.HttpLabel()) },
+  { ResourceArn: S.String.pipe(T.HttpLabel("ResourceArn")) },
   T.all(
     T.Http({ method: "GET", uri: "/v1/tags/{ResourceArn}" }),
     svc,
@@ -815,7 +819,7 @@ export class ListTopicsRequest extends S.Class<ListTopicsRequest>(
   "ListTopicsRequest",
 )(
   {
-    ClusterArn: S.String.pipe(T.HttpLabel()),
+    ClusterArn: S.String.pipe(T.HttpLabel("ClusterArn")),
     MaxResults: S.optional(S.Number).pipe(T.HttpQuery("maxResults")),
     NextToken: S.optional(S.String).pipe(T.HttpQuery("nextToken")),
     TopicNameFilter: S.optional(S.String).pipe(T.HttpQuery("topicNameFilter")),
@@ -849,7 +853,7 @@ export class PutClusterPolicyRequest extends S.Class<PutClusterPolicyRequest>(
   "PutClusterPolicyRequest",
 )(
   {
-    ClusterArn: S.String.pipe(T.HttpLabel()),
+    ClusterArn: S.String.pipe(T.HttpLabel("ClusterArn")),
     CurrentVersion: S.optional(S.String).pipe(T.JsonName("currentVersion")),
     Policy: S.String.pipe(T.JsonName("policy")),
   },
@@ -867,7 +871,7 @@ export class RebootBrokerRequest extends S.Class<RebootBrokerRequest>(
 )(
   {
     BrokerIds: __listOf__string.pipe(T.JsonName("brokerIds")),
-    ClusterArn: S.String.pipe(T.HttpLabel()),
+    ClusterArn: S.String.pipe(T.HttpLabel("ClusterArn")),
   },
   T.all(
     T.Http({ method: "PUT", uri: "/v1/clusters/{ClusterArn}/reboot-broker" }),
@@ -882,7 +886,7 @@ export class RejectClientVpcConnectionRequest extends S.Class<RejectClientVpcCon
   "RejectClientVpcConnectionRequest",
 )(
   {
-    ClusterArn: S.String.pipe(T.HttpLabel()),
+    ClusterArn: S.String.pipe(T.HttpLabel("ClusterArn")),
     VpcConnectionArn: S.String.pipe(T.JsonName("vpcConnectionArn")),
   },
   T.all(
@@ -904,7 +908,7 @@ export class TagResourceRequest extends S.Class<TagResourceRequest>(
   "TagResourceRequest",
 )(
   {
-    ResourceArn: S.String.pipe(T.HttpLabel()),
+    ResourceArn: S.String.pipe(T.HttpLabel("ResourceArn")),
     Tags: __mapOf__string.pipe(T.JsonName("tags")),
   },
   T.all(
@@ -923,7 +927,7 @@ export class UntagResourceRequest extends S.Class<UntagResourceRequest>(
   "UntagResourceRequest",
 )(
   {
-    ResourceArn: S.String.pipe(T.HttpLabel()),
+    ResourceArn: S.String.pipe(T.HttpLabel("ResourceArn")),
     TagKeys: __listOf__string.pipe(T.HttpQuery("tagKeys")),
   },
   T.all(
@@ -942,7 +946,7 @@ export class UpdateBrokerCountRequest extends S.Class<UpdateBrokerCountRequest>(
   "UpdateBrokerCountRequest",
 )(
   {
-    ClusterArn: S.String.pipe(T.HttpLabel()),
+    ClusterArn: S.String.pipe(T.HttpLabel("ClusterArn")),
     CurrentVersion: S.String.pipe(T.JsonName("currentVersion")),
     TargetNumberOfBrokerNodes: S.Number.pipe(
       T.JsonName("targetNumberOfBrokerNodes"),
@@ -961,7 +965,7 @@ export class UpdateBrokerTypeRequest extends S.Class<UpdateBrokerTypeRequest>(
   "UpdateBrokerTypeRequest",
 )(
   {
-    ClusterArn: S.String.pipe(T.HttpLabel()),
+    ClusterArn: S.String.pipe(T.HttpLabel("ClusterArn")),
     CurrentVersion: S.String.pipe(T.JsonName("currentVersion")),
     TargetInstanceType: S.String.pipe(T.JsonName("targetInstanceType")),
   },
@@ -984,7 +988,7 @@ export class UpdateClusterConfigurationRequest extends S.Class<UpdateClusterConf
   "UpdateClusterConfigurationRequest",
 )(
   {
-    ClusterArn: S.String.pipe(T.HttpLabel()),
+    ClusterArn: S.String.pipe(T.HttpLabel("ClusterArn")),
     ConfigurationInfo: ConfigurationInfo.pipe(T.JsonName("configurationInfo")),
     CurrentVersion: S.String.pipe(T.JsonName("currentVersion")),
   },
@@ -1001,7 +1005,7 @@ export class UpdateClusterKafkaVersionRequest extends S.Class<UpdateClusterKafka
   "UpdateClusterKafkaVersionRequest",
 )(
   {
-    ClusterArn: S.String.pipe(T.HttpLabel()),
+    ClusterArn: S.String.pipe(T.HttpLabel("ClusterArn")),
     ConfigurationInfo: S.optional(ConfigurationInfo).pipe(
       T.JsonName("configurationInfo"),
     ),
@@ -1021,7 +1025,7 @@ export class UpdateConfigurationRequest extends S.Class<UpdateConfigurationReque
   "UpdateConfigurationRequest",
 )(
   {
-    Arn: S.String.pipe(T.HttpLabel()),
+    Arn: S.String.pipe(T.HttpLabel("Arn")),
     Description: S.optional(S.String).pipe(T.JsonName("description")),
     ServerProperties: T.Blob.pipe(T.JsonName("serverProperties")),
   },
@@ -1072,7 +1076,7 @@ export class UpdateMonitoringRequest extends S.Class<UpdateMonitoringRequest>(
   "UpdateMonitoringRequest",
 )(
   {
-    ClusterArn: S.String.pipe(T.HttpLabel()),
+    ClusterArn: S.String.pipe(T.HttpLabel("ClusterArn")),
     CurrentVersion: S.String.pipe(T.JsonName("currentVersion")),
     EnhancedMonitoring: S.optional(S.String).pipe(
       T.JsonName("enhancedMonitoring"),
@@ -1098,7 +1102,7 @@ export class UpdateRebalancingRequest extends S.Class<UpdateRebalancingRequest>(
   "UpdateRebalancingRequest",
 )(
   {
-    ClusterArn: S.String.pipe(T.HttpLabel()),
+    ClusterArn: S.String.pipe(T.HttpLabel("ClusterArn")),
     CurrentVersion: S.String.pipe(T.JsonName("currentVersion")),
     Rebalancing: Rebalancing.pipe(T.JsonName("rebalancing")),
   },
@@ -1163,7 +1167,7 @@ export class UpdateSecurityRequest extends S.Class<UpdateSecurityRequest>(
     ClientAuthentication: S.optional(ClientAuthentication).pipe(
       T.JsonName("clientAuthentication"),
     ),
-    ClusterArn: S.String.pipe(T.HttpLabel()),
+    ClusterArn: S.String.pipe(T.HttpLabel("ClusterArn")),
     CurrentVersion: S.String.pipe(T.JsonName("currentVersion")),
     EncryptionInfo: S.optional(EncryptionInfo).pipe(
       T.JsonName("encryptionInfo"),
@@ -1780,7 +1784,7 @@ export class UpdateBrokerStorageRequest extends S.Class<UpdateBrokerStorageReque
   "UpdateBrokerStorageRequest",
 )(
   {
-    ClusterArn: S.String.pipe(T.HttpLabel()),
+    ClusterArn: S.String.pipe(T.HttpLabel("ClusterArn")),
     CurrentVersion: S.String.pipe(T.JsonName("currentVersion")),
     TargetBrokerEBSVolumeInfo: __listOfBrokerEBSVolumeInfo.pipe(
       T.JsonName("targetBrokerEBSVolumeInfo"),
@@ -1851,7 +1855,7 @@ export class UpdateReplicationInfoRequest extends S.Class<UpdateReplicationInfoR
       T.JsonName("consumerGroupReplication"),
     ),
     CurrentVersion: S.String.pipe(T.JsonName("currentVersion")),
-    ReplicatorArn: S.String.pipe(T.HttpLabel()),
+    ReplicatorArn: S.String.pipe(T.HttpLabel("ReplicatorArn")),
     SourceKafkaClusterArn: S.String.pipe(T.JsonName("sourceKafkaClusterArn")),
     TargetKafkaClusterArn: S.String.pipe(T.JsonName("targetKafkaClusterArn")),
     TopicReplication: S.optional(TopicReplicationUpdate).pipe(
@@ -1882,7 +1886,7 @@ export class UpdateStorageRequest extends S.Class<UpdateStorageRequest>(
   "UpdateStorageRequest",
 )(
   {
-    ClusterArn: S.String.pipe(T.HttpLabel()),
+    ClusterArn: S.String.pipe(T.HttpLabel("ClusterArn")),
     CurrentVersion: S.String.pipe(T.JsonName("currentVersion")),
     ProvisionedThroughput: S.optional(ProvisionedThroughput).pipe(
       T.JsonName("provisionedThroughput"),
@@ -2526,7 +2530,7 @@ export class UpdateConnectivityRequest extends S.Class<UpdateConnectivityRequest
   "UpdateConnectivityRequest",
 )(
   {
-    ClusterArn: S.String.pipe(T.HttpLabel()),
+    ClusterArn: S.String.pipe(T.HttpLabel("ClusterArn")),
     ConnectivityInfo: ConnectivityInfo.pipe(T.JsonName("connectivityInfo")),
     CurrentVersion: S.String.pipe(T.JsonName("currentVersion")),
   },
@@ -2576,7 +2580,7 @@ export class InternalServerErrorException extends S.TaggedError<InternalServerEr
     InvalidParameter: S.optional(S.String).pipe(T.JsonName("invalidParameter")),
     Message: S.optional(S.String).pipe(T.JsonName("message")),
   },
-) {}
+).pipe(withCategory(ERROR_CATEGORIES.SERVER_ERROR)) {}
 export class NotFoundException extends S.TaggedError<NotFoundException>()(
   "NotFoundException",
   {
@@ -2590,7 +2594,7 @@ export class ServiceUnavailableException extends S.TaggedError<ServiceUnavailabl
     InvalidParameter: S.optional(S.String).pipe(T.JsonName("invalidParameter")),
     Message: S.optional(S.String).pipe(T.JsonName("message")),
   },
-) {}
+).pipe(withCategory(ERROR_CATEGORIES.SERVER_ERROR)) {}
 export class UnauthorizedException extends S.TaggedError<UnauthorizedException>()(
   "UnauthorizedException",
   {
@@ -2604,7 +2608,7 @@ export class TooManyRequestsException extends S.TaggedError<TooManyRequestsExcep
     InvalidParameter: S.optional(S.String).pipe(T.JsonName("invalidParameter")),
     Message: S.optional(S.String).pipe(T.JsonName("message")),
   },
-) {}
+).pipe(withCategory(ERROR_CATEGORIES.THROTTLING_ERROR)) {}
 
 //# Operations
 /**

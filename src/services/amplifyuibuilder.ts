@@ -1,6 +1,7 @@
 import * as S from "effect/Schema";
 import * as API from "../api.ts";
 import * as T from "../traits.ts";
+import { ERROR_CATEGORIES, withCategory } from "../error-category.ts";
 const svc = T.AwsApiService({
   sdkId: "AmplifyUIBuilder",
   serviceShapeName: "AmplifyUIBuilder",
@@ -246,8 +247,8 @@ export class GetMetadataRequest extends S.Class<GetMetadataRequest>(
   "GetMetadataRequest",
 )(
   {
-    appId: S.String.pipe(T.HttpLabel()),
-    environmentName: S.String.pipe(T.HttpLabel()),
+    appId: S.String.pipe(T.HttpLabel("appId")),
+    environmentName: S.String.pipe(T.HttpLabel("environmentName")),
   },
   T.all(
     T.Http({
@@ -264,7 +265,7 @@ export class GetMetadataRequest extends S.Class<GetMetadataRequest>(
 export class ListTagsForResourceRequest extends S.Class<ListTagsForResourceRequest>(
   "ListTagsForResourceRequest",
 )(
-  { resourceArn: S.String.pipe(T.HttpLabel()) },
+  { resourceArn: S.String.pipe(T.HttpLabel("resourceArn")) },
   T.all(
     T.Http({ method: "GET", uri: "/tags/{resourceArn}" }),
     svc,
@@ -278,7 +279,7 @@ export class UntagResourceRequest extends S.Class<UntagResourceRequest>(
   "UntagResourceRequest",
 )(
   {
-    resourceArn: S.String.pipe(T.HttpLabel()),
+    resourceArn: S.String.pipe(T.HttpLabel("resourceArn")),
     tagKeys: TagKeyList.pipe(T.HttpQuery("tagKeys")),
   },
   T.all(
@@ -297,9 +298,9 @@ export class GetCodegenJobRequest extends S.Class<GetCodegenJobRequest>(
   "GetCodegenJobRequest",
 )(
   {
-    appId: S.String.pipe(T.HttpLabel()),
-    environmentName: S.String.pipe(T.HttpLabel()),
-    id: S.String.pipe(T.HttpLabel()),
+    appId: S.String.pipe(T.HttpLabel("appId")),
+    environmentName: S.String.pipe(T.HttpLabel("environmentName")),
+    id: S.String.pipe(T.HttpLabel("id")),
   },
   T.all(
     T.Http({
@@ -317,8 +318,8 @@ export class ListCodegenJobsRequest extends S.Class<ListCodegenJobsRequest>(
   "ListCodegenJobsRequest",
 )(
   {
-    appId: S.String.pipe(T.HttpLabel()),
-    environmentName: S.String.pipe(T.HttpLabel()),
+    appId: S.String.pipe(T.HttpLabel("appId")),
+    environmentName: S.String.pipe(T.HttpLabel("environmentName")),
     nextToken: S.optional(S.String).pipe(T.HttpQuery("nextToken")),
     maxResults: S.optional(S.Number).pipe(T.HttpQuery("maxResults")),
   },
@@ -338,9 +339,9 @@ export class GetComponentRequest extends S.Class<GetComponentRequest>(
   "GetComponentRequest",
 )(
   {
-    appId: S.String.pipe(T.HttpLabel()),
-    environmentName: S.String.pipe(T.HttpLabel()),
-    id: S.String.pipe(T.HttpLabel()),
+    appId: S.String.pipe(T.HttpLabel("appId")),
+    environmentName: S.String.pipe(T.HttpLabel("environmentName")),
+    id: S.String.pipe(T.HttpLabel("id")),
   },
   T.all(
     T.Http({
@@ -358,9 +359,9 @@ export class DeleteComponentRequest extends S.Class<DeleteComponentRequest>(
   "DeleteComponentRequest",
 )(
   {
-    appId: S.String.pipe(T.HttpLabel()),
-    environmentName: S.String.pipe(T.HttpLabel()),
-    id: S.String.pipe(T.HttpLabel()),
+    appId: S.String.pipe(T.HttpLabel("appId")),
+    environmentName: S.String.pipe(T.HttpLabel("environmentName")),
+    id: S.String.pipe(T.HttpLabel("id")),
   },
   T.all(
     T.Http({
@@ -381,8 +382,8 @@ export class ListComponentsRequest extends S.Class<ListComponentsRequest>(
   "ListComponentsRequest",
 )(
   {
-    appId: S.String.pipe(T.HttpLabel()),
-    environmentName: S.String.pipe(T.HttpLabel()),
+    appId: S.String.pipe(T.HttpLabel("appId")),
+    environmentName: S.String.pipe(T.HttpLabel("environmentName")),
     nextToken: S.optional(S.String).pipe(T.HttpQuery("nextToken")),
     maxResults: S.optional(S.Number).pipe(T.HttpQuery("maxResults")),
   },
@@ -402,8 +403,8 @@ export class ExportComponentsRequest extends S.Class<ExportComponentsRequest>(
   "ExportComponentsRequest",
 )(
   {
-    appId: S.String.pipe(T.HttpLabel()),
-    environmentName: S.String.pipe(T.HttpLabel()),
+    appId: S.String.pipe(T.HttpLabel("appId")),
+    environmentName: S.String.pipe(T.HttpLabel("environmentName")),
     nextToken: S.optional(S.String).pipe(T.HttpQuery("nextToken")),
   },
   T.all(
@@ -420,9 +421,9 @@ export class ExportComponentsRequest extends S.Class<ExportComponentsRequest>(
 ) {}
 export class GetFormRequest extends S.Class<GetFormRequest>("GetFormRequest")(
   {
-    appId: S.String.pipe(T.HttpLabel()),
-    environmentName: S.String.pipe(T.HttpLabel()),
-    id: S.String.pipe(T.HttpLabel()),
+    appId: S.String.pipe(T.HttpLabel("appId")),
+    environmentName: S.String.pipe(T.HttpLabel("environmentName")),
+    id: S.String.pipe(T.HttpLabel("id")),
   },
   T.all(
     T.Http({
@@ -440,9 +441,9 @@ export class DeleteFormRequest extends S.Class<DeleteFormRequest>(
   "DeleteFormRequest",
 )(
   {
-    appId: S.String.pipe(T.HttpLabel()),
-    environmentName: S.String.pipe(T.HttpLabel()),
-    id: S.String.pipe(T.HttpLabel()),
+    appId: S.String.pipe(T.HttpLabel("appId")),
+    environmentName: S.String.pipe(T.HttpLabel("environmentName")),
+    id: S.String.pipe(T.HttpLabel("id")),
   },
   T.all(
     T.Http({
@@ -463,8 +464,8 @@ export class ListFormsRequest extends S.Class<ListFormsRequest>(
   "ListFormsRequest",
 )(
   {
-    appId: S.String.pipe(T.HttpLabel()),
-    environmentName: S.String.pipe(T.HttpLabel()),
+    appId: S.String.pipe(T.HttpLabel("appId")),
+    environmentName: S.String.pipe(T.HttpLabel("environmentName")),
     nextToken: S.optional(S.String).pipe(T.HttpQuery("nextToken")),
     maxResults: S.optional(S.Number).pipe(T.HttpQuery("maxResults")),
   },
@@ -484,8 +485,8 @@ export class ExportFormsRequest extends S.Class<ExportFormsRequest>(
   "ExportFormsRequest",
 )(
   {
-    appId: S.String.pipe(T.HttpLabel()),
-    environmentName: S.String.pipe(T.HttpLabel()),
+    appId: S.String.pipe(T.HttpLabel("appId")),
+    environmentName: S.String.pipe(T.HttpLabel("environmentName")),
     nextToken: S.optional(S.String).pipe(T.HttpQuery("nextToken")),
   },
   T.all(
@@ -504,9 +505,9 @@ export class GetThemeRequest extends S.Class<GetThemeRequest>(
   "GetThemeRequest",
 )(
   {
-    appId: S.String.pipe(T.HttpLabel()),
-    environmentName: S.String.pipe(T.HttpLabel()),
-    id: S.String.pipe(T.HttpLabel()),
+    appId: S.String.pipe(T.HttpLabel("appId")),
+    environmentName: S.String.pipe(T.HttpLabel("environmentName")),
+    id: S.String.pipe(T.HttpLabel("id")),
   },
   T.all(
     T.Http({
@@ -524,9 +525,9 @@ export class DeleteThemeRequest extends S.Class<DeleteThemeRequest>(
   "DeleteThemeRequest",
 )(
   {
-    appId: S.String.pipe(T.HttpLabel()),
-    environmentName: S.String.pipe(T.HttpLabel()),
-    id: S.String.pipe(T.HttpLabel()),
+    appId: S.String.pipe(T.HttpLabel("appId")),
+    environmentName: S.String.pipe(T.HttpLabel("environmentName")),
+    id: S.String.pipe(T.HttpLabel("id")),
   },
   T.all(
     T.Http({
@@ -547,8 +548,8 @@ export class ListThemesRequest extends S.Class<ListThemesRequest>(
   "ListThemesRequest",
 )(
   {
-    appId: S.String.pipe(T.HttpLabel()),
-    environmentName: S.String.pipe(T.HttpLabel()),
+    appId: S.String.pipe(T.HttpLabel("appId")),
+    environmentName: S.String.pipe(T.HttpLabel("environmentName")),
     nextToken: S.optional(S.String).pipe(T.HttpQuery("nextToken")),
     maxResults: S.optional(S.Number).pipe(T.HttpQuery("maxResults")),
   },
@@ -568,8 +569,8 @@ export class ExportThemesRequest extends S.Class<ExportThemesRequest>(
   "ExportThemesRequest",
 )(
   {
-    appId: S.String.pipe(T.HttpLabel()),
-    environmentName: S.String.pipe(T.HttpLabel()),
+    appId: S.String.pipe(T.HttpLabel("appId")),
+    environmentName: S.String.pipe(T.HttpLabel("environmentName")),
     nextToken: S.optional(S.String).pipe(T.HttpQuery("nextToken")),
   },
   T.all(
@@ -947,7 +948,7 @@ export class ExchangeCodeForTokenRequest extends S.Class<ExchangeCodeForTokenReq
   "ExchangeCodeForTokenRequest",
 )(
   {
-    provider: S.String.pipe(T.HttpLabel()),
+    provider: S.String.pipe(T.HttpLabel("provider")),
     request: ExchangeCodeForTokenRequestBody.pipe(T.HttpPayload()),
   },
   T.all(
@@ -966,9 +967,9 @@ export class PutMetadataFlagRequest extends S.Class<PutMetadataFlagRequest>(
   "PutMetadataFlagRequest",
 )(
   {
-    appId: S.String.pipe(T.HttpLabel()),
-    environmentName: S.String.pipe(T.HttpLabel()),
-    featureName: S.String.pipe(T.HttpLabel()),
+    appId: S.String.pipe(T.HttpLabel("appId")),
+    environmentName: S.String.pipe(T.HttpLabel("environmentName")),
+    featureName: S.String.pipe(T.HttpLabel("featureName")),
     body: PutMetadataFlagBody.pipe(T.HttpPayload()),
   },
   T.all(
@@ -990,7 +991,7 @@ export class RefreshTokenRequest extends S.Class<RefreshTokenRequest>(
   "RefreshTokenRequest",
 )(
   {
-    provider: S.String.pipe(T.HttpLabel()),
+    provider: S.String.pipe(T.HttpLabel("provider")),
     refreshTokenBody: RefreshTokenRequestBody.pipe(T.HttpPayload()),
   },
   T.all(
@@ -1005,7 +1006,7 @@ export class RefreshTokenRequest extends S.Class<RefreshTokenRequest>(
 export class TagResourceRequest extends S.Class<TagResourceRequest>(
   "TagResourceRequest",
 )(
-  { resourceArn: S.String.pipe(T.HttpLabel()), tags: Tags },
+  { resourceArn: S.String.pipe(T.HttpLabel("resourceArn")), tags: Tags },
   T.all(
     T.Http({ method: "POST", uri: "/tags/{resourceArn}" }),
     svc,
@@ -1022,9 +1023,9 @@ export class UpdateComponentRequest extends S.Class<UpdateComponentRequest>(
   "UpdateComponentRequest",
 )(
   {
-    appId: S.String.pipe(T.HttpLabel()),
-    environmentName: S.String.pipe(T.HttpLabel()),
-    id: S.String.pipe(T.HttpLabel()),
+    appId: S.String.pipe(T.HttpLabel("appId")),
+    environmentName: S.String.pipe(T.HttpLabel("environmentName")),
+    id: S.String.pipe(T.HttpLabel("id")),
     clientToken: S.optional(S.String).pipe(T.HttpQuery("clientToken")),
     updatedComponent: UpdateComponentData.pipe(T.HttpPayload()),
   },
@@ -1047,9 +1048,9 @@ export class UpdateFormRequest extends S.Class<UpdateFormRequest>(
   "UpdateFormRequest",
 )(
   {
-    appId: S.String.pipe(T.HttpLabel()),
-    environmentName: S.String.pipe(T.HttpLabel()),
-    id: S.String.pipe(T.HttpLabel()),
+    appId: S.String.pipe(T.HttpLabel("appId")),
+    environmentName: S.String.pipe(T.HttpLabel("environmentName")),
+    id: S.String.pipe(T.HttpLabel("id")),
     clientToken: S.optional(S.String).pipe(T.HttpQuery("clientToken")),
     updatedForm: UpdateFormData.pipe(T.HttpPayload()),
   },
@@ -1072,9 +1073,9 @@ export class UpdateThemeRequest extends S.Class<UpdateThemeRequest>(
   "UpdateThemeRequest",
 )(
   {
-    appId: S.String.pipe(T.HttpLabel()),
-    environmentName: S.String.pipe(T.HttpLabel()),
-    id: S.String.pipe(T.HttpLabel()),
+    appId: S.String.pipe(T.HttpLabel("appId")),
+    environmentName: S.String.pipe(T.HttpLabel("environmentName")),
+    id: S.String.pipe(T.HttpLabel("id")),
     clientToken: S.optional(S.String).pipe(T.HttpQuery("clientToken")),
     updatedTheme: UpdateThemeData.pipe(T.HttpPayload()),
   },
@@ -1359,8 +1360,8 @@ export class CreateThemeRequest extends S.Class<CreateThemeRequest>(
   "CreateThemeRequest",
 )(
   {
-    appId: S.String.pipe(T.HttpLabel()),
-    environmentName: S.String.pipe(T.HttpLabel()),
+    appId: S.String.pipe(T.HttpLabel("appId")),
+    environmentName: S.String.pipe(T.HttpLabel("environmentName")),
     clientToken: S.optional(S.String).pipe(T.HttpQuery("clientToken")),
     themeToCreate: CreateThemeData.pipe(T.HttpPayload()),
   },
@@ -1405,8 +1406,8 @@ export class CreateComponentRequest extends S.Class<CreateComponentRequest>(
   "CreateComponentRequest",
 )(
   {
-    appId: S.String.pipe(T.HttpLabel()),
-    environmentName: S.String.pipe(T.HttpLabel()),
+    appId: S.String.pipe(T.HttpLabel("appId")),
+    environmentName: S.String.pipe(T.HttpLabel("environmentName")),
     clientToken: S.optional(S.String).pipe(T.HttpQuery("clientToken")),
     componentToCreate: CreateComponentData.pipe(T.HttpPayload()),
   },
@@ -1438,8 +1439,8 @@ export class StartCodegenJobRequest extends S.Class<StartCodegenJobRequest>(
   "StartCodegenJobRequest",
 )(
   {
-    appId: S.String.pipe(T.HttpLabel()),
-    environmentName: S.String.pipe(T.HttpLabel()),
+    appId: S.String.pipe(T.HttpLabel("appId")),
+    environmentName: S.String.pipe(T.HttpLabel("environmentName")),
     clientToken: S.optional(S.String).pipe(T.HttpQuery("clientToken")),
     codegenJobToCreate: StartCodegenJobData.pipe(T.HttpPayload()),
   },
@@ -1474,8 +1475,8 @@ export class CreateFormRequest extends S.Class<CreateFormRequest>(
   "CreateFormRequest",
 )(
   {
-    appId: S.String.pipe(T.HttpLabel()),
-    environmentName: S.String.pipe(T.HttpLabel()),
+    appId: S.String.pipe(T.HttpLabel("appId")),
+    environmentName: S.String.pipe(T.HttpLabel("environmentName")),
     clientToken: S.optional(S.String).pipe(T.HttpQuery("clientToken")),
     formToCreate: CreateFormData.pipe(T.HttpPayload()),
   },
@@ -1499,7 +1500,7 @@ export class CreateFormResponse extends S.Class<CreateFormResponse>(
 export class InternalServerException extends S.TaggedError<InternalServerException>()(
   "InternalServerException",
   { message: S.optional(S.String) },
-) {}
+).pipe(withCategory(ERROR_CATEGORIES.SERVER_ERROR)) {}
 export class InvalidParameterException extends S.TaggedError<InvalidParameterException>()(
   "InvalidParameterException",
   { message: S.optional(S.String) },
@@ -1511,7 +1512,7 @@ export class UnauthorizedException extends S.TaggedError<UnauthorizedException>(
 export class ThrottlingException extends S.TaggedError<ThrottlingException>()(
   "ThrottlingException",
   { message: S.optional(S.String) },
-) {}
+).pipe(withCategory(ERROR_CATEGORIES.THROTTLING_ERROR)) {}
 export class ResourceNotFoundException extends S.TaggedError<ResourceNotFoundException>()(
   "ResourceNotFoundException",
   { message: S.optional(S.String) },

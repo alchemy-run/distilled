@@ -1,6 +1,7 @@
 import * as S from "effect/Schema";
 import * as API from "../api.ts";
 import * as T from "../traits.ts";
+import { ERROR_CATEGORIES, withCategory } from "../error-category.ts";
 const svc = T.AwsApiService({ sdkId: "Signin", serviceShapeName: "Signin" });
 const auth = T.AwsAuthSigv4({ name: "signin" });
 const ver = T.ServiceVersion("2023-01-01");
@@ -395,11 +396,11 @@ export class AccessDeniedException extends S.TaggedError<AccessDeniedException>(
 export class InternalServerException extends S.TaggedError<InternalServerException>()(
   "InternalServerException",
   { error: S.String, message: S.String },
-) {}
+).pipe(withCategory(ERROR_CATEGORIES.SERVER_ERROR)) {}
 export class TooManyRequestsError extends S.TaggedError<TooManyRequestsError>()(
   "TooManyRequestsError",
   { error: S.String, message: S.String },
-) {}
+).pipe(withCategory(ERROR_CATEGORIES.THROTTLING_ERROR)) {}
 export class ValidationException extends S.TaggedError<ValidationException>()(
   "ValidationException",
   { error: S.String, message: S.String },

@@ -1,6 +1,7 @@
 import * as S from "effect/Schema";
 import * as API from "../api.ts";
 import * as T from "../traits.ts";
+import { ERROR_CATEGORIES, withCategory } from "../error-category.ts";
 const svc = T.AwsApiService({
   sdkId: "Budgets",
   serviceShapeName: "AWSBudgetServiceGateway",
@@ -1045,7 +1046,7 @@ export class CreationLimitExceededException extends S.TaggedError<CreationLimitE
 export class InternalErrorException extends S.TaggedError<InternalErrorException>()(
   "InternalErrorException",
   { Message: S.optional(S.String) },
-) {}
+).pipe(withCategory(ERROR_CATEGORIES.SERVER_ERROR)) {}
 export class ExpiredNextTokenException extends S.TaggedError<ExpiredNextTokenException>()(
   "ExpiredNextTokenException",
   { Message: S.optional(S.String) },

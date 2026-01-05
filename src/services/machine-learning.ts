@@ -1,6 +1,7 @@
 import * as S from "effect/Schema";
 import * as API from "../api.ts";
 import * as T from "../traits.ts";
+import { ERROR_CATEGORIES, withCategory } from "../error-category.ts";
 const ns = T.XmlNamespace(
   "http://machinelearning.amazonaws.com/doc/2014-12-12/",
 );
@@ -883,7 +884,7 @@ export class IdempotentParameterMismatchException extends S.TaggedError<Idempote
 export class InternalServerException extends S.TaggedError<InternalServerException>()(
   "InternalServerException",
   { message: S.optional(S.String), code: S.optional(S.Number) },
-) {}
+).pipe(withCategory(ERROR_CATEGORIES.SERVER_ERROR)) {}
 export class InvalidInputException extends S.TaggedError<InvalidInputException>()(
   "InvalidInputException",
   { message: S.optional(S.String), code: S.optional(S.Number) },

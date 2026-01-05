@@ -1,6 +1,7 @@
 import * as S from "effect/Schema";
 import * as API from "../api.ts";
 import * as T from "../traits.ts";
+import { ERROR_CATEGORIES, withCategory } from "../error-category.ts";
 const svc = T.AwsApiService({
   sdkId: "Connect",
   serviceShapeName: "AmazonConnectService",
@@ -294,8 +295,8 @@ export class ActivateEvaluationFormRequest extends S.Class<ActivateEvaluationFor
   "ActivateEvaluationFormRequest",
 )(
   {
-    InstanceId: S.String.pipe(T.HttpLabel()),
-    EvaluationFormId: S.String.pipe(T.HttpLabel()),
+    InstanceId: S.String.pipe(T.HttpLabel("InstanceId")),
+    EvaluationFormId: S.String.pipe(T.HttpLabel("EvaluationFormId")),
     EvaluationFormVersion: S.Number,
   },
   T.all(
@@ -314,7 +315,7 @@ export class AssociateAnalyticsDataSetRequest extends S.Class<AssociateAnalytics
   "AssociateAnalyticsDataSetRequest",
 )(
   {
-    InstanceId: S.String.pipe(T.HttpLabel()),
+    InstanceId: S.String.pipe(T.HttpLabel("InstanceId")),
     DataSetId: S.String,
     TargetAccountId: S.optional(S.String),
   },
@@ -334,7 +335,7 @@ export class AssociateApprovedOriginRequest extends S.Class<AssociateApprovedOri
   "AssociateApprovedOriginRequest",
 )(
   {
-    InstanceId: S.String.pipe(T.HttpLabel()),
+    InstanceId: S.String.pipe(T.HttpLabel("InstanceId")),
     Origin: S.String,
     ClientToken: S.optional(S.String),
   },
@@ -354,8 +355,8 @@ export class AssociateContactWithUserRequest extends S.Class<AssociateContactWit
   "AssociateContactWithUserRequest",
 )(
   {
-    InstanceId: S.String.pipe(T.HttpLabel()),
-    ContactId: S.String.pipe(T.HttpLabel()),
+    InstanceId: S.String.pipe(T.HttpLabel("InstanceId")),
+    ContactId: S.String.pipe(T.HttpLabel("ContactId")),
     UserId: S.String,
   },
   T.all(
@@ -377,8 +378,8 @@ export class AssociateDefaultVocabularyRequest extends S.Class<AssociateDefaultV
   "AssociateDefaultVocabularyRequest",
 )(
   {
-    InstanceId: S.String.pipe(T.HttpLabel()),
-    LanguageCode: S.String.pipe(T.HttpLabel()),
+    InstanceId: S.String.pipe(T.HttpLabel("InstanceId")),
+    LanguageCode: S.String.pipe(T.HttpLabel("LanguageCode")),
     VocabularyId: S.optional(S.String),
   },
   T.all(
@@ -400,7 +401,7 @@ export class AssociateFlowRequest extends S.Class<AssociateFlowRequest>(
   "AssociateFlowRequest",
 )(
   {
-    InstanceId: S.String.pipe(T.HttpLabel()),
+    InstanceId: S.String.pipe(T.HttpLabel("InstanceId")),
     ResourceId: S.String,
     FlowId: S.String,
     ResourceType: S.String,
@@ -421,7 +422,7 @@ export class AssociateLambdaFunctionRequest extends S.Class<AssociateLambdaFunct
   "AssociateLambdaFunctionRequest",
 )(
   {
-    InstanceId: S.String.pipe(T.HttpLabel()),
+    InstanceId: S.String.pipe(T.HttpLabel("InstanceId")),
     FunctionArn: S.String,
     ClientToken: S.optional(S.String),
   },
@@ -445,7 +446,7 @@ export class AssociateLexBotRequest extends S.Class<AssociateLexBotRequest>(
   "AssociateLexBotRequest",
 )(
   {
-    InstanceId: S.String.pipe(T.HttpLabel()),
+    InstanceId: S.String.pipe(T.HttpLabel("InstanceId")),
     LexBot: LexBot,
     ClientToken: S.optional(S.String),
   },
@@ -465,7 +466,7 @@ export class AssociatePhoneNumberContactFlowRequest extends S.Class<AssociatePho
   "AssociatePhoneNumberContactFlowRequest",
 )(
   {
-    PhoneNumberId: S.String.pipe(T.HttpLabel()),
+    PhoneNumberId: S.String.pipe(T.HttpLabel("PhoneNumberId")),
     InstanceId: S.String,
     ContactFlowId: S.String,
   },
@@ -488,8 +489,8 @@ export class AssociateQueueQuickConnectsRequest extends S.Class<AssociateQueueQu
   "AssociateQueueQuickConnectsRequest",
 )(
   {
-    InstanceId: S.String.pipe(T.HttpLabel()),
-    QueueId: S.String.pipe(T.HttpLabel()),
+    InstanceId: S.String.pipe(T.HttpLabel("InstanceId")),
+    QueueId: S.String.pipe(T.HttpLabel("QueueId")),
     QuickConnectIds: QuickConnectsList,
   },
   T.all(
@@ -511,7 +512,7 @@ export class AssociateSecurityKeyRequest extends S.Class<AssociateSecurityKeyReq
   "AssociateSecurityKeyRequest",
 )(
   {
-    InstanceId: S.String.pipe(T.HttpLabel()),
+    InstanceId: S.String.pipe(T.HttpLabel("InstanceId")),
     Key: S.String,
     ClientToken: S.optional(S.String),
   },
@@ -528,7 +529,9 @@ export class AssociateTrafficDistributionGroupUserRequest extends S.Class<Associ
   "AssociateTrafficDistributionGroupUserRequest",
 )(
   {
-    TrafficDistributionGroupId: S.String.pipe(T.HttpLabel()),
+    TrafficDistributionGroupId: S.String.pipe(
+      T.HttpLabel("TrafficDistributionGroupId"),
+    ),
     UserId: S.String,
     InstanceId: S.String,
   },
@@ -551,8 +554,8 @@ export class AssociateWorkspaceRequest extends S.Class<AssociateWorkspaceRequest
   "AssociateWorkspaceRequest",
 )(
   {
-    InstanceId: S.String.pipe(T.HttpLabel()),
-    WorkspaceId: S.String.pipe(T.HttpLabel()),
+    InstanceId: S.String.pipe(T.HttpLabel("InstanceId")),
+    WorkspaceId: S.String.pipe(T.HttpLabel("WorkspaceId")),
     ResourceArns: WorkspaceResourceArnList,
   },
   T.all(
@@ -571,7 +574,7 @@ export class BatchAssociateAnalyticsDataSetRequest extends S.Class<BatchAssociat
   "BatchAssociateAnalyticsDataSetRequest",
 )(
   {
-    InstanceId: S.String.pipe(T.HttpLabel()),
+    InstanceId: S.String.pipe(T.HttpLabel("InstanceId")),
     DataSetIds: DataSetIds,
     TargetAccountId: S.optional(S.String),
   },
@@ -591,7 +594,7 @@ export class BatchDisassociateAnalyticsDataSetRequest extends S.Class<BatchDisas
   "BatchDisassociateAnalyticsDataSetRequest",
 )(
   {
-    InstanceId: S.String.pipe(T.HttpLabel()),
+    InstanceId: S.String.pipe(T.HttpLabel("InstanceId")),
     DataSetIds: DataSetIds,
     TargetAccountId: S.optional(S.String),
   },
@@ -612,7 +615,7 @@ export class BatchGetAttachedFileMetadataRequest extends S.Class<BatchGetAttache
 )(
   {
     FileIds: FileIdList,
-    InstanceId: S.String.pipe(T.HttpLabel()),
+    InstanceId: S.String.pipe(T.HttpLabel("InstanceId")),
     AssociatedResourceArn: S.String.pipe(T.HttpQuery("associatedResourceArn")),
   },
   T.all(
@@ -628,7 +631,7 @@ export class BatchGetFlowAssociationRequest extends S.Class<BatchGetFlowAssociat
   "BatchGetFlowAssociationRequest",
 )(
   {
-    InstanceId: S.String.pipe(T.HttpLabel()),
+    InstanceId: S.String.pipe(T.HttpLabel("InstanceId")),
     ResourceIds: resourceArnListMaxLimit100,
     ResourceType: S.optional(S.String),
   },
@@ -667,8 +670,8 @@ export class BatchUpdateDataTableValueRequest extends S.Class<BatchUpdateDataTab
   "BatchUpdateDataTableValueRequest",
 )(
   {
-    InstanceId: S.String.pipe(T.HttpLabel()),
-    DataTableId: S.String.pipe(T.HttpLabel()),
+    InstanceId: S.String.pipe(T.HttpLabel("InstanceId")),
+    DataTableId: S.String.pipe(T.HttpLabel("DataTableId")),
     Values: DataTableValueList,
   },
   T.all(
@@ -687,8 +690,8 @@ export class CompleteAttachedFileUploadRequest extends S.Class<CompleteAttachedF
   "CompleteAttachedFileUploadRequest",
 )(
   {
-    InstanceId: S.String.pipe(T.HttpLabel()),
-    FileId: S.String.pipe(T.HttpLabel()),
+    InstanceId: S.String.pipe(T.HttpLabel("InstanceId")),
+    FileId: S.String.pipe(T.HttpLabel("FileId")),
     AssociatedResourceArn: S.String.pipe(T.HttpQuery("associatedResourceArn")),
   },
   T.all(
@@ -708,7 +711,7 @@ export class CreateAgentStatusRequest extends S.Class<CreateAgentStatusRequest>(
   "CreateAgentStatusRequest",
 )(
   {
-    InstanceId: S.String.pipe(T.HttpLabel()),
+    InstanceId: S.String.pipe(T.HttpLabel("InstanceId")),
     Name: S.String,
     Description: S.optional(S.String),
     State: S.String,
@@ -728,7 +731,7 @@ export class CreateContactFlowRequest extends S.Class<CreateContactFlowRequest>(
   "CreateContactFlowRequest",
 )(
   {
-    InstanceId: S.String.pipe(T.HttpLabel()),
+    InstanceId: S.String.pipe(T.HttpLabel("InstanceId")),
     Name: S.String,
     Type: S.String,
     Description: S.optional(S.String),
@@ -749,9 +752,9 @@ export class CreateContactFlowModuleAliasRequest extends S.Class<CreateContactFl
   "CreateContactFlowModuleAliasRequest",
 )(
   {
-    InstanceId: S.String.pipe(T.HttpLabel()),
+    InstanceId: S.String.pipe(T.HttpLabel("InstanceId")),
     Description: S.optional(S.String),
-    ContactFlowModuleId: S.String.pipe(T.HttpLabel()),
+    ContactFlowModuleId: S.String.pipe(T.HttpLabel("ContactFlowModuleId")),
     ContactFlowModuleVersion: S.Number,
     AliasName: S.String,
   },
@@ -771,9 +774,9 @@ export class CreateContactFlowModuleVersionRequest extends S.Class<CreateContact
   "CreateContactFlowModuleVersionRequest",
 )(
   {
-    InstanceId: S.String.pipe(T.HttpLabel()),
+    InstanceId: S.String.pipe(T.HttpLabel("InstanceId")),
     Description: S.optional(S.String),
-    ContactFlowModuleId: S.String.pipe(T.HttpLabel()),
+    ContactFlowModuleId: S.String.pipe(T.HttpLabel("ContactFlowModuleId")),
     FlowModuleContentSha256: S.optional(S.String),
   },
   T.all(
@@ -792,9 +795,9 @@ export class CreateContactFlowVersionRequest extends S.Class<CreateContactFlowVe
   "CreateContactFlowVersionRequest",
 )(
   {
-    InstanceId: S.String.pipe(T.HttpLabel()),
+    InstanceId: S.String.pipe(T.HttpLabel("InstanceId")),
     Description: S.optional(S.String),
-    ContactFlowId: S.String.pipe(T.HttpLabel()),
+    ContactFlowId: S.String.pipe(T.HttpLabel("ContactFlowId")),
     FlowContentSha256: S.optional(S.String),
     ContactFlowVersion: S.optional(S.Number),
     LastModifiedTime: S.optional(
@@ -818,7 +821,7 @@ export class CreateDataTableRequest extends S.Class<CreateDataTableRequest>(
   "CreateDataTableRequest",
 )(
   {
-    InstanceId: S.String.pipe(T.HttpLabel()),
+    InstanceId: S.String.pipe(T.HttpLabel("InstanceId")),
     Name: S.String,
     Description: S.optional(S.String),
     TimeZone: S.String,
@@ -840,7 +843,7 @@ export class CreateEmailAddressRequest extends S.Class<CreateEmailAddressRequest
 )(
   {
     Description: S.optional(S.String),
-    InstanceId: S.String.pipe(T.HttpLabel()),
+    InstanceId: S.String.pipe(T.HttpLabel("InstanceId")),
     EmailAddress: S.String,
     DisplayName: S.optional(S.String),
     Tags: S.optional(TagMap),
@@ -880,7 +883,7 @@ export class CreateIntegrationAssociationRequest extends S.Class<CreateIntegrati
   "CreateIntegrationAssociationRequest",
 )(
   {
-    InstanceId: S.String.pipe(T.HttpLabel()),
+    InstanceId: S.String.pipe(T.HttpLabel("InstanceId")),
     IntegrationType: S.String,
     IntegrationArn: S.String,
     SourceApplicationUrl: S.optional(S.String),
@@ -904,8 +907,8 @@ export class CreatePersistentContactAssociationRequest extends S.Class<CreatePer
   "CreatePersistentContactAssociationRequest",
 )(
   {
-    InstanceId: S.String.pipe(T.HttpLabel()),
-    InitialContactId: S.String.pipe(T.HttpLabel()),
+    InstanceId: S.String.pipe(T.HttpLabel("InstanceId")),
+    InitialContactId: S.String.pipe(T.HttpLabel("InitialContactId")),
     RehydrationType: S.String,
     SourceContactId: S.String,
     ClientToken: S.optional(S.String),
@@ -926,7 +929,7 @@ export class CreatePromptRequest extends S.Class<CreatePromptRequest>(
   "CreatePromptRequest",
 )(
   {
-    InstanceId: S.String.pipe(T.HttpLabel()),
+    InstanceId: S.String.pipe(T.HttpLabel("InstanceId")),
     Name: S.String,
     Description: S.optional(S.String),
     S3Uri: S.String,
@@ -964,8 +967,10 @@ export class CreateUseCaseRequest extends S.Class<CreateUseCaseRequest>(
   "CreateUseCaseRequest",
 )(
   {
-    InstanceId: S.String.pipe(T.HttpLabel()),
-    IntegrationAssociationId: S.String.pipe(T.HttpLabel()),
+    InstanceId: S.String.pipe(T.HttpLabel("InstanceId")),
+    IntegrationAssociationId: S.String.pipe(
+      T.HttpLabel("IntegrationAssociationId"),
+    ),
     UseCaseType: S.String,
     Tags: S.optional(TagMap),
   },
@@ -987,7 +992,7 @@ export class CreateUserHierarchyGroupRequest extends S.Class<CreateUserHierarchy
   {
     Name: S.String,
     ParentGroupId: S.optional(S.String),
-    InstanceId: S.String.pipe(T.HttpLabel()),
+    InstanceId: S.String.pipe(T.HttpLabel("InstanceId")),
     Tags: S.optional(TagMap),
   },
   T.all(
@@ -1003,8 +1008,8 @@ export class CreateViewVersionRequest extends S.Class<CreateViewVersionRequest>(
   "CreateViewVersionRequest",
 )(
   {
-    InstanceId: S.String.pipe(T.HttpLabel()),
-    ViewId: S.String.pipe(T.HttpLabel()),
+    InstanceId: S.String.pipe(T.HttpLabel("InstanceId")),
+    ViewId: S.String.pipe(T.HttpLabel("ViewId")),
     VersionDescription: S.optional(S.String),
     ViewContentSha256: S.optional(S.String),
   },
@@ -1022,7 +1027,7 @@ export class CreateVocabularyRequest extends S.Class<CreateVocabularyRequest>(
 )(
   {
     ClientToken: S.optional(S.String),
-    InstanceId: S.String.pipe(T.HttpLabel()),
+    InstanceId: S.String.pipe(T.HttpLabel("InstanceId")),
     VocabularyName: S.String,
     LanguageCode: S.String,
     Content: S.String,
@@ -1041,8 +1046,8 @@ export class CreateWorkspacePageRequest extends S.Class<CreateWorkspacePageReque
   "CreateWorkspacePageRequest",
 )(
   {
-    InstanceId: S.String.pipe(T.HttpLabel()),
-    WorkspaceId: S.String.pipe(T.HttpLabel()),
+    InstanceId: S.String.pipe(T.HttpLabel("InstanceId")),
+    WorkspaceId: S.String.pipe(T.HttpLabel("WorkspaceId")),
     ResourceArn: S.String,
     Page: S.String,
     Slug: S.optional(S.String),
@@ -1067,8 +1072,8 @@ export class DeactivateEvaluationFormRequest extends S.Class<DeactivateEvaluatio
   "DeactivateEvaluationFormRequest",
 )(
   {
-    InstanceId: S.String.pipe(T.HttpLabel()),
-    EvaluationFormId: S.String.pipe(T.HttpLabel()),
+    InstanceId: S.String.pipe(T.HttpLabel("InstanceId")),
+    EvaluationFormId: S.String.pipe(T.HttpLabel("EvaluationFormId")),
     EvaluationFormVersion: S.Number,
   },
   T.all(
@@ -1087,8 +1092,8 @@ export class DeleteAttachedFileRequest extends S.Class<DeleteAttachedFileRequest
   "DeleteAttachedFileRequest",
 )(
   {
-    InstanceId: S.String.pipe(T.HttpLabel()),
-    FileId: S.String.pipe(T.HttpLabel()),
+    InstanceId: S.String.pipe(T.HttpLabel("InstanceId")),
+    FileId: S.String.pipe(T.HttpLabel("FileId")),
     AssociatedResourceArn: S.String.pipe(T.HttpQuery("associatedResourceArn")),
   },
   T.all(
@@ -1107,8 +1112,8 @@ export class DeleteContactEvaluationRequest extends S.Class<DeleteContactEvaluat
   "DeleteContactEvaluationRequest",
 )(
   {
-    InstanceId: S.String.pipe(T.HttpLabel()),
-    EvaluationId: S.String.pipe(T.HttpLabel()),
+    InstanceId: S.String.pipe(T.HttpLabel("InstanceId")),
+    EvaluationId: S.String.pipe(T.HttpLabel("EvaluationId")),
   },
   T.all(
     T.Http({
@@ -1129,8 +1134,8 @@ export class DeleteContactFlowRequest extends S.Class<DeleteContactFlowRequest>(
   "DeleteContactFlowRequest",
 )(
   {
-    InstanceId: S.String.pipe(T.HttpLabel()),
-    ContactFlowId: S.String.pipe(T.HttpLabel()),
+    InstanceId: S.String.pipe(T.HttpLabel("InstanceId")),
+    ContactFlowId: S.String.pipe(T.HttpLabel("ContactFlowId")),
   },
   T.all(
     T.Http({
@@ -1151,8 +1156,8 @@ export class DeleteContactFlowModuleRequest extends S.Class<DeleteContactFlowMod
   "DeleteContactFlowModuleRequest",
 )(
   {
-    InstanceId: S.String.pipe(T.HttpLabel()),
-    ContactFlowModuleId: S.String.pipe(T.HttpLabel()),
+    InstanceId: S.String.pipe(T.HttpLabel("InstanceId")),
+    ContactFlowModuleId: S.String.pipe(T.HttpLabel("ContactFlowModuleId")),
   },
   T.all(
     T.Http({
@@ -1173,9 +1178,9 @@ export class DeleteContactFlowModuleAliasRequest extends S.Class<DeleteContactFl
   "DeleteContactFlowModuleAliasRequest",
 )(
   {
-    InstanceId: S.String.pipe(T.HttpLabel()),
-    ContactFlowModuleId: S.String.pipe(T.HttpLabel()),
-    AliasId: S.String.pipe(T.HttpLabel()),
+    InstanceId: S.String.pipe(T.HttpLabel("InstanceId")),
+    ContactFlowModuleId: S.String.pipe(T.HttpLabel("ContactFlowModuleId")),
+    AliasId: S.String.pipe(T.HttpLabel("AliasId")),
   },
   T.all(
     T.Http({
@@ -1196,9 +1201,11 @@ export class DeleteContactFlowModuleVersionRequest extends S.Class<DeleteContact
   "DeleteContactFlowModuleVersionRequest",
 )(
   {
-    InstanceId: S.String.pipe(T.HttpLabel()),
-    ContactFlowModuleId: S.String.pipe(T.HttpLabel()),
-    ContactFlowModuleVersion: S.Number.pipe(T.HttpLabel()),
+    InstanceId: S.String.pipe(T.HttpLabel("InstanceId")),
+    ContactFlowModuleId: S.String.pipe(T.HttpLabel("ContactFlowModuleId")),
+    ContactFlowModuleVersion: S.Number.pipe(
+      T.HttpLabel("ContactFlowModuleVersion"),
+    ),
   },
   T.all(
     T.Http({
@@ -1219,9 +1226,9 @@ export class DeleteContactFlowVersionRequest extends S.Class<DeleteContactFlowVe
   "DeleteContactFlowVersionRequest",
 )(
   {
-    InstanceId: S.String.pipe(T.HttpLabel()),
-    ContactFlowId: S.String.pipe(T.HttpLabel()),
-    ContactFlowVersion: S.Number.pipe(T.HttpLabel()),
+    InstanceId: S.String.pipe(T.HttpLabel("InstanceId")),
+    ContactFlowId: S.String.pipe(T.HttpLabel("ContactFlowId")),
+    ContactFlowVersion: S.Number.pipe(T.HttpLabel("ContactFlowVersion")),
   },
   T.all(
     T.Http({
@@ -1242,8 +1249,8 @@ export class DeleteDataTableRequest extends S.Class<DeleteDataTableRequest>(
   "DeleteDataTableRequest",
 )(
   {
-    InstanceId: S.String.pipe(T.HttpLabel()),
-    DataTableId: S.String.pipe(T.HttpLabel()),
+    InstanceId: S.String.pipe(T.HttpLabel("InstanceId")),
+    DataTableId: S.String.pipe(T.HttpLabel("DataTableId")),
   },
   T.all(
     T.Http({
@@ -1264,9 +1271,9 @@ export class DeleteDataTableAttributeRequest extends S.Class<DeleteDataTableAttr
   "DeleteDataTableAttributeRequest",
 )(
   {
-    InstanceId: S.String.pipe(T.HttpLabel()),
-    DataTableId: S.String.pipe(T.HttpLabel()),
-    AttributeName: S.String.pipe(T.HttpLabel()),
+    InstanceId: S.String.pipe(T.HttpLabel("InstanceId")),
+    DataTableId: S.String.pipe(T.HttpLabel("DataTableId")),
+    AttributeName: S.String.pipe(T.HttpLabel("AttributeName")),
   },
   T.all(
     T.Http({
@@ -1284,8 +1291,8 @@ export class DeleteEmailAddressRequest extends S.Class<DeleteEmailAddressRequest
   "DeleteEmailAddressRequest",
 )(
   {
-    InstanceId: S.String.pipe(T.HttpLabel()),
-    EmailAddressId: S.String.pipe(T.HttpLabel()),
+    InstanceId: S.String.pipe(T.HttpLabel("InstanceId")),
+    EmailAddressId: S.String.pipe(T.HttpLabel("EmailAddressId")),
   },
   T.all(
     T.Http({
@@ -1306,8 +1313,8 @@ export class DeleteEvaluationFormRequest extends S.Class<DeleteEvaluationFormReq
   "DeleteEvaluationFormRequest",
 )(
   {
-    InstanceId: S.String.pipe(T.HttpLabel()),
-    EvaluationFormId: S.String.pipe(T.HttpLabel()),
+    InstanceId: S.String.pipe(T.HttpLabel("InstanceId")),
+    EvaluationFormId: S.String.pipe(T.HttpLabel("EvaluationFormId")),
     EvaluationFormVersion: S.optional(S.Number).pipe(T.HttpQuery("version")),
   },
   T.all(
@@ -1329,8 +1336,8 @@ export class DeleteHoursOfOperationRequest extends S.Class<DeleteHoursOfOperatio
   "DeleteHoursOfOperationRequest",
 )(
   {
-    InstanceId: S.String.pipe(T.HttpLabel()),
-    HoursOfOperationId: S.String.pipe(T.HttpLabel()),
+    InstanceId: S.String.pipe(T.HttpLabel("InstanceId")),
+    HoursOfOperationId: S.String.pipe(T.HttpLabel("HoursOfOperationId")),
   },
   T.all(
     T.Http({
@@ -1351,9 +1358,11 @@ export class DeleteHoursOfOperationOverrideRequest extends S.Class<DeleteHoursOf
   "DeleteHoursOfOperationOverrideRequest",
 )(
   {
-    InstanceId: S.String.pipe(T.HttpLabel()),
-    HoursOfOperationId: S.String.pipe(T.HttpLabel()),
-    HoursOfOperationOverrideId: S.String.pipe(T.HttpLabel()),
+    InstanceId: S.String.pipe(T.HttpLabel("InstanceId")),
+    HoursOfOperationId: S.String.pipe(T.HttpLabel("HoursOfOperationId")),
+    HoursOfOperationOverrideId: S.String.pipe(
+      T.HttpLabel("HoursOfOperationOverrideId"),
+    ),
   },
   T.all(
     T.Http({
@@ -1374,7 +1383,7 @@ export class DeleteInstanceRequest extends S.Class<DeleteInstanceRequest>(
   "DeleteInstanceRequest",
 )(
   {
-    InstanceId: S.String.pipe(T.HttpLabel()),
+    InstanceId: S.String.pipe(T.HttpLabel("InstanceId")),
     ClientToken: S.optional(S.String).pipe(T.HttpQuery("clientToken")),
   },
   T.all(
@@ -1393,8 +1402,10 @@ export class DeleteIntegrationAssociationRequest extends S.Class<DeleteIntegrati
   "DeleteIntegrationAssociationRequest",
 )(
   {
-    InstanceId: S.String.pipe(T.HttpLabel()),
-    IntegrationAssociationId: S.String.pipe(T.HttpLabel()),
+    InstanceId: S.String.pipe(T.HttpLabel("InstanceId")),
+    IntegrationAssociationId: S.String.pipe(
+      T.HttpLabel("IntegrationAssociationId"),
+    ),
   },
   T.all(
     T.Http({
@@ -1415,8 +1426,8 @@ export class DeletePredefinedAttributeRequest extends S.Class<DeletePredefinedAt
   "DeletePredefinedAttributeRequest",
 )(
   {
-    InstanceId: S.String.pipe(T.HttpLabel()),
-    Name: S.String.pipe(T.HttpLabel()),
+    InstanceId: S.String.pipe(T.HttpLabel("InstanceId")),
+    Name: S.String.pipe(T.HttpLabel("Name")),
   },
   T.all(
     T.Http({
@@ -1437,8 +1448,8 @@ export class DeletePromptRequest extends S.Class<DeletePromptRequest>(
   "DeletePromptRequest",
 )(
   {
-    InstanceId: S.String.pipe(T.HttpLabel()),
-    PromptId: S.String.pipe(T.HttpLabel()),
+    InstanceId: S.String.pipe(T.HttpLabel("InstanceId")),
+    PromptId: S.String.pipe(T.HttpLabel("PromptId")),
   },
   T.all(
     T.Http({ method: "DELETE", uri: "/prompts/{InstanceId}/{PromptId}" }),
@@ -1456,8 +1467,8 @@ export class DeletePushNotificationRegistrationRequest extends S.Class<DeletePus
   "DeletePushNotificationRegistrationRequest",
 )(
   {
-    InstanceId: S.String.pipe(T.HttpLabel()),
-    RegistrationId: S.String.pipe(T.HttpLabel()),
+    InstanceId: S.String.pipe(T.HttpLabel("InstanceId")),
+    RegistrationId: S.String.pipe(T.HttpLabel("RegistrationId")),
     ContactId: S.String.pipe(T.HttpQuery("contactId")),
   },
   T.all(
@@ -1479,8 +1490,8 @@ export class DeleteQueueRequest extends S.Class<DeleteQueueRequest>(
   "DeleteQueueRequest",
 )(
   {
-    InstanceId: S.String.pipe(T.HttpLabel()),
-    QueueId: S.String.pipe(T.HttpLabel()),
+    InstanceId: S.String.pipe(T.HttpLabel("InstanceId")),
+    QueueId: S.String.pipe(T.HttpLabel("QueueId")),
   },
   T.all(
     T.Http({ method: "DELETE", uri: "/queues/{InstanceId}/{QueueId}" }),
@@ -1498,8 +1509,8 @@ export class DeleteQuickConnectRequest extends S.Class<DeleteQuickConnectRequest
   "DeleteQuickConnectRequest",
 )(
   {
-    InstanceId: S.String.pipe(T.HttpLabel()),
-    QuickConnectId: S.String.pipe(T.HttpLabel()),
+    InstanceId: S.String.pipe(T.HttpLabel("InstanceId")),
+    QuickConnectId: S.String.pipe(T.HttpLabel("QuickConnectId")),
   },
   T.all(
     T.Http({
@@ -1520,8 +1531,8 @@ export class DeleteRoutingProfileRequest extends S.Class<DeleteRoutingProfileReq
   "DeleteRoutingProfileRequest",
 )(
   {
-    InstanceId: S.String.pipe(T.HttpLabel()),
-    RoutingProfileId: S.String.pipe(T.HttpLabel()),
+    InstanceId: S.String.pipe(T.HttpLabel("InstanceId")),
+    RoutingProfileId: S.String.pipe(T.HttpLabel("RoutingProfileId")),
   },
   T.all(
     T.Http({
@@ -1542,8 +1553,8 @@ export class DeleteRuleRequest extends S.Class<DeleteRuleRequest>(
   "DeleteRuleRequest",
 )(
   {
-    InstanceId: S.String.pipe(T.HttpLabel()),
-    RuleId: S.String.pipe(T.HttpLabel()),
+    InstanceId: S.String.pipe(T.HttpLabel("InstanceId")),
+    RuleId: S.String.pipe(T.HttpLabel("RuleId")),
   },
   T.all(
     T.Http({ method: "DELETE", uri: "/rules/{InstanceId}/{RuleId}" }),
@@ -1561,8 +1572,8 @@ export class DeleteSecurityProfileRequest extends S.Class<DeleteSecurityProfileR
   "DeleteSecurityProfileRequest",
 )(
   {
-    InstanceId: S.String.pipe(T.HttpLabel()),
-    SecurityProfileId: S.String.pipe(T.HttpLabel()),
+    InstanceId: S.String.pipe(T.HttpLabel("InstanceId")),
+    SecurityProfileId: S.String.pipe(T.HttpLabel("SecurityProfileId")),
   },
   T.all(
     T.Http({
@@ -1583,8 +1594,8 @@ export class DeleteTaskTemplateRequest extends S.Class<DeleteTaskTemplateRequest
   "DeleteTaskTemplateRequest",
 )(
   {
-    InstanceId: S.String.pipe(T.HttpLabel()),
-    TaskTemplateId: S.String.pipe(T.HttpLabel()),
+    InstanceId: S.String.pipe(T.HttpLabel("InstanceId")),
+    TaskTemplateId: S.String.pipe(T.HttpLabel("TaskTemplateId")),
   },
   T.all(
     T.Http({
@@ -1604,7 +1615,11 @@ export class DeleteTaskTemplateResponse extends S.Class<DeleteTaskTemplateRespon
 export class DeleteTrafficDistributionGroupRequest extends S.Class<DeleteTrafficDistributionGroupRequest>(
   "DeleteTrafficDistributionGroupRequest",
 )(
-  { TrafficDistributionGroupId: S.String.pipe(T.HttpLabel()) },
+  {
+    TrafficDistributionGroupId: S.String.pipe(
+      T.HttpLabel("TrafficDistributionGroupId"),
+    ),
+  },
   T.all(
     T.Http({
       method: "DELETE",
@@ -1624,9 +1639,11 @@ export class DeleteUseCaseRequest extends S.Class<DeleteUseCaseRequest>(
   "DeleteUseCaseRequest",
 )(
   {
-    InstanceId: S.String.pipe(T.HttpLabel()),
-    IntegrationAssociationId: S.String.pipe(T.HttpLabel()),
-    UseCaseId: S.String.pipe(T.HttpLabel()),
+    InstanceId: S.String.pipe(T.HttpLabel("InstanceId")),
+    IntegrationAssociationId: S.String.pipe(
+      T.HttpLabel("IntegrationAssociationId"),
+    ),
+    UseCaseId: S.String.pipe(T.HttpLabel("UseCaseId")),
   },
   T.all(
     T.Http({
@@ -1647,8 +1664,8 @@ export class DeleteUserRequest extends S.Class<DeleteUserRequest>(
   "DeleteUserRequest",
 )(
   {
-    InstanceId: S.String.pipe(T.HttpLabel()),
-    UserId: S.String.pipe(T.HttpLabel()),
+    InstanceId: S.String.pipe(T.HttpLabel("InstanceId")),
+    UserId: S.String.pipe(T.HttpLabel("UserId")),
   },
   T.all(
     T.Http({ method: "DELETE", uri: "/users/{InstanceId}/{UserId}" }),
@@ -1666,8 +1683,8 @@ export class DeleteUserHierarchyGroupRequest extends S.Class<DeleteUserHierarchy
   "DeleteUserHierarchyGroupRequest",
 )(
   {
-    HierarchyGroupId: S.String.pipe(T.HttpLabel()),
-    InstanceId: S.String.pipe(T.HttpLabel()),
+    HierarchyGroupId: S.String.pipe(T.HttpLabel("HierarchyGroupId")),
+    InstanceId: S.String.pipe(T.HttpLabel("InstanceId")),
   },
   T.all(
     T.Http({
@@ -1688,8 +1705,8 @@ export class DeleteViewRequest extends S.Class<DeleteViewRequest>(
   "DeleteViewRequest",
 )(
   {
-    InstanceId: S.String.pipe(T.HttpLabel()),
-    ViewId: S.String.pipe(T.HttpLabel()),
+    InstanceId: S.String.pipe(T.HttpLabel("InstanceId")),
+    ViewId: S.String.pipe(T.HttpLabel("ViewId")),
   },
   T.all(
     T.Http({ method: "DELETE", uri: "/views/{InstanceId}/{ViewId}" }),
@@ -1707,9 +1724,9 @@ export class DeleteViewVersionRequest extends S.Class<DeleteViewVersionRequest>(
   "DeleteViewVersionRequest",
 )(
   {
-    InstanceId: S.String.pipe(T.HttpLabel()),
-    ViewId: S.String.pipe(T.HttpLabel()),
-    ViewVersion: S.Number.pipe(T.HttpLabel()),
+    InstanceId: S.String.pipe(T.HttpLabel("InstanceId")),
+    ViewId: S.String.pipe(T.HttpLabel("ViewId")),
+    ViewVersion: S.Number.pipe(T.HttpLabel("ViewVersion")),
   },
   T.all(
     T.Http({
@@ -1730,8 +1747,8 @@ export class DeleteVocabularyRequest extends S.Class<DeleteVocabularyRequest>(
   "DeleteVocabularyRequest",
 )(
   {
-    InstanceId: S.String.pipe(T.HttpLabel()),
-    VocabularyId: S.String.pipe(T.HttpLabel()),
+    InstanceId: S.String.pipe(T.HttpLabel("InstanceId")),
+    VocabularyId: S.String.pipe(T.HttpLabel("VocabularyId")),
   },
   T.all(
     T.Http({
@@ -1749,8 +1766,8 @@ export class DeleteWorkspaceRequest extends S.Class<DeleteWorkspaceRequest>(
   "DeleteWorkspaceRequest",
 )(
   {
-    InstanceId: S.String.pipe(T.HttpLabel()),
-    WorkspaceId: S.String.pipe(T.HttpLabel()),
+    InstanceId: S.String.pipe(T.HttpLabel("InstanceId")),
+    WorkspaceId: S.String.pipe(T.HttpLabel("WorkspaceId")),
   },
   T.all(
     T.Http({ method: "DELETE", uri: "/workspaces/{InstanceId}/{WorkspaceId}" }),
@@ -1768,8 +1785,8 @@ export class DeleteWorkspaceMediaRequest extends S.Class<DeleteWorkspaceMediaReq
   "DeleteWorkspaceMediaRequest",
 )(
   {
-    InstanceId: S.String.pipe(T.HttpLabel()),
-    WorkspaceId: S.String.pipe(T.HttpLabel()),
+    InstanceId: S.String.pipe(T.HttpLabel("InstanceId")),
+    WorkspaceId: S.String.pipe(T.HttpLabel("WorkspaceId")),
     MediaType: S.String.pipe(T.HttpQuery("mediaType")),
   },
   T.all(
@@ -1791,9 +1808,9 @@ export class DeleteWorkspacePageRequest extends S.Class<DeleteWorkspacePageReque
   "DeleteWorkspacePageRequest",
 )(
   {
-    InstanceId: S.String.pipe(T.HttpLabel()),
-    WorkspaceId: S.String.pipe(T.HttpLabel()),
-    Page: S.String.pipe(T.HttpLabel()),
+    InstanceId: S.String.pipe(T.HttpLabel("InstanceId")),
+    WorkspaceId: S.String.pipe(T.HttpLabel("WorkspaceId")),
+    Page: S.String.pipe(T.HttpLabel("Page")),
   },
   T.all(
     T.Http({
@@ -1814,8 +1831,8 @@ export class DescribeAgentStatusRequest extends S.Class<DescribeAgentStatusReque
   "DescribeAgentStatusRequest",
 )(
   {
-    InstanceId: S.String.pipe(T.HttpLabel()),
-    AgentStatusId: S.String.pipe(T.HttpLabel()),
+    InstanceId: S.String.pipe(T.HttpLabel("InstanceId")),
+    AgentStatusId: S.String.pipe(T.HttpLabel("AgentStatusId")),
   },
   T.all(
     T.Http({
@@ -1833,8 +1850,10 @@ export class DescribeAuthenticationProfileRequest extends S.Class<DescribeAuthen
   "DescribeAuthenticationProfileRequest",
 )(
   {
-    AuthenticationProfileId: S.String.pipe(T.HttpLabel()),
-    InstanceId: S.String.pipe(T.HttpLabel()),
+    AuthenticationProfileId: S.String.pipe(
+      T.HttpLabel("AuthenticationProfileId"),
+    ),
+    InstanceId: S.String.pipe(T.HttpLabel("InstanceId")),
   },
   T.all(
     T.Http({
@@ -1852,8 +1871,8 @@ export class DescribeContactRequest extends S.Class<DescribeContactRequest>(
   "DescribeContactRequest",
 )(
   {
-    InstanceId: S.String.pipe(T.HttpLabel()),
-    ContactId: S.String.pipe(T.HttpLabel()),
+    InstanceId: S.String.pipe(T.HttpLabel("InstanceId")),
+    ContactId: S.String.pipe(T.HttpLabel("ContactId")),
   },
   T.all(
     T.Http({ method: "GET", uri: "/contacts/{InstanceId}/{ContactId}" }),
@@ -1868,8 +1887,8 @@ export class DescribeContactEvaluationRequest extends S.Class<DescribeContactEva
   "DescribeContactEvaluationRequest",
 )(
   {
-    InstanceId: S.String.pipe(T.HttpLabel()),
-    EvaluationId: S.String.pipe(T.HttpLabel()),
+    InstanceId: S.String.pipe(T.HttpLabel("InstanceId")),
+    EvaluationId: S.String.pipe(T.HttpLabel("EvaluationId")),
   },
   T.all(
     T.Http({
@@ -1887,8 +1906,8 @@ export class DescribeContactFlowRequest extends S.Class<DescribeContactFlowReque
   "DescribeContactFlowRequest",
 )(
   {
-    InstanceId: S.String.pipe(T.HttpLabel()),
-    ContactFlowId: S.String.pipe(T.HttpLabel()),
+    InstanceId: S.String.pipe(T.HttpLabel("InstanceId")),
+    ContactFlowId: S.String.pipe(T.HttpLabel("ContactFlowId")),
   },
   T.all(
     T.Http({
@@ -1906,8 +1925,8 @@ export class DescribeContactFlowModuleRequest extends S.Class<DescribeContactFlo
   "DescribeContactFlowModuleRequest",
 )(
   {
-    InstanceId: S.String.pipe(T.HttpLabel()),
-    ContactFlowModuleId: S.String.pipe(T.HttpLabel()),
+    InstanceId: S.String.pipe(T.HttpLabel("InstanceId")),
+    ContactFlowModuleId: S.String.pipe(T.HttpLabel("ContactFlowModuleId")),
   },
   T.all(
     T.Http({
@@ -1925,9 +1944,9 @@ export class DescribeContactFlowModuleAliasRequest extends S.Class<DescribeConta
   "DescribeContactFlowModuleAliasRequest",
 )(
   {
-    InstanceId: S.String.pipe(T.HttpLabel()),
-    ContactFlowModuleId: S.String.pipe(T.HttpLabel()),
-    AliasId: S.String.pipe(T.HttpLabel()),
+    InstanceId: S.String.pipe(T.HttpLabel("InstanceId")),
+    ContactFlowModuleId: S.String.pipe(T.HttpLabel("ContactFlowModuleId")),
+    AliasId: S.String.pipe(T.HttpLabel("AliasId")),
   },
   T.all(
     T.Http({
@@ -1945,8 +1964,8 @@ export class DescribeDataTableRequest extends S.Class<DescribeDataTableRequest>(
   "DescribeDataTableRequest",
 )(
   {
-    InstanceId: S.String.pipe(T.HttpLabel()),
-    DataTableId: S.String.pipe(T.HttpLabel()),
+    InstanceId: S.String.pipe(T.HttpLabel("InstanceId")),
+    DataTableId: S.String.pipe(T.HttpLabel("DataTableId")),
   },
   T.all(
     T.Http({ method: "GET", uri: "/data-tables/{InstanceId}/{DataTableId}" }),
@@ -1961,9 +1980,9 @@ export class DescribeDataTableAttributeRequest extends S.Class<DescribeDataTable
   "DescribeDataTableAttributeRequest",
 )(
   {
-    InstanceId: S.String.pipe(T.HttpLabel()),
-    DataTableId: S.String.pipe(T.HttpLabel()),
-    AttributeName: S.String.pipe(T.HttpLabel()),
+    InstanceId: S.String.pipe(T.HttpLabel("InstanceId")),
+    DataTableId: S.String.pipe(T.HttpLabel("DataTableId")),
+    AttributeName: S.String.pipe(T.HttpLabel("AttributeName")),
   },
   T.all(
     T.Http({
@@ -1981,8 +2000,8 @@ export class DescribeEmailAddressRequest extends S.Class<DescribeEmailAddressReq
   "DescribeEmailAddressRequest",
 )(
   {
-    InstanceId: S.String.pipe(T.HttpLabel()),
-    EmailAddressId: S.String.pipe(T.HttpLabel()),
+    InstanceId: S.String.pipe(T.HttpLabel("InstanceId")),
+    EmailAddressId: S.String.pipe(T.HttpLabel("EmailAddressId")),
   },
   T.all(
     T.Http({
@@ -2000,8 +2019,8 @@ export class DescribeEvaluationFormRequest extends S.Class<DescribeEvaluationFor
   "DescribeEvaluationFormRequest",
 )(
   {
-    InstanceId: S.String.pipe(T.HttpLabel()),
-    EvaluationFormId: S.String.pipe(T.HttpLabel()),
+    InstanceId: S.String.pipe(T.HttpLabel("InstanceId")),
+    EvaluationFormId: S.String.pipe(T.HttpLabel("EvaluationFormId")),
     EvaluationFormVersion: S.optional(S.Number).pipe(T.HttpQuery("version")),
   },
   T.all(
@@ -2020,8 +2039,8 @@ export class DescribeHoursOfOperationRequest extends S.Class<DescribeHoursOfOper
   "DescribeHoursOfOperationRequest",
 )(
   {
-    InstanceId: S.String.pipe(T.HttpLabel()),
-    HoursOfOperationId: S.String.pipe(T.HttpLabel()),
+    InstanceId: S.String.pipe(T.HttpLabel("InstanceId")),
+    HoursOfOperationId: S.String.pipe(T.HttpLabel("HoursOfOperationId")),
   },
   T.all(
     T.Http({
@@ -2039,9 +2058,11 @@ export class DescribeHoursOfOperationOverrideRequest extends S.Class<DescribeHou
   "DescribeHoursOfOperationOverrideRequest",
 )(
   {
-    InstanceId: S.String.pipe(T.HttpLabel()),
-    HoursOfOperationId: S.String.pipe(T.HttpLabel()),
-    HoursOfOperationOverrideId: S.String.pipe(T.HttpLabel()),
+    InstanceId: S.String.pipe(T.HttpLabel("InstanceId")),
+    HoursOfOperationId: S.String.pipe(T.HttpLabel("HoursOfOperationId")),
+    HoursOfOperationOverrideId: S.String.pipe(
+      T.HttpLabel("HoursOfOperationOverrideId"),
+    ),
   },
   T.all(
     T.Http({
@@ -2058,7 +2079,7 @@ export class DescribeHoursOfOperationOverrideRequest extends S.Class<DescribeHou
 export class DescribeInstanceRequest extends S.Class<DescribeInstanceRequest>(
   "DescribeInstanceRequest",
 )(
-  { InstanceId: S.String.pipe(T.HttpLabel()) },
+  { InstanceId: S.String.pipe(T.HttpLabel("InstanceId")) },
   T.all(
     T.Http({ method: "GET", uri: "/instance/{InstanceId}" }),
     svc,
@@ -2072,8 +2093,8 @@ export class DescribeInstanceAttributeRequest extends S.Class<DescribeInstanceAt
   "DescribeInstanceAttributeRequest",
 )(
   {
-    InstanceId: S.String.pipe(T.HttpLabel()),
-    AttributeType: S.String.pipe(T.HttpLabel()),
+    InstanceId: S.String.pipe(T.HttpLabel("InstanceId")),
+    AttributeType: S.String.pipe(T.HttpLabel("AttributeType")),
   },
   T.all(
     T.Http({
@@ -2091,8 +2112,8 @@ export class DescribeInstanceStorageConfigRequest extends S.Class<DescribeInstan
   "DescribeInstanceStorageConfigRequest",
 )(
   {
-    InstanceId: S.String.pipe(T.HttpLabel()),
-    AssociationId: S.String.pipe(T.HttpLabel()),
+    InstanceId: S.String.pipe(T.HttpLabel("InstanceId")),
+    AssociationId: S.String.pipe(T.HttpLabel("AssociationId")),
     ResourceType: S.String.pipe(T.HttpQuery("resourceType")),
   },
   T.all(
@@ -2110,7 +2131,7 @@ export class DescribeInstanceStorageConfigRequest extends S.Class<DescribeInstan
 export class DescribePhoneNumberRequest extends S.Class<DescribePhoneNumberRequest>(
   "DescribePhoneNumberRequest",
 )(
-  { PhoneNumberId: S.String.pipe(T.HttpLabel()) },
+  { PhoneNumberId: S.String.pipe(T.HttpLabel("PhoneNumberId")) },
   T.all(
     T.Http({ method: "GET", uri: "/phone-number/{PhoneNumberId}" }),
     svc,
@@ -2124,8 +2145,8 @@ export class DescribePredefinedAttributeRequest extends S.Class<DescribePredefin
   "DescribePredefinedAttributeRequest",
 )(
   {
-    InstanceId: S.String.pipe(T.HttpLabel()),
-    Name: S.String.pipe(T.HttpLabel()),
+    InstanceId: S.String.pipe(T.HttpLabel("InstanceId")),
+    Name: S.String.pipe(T.HttpLabel("Name")),
   },
   T.all(
     T.Http({
@@ -2143,8 +2164,8 @@ export class DescribePromptRequest extends S.Class<DescribePromptRequest>(
   "DescribePromptRequest",
 )(
   {
-    InstanceId: S.String.pipe(T.HttpLabel()),
-    PromptId: S.String.pipe(T.HttpLabel()),
+    InstanceId: S.String.pipe(T.HttpLabel("InstanceId")),
+    PromptId: S.String.pipe(T.HttpLabel("PromptId")),
   },
   T.all(
     T.Http({ method: "GET", uri: "/prompts/{InstanceId}/{PromptId}" }),
@@ -2159,8 +2180,8 @@ export class DescribeQueueRequest extends S.Class<DescribeQueueRequest>(
   "DescribeQueueRequest",
 )(
   {
-    InstanceId: S.String.pipe(T.HttpLabel()),
-    QueueId: S.String.pipe(T.HttpLabel()),
+    InstanceId: S.String.pipe(T.HttpLabel("InstanceId")),
+    QueueId: S.String.pipe(T.HttpLabel("QueueId")),
   },
   T.all(
     T.Http({ method: "GET", uri: "/queues/{InstanceId}/{QueueId}" }),
@@ -2175,8 +2196,8 @@ export class DescribeQuickConnectRequest extends S.Class<DescribeQuickConnectReq
   "DescribeQuickConnectRequest",
 )(
   {
-    InstanceId: S.String.pipe(T.HttpLabel()),
-    QuickConnectId: S.String.pipe(T.HttpLabel()),
+    InstanceId: S.String.pipe(T.HttpLabel("InstanceId")),
+    QuickConnectId: S.String.pipe(T.HttpLabel("QuickConnectId")),
   },
   T.all(
     T.Http({
@@ -2194,8 +2215,8 @@ export class DescribeRoutingProfileRequest extends S.Class<DescribeRoutingProfil
   "DescribeRoutingProfileRequest",
 )(
   {
-    InstanceId: S.String.pipe(T.HttpLabel()),
-    RoutingProfileId: S.String.pipe(T.HttpLabel()),
+    InstanceId: S.String.pipe(T.HttpLabel("InstanceId")),
+    RoutingProfileId: S.String.pipe(T.HttpLabel("RoutingProfileId")),
   },
   T.all(
     T.Http({
@@ -2213,8 +2234,8 @@ export class DescribeRuleRequest extends S.Class<DescribeRuleRequest>(
   "DescribeRuleRequest",
 )(
   {
-    InstanceId: S.String.pipe(T.HttpLabel()),
-    RuleId: S.String.pipe(T.HttpLabel()),
+    InstanceId: S.String.pipe(T.HttpLabel("InstanceId")),
+    RuleId: S.String.pipe(T.HttpLabel("RuleId")),
   },
   T.all(
     T.Http({ method: "GET", uri: "/rules/{InstanceId}/{RuleId}" }),
@@ -2229,8 +2250,8 @@ export class DescribeSecurityProfileRequest extends S.Class<DescribeSecurityProf
   "DescribeSecurityProfileRequest",
 )(
   {
-    SecurityProfileId: S.String.pipe(T.HttpLabel()),
-    InstanceId: S.String.pipe(T.HttpLabel()),
+    SecurityProfileId: S.String.pipe(T.HttpLabel("SecurityProfileId")),
+    InstanceId: S.String.pipe(T.HttpLabel("InstanceId")),
   },
   T.all(
     T.Http({
@@ -2247,7 +2268,11 @@ export class DescribeSecurityProfileRequest extends S.Class<DescribeSecurityProf
 export class DescribeTrafficDistributionGroupRequest extends S.Class<DescribeTrafficDistributionGroupRequest>(
   "DescribeTrafficDistributionGroupRequest",
 )(
-  { TrafficDistributionGroupId: S.String.pipe(T.HttpLabel()) },
+  {
+    TrafficDistributionGroupId: S.String.pipe(
+      T.HttpLabel("TrafficDistributionGroupId"),
+    ),
+  },
   T.all(
     T.Http({
       method: "GET",
@@ -2264,8 +2289,8 @@ export class DescribeUserRequest extends S.Class<DescribeUserRequest>(
   "DescribeUserRequest",
 )(
   {
-    UserId: S.String.pipe(T.HttpLabel()),
-    InstanceId: S.String.pipe(T.HttpLabel()),
+    UserId: S.String.pipe(T.HttpLabel("UserId")),
+    InstanceId: S.String.pipe(T.HttpLabel("InstanceId")),
   },
   T.all(
     T.Http({ method: "GET", uri: "/users/{InstanceId}/{UserId}" }),
@@ -2280,8 +2305,8 @@ export class DescribeUserHierarchyGroupRequest extends S.Class<DescribeUserHiera
   "DescribeUserHierarchyGroupRequest",
 )(
   {
-    HierarchyGroupId: S.String.pipe(T.HttpLabel()),
-    InstanceId: S.String.pipe(T.HttpLabel()),
+    HierarchyGroupId: S.String.pipe(T.HttpLabel("HierarchyGroupId")),
+    InstanceId: S.String.pipe(T.HttpLabel("InstanceId")),
   },
   T.all(
     T.Http({
@@ -2298,7 +2323,7 @@ export class DescribeUserHierarchyGroupRequest extends S.Class<DescribeUserHiera
 export class DescribeUserHierarchyStructureRequest extends S.Class<DescribeUserHierarchyStructureRequest>(
   "DescribeUserHierarchyStructureRequest",
 )(
-  { InstanceId: S.String.pipe(T.HttpLabel()) },
+  { InstanceId: S.String.pipe(T.HttpLabel("InstanceId")) },
   T.all(
     T.Http({ method: "GET", uri: "/user-hierarchy-structure/{InstanceId}" }),
     svc,
@@ -2312,8 +2337,8 @@ export class DescribeViewRequest extends S.Class<DescribeViewRequest>(
   "DescribeViewRequest",
 )(
   {
-    InstanceId: S.String.pipe(T.HttpLabel()),
-    ViewId: S.String.pipe(T.HttpLabel()),
+    InstanceId: S.String.pipe(T.HttpLabel("InstanceId")),
+    ViewId: S.String.pipe(T.HttpLabel("ViewId")),
   },
   T.all(
     T.Http({ method: "GET", uri: "/views/{InstanceId}/{ViewId}" }),
@@ -2328,8 +2353,8 @@ export class DescribeVocabularyRequest extends S.Class<DescribeVocabularyRequest
   "DescribeVocabularyRequest",
 )(
   {
-    InstanceId: S.String.pipe(T.HttpLabel()),
-    VocabularyId: S.String.pipe(T.HttpLabel()),
+    InstanceId: S.String.pipe(T.HttpLabel("InstanceId")),
+    VocabularyId: S.String.pipe(T.HttpLabel("VocabularyId")),
   },
   T.all(
     T.Http({ method: "GET", uri: "/vocabulary/{InstanceId}/{VocabularyId}" }),
@@ -2344,8 +2369,8 @@ export class DescribeWorkspaceRequest extends S.Class<DescribeWorkspaceRequest>(
   "DescribeWorkspaceRequest",
 )(
   {
-    InstanceId: S.String.pipe(T.HttpLabel()),
-    WorkspaceId: S.String.pipe(T.HttpLabel()),
+    InstanceId: S.String.pipe(T.HttpLabel("InstanceId")),
+    WorkspaceId: S.String.pipe(T.HttpLabel("WorkspaceId")),
   },
   T.all(
     T.Http({ method: "GET", uri: "/workspaces/{InstanceId}/{WorkspaceId}" }),
@@ -2360,7 +2385,7 @@ export class DisassociateAnalyticsDataSetRequest extends S.Class<DisassociateAna
   "DisassociateAnalyticsDataSetRequest",
 )(
   {
-    InstanceId: S.String.pipe(T.HttpLabel()),
+    InstanceId: S.String.pipe(T.HttpLabel("InstanceId")),
     DataSetId: S.String,
     TargetAccountId: S.optional(S.String),
   },
@@ -2383,7 +2408,7 @@ export class DisassociateApprovedOriginRequest extends S.Class<DisassociateAppro
   "DisassociateApprovedOriginRequest",
 )(
   {
-    InstanceId: S.String.pipe(T.HttpLabel()),
+    InstanceId: S.String.pipe(T.HttpLabel("InstanceId")),
     Origin: S.String.pipe(T.HttpQuery("origin")),
     ClientToken: S.optional(S.String).pipe(T.HttpQuery("clientToken")),
   },
@@ -2406,7 +2431,7 @@ export class DisassociateBotRequest extends S.Class<DisassociateBotRequest>(
   "DisassociateBotRequest",
 )(
   {
-    InstanceId: S.String.pipe(T.HttpLabel()),
+    InstanceId: S.String.pipe(T.HttpLabel("InstanceId")),
     LexBot: S.optional(LexBot),
     LexV2Bot: S.optional(LexV2Bot),
     ClientToken: S.optional(S.String),
@@ -2430,8 +2455,8 @@ export class DisassociateEmailAddressAliasRequest extends S.Class<DisassociateEm
   "DisassociateEmailAddressAliasRequest",
 )(
   {
-    EmailAddressId: S.String.pipe(T.HttpLabel()),
-    InstanceId: S.String.pipe(T.HttpLabel()),
+    EmailAddressId: S.String.pipe(T.HttpLabel("EmailAddressId")),
+    InstanceId: S.String.pipe(T.HttpLabel("InstanceId")),
     AliasConfiguration: AliasConfiguration,
     ClientToken: S.optional(S.String),
   },
@@ -2454,9 +2479,9 @@ export class DisassociateFlowRequest extends S.Class<DisassociateFlowRequest>(
   "DisassociateFlowRequest",
 )(
   {
-    InstanceId: S.String.pipe(T.HttpLabel()),
-    ResourceId: S.String.pipe(T.HttpLabel()),
-    ResourceType: S.String.pipe(T.HttpLabel()),
+    InstanceId: S.String.pipe(T.HttpLabel("InstanceId")),
+    ResourceId: S.String.pipe(T.HttpLabel("ResourceId")),
+    ResourceType: S.String.pipe(T.HttpLabel("ResourceType")),
   },
   T.all(
     T.Http({
@@ -2477,8 +2502,8 @@ export class DisassociateInstanceStorageConfigRequest extends S.Class<Disassocia
   "DisassociateInstanceStorageConfigRequest",
 )(
   {
-    InstanceId: S.String.pipe(T.HttpLabel()),
-    AssociationId: S.String.pipe(T.HttpLabel()),
+    InstanceId: S.String.pipe(T.HttpLabel("InstanceId")),
+    AssociationId: S.String.pipe(T.HttpLabel("AssociationId")),
     ResourceType: S.String.pipe(T.HttpQuery("resourceType")),
     ClientToken: S.optional(S.String).pipe(T.HttpQuery("clientToken")),
   },
@@ -2501,7 +2526,7 @@ export class DisassociateLambdaFunctionRequest extends S.Class<DisassociateLambd
   "DisassociateLambdaFunctionRequest",
 )(
   {
-    InstanceId: S.String.pipe(T.HttpLabel()),
+    InstanceId: S.String.pipe(T.HttpLabel("InstanceId")),
     FunctionArn: S.String.pipe(T.HttpQuery("functionArn")),
     ClientToken: S.optional(S.String).pipe(T.HttpQuery("clientToken")),
   },
@@ -2521,7 +2546,7 @@ export class DisassociateLexBotRequest extends S.Class<DisassociateLexBotRequest
   "DisassociateLexBotRequest",
 )(
   {
-    InstanceId: S.String.pipe(T.HttpLabel()),
+    InstanceId: S.String.pipe(T.HttpLabel("InstanceId")),
     BotName: S.String.pipe(T.HttpQuery("botName")),
     LexRegion: S.String.pipe(T.HttpQuery("lexRegion")),
     ClientToken: S.optional(S.String).pipe(T.HttpQuery("clientToken")),
@@ -2542,7 +2567,7 @@ export class DisassociatePhoneNumberContactFlowRequest extends S.Class<Disassoci
   "DisassociatePhoneNumberContactFlowRequest",
 )(
   {
-    PhoneNumberId: S.String.pipe(T.HttpLabel()),
+    PhoneNumberId: S.String.pipe(T.HttpLabel("PhoneNumberId")),
     InstanceId: S.String.pipe(T.HttpQuery("instanceId")),
   },
   T.all(
@@ -2564,8 +2589,8 @@ export class DisassociateQueueQuickConnectsRequest extends S.Class<DisassociateQ
   "DisassociateQueueQuickConnectsRequest",
 )(
   {
-    InstanceId: S.String.pipe(T.HttpLabel()),
-    QueueId: S.String.pipe(T.HttpLabel()),
+    InstanceId: S.String.pipe(T.HttpLabel("InstanceId")),
+    QueueId: S.String.pipe(T.HttpLabel("QueueId")),
     QuickConnectIds: QuickConnectsList,
   },
   T.all(
@@ -2587,8 +2612,8 @@ export class DisassociateSecurityKeyRequest extends S.Class<DisassociateSecurity
   "DisassociateSecurityKeyRequest",
 )(
   {
-    InstanceId: S.String.pipe(T.HttpLabel()),
-    AssociationId: S.String.pipe(T.HttpLabel()),
+    InstanceId: S.String.pipe(T.HttpLabel("InstanceId")),
+    AssociationId: S.String.pipe(T.HttpLabel("AssociationId")),
     ClientToken: S.optional(S.String).pipe(T.HttpQuery("clientToken")),
   },
   T.all(
@@ -2614,7 +2639,7 @@ export class DisassociateSecurityProfilesRequest extends S.Class<DisassociateSec
   "DisassociateSecurityProfilesRequest",
 )(
   {
-    InstanceId: S.String.pipe(T.HttpLabel()),
+    InstanceId: S.String.pipe(T.HttpLabel("InstanceId")),
     SecurityProfiles: SecurityProfiles,
     EntityType: S.String,
     EntityArn: S.String,
@@ -2638,7 +2663,9 @@ export class DisassociateTrafficDistributionGroupUserRequest extends S.Class<Dis
   "DisassociateTrafficDistributionGroupUserRequest",
 )(
   {
-    TrafficDistributionGroupId: S.String.pipe(T.HttpLabel()),
+    TrafficDistributionGroupId: S.String.pipe(
+      T.HttpLabel("TrafficDistributionGroupId"),
+    ),
     UserId: S.String.pipe(T.HttpQuery("UserId")),
     InstanceId: S.String.pipe(T.HttpQuery("InstanceId")),
   },
@@ -2661,8 +2688,8 @@ export class DisassociateWorkspaceRequest extends S.Class<DisassociateWorkspaceR
   "DisassociateWorkspaceRequest",
 )(
   {
-    InstanceId: S.String.pipe(T.HttpLabel()),
-    WorkspaceId: S.String.pipe(T.HttpLabel()),
+    InstanceId: S.String.pipe(T.HttpLabel("InstanceId")),
+    WorkspaceId: S.String.pipe(T.HttpLabel("WorkspaceId")),
     ResourceArns: WorkspaceResourceArnList,
   },
   T.all(
@@ -2681,8 +2708,8 @@ export class DismissUserContactRequest extends S.Class<DismissUserContactRequest
   "DismissUserContactRequest",
 )(
   {
-    UserId: S.String.pipe(T.HttpLabel()),
-    InstanceId: S.String.pipe(T.HttpLabel()),
+    UserId: S.String.pipe(T.HttpLabel("UserId")),
+    InstanceId: S.String.pipe(T.HttpLabel("InstanceId")),
     ContactId: S.String,
   },
   T.all(
@@ -2701,8 +2728,8 @@ export class GetAttachedFileRequest extends S.Class<GetAttachedFileRequest>(
   "GetAttachedFileRequest",
 )(
   {
-    InstanceId: S.String.pipe(T.HttpLabel()),
-    FileId: S.String.pipe(T.HttpLabel()),
+    InstanceId: S.String.pipe(T.HttpLabel("InstanceId")),
+    FileId: S.String.pipe(T.HttpLabel("FileId")),
     UrlExpiryInSeconds: S.optional(S.Number).pipe(
       T.HttpQuery("urlExpiryInSeconds"),
     ),
@@ -2721,8 +2748,8 @@ export class GetContactAttributesRequest extends S.Class<GetContactAttributesReq
   "GetContactAttributesRequest",
 )(
   {
-    InstanceId: S.String.pipe(T.HttpLabel()),
-    InitialContactId: S.String.pipe(T.HttpLabel()),
+    InstanceId: S.String.pipe(T.HttpLabel("InstanceId")),
+    InitialContactId: S.String.pipe(T.HttpLabel("InitialContactId")),
   },
   T.all(
     T.Http({
@@ -2740,8 +2767,8 @@ export class GetEffectiveHoursOfOperationsRequest extends S.Class<GetEffectiveHo
   "GetEffectiveHoursOfOperationsRequest",
 )(
   {
-    InstanceId: S.String.pipe(T.HttpLabel()),
-    HoursOfOperationId: S.String.pipe(T.HttpLabel()),
+    InstanceId: S.String.pipe(T.HttpLabel("InstanceId")),
+    HoursOfOperationId: S.String.pipe(T.HttpLabel("HoursOfOperationId")),
     FromDate: S.String.pipe(T.HttpQuery("fromDate")),
     ToDate: S.String.pipe(T.HttpQuery("toDate")),
   },
@@ -2760,7 +2787,7 @@ export class GetEffectiveHoursOfOperationsRequest extends S.Class<GetEffectiveHo
 export class GetFederationTokenRequest extends S.Class<GetFederationTokenRequest>(
   "GetFederationTokenRequest",
 )(
-  { InstanceId: S.String.pipe(T.HttpLabel()) },
+  { InstanceId: S.String.pipe(T.HttpLabel("InstanceId")) },
   T.all(
     T.Http({ method: "GET", uri: "/user/federate/{InstanceId}" }),
     svc,
@@ -2774,9 +2801,9 @@ export class GetFlowAssociationRequest extends S.Class<GetFlowAssociationRequest
   "GetFlowAssociationRequest",
 )(
   {
-    InstanceId: S.String.pipe(T.HttpLabel()),
-    ResourceId: S.String.pipe(T.HttpLabel()),
-    ResourceType: S.String.pipe(T.HttpLabel()),
+    InstanceId: S.String.pipe(T.HttpLabel("InstanceId")),
+    ResourceId: S.String.pipe(T.HttpLabel("ResourceId")),
+    ResourceType: S.String.pipe(T.HttpLabel("ResourceType")),
   },
   T.all(
     T.Http({
@@ -2794,8 +2821,8 @@ export class GetPromptFileRequest extends S.Class<GetPromptFileRequest>(
   "GetPromptFileRequest",
 )(
   {
-    InstanceId: S.String.pipe(T.HttpLabel()),
-    PromptId: S.String.pipe(T.HttpLabel()),
+    InstanceId: S.String.pipe(T.HttpLabel("InstanceId")),
+    PromptId: S.String.pipe(T.HttpLabel("PromptId")),
   },
   T.all(
     T.Http({ method: "GET", uri: "/prompts/{InstanceId}/{PromptId}/file" }),
@@ -2810,8 +2837,8 @@ export class GetTaskTemplateRequest extends S.Class<GetTaskTemplateRequest>(
   "GetTaskTemplateRequest",
 )(
   {
-    InstanceId: S.String.pipe(T.HttpLabel()),
-    TaskTemplateId: S.String.pipe(T.HttpLabel()),
+    InstanceId: S.String.pipe(T.HttpLabel("InstanceId")),
+    TaskTemplateId: S.String.pipe(T.HttpLabel("TaskTemplateId")),
     SnapshotVersion: S.optional(S.String).pipe(T.HttpQuery("snapshotVersion")),
   },
   T.all(
@@ -2829,7 +2856,7 @@ export class GetTaskTemplateRequest extends S.Class<GetTaskTemplateRequest>(
 export class GetTrafficDistributionRequest extends S.Class<GetTrafficDistributionRequest>(
   "GetTrafficDistributionRequest",
 )(
-  { Id: S.String.pipe(T.HttpLabel()) },
+  { Id: S.String.pipe(T.HttpLabel("Id")) },
   T.all(
     T.Http({ method: "GET", uri: "/traffic-distribution/{Id}" }),
     svc,
@@ -2862,8 +2889,8 @@ export class ImportWorkspaceMediaRequest extends S.Class<ImportWorkspaceMediaReq
   "ImportWorkspaceMediaRequest",
 )(
   {
-    InstanceId: S.String.pipe(T.HttpLabel()),
-    WorkspaceId: S.String.pipe(T.HttpLabel()),
+    InstanceId: S.String.pipe(T.HttpLabel("InstanceId")),
+    WorkspaceId: S.String.pipe(T.HttpLabel("WorkspaceId")),
     MediaType: S.String,
     MediaSource: S.String,
   },
@@ -2886,7 +2913,7 @@ export class ListAgentStatusRequest extends S.Class<ListAgentStatusRequest>(
   "ListAgentStatusRequest",
 )(
   {
-    InstanceId: S.String.pipe(T.HttpLabel()),
+    InstanceId: S.String.pipe(T.HttpLabel("InstanceId")),
     NextToken: S.optional(S.String).pipe(T.HttpQuery("nextToken")),
     MaxResults: S.optional(S.Number).pipe(T.HttpQuery("maxResults")),
     AgentStatusTypes: S.optional(AgentStatusTypes).pipe(
@@ -2906,7 +2933,7 @@ export class ListAnalyticsDataAssociationsRequest extends S.Class<ListAnalyticsD
   "ListAnalyticsDataAssociationsRequest",
 )(
   {
-    InstanceId: S.String.pipe(T.HttpLabel()),
+    InstanceId: S.String.pipe(T.HttpLabel("InstanceId")),
     DataSetId: S.optional(S.String).pipe(T.HttpQuery("DataSetId")),
     NextToken: S.optional(S.String).pipe(T.HttpQuery("nextToken")),
     MaxResults: S.optional(S.Number).pipe(T.HttpQuery("maxResults")),
@@ -2927,7 +2954,7 @@ export class ListAnalyticsDataLakeDataSetsRequest extends S.Class<ListAnalyticsD
   "ListAnalyticsDataLakeDataSetsRequest",
 )(
   {
-    InstanceId: S.String.pipe(T.HttpLabel()),
+    InstanceId: S.String.pipe(T.HttpLabel("InstanceId")),
     NextToken: S.optional(S.String).pipe(T.HttpQuery("nextToken")),
     MaxResults: S.optional(S.Number).pipe(T.HttpQuery("maxResults")),
   },
@@ -2947,7 +2974,7 @@ export class ListApprovedOriginsRequest extends S.Class<ListApprovedOriginsReque
   "ListApprovedOriginsRequest",
 )(
   {
-    InstanceId: S.String.pipe(T.HttpLabel()),
+    InstanceId: S.String.pipe(T.HttpLabel("InstanceId")),
     NextToken: S.optional(S.String).pipe(T.HttpQuery("nextToken")),
     MaxResults: S.optional(S.Number).pipe(T.HttpQuery("maxResults")),
   },
@@ -2964,7 +2991,7 @@ export class ListAssociatedContactsRequest extends S.Class<ListAssociatedContact
   "ListAssociatedContactsRequest",
 )(
   {
-    InstanceId: S.String.pipe(T.HttpLabel()),
+    InstanceId: S.String.pipe(T.HttpLabel("InstanceId")),
     ContactId: S.String.pipe(T.HttpQuery("contactId")),
     MaxResults: S.optional(S.Number).pipe(T.HttpQuery("maxResults")),
     NextToken: S.optional(S.String).pipe(T.HttpQuery("nextToken")),
@@ -2982,7 +3009,7 @@ export class ListAuthenticationProfilesRequest extends S.Class<ListAuthenticatio
   "ListAuthenticationProfilesRequest",
 )(
   {
-    InstanceId: S.String.pipe(T.HttpLabel()),
+    InstanceId: S.String.pipe(T.HttpLabel("InstanceId")),
     MaxResults: S.optional(S.Number).pipe(T.HttpQuery("maxResults")),
     NextToken: S.optional(S.String).pipe(T.HttpQuery("nextToken")),
   },
@@ -3002,7 +3029,7 @@ export class ListBotsRequest extends S.Class<ListBotsRequest>(
   "ListBotsRequest",
 )(
   {
-    InstanceId: S.String.pipe(T.HttpLabel()),
+    InstanceId: S.String.pipe(T.HttpLabel("InstanceId")),
     NextToken: S.optional(S.String).pipe(T.HttpQuery("nextToken")),
     MaxResults: S.optional(S.Number).pipe(T.HttpQuery("maxResults")),
     LexVersion: S.String.pipe(T.HttpQuery("lexVersion")),
@@ -3020,7 +3047,7 @@ export class ListContactEvaluationsRequest extends S.Class<ListContactEvaluation
   "ListContactEvaluationsRequest",
 )(
   {
-    InstanceId: S.String.pipe(T.HttpLabel()),
+    InstanceId: S.String.pipe(T.HttpLabel("InstanceId")),
     ContactId: S.String.pipe(T.HttpQuery("contactId")),
     NextToken: S.optional(S.String).pipe(T.HttpQuery("nextToken")),
   },
@@ -3037,8 +3064,8 @@ export class ListContactFlowModuleAliasesRequest extends S.Class<ListContactFlow
   "ListContactFlowModuleAliasesRequest",
 )(
   {
-    InstanceId: S.String.pipe(T.HttpLabel()),
-    ContactFlowModuleId: S.String.pipe(T.HttpLabel()),
+    InstanceId: S.String.pipe(T.HttpLabel("InstanceId")),
+    ContactFlowModuleId: S.String.pipe(T.HttpLabel("ContactFlowModuleId")),
     NextToken: S.optional(S.String).pipe(T.HttpQuery("nextToken")),
     MaxResults: S.optional(S.Number).pipe(T.HttpQuery("maxResults")),
   },
@@ -3058,7 +3085,7 @@ export class ListContactFlowModulesRequest extends S.Class<ListContactFlowModule
   "ListContactFlowModulesRequest",
 )(
   {
-    InstanceId: S.String.pipe(T.HttpLabel()),
+    InstanceId: S.String.pipe(T.HttpLabel("InstanceId")),
     NextToken: S.optional(S.String).pipe(T.HttpQuery("nextToken")),
     MaxResults: S.optional(S.Number).pipe(T.HttpQuery("maxResults")),
     ContactFlowModuleState: S.optional(S.String).pipe(T.HttpQuery("state")),
@@ -3079,8 +3106,8 @@ export class ListContactFlowModuleVersionsRequest extends S.Class<ListContactFlo
   "ListContactFlowModuleVersionsRequest",
 )(
   {
-    InstanceId: S.String.pipe(T.HttpLabel()),
-    ContactFlowModuleId: S.String.pipe(T.HttpLabel()),
+    InstanceId: S.String.pipe(T.HttpLabel("InstanceId")),
+    ContactFlowModuleId: S.String.pipe(T.HttpLabel("ContactFlowModuleId")),
     NextToken: S.optional(S.String).pipe(T.HttpQuery("nextToken")),
     MaxResults: S.optional(S.Number).pipe(T.HttpQuery("maxResults")),
   },
@@ -3100,7 +3127,7 @@ export class ListContactFlowsRequest extends S.Class<ListContactFlowsRequest>(
   "ListContactFlowsRequest",
 )(
   {
-    InstanceId: S.String.pipe(T.HttpLabel()),
+    InstanceId: S.String.pipe(T.HttpLabel("InstanceId")),
     ContactFlowTypes: S.optional(ContactFlowTypes).pipe(
       T.HttpQuery("contactFlowTypes"),
     ),
@@ -3120,8 +3147,8 @@ export class ListContactFlowVersionsRequest extends S.Class<ListContactFlowVersi
   "ListContactFlowVersionsRequest",
 )(
   {
-    InstanceId: S.String.pipe(T.HttpLabel()),
-    ContactFlowId: S.String.pipe(T.HttpLabel()),
+    InstanceId: S.String.pipe(T.HttpLabel("InstanceId")),
+    ContactFlowId: S.String.pipe(T.HttpLabel("ContactFlowId")),
     NextToken: S.optional(S.String).pipe(T.HttpQuery("nextToken")),
     MaxResults: S.optional(S.Number).pipe(T.HttpQuery("maxResults")),
   },
@@ -3141,8 +3168,8 @@ export class ListContactReferencesRequest extends S.Class<ListContactReferencesR
   "ListContactReferencesRequest",
 )(
   {
-    InstanceId: S.String.pipe(T.HttpLabel()),
-    ContactId: S.String.pipe(T.HttpLabel()),
+    InstanceId: S.String.pipe(T.HttpLabel("InstanceId")),
+    ContactId: S.String.pipe(T.HttpLabel("ContactId")),
     ReferenceTypes: ReferenceTypes.pipe(T.HttpQuery("referenceTypes")),
     NextToken: S.optional(S.String).pipe(T.HttpQuery("nextToken")),
   },
@@ -3162,8 +3189,8 @@ export class ListDataTableAttributesRequest extends S.Class<ListDataTableAttribu
   "ListDataTableAttributesRequest",
 )(
   {
-    InstanceId: S.String.pipe(T.HttpLabel()),
-    DataTableId: S.String.pipe(T.HttpLabel()),
+    InstanceId: S.String.pipe(T.HttpLabel("InstanceId")),
+    DataTableId: S.String.pipe(T.HttpLabel("DataTableId")),
     AttributeIds: S.optional(AttributeIds),
     NextToken: S.optional(S.String).pipe(T.HttpQuery("nextToken")),
     MaxResults: S.optional(S.Number).pipe(T.HttpQuery("maxResults")),
@@ -3184,7 +3211,7 @@ export class ListDataTablesRequest extends S.Class<ListDataTablesRequest>(
   "ListDataTablesRequest",
 )(
   {
-    InstanceId: S.String.pipe(T.HttpLabel()),
+    InstanceId: S.String.pipe(T.HttpLabel("InstanceId")),
     NextToken: S.optional(S.String).pipe(T.HttpQuery("nextToken")),
     MaxResults: S.optional(S.Number).pipe(T.HttpQuery("maxResults")),
   },
@@ -3208,8 +3235,8 @@ export class ListDataTableValuesRequest extends S.Class<ListDataTableValuesReque
   "ListDataTableValuesRequest",
 )(
   {
-    InstanceId: S.String.pipe(T.HttpLabel()),
-    DataTableId: S.String.pipe(T.HttpLabel()),
+    InstanceId: S.String.pipe(T.HttpLabel("InstanceId")),
+    DataTableId: S.String.pipe(T.HttpLabel("DataTableId")),
     RecordIds: S.optional(RecordIds),
     PrimaryAttributeValues: S.optional(PrimaryAttributeValueFilters),
     NextToken: S.optional(S.String).pipe(T.HttpQuery("nextToken")),
@@ -3231,7 +3258,7 @@ export class ListDefaultVocabulariesRequest extends S.Class<ListDefaultVocabular
   "ListDefaultVocabulariesRequest",
 )(
   {
-    InstanceId: S.String.pipe(T.HttpLabel()),
+    InstanceId: S.String.pipe(T.HttpLabel("InstanceId")),
     LanguageCode: S.optional(S.String),
     MaxResults: S.optional(S.Number),
     NextToken: S.optional(S.String),
@@ -3249,7 +3276,7 @@ export class ListEntitySecurityProfilesRequest extends S.Class<ListEntitySecurit
   "ListEntitySecurityProfilesRequest",
 )(
   {
-    InstanceId: S.String.pipe(T.HttpLabel()),
+    InstanceId: S.String.pipe(T.HttpLabel("InstanceId")),
     EntityType: S.String,
     EntityArn: S.String,
     NextToken: S.optional(S.String),
@@ -3271,7 +3298,7 @@ export class ListEvaluationFormsRequest extends S.Class<ListEvaluationFormsReque
   "ListEvaluationFormsRequest",
 )(
   {
-    InstanceId: S.String.pipe(T.HttpLabel()),
+    InstanceId: S.String.pipe(T.HttpLabel("InstanceId")),
     MaxResults: S.optional(S.Number).pipe(T.HttpQuery("maxResults")),
     NextToken: S.optional(S.String).pipe(T.HttpQuery("nextToken")),
   },
@@ -3288,8 +3315,8 @@ export class ListEvaluationFormVersionsRequest extends S.Class<ListEvaluationFor
   "ListEvaluationFormVersionsRequest",
 )(
   {
-    InstanceId: S.String.pipe(T.HttpLabel()),
-    EvaluationFormId: S.String.pipe(T.HttpLabel()),
+    InstanceId: S.String.pipe(T.HttpLabel("InstanceId")),
+    EvaluationFormId: S.String.pipe(T.HttpLabel("EvaluationFormId")),
     MaxResults: S.optional(S.Number).pipe(T.HttpQuery("maxResults")),
     NextToken: S.optional(S.String).pipe(T.HttpQuery("nextToken")),
   },
@@ -3309,7 +3336,7 @@ export class ListFlowAssociationsRequest extends S.Class<ListFlowAssociationsReq
   "ListFlowAssociationsRequest",
 )(
   {
-    InstanceId: S.String.pipe(T.HttpLabel()),
+    InstanceId: S.String.pipe(T.HttpLabel("InstanceId")),
     ResourceType: S.optional(S.String).pipe(T.HttpQuery("ResourceType")),
     NextToken: S.optional(S.String).pipe(T.HttpQuery("nextToken")),
     MaxResults: S.optional(S.Number).pipe(T.HttpQuery("maxResults")),
@@ -3327,8 +3354,8 @@ export class ListHoursOfOperationOverridesRequest extends S.Class<ListHoursOfOpe
   "ListHoursOfOperationOverridesRequest",
 )(
   {
-    InstanceId: S.String.pipe(T.HttpLabel()),
-    HoursOfOperationId: S.String.pipe(T.HttpLabel()),
+    InstanceId: S.String.pipe(T.HttpLabel("InstanceId")),
+    HoursOfOperationId: S.String.pipe(T.HttpLabel("HoursOfOperationId")),
     NextToken: S.optional(S.String).pipe(T.HttpQuery("nextToken")),
     MaxResults: S.optional(S.Number).pipe(T.HttpQuery("maxResults")),
   },
@@ -3348,7 +3375,7 @@ export class ListHoursOfOperationsRequest extends S.Class<ListHoursOfOperationsR
   "ListHoursOfOperationsRequest",
 )(
   {
-    InstanceId: S.String.pipe(T.HttpLabel()),
+    InstanceId: S.String.pipe(T.HttpLabel("InstanceId")),
     NextToken: S.optional(S.String).pipe(T.HttpQuery("nextToken")),
     MaxResults: S.optional(S.Number).pipe(T.HttpQuery("maxResults")),
   },
@@ -3365,7 +3392,7 @@ export class ListInstanceAttributesRequest extends S.Class<ListInstanceAttribute
   "ListInstanceAttributesRequest",
 )(
   {
-    InstanceId: S.String.pipe(T.HttpLabel()),
+    InstanceId: S.String.pipe(T.HttpLabel("InstanceId")),
     NextToken: S.optional(S.String).pipe(T.HttpQuery("nextToken")),
     MaxResults: S.optional(S.Number).pipe(T.HttpQuery("maxResults")),
   },
@@ -3398,7 +3425,7 @@ export class ListInstanceStorageConfigsRequest extends S.Class<ListInstanceStora
   "ListInstanceStorageConfigsRequest",
 )(
   {
-    InstanceId: S.String.pipe(T.HttpLabel()),
+    InstanceId: S.String.pipe(T.HttpLabel("InstanceId")),
     ResourceType: S.String.pipe(T.HttpQuery("resourceType")),
     NextToken: S.optional(S.String).pipe(T.HttpQuery("nextToken")),
     MaxResults: S.optional(S.Number).pipe(T.HttpQuery("maxResults")),
@@ -3416,7 +3443,7 @@ export class ListIntegrationAssociationsRequest extends S.Class<ListIntegrationA
   "ListIntegrationAssociationsRequest",
 )(
   {
-    InstanceId: S.String.pipe(T.HttpLabel()),
+    InstanceId: S.String.pipe(T.HttpLabel("InstanceId")),
     IntegrationType: S.optional(S.String).pipe(T.HttpQuery("integrationType")),
     NextToken: S.optional(S.String).pipe(T.HttpQuery("nextToken")),
     MaxResults: S.optional(S.Number).pipe(T.HttpQuery("maxResults")),
@@ -3438,7 +3465,7 @@ export class ListLambdaFunctionsRequest extends S.Class<ListLambdaFunctionsReque
   "ListLambdaFunctionsRequest",
 )(
   {
-    InstanceId: S.String.pipe(T.HttpLabel()),
+    InstanceId: S.String.pipe(T.HttpLabel("InstanceId")),
     NextToken: S.optional(S.String).pipe(T.HttpQuery("nextToken")),
     MaxResults: S.optional(S.Number).pipe(T.HttpQuery("maxResults")),
   },
@@ -3455,7 +3482,7 @@ export class ListLexBotsRequest extends S.Class<ListLexBotsRequest>(
   "ListLexBotsRequest",
 )(
   {
-    InstanceId: S.String.pipe(T.HttpLabel()),
+    InstanceId: S.String.pipe(T.HttpLabel("InstanceId")),
     NextToken: S.optional(S.String).pipe(T.HttpQuery("nextToken")),
     MaxResults: S.optional(S.Number).pipe(T.HttpQuery("maxResults")),
   },
@@ -3472,7 +3499,7 @@ export class ListPhoneNumbersRequest extends S.Class<ListPhoneNumbersRequest>(
   "ListPhoneNumbersRequest",
 )(
   {
-    InstanceId: S.String.pipe(T.HttpLabel()),
+    InstanceId: S.String.pipe(T.HttpLabel("InstanceId")),
     PhoneNumberTypes: S.optional(PhoneNumberTypes).pipe(
       T.HttpQuery("phoneNumberTypes"),
     ),
@@ -3516,7 +3543,7 @@ export class ListPredefinedAttributesRequest extends S.Class<ListPredefinedAttri
   "ListPredefinedAttributesRequest",
 )(
   {
-    InstanceId: S.String.pipe(T.HttpLabel()),
+    InstanceId: S.String.pipe(T.HttpLabel("InstanceId")),
     NextToken: S.optional(S.String).pipe(T.HttpQuery("nextToken")),
     MaxResults: S.optional(S.Number).pipe(T.HttpQuery("maxResults")),
   },
@@ -3533,7 +3560,7 @@ export class ListPromptsRequest extends S.Class<ListPromptsRequest>(
   "ListPromptsRequest",
 )(
   {
-    InstanceId: S.String.pipe(T.HttpLabel()),
+    InstanceId: S.String.pipe(T.HttpLabel("InstanceId")),
     NextToken: S.optional(S.String).pipe(T.HttpQuery("nextToken")),
     MaxResults: S.optional(S.Number).pipe(T.HttpQuery("maxResults")),
   },
@@ -3550,8 +3577,8 @@ export class ListQueueQuickConnectsRequest extends S.Class<ListQueueQuickConnect
   "ListQueueQuickConnectsRequest",
 )(
   {
-    InstanceId: S.String.pipe(T.HttpLabel()),
-    QueueId: S.String.pipe(T.HttpLabel()),
+    InstanceId: S.String.pipe(T.HttpLabel("InstanceId")),
+    QueueId: S.String.pipe(T.HttpLabel("QueueId")),
     NextToken: S.optional(S.String).pipe(T.HttpQuery("nextToken")),
     MaxResults: S.optional(S.Number).pipe(T.HttpQuery("maxResults")),
   },
@@ -3571,7 +3598,7 @@ export class ListQueuesRequest extends S.Class<ListQueuesRequest>(
   "ListQueuesRequest",
 )(
   {
-    InstanceId: S.String.pipe(T.HttpLabel()),
+    InstanceId: S.String.pipe(T.HttpLabel("InstanceId")),
     QueueTypes: S.optional(QueueTypes).pipe(T.HttpQuery("queueTypes")),
     NextToken: S.optional(S.String).pipe(T.HttpQuery("nextToken")),
     MaxResults: S.optional(S.Number).pipe(T.HttpQuery("maxResults")),
@@ -3589,7 +3616,7 @@ export class ListQuickConnectsRequest extends S.Class<ListQuickConnectsRequest>(
   "ListQuickConnectsRequest",
 )(
   {
-    InstanceId: S.String.pipe(T.HttpLabel()),
+    InstanceId: S.String.pipe(T.HttpLabel("InstanceId")),
     NextToken: S.optional(S.String).pipe(T.HttpQuery("nextToken")),
     MaxResults: S.optional(S.Number).pipe(T.HttpQuery("maxResults")),
     QuickConnectTypes: S.optional(QuickConnectTypes).pipe(
@@ -3609,8 +3636,8 @@ export class ListRealtimeContactAnalysisSegmentsV2Request extends S.Class<ListRe
   "ListRealtimeContactAnalysisSegmentsV2Request",
 )(
   {
-    InstanceId: S.String.pipe(T.HttpLabel()),
-    ContactId: S.String.pipe(T.HttpLabel()),
+    InstanceId: S.String.pipe(T.HttpLabel("InstanceId")),
+    ContactId: S.String.pipe(T.HttpLabel("ContactId")),
     MaxResults: S.optional(S.Number),
     NextToken: S.optional(S.String),
     OutputType: S.String,
@@ -3632,8 +3659,8 @@ export class ListRoutingProfileManualAssignmentQueuesRequest extends S.Class<Lis
   "ListRoutingProfileManualAssignmentQueuesRequest",
 )(
   {
-    InstanceId: S.String.pipe(T.HttpLabel()),
-    RoutingProfileId: S.String.pipe(T.HttpLabel()),
+    InstanceId: S.String.pipe(T.HttpLabel("InstanceId")),
+    RoutingProfileId: S.String.pipe(T.HttpLabel("RoutingProfileId")),
     NextToken: S.optional(S.String).pipe(T.HttpQuery("nextToken")),
     MaxResults: S.optional(S.Number).pipe(T.HttpQuery("maxResults")),
   },
@@ -3653,8 +3680,8 @@ export class ListRoutingProfileQueuesRequest extends S.Class<ListRoutingProfileQ
   "ListRoutingProfileQueuesRequest",
 )(
   {
-    InstanceId: S.String.pipe(T.HttpLabel()),
-    RoutingProfileId: S.String.pipe(T.HttpLabel()),
+    InstanceId: S.String.pipe(T.HttpLabel("InstanceId")),
+    RoutingProfileId: S.String.pipe(T.HttpLabel("RoutingProfileId")),
     NextToken: S.optional(S.String).pipe(T.HttpQuery("nextToken")),
     MaxResults: S.optional(S.Number).pipe(T.HttpQuery("maxResults")),
   },
@@ -3674,7 +3701,7 @@ export class ListRoutingProfilesRequest extends S.Class<ListRoutingProfilesReque
   "ListRoutingProfilesRequest",
 )(
   {
-    InstanceId: S.String.pipe(T.HttpLabel()),
+    InstanceId: S.String.pipe(T.HttpLabel("InstanceId")),
     NextToken: S.optional(S.String).pipe(T.HttpQuery("nextToken")),
     MaxResults: S.optional(S.Number).pipe(T.HttpQuery("maxResults")),
   },
@@ -3691,7 +3718,7 @@ export class ListRulesRequest extends S.Class<ListRulesRequest>(
   "ListRulesRequest",
 )(
   {
-    InstanceId: S.String.pipe(T.HttpLabel()),
+    InstanceId: S.String.pipe(T.HttpLabel("InstanceId")),
     PublishStatus: S.optional(S.String).pipe(T.HttpQuery("publishStatus")),
     EventSourceName: S.optional(S.String).pipe(T.HttpQuery("eventSourceName")),
     MaxResults: S.optional(S.Number).pipe(T.HttpQuery("maxResults")),
@@ -3710,7 +3737,7 @@ export class ListSecurityKeysRequest extends S.Class<ListSecurityKeysRequest>(
   "ListSecurityKeysRequest",
 )(
   {
-    InstanceId: S.String.pipe(T.HttpLabel()),
+    InstanceId: S.String.pipe(T.HttpLabel("InstanceId")),
     NextToken: S.optional(S.String).pipe(T.HttpQuery("nextToken")),
     MaxResults: S.optional(S.Number).pipe(T.HttpQuery("maxResults")),
   },
@@ -3727,8 +3754,8 @@ export class ListSecurityProfileApplicationsRequest extends S.Class<ListSecurity
   "ListSecurityProfileApplicationsRequest",
 )(
   {
-    SecurityProfileId: S.String.pipe(T.HttpLabel()),
-    InstanceId: S.String.pipe(T.HttpLabel()),
+    SecurityProfileId: S.String.pipe(T.HttpLabel("SecurityProfileId")),
+    InstanceId: S.String.pipe(T.HttpLabel("InstanceId")),
     NextToken: S.optional(S.String).pipe(T.HttpQuery("nextToken")),
     MaxResults: S.optional(S.Number).pipe(T.HttpQuery("maxResults")),
   },
@@ -3748,8 +3775,8 @@ export class ListSecurityProfileFlowModulesRequest extends S.Class<ListSecurityP
   "ListSecurityProfileFlowModulesRequest",
 )(
   {
-    SecurityProfileId: S.String.pipe(T.HttpLabel()),
-    InstanceId: S.String.pipe(T.HttpLabel()),
+    SecurityProfileId: S.String.pipe(T.HttpLabel("SecurityProfileId")),
+    InstanceId: S.String.pipe(T.HttpLabel("InstanceId")),
     NextToken: S.optional(S.String).pipe(T.HttpQuery("nextToken")),
     MaxResults: S.optional(S.Number).pipe(T.HttpQuery("maxResults")),
   },
@@ -3769,8 +3796,8 @@ export class ListSecurityProfilePermissionsRequest extends S.Class<ListSecurityP
   "ListSecurityProfilePermissionsRequest",
 )(
   {
-    SecurityProfileId: S.String.pipe(T.HttpLabel()),
-    InstanceId: S.String.pipe(T.HttpLabel()),
+    SecurityProfileId: S.String.pipe(T.HttpLabel("SecurityProfileId")),
+    InstanceId: S.String.pipe(T.HttpLabel("InstanceId")),
     NextToken: S.optional(S.String).pipe(T.HttpQuery("nextToken")),
     MaxResults: S.optional(S.Number).pipe(T.HttpQuery("maxResults")),
   },
@@ -3790,7 +3817,7 @@ export class ListSecurityProfilesRequest extends S.Class<ListSecurityProfilesReq
   "ListSecurityProfilesRequest",
 )(
   {
-    InstanceId: S.String.pipe(T.HttpLabel()),
+    InstanceId: S.String.pipe(T.HttpLabel("InstanceId")),
     NextToken: S.optional(S.String).pipe(T.HttpQuery("nextToken")),
     MaxResults: S.optional(S.Number).pipe(T.HttpQuery("maxResults")),
   },
@@ -3806,7 +3833,7 @@ export class ListSecurityProfilesRequest extends S.Class<ListSecurityProfilesReq
 export class ListTagsForResourceRequest extends S.Class<ListTagsForResourceRequest>(
   "ListTagsForResourceRequest",
 )(
-  { resourceArn: S.String.pipe(T.HttpLabel()) },
+  { resourceArn: S.String.pipe(T.HttpLabel("resourceArn")) },
   T.all(
     T.Http({ method: "GET", uri: "/tags/{resourceArn}" }),
     svc,
@@ -3820,7 +3847,7 @@ export class ListTaskTemplatesRequest extends S.Class<ListTaskTemplatesRequest>(
   "ListTaskTemplatesRequest",
 )(
   {
-    InstanceId: S.String.pipe(T.HttpLabel()),
+    InstanceId: S.String.pipe(T.HttpLabel("InstanceId")),
     NextToken: S.optional(S.String).pipe(T.HttpQuery("nextToken")),
     MaxResults: S.optional(S.Number).pipe(T.HttpQuery("maxResults")),
     Status: S.optional(S.String).pipe(T.HttpQuery("status")),
@@ -3856,7 +3883,9 @@ export class ListTrafficDistributionGroupUsersRequest extends S.Class<ListTraffi
   "ListTrafficDistributionGroupUsersRequest",
 )(
   {
-    TrafficDistributionGroupId: S.String.pipe(T.HttpLabel()),
+    TrafficDistributionGroupId: S.String.pipe(
+      T.HttpLabel("TrafficDistributionGroupId"),
+    ),
     MaxResults: S.optional(S.Number).pipe(T.HttpQuery("maxResults")),
     NextToken: S.optional(S.String).pipe(T.HttpQuery("nextToken")),
   },
@@ -3876,8 +3905,10 @@ export class ListUseCasesRequest extends S.Class<ListUseCasesRequest>(
   "ListUseCasesRequest",
 )(
   {
-    InstanceId: S.String.pipe(T.HttpLabel()),
-    IntegrationAssociationId: S.String.pipe(T.HttpLabel()),
+    InstanceId: S.String.pipe(T.HttpLabel("InstanceId")),
+    IntegrationAssociationId: S.String.pipe(
+      T.HttpLabel("IntegrationAssociationId"),
+    ),
     NextToken: S.optional(S.String).pipe(T.HttpQuery("nextToken")),
     MaxResults: S.optional(S.Number).pipe(T.HttpQuery("maxResults")),
   },
@@ -3897,7 +3928,7 @@ export class ListUserHierarchyGroupsRequest extends S.Class<ListUserHierarchyGro
   "ListUserHierarchyGroupsRequest",
 )(
   {
-    InstanceId: S.String.pipe(T.HttpLabel()),
+    InstanceId: S.String.pipe(T.HttpLabel("InstanceId")),
     NextToken: S.optional(S.String).pipe(T.HttpQuery("nextToken")),
     MaxResults: S.optional(S.Number).pipe(T.HttpQuery("maxResults")),
   },
@@ -3917,8 +3948,8 @@ export class ListUserProficienciesRequest extends S.Class<ListUserProficienciesR
   "ListUserProficienciesRequest",
 )(
   {
-    InstanceId: S.String.pipe(T.HttpLabel()),
-    UserId: S.String.pipe(T.HttpLabel()),
+    InstanceId: S.String.pipe(T.HttpLabel("InstanceId")),
+    UserId: S.String.pipe(T.HttpLabel("UserId")),
     NextToken: S.optional(S.String).pipe(T.HttpQuery("nextToken")),
     MaxResults: S.optional(S.Number).pipe(T.HttpQuery("maxResults")),
   },
@@ -3938,7 +3969,7 @@ export class ListUsersRequest extends S.Class<ListUsersRequest>(
   "ListUsersRequest",
 )(
   {
-    InstanceId: S.String.pipe(T.HttpLabel()),
+    InstanceId: S.String.pipe(T.HttpLabel("InstanceId")),
     NextToken: S.optional(S.String).pipe(T.HttpQuery("nextToken")),
     MaxResults: S.optional(S.Number).pipe(T.HttpQuery("maxResults")),
   },
@@ -3955,7 +3986,7 @@ export class ListViewsRequest extends S.Class<ListViewsRequest>(
   "ListViewsRequest",
 )(
   {
-    InstanceId: S.String.pipe(T.HttpLabel()),
+    InstanceId: S.String.pipe(T.HttpLabel("InstanceId")),
     Type: S.optional(S.String).pipe(T.HttpQuery("type")),
     NextToken: S.optional(S.String).pipe(T.HttpQuery("nextToken")),
     MaxResults: S.optional(S.Number).pipe(T.HttpQuery("maxResults")),
@@ -3973,8 +4004,8 @@ export class ListViewVersionsRequest extends S.Class<ListViewVersionsRequest>(
   "ListViewVersionsRequest",
 )(
   {
-    InstanceId: S.String.pipe(T.HttpLabel()),
-    ViewId: S.String.pipe(T.HttpLabel()),
+    InstanceId: S.String.pipe(T.HttpLabel("InstanceId")),
+    ViewId: S.String.pipe(T.HttpLabel("ViewId")),
     NextToken: S.optional(S.String).pipe(T.HttpQuery("nextToken")),
     MaxResults: S.optional(S.Number).pipe(T.HttpQuery("maxResults")),
   },
@@ -3991,8 +4022,8 @@ export class ListWorkspaceMediaRequest extends S.Class<ListWorkspaceMediaRequest
   "ListWorkspaceMediaRequest",
 )(
   {
-    InstanceId: S.String.pipe(T.HttpLabel()),
-    WorkspaceId: S.String.pipe(T.HttpLabel()),
+    InstanceId: S.String.pipe(T.HttpLabel("InstanceId")),
+    WorkspaceId: S.String.pipe(T.HttpLabel("WorkspaceId")),
   },
   T.all(
     T.Http({
@@ -4010,8 +4041,8 @@ export class ListWorkspacePagesRequest extends S.Class<ListWorkspacePagesRequest
   "ListWorkspacePagesRequest",
 )(
   {
-    InstanceId: S.String.pipe(T.HttpLabel()),
-    WorkspaceId: S.String.pipe(T.HttpLabel()),
+    InstanceId: S.String.pipe(T.HttpLabel("InstanceId")),
+    WorkspaceId: S.String.pipe(T.HttpLabel("WorkspaceId")),
     NextToken: S.optional(S.String).pipe(T.HttpQuery("nextToken")),
     MaxResults: S.optional(S.Number).pipe(T.HttpQuery("maxResults")),
   },
@@ -4031,7 +4062,7 @@ export class ListWorkspacesRequest extends S.Class<ListWorkspacesRequest>(
   "ListWorkspacesRequest",
 )(
   {
-    InstanceId: S.String.pipe(T.HttpLabel()),
+    InstanceId: S.String.pipe(T.HttpLabel("InstanceId")),
     NextToken: S.optional(S.String).pipe(T.HttpQuery("nextToken")),
     MaxResults: S.optional(S.Number).pipe(T.HttpQuery("maxResults")),
   },
@@ -4087,8 +4118,8 @@ export class PutUserStatusRequest extends S.Class<PutUserStatusRequest>(
   "PutUserStatusRequest",
 )(
   {
-    UserId: S.String.pipe(T.HttpLabel()),
-    InstanceId: S.String.pipe(T.HttpLabel()),
+    UserId: S.String.pipe(T.HttpLabel("UserId")),
+    InstanceId: S.String.pipe(T.HttpLabel("InstanceId")),
     AgentStatusId: S.String,
   },
   T.all(
@@ -4107,7 +4138,7 @@ export class ReleasePhoneNumberRequest extends S.Class<ReleasePhoneNumberRequest
   "ReleasePhoneNumberRequest",
 )(
   {
-    PhoneNumberId: S.String.pipe(T.HttpLabel()),
+    PhoneNumberId: S.String.pipe(T.HttpLabel("PhoneNumberId")),
     ClientToken: S.optional(S.String).pipe(T.HttpQuery("clientToken")),
   },
   T.all(
@@ -4126,7 +4157,7 @@ export class ReplicateInstanceRequest extends S.Class<ReplicateInstanceRequest>(
   "ReplicateInstanceRequest",
 )(
   {
-    InstanceId: S.String.pipe(T.HttpLabel()),
+    InstanceId: S.String.pipe(T.HttpLabel("InstanceId")),
     ReplicaRegion: S.String,
     ClientToken: S.optional(S.String),
     ReplicaAlias: S.String,
@@ -4206,7 +4237,7 @@ export class SearchVocabulariesRequest extends S.Class<SearchVocabulariesRequest
   "SearchVocabulariesRequest",
 )(
   {
-    InstanceId: S.String.pipe(T.HttpLabel()),
+    InstanceId: S.String.pipe(T.HttpLabel("InstanceId")),
     MaxResults: S.optional(S.Number),
     NextToken: S.optional(S.String),
     State: S.optional(S.String),
@@ -4442,7 +4473,7 @@ export class SuspendContactRecordingResponse extends S.Class<SuspendContactRecor
 export class TagResourceRequest extends S.Class<TagResourceRequest>(
   "TagResourceRequest",
 )(
-  { resourceArn: S.String.pipe(T.HttpLabel()), tags: TagMap },
+  { resourceArn: S.String.pipe(T.HttpLabel("resourceArn")), tags: TagMap },
   T.all(
     T.Http({ method: "POST", uri: "/tags/{resourceArn}" }),
     svc,
@@ -4479,8 +4510,8 @@ export class UntagContactRequest extends S.Class<UntagContactRequest>(
   "UntagContactRequest",
 )(
   {
-    ContactId: S.String.pipe(T.HttpLabel()),
-    InstanceId: S.String.pipe(T.HttpLabel()),
+    ContactId: S.String.pipe(T.HttpLabel("ContactId")),
+    InstanceId: S.String.pipe(T.HttpLabel("InstanceId")),
     TagKeys: ContactTagKeys.pipe(T.HttpQuery("TagKeys")),
   },
   T.all(
@@ -4499,7 +4530,7 @@ export class UntagResourceRequest extends S.Class<UntagResourceRequest>(
   "UntagResourceRequest",
 )(
   {
-    resourceArn: S.String.pipe(T.HttpLabel()),
+    resourceArn: S.String.pipe(T.HttpLabel("resourceArn")),
     tagKeys: TagKeyList.pipe(T.HttpQuery("tagKeys")),
   },
   T.all(
@@ -4518,8 +4549,8 @@ export class UpdateAgentStatusRequest extends S.Class<UpdateAgentStatusRequest>(
   "UpdateAgentStatusRequest",
 )(
   {
-    InstanceId: S.String.pipe(T.HttpLabel()),
-    AgentStatusId: S.String.pipe(T.HttpLabel()),
+    InstanceId: S.String.pipe(T.HttpLabel("InstanceId")),
+    AgentStatusId: S.String.pipe(T.HttpLabel("AgentStatusId")),
     Name: S.optional(S.String),
     Description: S.optional(S.String),
     State: S.optional(S.String),
@@ -4545,8 +4576,10 @@ export class UpdateAuthenticationProfileRequest extends S.Class<UpdateAuthentica
   "UpdateAuthenticationProfileRequest",
 )(
   {
-    AuthenticationProfileId: S.String.pipe(T.HttpLabel()),
-    InstanceId: S.String.pipe(T.HttpLabel()),
+    AuthenticationProfileId: S.String.pipe(
+      T.HttpLabel("AuthenticationProfileId"),
+    ),
+    InstanceId: S.String.pipe(T.HttpLabel("InstanceId")),
     Name: S.optional(S.String),
     Description: S.optional(S.String),
     AllowedIps: S.optional(IpCidrList),
@@ -4615,8 +4648,8 @@ export class UpdateContactEvaluationRequest extends S.Class<UpdateContactEvaluat
   "UpdateContactEvaluationRequest",
 )(
   {
-    InstanceId: S.String.pipe(T.HttpLabel()),
-    EvaluationId: S.String.pipe(T.HttpLabel()),
+    InstanceId: S.String.pipe(T.HttpLabel("InstanceId")),
+    EvaluationId: S.String.pipe(T.HttpLabel("EvaluationId")),
     Answers: S.optional(EvaluationAnswersInputMap),
     Notes: S.optional(EvaluationNotesMap),
     UpdatedBy: S.optional(EvaluatorUserUnion),
@@ -4637,8 +4670,8 @@ export class UpdateContactFlowContentRequest extends S.Class<UpdateContactFlowCo
   "UpdateContactFlowContentRequest",
 )(
   {
-    InstanceId: S.String.pipe(T.HttpLabel()),
-    ContactFlowId: S.String.pipe(T.HttpLabel()),
+    InstanceId: S.String.pipe(T.HttpLabel("InstanceId")),
+    ContactFlowId: S.String.pipe(T.HttpLabel("ContactFlowId")),
     Content: S.String,
   },
   T.all(
@@ -4660,8 +4693,8 @@ export class UpdateContactFlowMetadataRequest extends S.Class<UpdateContactFlowM
   "UpdateContactFlowMetadataRequest",
 )(
   {
-    InstanceId: S.String.pipe(T.HttpLabel()),
-    ContactFlowId: S.String.pipe(T.HttpLabel()),
+    InstanceId: S.String.pipe(T.HttpLabel("InstanceId")),
+    ContactFlowId: S.String.pipe(T.HttpLabel("ContactFlowId")),
     Name: S.optional(S.String),
     Description: S.optional(S.String),
     ContactFlowState: S.optional(S.String),
@@ -4685,9 +4718,9 @@ export class UpdateContactFlowModuleAliasRequest extends S.Class<UpdateContactFl
   "UpdateContactFlowModuleAliasRequest",
 )(
   {
-    InstanceId: S.String.pipe(T.HttpLabel()),
-    ContactFlowModuleId: S.String.pipe(T.HttpLabel()),
-    AliasId: S.String.pipe(T.HttpLabel()),
+    InstanceId: S.String.pipe(T.HttpLabel("InstanceId")),
+    ContactFlowModuleId: S.String.pipe(T.HttpLabel("ContactFlowModuleId")),
+    AliasId: S.String.pipe(T.HttpLabel("AliasId")),
     Name: S.optional(S.String),
     Description: S.optional(S.String),
     ContactFlowModuleVersion: S.optional(S.Number),
@@ -4711,8 +4744,8 @@ export class UpdateContactFlowModuleContentRequest extends S.Class<UpdateContact
   "UpdateContactFlowModuleContentRequest",
 )(
   {
-    InstanceId: S.String.pipe(T.HttpLabel()),
-    ContactFlowModuleId: S.String.pipe(T.HttpLabel()),
+    InstanceId: S.String.pipe(T.HttpLabel("InstanceId")),
+    ContactFlowModuleId: S.String.pipe(T.HttpLabel("ContactFlowModuleId")),
     Content: S.optional(S.String),
     Settings: S.optional(S.String),
   },
@@ -4735,8 +4768,8 @@ export class UpdateContactFlowModuleMetadataRequest extends S.Class<UpdateContac
   "UpdateContactFlowModuleMetadataRequest",
 )(
   {
-    InstanceId: S.String.pipe(T.HttpLabel()),
-    ContactFlowModuleId: S.String.pipe(T.HttpLabel()),
+    InstanceId: S.String.pipe(T.HttpLabel("InstanceId")),
+    ContactFlowModuleId: S.String.pipe(T.HttpLabel("ContactFlowModuleId")),
     Name: S.optional(S.String),
     Description: S.optional(S.String),
     State: S.optional(S.String),
@@ -4760,8 +4793,8 @@ export class UpdateContactFlowNameRequest extends S.Class<UpdateContactFlowNameR
   "UpdateContactFlowNameRequest",
 )(
   {
-    InstanceId: S.String.pipe(T.HttpLabel()),
-    ContactFlowId: S.String.pipe(T.HttpLabel()),
+    InstanceId: S.String.pipe(T.HttpLabel("InstanceId")),
+    ContactFlowId: S.String.pipe(T.HttpLabel("ContactFlowId")),
     Name: S.optional(S.String),
     Description: S.optional(S.String),
   },
@@ -4822,9 +4855,9 @@ export class UpdateDataTableAttributeRequest extends S.Class<UpdateDataTableAttr
   "UpdateDataTableAttributeRequest",
 )(
   {
-    InstanceId: S.String.pipe(T.HttpLabel()),
-    DataTableId: S.String.pipe(T.HttpLabel()),
-    AttributeName: S.String.pipe(T.HttpLabel()),
+    InstanceId: S.String.pipe(T.HttpLabel("InstanceId")),
+    DataTableId: S.String.pipe(T.HttpLabel("DataTableId")),
+    AttributeName: S.String.pipe(T.HttpLabel("AttributeName")),
     Name: S.String,
     ValueType: S.String,
     Description: S.optional(S.String),
@@ -4847,8 +4880,8 @@ export class UpdateDataTableMetadataRequest extends S.Class<UpdateDataTableMetad
   "UpdateDataTableMetadataRequest",
 )(
   {
-    InstanceId: S.String.pipe(T.HttpLabel()),
-    DataTableId: S.String.pipe(T.HttpLabel()),
+    InstanceId: S.String.pipe(T.HttpLabel("InstanceId")),
+    DataTableId: S.String.pipe(T.HttpLabel("DataTableId")),
     Name: S.String,
     Description: S.optional(S.String),
     ValueLockLevel: S.String,
@@ -4867,8 +4900,8 @@ export class UpdateEmailAddressMetadataRequest extends S.Class<UpdateEmailAddres
   "UpdateEmailAddressMetadataRequest",
 )(
   {
-    InstanceId: S.String.pipe(T.HttpLabel()),
-    EmailAddressId: S.String.pipe(T.HttpLabel()),
+    InstanceId: S.String.pipe(T.HttpLabel("InstanceId")),
+    EmailAddressId: S.String.pipe(T.HttpLabel("EmailAddressId")),
     Description: S.optional(S.String),
     DisplayName: S.optional(S.String),
     ClientToken: S.optional(S.String),
@@ -4905,8 +4938,8 @@ export class UpdateEvaluationFormRequest extends S.Class<UpdateEvaluationFormReq
   "UpdateEvaluationFormRequest",
 )(
   {
-    InstanceId: S.String.pipe(T.HttpLabel()),
-    EvaluationFormId: S.String.pipe(T.HttpLabel()),
+    InstanceId: S.String.pipe(T.HttpLabel("InstanceId")),
+    EvaluationFormId: S.String.pipe(T.HttpLabel("EvaluationFormId")),
     EvaluationFormVersion: S.Number,
     CreateNewVersion: S.optional(S.Boolean),
     Title: S.String,
@@ -4948,8 +4981,8 @@ export class UpdateHoursOfOperationRequest extends S.Class<UpdateHoursOfOperatio
   "UpdateHoursOfOperationRequest",
 )(
   {
-    InstanceId: S.String.pipe(T.HttpLabel()),
-    HoursOfOperationId: S.String.pipe(T.HttpLabel()),
+    InstanceId: S.String.pipe(T.HttpLabel("InstanceId")),
+    HoursOfOperationId: S.String.pipe(T.HttpLabel("HoursOfOperationId")),
     Name: S.optional(S.String),
     Description: S.optional(S.String),
     TimeZone: S.optional(S.String),
@@ -4987,9 +5020,11 @@ export class UpdateHoursOfOperationOverrideRequest extends S.Class<UpdateHoursOf
   "UpdateHoursOfOperationOverrideRequest",
 )(
   {
-    InstanceId: S.String.pipe(T.HttpLabel()),
-    HoursOfOperationId: S.String.pipe(T.HttpLabel()),
-    HoursOfOperationOverrideId: S.String.pipe(T.HttpLabel()),
+    InstanceId: S.String.pipe(T.HttpLabel("InstanceId")),
+    HoursOfOperationId: S.String.pipe(T.HttpLabel("HoursOfOperationId")),
+    HoursOfOperationOverrideId: S.String.pipe(
+      T.HttpLabel("HoursOfOperationOverrideId"),
+    ),
     Name: S.optional(S.String),
     Description: S.optional(S.String),
     Config: S.optional(HoursOfOperationOverrideConfigList),
@@ -5015,8 +5050,8 @@ export class UpdateInstanceAttributeRequest extends S.Class<UpdateInstanceAttrib
   "UpdateInstanceAttributeRequest",
 )(
   {
-    InstanceId: S.String.pipe(T.HttpLabel()),
-    AttributeType: S.String.pipe(T.HttpLabel()),
+    InstanceId: S.String.pipe(T.HttpLabel("InstanceId")),
+    AttributeType: S.String.pipe(T.HttpLabel("AttributeType")),
     Value: S.String,
     ClientToken: S.optional(S.String),
   },
@@ -5070,8 +5105,8 @@ export class UpdateInstanceStorageConfigRequest extends S.Class<UpdateInstanceSt
   "UpdateInstanceStorageConfigRequest",
 )(
   {
-    InstanceId: S.String.pipe(T.HttpLabel()),
-    AssociationId: S.String.pipe(T.HttpLabel()),
+    InstanceId: S.String.pipe(T.HttpLabel("InstanceId")),
+    AssociationId: S.String.pipe(T.HttpLabel("AssociationId")),
     ResourceType: S.String.pipe(T.HttpQuery("resourceType")),
     StorageConfig: InstanceStorageConfig,
     ClientToken: S.optional(S.String),
@@ -5120,7 +5155,7 @@ export class UpdatePhoneNumberRequest extends S.Class<UpdatePhoneNumberRequest>(
   "UpdatePhoneNumberRequest",
 )(
   {
-    PhoneNumberId: S.String.pipe(T.HttpLabel()),
+    PhoneNumberId: S.String.pipe(T.HttpLabel("PhoneNumberId")),
     TargetArn: S.optional(S.String),
     InstanceId: S.optional(S.String),
     ClientToken: S.optional(S.String),
@@ -5138,7 +5173,7 @@ export class UpdatePhoneNumberMetadataRequest extends S.Class<UpdatePhoneNumberM
   "UpdatePhoneNumberMetadataRequest",
 )(
   {
-    PhoneNumberId: S.String.pipe(T.HttpLabel()),
+    PhoneNumberId: S.String.pipe(T.HttpLabel("PhoneNumberId")),
     PhoneNumberDescription: S.optional(S.String),
     ClientToken: S.optional(S.String),
   },
@@ -5165,8 +5200,8 @@ export class UpdatePredefinedAttributeRequest extends S.Class<UpdatePredefinedAt
   "UpdatePredefinedAttributeRequest",
 )(
   {
-    InstanceId: S.String.pipe(T.HttpLabel()),
-    Name: S.String.pipe(T.HttpLabel()),
+    InstanceId: S.String.pipe(T.HttpLabel("InstanceId")),
+    Name: S.String.pipe(T.HttpLabel("Name")),
     Values: S.optional(PredefinedAttributeValues),
     Purposes: S.optional(PredefinedAttributePurposeNameList),
     AttributeConfiguration: S.optional(InputPredefinedAttributeConfiguration),
@@ -5190,8 +5225,8 @@ export class UpdatePromptRequest extends S.Class<UpdatePromptRequest>(
   "UpdatePromptRequest",
 )(
   {
-    InstanceId: S.String.pipe(T.HttpLabel()),
-    PromptId: S.String.pipe(T.HttpLabel()),
+    InstanceId: S.String.pipe(T.HttpLabel("InstanceId")),
+    PromptId: S.String.pipe(T.HttpLabel("PromptId")),
     Name: S.optional(S.String),
     Description: S.optional(S.String),
     S3Uri: S.optional(S.String),
@@ -5209,8 +5244,8 @@ export class UpdateQueueHoursOfOperationRequest extends S.Class<UpdateQueueHours
   "UpdateQueueHoursOfOperationRequest",
 )(
   {
-    InstanceId: S.String.pipe(T.HttpLabel()),
-    QueueId: S.String.pipe(T.HttpLabel()),
+    InstanceId: S.String.pipe(T.HttpLabel("InstanceId")),
+    QueueId: S.String.pipe(T.HttpLabel("QueueId")),
     HoursOfOperationId: S.String,
   },
   T.all(
@@ -5232,8 +5267,8 @@ export class UpdateQueueMaxContactsRequest extends S.Class<UpdateQueueMaxContact
   "UpdateQueueMaxContactsRequest",
 )(
   {
-    InstanceId: S.String.pipe(T.HttpLabel()),
-    QueueId: S.String.pipe(T.HttpLabel()),
+    InstanceId: S.String.pipe(T.HttpLabel("InstanceId")),
+    QueueId: S.String.pipe(T.HttpLabel("QueueId")),
     MaxContacts: S.optional(S.Number),
   },
   T.all(
@@ -5255,8 +5290,8 @@ export class UpdateQueueNameRequest extends S.Class<UpdateQueueNameRequest>(
   "UpdateQueueNameRequest",
 )(
   {
-    InstanceId: S.String.pipe(T.HttpLabel()),
-    QueueId: S.String.pipe(T.HttpLabel()),
+    InstanceId: S.String.pipe(T.HttpLabel("InstanceId")),
+    QueueId: S.String.pipe(T.HttpLabel("QueueId")),
     Name: S.optional(S.String),
     Description: S.optional(S.String),
   },
@@ -5283,8 +5318,8 @@ export class UpdateQueueOutboundCallerConfigRequest extends S.Class<UpdateQueueO
   "UpdateQueueOutboundCallerConfigRequest",
 )(
   {
-    InstanceId: S.String.pipe(T.HttpLabel()),
-    QueueId: S.String.pipe(T.HttpLabel()),
+    InstanceId: S.String.pipe(T.HttpLabel("InstanceId")),
+    QueueId: S.String.pipe(T.HttpLabel("QueueId")),
     OutboundCallerConfig: OutboundCallerConfig,
   },
   T.all(
@@ -5309,8 +5344,8 @@ export class UpdateQueueOutboundEmailConfigRequest extends S.Class<UpdateQueueOu
   "UpdateQueueOutboundEmailConfigRequest",
 )(
   {
-    InstanceId: S.String.pipe(T.HttpLabel()),
-    QueueId: S.String.pipe(T.HttpLabel()),
+    InstanceId: S.String.pipe(T.HttpLabel("InstanceId")),
+    QueueId: S.String.pipe(T.HttpLabel("QueueId")),
     OutboundEmailConfig: OutboundEmailConfig,
   },
   T.all(
@@ -5332,8 +5367,8 @@ export class UpdateQueueStatusRequest extends S.Class<UpdateQueueStatusRequest>(
   "UpdateQueueStatusRequest",
 )(
   {
-    InstanceId: S.String.pipe(T.HttpLabel()),
-    QueueId: S.String.pipe(T.HttpLabel()),
+    InstanceId: S.String.pipe(T.HttpLabel("InstanceId")),
+    QueueId: S.String.pipe(T.HttpLabel("QueueId")),
     Status: S.String,
   },
   T.all(
@@ -5373,8 +5408,8 @@ export class UpdateQuickConnectConfigRequest extends S.Class<UpdateQuickConnectC
   "UpdateQuickConnectConfigRequest",
 )(
   {
-    InstanceId: S.String.pipe(T.HttpLabel()),
-    QuickConnectId: S.String.pipe(T.HttpLabel()),
+    InstanceId: S.String.pipe(T.HttpLabel("InstanceId")),
+    QuickConnectId: S.String.pipe(T.HttpLabel("QuickConnectId")),
     QuickConnectConfig: QuickConnectConfig,
   },
   T.all(
@@ -5396,8 +5431,8 @@ export class UpdateQuickConnectNameRequest extends S.Class<UpdateQuickConnectNam
   "UpdateQuickConnectNameRequest",
 )(
   {
-    InstanceId: S.String.pipe(T.HttpLabel()),
-    QuickConnectId: S.String.pipe(T.HttpLabel()),
+    InstanceId: S.String.pipe(T.HttpLabel("InstanceId")),
+    QuickConnectId: S.String.pipe(T.HttpLabel("QuickConnectId")),
     Name: S.optional(S.String),
     Description: S.optional(S.String),
   },
@@ -5420,8 +5455,8 @@ export class UpdateRoutingProfileAgentAvailabilityTimerRequest extends S.Class<U
   "UpdateRoutingProfileAgentAvailabilityTimerRequest",
 )(
   {
-    InstanceId: S.String.pipe(T.HttpLabel()),
-    RoutingProfileId: S.String.pipe(T.HttpLabel()),
+    InstanceId: S.String.pipe(T.HttpLabel("InstanceId")),
+    RoutingProfileId: S.String.pipe(T.HttpLabel("RoutingProfileId")),
     AgentAvailabilityTimer: S.String,
   },
   T.all(
@@ -5454,8 +5489,8 @@ export class UpdateRoutingProfileConcurrencyRequest extends S.Class<UpdateRoutin
   "UpdateRoutingProfileConcurrencyRequest",
 )(
   {
-    InstanceId: S.String.pipe(T.HttpLabel()),
-    RoutingProfileId: S.String.pipe(T.HttpLabel()),
+    InstanceId: S.String.pipe(T.HttpLabel("InstanceId")),
+    RoutingProfileId: S.String.pipe(T.HttpLabel("RoutingProfileId")),
     MediaConcurrencies: MediaConcurrencies,
   },
   T.all(
@@ -5477,8 +5512,8 @@ export class UpdateRoutingProfileDefaultOutboundQueueRequest extends S.Class<Upd
   "UpdateRoutingProfileDefaultOutboundQueueRequest",
 )(
   {
-    InstanceId: S.String.pipe(T.HttpLabel()),
-    RoutingProfileId: S.String.pipe(T.HttpLabel()),
+    InstanceId: S.String.pipe(T.HttpLabel("InstanceId")),
+    RoutingProfileId: S.String.pipe(T.HttpLabel("RoutingProfileId")),
     DefaultOutboundQueueId: S.String,
   },
   T.all(
@@ -5500,8 +5535,8 @@ export class UpdateRoutingProfileNameRequest extends S.Class<UpdateRoutingProfil
   "UpdateRoutingProfileNameRequest",
 )(
   {
-    InstanceId: S.String.pipe(T.HttpLabel()),
-    RoutingProfileId: S.String.pipe(T.HttpLabel()),
+    InstanceId: S.String.pipe(T.HttpLabel("InstanceId")),
+    RoutingProfileId: S.String.pipe(T.HttpLabel("RoutingProfileId")),
     Name: S.optional(S.String),
     Description: S.optional(S.String),
   },
@@ -5535,8 +5570,8 @@ export class UpdateRoutingProfileQueuesRequest extends S.Class<UpdateRoutingProf
   "UpdateRoutingProfileQueuesRequest",
 )(
   {
-    InstanceId: S.String.pipe(T.HttpLabel()),
-    RoutingProfileId: S.String.pipe(T.HttpLabel()),
+    InstanceId: S.String.pipe(T.HttpLabel("InstanceId")),
+    RoutingProfileId: S.String.pipe(T.HttpLabel("RoutingProfileId")),
     QueueConfigs: RoutingProfileQueueConfigList,
   },
   T.all(
@@ -5646,8 +5681,8 @@ export class UpdateRuleRequest extends S.Class<UpdateRuleRequest>(
   "UpdateRuleRequest",
 )(
   {
-    RuleId: S.String.pipe(T.HttpLabel()),
-    InstanceId: S.String.pipe(T.HttpLabel()),
+    RuleId: S.String.pipe(T.HttpLabel("RuleId")),
+    InstanceId: S.String.pipe(T.HttpLabel("InstanceId")),
     Name: S.String,
     Function: S.String,
     Actions: RuleActions,
@@ -5713,8 +5748,8 @@ export class UpdateSecurityProfileRequest extends S.Class<UpdateSecurityProfileR
   {
     Description: S.optional(S.String),
     Permissions: S.optional(PermissionsList),
-    SecurityProfileId: S.String.pipe(T.HttpLabel()),
-    InstanceId: S.String.pipe(T.HttpLabel()),
+    SecurityProfileId: S.String.pipe(T.HttpLabel("SecurityProfileId")),
+    InstanceId: S.String.pipe(T.HttpLabel("InstanceId")),
     AllowedAccessControlTags: S.optional(AllowedAccessControlTags),
     TagRestrictedResources: S.optional(TagRestrictedResourceList),
     Applications: S.optional(Applications),
@@ -5788,8 +5823,8 @@ export class UpdateTaskTemplateRequest extends S.Class<UpdateTaskTemplateRequest
   "UpdateTaskTemplateRequest",
 )(
   {
-    TaskTemplateId: S.String.pipe(T.HttpLabel()),
-    InstanceId: S.String.pipe(T.HttpLabel()),
+    TaskTemplateId: S.String.pipe(T.HttpLabel("TaskTemplateId")),
+    InstanceId: S.String.pipe(T.HttpLabel("InstanceId")),
     Name: S.optional(S.String),
     Description: S.optional(S.String),
     ContactFlowId: S.optional(S.String),
@@ -5816,8 +5851,8 @@ export class UpdateUserHierarchyRequest extends S.Class<UpdateUserHierarchyReque
 )(
   {
     HierarchyGroupId: S.optional(S.String),
-    UserId: S.String.pipe(T.HttpLabel()),
-    InstanceId: S.String.pipe(T.HttpLabel()),
+    UserId: S.String.pipe(T.HttpLabel("UserId")),
+    InstanceId: S.String.pipe(T.HttpLabel("InstanceId")),
   },
   T.all(
     T.Http({ method: "POST", uri: "/users/{InstanceId}/{UserId}/hierarchy" }),
@@ -5836,8 +5871,8 @@ export class UpdateUserHierarchyGroupNameRequest extends S.Class<UpdateUserHiera
 )(
   {
     Name: S.String,
-    HierarchyGroupId: S.String.pipe(T.HttpLabel()),
-    InstanceId: S.String.pipe(T.HttpLabel()),
+    HierarchyGroupId: S.String.pipe(T.HttpLabel("HierarchyGroupId")),
+    InstanceId: S.String.pipe(T.HttpLabel("InstanceId")),
   },
   T.all(
     T.Http({
@@ -5868,8 +5903,8 @@ export class UpdateUserIdentityInfoRequest extends S.Class<UpdateUserIdentityInf
 )(
   {
     IdentityInfo: UserIdentityInfo,
-    UserId: S.String.pipe(T.HttpLabel()),
-    InstanceId: S.String.pipe(T.HttpLabel()),
+    UserId: S.String.pipe(T.HttpLabel("UserId")),
+    InstanceId: S.String.pipe(T.HttpLabel("InstanceId")),
   },
   T.all(
     T.Http({
@@ -5900,8 +5935,8 @@ export class UpdateUserPhoneConfigRequest extends S.Class<UpdateUserPhoneConfigR
 )(
   {
     PhoneConfig: UserPhoneConfig,
-    UserId: S.String.pipe(T.HttpLabel()),
-    InstanceId: S.String.pipe(T.HttpLabel()),
+    UserId: S.String.pipe(T.HttpLabel("UserId")),
+    InstanceId: S.String.pipe(T.HttpLabel("InstanceId")),
   },
   T.all(
     T.Http({
@@ -5926,8 +5961,8 @@ export class UpdateUserProficienciesRequest extends S.Class<UpdateUserProficienc
   "UpdateUserProficienciesRequest",
 )(
   {
-    InstanceId: S.String.pipe(T.HttpLabel()),
-    UserId: S.String.pipe(T.HttpLabel()),
+    InstanceId: S.String.pipe(T.HttpLabel("InstanceId")),
+    UserId: S.String.pipe(T.HttpLabel("UserId")),
     UserProficiencies: UserProficiencyList,
   },
   T.all(
@@ -5950,8 +5985,8 @@ export class UpdateUserRoutingProfileRequest extends S.Class<UpdateUserRoutingPr
 )(
   {
     RoutingProfileId: S.String,
-    UserId: S.String.pipe(T.HttpLabel()),
-    InstanceId: S.String.pipe(T.HttpLabel()),
+    UserId: S.String.pipe(T.HttpLabel("UserId")),
+    InstanceId: S.String.pipe(T.HttpLabel("InstanceId")),
   },
   T.all(
     T.Http({
@@ -5973,8 +6008,8 @@ export class UpdateUserSecurityProfilesRequest extends S.Class<UpdateUserSecurit
 )(
   {
     SecurityProfileIds: SecurityProfileIds,
-    UserId: S.String.pipe(T.HttpLabel()),
-    InstanceId: S.String.pipe(T.HttpLabel()),
+    UserId: S.String.pipe(T.HttpLabel("UserId")),
+    InstanceId: S.String.pipe(T.HttpLabel("InstanceId")),
   },
   T.all(
     T.Http({
@@ -5999,8 +6034,8 @@ export class UpdateViewContentRequest extends S.Class<UpdateViewContentRequest>(
   "UpdateViewContentRequest",
 )(
   {
-    InstanceId: S.String.pipe(T.HttpLabel()),
-    ViewId: S.String.pipe(T.HttpLabel()),
+    InstanceId: S.String.pipe(T.HttpLabel("InstanceId")),
+    ViewId: S.String.pipe(T.HttpLabel("ViewId")),
     Status: S.String,
     Content: ViewInputContent,
   },
@@ -6017,8 +6052,8 @@ export class UpdateViewMetadataRequest extends S.Class<UpdateViewMetadataRequest
   "UpdateViewMetadataRequest",
 )(
   {
-    InstanceId: S.String.pipe(T.HttpLabel()),
-    ViewId: S.String.pipe(T.HttpLabel()),
+    InstanceId: S.String.pipe(T.HttpLabel("InstanceId")),
+    ViewId: S.String.pipe(T.HttpLabel("ViewId")),
     Name: S.optional(S.String),
     Description: S.optional(S.String),
   },
@@ -6038,8 +6073,8 @@ export class UpdateWorkspaceMetadataRequest extends S.Class<UpdateWorkspaceMetad
   "UpdateWorkspaceMetadataRequest",
 )(
   {
-    InstanceId: S.String.pipe(T.HttpLabel()),
-    WorkspaceId: S.String.pipe(T.HttpLabel()),
+    InstanceId: S.String.pipe(T.HttpLabel("InstanceId")),
+    WorkspaceId: S.String.pipe(T.HttpLabel("WorkspaceId")),
     Name: S.optional(S.String),
     Description: S.optional(S.String),
     Title: S.optional(S.String),
@@ -6063,9 +6098,9 @@ export class UpdateWorkspacePageRequest extends S.Class<UpdateWorkspacePageReque
   "UpdateWorkspacePageRequest",
 )(
   {
-    InstanceId: S.String.pipe(T.HttpLabel()),
-    WorkspaceId: S.String.pipe(T.HttpLabel()),
-    Page: S.String.pipe(T.HttpLabel()),
+    InstanceId: S.String.pipe(T.HttpLabel("InstanceId")),
+    WorkspaceId: S.String.pipe(T.HttpLabel("WorkspaceId")),
+    Page: S.String.pipe(T.HttpLabel("Page")),
     NewPage: S.optional(S.String),
     ResourceArn: S.optional(S.String),
     Slug: S.optional(S.String),
@@ -6149,8 +6184,8 @@ export class UpdateWorkspaceThemeRequest extends S.Class<UpdateWorkspaceThemeReq
   "UpdateWorkspaceThemeRequest",
 )(
   {
-    InstanceId: S.String.pipe(T.HttpLabel()),
-    WorkspaceId: S.String.pipe(T.HttpLabel()),
+    InstanceId: S.String.pipe(T.HttpLabel("InstanceId")),
+    WorkspaceId: S.String.pipe(T.HttpLabel("WorkspaceId")),
     Theme: S.optional(WorkspaceTheme),
   },
   T.all(
@@ -6172,8 +6207,8 @@ export class UpdateWorkspaceVisibilityRequest extends S.Class<UpdateWorkspaceVis
   "UpdateWorkspaceVisibilityRequest",
 )(
   {
-    InstanceId: S.String.pipe(T.HttpLabel()),
-    WorkspaceId: S.String.pipe(T.HttpLabel()),
+    InstanceId: S.String.pipe(T.HttpLabel("InstanceId")),
+    WorkspaceId: S.String.pipe(T.HttpLabel("WorkspaceId")),
     Visibility: S.String,
   },
   T.all(
@@ -6829,7 +6864,7 @@ export class AssociateBotRequest extends S.Class<AssociateBotRequest>(
   "AssociateBotRequest",
 )(
   {
-    InstanceId: S.String.pipe(T.HttpLabel()),
+    InstanceId: S.String.pipe(T.HttpLabel("InstanceId")),
     LexBot: S.optional(LexBot),
     LexV2Bot: S.optional(LexV2Bot),
     ClientToken: S.optional(S.String),
@@ -6850,8 +6885,8 @@ export class AssociateEmailAddressAliasRequest extends S.Class<AssociateEmailAdd
   "AssociateEmailAddressAliasRequest",
 )(
   {
-    EmailAddressId: S.String.pipe(T.HttpLabel()),
-    InstanceId: S.String.pipe(T.HttpLabel()),
+    EmailAddressId: S.String.pipe(T.HttpLabel("EmailAddressId")),
+    InstanceId: S.String.pipe(T.HttpLabel("InstanceId")),
     AliasConfiguration: AliasConfiguration,
     ClientToken: S.optional(S.String),
   },
@@ -6874,8 +6909,8 @@ export class AssociateRoutingProfileQueuesRequest extends S.Class<AssociateRouti
   "AssociateRoutingProfileQueuesRequest",
 )(
   {
-    InstanceId: S.String.pipe(T.HttpLabel()),
-    RoutingProfileId: S.String.pipe(T.HttpLabel()),
+    InstanceId: S.String.pipe(T.HttpLabel("InstanceId")),
+    RoutingProfileId: S.String.pipe(T.HttpLabel("RoutingProfileId")),
     QueueConfigs: S.optional(RoutingProfileQueueConfigList),
     ManualAssignmentQueueConfigs: S.optional(
       RoutingProfileManualAssignmentQueueConfigList,
@@ -6903,7 +6938,7 @@ export class AssociateSecurityProfilesRequest extends S.Class<AssociateSecurityP
   "AssociateSecurityProfilesRequest",
 )(
   {
-    InstanceId: S.String.pipe(T.HttpLabel()),
+    InstanceId: S.String.pipe(T.HttpLabel("InstanceId")),
     SecurityProfiles: SecurityProfiles,
     EntityType: S.String,
     EntityArn: S.String,
@@ -6927,8 +6962,8 @@ export class AssociateUserProficienciesRequest extends S.Class<AssociateUserProf
   "AssociateUserProficienciesRequest",
 )(
   {
-    InstanceId: S.String.pipe(T.HttpLabel()),
-    UserId: S.String.pipe(T.HttpLabel()),
+    InstanceId: S.String.pipe(T.HttpLabel("InstanceId")),
+    UserId: S.String.pipe(T.HttpLabel("UserId")),
     UserProficiencies: UserProficiencyList,
   },
   T.all(
@@ -6950,8 +6985,8 @@ export class BatchCreateDataTableValueRequest extends S.Class<BatchCreateDataTab
   "BatchCreateDataTableValueRequest",
 )(
   {
-    InstanceId: S.String.pipe(T.HttpLabel()),
-    DataTableId: S.String.pipe(T.HttpLabel()),
+    InstanceId: S.String.pipe(T.HttpLabel("InstanceId")),
+    DataTableId: S.String.pipe(T.HttpLabel("DataTableId")),
     Values: DataTableValueList,
   },
   T.all(
@@ -6970,8 +7005,8 @@ export class BatchDeleteDataTableValueRequest extends S.Class<BatchDeleteDataTab
   "BatchDeleteDataTableValueRequest",
 )(
   {
-    InstanceId: S.String.pipe(T.HttpLabel()),
-    DataTableId: S.String.pipe(T.HttpLabel()),
+    InstanceId: S.String.pipe(T.HttpLabel("InstanceId")),
+    DataTableId: S.String.pipe(T.HttpLabel("DataTableId")),
     Values: DataTableDeleteValueIdentifierList,
   },
   T.all(
@@ -6990,8 +7025,8 @@ export class BatchDescribeDataTableValueRequest extends S.Class<BatchDescribeDat
   "BatchDescribeDataTableValueRequest",
 )(
   {
-    InstanceId: S.String.pipe(T.HttpLabel()),
-    DataTableId: S.String.pipe(T.HttpLabel()),
+    InstanceId: S.String.pipe(T.HttpLabel("InstanceId")),
+    DataTableId: S.String.pipe(T.HttpLabel("DataTableId")),
     Values: DataTableValueIdentifierList,
   },
   T.all(
@@ -7051,7 +7086,7 @@ export class CreateContactFlowModuleRequest extends S.Class<CreateContactFlowMod
   "CreateContactFlowModuleRequest",
 )(
   {
-    InstanceId: S.String.pipe(T.HttpLabel()),
+    InstanceId: S.String.pipe(T.HttpLabel("InstanceId")),
     Name: S.String,
     Description: S.optional(S.String),
     Content: S.String,
@@ -7108,7 +7143,7 @@ export class CreatePredefinedAttributeRequest extends S.Class<CreatePredefinedAt
   "CreatePredefinedAttributeRequest",
 )(
   {
-    InstanceId: S.String.pipe(T.HttpLabel()),
+    InstanceId: S.String.pipe(T.HttpLabel("InstanceId")),
     Name: S.String,
     Values: S.optional(PredefinedAttributeValues),
     Purposes: S.optional(PredefinedAttributePurposeNameList),
@@ -7133,7 +7168,7 @@ export class CreatePushNotificationRegistrationRequest extends S.Class<CreatePus
   "CreatePushNotificationRegistrationRequest",
 )(
   {
-    InstanceId: S.String.pipe(T.HttpLabel()),
+    InstanceId: S.String.pipe(T.HttpLabel("InstanceId")),
     ClientToken: S.optional(S.String),
     PinpointAppArn: S.String,
     DeviceToken: S.String,
@@ -7156,7 +7191,7 @@ export class CreateQueueRequest extends S.Class<CreateQueueRequest>(
   "CreateQueueRequest",
 )(
   {
-    InstanceId: S.String.pipe(T.HttpLabel()),
+    InstanceId: S.String.pipe(T.HttpLabel("InstanceId")),
     Name: S.String,
     Description: S.optional(S.String),
     OutboundCallerConfig: S.optional(OutboundCallerConfig),
@@ -7193,7 +7228,7 @@ export class CreateUserRequest extends S.Class<CreateUserRequest>(
     SecurityProfileIds: SecurityProfileIds,
     RoutingProfileId: S.String,
     HierarchyGroupId: S.optional(S.String),
-    InstanceId: S.String.pipe(T.HttpLabel()),
+    InstanceId: S.String.pipe(T.HttpLabel("InstanceId")),
     Tags: S.optional(TagMap),
   },
   T.all(
@@ -7215,7 +7250,7 @@ export class CreateViewRequest extends S.Class<CreateViewRequest>(
   "CreateViewRequest",
 )(
   {
-    InstanceId: S.String.pipe(T.HttpLabel()),
+    InstanceId: S.String.pipe(T.HttpLabel("InstanceId")),
     ClientToken: S.optional(S.String),
     Status: S.String,
     Content: ViewInputContent,
@@ -7291,8 +7326,8 @@ export class DisassociateRoutingProfileQueuesRequest extends S.Class<Disassociat
   "DisassociateRoutingProfileQueuesRequest",
 )(
   {
-    InstanceId: S.String.pipe(T.HttpLabel()),
-    RoutingProfileId: S.String.pipe(T.HttpLabel()),
+    InstanceId: S.String.pipe(T.HttpLabel("InstanceId")),
+    RoutingProfileId: S.String.pipe(T.HttpLabel("RoutingProfileId")),
     QueueReferences: S.optional(RoutingProfileQueueReferenceList),
     ManualAssignmentQueueReferences: S.optional(
       RoutingProfileQueueReferenceList,
@@ -7317,8 +7352,8 @@ export class DisassociateUserProficienciesRequest extends S.Class<DisassociateUs
   "DisassociateUserProficienciesRequest",
 )(
   {
-    InstanceId: S.String.pipe(T.HttpLabel()),
-    UserId: S.String.pipe(T.HttpLabel()),
+    InstanceId: S.String.pipe(T.HttpLabel("InstanceId")),
+    UserId: S.String.pipe(T.HttpLabel("UserId")),
     UserProficiencies: UserProficiencyDisassociateList,
   },
   T.all(
@@ -7362,8 +7397,8 @@ export class EvaluateDataTableValuesRequest extends S.Class<EvaluateDataTableVal
   "EvaluateDataTableValuesRequest",
 )(
   {
-    InstanceId: S.String.pipe(T.HttpLabel()),
-    DataTableId: S.String.pipe(T.HttpLabel()),
+    InstanceId: S.String.pipe(T.HttpLabel("InstanceId")),
+    DataTableId: S.String.pipe(T.HttpLabel("DataTableId")),
     Values: DataTableValueEvaluationSetList,
     TimeZone: S.optional(S.String),
     NextToken: S.optional(S.String).pipe(T.HttpQuery("nextToken")),
@@ -7401,7 +7436,7 @@ export class GetCurrentMetricDataRequest extends S.Class<GetCurrentMetricDataReq
   "GetCurrentMetricDataRequest",
 )(
   {
-    InstanceId: S.String.pipe(T.HttpLabel()),
+    InstanceId: S.String.pipe(T.HttpLabel("InstanceId")),
     Filters: Filters,
     Groupings: S.optional(Groupings),
     CurrentMetrics: CurrentMetrics,
@@ -7503,8 +7538,8 @@ export class ListDataTablePrimaryValuesRequest extends S.Class<ListDataTablePrim
   "ListDataTablePrimaryValuesRequest",
 )(
   {
-    InstanceId: S.String.pipe(T.HttpLabel()),
-    DataTableId: S.String.pipe(T.HttpLabel()),
+    InstanceId: S.String.pipe(T.HttpLabel("InstanceId")),
+    DataTableId: S.String.pipe(T.HttpLabel("DataTableId")),
     RecordIds: S.optional(RecordIds),
     PrimaryAttributeValues: S.optional(PrimaryAttributeValueFilters),
     NextToken: S.optional(S.String).pipe(T.HttpQuery("nextToken")),
@@ -7918,7 +7953,7 @@ export class StartAttachedFileUploadRequest extends S.Class<StartAttachedFileUpl
 )(
   {
     ClientToken: S.optional(S.String),
-    InstanceId: S.String.pipe(T.HttpLabel()),
+    InstanceId: S.String.pipe(T.HttpLabel("InstanceId")),
     FileName: S.String,
     FileSizeInBytes: S.Number,
     UrlExpiryInSeconds: S.optional(S.Number),
@@ -7968,7 +8003,7 @@ export class StartContactEvaluationRequest extends S.Class<StartContactEvaluatio
   "StartContactEvaluationRequest",
 )(
   {
-    InstanceId: S.String.pipe(T.HttpLabel()),
+    InstanceId: S.String.pipe(T.HttpLabel("InstanceId")),
     ContactId: S.String,
     EvaluationFormId: S.String,
     AutoEvaluationConfiguration: S.optional(AutoEvaluationConfiguration),
@@ -8095,8 +8130,8 @@ export class UpdateContactRequest extends S.Class<UpdateContactRequest>(
   "UpdateContactRequest",
 )(
   {
-    InstanceId: S.String.pipe(T.HttpLabel()),
-    ContactId: S.String.pipe(T.HttpLabel()),
+    InstanceId: S.String.pipe(T.HttpLabel("InstanceId")),
+    ContactId: S.String.pipe(T.HttpLabel("ContactId")),
     Name: S.optional(S.String),
     Description: S.optional(S.String),
     References: S.optional(ContactReferences),
@@ -8131,8 +8166,8 @@ export class UpdateDataTablePrimaryValuesRequest extends S.Class<UpdateDataTable
   "UpdateDataTablePrimaryValuesRequest",
 )(
   {
-    InstanceId: S.String.pipe(T.HttpLabel()),
-    DataTableId: S.String.pipe(T.HttpLabel()),
+    InstanceId: S.String.pipe(T.HttpLabel("InstanceId")),
+    DataTableId: S.String.pipe(T.HttpLabel("DataTableId")),
     PrimaryValues: PrimaryValuesSet,
     NewPrimaryValues: PrimaryValuesSet,
     LockVersion: DataTableLockVersion,
@@ -9244,7 +9279,7 @@ export class BatchPutContactRequest extends S.Class<BatchPutContactRequest>(
 )(
   {
     ClientToken: S.optional(S.String),
-    InstanceId: S.String.pipe(T.HttpLabel()),
+    InstanceId: S.String.pipe(T.HttpLabel("InstanceId")),
     ContactDataRequestList: ContactDataRequestList,
   },
   T.all(
@@ -9275,8 +9310,8 @@ export class CreateDataTableAttributeRequest extends S.Class<CreateDataTableAttr
   "CreateDataTableAttributeRequest",
 )(
   {
-    InstanceId: S.String.pipe(T.HttpLabel()),
-    DataTableId: S.String.pipe(T.HttpLabel()),
+    InstanceId: S.String.pipe(T.HttpLabel("InstanceId")),
+    DataTableId: S.String.pipe(T.HttpLabel("DataTableId")),
     Name: S.String,
     ValueType: S.String,
     Description: S.optional(S.String),
@@ -9299,7 +9334,7 @@ export class CreateHoursOfOperationRequest extends S.Class<CreateHoursOfOperatio
   "CreateHoursOfOperationRequest",
 )(
   {
-    InstanceId: S.String.pipe(T.HttpLabel()),
+    InstanceId: S.String.pipe(T.HttpLabel("InstanceId")),
     Name: S.String,
     Description: S.optional(S.String),
     TimeZone: S.String,
@@ -9319,8 +9354,8 @@ export class CreateHoursOfOperationOverrideRequest extends S.Class<CreateHoursOf
   "CreateHoursOfOperationOverrideRequest",
 )(
   {
-    InstanceId: S.String.pipe(T.HttpLabel()),
-    HoursOfOperationId: S.String.pipe(T.HttpLabel()),
+    InstanceId: S.String.pipe(T.HttpLabel("InstanceId")),
+    HoursOfOperationId: S.String.pipe(T.HttpLabel("HoursOfOperationId")),
     Name: S.String,
     Description: S.optional(S.String),
     Config: HoursOfOperationOverrideConfigList,
@@ -9367,7 +9402,7 @@ export class CreateQuickConnectRequest extends S.Class<CreateQuickConnectRequest
   "CreateQuickConnectRequest",
 )(
   {
-    InstanceId: S.String.pipe(T.HttpLabel()),
+    InstanceId: S.String.pipe(T.HttpLabel("InstanceId")),
     Name: S.String,
     Description: S.optional(S.String),
     QuickConnectConfig: QuickConnectConfig,
@@ -9386,7 +9421,7 @@ export class CreateRoutingProfileRequest extends S.Class<CreateRoutingProfileReq
   "CreateRoutingProfileRequest",
 )(
   {
-    InstanceId: S.String.pipe(T.HttpLabel()),
+    InstanceId: S.String.pipe(T.HttpLabel("InstanceId")),
     Name: S.String,
     Description: S.String,
     DefaultOutboundQueueId: S.String,
@@ -9411,7 +9446,7 @@ export class CreateTaskTemplateRequest extends S.Class<CreateTaskTemplateRequest
   "CreateTaskTemplateRequest",
 )(
   {
-    InstanceId: S.String.pipe(T.HttpLabel()),
+    InstanceId: S.String.pipe(T.HttpLabel("InstanceId")),
     Name: S.String,
     Description: S.optional(S.String),
     ContactFlowId: S.optional(S.String),
@@ -9519,7 +9554,7 @@ export class GetCurrentUserDataRequest extends S.Class<GetCurrentUserDataRequest
   "GetCurrentUserDataRequest",
 )(
   {
-    InstanceId: S.String.pipe(T.HttpLabel()),
+    InstanceId: S.String.pipe(T.HttpLabel("InstanceId")),
     Filters: UserDataFilters,
     NextToken: S.optional(S.String),
     MaxResults: S.optional(S.Number),
@@ -9545,7 +9580,7 @@ export class GetMetricDataRequest extends S.Class<GetMetricDataRequest>(
   "GetMetricDataRequest",
 )(
   {
-    InstanceId: S.String.pipe(T.HttpLabel()),
+    InstanceId: S.String.pipe(T.HttpLabel("InstanceId")),
     StartTime: S.Date.pipe(T.TimestampFormat("epoch-seconds")),
     EndTime: S.Date.pipe(T.TimestampFormat("epoch-seconds")),
     Filters: Filters,
@@ -9994,7 +10029,7 @@ export class SendOutboundEmailRequest extends S.Class<SendOutboundEmailRequest>(
   "SendOutboundEmailRequest",
 )(
   {
-    InstanceId: S.String.pipe(T.HttpLabel()),
+    InstanceId: S.String.pipe(T.HttpLabel("InstanceId")),
     FromEmailAddress: EmailAddressInfo,
     DestinationEmailAddress: EmailAddressInfo,
     AdditionalRecipients: S.optional(OutboundAdditionalRecipients),
@@ -10063,7 +10098,7 @@ export class UpdateTrafficDistributionRequest extends S.Class<UpdateTrafficDistr
   "UpdateTrafficDistributionRequest",
 )(
   {
-    Id: S.String.pipe(T.HttpLabel()),
+    Id: S.String.pipe(T.HttpLabel("Id")),
     TelephonyConfig: S.optional(TelephonyConfig),
     SignInConfig: S.optional(SignInConfig),
     AgentConfig: S.optional(AgentConfig),
@@ -10085,7 +10120,7 @@ export class UpdateUserHierarchyStructureRequest extends S.Class<UpdateUserHiera
 )(
   {
     HierarchyStructure: HierarchyStructureUpdate,
-    InstanceId: S.String.pipe(T.HttpLabel()),
+    InstanceId: S.String.pipe(T.HttpLabel("InstanceId")),
   },
   T.all(
     T.Http({ method: "POST", uri: "/user-hierarchy-structure/{InstanceId}" }),
@@ -10772,7 +10807,7 @@ export class AssociateInstanceStorageConfigRequest extends S.Class<AssociateInst
   "AssociateInstanceStorageConfigRequest",
 )(
   {
-    InstanceId: S.String.pipe(T.HttpLabel()),
+    InstanceId: S.String.pipe(T.HttpLabel("InstanceId")),
     ResourceType: S.String,
     StorageConfig: InstanceStorageConfig,
     ClientToken: S.optional(S.String),
@@ -11082,8 +11117,8 @@ export class SubmitContactEvaluationRequest extends S.Class<SubmitContactEvaluat
   "SubmitContactEvaluationRequest",
 )(
   {
-    InstanceId: S.String.pipe(T.HttpLabel()),
-    EvaluationId: S.String.pipe(T.HttpLabel()),
+    InstanceId: S.String.pipe(T.HttpLabel("InstanceId")),
+    EvaluationId: S.String.pipe(T.HttpLabel("EvaluationId")),
     Answers: S.optional(EvaluationAnswersInputMap),
     Notes: S.optional(EvaluationNotesMap),
     SubmittedBy: S.optional(EvaluatorUserUnion),
@@ -11381,7 +11416,7 @@ export class CreateRuleRequest extends S.Class<CreateRuleRequest>(
   "CreateRuleRequest",
 )(
   {
-    InstanceId: S.String.pipe(T.HttpLabel()),
+    InstanceId: S.String.pipe(T.HttpLabel("InstanceId")),
     Name: S.String,
     TriggerEventSource: RuleTriggerEventSource,
     Function: S.String,
@@ -11405,7 +11440,7 @@ export class CreateSecurityProfileRequest extends S.Class<CreateSecurityProfileR
     SecurityProfileName: S.String,
     Description: S.optional(S.String),
     Permissions: S.optional(PermissionsList),
-    InstanceId: S.String.pipe(T.HttpLabel()),
+    InstanceId: S.String.pipe(T.HttpLabel("InstanceId")),
     Tags: S.optional(TagMap),
     AllowedAccessControlTags: S.optional(AllowedAccessControlTags),
     TagRestrictedResources: S.optional(TagRestrictedResourceList),
@@ -11430,7 +11465,7 @@ export class CreateWorkspaceRequest extends S.Class<CreateWorkspaceRequest>(
   "CreateWorkspaceRequest",
 )(
   {
-    InstanceId: S.String.pipe(T.HttpLabel()),
+    InstanceId: S.String.pipe(T.HttpLabel("InstanceId")),
     Name: S.String,
     Description: S.optional(S.String),
     Theme: S.optional(WorkspaceTheme),
@@ -11513,8 +11548,8 @@ export class UpdateParticipantRoleConfigRequest extends S.Class<UpdateParticipan
   "UpdateParticipantRoleConfigRequest",
 )(
   {
-    InstanceId: S.String.pipe(T.HttpLabel()),
-    ContactId: S.String.pipe(T.HttpLabel()),
+    InstanceId: S.String.pipe(T.HttpLabel("InstanceId")),
+    ContactId: S.String.pipe(T.HttpLabel("ContactId")),
     ChannelConfiguration: UpdateParticipantRoleConfigChannelInfo,
   },
   T.all(
@@ -12101,8 +12136,8 @@ export class UpdateContactRoutingDataRequest extends S.Class<UpdateContactRoutin
   "UpdateContactRoutingDataRequest",
 )(
   {
-    InstanceId: S.String.pipe(T.HttpLabel()),
-    ContactId: S.String.pipe(T.HttpLabel()),
+    InstanceId: S.String.pipe(T.HttpLabel("InstanceId")),
+    ContactId: S.String.pipe(T.HttpLabel("ContactId")),
     QueueTimeAdjustmentSeconds: S.optional(S.Number),
     QueuePriority: S.optional(S.Number),
     RoutingCriteria: S.optional(RoutingCriteriaInput),
@@ -12191,7 +12226,7 @@ export class CreateEvaluationFormRequest extends S.Class<CreateEvaluationFormReq
   "CreateEvaluationFormRequest",
 )(
   {
-    InstanceId: S.String.pipe(T.HttpLabel()),
+    InstanceId: S.String.pipe(T.HttpLabel("InstanceId")),
     Title: S.String,
     Description: S.optional(S.String),
     Items: EvaluationFormItemsList,
@@ -12310,7 +12345,7 @@ export class DescribeContactEvaluationResponse extends S.Class<DescribeContactEv
 export class InternalServiceException extends S.TaggedError<InternalServiceException>()(
   "InternalServiceException",
   { Message: S.optional(S.String) },
-) {}
+).pipe(withCategory(ERROR_CATEGORIES.SERVER_ERROR)) {}
 export class AccessDeniedException extends S.TaggedError<AccessDeniedException>()(
   "AccessDeniedException",
   { Message: S.optional(S.String) },
@@ -12368,7 +12403,7 @@ export class ThrottlingException extends S.TaggedError<ThrottlingException>()(
   "ThrottlingException",
   { Message: S.optional(S.String) },
   T.AwsQueryError({ code: "ThrottlingException", httpResponseCode: 429 }),
-) {}
+).pipe(withCategory(ERROR_CATEGORIES.THROTTLING_ERROR)) {}
 export class ResourceConflictException extends S.TaggedError<ResourceConflictException>()(
   "ResourceConflictException",
   { Message: S.optional(S.String) },
@@ -12389,7 +12424,7 @@ export class LimitExceededException extends S.TaggedError<LimitExceededException
   "LimitExceededException",
   { Message: S.optional(S.String) },
   T.AwsQueryError({ code: "LimitExceededException", httpResponseCode: 429 }),
-) {}
+).pipe(withCategory(ERROR_CATEGORIES.THROTTLING_ERROR)) {}
 export class PropertyValidationException extends S.TaggedError<PropertyValidationException>()(
   "PropertyValidationException",
   {
@@ -12408,7 +12443,7 @@ export class UserNotFoundException extends S.TaggedError<UserNotFoundException>(
 export class TooManyRequestsException extends S.TaggedError<TooManyRequestsException>()(
   "TooManyRequestsException",
   { Message: S.optional(S.String) },
-) {}
+).pipe(withCategory(ERROR_CATEGORIES.THROTTLING_ERROR)) {}
 export class ServiceQuotaExceededException extends S.TaggedError<ServiceQuotaExceededException>()(
   "ServiceQuotaExceededException",
   {

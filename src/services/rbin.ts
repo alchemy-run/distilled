@@ -1,6 +1,7 @@
 import * as S from "effect/Schema";
 import * as API from "../api.ts";
 import * as T from "../traits.ts";
+import { ERROR_CATEGORIES, withCategory } from "../error-category.ts";
 const svc = T.AwsApiService({
   sdkId: "rbin",
   serviceShapeName: "AmazonRecycleBin",
@@ -250,7 +251,7 @@ export const TagKeyList = S.Array(S.String);
 export class DeleteRuleRequest extends S.Class<DeleteRuleRequest>(
   "DeleteRuleRequest",
 )(
-  { Identifier: S.String.pipe(T.HttpLabel()) },
+  { Identifier: S.String.pipe(T.HttpLabel("Identifier")) },
   T.all(
     T.Http({ method: "DELETE", uri: "/rules/{Identifier}" }),
     svc,
@@ -264,7 +265,7 @@ export class DeleteRuleResponse extends S.Class<DeleteRuleResponse>(
   "DeleteRuleResponse",
 )({}) {}
 export class GetRuleRequest extends S.Class<GetRuleRequest>("GetRuleRequest")(
-  { Identifier: S.String.pipe(T.HttpLabel()) },
+  { Identifier: S.String.pipe(T.HttpLabel("Identifier")) },
   T.all(
     T.Http({ method: "GET", uri: "/rules/{Identifier}" }),
     svc,
@@ -298,7 +299,7 @@ export class ListRulesRequest extends S.Class<ListRulesRequest>(
 export class ListTagsForResourceRequest extends S.Class<ListTagsForResourceRequest>(
   "ListTagsForResourceRequest",
 )(
-  { ResourceArn: S.String.pipe(T.HttpLabel()) },
+  { ResourceArn: S.String.pipe(T.HttpLabel("ResourceArn")) },
   T.all(
     T.Http({ method: "GET", uri: "/tags/{ResourceArn}" }),
     svc,
@@ -319,7 +320,7 @@ export class LockRuleRequest extends S.Class<LockRuleRequest>(
   "LockRuleRequest",
 )(
   {
-    Identifier: S.String.pipe(T.HttpLabel()),
+    Identifier: S.String.pipe(T.HttpLabel("Identifier")),
     LockConfiguration: LockConfiguration,
   },
   T.all(
@@ -339,7 +340,7 @@ export const TagList = S.Array(Tag);
 export class TagResourceRequest extends S.Class<TagResourceRequest>(
   "TagResourceRequest",
 )(
-  { ResourceArn: S.String.pipe(T.HttpLabel()), Tags: TagList },
+  { ResourceArn: S.String.pipe(T.HttpLabel("ResourceArn")), Tags: TagList },
   T.all(
     T.Http({ method: "POST", uri: "/tags/{ResourceArn}" }),
     svc,
@@ -355,7 +356,7 @@ export class TagResourceResponse extends S.Class<TagResourceResponse>(
 export class UnlockRuleRequest extends S.Class<UnlockRuleRequest>(
   "UnlockRuleRequest",
 )(
-  { Identifier: S.String.pipe(T.HttpLabel()) },
+  { Identifier: S.String.pipe(T.HttpLabel("Identifier")) },
   T.all(
     T.Http({ method: "PATCH", uri: "/rules/{Identifier}/unlock" }),
     svc,
@@ -369,7 +370,7 @@ export class UntagResourceRequest extends S.Class<UntagResourceRequest>(
   "UntagResourceRequest",
 )(
   {
-    ResourceArn: S.String.pipe(T.HttpLabel()),
+    ResourceArn: S.String.pipe(T.HttpLabel("ResourceArn")),
     TagKeys: TagKeyList.pipe(T.HttpQuery("tagKeys")),
   },
   T.all(
@@ -391,7 +392,7 @@ export class UpdateRuleRequest extends S.Class<UpdateRuleRequest>(
   "UpdateRuleRequest",
 )(
   {
-    Identifier: S.String.pipe(T.HttpLabel()),
+    Identifier: S.String.pipe(T.HttpLabel("Identifier")),
     RetentionPeriod: S.optional(RetentionPeriod),
     Description: S.optional(S.String),
     ResourceType: S.optional(S.String),
@@ -524,7 +525,7 @@ export class ConflictException extends S.TaggedError<ConflictException>()(
 export class InternalServerException extends S.TaggedError<InternalServerException>()(
   "InternalServerException",
   { Message: S.optional(S.String) },
-) {}
+).pipe(withCategory(ERROR_CATEGORIES.SERVER_ERROR)) {}
 export class ResourceNotFoundException extends S.TaggedError<ResourceNotFoundException>()(
   "ResourceNotFoundException",
   { Message: S.optional(S.String), Reason: S.optional(S.String) },

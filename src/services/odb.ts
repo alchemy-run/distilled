@@ -1,6 +1,7 @@
 import * as S from "effect/Schema";
 import * as API from "../api.ts";
 import * as T from "../traits.ts";
+import { ERROR_CATEGORIES, withCategory } from "../error-category.ts";
 const svc = T.AwsApiService({ sdkId: "odb", serviceShapeName: "Odb" });
 const auth = T.AwsAuthSigv4({ name: "odb" });
 const ver = T.ServiceVersion("2024-08-20");
@@ -376,7 +377,7 @@ export class ListTagsForResourceRequest extends S.Class<ListTagsForResourceReque
 export class UntagResourceRequest extends S.Class<UntagResourceRequest>(
   "UntagResourceRequest",
 )(
-  { resourceArn: S.String.pipe(T.HttpLabel()), tagKeys: TagKeys },
+  { resourceArn: S.String.pipe(T.HttpLabel("resourceArn")), tagKeys: TagKeys },
   T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
 ) {}
 export class UntagResourceResponse extends S.Class<UntagResourceResponse>(
@@ -385,13 +386,21 @@ export class UntagResourceResponse extends S.Class<UntagResourceResponse>(
 export class GetCloudAutonomousVmClusterInput extends S.Class<GetCloudAutonomousVmClusterInput>(
   "GetCloudAutonomousVmClusterInput",
 )(
-  { cloudAutonomousVmClusterId: S.String.pipe(T.HttpLabel()) },
+  {
+    cloudAutonomousVmClusterId: S.String.pipe(
+      T.HttpLabel("cloudAutonomousVmClusterId"),
+    ),
+  },
   T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
 ) {}
 export class DeleteCloudAutonomousVmClusterInput extends S.Class<DeleteCloudAutonomousVmClusterInput>(
   "DeleteCloudAutonomousVmClusterInput",
 )(
-  { cloudAutonomousVmClusterId: S.String.pipe(T.HttpLabel()) },
+  {
+    cloudAutonomousVmClusterId: S.String.pipe(
+      T.HttpLabel("cloudAutonomousVmClusterId"),
+    ),
+  },
   T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
 ) {}
 export class DeleteCloudAutonomousVmClusterOutput extends S.Class<DeleteCloudAutonomousVmClusterOutput>(
@@ -413,14 +422,20 @@ export class ListAutonomousVirtualMachinesInput extends S.Class<ListAutonomousVi
   {
     maxResults: S.optional(S.Number).pipe(T.HttpQuery("maxResults")),
     nextToken: S.optional(S.String).pipe(T.HttpQuery("nextToken")),
-    cloudAutonomousVmClusterId: S.String.pipe(T.HttpLabel()),
+    cloudAutonomousVmClusterId: S.String.pipe(
+      T.HttpLabel("cloudAutonomousVmClusterId"),
+    ),
   },
   T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
 ) {}
 export class GetCloudExadataInfrastructureInput extends S.Class<GetCloudExadataInfrastructureInput>(
   "GetCloudExadataInfrastructureInput",
 )(
-  { cloudExadataInfrastructureId: S.String.pipe(T.HttpLabel()) },
+  {
+    cloudExadataInfrastructureId: S.String.pipe(
+      T.HttpLabel("cloudExadataInfrastructureId"),
+    ),
+  },
   T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
 ) {}
 export class DayOfWeek extends S.Class<DayOfWeek>("DayOfWeek")({
@@ -451,7 +466,9 @@ export class UpdateCloudExadataInfrastructureInput extends S.Class<UpdateCloudEx
   "UpdateCloudExadataInfrastructureInput",
 )(
   {
-    cloudExadataInfrastructureId: S.String.pipe(T.HttpLabel()),
+    cloudExadataInfrastructureId: S.String.pipe(
+      T.HttpLabel("cloudExadataInfrastructureId"),
+    ),
     maintenanceWindow: S.optional(MaintenanceWindow),
   },
   T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
@@ -459,7 +476,11 @@ export class UpdateCloudExadataInfrastructureInput extends S.Class<UpdateCloudEx
 export class DeleteCloudExadataInfrastructureInput extends S.Class<DeleteCloudExadataInfrastructureInput>(
   "DeleteCloudExadataInfrastructureInput",
 )(
-  { cloudExadataInfrastructureId: S.String.pipe(T.HttpLabel()) },
+  {
+    cloudExadataInfrastructureId: S.String.pipe(
+      T.HttpLabel("cloudExadataInfrastructureId"),
+    ),
+  },
   T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
 ) {}
 export class DeleteCloudExadataInfrastructureOutput extends S.Class<DeleteCloudExadataInfrastructureOutput>(
@@ -478,7 +499,9 @@ export class GetCloudExadataInfrastructureUnallocatedResourcesInput extends S.Cl
   "GetCloudExadataInfrastructureUnallocatedResourcesInput",
 )(
   {
-    cloudExadataInfrastructureId: S.String.pipe(T.HttpLabel()),
+    cloudExadataInfrastructureId: S.String.pipe(
+      T.HttpLabel("cloudExadataInfrastructureId"),
+    ),
     dbServers: S.optional(StringList),
   },
   T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
@@ -487,8 +510,10 @@ export class GetDbServerInput extends S.Class<GetDbServerInput>(
   "GetDbServerInput",
 )(
   {
-    cloudExadataInfrastructureId: S.String.pipe(T.HttpLabel()),
-    dbServerId: S.String.pipe(T.HttpLabel()),
+    cloudExadataInfrastructureId: S.String.pipe(
+      T.HttpLabel("cloudExadataInfrastructureId"),
+    ),
+    dbServerId: S.String.pipe(T.HttpLabel("dbServerId")),
   },
   T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
 ) {}
@@ -496,7 +521,9 @@ export class ListDbServersInput extends S.Class<ListDbServersInput>(
   "ListDbServersInput",
 )(
   {
-    cloudExadataInfrastructureId: S.String.pipe(T.HttpLabel()),
+    cloudExadataInfrastructureId: S.String.pipe(
+      T.HttpLabel("cloudExadataInfrastructureId"),
+    ),
     maxResults: S.optional(S.Number).pipe(T.HttpQuery("maxResults")),
     nextToken: S.optional(S.String).pipe(T.HttpQuery("nextToken")),
   },
@@ -505,13 +532,13 @@ export class ListDbServersInput extends S.Class<ListDbServersInput>(
 export class GetCloudVmClusterInput extends S.Class<GetCloudVmClusterInput>(
   "GetCloudVmClusterInput",
 )(
-  { cloudVmClusterId: S.String.pipe(T.HttpLabel()) },
+  { cloudVmClusterId: S.String.pipe(T.HttpLabel("cloudVmClusterId")) },
   T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
 ) {}
 export class DeleteCloudVmClusterInput extends S.Class<DeleteCloudVmClusterInput>(
   "DeleteCloudVmClusterInput",
 )(
-  { cloudVmClusterId: S.String.pipe(T.HttpLabel()) },
+  { cloudVmClusterId: S.String.pipe(T.HttpLabel("cloudVmClusterId")) },
   T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
 ) {}
 export class DeleteCloudVmClusterOutput extends S.Class<DeleteCloudVmClusterOutput>(
@@ -529,8 +556,8 @@ export class ListCloudVmClustersInput extends S.Class<ListCloudVmClustersInput>(
 ) {}
 export class GetDbNodeInput extends S.Class<GetDbNodeInput>("GetDbNodeInput")(
   {
-    cloudVmClusterId: S.String.pipe(T.HttpLabel()),
-    dbNodeId: S.String.pipe(T.HttpLabel()),
+    cloudVmClusterId: S.String.pipe(T.HttpLabel("cloudVmClusterId")),
+    dbNodeId: S.String.pipe(T.HttpLabel("dbNodeId")),
   },
   T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
 ) {}
@@ -540,7 +567,7 @@ export class ListDbNodesInput extends S.Class<ListDbNodesInput>(
   {
     maxResults: S.optional(S.Number).pipe(T.HttpQuery("maxResults")),
     nextToken: S.optional(S.String).pipe(T.HttpQuery("nextToken")),
-    cloudVmClusterId: S.String.pipe(T.HttpLabel()),
+    cloudVmClusterId: S.String.pipe(T.HttpLabel("cloudVmClusterId")),
   },
   T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
 ) {}
@@ -548,8 +575,8 @@ export class RebootDbNodeInput extends S.Class<RebootDbNodeInput>(
   "RebootDbNodeInput",
 )(
   {
-    cloudVmClusterId: S.String.pipe(T.HttpLabel()),
-    dbNodeId: S.String.pipe(T.HttpLabel()),
+    cloudVmClusterId: S.String.pipe(T.HttpLabel("cloudVmClusterId")),
+    dbNodeId: S.String.pipe(T.HttpLabel("dbNodeId")),
   },
   T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
 ) {}
@@ -557,8 +584,8 @@ export class StartDbNodeInput extends S.Class<StartDbNodeInput>(
   "StartDbNodeInput",
 )(
   {
-    cloudVmClusterId: S.String.pipe(T.HttpLabel()),
-    dbNodeId: S.String.pipe(T.HttpLabel()),
+    cloudVmClusterId: S.String.pipe(T.HttpLabel("cloudVmClusterId")),
+    dbNodeId: S.String.pipe(T.HttpLabel("dbNodeId")),
   },
   T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
 ) {}
@@ -566,8 +593,8 @@ export class StopDbNodeInput extends S.Class<StopDbNodeInput>(
   "StopDbNodeInput",
 )(
   {
-    cloudVmClusterId: S.String.pipe(T.HttpLabel()),
-    dbNodeId: S.String.pipe(T.HttpLabel()),
+    cloudVmClusterId: S.String.pipe(T.HttpLabel("cloudVmClusterId")),
+    dbNodeId: S.String.pipe(T.HttpLabel("dbNodeId")),
   },
   T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
 ) {}
@@ -599,14 +626,14 @@ export class CreateOdbNetworkInput extends S.Class<CreateOdbNetworkInput>(
 export class GetOdbNetworkInput extends S.Class<GetOdbNetworkInput>(
   "GetOdbNetworkInput",
 )(
-  { odbNetworkId: S.String.pipe(T.HttpLabel()) },
+  { odbNetworkId: S.String.pipe(T.HttpLabel("odbNetworkId")) },
   T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
 ) {}
 export class UpdateOdbNetworkInput extends S.Class<UpdateOdbNetworkInput>(
   "UpdateOdbNetworkInput",
 )(
   {
-    odbNetworkId: S.String.pipe(T.HttpLabel()),
+    odbNetworkId: S.String.pipe(T.HttpLabel("odbNetworkId")),
     displayName: S.optional(S.String),
     peeredCidrsToBeAdded: S.optional(StringList),
     peeredCidrsToBeRemoved: S.optional(StringList),
@@ -626,7 +653,7 @@ export class DeleteOdbNetworkInput extends S.Class<DeleteOdbNetworkInput>(
   "DeleteOdbNetworkInput",
 )(
   {
-    odbNetworkId: S.String.pipe(T.HttpLabel()),
+    odbNetworkId: S.String.pipe(T.HttpLabel("odbNetworkId")),
     deleteAssociatedResources: S.Boolean,
   },
   T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
@@ -659,14 +686,20 @@ export class CreateOdbPeeringConnectionInput extends S.Class<CreateOdbPeeringCon
 export class GetOdbPeeringConnectionInput extends S.Class<GetOdbPeeringConnectionInput>(
   "GetOdbPeeringConnectionInput",
 )(
-  { odbPeeringConnectionId: S.String.pipe(T.HttpLabel()) },
+  {
+    odbPeeringConnectionId: S.String.pipe(
+      T.HttpLabel("odbPeeringConnectionId"),
+    ),
+  },
   T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
 ) {}
 export class UpdateOdbPeeringConnectionInput extends S.Class<UpdateOdbPeeringConnectionInput>(
   "UpdateOdbPeeringConnectionInput",
 )(
   {
-    odbPeeringConnectionId: S.String.pipe(T.HttpLabel()),
+    odbPeeringConnectionId: S.String.pipe(
+      T.HttpLabel("odbPeeringConnectionId"),
+    ),
     displayName: S.optional(S.String),
     peerNetworkCidrsToBeAdded: S.optional(PeeredCidrList),
     peerNetworkCidrsToBeRemoved: S.optional(PeeredCidrList),
@@ -676,7 +709,11 @@ export class UpdateOdbPeeringConnectionInput extends S.Class<UpdateOdbPeeringCon
 export class DeleteOdbPeeringConnectionInput extends S.Class<DeleteOdbPeeringConnectionInput>(
   "DeleteOdbPeeringConnectionInput",
 )(
-  { odbPeeringConnectionId: S.String.pipe(T.HttpLabel()) },
+  {
+    odbPeeringConnectionId: S.String.pipe(
+      T.HttpLabel("odbPeeringConnectionId"),
+    ),
+  },
   T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
 ) {}
 export class DeleteOdbPeeringConnectionOutput extends S.Class<DeleteOdbPeeringConnectionOutput>(
@@ -1651,7 +1688,8 @@ export class InternalServerException extends S.TaggedError<InternalServerExcepti
     message: S.String,
     retryAfterSeconds: S.optional(S.Number).pipe(T.HttpHeader("Retry-After")),
   },
-) {}
+  T.Retryable(),
+).pipe(withCategory(ERROR_CATEGORIES.SERVER_ERROR)) {}
 export class ServiceQuotaExceededException extends S.TaggedError<ServiceQuotaExceededException>()(
   "ServiceQuotaExceededException",
   {
@@ -1667,7 +1705,7 @@ export class ThrottlingException extends S.TaggedError<ThrottlingException>()(
     message: S.String,
     retryAfterSeconds: S.optional(S.Number).pipe(T.HttpHeader("Retry-After")),
   },
-) {}
+).pipe(withCategory(ERROR_CATEGORIES.THROTTLING_ERROR)) {}
 export class ValidationException extends S.TaggedError<ValidationException>()(
   "ValidationException",
   {

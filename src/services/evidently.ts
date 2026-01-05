@@ -1,6 +1,7 @@
 import * as S from "effect/Schema";
 import * as API from "../api.ts";
 import * as T from "../traits.ts";
+import { ERROR_CATEGORIES, withCategory } from "../error-category.ts";
 const svc = T.AwsApiService({
   sdkId: "Evidently",
   serviceShapeName: "Evidently",
@@ -250,7 +251,7 @@ export const VariationNameList = S.Array(S.String);
 export class ListTagsForResourceRequest extends S.Class<ListTagsForResourceRequest>(
   "ListTagsForResourceRequest",
 )(
-  { resourceArn: S.String.pipe(T.HttpLabel()) },
+  { resourceArn: S.String.pipe(T.HttpLabel("resourceArn")) },
   T.all(
     T.Http({ method: "GET", uri: "/tags/{resourceArn}" }),
     svc,
@@ -277,7 +278,7 @@ export class UntagResourceRequest extends S.Class<UntagResourceRequest>(
   "UntagResourceRequest",
 )(
   {
-    resourceArn: S.String.pipe(T.HttpLabel()),
+    resourceArn: S.String.pipe(T.HttpLabel("resourceArn")),
     tagKeys: TagKeyList.pipe(T.HttpQuery("tagKeys")),
   },
   T.all(
@@ -295,7 +296,7 @@ export class UntagResourceResponse extends S.Class<UntagResourceResponse>(
 export class GetProjectRequest extends S.Class<GetProjectRequest>(
   "GetProjectRequest",
 )(
-  { project: S.String.pipe(T.HttpLabel()) },
+  { project: S.String.pipe(T.HttpLabel("project")) },
   T.all(
     T.Http({ method: "GET", uri: "/projects/{project}" }),
     svc,
@@ -308,7 +309,7 @@ export class GetProjectRequest extends S.Class<GetProjectRequest>(
 export class DeleteProjectRequest extends S.Class<DeleteProjectRequest>(
   "DeleteProjectRequest",
 )(
-  { project: S.String.pipe(T.HttpLabel()) },
+  { project: S.String.pipe(T.HttpLabel("project")) },
   T.all(
     T.Http({ method: "DELETE", uri: "/projects/{project}" }),
     svc,
@@ -341,8 +342,8 @@ export class EvaluateFeatureRequest extends S.Class<EvaluateFeatureRequest>(
   "EvaluateFeatureRequest",
 )(
   {
-    project: S.String.pipe(T.HttpLabel()),
-    feature: S.String.pipe(T.HttpLabel()),
+    project: S.String.pipe(T.HttpLabel("project")),
+    feature: S.String.pipe(T.HttpLabel("feature")),
     entityId: S.String,
     evaluationContext: S.optional(S.String),
   },
@@ -368,7 +369,7 @@ export class UpdateProjectRequest extends S.Class<UpdateProjectRequest>(
   "UpdateProjectRequest",
 )(
   {
-    project: S.String.pipe(T.HttpLabel()),
+    project: S.String.pipe(T.HttpLabel("project")),
     appConfigResource: S.optional(ProjectAppConfigResourceConfig),
     description: S.optional(S.String),
   },
@@ -385,8 +386,8 @@ export class GetExperimentRequest extends S.Class<GetExperimentRequest>(
   "GetExperimentRequest",
 )(
   {
-    project: S.String.pipe(T.HttpLabel()),
-    experiment: S.String.pipe(T.HttpLabel()),
+    project: S.String.pipe(T.HttpLabel("project")),
+    experiment: S.String.pipe(T.HttpLabel("experiment")),
   },
   T.all(
     T.Http({
@@ -437,8 +438,8 @@ export class UpdateExperimentRequest extends S.Class<UpdateExperimentRequest>(
   "UpdateExperimentRequest",
 )(
   {
-    project: S.String.pipe(T.HttpLabel()),
-    experiment: S.String.pipe(T.HttpLabel()),
+    project: S.String.pipe(T.HttpLabel("project")),
+    experiment: S.String.pipe(T.HttpLabel("experiment")),
     description: S.optional(S.String),
     treatments: S.optional(TreatmentConfigList),
     metricGoals: S.optional(MetricGoalConfigList),
@@ -464,8 +465,8 @@ export class DeleteExperimentRequest extends S.Class<DeleteExperimentRequest>(
   "DeleteExperimentRequest",
 )(
   {
-    project: S.String.pipe(T.HttpLabel()),
-    experiment: S.String.pipe(T.HttpLabel()),
+    project: S.String.pipe(T.HttpLabel("project")),
+    experiment: S.String.pipe(T.HttpLabel("experiment")),
   },
   T.all(
     T.Http({
@@ -486,7 +487,7 @@ export class ListExperimentsRequest extends S.Class<ListExperimentsRequest>(
   "ListExperimentsRequest",
 )(
   {
-    project: S.String.pipe(T.HttpLabel()),
+    project: S.String.pipe(T.HttpLabel("project")),
     maxResults: S.optional(S.Number).pipe(T.HttpQuery("maxResults")),
     nextToken: S.optional(S.String).pipe(T.HttpQuery("nextToken")),
     status: S.optional(S.String).pipe(T.HttpQuery("status")),
@@ -504,8 +505,8 @@ export class GetExperimentResultsRequest extends S.Class<GetExperimentResultsReq
   "GetExperimentResultsRequest",
 )(
   {
-    project: S.String.pipe(T.HttpLabel()),
-    experiment: S.String.pipe(T.HttpLabel()),
+    project: S.String.pipe(T.HttpLabel("project")),
+    experiment: S.String.pipe(T.HttpLabel("experiment")),
     startTime: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
     endTime: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
     metricNames: MetricNameList,
@@ -531,8 +532,8 @@ export class StartExperimentRequest extends S.Class<StartExperimentRequest>(
   "StartExperimentRequest",
 )(
   {
-    project: S.String.pipe(T.HttpLabel()),
-    experiment: S.String.pipe(T.HttpLabel()),
+    project: S.String.pipe(T.HttpLabel("project")),
+    experiment: S.String.pipe(T.HttpLabel("experiment")),
     analysisCompleteTime: S.Date.pipe(T.TimestampFormat("epoch-seconds")),
   },
   T.all(
@@ -551,8 +552,8 @@ export class StopExperimentRequest extends S.Class<StopExperimentRequest>(
   "StopExperimentRequest",
 )(
   {
-    project: S.String.pipe(T.HttpLabel()),
-    experiment: S.String.pipe(T.HttpLabel()),
+    project: S.String.pipe(T.HttpLabel("project")),
+    experiment: S.String.pipe(T.HttpLabel("experiment")),
     desiredState: S.optional(S.String),
     reason: S.optional(S.String),
   },
@@ -572,8 +573,8 @@ export class GetFeatureRequest extends S.Class<GetFeatureRequest>(
   "GetFeatureRequest",
 )(
   {
-    project: S.String.pipe(T.HttpLabel()),
-    feature: S.String.pipe(T.HttpLabel()),
+    project: S.String.pipe(T.HttpLabel("project")),
+    feature: S.String.pipe(T.HttpLabel("feature")),
   },
   T.all(
     T.Http({ method: "GET", uri: "/projects/{project}/features/{feature}" }),
@@ -599,8 +600,8 @@ export class UpdateFeatureRequest extends S.Class<UpdateFeatureRequest>(
   "UpdateFeatureRequest",
 )(
   {
-    project: S.String.pipe(T.HttpLabel()),
-    feature: S.String.pipe(T.HttpLabel()),
+    project: S.String.pipe(T.HttpLabel("project")),
+    feature: S.String.pipe(T.HttpLabel("feature")),
     evaluationStrategy: S.optional(S.String),
     description: S.optional(S.String),
     addOrUpdateVariations: S.optional(VariationConfigsList),
@@ -621,8 +622,8 @@ export class DeleteFeatureRequest extends S.Class<DeleteFeatureRequest>(
   "DeleteFeatureRequest",
 )(
   {
-    project: S.String.pipe(T.HttpLabel()),
-    feature: S.String.pipe(T.HttpLabel()),
+    project: S.String.pipe(T.HttpLabel("project")),
+    feature: S.String.pipe(T.HttpLabel("feature")),
   },
   T.all(
     T.Http({ method: "DELETE", uri: "/projects/{project}/features/{feature}" }),
@@ -640,7 +641,7 @@ export class ListFeaturesRequest extends S.Class<ListFeaturesRequest>(
   "ListFeaturesRequest",
 )(
   {
-    project: S.String.pipe(T.HttpLabel()),
+    project: S.String.pipe(T.HttpLabel("project")),
     maxResults: S.optional(S.Number).pipe(T.HttpQuery("maxResults")),
     nextToken: S.optional(S.String).pipe(T.HttpQuery("nextToken")),
   },
@@ -657,8 +658,8 @@ export class GetLaunchRequest extends S.Class<GetLaunchRequest>(
   "GetLaunchRequest",
 )(
   {
-    project: S.String.pipe(T.HttpLabel()),
-    launch: S.String.pipe(T.HttpLabel()),
+    project: S.String.pipe(T.HttpLabel("project")),
+    launch: S.String.pipe(T.HttpLabel("launch")),
   },
   T.all(
     T.Http({ method: "GET", uri: "/projects/{project}/launches/{launch}" }),
@@ -706,8 +707,8 @@ export class UpdateLaunchRequest extends S.Class<UpdateLaunchRequest>(
   "UpdateLaunchRequest",
 )(
   {
-    project: S.String.pipe(T.HttpLabel()),
-    launch: S.String.pipe(T.HttpLabel()),
+    project: S.String.pipe(T.HttpLabel("project")),
+    launch: S.String.pipe(T.HttpLabel("launch")),
     description: S.optional(S.String),
     groups: S.optional(LaunchGroupConfigList),
     metricMonitors: S.optional(MetricMonitorConfigList),
@@ -727,8 +728,8 @@ export class DeleteLaunchRequest extends S.Class<DeleteLaunchRequest>(
   "DeleteLaunchRequest",
 )(
   {
-    project: S.String.pipe(T.HttpLabel()),
-    launch: S.String.pipe(T.HttpLabel()),
+    project: S.String.pipe(T.HttpLabel("project")),
+    launch: S.String.pipe(T.HttpLabel("launch")),
   },
   T.all(
     T.Http({ method: "DELETE", uri: "/projects/{project}/launches/{launch}" }),
@@ -746,7 +747,7 @@ export class ListLaunchesRequest extends S.Class<ListLaunchesRequest>(
   "ListLaunchesRequest",
 )(
   {
-    project: S.String.pipe(T.HttpLabel()),
+    project: S.String.pipe(T.HttpLabel("project")),
     maxResults: S.optional(S.Number).pipe(T.HttpQuery("maxResults")),
     nextToken: S.optional(S.String).pipe(T.HttpQuery("nextToken")),
     status: S.optional(S.String).pipe(T.HttpQuery("status")),
@@ -764,8 +765,8 @@ export class StartLaunchRequest extends S.Class<StartLaunchRequest>(
   "StartLaunchRequest",
 )(
   {
-    project: S.String.pipe(T.HttpLabel()),
-    launch: S.String.pipe(T.HttpLabel()),
+    project: S.String.pipe(T.HttpLabel("project")),
+    launch: S.String.pipe(T.HttpLabel("launch")),
   },
   T.all(
     T.Http({
@@ -783,8 +784,8 @@ export class StopLaunchRequest extends S.Class<StopLaunchRequest>(
   "StopLaunchRequest",
 )(
   {
-    project: S.String.pipe(T.HttpLabel()),
-    launch: S.String.pipe(T.HttpLabel()),
+    project: S.String.pipe(T.HttpLabel("project")),
+    launch: S.String.pipe(T.HttpLabel("launch")),
     desiredState: S.optional(S.String),
     reason: S.optional(S.String),
   },
@@ -822,7 +823,7 @@ export class CreateSegmentRequest extends S.Class<CreateSegmentRequest>(
 export class GetSegmentRequest extends S.Class<GetSegmentRequest>(
   "GetSegmentRequest",
 )(
-  { segment: S.String.pipe(T.HttpLabel()) },
+  { segment: S.String.pipe(T.HttpLabel("segment")) },
   T.all(
     T.Http({ method: "GET", uri: "/segments/{segment}" }),
     svc,
@@ -835,7 +836,7 @@ export class GetSegmentRequest extends S.Class<GetSegmentRequest>(
 export class DeleteSegmentRequest extends S.Class<DeleteSegmentRequest>(
   "DeleteSegmentRequest",
 )(
-  { segment: S.String.pipe(T.HttpLabel()) },
+  { segment: S.String.pipe(T.HttpLabel("segment")) },
   T.all(
     T.Http({ method: "DELETE", uri: "/segments/{segment}" }),
     svc,
@@ -868,7 +869,7 @@ export class ListSegmentReferencesRequest extends S.Class<ListSegmentReferencesR
   "ListSegmentReferencesRequest",
 )(
   {
-    segment: S.String.pipe(T.HttpLabel()),
+    segment: S.String.pipe(T.HttpLabel("segment")),
     maxResults: S.optional(S.Number).pipe(T.HttpQuery("maxResults")),
     nextToken: S.optional(S.String).pipe(T.HttpQuery("nextToken")),
     type: S.String.pipe(T.HttpQuery("type")),
@@ -1036,7 +1037,7 @@ export class ListTagsForResourceResponse extends S.Class<ListTagsForResourceResp
 export class TagResourceRequest extends S.Class<TagResourceRequest>(
   "TagResourceRequest",
 )(
-  { resourceArn: S.String.pipe(T.HttpLabel()), tags: TagMap },
+  { resourceArn: S.String.pipe(T.HttpLabel("resourceArn")), tags: TagMap },
   T.all(
     T.Http({ method: "POST", uri: "/tags/{resourceArn}" }),
     svc,
@@ -1074,7 +1075,10 @@ export class CreateProjectRequest extends S.Class<CreateProjectRequest>(
 export class BatchEvaluateFeatureRequest extends S.Class<BatchEvaluateFeatureRequest>(
   "BatchEvaluateFeatureRequest",
 )(
-  { project: S.String.pipe(T.HttpLabel()), requests: EvaluationRequestsList },
+  {
+    project: S.String.pipe(T.HttpLabel("project")),
+    requests: EvaluationRequestsList,
+  },
   T.all(
     T.Http({ method: "POST", uri: "/projects/{project}/evaluations" }),
     svc,
@@ -1095,7 +1099,7 @@ export class EvaluateFeatureResponse extends S.Class<EvaluateFeatureResponse>(
 export class PutProjectEventsRequest extends S.Class<PutProjectEventsRequest>(
   "PutProjectEventsRequest",
 )(
-  { project: S.String.pipe(T.HttpLabel()), events: EventList },
+  { project: S.String.pipe(T.HttpLabel("project")), events: EventList },
   T.all(
     T.Http({ method: "POST", uri: "/events/projects/{project}" }),
     svc,
@@ -1148,7 +1152,7 @@ export class UpdateProjectDataDeliveryRequest extends S.Class<UpdateProjectDataD
   "UpdateProjectDataDeliveryRequest",
 )(
   {
-    project: S.String.pipe(T.HttpLabel()),
+    project: S.String.pipe(T.HttpLabel("project")),
     s3Destination: S.optional(S3DestinationConfig),
     cloudWatchLogs: S.optional(CloudWatchLogsDestinationConfig),
   },
@@ -1298,7 +1302,7 @@ export class CreateExperimentRequest extends S.Class<CreateExperimentRequest>(
   "CreateExperimentRequest",
 )(
   {
-    project: S.String.pipe(T.HttpLabel()),
+    project: S.String.pipe(T.HttpLabel("project")),
     name: S.String,
     description: S.optional(S.String),
     treatments: TreatmentConfigList,
@@ -1330,7 +1334,7 @@ export class CreateFeatureRequest extends S.Class<CreateFeatureRequest>(
   "CreateFeatureRequest",
 )(
   {
-    project: S.String.pipe(T.HttpLabel()),
+    project: S.String.pipe(T.HttpLabel("project")),
     name: S.String,
     evaluationStrategy: S.optional(S.String),
     description: S.optional(S.String),
@@ -1407,7 +1411,7 @@ export class CreateLaunchRequest extends S.Class<CreateLaunchRequest>(
   "CreateLaunchRequest",
 )(
   {
-    project: S.String.pipe(T.HttpLabel()),
+    project: S.String.pipe(T.HttpLabel("project")),
     name: S.String,
     description: S.optional(S.String),
     scheduledSplitsConfig: S.optional(ScheduledSplitsLaunchConfig),
@@ -1470,11 +1474,11 @@ export class ThrottlingException extends S.TaggedError<ThrottlingException>()(
     serviceCode: S.optional(S.String),
     quotaCode: S.optional(S.String),
   },
-) {}
+).pipe(withCategory(ERROR_CATEGORIES.THROTTLING_ERROR)) {}
 export class InternalServerException extends S.TaggedError<InternalServerException>()(
   "InternalServerException",
   { message: S.optional(S.String) },
-) {}
+).pipe(withCategory(ERROR_CATEGORIES.SERVER_ERROR)) {}
 export class ServiceQuotaExceededException extends S.TaggedError<ServiceQuotaExceededException>()(
   "ServiceQuotaExceededException",
   {
@@ -1488,7 +1492,7 @@ export class ServiceQuotaExceededException extends S.TaggedError<ServiceQuotaExc
 export class ServiceUnavailableException extends S.TaggedError<ServiceUnavailableException>()(
   "ServiceUnavailableException",
   { message: S.optional(S.String) },
-) {}
+).pipe(withCategory(ERROR_CATEGORIES.SERVER_ERROR)) {}
 export class ValidationException extends S.TaggedError<ValidationException>()(
   "ValidationException",
   {

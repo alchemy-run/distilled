@@ -1,6 +1,7 @@
 import * as S from "effect/Schema";
 import * as API from "../api.ts";
 import * as T from "../traits.ts";
+import { ERROR_CATEGORIES, withCategory } from "../error-category.ts";
 const svc = T.AwsApiService({
   sdkId: "Application Signals",
   serviceShapeName: "ApplicationSignals",
@@ -239,7 +240,7 @@ export class ListServiceLevelObjectiveExclusionWindowsInput extends S.Class<List
   "ListServiceLevelObjectiveExclusionWindowsInput",
 )(
   {
-    Id: S.String.pipe(T.HttpLabel()),
+    Id: S.String.pipe(T.HttpLabel("Id")),
     MaxResults: S.optional(S.Number).pipe(T.HttpQuery("MaxResults")),
     NextToken: S.optional(S.String).pipe(T.HttpQuery("NextToken")),
   },
@@ -326,7 +327,7 @@ export class UntagResourceResponse extends S.Class<UntagResourceResponse>(
 export class GetServiceLevelObjectiveInput extends S.Class<GetServiceLevelObjectiveInput>(
   "GetServiceLevelObjectiveInput",
 )(
-  { Id: S.String.pipe(T.HttpLabel()) },
+  { Id: S.String.pipe(T.HttpLabel("Id")) },
   T.all(
     T.Http({ method: "GET", uri: "/slo/{Id}" }),
     svc,
@@ -436,7 +437,7 @@ export class UpdateServiceLevelObjectiveInput extends S.Class<UpdateServiceLevel
   "UpdateServiceLevelObjectiveInput",
 )(
   {
-    Id: S.String.pipe(T.HttpLabel()),
+    Id: S.String.pipe(T.HttpLabel("Id")),
     Description: S.optional(S.String),
     SliConfig: S.optional(ServiceLevelIndicatorConfig),
     RequestBasedSliConfig: S.optional(RequestBasedServiceLevelIndicatorConfig),
@@ -455,7 +456,7 @@ export class UpdateServiceLevelObjectiveInput extends S.Class<UpdateServiceLevel
 export class DeleteServiceLevelObjectiveInput extends S.Class<DeleteServiceLevelObjectiveInput>(
   "DeleteServiceLevelObjectiveInput",
 )(
-  { Id: S.String.pipe(T.HttpLabel()) },
+  { Id: S.String.pipe(T.HttpLabel("Id")) },
   T.all(
     T.Http({ method: "DELETE", uri: "/slo/{Id}" }),
     svc,
@@ -1023,7 +1024,7 @@ export class AccessDeniedException extends S.TaggedError<AccessDeniedException>(
 export class ThrottlingException extends S.TaggedError<ThrottlingException>()(
   "ThrottlingException",
   { Message: S.String },
-) {}
+).pipe(withCategory(ERROR_CATEGORIES.THROTTLING_ERROR)) {}
 export class ResourceNotFoundException extends S.TaggedError<ResourceNotFoundException>()(
   "ResourceNotFoundException",
   { ResourceType: S.String, ResourceId: S.String, Message: S.String },

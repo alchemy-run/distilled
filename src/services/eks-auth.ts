@@ -1,6 +1,7 @@
 import * as S from "effect/Schema";
 import * as API from "../api.ts";
 import * as T from "../traits.ts";
+import { ERROR_CATEGORIES, withCategory } from "../error-category.ts";
 const svc = T.AwsApiService({
   sdkId: "EKS Auth",
   serviceShapeName: "EKSAuthFrontend",
@@ -200,7 +201,7 @@ const rules = T.EndpointRuleSet({
 export class AssumeRoleForPodIdentityRequest extends S.Class<AssumeRoleForPodIdentityRequest>(
   "AssumeRoleForPodIdentityRequest",
 )(
-  { clusterName: S.String.pipe(T.HttpLabel()), token: S.String },
+  { clusterName: S.String.pipe(T.HttpLabel("clusterName")), token: S.String },
   T.all(
     T.Http({
       method: "POST",
@@ -251,7 +252,7 @@ export class ExpiredTokenException extends S.TaggedError<ExpiredTokenException>(
 export class InternalServerException extends S.TaggedError<InternalServerException>()(
   "InternalServerException",
   { message: S.optional(S.String) },
-) {}
+).pipe(withCategory(ERROR_CATEGORIES.SERVER_ERROR)) {}
 export class InvalidParameterException extends S.TaggedError<InvalidParameterException>()(
   "InvalidParameterException",
   { message: S.optional(S.String) },
@@ -271,11 +272,11 @@ export class ResourceNotFoundException extends S.TaggedError<ResourceNotFoundExc
 export class ServiceUnavailableException extends S.TaggedError<ServiceUnavailableException>()(
   "ServiceUnavailableException",
   { message: S.optional(S.String) },
-) {}
+).pipe(withCategory(ERROR_CATEGORIES.SERVER_ERROR)) {}
 export class ThrottlingException extends S.TaggedError<ThrottlingException>()(
   "ThrottlingException",
   { message: S.optional(S.String) },
-) {}
+).pipe(withCategory(ERROR_CATEGORIES.THROTTLING_ERROR)) {}
 
 //# Operations
 /**

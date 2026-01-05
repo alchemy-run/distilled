@@ -1,6 +1,7 @@
 import * as S from "effect/Schema";
 import * as API from "../api.ts";
 import * as T from "../traits.ts";
+import { ERROR_CATEGORIES, withCategory } from "../error-category.ts";
 const svc = T.AwsApiService({
   sdkId: "grafana",
   serviceShapeName: "AWSGrafanaControlPlane",
@@ -249,7 +250,7 @@ export const OrganizationalUnitList = S.Array(S.String);
 export class ListTagsForResourceRequest extends S.Class<ListTagsForResourceRequest>(
   "ListTagsForResourceRequest",
 )(
-  { resourceArn: S.String.pipe(T.HttpLabel()) },
+  { resourceArn: S.String.pipe(T.HttpLabel("resourceArn")) },
   T.all(
     T.Http({ method: "GET", uri: "/tags/{resourceArn}" }),
     svc,
@@ -280,7 +281,7 @@ export class UntagResourceRequest extends S.Class<UntagResourceRequest>(
   "UntagResourceRequest",
 )(
   {
-    resourceArn: S.String.pipe(T.HttpLabel()),
+    resourceArn: S.String.pipe(T.HttpLabel("resourceArn")),
     tagKeys: TagKeys.pipe(T.HttpQuery("tagKeys")),
   },
   T.all(
@@ -302,7 +303,7 @@ export class CreateWorkspaceApiKeyRequest extends S.Class<CreateWorkspaceApiKeyR
     keyName: S.String,
     keyRole: S.String,
     secondsToLive: S.Number,
-    workspaceId: S.String.pipe(T.HttpLabel()),
+    workspaceId: S.String.pipe(T.HttpLabel("workspaceId")),
   },
   T.all(
     T.Http({ method: "POST", uri: "/workspaces/{workspaceId}/apikeys" }),
@@ -317,8 +318,8 @@ export class DeleteWorkspaceApiKeyRequest extends S.Class<DeleteWorkspaceApiKeyR
   "DeleteWorkspaceApiKeyRequest",
 )(
   {
-    keyName: S.String.pipe(T.HttpLabel()),
-    workspaceId: S.String.pipe(T.HttpLabel()),
+    keyName: S.String.pipe(T.HttpLabel("keyName")),
+    workspaceId: S.String.pipe(T.HttpLabel("workspaceId")),
   },
   T.all(
     T.Http({
@@ -335,7 +336,7 @@ export class DeleteWorkspaceApiKeyRequest extends S.Class<DeleteWorkspaceApiKeyR
 export class DescribeWorkspaceAuthenticationRequest extends S.Class<DescribeWorkspaceAuthenticationRequest>(
   "DescribeWorkspaceAuthenticationRequest",
 )(
-  { workspaceId: S.String.pipe(T.HttpLabel()) },
+  { workspaceId: S.String.pipe(T.HttpLabel("workspaceId")) },
   T.all(
     T.Http({ method: "GET", uri: "/workspaces/{workspaceId}/authentication" }),
     svc,
@@ -348,7 +349,7 @@ export class DescribeWorkspaceAuthenticationRequest extends S.Class<DescribeWork
 export class DescribeWorkspaceConfigurationRequest extends S.Class<DescribeWorkspaceConfigurationRequest>(
   "DescribeWorkspaceConfigurationRequest",
 )(
-  { workspaceId: S.String.pipe(T.HttpLabel()) },
+  { workspaceId: S.String.pipe(T.HttpLabel("workspaceId")) },
   T.all(
     T.Http({ method: "GET", uri: "/workspaces/{workspaceId}/configuration" }),
     svc,
@@ -363,7 +364,7 @@ export class UpdateWorkspaceConfigurationRequest extends S.Class<UpdateWorkspace
 )(
   {
     configuration: S.String,
-    workspaceId: S.String.pipe(T.HttpLabel()),
+    workspaceId: S.String.pipe(T.HttpLabel("workspaceId")),
     grafanaVersion: S.optional(S.String),
   },
   T.all(
@@ -382,8 +383,8 @@ export class AssociateLicenseRequest extends S.Class<AssociateLicenseRequest>(
   "AssociateLicenseRequest",
 )(
   {
-    workspaceId: S.String.pipe(T.HttpLabel()),
-    licenseType: S.String.pipe(T.HttpLabel()),
+    workspaceId: S.String.pipe(T.HttpLabel("workspaceId")),
+    licenseType: S.String.pipe(T.HttpLabel("licenseType")),
     grafanaToken: S.optional(S.String).pipe(T.HttpHeader("Grafana-Token")),
   },
   T.all(
@@ -402,8 +403,8 @@ export class DisassociateLicenseRequest extends S.Class<DisassociateLicenseReque
   "DisassociateLicenseRequest",
 )(
   {
-    workspaceId: S.String.pipe(T.HttpLabel()),
-    licenseType: S.String.pipe(T.HttpLabel()),
+    workspaceId: S.String.pipe(T.HttpLabel("workspaceId")),
+    licenseType: S.String.pipe(T.HttpLabel("licenseType")),
   },
   T.all(
     T.Http({
@@ -426,7 +427,7 @@ export class ListPermissionsRequest extends S.Class<ListPermissionsRequest>(
     userType: S.optional(S.String).pipe(T.HttpQuery("userType")),
     userId: S.optional(S.String).pipe(T.HttpQuery("userId")),
     groupId: S.optional(S.String).pipe(T.HttpQuery("groupId")),
-    workspaceId: S.String.pipe(T.HttpLabel()),
+    workspaceId: S.String.pipe(T.HttpLabel("workspaceId")),
   },
   T.all(
     T.Http({ method: "GET", uri: "/workspaces/{workspaceId}/permissions" }),
@@ -443,7 +444,7 @@ export class CreateWorkspaceServiceAccountRequest extends S.Class<CreateWorkspac
   {
     name: S.String,
     grafanaRole: S.String,
-    workspaceId: S.String.pipe(T.HttpLabel()),
+    workspaceId: S.String.pipe(T.HttpLabel("workspaceId")),
   },
   T.all(
     T.Http({
@@ -461,8 +462,8 @@ export class DeleteWorkspaceServiceAccountRequest extends S.Class<DeleteWorkspac
   "DeleteWorkspaceServiceAccountRequest",
 )(
   {
-    serviceAccountId: S.String.pipe(T.HttpLabel()),
-    workspaceId: S.String.pipe(T.HttpLabel()),
+    serviceAccountId: S.String.pipe(T.HttpLabel("serviceAccountId")),
+    workspaceId: S.String.pipe(T.HttpLabel("workspaceId")),
   },
   T.all(
     T.Http({
@@ -482,7 +483,7 @@ export class ListWorkspaceServiceAccountsRequest extends S.Class<ListWorkspaceSe
   {
     maxResults: S.optional(S.Number).pipe(T.HttpQuery("maxResults")),
     nextToken: S.optional(S.String).pipe(T.HttpQuery("nextToken")),
-    workspaceId: S.String.pipe(T.HttpLabel()),
+    workspaceId: S.String.pipe(T.HttpLabel("workspaceId")),
   },
   T.all(
     T.Http({ method: "GET", uri: "/workspaces/{workspaceId}/serviceaccounts" }),
@@ -499,8 +500,8 @@ export class CreateWorkspaceServiceAccountTokenRequest extends S.Class<CreateWor
   {
     name: S.String,
     secondsToLive: S.Number,
-    serviceAccountId: S.String.pipe(T.HttpLabel()),
-    workspaceId: S.String.pipe(T.HttpLabel()),
+    serviceAccountId: S.String.pipe(T.HttpLabel("serviceAccountId")),
+    workspaceId: S.String.pipe(T.HttpLabel("workspaceId")),
   },
   T.all(
     T.Http({
@@ -518,9 +519,9 @@ export class DeleteWorkspaceServiceAccountTokenRequest extends S.Class<DeleteWor
   "DeleteWorkspaceServiceAccountTokenRequest",
 )(
   {
-    tokenId: S.String.pipe(T.HttpLabel()),
-    serviceAccountId: S.String.pipe(T.HttpLabel()),
-    workspaceId: S.String.pipe(T.HttpLabel()),
+    tokenId: S.String.pipe(T.HttpLabel("tokenId")),
+    serviceAccountId: S.String.pipe(T.HttpLabel("serviceAccountId")),
+    workspaceId: S.String.pipe(T.HttpLabel("workspaceId")),
   },
   T.all(
     T.Http({
@@ -540,8 +541,8 @@ export class ListWorkspaceServiceAccountTokensRequest extends S.Class<ListWorksp
   {
     maxResults: S.optional(S.Number).pipe(T.HttpQuery("maxResults")),
     nextToken: S.optional(S.String).pipe(T.HttpQuery("nextToken")),
-    serviceAccountId: S.String.pipe(T.HttpLabel()),
-    workspaceId: S.String.pipe(T.HttpLabel()),
+    serviceAccountId: S.String.pipe(T.HttpLabel("serviceAccountId")),
+    workspaceId: S.String.pipe(T.HttpLabel("workspaceId")),
   },
   T.all(
     T.Http({
@@ -558,7 +559,7 @@ export class ListWorkspaceServiceAccountTokensRequest extends S.Class<ListWorksp
 export class DescribeWorkspaceRequest extends S.Class<DescribeWorkspaceRequest>(
   "DescribeWorkspaceRequest",
 )(
-  { workspaceId: S.String.pipe(T.HttpLabel()) },
+  { workspaceId: S.String.pipe(T.HttpLabel("workspaceId")) },
   T.all(
     T.Http({ method: "GET", uri: "/workspaces/{workspaceId}" }),
     svc,
@@ -588,7 +589,7 @@ export class UpdateWorkspaceRequest extends S.Class<UpdateWorkspaceRequest>(
     stackSetName: S.optional(S.String),
     workspaceDataSources: S.optional(DataSourceTypesList),
     workspaceDescription: S.optional(S.String),
-    workspaceId: S.String.pipe(T.HttpLabel()),
+    workspaceId: S.String.pipe(T.HttpLabel("workspaceId")),
     workspaceName: S.optional(S.String),
     workspaceNotificationDestinations: S.optional(NotificationDestinationsList),
     workspaceOrganizationalUnits: S.optional(OrganizationalUnitList),
@@ -610,7 +611,7 @@ export class UpdateWorkspaceRequest extends S.Class<UpdateWorkspaceRequest>(
 export class DeleteWorkspaceRequest extends S.Class<DeleteWorkspaceRequest>(
   "DeleteWorkspaceRequest",
 )(
-  { workspaceId: S.String.pipe(T.HttpLabel()) },
+  { workspaceId: S.String.pipe(T.HttpLabel("workspaceId")) },
   T.all(
     T.Http({ method: "DELETE", uri: "/workspaces/{workspaceId}" }),
     svc,
@@ -652,7 +653,7 @@ export class ListVersionsResponse extends S.Class<ListVersionsResponse>(
 export class TagResourceRequest extends S.Class<TagResourceRequest>(
   "TagResourceRequest",
 )(
-  { resourceArn: S.String.pipe(T.HttpLabel()), tags: TagMap },
+  { resourceArn: S.String.pipe(T.HttpLabel("resourceArn")), tags: TagMap },
   T.all(
     T.Http({ method: "POST", uri: "/tags/{resourceArn}" }),
     svc,
@@ -854,7 +855,7 @@ export class UpdateWorkspaceAuthenticationRequest extends S.Class<UpdateWorkspac
   "UpdateWorkspaceAuthenticationRequest",
 )(
   {
-    workspaceId: S.String.pipe(T.HttpLabel()),
+    workspaceId: S.String.pipe(T.HttpLabel("workspaceId")),
     authenticationProviders: AuthenticationProviders,
     samlConfiguration: S.optional(SamlConfiguration),
   },
@@ -875,7 +876,7 @@ export class UpdatePermissionsRequest extends S.Class<UpdatePermissionsRequest>(
 )(
   {
     updateInstructionBatch: UpdateInstructionBatch,
-    workspaceId: S.String.pipe(T.HttpLabel()),
+    workspaceId: S.String.pipe(T.HttpLabel("workspaceId")),
   },
   T.all(
     T.Http({ method: "PATCH", uri: "/workspaces/{workspaceId}/permissions" }),
@@ -961,7 +962,8 @@ export class InternalServerException extends S.TaggedError<InternalServerExcepti
     message: S.String,
     retryAfterSeconds: S.optional(S.Number).pipe(T.HttpHeader("Retry-After")),
   },
-) {}
+  T.Retryable(),
+).pipe(withCategory(ERROR_CATEGORIES.SERVER_ERROR)) {}
 export class ConflictException extends S.TaggedError<ConflictException>()(
   "ConflictException",
   { message: S.String, resourceId: S.String, resourceType: S.String },
@@ -988,7 +990,8 @@ export class ThrottlingException extends S.TaggedError<ThrottlingException>()(
     quotaCode: S.optional(S.String),
     retryAfterSeconds: S.optional(S.Number).pipe(T.HttpHeader("Retry-After")),
   },
-) {}
+  T.Retryable(),
+).pipe(withCategory(ERROR_CATEGORIES.THROTTLING_ERROR)) {}
 export class ValidationException extends S.TaggedError<ValidationException>()(
   "ValidationException",
   {

@@ -1,6 +1,7 @@
 import * as S from "effect/Schema";
 import * as API from "../api.ts";
 import * as T from "../traits.ts";
+import { ERROR_CATEGORIES, withCategory } from "../error-category.ts";
 const svc = T.AwsApiService({ sdkId: "DLM", serviceShapeName: "dlm_20180112" });
 const auth = T.AwsAuthSigv4({ name: "dlm" });
 const ver = T.ServiceVersion("2018-01-12");
@@ -266,7 +267,7 @@ export const TagKeyList = S.Array(S.String);
 export class DeleteLifecyclePolicyRequest extends S.Class<DeleteLifecyclePolicyRequest>(
   "DeleteLifecyclePolicyRequest",
 )(
-  { PolicyId: S.String.pipe(T.HttpLabel()) },
+  { PolicyId: S.String.pipe(T.HttpLabel("PolicyId")) },
   T.all(
     T.Http({ method: "DELETE", uri: "/policies/{PolicyId}" }),
     svc,
@@ -308,7 +309,7 @@ export class GetLifecyclePoliciesRequest extends S.Class<GetLifecyclePoliciesReq
 export class GetLifecyclePolicyRequest extends S.Class<GetLifecyclePolicyRequest>(
   "GetLifecyclePolicyRequest",
 )(
-  { PolicyId: S.String.pipe(T.HttpLabel()) },
+  { PolicyId: S.String.pipe(T.HttpLabel("PolicyId")) },
   T.all(
     T.Http({ method: "GET", uri: "/policies/{PolicyId}" }),
     svc,
@@ -321,7 +322,7 @@ export class GetLifecyclePolicyRequest extends S.Class<GetLifecyclePolicyRequest
 export class ListTagsForResourceRequest extends S.Class<ListTagsForResourceRequest>(
   "ListTagsForResourceRequest",
 )(
-  { ResourceArn: S.String.pipe(T.HttpLabel()) },
+  { ResourceArn: S.String.pipe(T.HttpLabel("ResourceArn")) },
   T.all(
     T.Http({ method: "GET", uri: "/tags/{ResourceArn}" }),
     svc,
@@ -335,7 +336,7 @@ export const TagMap = S.Record({ key: S.String, value: S.String });
 export class TagResourceRequest extends S.Class<TagResourceRequest>(
   "TagResourceRequest",
 )(
-  { ResourceArn: S.String.pipe(T.HttpLabel()), Tags: TagMap },
+  { ResourceArn: S.String.pipe(T.HttpLabel("ResourceArn")), Tags: TagMap },
   T.all(
     T.Http({ method: "POST", uri: "/tags/{ResourceArn}" }),
     svc,
@@ -352,7 +353,7 @@ export class UntagResourceRequest extends S.Class<UntagResourceRequest>(
   "UntagResourceRequest",
 )(
   {
-    ResourceArn: S.String.pipe(T.HttpLabel()),
+    ResourceArn: S.String.pipe(T.HttpLabel("ResourceArn")),
     TagKeys: TagKeyList.pipe(T.HttpQuery("tagKeys")),
   },
   T.all(
@@ -532,7 +533,7 @@ export class UpdateLifecyclePolicyRequest extends S.Class<UpdateLifecyclePolicyR
   "UpdateLifecyclePolicyRequest",
 )(
   {
-    PolicyId: S.String.pipe(T.HttpLabel()),
+    PolicyId: S.String.pipe(T.HttpLabel("PolicyId")),
     ExecutionRoleArn: S.optional(S.String),
     State: S.optional(S.String),
     Description: S.optional(S.String),
@@ -626,7 +627,7 @@ export class CreateLifecyclePolicyResponse extends S.Class<CreateLifecyclePolicy
 export class InternalServerException extends S.TaggedError<InternalServerException>()(
   "InternalServerException",
   { Message: S.optional(S.String), Code: S.optional(S.String) },
-) {}
+).pipe(withCategory(ERROR_CATEGORIES.SERVER_ERROR)) {}
 export class LimitExceededException extends S.TaggedError<LimitExceededException>()(
   "LimitExceededException",
   {
@@ -634,7 +635,7 @@ export class LimitExceededException extends S.TaggedError<LimitExceededException
     Code: S.optional(S.String),
     ResourceType: S.optional(S.String),
   },
-) {}
+).pipe(withCategory(ERROR_CATEGORIES.THROTTLING_ERROR)) {}
 export class InvalidRequestException extends S.TaggedError<InvalidRequestException>()(
   "InvalidRequestException",
   {

@@ -1,6 +1,7 @@
 import * as S from "effect/Schema";
 import * as API from "../api.ts";
 import * as T from "../traits.ts";
+import { ERROR_CATEGORIES, withCategory } from "../error-category.ts";
 const svc = T.AwsApiService({
   sdkId: "Route53GlobalResolver",
   serviceShapeName: "EC2DNSGlobalResolverCustomerAPI",
@@ -112,8 +113,8 @@ export class DisassociateHostedZoneInput extends S.Class<DisassociateHostedZoneI
   "DisassociateHostedZoneInput",
 )(
   {
-    hostedZoneId: S.String.pipe(T.HttpLabel()),
-    resourceArn: S.String.pipe(T.HttpLabel()),
+    hostedZoneId: S.String.pipe(T.HttpLabel("hostedZoneId")),
+    resourceArn: S.String.pipe(T.HttpLabel("resourceArn")),
   },
   T.all(
     T.Http({
@@ -181,7 +182,7 @@ export class CreateAccessSourceInput extends S.Class<CreateAccessSourceInput>(
 export class GetAccessSourceInput extends S.Class<GetAccessSourceInput>(
   "GetAccessSourceInput",
 )(
-  { accessSourceId: S.String.pipe(T.HttpLabel()) },
+  { accessSourceId: S.String.pipe(T.HttpLabel("accessSourceId")) },
   T.all(
     T.Http({ method: "GET", uri: "/access-sources/{accessSourceId}" }),
     svc,
@@ -195,7 +196,7 @@ export class UpdateAccessSourceInput extends S.Class<UpdateAccessSourceInput>(
   "UpdateAccessSourceInput",
 )(
   {
-    accessSourceId: S.String.pipe(T.HttpLabel()),
+    accessSourceId: S.String.pipe(T.HttpLabel("accessSourceId")),
     cidr: S.optional(S.String),
     ipAddressType: S.optional(S.String),
     name: S.optional(S.String),
@@ -213,7 +214,7 @@ export class UpdateAccessSourceInput extends S.Class<UpdateAccessSourceInput>(
 export class DeleteAccessSourceInput extends S.Class<DeleteAccessSourceInput>(
   "DeleteAccessSourceInput",
 )(
-  { accessSourceId: S.String.pipe(T.HttpLabel()) },
+  { accessSourceId: S.String.pipe(T.HttpLabel("accessSourceId")) },
   T.all(
     T.Http({ method: "DELETE", uri: "/access-sources/{accessSourceId}" }),
     svc,
@@ -228,7 +229,7 @@ export class CreateAccessTokenInput extends S.Class<CreateAccessTokenInput>(
 )(
   {
     clientToken: S.optional(S.String),
-    dnsViewId: S.String.pipe(T.HttpLabel()),
+    dnsViewId: S.String.pipe(T.HttpLabel("dnsViewId")),
     expiresAt: S.optional(S.Date.pipe(T.TimestampFormat("date-time"))),
     name: S.optional(S.String),
     tags: S.optional(Tags),
@@ -245,7 +246,7 @@ export class CreateAccessTokenInput extends S.Class<CreateAccessTokenInput>(
 export class GetAccessTokenInput extends S.Class<GetAccessTokenInput>(
   "GetAccessTokenInput",
 )(
-  { accessTokenId: S.String.pipe(T.HttpLabel()) },
+  { accessTokenId: S.String.pipe(T.HttpLabel("accessTokenId")) },
   T.all(
     T.Http({ method: "GET", uri: "/tokens/{accessTokenId}" }),
     svc,
@@ -258,7 +259,10 @@ export class GetAccessTokenInput extends S.Class<GetAccessTokenInput>(
 export class UpdateAccessTokenInput extends S.Class<UpdateAccessTokenInput>(
   "UpdateAccessTokenInput",
 )(
-  { accessTokenId: S.String.pipe(T.HttpLabel()), name: S.String },
+  {
+    accessTokenId: S.String.pipe(T.HttpLabel("accessTokenId")),
+    name: S.String,
+  },
   T.all(
     T.Http({ method: "PATCH", uri: "/tokens/{accessTokenId}" }),
     svc,
@@ -271,7 +275,7 @@ export class UpdateAccessTokenInput extends S.Class<UpdateAccessTokenInput>(
 export class DeleteAccessTokenInput extends S.Class<DeleteAccessTokenInput>(
   "DeleteAccessTokenInput",
 )(
-  { accessTokenId: S.String.pipe(T.HttpLabel()) },
+  { accessTokenId: S.String.pipe(T.HttpLabel("accessTokenId")) },
   T.all(
     T.Http({ method: "DELETE", uri: "/tokens/{accessTokenId}" }),
     svc,
@@ -289,7 +293,7 @@ export class ListAccessTokensInput extends S.Class<ListAccessTokensInput>(
   {
     maxResults: S.optional(S.Number).pipe(T.HttpQuery("max_results")),
     nextToken: S.optional(S.String).pipe(T.HttpQuery("next_token")),
-    dnsViewId: S.String.pipe(T.HttpLabel()),
+    dnsViewId: S.String.pipe(T.HttpLabel("dnsViewId")),
     filters: S.optional(Filters).pipe(T.HttpQueryParams()),
   },
   T.all(
@@ -305,7 +309,7 @@ export class CreateDNSViewInput extends S.Class<CreateDNSViewInput>(
   "CreateDNSViewInput",
 )(
   {
-    globalResolverId: S.String.pipe(T.HttpLabel()),
+    globalResolverId: S.String.pipe(T.HttpLabel("globalResolverId")),
     clientToken: S.optional(S.String),
     name: S.String,
     dnssecValidation: S.optional(S.String),
@@ -326,7 +330,7 @@ export class CreateDNSViewInput extends S.Class<CreateDNSViewInput>(
 export class GetDNSViewInput extends S.Class<GetDNSViewInput>(
   "GetDNSViewInput",
 )(
-  { dnsViewId: S.String.pipe(T.HttpLabel()) },
+  { dnsViewId: S.String.pipe(T.HttpLabel("dnsViewId")) },
   T.all(
     T.Http({ method: "GET", uri: "/dns-views/{dnsViewId}" }),
     svc,
@@ -340,7 +344,7 @@ export class UpdateDNSViewInput extends S.Class<UpdateDNSViewInput>(
   "UpdateDNSViewInput",
 )(
   {
-    dnsViewId: S.String.pipe(T.HttpLabel()),
+    dnsViewId: S.String.pipe(T.HttpLabel("dnsViewId")),
     name: S.optional(S.String),
     description: S.optional(S.String),
     dnssecValidation: S.optional(S.String),
@@ -359,7 +363,7 @@ export class UpdateDNSViewInput extends S.Class<UpdateDNSViewInput>(
 export class DeleteDNSViewInput extends S.Class<DeleteDNSViewInput>(
   "DeleteDNSViewInput",
 )(
-  { dnsViewId: S.String.pipe(T.HttpLabel()) },
+  { dnsViewId: S.String.pipe(T.HttpLabel("dnsViewId")) },
   T.all(
     T.Http({ method: "DELETE", uri: "/dns-views/{dnsViewId}" }),
     svc,
@@ -375,7 +379,7 @@ export class ListDNSViewsInput extends S.Class<ListDNSViewsInput>(
   {
     maxResults: S.optional(S.Number).pipe(T.HttpQuery("max_results")),
     nextToken: S.optional(S.String).pipe(T.HttpQuery("next_token")),
-    globalResolverId: S.String.pipe(T.HttpLabel()),
+    globalResolverId: S.String.pipe(T.HttpLabel("globalResolverId")),
   },
   T.all(
     T.Http({ method: "GET", uri: "/dns-views/resolver/{globalResolverId}" }),
@@ -389,7 +393,7 @@ export class ListDNSViewsInput extends S.Class<ListDNSViewsInput>(
 export class DisableDNSViewInput extends S.Class<DisableDNSViewInput>(
   "DisableDNSViewInput",
 )(
-  { dnsViewId: S.String.pipe(T.HttpLabel()) },
+  { dnsViewId: S.String.pipe(T.HttpLabel("dnsViewId")) },
   T.all(
     T.Http({ method: "PATCH", uri: "/dns-views/{dnsViewId}/disable" }),
     svc,
@@ -402,7 +406,7 @@ export class DisableDNSViewInput extends S.Class<DisableDNSViewInput>(
 export class EnableDNSViewInput extends S.Class<EnableDNSViewInput>(
   "EnableDNSViewInput",
 )(
-  { dnsViewId: S.String.pipe(T.HttpLabel()) },
+  { dnsViewId: S.String.pipe(T.HttpLabel("dnsViewId")) },
   T.all(
     T.Http({ method: "PATCH", uri: "/dns-views/{dnsViewId}/enable" }),
     svc,
@@ -417,7 +421,7 @@ export class CreateFirewallDomainListInput extends S.Class<CreateFirewallDomainL
 )(
   {
     clientToken: S.optional(S.String),
-    globalResolverId: S.String.pipe(T.HttpLabel()),
+    globalResolverId: S.String.pipe(T.HttpLabel("globalResolverId")),
     description: S.optional(S.String),
     name: S.String,
     tags: S.optional(Tags),
@@ -437,7 +441,7 @@ export class CreateFirewallDomainListInput extends S.Class<CreateFirewallDomainL
 export class GetFirewallDomainListInput extends S.Class<GetFirewallDomainListInput>(
   "GetFirewallDomainListInput",
 )(
-  { firewallDomainListId: S.String.pipe(T.HttpLabel()) },
+  { firewallDomainListId: S.String.pipe(T.HttpLabel("firewallDomainListId")) },
   T.all(
     T.Http({
       method: "GET",
@@ -453,7 +457,7 @@ export class GetFirewallDomainListInput extends S.Class<GetFirewallDomainListInp
 export class DeleteFirewallDomainListInput extends S.Class<DeleteFirewallDomainListInput>(
   "DeleteFirewallDomainListInput",
 )(
-  { firewallDomainListId: S.String.pipe(T.HttpLabel()) },
+  { firewallDomainListId: S.String.pipe(T.HttpLabel("firewallDomainListId")) },
   T.all(
     T.Http({
       method: "DELETE",
@@ -490,7 +494,7 @@ export class ImportFirewallDomainsInput extends S.Class<ImportFirewallDomainsInp
 )(
   {
     domainFileUrl: S.String,
-    firewallDomainListId: S.String.pipe(T.HttpLabel()),
+    firewallDomainListId: S.String.pipe(T.HttpLabel("firewallDomainListId")),
     operation: S.String,
   },
   T.all(
@@ -511,7 +515,7 @@ export class ListFirewallDomainsInput extends S.Class<ListFirewallDomainsInput>(
   {
     maxResults: S.optional(S.Number).pipe(T.HttpQuery("max_results")),
     nextToken: S.optional(S.String).pipe(T.HttpQuery("next_token")),
-    firewallDomainListId: S.String.pipe(T.HttpLabel()),
+    firewallDomainListId: S.String.pipe(T.HttpLabel("firewallDomainListId")),
   },
   T.all(
     T.Http({
@@ -530,7 +534,7 @@ export class UpdateFirewallDomainsInput extends S.Class<UpdateFirewallDomainsInp
 )(
   {
     domains: Domains,
-    firewallDomainListId: S.String.pipe(T.HttpLabel()),
+    firewallDomainListId: S.String.pipe(T.HttpLabel("firewallDomainListId")),
     operation: S.String,
   },
   T.all(
@@ -576,7 +580,7 @@ export class CreateFirewallRuleInput extends S.Class<CreateFirewallRuleInput>(
 export class GetFirewallRuleInput extends S.Class<GetFirewallRuleInput>(
   "GetFirewallRuleInput",
 )(
-  { firewallRuleId: S.String.pipe(T.HttpLabel()) },
+  { firewallRuleId: S.String.pipe(T.HttpLabel("firewallRuleId")) },
   T.all(
     T.Http({ method: "GET", uri: "/firewall-rules/{firewallRuleId}" }),
     svc,
@@ -599,7 +603,7 @@ export class UpdateFirewallRuleInput extends S.Class<UpdateFirewallRuleInput>(
     confidenceThreshold: S.optional(S.String),
     description: S.optional(S.String),
     dnsAdvancedProtection: S.optional(S.String),
-    firewallRuleId: S.String.pipe(T.HttpLabel()),
+    firewallRuleId: S.String.pipe(T.HttpLabel("firewallRuleId")),
     name: S.optional(S.String),
     priority: S.optional(S.Number),
   },
@@ -615,7 +619,7 @@ export class UpdateFirewallRuleInput extends S.Class<UpdateFirewallRuleInput>(
 export class DeleteFirewallRuleInput extends S.Class<DeleteFirewallRuleInput>(
   "DeleteFirewallRuleInput",
 )(
-  { firewallRuleId: S.String.pipe(T.HttpLabel()) },
+  { firewallRuleId: S.String.pipe(T.HttpLabel("firewallRuleId")) },
   T.all(
     T.Http({ method: "DELETE", uri: "/firewall-rules/{firewallRuleId}" }),
     svc,
@@ -666,7 +670,7 @@ export class CreateGlobalResolverInput extends S.Class<CreateGlobalResolverInput
 export class GetGlobalResolverInput extends S.Class<GetGlobalResolverInput>(
   "GetGlobalResolverInput",
 )(
-  { globalResolverId: S.String.pipe(T.HttpLabel()) },
+  { globalResolverId: S.String.pipe(T.HttpLabel("globalResolverId")) },
   T.all(
     T.Http({ method: "GET", uri: "/global-resolver/{globalResolverId}" }),
     svc,
@@ -680,7 +684,7 @@ export class UpdateGlobalResolverInput extends S.Class<UpdateGlobalResolverInput
   "UpdateGlobalResolverInput",
 )(
   {
-    globalResolverId: S.String.pipe(T.HttpLabel()),
+    globalResolverId: S.String.pipe(T.HttpLabel("globalResolverId")),
     name: S.optional(S.String),
     observabilityRegion: S.optional(S.String),
     description: S.optional(S.String),
@@ -697,7 +701,7 @@ export class UpdateGlobalResolverInput extends S.Class<UpdateGlobalResolverInput
 export class DeleteGlobalResolverInput extends S.Class<DeleteGlobalResolverInput>(
   "DeleteGlobalResolverInput",
 )(
-  { globalResolverId: S.String.pipe(T.HttpLabel()) },
+  { globalResolverId: S.String.pipe(T.HttpLabel("globalResolverId")) },
   T.all(
     T.Http({ method: "DELETE", uri: "/global-resolver/{globalResolverId}" }),
     svc,
@@ -727,7 +731,7 @@ export class AssociateHostedZoneInput extends S.Class<AssociateHostedZoneInput>(
   "AssociateHostedZoneInput",
 )(
   {
-    hostedZoneId: S.String.pipe(T.HttpLabel()),
+    hostedZoneId: S.String.pipe(T.HttpLabel("hostedZoneId")),
     resourceArn: S.String,
     name: S.String,
   },
@@ -743,7 +747,11 @@ export class AssociateHostedZoneInput extends S.Class<AssociateHostedZoneInput>(
 export class GetHostedZoneAssociationInput extends S.Class<GetHostedZoneAssociationInput>(
   "GetHostedZoneAssociationInput",
 )(
-  { hostedZoneAssociationId: S.String.pipe(T.HttpLabel()) },
+  {
+    hostedZoneAssociationId: S.String.pipe(
+      T.HttpLabel("hostedZoneAssociationId"),
+    ),
+  },
   T.all(
     T.Http({
       method: "GET",
@@ -760,7 +768,9 @@ export class UpdateHostedZoneAssociationInput extends S.Class<UpdateHostedZoneAs
   "UpdateHostedZoneAssociationInput",
 )(
   {
-    hostedZoneAssociationId: S.String.pipe(T.HttpLabel()),
+    hostedZoneAssociationId: S.String.pipe(
+      T.HttpLabel("hostedZoneAssociationId"),
+    ),
     name: S.optional(S.String),
   },
   T.all(
@@ -781,7 +791,7 @@ export class ListHostedZoneAssociationsInput extends S.Class<ListHostedZoneAssoc
   {
     maxResults: S.optional(S.Number).pipe(T.HttpQuery("max_results")),
     nextToken: S.optional(S.String).pipe(T.HttpQuery("next_token")),
-    resourceArn: S.String.pipe(T.HttpLabel()),
+    resourceArn: S.String.pipe(T.HttpLabel("resourceArn")),
   },
   T.all(
     T.Http({
@@ -798,7 +808,11 @@ export class ListHostedZoneAssociationsInput extends S.Class<ListHostedZoneAssoc
 export class GetManagedFirewallDomainListInput extends S.Class<GetManagedFirewallDomainListInput>(
   "GetManagedFirewallDomainListInput",
 )(
-  { managedFirewallDomainListId: S.String.pipe(T.HttpLabel()) },
+  {
+    managedFirewallDomainListId: S.String.pipe(
+      T.HttpLabel("managedFirewallDomainListId"),
+    ),
+  },
   T.all(
     T.Http({
       method: "GET",
@@ -817,7 +831,9 @@ export class ListManagedFirewallDomainListsInput extends S.Class<ListManagedFire
   {
     maxResults: S.optional(S.Number).pipe(T.HttpQuery("max_results")),
     nextToken: S.optional(S.String).pipe(T.HttpQuery("next_token")),
-    managedFirewallDomainListType: S.String.pipe(T.HttpLabel()),
+    managedFirewallDomainListType: S.String.pipe(
+      T.HttpLabel("managedFirewallDomainListType"),
+    ),
   },
   T.all(
     T.Http({
@@ -1693,7 +1709,8 @@ export class InternalServerException extends S.TaggedError<InternalServerExcepti
     message: S.String,
     retryAfterSeconds: S.optional(S.Number).pipe(T.HttpHeader("Retry-After")),
   },
-) {}
+  T.Retryable(),
+).pipe(withCategory(ERROR_CATEGORIES.SERVER_ERROR)) {}
 export class ThrottlingException extends S.TaggedError<ThrottlingException>()(
   "ThrottlingException",
   {
@@ -1702,7 +1719,8 @@ export class ThrottlingException extends S.TaggedError<ThrottlingException>()(
     quotaCode: S.optional(S.String),
     retryAfterSeconds: S.optional(S.Number).pipe(T.HttpHeader("Retry-After")),
   },
-) {}
+  T.Retryable({ throttling: true }),
+).pipe(withCategory(ERROR_CATEGORIES.THROTTLING_ERROR)) {}
 
 //# Operations
 /**

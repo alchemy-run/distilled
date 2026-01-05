@@ -1,6 +1,7 @@
 import * as S from "effect/Schema";
 import * as API from "../api.ts";
 import * as T from "../traits.ts";
+import { ERROR_CATEGORIES, withCategory } from "../error-category.ts";
 const svc = T.AwsApiService({
   sdkId: "Chime SDK Media Pipelines",
   serviceShapeName: "ChimeSDKMediaPipelinesService",
@@ -245,7 +246,7 @@ export const TagKeyList = S.Array(S.String);
 export class DeleteMediaCapturePipelineRequest extends S.Class<DeleteMediaCapturePipelineRequest>(
   "DeleteMediaCapturePipelineRequest",
 )(
-  { MediaPipelineId: S.String.pipe(T.HttpLabel()) },
+  { MediaPipelineId: S.String.pipe(T.HttpLabel("MediaPipelineId")) },
   T.all(
     T.Http({
       method: "DELETE",
@@ -264,7 +265,7 @@ export class DeleteMediaCapturePipelineResponse extends S.Class<DeleteMediaCaptu
 export class DeleteMediaInsightsPipelineConfigurationRequest extends S.Class<DeleteMediaInsightsPipelineConfigurationRequest>(
   "DeleteMediaInsightsPipelineConfigurationRequest",
 )(
-  { Identifier: S.String.pipe(T.HttpLabel()) },
+  { Identifier: S.String.pipe(T.HttpLabel("Identifier")) },
   T.all(
     T.Http({
       method: "DELETE",
@@ -283,7 +284,7 @@ export class DeleteMediaInsightsPipelineConfigurationResponse extends S.Class<De
 export class DeleteMediaPipelineRequest extends S.Class<DeleteMediaPipelineRequest>(
   "DeleteMediaPipelineRequest",
 )(
-  { MediaPipelineId: S.String.pipe(T.HttpLabel()) },
+  { MediaPipelineId: S.String.pipe(T.HttpLabel("MediaPipelineId")) },
   T.all(
     T.Http({ method: "DELETE", uri: "/sdk-media-pipelines/{MediaPipelineId}" }),
     svc,
@@ -299,7 +300,7 @@ export class DeleteMediaPipelineResponse extends S.Class<DeleteMediaPipelineResp
 export class DeleteMediaPipelineKinesisVideoStreamPoolRequest extends S.Class<DeleteMediaPipelineKinesisVideoStreamPoolRequest>(
   "DeleteMediaPipelineKinesisVideoStreamPoolRequest",
 )(
-  { Identifier: S.String.pipe(T.HttpLabel()) },
+  { Identifier: S.String.pipe(T.HttpLabel("Identifier")) },
   T.all(
     T.Http({
       method: "DELETE",
@@ -318,7 +319,7 @@ export class DeleteMediaPipelineKinesisVideoStreamPoolResponse extends S.Class<D
 export class GetMediaCapturePipelineRequest extends S.Class<GetMediaCapturePipelineRequest>(
   "GetMediaCapturePipelineRequest",
 )(
-  { MediaPipelineId: S.String.pipe(T.HttpLabel()) },
+  { MediaPipelineId: S.String.pipe(T.HttpLabel("MediaPipelineId")) },
   T.all(
     T.Http({
       method: "GET",
@@ -334,7 +335,7 @@ export class GetMediaCapturePipelineRequest extends S.Class<GetMediaCapturePipel
 export class GetMediaInsightsPipelineConfigurationRequest extends S.Class<GetMediaInsightsPipelineConfigurationRequest>(
   "GetMediaInsightsPipelineConfigurationRequest",
 )(
-  { Identifier: S.String.pipe(T.HttpLabel()) },
+  { Identifier: S.String.pipe(T.HttpLabel("Identifier")) },
   T.all(
     T.Http({
       method: "GET",
@@ -350,7 +351,7 @@ export class GetMediaInsightsPipelineConfigurationRequest extends S.Class<GetMed
 export class GetMediaPipelineRequest extends S.Class<GetMediaPipelineRequest>(
   "GetMediaPipelineRequest",
 )(
-  { MediaPipelineId: S.String.pipe(T.HttpLabel()) },
+  { MediaPipelineId: S.String.pipe(T.HttpLabel("MediaPipelineId")) },
   T.all(
     T.Http({ method: "GET", uri: "/sdk-media-pipelines/{MediaPipelineId}" }),
     svc,
@@ -363,7 +364,7 @@ export class GetMediaPipelineRequest extends S.Class<GetMediaPipelineRequest>(
 export class GetMediaPipelineKinesisVideoStreamPoolRequest extends S.Class<GetMediaPipelineKinesisVideoStreamPoolRequest>(
   "GetMediaPipelineKinesisVideoStreamPoolRequest",
 )(
-  { Identifier: S.String.pipe(T.HttpLabel()) },
+  { Identifier: S.String.pipe(T.HttpLabel("Identifier")) },
   T.all(
     T.Http({
       method: "GET",
@@ -380,8 +381,8 @@ export class GetSpeakerSearchTaskRequest extends S.Class<GetSpeakerSearchTaskReq
   "GetSpeakerSearchTaskRequest",
 )(
   {
-    Identifier: S.String.pipe(T.HttpLabel()),
-    SpeakerSearchTaskId: S.String.pipe(T.HttpLabel()),
+    Identifier: S.String.pipe(T.HttpLabel("Identifier")),
+    SpeakerSearchTaskId: S.String.pipe(T.HttpLabel("SpeakerSearchTaskId")),
   },
   T.all(
     T.Http({
@@ -399,8 +400,10 @@ export class GetVoiceToneAnalysisTaskRequest extends S.Class<GetVoiceToneAnalysi
   "GetVoiceToneAnalysisTaskRequest",
 )(
   {
-    Identifier: S.String.pipe(T.HttpLabel()),
-    VoiceToneAnalysisTaskId: S.String.pipe(T.HttpLabel()),
+    Identifier: S.String.pipe(T.HttpLabel("Identifier")),
+    VoiceToneAnalysisTaskId: S.String.pipe(
+      T.HttpLabel("VoiceToneAnalysisTaskId"),
+    ),
   },
   T.all(
     T.Http({
@@ -498,7 +501,7 @@ export class StartVoiceToneAnalysisTaskRequest extends S.Class<StartVoiceToneAna
   "StartVoiceToneAnalysisTaskRequest",
 )(
   {
-    Identifier: S.String.pipe(T.HttpLabel()),
+    Identifier: S.String.pipe(T.HttpLabel("Identifier")),
     LanguageCode: S.String,
     KinesisVideoStreamSourceTaskConfiguration: S.optional(
       KinesisVideoStreamSourceTaskConfiguration,
@@ -521,8 +524,8 @@ export class StopSpeakerSearchTaskRequest extends S.Class<StopSpeakerSearchTaskR
   "StopSpeakerSearchTaskRequest",
 )(
   {
-    Identifier: S.String.pipe(T.HttpLabel()),
-    SpeakerSearchTaskId: S.String.pipe(T.HttpLabel()),
+    Identifier: S.String.pipe(T.HttpLabel("Identifier")),
+    SpeakerSearchTaskId: S.String.pipe(T.HttpLabel("SpeakerSearchTaskId")),
   },
   T.all(
     T.Http({
@@ -543,8 +546,10 @@ export class StopVoiceToneAnalysisTaskRequest extends S.Class<StopVoiceToneAnaly
   "StopVoiceToneAnalysisTaskRequest",
 )(
   {
-    Identifier: S.String.pipe(T.HttpLabel()),
-    VoiceToneAnalysisTaskId: S.String.pipe(T.HttpLabel()),
+    Identifier: S.String.pipe(T.HttpLabel("Identifier")),
+    VoiceToneAnalysisTaskId: S.String.pipe(
+      T.HttpLabel("VoiceToneAnalysisTaskId"),
+    ),
   },
   T.all(
     T.Http({
@@ -733,7 +738,7 @@ export class UpdateMediaInsightsPipelineConfigurationRequest extends S.Class<Upd
   "UpdateMediaInsightsPipelineConfigurationRequest",
 )(
   {
-    Identifier: S.String.pipe(T.HttpLabel()),
+    Identifier: S.String.pipe(T.HttpLabel("Identifier")),
     ResourceAccessRoleArn: S.String,
     RealTimeAlertConfiguration: S.optional(RealTimeAlertConfiguration),
     Elements: MediaInsightsPipelineConfigurationElements,
@@ -753,7 +758,10 @@ export class UpdateMediaInsightsPipelineConfigurationRequest extends S.Class<Upd
 export class UpdateMediaInsightsPipelineStatusRequest extends S.Class<UpdateMediaInsightsPipelineStatusRequest>(
   "UpdateMediaInsightsPipelineStatusRequest",
 )(
-  { Identifier: S.String.pipe(T.HttpLabel()), UpdateStatus: S.String },
+  {
+    Identifier: S.String.pipe(T.HttpLabel("Identifier")),
+    UpdateStatus: S.String,
+  },
   T.all(
     T.Http({
       method: "PUT",
@@ -844,7 +852,7 @@ export class StartSpeakerSearchTaskRequest extends S.Class<StartSpeakerSearchTas
   "StartSpeakerSearchTaskRequest",
 )(
   {
-    Identifier: S.String.pipe(T.HttpLabel()),
+    Identifier: S.String.pipe(T.HttpLabel("Identifier")),
     VoiceProfileDomainArn: S.String,
     KinesisVideoStreamSourceTaskConfiguration: S.optional(
       KinesisVideoStreamSourceTaskConfiguration,
@@ -897,7 +905,7 @@ export class UpdateMediaPipelineKinesisVideoStreamPoolRequest extends S.Class<Up
   "UpdateMediaPipelineKinesisVideoStreamPoolRequest",
 )(
   {
-    Identifier: S.String.pipe(T.HttpLabel()),
+    Identifier: S.String.pipe(T.HttpLabel("Identifier")),
     StreamConfiguration: S.optional(KinesisVideoStreamConfigurationUpdate),
   },
   T.all(
@@ -1496,7 +1504,7 @@ export class ServiceFailureException extends S.TaggedError<ServiceFailureExcepti
     Message: S.optional(S.String),
     RequestId: S.optional(S.String),
   },
-) {}
+).pipe(withCategory(ERROR_CATEGORIES.SERVER_ERROR)) {}
 export class ServiceUnavailableException extends S.TaggedError<ServiceUnavailableException>()(
   "ServiceUnavailableException",
   {
@@ -1504,7 +1512,7 @@ export class ServiceUnavailableException extends S.TaggedError<ServiceUnavailabl
     Message: S.optional(S.String),
     RequestId: S.optional(S.String),
   },
-) {}
+).pipe(withCategory(ERROR_CATEGORIES.SERVER_ERROR)) {}
 export class ThrottledClientException extends S.TaggedError<ThrottledClientException>()(
   "ThrottledClientException",
   {
@@ -1512,7 +1520,7 @@ export class ThrottledClientException extends S.TaggedError<ThrottledClientExcep
     Message: S.optional(S.String),
     RequestId: S.optional(S.String),
   },
-) {}
+).pipe(withCategory(ERROR_CATEGORIES.THROTTLING_ERROR)) {}
 export class UnauthorizedClientException extends S.TaggedError<UnauthorizedClientException>()(
   "UnauthorizedClientException",
   {

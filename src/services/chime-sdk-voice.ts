@@ -1,6 +1,7 @@
 import * as S from "effect/Schema";
 import * as API from "../api.ts";
 import * as T from "../traits.ts";
+import { ERROR_CATEGORIES, withCategory } from "../error-category.ts";
 const svc = T.AwsApiService({
   sdkId: "Chime SDK Voice",
   serviceShapeName: "ChimeSDKTelephonyService",
@@ -325,7 +326,7 @@ export class AssociatePhoneNumbersWithVoiceConnectorRequest extends S.Class<Asso
   "AssociatePhoneNumbersWithVoiceConnectorRequest",
 )(
   {
-    VoiceConnectorId: S.String.pipe(T.HttpLabel()),
+    VoiceConnectorId: S.String.pipe(T.HttpLabel("VoiceConnectorId")),
     E164PhoneNumbers: E164PhoneNumberList,
     ForceAssociate: S.optional(S.Boolean),
   },
@@ -345,7 +346,7 @@ export class AssociatePhoneNumbersWithVoiceConnectorGroupRequest extends S.Class
   "AssociatePhoneNumbersWithVoiceConnectorGroupRequest",
 )(
   {
-    VoiceConnectorGroupId: S.String.pipe(T.HttpLabel()),
+    VoiceConnectorGroupId: S.String.pipe(T.HttpLabel("VoiceConnectorGroupId")),
     E164PhoneNumbers: E164PhoneNumberList,
     ForceAssociate: S.optional(S.Boolean),
   },
@@ -432,7 +433,7 @@ export class CreateVoiceProfileRequest extends S.Class<CreateVoiceProfileRequest
 export class DeletePhoneNumberRequest extends S.Class<DeletePhoneNumberRequest>(
   "DeletePhoneNumberRequest",
 )(
-  { PhoneNumberId: S.String.pipe(T.HttpLabel()) },
+  { PhoneNumberId: S.String.pipe(T.HttpLabel("PhoneNumberId")) },
   T.all(
     T.Http({ method: "DELETE", uri: "/phone-numbers/{PhoneNumberId}" }),
     svc,
@@ -449,8 +450,8 @@ export class DeleteProxySessionRequest extends S.Class<DeleteProxySessionRequest
   "DeleteProxySessionRequest",
 )(
   {
-    VoiceConnectorId: S.String.pipe(T.HttpLabel()),
-    ProxySessionId: S.String.pipe(T.HttpLabel()),
+    VoiceConnectorId: S.String.pipe(T.HttpLabel("VoiceConnectorId")),
+    ProxySessionId: S.String.pipe(T.HttpLabel("ProxySessionId")),
   },
   T.all(
     T.Http({
@@ -470,7 +471,9 @@ export class DeleteProxySessionResponse extends S.Class<DeleteProxySessionRespon
 export class DeleteSipMediaApplicationRequest extends S.Class<DeleteSipMediaApplicationRequest>(
   "DeleteSipMediaApplicationRequest",
 )(
-  { SipMediaApplicationId: S.String.pipe(T.HttpLabel()) },
+  {
+    SipMediaApplicationId: S.String.pipe(T.HttpLabel("SipMediaApplicationId")),
+  },
   T.all(
     T.Http({
       method: "DELETE",
@@ -489,7 +492,7 @@ export class DeleteSipMediaApplicationResponse extends S.Class<DeleteSipMediaApp
 export class DeleteSipRuleRequest extends S.Class<DeleteSipRuleRequest>(
   "DeleteSipRuleRequest",
 )(
-  { SipRuleId: S.String.pipe(T.HttpLabel()) },
+  { SipRuleId: S.String.pipe(T.HttpLabel("SipRuleId")) },
   T.all(
     T.Http({ method: "DELETE", uri: "/sip-rules/{SipRuleId}" }),
     svc,
@@ -505,7 +508,7 @@ export class DeleteSipRuleResponse extends S.Class<DeleteSipRuleResponse>(
 export class DeleteVoiceConnectorRequest extends S.Class<DeleteVoiceConnectorRequest>(
   "DeleteVoiceConnectorRequest",
 )(
-  { VoiceConnectorId: S.String.pipe(T.HttpLabel()) },
+  { VoiceConnectorId: S.String.pipe(T.HttpLabel("VoiceConnectorId")) },
   T.all(
     T.Http({ method: "DELETE", uri: "/voice-connectors/{VoiceConnectorId}" }),
     svc,
@@ -521,7 +524,7 @@ export class DeleteVoiceConnectorResponse extends S.Class<DeleteVoiceConnectorRe
 export class DeleteVoiceConnectorEmergencyCallingConfigurationRequest extends S.Class<DeleteVoiceConnectorEmergencyCallingConfigurationRequest>(
   "DeleteVoiceConnectorEmergencyCallingConfigurationRequest",
 )(
-  { VoiceConnectorId: S.String.pipe(T.HttpLabel()) },
+  { VoiceConnectorId: S.String.pipe(T.HttpLabel("VoiceConnectorId")) },
   T.all(
     T.Http({
       method: "DELETE",
@@ -540,7 +543,7 @@ export class DeleteVoiceConnectorEmergencyCallingConfigurationResponse extends S
 export class DeleteVoiceConnectorExternalSystemsConfigurationRequest extends S.Class<DeleteVoiceConnectorExternalSystemsConfigurationRequest>(
   "DeleteVoiceConnectorExternalSystemsConfigurationRequest",
 )(
-  { VoiceConnectorId: S.String.pipe(T.HttpLabel()) },
+  { VoiceConnectorId: S.String.pipe(T.HttpLabel("VoiceConnectorId")) },
   T.all(
     T.Http({
       method: "DELETE",
@@ -559,7 +562,9 @@ export class DeleteVoiceConnectorExternalSystemsConfigurationResponse extends S.
 export class DeleteVoiceConnectorGroupRequest extends S.Class<DeleteVoiceConnectorGroupRequest>(
   "DeleteVoiceConnectorGroupRequest",
 )(
-  { VoiceConnectorGroupId: S.String.pipe(T.HttpLabel()) },
+  {
+    VoiceConnectorGroupId: S.String.pipe(T.HttpLabel("VoiceConnectorGroupId")),
+  },
   T.all(
     T.Http({
       method: "DELETE",
@@ -578,7 +583,7 @@ export class DeleteVoiceConnectorGroupResponse extends S.Class<DeleteVoiceConnec
 export class DeleteVoiceConnectorOriginationRequest extends S.Class<DeleteVoiceConnectorOriginationRequest>(
   "DeleteVoiceConnectorOriginationRequest",
 )(
-  { VoiceConnectorId: S.String.pipe(T.HttpLabel()) },
+  { VoiceConnectorId: S.String.pipe(T.HttpLabel("VoiceConnectorId")) },
   T.all(
     T.Http({
       method: "DELETE",
@@ -597,7 +602,7 @@ export class DeleteVoiceConnectorOriginationResponse extends S.Class<DeleteVoice
 export class DeleteVoiceConnectorProxyRequest extends S.Class<DeleteVoiceConnectorProxyRequest>(
   "DeleteVoiceConnectorProxyRequest",
 )(
-  { VoiceConnectorId: S.String.pipe(T.HttpLabel()) },
+  { VoiceConnectorId: S.String.pipe(T.HttpLabel("VoiceConnectorId")) },
   T.all(
     T.Http({
       method: "DELETE",
@@ -616,7 +621,7 @@ export class DeleteVoiceConnectorProxyResponse extends S.Class<DeleteVoiceConnec
 export class DeleteVoiceConnectorStreamingConfigurationRequest extends S.Class<DeleteVoiceConnectorStreamingConfigurationRequest>(
   "DeleteVoiceConnectorStreamingConfigurationRequest",
 )(
-  { VoiceConnectorId: S.String.pipe(T.HttpLabel()) },
+  { VoiceConnectorId: S.String.pipe(T.HttpLabel("VoiceConnectorId")) },
   T.all(
     T.Http({
       method: "DELETE",
@@ -635,7 +640,7 @@ export class DeleteVoiceConnectorStreamingConfigurationResponse extends S.Class<
 export class DeleteVoiceConnectorTerminationRequest extends S.Class<DeleteVoiceConnectorTerminationRequest>(
   "DeleteVoiceConnectorTerminationRequest",
 )(
-  { VoiceConnectorId: S.String.pipe(T.HttpLabel()) },
+  { VoiceConnectorId: S.String.pipe(T.HttpLabel("VoiceConnectorId")) },
   T.all(
     T.Http({
       method: "DELETE",
@@ -655,7 +660,7 @@ export class DeleteVoiceConnectorTerminationCredentialsRequest extends S.Class<D
   "DeleteVoiceConnectorTerminationCredentialsRequest",
 )(
   {
-    VoiceConnectorId: S.String.pipe(T.HttpLabel()),
+    VoiceConnectorId: S.String.pipe(T.HttpLabel("VoiceConnectorId")),
     Usernames: SensitiveStringList,
   },
   T.all(
@@ -676,7 +681,7 @@ export class DeleteVoiceConnectorTerminationCredentialsResponse extends S.Class<
 export class DeleteVoiceProfileRequest extends S.Class<DeleteVoiceProfileRequest>(
   "DeleteVoiceProfileRequest",
 )(
-  { VoiceProfileId: S.String.pipe(T.HttpLabel()) },
+  { VoiceProfileId: S.String.pipe(T.HttpLabel("VoiceProfileId")) },
   T.all(
     T.Http({ method: "DELETE", uri: "/voice-profiles/{VoiceProfileId}" }),
     svc,
@@ -692,7 +697,7 @@ export class DeleteVoiceProfileResponse extends S.Class<DeleteVoiceProfileRespon
 export class DeleteVoiceProfileDomainRequest extends S.Class<DeleteVoiceProfileDomainRequest>(
   "DeleteVoiceProfileDomainRequest",
 )(
-  { VoiceProfileDomainId: S.String.pipe(T.HttpLabel()) },
+  { VoiceProfileDomainId: S.String.pipe(T.HttpLabel("VoiceProfileDomainId")) },
   T.all(
     T.Http({
       method: "DELETE",
@@ -712,7 +717,7 @@ export class DisassociatePhoneNumbersFromVoiceConnectorRequest extends S.Class<D
   "DisassociatePhoneNumbersFromVoiceConnectorRequest",
 )(
   {
-    VoiceConnectorId: S.String.pipe(T.HttpLabel()),
+    VoiceConnectorId: S.String.pipe(T.HttpLabel("VoiceConnectorId")),
     E164PhoneNumbers: E164PhoneNumberList,
   },
   T.all(
@@ -731,7 +736,7 @@ export class DisassociatePhoneNumbersFromVoiceConnectorGroupRequest extends S.Cl
   "DisassociatePhoneNumbersFromVoiceConnectorGroupRequest",
 )(
   {
-    VoiceConnectorGroupId: S.String.pipe(T.HttpLabel()),
+    VoiceConnectorGroupId: S.String.pipe(T.HttpLabel("VoiceConnectorGroupId")),
     E164PhoneNumbers: E164PhoneNumberList,
   },
   T.all(
@@ -749,7 +754,7 @@ export class DisassociatePhoneNumbersFromVoiceConnectorGroupRequest extends S.Cl
 export class GetPhoneNumberRequest extends S.Class<GetPhoneNumberRequest>(
   "GetPhoneNumberRequest",
 )(
-  { PhoneNumberId: S.String.pipe(T.HttpLabel()) },
+  { PhoneNumberId: S.String.pipe(T.HttpLabel("PhoneNumberId")) },
   T.all(
     T.Http({ method: "GET", uri: "/phone-numbers/{PhoneNumberId}" }),
     svc,
@@ -762,7 +767,7 @@ export class GetPhoneNumberRequest extends S.Class<GetPhoneNumberRequest>(
 export class GetPhoneNumberOrderRequest extends S.Class<GetPhoneNumberOrderRequest>(
   "GetPhoneNumberOrderRequest",
 )(
-  { PhoneNumberOrderId: S.String.pipe(T.HttpLabel()) },
+  { PhoneNumberOrderId: S.String.pipe(T.HttpLabel("PhoneNumberOrderId")) },
   T.all(
     T.Http({ method: "GET", uri: "/phone-number-orders/{PhoneNumberOrderId}" }),
     svc,
@@ -784,8 +789,8 @@ export class GetProxySessionRequest extends S.Class<GetProxySessionRequest>(
   "GetProxySessionRequest",
 )(
   {
-    VoiceConnectorId: S.String.pipe(T.HttpLabel()),
-    ProxySessionId: S.String.pipe(T.HttpLabel()),
+    VoiceConnectorId: S.String.pipe(T.HttpLabel("VoiceConnectorId")),
+    ProxySessionId: S.String.pipe(T.HttpLabel("ProxySessionId")),
   },
   T.all(
     T.Http({
@@ -802,7 +807,9 @@ export class GetProxySessionRequest extends S.Class<GetProxySessionRequest>(
 export class GetSipMediaApplicationRequest extends S.Class<GetSipMediaApplicationRequest>(
   "GetSipMediaApplicationRequest",
 )(
-  { SipMediaApplicationId: S.String.pipe(T.HttpLabel()) },
+  {
+    SipMediaApplicationId: S.String.pipe(T.HttpLabel("SipMediaApplicationId")),
+  },
   T.all(
     T.Http({
       method: "GET",
@@ -818,7 +825,9 @@ export class GetSipMediaApplicationRequest extends S.Class<GetSipMediaApplicatio
 export class GetSipMediaApplicationAlexaSkillConfigurationRequest extends S.Class<GetSipMediaApplicationAlexaSkillConfigurationRequest>(
   "GetSipMediaApplicationAlexaSkillConfigurationRequest",
 )(
-  { SipMediaApplicationId: S.String.pipe(T.HttpLabel()) },
+  {
+    SipMediaApplicationId: S.String.pipe(T.HttpLabel("SipMediaApplicationId")),
+  },
   T.all(
     T.Http({
       method: "GET",
@@ -834,7 +843,9 @@ export class GetSipMediaApplicationAlexaSkillConfigurationRequest extends S.Clas
 export class GetSipMediaApplicationLoggingConfigurationRequest extends S.Class<GetSipMediaApplicationLoggingConfigurationRequest>(
   "GetSipMediaApplicationLoggingConfigurationRequest",
 )(
-  { SipMediaApplicationId: S.String.pipe(T.HttpLabel()) },
+  {
+    SipMediaApplicationId: S.String.pipe(T.HttpLabel("SipMediaApplicationId")),
+  },
   T.all(
     T.Http({
       method: "GET",
@@ -850,7 +861,7 @@ export class GetSipMediaApplicationLoggingConfigurationRequest extends S.Class<G
 export class GetSipRuleRequest extends S.Class<GetSipRuleRequest>(
   "GetSipRuleRequest",
 )(
-  { SipRuleId: S.String.pipe(T.HttpLabel()) },
+  { SipRuleId: S.String.pipe(T.HttpLabel("SipRuleId")) },
   T.all(
     T.Http({ method: "GET", uri: "/sip-rules/{SipRuleId}" }),
     svc,
@@ -864,8 +875,8 @@ export class GetSpeakerSearchTaskRequest extends S.Class<GetSpeakerSearchTaskReq
   "GetSpeakerSearchTaskRequest",
 )(
   {
-    VoiceConnectorId: S.String.pipe(T.HttpLabel()),
-    SpeakerSearchTaskId: S.String.pipe(T.HttpLabel()),
+    VoiceConnectorId: S.String.pipe(T.HttpLabel("VoiceConnectorId")),
+    SpeakerSearchTaskId: S.String.pipe(T.HttpLabel("SpeakerSearchTaskId")),
   },
   T.all(
     T.Http({
@@ -882,7 +893,7 @@ export class GetSpeakerSearchTaskRequest extends S.Class<GetSpeakerSearchTaskReq
 export class GetVoiceConnectorRequest extends S.Class<GetVoiceConnectorRequest>(
   "GetVoiceConnectorRequest",
 )(
-  { VoiceConnectorId: S.String.pipe(T.HttpLabel()) },
+  { VoiceConnectorId: S.String.pipe(T.HttpLabel("VoiceConnectorId")) },
   T.all(
     T.Http({ method: "GET", uri: "/voice-connectors/{VoiceConnectorId}" }),
     svc,
@@ -895,7 +906,7 @@ export class GetVoiceConnectorRequest extends S.Class<GetVoiceConnectorRequest>(
 export class GetVoiceConnectorEmergencyCallingConfigurationRequest extends S.Class<GetVoiceConnectorEmergencyCallingConfigurationRequest>(
   "GetVoiceConnectorEmergencyCallingConfigurationRequest",
 )(
-  { VoiceConnectorId: S.String.pipe(T.HttpLabel()) },
+  { VoiceConnectorId: S.String.pipe(T.HttpLabel("VoiceConnectorId")) },
   T.all(
     T.Http({
       method: "GET",
@@ -911,7 +922,7 @@ export class GetVoiceConnectorEmergencyCallingConfigurationRequest extends S.Cla
 export class GetVoiceConnectorExternalSystemsConfigurationRequest extends S.Class<GetVoiceConnectorExternalSystemsConfigurationRequest>(
   "GetVoiceConnectorExternalSystemsConfigurationRequest",
 )(
-  { VoiceConnectorId: S.String.pipe(T.HttpLabel()) },
+  { VoiceConnectorId: S.String.pipe(T.HttpLabel("VoiceConnectorId")) },
   T.all(
     T.Http({
       method: "GET",
@@ -927,7 +938,9 @@ export class GetVoiceConnectorExternalSystemsConfigurationRequest extends S.Clas
 export class GetVoiceConnectorGroupRequest extends S.Class<GetVoiceConnectorGroupRequest>(
   "GetVoiceConnectorGroupRequest",
 )(
-  { VoiceConnectorGroupId: S.String.pipe(T.HttpLabel()) },
+  {
+    VoiceConnectorGroupId: S.String.pipe(T.HttpLabel("VoiceConnectorGroupId")),
+  },
   T.all(
     T.Http({
       method: "GET",
@@ -943,7 +956,7 @@ export class GetVoiceConnectorGroupRequest extends S.Class<GetVoiceConnectorGrou
 export class GetVoiceConnectorLoggingConfigurationRequest extends S.Class<GetVoiceConnectorLoggingConfigurationRequest>(
   "GetVoiceConnectorLoggingConfigurationRequest",
 )(
-  { VoiceConnectorId: S.String.pipe(T.HttpLabel()) },
+  { VoiceConnectorId: S.String.pipe(T.HttpLabel("VoiceConnectorId")) },
   T.all(
     T.Http({
       method: "GET",
@@ -959,7 +972,7 @@ export class GetVoiceConnectorLoggingConfigurationRequest extends S.Class<GetVoi
 export class GetVoiceConnectorOriginationRequest extends S.Class<GetVoiceConnectorOriginationRequest>(
   "GetVoiceConnectorOriginationRequest",
 )(
-  { VoiceConnectorId: S.String.pipe(T.HttpLabel()) },
+  { VoiceConnectorId: S.String.pipe(T.HttpLabel("VoiceConnectorId")) },
   T.all(
     T.Http({
       method: "GET",
@@ -975,7 +988,7 @@ export class GetVoiceConnectorOriginationRequest extends S.Class<GetVoiceConnect
 export class GetVoiceConnectorProxyRequest extends S.Class<GetVoiceConnectorProxyRequest>(
   "GetVoiceConnectorProxyRequest",
 )(
-  { VoiceConnectorId: S.String.pipe(T.HttpLabel()) },
+  { VoiceConnectorId: S.String.pipe(T.HttpLabel("VoiceConnectorId")) },
   T.all(
     T.Http({
       method: "GET",
@@ -991,7 +1004,7 @@ export class GetVoiceConnectorProxyRequest extends S.Class<GetVoiceConnectorProx
 export class GetVoiceConnectorStreamingConfigurationRequest extends S.Class<GetVoiceConnectorStreamingConfigurationRequest>(
   "GetVoiceConnectorStreamingConfigurationRequest",
 )(
-  { VoiceConnectorId: S.String.pipe(T.HttpLabel()) },
+  { VoiceConnectorId: S.String.pipe(T.HttpLabel("VoiceConnectorId")) },
   T.all(
     T.Http({
       method: "GET",
@@ -1007,7 +1020,7 @@ export class GetVoiceConnectorStreamingConfigurationRequest extends S.Class<GetV
 export class GetVoiceConnectorTerminationRequest extends S.Class<GetVoiceConnectorTerminationRequest>(
   "GetVoiceConnectorTerminationRequest",
 )(
-  { VoiceConnectorId: S.String.pipe(T.HttpLabel()) },
+  { VoiceConnectorId: S.String.pipe(T.HttpLabel("VoiceConnectorId")) },
   T.all(
     T.Http({
       method: "GET",
@@ -1023,7 +1036,7 @@ export class GetVoiceConnectorTerminationRequest extends S.Class<GetVoiceConnect
 export class GetVoiceConnectorTerminationHealthRequest extends S.Class<GetVoiceConnectorTerminationHealthRequest>(
   "GetVoiceConnectorTerminationHealthRequest",
 )(
-  { VoiceConnectorId: S.String.pipe(T.HttpLabel()) },
+  { VoiceConnectorId: S.String.pipe(T.HttpLabel("VoiceConnectorId")) },
   T.all(
     T.Http({
       method: "GET",
@@ -1039,7 +1052,7 @@ export class GetVoiceConnectorTerminationHealthRequest extends S.Class<GetVoiceC
 export class GetVoiceProfileRequest extends S.Class<GetVoiceProfileRequest>(
   "GetVoiceProfileRequest",
 )(
-  { VoiceProfileId: S.String.pipe(T.HttpLabel()) },
+  { VoiceProfileId: S.String.pipe(T.HttpLabel("VoiceProfileId")) },
   T.all(
     T.Http({ method: "GET", uri: "/voice-profiles/{VoiceProfileId}" }),
     svc,
@@ -1052,7 +1065,7 @@ export class GetVoiceProfileRequest extends S.Class<GetVoiceProfileRequest>(
 export class GetVoiceProfileDomainRequest extends S.Class<GetVoiceProfileDomainRequest>(
   "GetVoiceProfileDomainRequest",
 )(
-  { VoiceProfileDomainId: S.String.pipe(T.HttpLabel()) },
+  { VoiceProfileDomainId: S.String.pipe(T.HttpLabel("VoiceProfileDomainId")) },
   T.all(
     T.Http({
       method: "GET",
@@ -1069,8 +1082,10 @@ export class GetVoiceToneAnalysisTaskRequest extends S.Class<GetVoiceToneAnalysi
   "GetVoiceToneAnalysisTaskRequest",
 )(
   {
-    VoiceConnectorId: S.String.pipe(T.HttpLabel()),
-    VoiceToneAnalysisTaskId: S.String.pipe(T.HttpLabel()),
+    VoiceConnectorId: S.String.pipe(T.HttpLabel("VoiceConnectorId")),
+    VoiceToneAnalysisTaskId: S.String.pipe(
+      T.HttpLabel("VoiceToneAnalysisTaskId"),
+    ),
     IsCaller: S.Boolean.pipe(T.HttpQuery("isCaller")),
   },
   T.all(
@@ -1128,7 +1143,7 @@ export class ListProxySessionsRequest extends S.Class<ListProxySessionsRequest>(
   "ListProxySessionsRequest",
 )(
   {
-    VoiceConnectorId: S.String.pipe(T.HttpLabel()),
+    VoiceConnectorId: S.String.pipe(T.HttpLabel("VoiceConnectorId")),
     Status: S.optional(S.String).pipe(T.HttpQuery("status")),
     NextToken: S.optional(S.String).pipe(T.HttpQuery("next-token")),
     MaxResults: S.optional(S.Number).pipe(T.HttpQuery("max-results")),
@@ -1234,7 +1249,7 @@ export class ListVoiceConnectorsRequest extends S.Class<ListVoiceConnectorsReque
 export class ListVoiceConnectorTerminationCredentialsRequest extends S.Class<ListVoiceConnectorTerminationCredentialsRequest>(
   "ListVoiceConnectorTerminationCredentialsRequest",
 )(
-  { VoiceConnectorId: S.String.pipe(T.HttpLabel()) },
+  { VoiceConnectorId: S.String.pipe(T.HttpLabel("VoiceConnectorId")) },
   T.all(
     T.Http({
       method: "GET",
@@ -1284,7 +1299,7 @@ export class PutVoiceConnectorExternalSystemsConfigurationRequest extends S.Clas
   "PutVoiceConnectorExternalSystemsConfigurationRequest",
 )(
   {
-    VoiceConnectorId: S.String.pipe(T.HttpLabel()),
+    VoiceConnectorId: S.String.pipe(T.HttpLabel("VoiceConnectorId")),
     SessionBorderControllerTypes: S.optional(SessionBorderControllerTypeList),
     ContactCenterSystemTypes: S.optional(ContactCenterSystemTypeList),
   },
@@ -1304,7 +1319,7 @@ export class PutVoiceConnectorProxyRequest extends S.Class<PutVoiceConnectorProx
   "PutVoiceConnectorProxyRequest",
 )(
   {
-    VoiceConnectorId: S.String.pipe(T.HttpLabel()),
+    VoiceConnectorId: S.String.pipe(T.HttpLabel("VoiceConnectorId")),
     DefaultSessionExpiryMinutes: S.Number,
     PhoneNumberPoolCountries: CountryList,
     FallBackPhoneNumber: S.optional(S.String),
@@ -1325,7 +1340,7 @@ export class PutVoiceConnectorProxyRequest extends S.Class<PutVoiceConnectorProx
 export class RestorePhoneNumberRequest extends S.Class<RestorePhoneNumberRequest>(
   "RestorePhoneNumberRequest",
 )(
-  { PhoneNumberId: S.String.pipe(T.HttpLabel()) },
+  { PhoneNumberId: S.String.pipe(T.HttpLabel("PhoneNumberId")) },
   T.all(
     T.Http({
       method: "POST",
@@ -1366,7 +1381,7 @@ export class StartSpeakerSearchTaskRequest extends S.Class<StartSpeakerSearchTas
   "StartSpeakerSearchTaskRequest",
 )(
   {
-    VoiceConnectorId: S.String.pipe(T.HttpLabel()),
+    VoiceConnectorId: S.String.pipe(T.HttpLabel("VoiceConnectorId")),
     TransactionId: S.String,
     VoiceProfileDomainId: S.String,
     ClientRequestToken: S.optional(S.String),
@@ -1388,7 +1403,7 @@ export class StartVoiceToneAnalysisTaskRequest extends S.Class<StartVoiceToneAna
   "StartVoiceToneAnalysisTaskRequest",
 )(
   {
-    VoiceConnectorId: S.String.pipe(T.HttpLabel()),
+    VoiceConnectorId: S.String.pipe(T.HttpLabel("VoiceConnectorId")),
     TransactionId: S.String,
     LanguageCode: S.String,
     ClientRequestToken: S.optional(S.String),
@@ -1409,8 +1424,8 @@ export class StopSpeakerSearchTaskRequest extends S.Class<StopSpeakerSearchTaskR
   "StopSpeakerSearchTaskRequest",
 )(
   {
-    VoiceConnectorId: S.String.pipe(T.HttpLabel()),
-    SpeakerSearchTaskId: S.String.pipe(T.HttpLabel()),
+    VoiceConnectorId: S.String.pipe(T.HttpLabel("VoiceConnectorId")),
+    SpeakerSearchTaskId: S.String.pipe(T.HttpLabel("SpeakerSearchTaskId")),
   },
   T.all(
     T.Http({
@@ -1431,8 +1446,10 @@ export class StopVoiceToneAnalysisTaskRequest extends S.Class<StopVoiceToneAnaly
   "StopVoiceToneAnalysisTaskRequest",
 )(
   {
-    VoiceConnectorId: S.String.pipe(T.HttpLabel()),
-    VoiceToneAnalysisTaskId: S.String.pipe(T.HttpLabel()),
+    VoiceConnectorId: S.String.pipe(T.HttpLabel("VoiceConnectorId")),
+    VoiceToneAnalysisTaskId: S.String.pipe(
+      T.HttpLabel("VoiceToneAnalysisTaskId"),
+    ),
   },
   T.all(
     T.Http({
@@ -1504,7 +1521,7 @@ export class UpdatePhoneNumberRequest extends S.Class<UpdatePhoneNumberRequest>(
   "UpdatePhoneNumberRequest",
 )(
   {
-    PhoneNumberId: S.String.pipe(T.HttpLabel()),
+    PhoneNumberId: S.String.pipe(T.HttpLabel("PhoneNumberId")),
     ProductType: S.optional(S.String),
     CallingName: S.optional(S.String),
     Name: S.optional(S.String),
@@ -1538,8 +1555,8 @@ export class UpdateProxySessionRequest extends S.Class<UpdateProxySessionRequest
   "UpdateProxySessionRequest",
 )(
   {
-    VoiceConnectorId: S.String.pipe(T.HttpLabel()),
-    ProxySessionId: S.String.pipe(T.HttpLabel()),
+    VoiceConnectorId: S.String.pipe(T.HttpLabel("VoiceConnectorId")),
+    ProxySessionId: S.String.pipe(T.HttpLabel("ProxySessionId")),
     Capabilities: CapabilityList,
     ExpiryMinutes: S.optional(S.Number),
   },
@@ -1565,7 +1582,7 @@ export class UpdateSipMediaApplicationRequest extends S.Class<UpdateSipMediaAppl
   "UpdateSipMediaApplicationRequest",
 )(
   {
-    SipMediaApplicationId: S.String.pipe(T.HttpLabel()),
+    SipMediaApplicationId: S.String.pipe(T.HttpLabel("SipMediaApplicationId")),
     Name: S.optional(S.String),
     Endpoints: S.optional(SipMediaApplicationEndpointList),
   },
@@ -1593,7 +1610,7 @@ export class UpdateSipRuleRequest extends S.Class<UpdateSipRuleRequest>(
   "UpdateSipRuleRequest",
 )(
   {
-    SipRuleId: S.String.pipe(T.HttpLabel()),
+    SipRuleId: S.String.pipe(T.HttpLabel("SipRuleId")),
     Name: S.String,
     Disabled: S.optional(S.Boolean),
     TargetApplications: S.optional(SipRuleTargetApplicationList),
@@ -1611,7 +1628,7 @@ export class UpdateVoiceConnectorRequest extends S.Class<UpdateVoiceConnectorReq
   "UpdateVoiceConnectorRequest",
 )(
   {
-    VoiceConnectorId: S.String.pipe(T.HttpLabel()),
+    VoiceConnectorId: S.String.pipe(T.HttpLabel("VoiceConnectorId")),
     Name: S.String,
     RequireEncryption: S.Boolean,
   },
@@ -1632,7 +1649,7 @@ export class UpdateVoiceConnectorGroupRequest extends S.Class<UpdateVoiceConnect
   "UpdateVoiceConnectorGroupRequest",
 )(
   {
-    VoiceConnectorGroupId: S.String.pipe(T.HttpLabel()),
+    VoiceConnectorGroupId: S.String.pipe(T.HttpLabel("VoiceConnectorGroupId")),
     Name: S.String,
     VoiceConnectorItems: VoiceConnectorItemList,
   },
@@ -1652,7 +1669,7 @@ export class UpdateVoiceProfileRequest extends S.Class<UpdateVoiceProfileRequest
   "UpdateVoiceProfileRequest",
 )(
   {
-    VoiceProfileId: S.String.pipe(T.HttpLabel()),
+    VoiceProfileId: S.String.pipe(T.HttpLabel("VoiceProfileId")),
     SpeakerSearchTaskId: S.String,
   },
   T.all(
@@ -1668,7 +1685,7 @@ export class UpdateVoiceProfileDomainRequest extends S.Class<UpdateVoiceProfileD
   "UpdateVoiceProfileDomainRequest",
 )(
   {
-    VoiceProfileDomainId: S.String.pipe(T.HttpLabel()),
+    VoiceProfileDomainId: S.String.pipe(T.HttpLabel("VoiceProfileDomainId")),
     Name: S.optional(S.String),
     Description: S.optional(S.String),
   },
@@ -1911,7 +1928,7 @@ export class CreateProxySessionRequest extends S.Class<CreateProxySessionRequest
   "CreateProxySessionRequest",
 )(
   {
-    VoiceConnectorId: S.String.pipe(T.HttpLabel()),
+    VoiceConnectorId: S.String.pipe(T.HttpLabel("VoiceConnectorId")),
     ParticipantPhoneNumbers: ParticipantPhoneNumberList,
     Name: S.optional(S.String),
     ExpiryMinutes: S.optional(S.Number),
@@ -1956,7 +1973,7 @@ export class CreateSipMediaApplicationCallRequest extends S.Class<CreateSipMedia
   {
     FromPhoneNumber: S.String,
     ToPhoneNumber: S.String,
-    SipMediaApplicationId: S.String.pipe(T.HttpLabel()),
+    SipMediaApplicationId: S.String.pipe(T.HttpLabel("SipMediaApplicationId")),
     SipHeaders: S.optional(SipHeadersMap),
     ArgumentsMap: S.optional(SMACreateCallArgumentsMap),
   },
@@ -2176,7 +2193,7 @@ export class PutSipMediaApplicationAlexaSkillConfigurationRequest extends S.Clas
   "PutSipMediaApplicationAlexaSkillConfigurationRequest",
 )(
   {
-    SipMediaApplicationId: S.String.pipe(T.HttpLabel()),
+    SipMediaApplicationId: S.String.pipe(T.HttpLabel("SipMediaApplicationId")),
     SipMediaApplicationAlexaSkillConfiguration: S.optional(
       SipMediaApplicationAlexaSkillConfiguration,
     ),
@@ -2197,7 +2214,7 @@ export class PutSipMediaApplicationLoggingConfigurationRequest extends S.Class<P
   "PutSipMediaApplicationLoggingConfigurationRequest",
 )(
   {
-    SipMediaApplicationId: S.String.pipe(T.HttpLabel()),
+    SipMediaApplicationId: S.String.pipe(T.HttpLabel("SipMediaApplicationId")),
     SipMediaApplicationLoggingConfiguration: S.optional(
       SipMediaApplicationLoggingConfiguration,
     ),
@@ -2227,7 +2244,7 @@ export class PutVoiceConnectorLoggingConfigurationRequest extends S.Class<PutVoi
   "PutVoiceConnectorLoggingConfigurationRequest",
 )(
   {
-    VoiceConnectorId: S.String.pipe(T.HttpLabel()),
+    VoiceConnectorId: S.String.pipe(T.HttpLabel("VoiceConnectorId")),
     LoggingConfiguration: LoggingConfiguration,
   },
   T.all(
@@ -2254,7 +2271,10 @@ export class PutVoiceConnectorProxyResponse extends S.Class<PutVoiceConnectorPro
 export class PutVoiceConnectorTerminationRequest extends S.Class<PutVoiceConnectorTerminationRequest>(
   "PutVoiceConnectorTerminationRequest",
 )(
-  { VoiceConnectorId: S.String.pipe(T.HttpLabel()), Termination: Termination },
+  {
+    VoiceConnectorId: S.String.pipe(T.HttpLabel("VoiceConnectorId")),
+    Termination: Termination,
+  },
   T.all(
     T.Http({
       method: "PUT",
@@ -2271,7 +2291,7 @@ export class PutVoiceConnectorTerminationCredentialsRequest extends S.Class<PutV
   "PutVoiceConnectorTerminationCredentialsRequest",
 )(
   {
-    VoiceConnectorId: S.String.pipe(T.HttpLabel()),
+    VoiceConnectorId: S.String.pipe(T.HttpLabel("VoiceConnectorId")),
     Credentials: S.optional(CredentialList),
   },
   T.all(
@@ -2358,8 +2378,8 @@ export class UpdateSipMediaApplicationCallRequest extends S.Class<UpdateSipMedia
   "UpdateSipMediaApplicationCallRequest",
 )(
   {
-    SipMediaApplicationId: S.String.pipe(T.HttpLabel()),
-    TransactionId: S.String.pipe(T.HttpLabel()),
+    SipMediaApplicationId: S.String.pipe(T.HttpLabel("SipMediaApplicationId")),
+    TransactionId: S.String.pipe(T.HttpLabel("TransactionId")),
     Arguments: SMAUpdateCallArgumentsMap,
   },
   T.all(
@@ -2548,7 +2568,7 @@ export class PutVoiceConnectorEmergencyCallingConfigurationRequest extends S.Cla
   "PutVoiceConnectorEmergencyCallingConfigurationRequest",
 )(
   {
-    VoiceConnectorId: S.String.pipe(T.HttpLabel()),
+    VoiceConnectorId: S.String.pipe(T.HttpLabel("VoiceConnectorId")),
     EmergencyCallingConfiguration: EmergencyCallingConfiguration,
   },
   T.all(
@@ -2569,7 +2589,10 @@ export class PutVoiceConnectorLoggingConfigurationResponse extends S.Class<PutVo
 export class PutVoiceConnectorOriginationRequest extends S.Class<PutVoiceConnectorOriginationRequest>(
   "PutVoiceConnectorOriginationRequest",
 )(
-  { VoiceConnectorId: S.String.pipe(T.HttpLabel()), Origination: Origination },
+  {
+    VoiceConnectorId: S.String.pipe(T.HttpLabel("VoiceConnectorId")),
+    Origination: Origination,
+  },
   T.all(
     T.Http({
       method: "PUT",
@@ -2586,7 +2609,7 @@ export class PutVoiceConnectorStreamingConfigurationRequest extends S.Class<PutV
   "PutVoiceConnectorStreamingConfigurationRequest",
 )(
   {
-    VoiceConnectorId: S.String.pipe(T.HttpLabel()),
+    VoiceConnectorId: S.String.pipe(T.HttpLabel("VoiceConnectorId")),
     StreamingConfiguration: StreamingConfiguration,
   },
   T.all(
@@ -2669,7 +2692,7 @@ export class NotFoundException extends S.TaggedError<NotFoundException>()(
 export class ServiceFailureException extends S.TaggedError<ServiceFailureException>()(
   "ServiceFailureException",
   { Code: S.optional(S.String), Message: S.optional(S.String) },
-) {}
+).pipe(withCategory(ERROR_CATEGORIES.SERVER_ERROR)) {}
 export class ResourceLimitExceededException extends S.TaggedError<ResourceLimitExceededException>()(
   "ResourceLimitExceededException",
   { Code: S.optional(S.String), Message: S.optional(S.String) },
@@ -2681,11 +2704,11 @@ export class GoneException extends S.TaggedError<GoneException>()(
 export class ServiceUnavailableException extends S.TaggedError<ServiceUnavailableException>()(
   "ServiceUnavailableException",
   { Code: S.optional(S.String), Message: S.optional(S.String) },
-) {}
+).pipe(withCategory(ERROR_CATEGORIES.SERVER_ERROR)) {}
 export class ThrottledClientException extends S.TaggedError<ThrottledClientException>()(
   "ThrottledClientException",
   { Code: S.optional(S.String), Message: S.optional(S.String) },
-) {}
+).pipe(withCategory(ERROR_CATEGORIES.THROTTLING_ERROR)) {}
 export class UnauthorizedClientException extends S.TaggedError<UnauthorizedClientException>()(
   "UnauthorizedClientException",
   { Code: S.optional(S.String), Message: S.optional(S.String) },

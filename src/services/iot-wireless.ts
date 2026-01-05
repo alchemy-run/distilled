@@ -1,6 +1,7 @@
 import * as S from "effect/Schema";
 import * as API from "../api.ts";
 import * as T from "../traits.ts";
+import { ERROR_CATEGORIES, withCategory } from "../error-category.ts";
 const svc = T.AwsApiService({
   sdkId: "IoT Wireless",
   serviceShapeName: "iotwireless",
@@ -310,7 +311,7 @@ export const NetIdFilters = S.Array(S.String);
 export class AssociateMulticastGroupWithFuotaTaskRequest extends S.Class<AssociateMulticastGroupWithFuotaTaskRequest>(
   "AssociateMulticastGroupWithFuotaTaskRequest",
 )(
-  { Id: S.String.pipe(T.HttpLabel()), MulticastGroupId: S.String },
+  { Id: S.String.pipe(T.HttpLabel("Id")), MulticastGroupId: S.String },
   T.all(
     T.Http({ method: "PUT", uri: "/fuota-tasks/{Id}/multicast-group" }),
     svc,
@@ -326,7 +327,7 @@ export class AssociateMulticastGroupWithFuotaTaskResponse extends S.Class<Associ
 export class AssociateWirelessDeviceWithFuotaTaskRequest extends S.Class<AssociateWirelessDeviceWithFuotaTaskRequest>(
   "AssociateWirelessDeviceWithFuotaTaskRequest",
 )(
-  { Id: S.String.pipe(T.HttpLabel()), WirelessDeviceId: S.String },
+  { Id: S.String.pipe(T.HttpLabel("Id")), WirelessDeviceId: S.String },
   T.all(
     T.Http({ method: "PUT", uri: "/fuota-tasks/{Id}/wireless-device" }),
     svc,
@@ -342,7 +343,7 @@ export class AssociateWirelessDeviceWithFuotaTaskResponse extends S.Class<Associ
 export class AssociateWirelessDeviceWithMulticastGroupRequest extends S.Class<AssociateWirelessDeviceWithMulticastGroupRequest>(
   "AssociateWirelessDeviceWithMulticastGroupRequest",
 )(
-  { Id: S.String.pipe(T.HttpLabel()), WirelessDeviceId: S.String },
+  { Id: S.String.pipe(T.HttpLabel("Id")), WirelessDeviceId: S.String },
   T.all(
     T.Http({ method: "PUT", uri: "/multicast-groups/{Id}/wireless-device" }),
     svc,
@@ -358,7 +359,7 @@ export class AssociateWirelessDeviceWithMulticastGroupResponse extends S.Class<A
 export class AssociateWirelessDeviceWithThingRequest extends S.Class<AssociateWirelessDeviceWithThingRequest>(
   "AssociateWirelessDeviceWithThingRequest",
 )(
-  { Id: S.String.pipe(T.HttpLabel()), ThingArn: S.String },
+  { Id: S.String.pipe(T.HttpLabel("Id")), ThingArn: S.String },
   T.all(
     T.Http({ method: "PUT", uri: "/wireless-devices/{Id}/thing" }),
     svc,
@@ -374,7 +375,7 @@ export class AssociateWirelessDeviceWithThingResponse extends S.Class<AssociateW
 export class AssociateWirelessGatewayWithCertificateRequest extends S.Class<AssociateWirelessGatewayWithCertificateRequest>(
   "AssociateWirelessGatewayWithCertificateRequest",
 )(
-  { Id: S.String.pipe(T.HttpLabel()), IotCertificateId: S.String },
+  { Id: S.String.pipe(T.HttpLabel("Id")), IotCertificateId: S.String },
   T.all(
     T.Http({ method: "PUT", uri: "/wireless-gateways/{Id}/certificate" }),
     svc,
@@ -387,7 +388,7 @@ export class AssociateWirelessGatewayWithCertificateRequest extends S.Class<Asso
 export class AssociateWirelessGatewayWithThingRequest extends S.Class<AssociateWirelessGatewayWithThingRequest>(
   "AssociateWirelessGatewayWithThingRequest",
 )(
-  { Id: S.String.pipe(T.HttpLabel()), ThingArn: S.String },
+  { Id: S.String.pipe(T.HttpLabel("Id")), ThingArn: S.String },
   T.all(
     T.Http({ method: "PUT", uri: "/wireless-gateways/{Id}/thing" }),
     svc,
@@ -403,7 +404,7 @@ export class AssociateWirelessGatewayWithThingResponse extends S.Class<Associate
 export class CancelMulticastGroupSessionRequest extends S.Class<CancelMulticastGroupSessionRequest>(
   "CancelMulticastGroupSessionRequest",
 )(
-  { Id: S.String.pipe(T.HttpLabel()) },
+  { Id: S.String.pipe(T.HttpLabel("Id")) },
   T.all(
     T.Http({ method: "DELETE", uri: "/multicast-groups/{Id}/session" }),
     svc,
@@ -446,7 +447,7 @@ export class CreateWirelessGatewayTaskRequest extends S.Class<CreateWirelessGate
   "CreateWirelessGatewayTaskRequest",
 )(
   {
-    Id: S.String.pipe(T.HttpLabel()),
+    Id: S.String.pipe(T.HttpLabel("Id")),
     WirelessGatewayTaskDefinitionId: S.String,
   },
   T.all(
@@ -461,7 +462,7 @@ export class CreateWirelessGatewayTaskRequest extends S.Class<CreateWirelessGate
 export class DeleteDestinationRequest extends S.Class<DeleteDestinationRequest>(
   "DeleteDestinationRequest",
 )(
-  { Name: S.String.pipe(T.HttpLabel()) },
+  { Name: S.String.pipe(T.HttpLabel("Name")) },
   T.all(
     T.Http({ method: "DELETE", uri: "/destinations/{Name}" }),
     svc,
@@ -477,7 +478,7 @@ export class DeleteDestinationResponse extends S.Class<DeleteDestinationResponse
 export class DeleteDeviceProfileRequest extends S.Class<DeleteDeviceProfileRequest>(
   "DeleteDeviceProfileRequest",
 )(
-  { Id: S.String.pipe(T.HttpLabel()) },
+  { Id: S.String.pipe(T.HttpLabel("Id")) },
   T.all(
     T.Http({ method: "DELETE", uri: "/device-profiles/{Id}" }),
     svc,
@@ -493,7 +494,7 @@ export class DeleteDeviceProfileResponse extends S.Class<DeleteDeviceProfileResp
 export class DeleteFuotaTaskRequest extends S.Class<DeleteFuotaTaskRequest>(
   "DeleteFuotaTaskRequest",
 )(
-  { Id: S.String.pipe(T.HttpLabel()) },
+  { Id: S.String.pipe(T.HttpLabel("Id")) },
   T.all(
     T.Http({ method: "DELETE", uri: "/fuota-tasks/{Id}" }),
     svc,
@@ -509,7 +510,7 @@ export class DeleteFuotaTaskResponse extends S.Class<DeleteFuotaTaskResponse>(
 export class DeleteMulticastGroupRequest extends S.Class<DeleteMulticastGroupRequest>(
   "DeleteMulticastGroupRequest",
 )(
-  { Id: S.String.pipe(T.HttpLabel()) },
+  { Id: S.String.pipe(T.HttpLabel("Id")) },
   T.all(
     T.Http({ method: "DELETE", uri: "/multicast-groups/{Id}" }),
     svc,
@@ -525,7 +526,7 @@ export class DeleteMulticastGroupResponse extends S.Class<DeleteMulticastGroupRe
 export class DeleteNetworkAnalyzerConfigurationRequest extends S.Class<DeleteNetworkAnalyzerConfigurationRequest>(
   "DeleteNetworkAnalyzerConfigurationRequest",
 )(
-  { ConfigurationName: S.String.pipe(T.HttpLabel()) },
+  { ConfigurationName: S.String.pipe(T.HttpLabel("ConfigurationName")) },
   T.all(
     T.Http({
       method: "DELETE",
@@ -545,7 +546,7 @@ export class DeleteQueuedMessagesRequest extends S.Class<DeleteQueuedMessagesReq
   "DeleteQueuedMessagesRequest",
 )(
   {
-    Id: S.String.pipe(T.HttpLabel()),
+    Id: S.String.pipe(T.HttpLabel("Id")),
     MessageId: S.String.pipe(T.HttpQuery("messageId")),
     WirelessDeviceType: S.optional(S.String).pipe(
       T.HttpQuery("WirelessDeviceType"),
@@ -566,7 +567,7 @@ export class DeleteQueuedMessagesResponse extends S.Class<DeleteQueuedMessagesRe
 export class DeleteServiceProfileRequest extends S.Class<DeleteServiceProfileRequest>(
   "DeleteServiceProfileRequest",
 )(
-  { Id: S.String.pipe(T.HttpLabel()) },
+  { Id: S.String.pipe(T.HttpLabel("Id")) },
   T.all(
     T.Http({ method: "DELETE", uri: "/service-profiles/{Id}" }),
     svc,
@@ -582,7 +583,7 @@ export class DeleteServiceProfileResponse extends S.Class<DeleteServiceProfileRe
 export class DeleteWirelessDeviceRequest extends S.Class<DeleteWirelessDeviceRequest>(
   "DeleteWirelessDeviceRequest",
 )(
-  { Id: S.String.pipe(T.HttpLabel()) },
+  { Id: S.String.pipe(T.HttpLabel("Id")) },
   T.all(
     T.Http({ method: "DELETE", uri: "/wireless-devices/{Id}" }),
     svc,
@@ -598,7 +599,7 @@ export class DeleteWirelessDeviceResponse extends S.Class<DeleteWirelessDeviceRe
 export class DeleteWirelessDeviceImportTaskRequest extends S.Class<DeleteWirelessDeviceImportTaskRequest>(
   "DeleteWirelessDeviceImportTaskRequest",
 )(
-  { Id: S.String.pipe(T.HttpLabel()) },
+  { Id: S.String.pipe(T.HttpLabel("Id")) },
   T.all(
     T.Http({ method: "DELETE", uri: "/wireless_device_import_task/{Id}" }),
     svc,
@@ -614,7 +615,7 @@ export class DeleteWirelessDeviceImportTaskResponse extends S.Class<DeleteWirele
 export class DeleteWirelessGatewayRequest extends S.Class<DeleteWirelessGatewayRequest>(
   "DeleteWirelessGatewayRequest",
 )(
-  { Id: S.String.pipe(T.HttpLabel()) },
+  { Id: S.String.pipe(T.HttpLabel("Id")) },
   T.all(
     T.Http({ method: "DELETE", uri: "/wireless-gateways/{Id}" }),
     svc,
@@ -630,7 +631,7 @@ export class DeleteWirelessGatewayResponse extends S.Class<DeleteWirelessGateway
 export class DeleteWirelessGatewayTaskRequest extends S.Class<DeleteWirelessGatewayTaskRequest>(
   "DeleteWirelessGatewayTaskRequest",
 )(
-  { Id: S.String.pipe(T.HttpLabel()) },
+  { Id: S.String.pipe(T.HttpLabel("Id")) },
   T.all(
     T.Http({ method: "DELETE", uri: "/wireless-gateways/{Id}/tasks" }),
     svc,
@@ -646,7 +647,7 @@ export class DeleteWirelessGatewayTaskResponse extends S.Class<DeleteWirelessGat
 export class DeleteWirelessGatewayTaskDefinitionRequest extends S.Class<DeleteWirelessGatewayTaskDefinitionRequest>(
   "DeleteWirelessGatewayTaskDefinitionRequest",
 )(
-  { Id: S.String.pipe(T.HttpLabel()) },
+  { Id: S.String.pipe(T.HttpLabel("Id")) },
   T.all(
     T.Http({
       method: "DELETE",
@@ -666,7 +667,7 @@ export class DeregisterWirelessDeviceRequest extends S.Class<DeregisterWirelessD
   "DeregisterWirelessDeviceRequest",
 )(
   {
-    Identifier: S.String.pipe(T.HttpLabel()),
+    Identifier: S.String.pipe(T.HttpLabel("Identifier")),
     WirelessDeviceType: S.optional(S.String).pipe(
       T.HttpQuery("WirelessDeviceType"),
     ),
@@ -690,7 +691,7 @@ export class DisassociateAwsAccountFromPartnerAccountRequest extends S.Class<Dis
   "DisassociateAwsAccountFromPartnerAccountRequest",
 )(
   {
-    PartnerAccountId: S.String.pipe(T.HttpLabel()),
+    PartnerAccountId: S.String.pipe(T.HttpLabel("PartnerAccountId")),
     PartnerType: S.String.pipe(T.HttpQuery("partnerType")),
   },
   T.all(
@@ -709,8 +710,8 @@ export class DisassociateMulticastGroupFromFuotaTaskRequest extends S.Class<Disa
   "DisassociateMulticastGroupFromFuotaTaskRequest",
 )(
   {
-    Id: S.String.pipe(T.HttpLabel()),
-    MulticastGroupId: S.String.pipe(T.HttpLabel()),
+    Id: S.String.pipe(T.HttpLabel("Id")),
+    MulticastGroupId: S.String.pipe(T.HttpLabel("MulticastGroupId")),
   },
   T.all(
     T.Http({
@@ -731,8 +732,8 @@ export class DisassociateWirelessDeviceFromFuotaTaskRequest extends S.Class<Disa
   "DisassociateWirelessDeviceFromFuotaTaskRequest",
 )(
   {
-    Id: S.String.pipe(T.HttpLabel()),
-    WirelessDeviceId: S.String.pipe(T.HttpLabel()),
+    Id: S.String.pipe(T.HttpLabel("Id")),
+    WirelessDeviceId: S.String.pipe(T.HttpLabel("WirelessDeviceId")),
   },
   T.all(
     T.Http({
@@ -753,8 +754,8 @@ export class DisassociateWirelessDeviceFromMulticastGroupRequest extends S.Class
   "DisassociateWirelessDeviceFromMulticastGroupRequest",
 )(
   {
-    Id: S.String.pipe(T.HttpLabel()),
-    WirelessDeviceId: S.String.pipe(T.HttpLabel()),
+    Id: S.String.pipe(T.HttpLabel("Id")),
+    WirelessDeviceId: S.String.pipe(T.HttpLabel("WirelessDeviceId")),
   },
   T.all(
     T.Http({
@@ -774,7 +775,7 @@ export class DisassociateWirelessDeviceFromMulticastGroupResponse extends S.Clas
 export class DisassociateWirelessDeviceFromThingRequest extends S.Class<DisassociateWirelessDeviceFromThingRequest>(
   "DisassociateWirelessDeviceFromThingRequest",
 )(
-  { Id: S.String.pipe(T.HttpLabel()) },
+  { Id: S.String.pipe(T.HttpLabel("Id")) },
   T.all(
     T.Http({ method: "DELETE", uri: "/wireless-devices/{Id}/thing" }),
     svc,
@@ -790,7 +791,7 @@ export class DisassociateWirelessDeviceFromThingResponse extends S.Class<Disasso
 export class DisassociateWirelessGatewayFromCertificateRequest extends S.Class<DisassociateWirelessGatewayFromCertificateRequest>(
   "DisassociateWirelessGatewayFromCertificateRequest",
 )(
-  { Id: S.String.pipe(T.HttpLabel()) },
+  { Id: S.String.pipe(T.HttpLabel("Id")) },
   T.all(
     T.Http({ method: "DELETE", uri: "/wireless-gateways/{Id}/certificate" }),
     svc,
@@ -806,7 +807,7 @@ export class DisassociateWirelessGatewayFromCertificateResponse extends S.Class<
 export class DisassociateWirelessGatewayFromThingRequest extends S.Class<DisassociateWirelessGatewayFromThingRequest>(
   "DisassociateWirelessGatewayFromThingRequest",
 )(
-  { Id: S.String.pipe(T.HttpLabel()) },
+  { Id: S.String.pipe(T.HttpLabel("Id")) },
   T.all(
     T.Http({ method: "DELETE", uri: "/wireless-gateways/{Id}/thing" }),
     svc,
@@ -822,7 +823,7 @@ export class DisassociateWirelessGatewayFromThingResponse extends S.Class<Disass
 export class GetDestinationRequest extends S.Class<GetDestinationRequest>(
   "GetDestinationRequest",
 )(
-  { Name: S.String.pipe(T.HttpLabel()) },
+  { Name: S.String.pipe(T.HttpLabel("Name")) },
   T.all(
     T.Http({ method: "GET", uri: "/destinations/{Name}" }),
     svc,
@@ -835,7 +836,7 @@ export class GetDestinationRequest extends S.Class<GetDestinationRequest>(
 export class GetDeviceProfileRequest extends S.Class<GetDeviceProfileRequest>(
   "GetDeviceProfileRequest",
 )(
-  { Id: S.String.pipe(T.HttpLabel()) },
+  { Id: S.String.pipe(T.HttpLabel("Id")) },
   T.all(
     T.Http({ method: "GET", uri: "/device-profiles/{Id}" }),
     svc,
@@ -848,7 +849,7 @@ export class GetDeviceProfileRequest extends S.Class<GetDeviceProfileRequest>(
 export class GetFuotaTaskRequest extends S.Class<GetFuotaTaskRequest>(
   "GetFuotaTaskRequest",
 )(
-  { Id: S.String.pipe(T.HttpLabel()) },
+  { Id: S.String.pipe(T.HttpLabel("Id")) },
   T.all(
     T.Http({ method: "GET", uri: "/fuota-tasks/{Id}" }),
     svc,
@@ -861,7 +862,7 @@ export class GetFuotaTaskRequest extends S.Class<GetFuotaTaskRequest>(
 export class GetMulticastGroupRequest extends S.Class<GetMulticastGroupRequest>(
   "GetMulticastGroupRequest",
 )(
-  { Id: S.String.pipe(T.HttpLabel()) },
+  { Id: S.String.pipe(T.HttpLabel("Id")) },
   T.all(
     T.Http({ method: "GET", uri: "/multicast-groups/{Id}" }),
     svc,
@@ -874,7 +875,7 @@ export class GetMulticastGroupRequest extends S.Class<GetMulticastGroupRequest>(
 export class GetMulticastGroupSessionRequest extends S.Class<GetMulticastGroupSessionRequest>(
   "GetMulticastGroupSessionRequest",
 )(
-  { Id: S.String.pipe(T.HttpLabel()) },
+  { Id: S.String.pipe(T.HttpLabel("Id")) },
   T.all(
     T.Http({ method: "GET", uri: "/multicast-groups/{Id}/session" }),
     svc,
@@ -887,7 +888,7 @@ export class GetMulticastGroupSessionRequest extends S.Class<GetMulticastGroupSe
 export class GetNetworkAnalyzerConfigurationRequest extends S.Class<GetNetworkAnalyzerConfigurationRequest>(
   "GetNetworkAnalyzerConfigurationRequest",
 )(
-  { ConfigurationName: S.String.pipe(T.HttpLabel()) },
+  { ConfigurationName: S.String.pipe(T.HttpLabel("ConfigurationName")) },
   T.all(
     T.Http({
       method: "GET",
@@ -904,7 +905,7 @@ export class GetPartnerAccountRequest extends S.Class<GetPartnerAccountRequest>(
   "GetPartnerAccountRequest",
 )(
   {
-    PartnerAccountId: S.String.pipe(T.HttpLabel()),
+    PartnerAccountId: S.String.pipe(T.HttpLabel("PartnerAccountId")),
     PartnerType: S.String.pipe(T.HttpQuery("partnerType")),
   },
   T.all(
@@ -920,7 +921,7 @@ export class GetPositionRequest extends S.Class<GetPositionRequest>(
   "GetPositionRequest",
 )(
   {
-    ResourceIdentifier: S.String.pipe(T.HttpLabel()),
+    ResourceIdentifier: S.String.pipe(T.HttpLabel("ResourceIdentifier")),
     ResourceType: S.String.pipe(T.HttpQuery("resourceType")),
   },
   T.all(
@@ -936,7 +937,7 @@ export class GetPositionConfigurationRequest extends S.Class<GetPositionConfigur
   "GetPositionConfigurationRequest",
 )(
   {
-    ResourceIdentifier: S.String.pipe(T.HttpLabel()),
+    ResourceIdentifier: S.String.pipe(T.HttpLabel("ResourceIdentifier")),
     ResourceType: S.String.pipe(T.HttpQuery("resourceType")),
   },
   T.all(
@@ -955,7 +956,7 @@ export class GetResourceEventConfigurationRequest extends S.Class<GetResourceEve
   "GetResourceEventConfigurationRequest",
 )(
   {
-    Identifier: S.String.pipe(T.HttpLabel()),
+    Identifier: S.String.pipe(T.HttpLabel("Identifier")),
     IdentifierType: S.String.pipe(T.HttpQuery("identifierType")),
     PartnerType: S.optional(S.String).pipe(T.HttpQuery("partnerType")),
   },
@@ -972,7 +973,7 @@ export class GetResourceLogLevelRequest extends S.Class<GetResourceLogLevelReque
   "GetResourceLogLevelRequest",
 )(
   {
-    ResourceIdentifier: S.String.pipe(T.HttpLabel()),
+    ResourceIdentifier: S.String.pipe(T.HttpLabel("ResourceIdentifier")),
     ResourceType: S.String.pipe(T.HttpQuery("resourceType")),
   },
   T.all(
@@ -988,7 +989,7 @@ export class GetResourcePositionRequest extends S.Class<GetResourcePositionReque
   "GetResourcePositionRequest",
 )(
   {
-    ResourceIdentifier: S.String.pipe(T.HttpLabel()),
+    ResourceIdentifier: S.String.pipe(T.HttpLabel("ResourceIdentifier")),
     ResourceType: S.String.pipe(T.HttpQuery("resourceType")),
   },
   T.all(
@@ -1016,7 +1017,7 @@ export class GetServiceEndpointRequest extends S.Class<GetServiceEndpointRequest
 export class GetServiceProfileRequest extends S.Class<GetServiceProfileRequest>(
   "GetServiceProfileRequest",
 )(
-  { Id: S.String.pipe(T.HttpLabel()) },
+  { Id: S.String.pipe(T.HttpLabel("Id")) },
   T.all(
     T.Http({ method: "GET", uri: "/service-profiles/{Id}" }),
     svc,
@@ -1030,7 +1031,7 @@ export class GetWirelessDeviceRequest extends S.Class<GetWirelessDeviceRequest>(
   "GetWirelessDeviceRequest",
 )(
   {
-    Identifier: S.String.pipe(T.HttpLabel()),
+    Identifier: S.String.pipe(T.HttpLabel("Identifier")),
     IdentifierType: S.String.pipe(T.HttpQuery("identifierType")),
   },
   T.all(
@@ -1045,7 +1046,7 @@ export class GetWirelessDeviceRequest extends S.Class<GetWirelessDeviceRequest>(
 export class GetWirelessDeviceImportTaskRequest extends S.Class<GetWirelessDeviceImportTaskRequest>(
   "GetWirelessDeviceImportTaskRequest",
 )(
-  { Id: S.String.pipe(T.HttpLabel()) },
+  { Id: S.String.pipe(T.HttpLabel("Id")) },
   T.all(
     T.Http({ method: "GET", uri: "/wireless_device_import_task/{Id}" }),
     svc,
@@ -1058,7 +1059,7 @@ export class GetWirelessDeviceImportTaskRequest extends S.Class<GetWirelessDevic
 export class GetWirelessDeviceStatisticsRequest extends S.Class<GetWirelessDeviceStatisticsRequest>(
   "GetWirelessDeviceStatisticsRequest",
 )(
-  { WirelessDeviceId: S.String.pipe(T.HttpLabel()) },
+  { WirelessDeviceId: S.String.pipe(T.HttpLabel("WirelessDeviceId")) },
   T.all(
     T.Http({
       method: "GET",
@@ -1075,7 +1076,7 @@ export class GetWirelessGatewayRequest extends S.Class<GetWirelessGatewayRequest
   "GetWirelessGatewayRequest",
 )(
   {
-    Identifier: S.String.pipe(T.HttpLabel()),
+    Identifier: S.String.pipe(T.HttpLabel("Identifier")),
     IdentifierType: S.String.pipe(T.HttpQuery("identifierType")),
   },
   T.all(
@@ -1090,7 +1091,7 @@ export class GetWirelessGatewayRequest extends S.Class<GetWirelessGatewayRequest
 export class GetWirelessGatewayCertificateRequest extends S.Class<GetWirelessGatewayCertificateRequest>(
   "GetWirelessGatewayCertificateRequest",
 )(
-  { Id: S.String.pipe(T.HttpLabel()) },
+  { Id: S.String.pipe(T.HttpLabel("Id")) },
   T.all(
     T.Http({ method: "GET", uri: "/wireless-gateways/{Id}/certificate" }),
     svc,
@@ -1103,7 +1104,7 @@ export class GetWirelessGatewayCertificateRequest extends S.Class<GetWirelessGat
 export class GetWirelessGatewayFirmwareInformationRequest extends S.Class<GetWirelessGatewayFirmwareInformationRequest>(
   "GetWirelessGatewayFirmwareInformationRequest",
 )(
-  { Id: S.String.pipe(T.HttpLabel()) },
+  { Id: S.String.pipe(T.HttpLabel("Id")) },
   T.all(
     T.Http({
       method: "GET",
@@ -1119,7 +1120,7 @@ export class GetWirelessGatewayFirmwareInformationRequest extends S.Class<GetWir
 export class GetWirelessGatewayStatisticsRequest extends S.Class<GetWirelessGatewayStatisticsRequest>(
   "GetWirelessGatewayStatisticsRequest",
 )(
-  { WirelessGatewayId: S.String.pipe(T.HttpLabel()) },
+  { WirelessGatewayId: S.String.pipe(T.HttpLabel("WirelessGatewayId")) },
   T.all(
     T.Http({
       method: "GET",
@@ -1135,7 +1136,7 @@ export class GetWirelessGatewayStatisticsRequest extends S.Class<GetWirelessGate
 export class GetWirelessGatewayTaskRequest extends S.Class<GetWirelessGatewayTaskRequest>(
   "GetWirelessGatewayTaskRequest",
 )(
-  { Id: S.String.pipe(T.HttpLabel()) },
+  { Id: S.String.pipe(T.HttpLabel("Id")) },
   T.all(
     T.Http({ method: "GET", uri: "/wireless-gateways/{Id}/tasks" }),
     svc,
@@ -1148,7 +1149,7 @@ export class GetWirelessGatewayTaskRequest extends S.Class<GetWirelessGatewayTas
 export class GetWirelessGatewayTaskDefinitionRequest extends S.Class<GetWirelessGatewayTaskDefinitionRequest>(
   "GetWirelessGatewayTaskDefinitionRequest",
 )(
-  { Id: S.String.pipe(T.HttpLabel()) },
+  { Id: S.String.pipe(T.HttpLabel("Id")) },
   T.all(
     T.Http({ method: "GET", uri: "/wireless-gateway-task-definitions/{Id}" }),
     svc,
@@ -1264,7 +1265,7 @@ export class ListMulticastGroupsByFuotaTaskRequest extends S.Class<ListMulticast
   "ListMulticastGroupsByFuotaTaskRequest",
 )(
   {
-    Id: S.String.pipe(T.HttpLabel()),
+    Id: S.String.pipe(T.HttpLabel("Id")),
     NextToken: S.optional(S.String).pipe(T.HttpQuery("nextToken")),
     MaxResults: S.optional(S.Number).pipe(T.HttpQuery("maxResults")),
   },
@@ -1330,7 +1331,7 @@ export class ListQueuedMessagesRequest extends S.Class<ListQueuedMessagesRequest
   "ListQueuedMessagesRequest",
 )(
   {
-    Id: S.String.pipe(T.HttpLabel()),
+    Id: S.String.pipe(T.HttpLabel("Id")),
     NextToken: S.optional(S.String).pipe(T.HttpQuery("nextToken")),
     MaxResults: S.optional(S.Number).pipe(T.HttpQuery("maxResults")),
     WirelessDeviceType: S.optional(S.String).pipe(
@@ -1451,7 +1452,7 @@ export class PutResourceLogLevelRequest extends S.Class<PutResourceLogLevelReque
   "PutResourceLogLevelRequest",
 )(
   {
-    ResourceIdentifier: S.String.pipe(T.HttpLabel()),
+    ResourceIdentifier: S.String.pipe(T.HttpLabel("ResourceIdentifier")),
     ResourceType: S.String.pipe(T.HttpQuery("resourceType")),
     LogLevel: S.String,
   },
@@ -1471,7 +1472,7 @@ export class ResetResourceLogLevelRequest extends S.Class<ResetResourceLogLevelR
   "ResetResourceLogLevelRequest",
 )(
   {
-    ResourceIdentifier: S.String.pipe(T.HttpLabel()),
+    ResourceIdentifier: S.String.pipe(T.HttpLabel("ResourceIdentifier")),
     ResourceType: S.String.pipe(T.HttpQuery("resourceType")),
   },
   T.all(
@@ -1490,7 +1491,7 @@ export class StartBulkAssociateWirelessDeviceWithMulticastGroupRequest extends S
   "StartBulkAssociateWirelessDeviceWithMulticastGroupRequest",
 )(
   {
-    Id: S.String.pipe(T.HttpLabel()),
+    Id: S.String.pipe(T.HttpLabel("Id")),
     QueryString: S.optional(S.String),
     Tags: S.optional(TagList),
   },
@@ -1510,7 +1511,7 @@ export class StartBulkDisassociateWirelessDeviceFromMulticastGroupRequest extend
   "StartBulkDisassociateWirelessDeviceFromMulticastGroupRequest",
 )(
   {
-    Id: S.String.pipe(T.HttpLabel()),
+    Id: S.String.pipe(T.HttpLabel("Id")),
     QueryString: S.optional(S.String),
     Tags: S.optional(TagList),
   },
@@ -1538,7 +1539,7 @@ export class TagResourceResponse extends S.Class<TagResourceResponse>(
 export class TestWirelessDeviceRequest extends S.Class<TestWirelessDeviceRequest>(
   "TestWirelessDeviceRequest",
 )(
-  { Id: S.String.pipe(T.HttpLabel()) },
+  { Id: S.String.pipe(T.HttpLabel("Id")) },
   T.all(
     T.Http({ method: "POST", uri: "/wireless-devices/{Id}/test" }),
     svc,
@@ -1571,7 +1572,7 @@ export class UpdateDestinationRequest extends S.Class<UpdateDestinationRequest>(
   "UpdateDestinationRequest",
 )(
   {
-    Name: S.String.pipe(T.HttpLabel()),
+    Name: S.String.pipe(T.HttpLabel("Name")),
     ExpressionType: S.optional(S.String),
     Expression: S.optional(S.String),
     Description: S.optional(S.String),
@@ -1650,7 +1651,7 @@ export class UpdateFuotaTaskRequest extends S.Class<UpdateFuotaTaskRequest>(
   "UpdateFuotaTaskRequest",
 )(
   {
-    Id: S.String.pipe(T.HttpLabel()),
+    Id: S.String.pipe(T.HttpLabel("Id")),
     Name: S.optional(S.String),
     Description: S.optional(S.String),
     LoRaWAN: S.optional(LoRaWANFuotaTask),
@@ -1771,7 +1772,7 @@ export class UpdateMulticastGroupRequest extends S.Class<UpdateMulticastGroupReq
   "UpdateMulticastGroupRequest",
 )(
   {
-    Id: S.String.pipe(T.HttpLabel()),
+    Id: S.String.pipe(T.HttpLabel("Id")),
     Name: S.optional(S.String),
     Description: S.optional(S.String),
     LoRaWAN: S.optional(LoRaWANMulticast),
@@ -1797,7 +1798,7 @@ export class UpdateNetworkAnalyzerConfigurationRequest extends S.Class<UpdateNet
   "UpdateNetworkAnalyzerConfigurationRequest",
 )(
   {
-    ConfigurationName: S.String.pipe(T.HttpLabel()),
+    ConfigurationName: S.String.pipe(T.HttpLabel("ConfigurationName")),
     TraceContent: S.optional(TraceContent),
     WirelessDevicesToAdd: S.optional(WirelessDeviceList),
     WirelessDevicesToRemove: S.optional(WirelessDeviceList),
@@ -1826,7 +1827,7 @@ export class UpdatePositionRequest extends S.Class<UpdatePositionRequest>(
   "UpdatePositionRequest",
 )(
   {
-    ResourceIdentifier: S.String.pipe(T.HttpLabel()),
+    ResourceIdentifier: S.String.pipe(T.HttpLabel("ResourceIdentifier")),
     ResourceType: S.String.pipe(T.HttpQuery("resourceType")),
     Position: PositionCoordinate,
   },
@@ -1846,7 +1847,7 @@ export class UpdateResourcePositionRequest extends S.Class<UpdateResourcePositio
   "UpdateResourcePositionRequest",
 )(
   {
-    ResourceIdentifier: S.String.pipe(T.HttpLabel()),
+    ResourceIdentifier: S.String.pipe(T.HttpLabel("ResourceIdentifier")),
     ResourceType: S.String.pipe(T.HttpQuery("resourceType")),
     GeoJsonPayload: S.optional(T.StreamingInput).pipe(T.HttpPayload()),
   },
@@ -1869,7 +1870,7 @@ export class UpdateWirelessGatewayRequest extends S.Class<UpdateWirelessGatewayR
   "UpdateWirelessGatewayRequest",
 )(
   {
-    Id: S.String.pipe(T.HttpLabel()),
+    Id: S.String.pipe(T.HttpLabel("Id")),
     Name: S.optional(S.String),
     Description: S.optional(S.String),
     JoinEuiFilters: S.optional(JoinEuiFilters),
@@ -2284,7 +2285,7 @@ export class StartFuotaTaskRequest extends S.Class<StartFuotaTaskRequest>(
   "StartFuotaTaskRequest",
 )(
   {
-    Id: S.String.pipe(T.HttpLabel()),
+    Id: S.String.pipe(T.HttpLabel("Id")),
     LoRaWAN: S.optional(LoRaWANStartFuotaTask),
   },
   T.all(
@@ -2302,7 +2303,7 @@ export class StartFuotaTaskResponse extends S.Class<StartFuotaTaskResponse>(
 export class StartMulticastGroupSessionRequest extends S.Class<StartMulticastGroupSessionRequest>(
   "StartMulticastGroupSessionRequest",
 )(
-  { Id: S.String.pipe(T.HttpLabel()), LoRaWAN: LoRaWANMulticastSession },
+  { Id: S.String.pipe(T.HttpLabel("Id")), LoRaWAN: LoRaWANMulticastSession },
   T.all(
     T.Http({ method: "PUT", uri: "/multicast-groups/{Id}/session" }),
     svc,
@@ -2362,7 +2363,7 @@ export class UpdatePartnerAccountRequest extends S.Class<UpdatePartnerAccountReq
 )(
   {
     Sidewalk: SidewalkUpdateAccount,
-    PartnerAccountId: S.String.pipe(T.HttpLabel()),
+    PartnerAccountId: S.String.pipe(T.HttpLabel("PartnerAccountId")),
     PartnerType: S.String.pipe(T.HttpQuery("partnerType")),
   },
   T.all(
@@ -2380,7 +2381,7 @@ export class UpdatePartnerAccountResponse extends S.Class<UpdatePartnerAccountRe
 export class UpdateWirelessDeviceImportTaskRequest extends S.Class<UpdateWirelessDeviceImportTaskRequest>(
   "UpdateWirelessDeviceImportTaskRequest",
 )(
-  { Id: S.String.pipe(T.HttpLabel()), Sidewalk: SidewalkUpdateImportInfo },
+  { Id: S.String.pipe(T.HttpLabel("Id")), Sidewalk: SidewalkUpdateImportInfo },
   T.all(
     T.Http({ method: "PATCH", uri: "/wireless_device_import_task/{Id}" }),
     svc,
@@ -2959,7 +2960,7 @@ export class PutPositionConfigurationRequest extends S.Class<PutPositionConfigur
   "PutPositionConfigurationRequest",
 )(
   {
-    ResourceIdentifier: S.String.pipe(T.HttpLabel()),
+    ResourceIdentifier: S.String.pipe(T.HttpLabel("ResourceIdentifier")),
     ResourceType: S.String.pipe(T.HttpQuery("resourceType")),
     Solvers: S.optional(PositionSolverConfigurations),
     Destination: S.optional(S.String),
@@ -2983,7 +2984,7 @@ export class SendDataToMulticastGroupRequest extends S.Class<SendDataToMulticast
   "SendDataToMulticastGroupRequest",
 )(
   {
-    Id: S.String.pipe(T.HttpLabel()),
+    Id: S.String.pipe(T.HttpLabel("Id")),
     PayloadData: S.String,
     WirelessMetadata: MulticastWirelessMetadata,
   },
@@ -3006,7 +3007,7 @@ export class UpdateResourceEventConfigurationRequest extends S.Class<UpdateResou
   "UpdateResourceEventConfigurationRequest",
 )(
   {
-    Identifier: S.String.pipe(T.HttpLabel()),
+    Identifier: S.String.pipe(T.HttpLabel("Identifier")),
     IdentifierType: S.String.pipe(T.HttpQuery("identifierType")),
     PartnerType: S.optional(S.String).pipe(T.HttpQuery("partnerType")),
     DeviceRegistrationState: S.optional(
@@ -3033,7 +3034,7 @@ export class UpdateWirelessDeviceRequest extends S.Class<UpdateWirelessDeviceReq
   "UpdateWirelessDeviceRequest",
 )(
   {
-    Id: S.String.pipe(T.HttpLabel()),
+    Id: S.String.pipe(T.HttpLabel("Id")),
     DestinationName: S.optional(S.String),
     Name: S.optional(S.String),
     Description: S.optional(S.String),
@@ -3451,7 +3452,7 @@ export class SendDataToWirelessDeviceRequest extends S.Class<SendDataToWirelessD
   "SendDataToWirelessDeviceRequest",
 )(
   {
-    Id: S.String.pipe(T.HttpLabel()),
+    Id: S.String.pipe(T.HttpLabel("Id")),
     TransmitMode: S.Number,
     PayloadData: S.String,
     WirelessMetadata: S.optional(WirelessMetadata),
@@ -3510,7 +3511,7 @@ export class AccessDeniedException extends S.TaggedError<AccessDeniedException>(
 export class InternalServerException extends S.TaggedError<InternalServerException>()(
   "InternalServerException",
   { Message: S.optional(S.String) },
-) {}
+).pipe(withCategory(ERROR_CATEGORIES.SERVER_ERROR)) {}
 export class ConflictException extends S.TaggedError<ConflictException>()(
   "ConflictException",
   {
@@ -3530,7 +3531,7 @@ export class ResourceNotFoundException extends S.TaggedError<ResourceNotFoundExc
 export class ThrottlingException extends S.TaggedError<ThrottlingException>()(
   "ThrottlingException",
   { Message: S.optional(S.String) },
-) {}
+).pipe(withCategory(ERROR_CATEGORIES.THROTTLING_ERROR)) {}
 export class ValidationException extends S.TaggedError<ValidationException>()(
   "ValidationException",
   { Message: S.optional(S.String) },

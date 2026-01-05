@@ -1,6 +1,7 @@
 import * as S from "effect/Schema";
 import * as API from "../api.ts";
 import * as T from "../traits.ts";
+import { ERROR_CATEGORIES, withCategory } from "../error-category.ts";
 const svc = T.AwsApiService({
   sdkId: "SecurityHub",
   serviceShapeName: "SecurityHubAPIService",
@@ -515,7 +516,7 @@ export class DeclineInvitationsRequest extends S.Class<DeclineInvitationsRequest
 export class DeleteActionTargetRequest extends S.Class<DeleteActionTargetRequest>(
   "DeleteActionTargetRequest",
 )(
-  { ActionTargetArn: S.String.pipe(T.HttpLabel()) },
+  { ActionTargetArn: S.String.pipe(T.HttpLabel("ActionTargetArn")) },
   T.all(
     T.Http({ method: "DELETE", uri: "/actionTargets/{ActionTargetArn+}" }),
     svc,
@@ -528,7 +529,7 @@ export class DeleteActionTargetRequest extends S.Class<DeleteActionTargetRequest
 export class DeleteAggregatorV2Request extends S.Class<DeleteAggregatorV2Request>(
   "DeleteAggregatorV2Request",
 )(
-  { AggregatorV2Arn: S.String.pipe(T.HttpLabel()) },
+  { AggregatorV2Arn: S.String.pipe(T.HttpLabel("AggregatorV2Arn")) },
   T.all(
     T.Http({
       method: "DELETE",
@@ -547,7 +548,7 @@ export class DeleteAggregatorV2Response extends S.Class<DeleteAggregatorV2Respon
 export class DeleteAutomationRuleV2Request extends S.Class<DeleteAutomationRuleV2Request>(
   "DeleteAutomationRuleV2Request",
 )(
-  { Identifier: S.String.pipe(T.HttpLabel()) },
+  { Identifier: S.String.pipe(T.HttpLabel("Identifier")) },
   T.all(
     T.Http({ method: "DELETE", uri: "/automationrulesv2/{Identifier}" }),
     svc,
@@ -563,7 +564,7 @@ export class DeleteAutomationRuleV2Response extends S.Class<DeleteAutomationRule
 export class DeleteConfigurationPolicyRequest extends S.Class<DeleteConfigurationPolicyRequest>(
   "DeleteConfigurationPolicyRequest",
 )(
-  { Identifier: S.String.pipe(T.HttpLabel()) },
+  { Identifier: S.String.pipe(T.HttpLabel("Identifier")) },
   T.all(
     T.Http({ method: "DELETE", uri: "/configurationPolicy/{Identifier}" }),
     svc,
@@ -579,7 +580,7 @@ export class DeleteConfigurationPolicyResponse extends S.Class<DeleteConfigurati
 export class DeleteConnectorV2Request extends S.Class<DeleteConnectorV2Request>(
   "DeleteConnectorV2Request",
 )(
-  { ConnectorId: S.String.pipe(T.HttpLabel()) },
+  { ConnectorId: S.String.pipe(T.HttpLabel("ConnectorId")) },
   T.all(
     T.Http({ method: "DELETE", uri: "/connectorsv2/{ConnectorId+}" }),
     svc,
@@ -595,7 +596,7 @@ export class DeleteConnectorV2Response extends S.Class<DeleteConnectorV2Response
 export class DeleteFindingAggregatorRequest extends S.Class<DeleteFindingAggregatorRequest>(
   "DeleteFindingAggregatorRequest",
 )(
-  { FindingAggregatorArn: S.String.pipe(T.HttpLabel()) },
+  { FindingAggregatorArn: S.String.pipe(T.HttpLabel("FindingAggregatorArn")) },
   T.all(
     T.Http({
       method: "DELETE",
@@ -614,7 +615,7 @@ export class DeleteFindingAggregatorResponse extends S.Class<DeleteFindingAggreg
 export class DeleteInsightRequest extends S.Class<DeleteInsightRequest>(
   "DeleteInsightRequest",
 )(
-  { InsightArn: S.String.pipe(T.HttpLabel()) },
+  { InsightArn: S.String.pipe(T.HttpLabel("InsightArn")) },
   T.all(
     T.Http({ method: "DELETE", uri: "/insights/{InsightArn+}" }),
     svc,
@@ -736,7 +737,9 @@ export class DescribeStandardsControlsRequest extends S.Class<DescribeStandardsC
   "DescribeStandardsControlsRequest",
 )(
   {
-    StandardsSubscriptionArn: S.String.pipe(T.HttpLabel()),
+    StandardsSubscriptionArn: S.String.pipe(
+      T.HttpLabel("StandardsSubscriptionArn"),
+    ),
     NextToken: S.optional(S.String).pipe(T.HttpQuery("NextToken")),
     MaxResults: S.optional(S.Number).pipe(T.HttpQuery("MaxResults")),
   },
@@ -755,7 +758,11 @@ export class DescribeStandardsControlsRequest extends S.Class<DescribeStandardsC
 export class DisableImportFindingsForProductRequest extends S.Class<DisableImportFindingsForProductRequest>(
   "DisableImportFindingsForProductRequest",
 )(
-  { ProductSubscriptionArn: S.String.pipe(T.HttpLabel()) },
+  {
+    ProductSubscriptionArn: S.String.pipe(
+      T.HttpLabel("ProductSubscriptionArn"),
+    ),
+  },
   T.all(
     T.Http({
       method: "DELETE",
@@ -866,7 +873,7 @@ export class EnableSecurityHubV2Request extends S.Class<EnableSecurityHubV2Reque
 export class GetAggregatorV2Request extends S.Class<GetAggregatorV2Request>(
   "GetAggregatorV2Request",
 )(
-  { AggregatorV2Arn: S.String.pipe(T.HttpLabel()) },
+  { AggregatorV2Arn: S.String.pipe(T.HttpLabel("AggregatorV2Arn")) },
   T.all(
     T.Http({ method: "GET", uri: "/aggregatorv2/get/{AggregatorV2Arn+}" }),
     svc,
@@ -879,7 +886,7 @@ export class GetAggregatorV2Request extends S.Class<GetAggregatorV2Request>(
 export class GetAutomationRuleV2Request extends S.Class<GetAutomationRuleV2Request>(
   "GetAutomationRuleV2Request",
 )(
-  { Identifier: S.String.pipe(T.HttpLabel()) },
+  { Identifier: S.String.pipe(T.HttpLabel("Identifier")) },
   T.all(
     T.Http({ method: "GET", uri: "/automationrulesv2/{Identifier}" }),
     svc,
@@ -892,7 +899,7 @@ export class GetAutomationRuleV2Request extends S.Class<GetAutomationRuleV2Reque
 export class GetConfigurationPolicyRequest extends S.Class<GetConfigurationPolicyRequest>(
   "GetConfigurationPolicyRequest",
 )(
-  { Identifier: S.String.pipe(T.HttpLabel()) },
+  { Identifier: S.String.pipe(T.HttpLabel("Identifier")) },
   T.all(
     T.Http({ method: "GET", uri: "/configurationPolicy/get/{Identifier}" }),
     svc,
@@ -905,7 +912,7 @@ export class GetConfigurationPolicyRequest extends S.Class<GetConfigurationPolic
 export class GetConnectorV2Request extends S.Class<GetConnectorV2Request>(
   "GetConnectorV2Request",
 )(
-  { ConnectorId: S.String.pipe(T.HttpLabel()) },
+  { ConnectorId: S.String.pipe(T.HttpLabel("ConnectorId")) },
   T.all(
     T.Http({ method: "GET", uri: "/connectorsv2/{ConnectorId+}" }),
     svc,
@@ -935,7 +942,7 @@ export class GetEnabledStandardsRequest extends S.Class<GetEnabledStandardsReque
 export class GetFindingAggregatorRequest extends S.Class<GetFindingAggregatorRequest>(
   "GetFindingAggregatorRequest",
 )(
-  { FindingAggregatorArn: S.String.pipe(T.HttpLabel()) },
+  { FindingAggregatorArn: S.String.pipe(T.HttpLabel("FindingAggregatorArn")) },
   T.all(
     T.Http({
       method: "GET",
@@ -973,7 +980,7 @@ export class GetFindingHistoryRequest extends S.Class<GetFindingHistoryRequest>(
 export class GetInsightResultsRequest extends S.Class<GetInsightResultsRequest>(
   "GetInsightResultsRequest",
 )(
-  { InsightArn: S.String.pipe(T.HttpLabel()) },
+  { InsightArn: S.String.pipe(T.HttpLabel("InsightArn")) },
   T.all(
     T.Http({ method: "GET", uri: "/insights/results/{InsightArn+}" }),
     svc,
@@ -1252,7 +1259,7 @@ export class ListStandardsControlAssociationsRequest extends S.Class<ListStandar
 export class ListTagsForResourceRequest extends S.Class<ListTagsForResourceRequest>(
   "ListTagsForResourceRequest",
 )(
-  { ResourceArn: S.String.pipe(T.HttpLabel()) },
+  { ResourceArn: S.String.pipe(T.HttpLabel("ResourceArn")) },
   T.all(
     T.Http({ method: "GET", uri: "/tags/{ResourceArn}" }),
     svc,
@@ -1318,7 +1325,7 @@ export class StartConfigurationPolicyDisassociationResponse extends S.Class<Star
 export class TagResourceRequest extends S.Class<TagResourceRequest>(
   "TagResourceRequest",
 )(
-  { ResourceArn: S.String.pipe(T.HttpLabel()), Tags: TagMap },
+  { ResourceArn: S.String.pipe(T.HttpLabel("ResourceArn")), Tags: TagMap },
   T.all(
     T.Http({ method: "POST", uri: "/tags/{ResourceArn}" }),
     svc,
@@ -1335,7 +1342,7 @@ export class UntagResourceRequest extends S.Class<UntagResourceRequest>(
   "UntagResourceRequest",
 )(
   {
-    ResourceArn: S.String.pipe(T.HttpLabel()),
+    ResourceArn: S.String.pipe(T.HttpLabel("ResourceArn")),
     TagKeys: TagKeyList.pipe(T.HttpQuery("tagKeys")),
   },
   T.all(
@@ -1354,7 +1361,7 @@ export class UpdateActionTargetRequest extends S.Class<UpdateActionTargetRequest
   "UpdateActionTargetRequest",
 )(
   {
-    ActionTargetArn: S.String.pipe(T.HttpLabel()),
+    ActionTargetArn: S.String.pipe(T.HttpLabel("ActionTargetArn")),
     Name: S.optional(S.String),
     Description: S.optional(S.String),
   },
@@ -1374,7 +1381,7 @@ export class UpdateAggregatorV2Request extends S.Class<UpdateAggregatorV2Request
   "UpdateAggregatorV2Request",
 )(
   {
-    AggregatorV2Arn: S.String.pipe(T.HttpLabel()),
+    AggregatorV2Arn: S.String.pipe(T.HttpLabel("AggregatorV2Arn")),
     RegionLinkingMode: S.String,
     LinkedRegions: S.optional(StringList),
   },
@@ -1424,7 +1431,7 @@ export class UpdateAutomationRuleV2Request extends S.Class<UpdateAutomationRuleV
   "UpdateAutomationRuleV2Request",
 )(
   {
-    Identifier: S.String.pipe(T.HttpLabel()),
+    Identifier: S.String.pipe(T.HttpLabel("Identifier")),
     RuleStatus: S.optional(S.String),
     RuleOrder: S.optional(S.Number),
     Description: S.optional(S.String),
@@ -1499,7 +1506,7 @@ export class UpdateConfigurationPolicyRequest extends S.Class<UpdateConfiguratio
   "UpdateConfigurationPolicyRequest",
 )(
   {
-    Identifier: S.String.pipe(T.HttpLabel()),
+    Identifier: S.String.pipe(T.HttpLabel("Identifier")),
     Name: S.optional(S.String),
     Description: S.optional(S.String),
     UpdatedReason: S.optional(S.String),
@@ -1708,7 +1715,7 @@ export class UpdateInsightRequest extends S.Class<UpdateInsightRequest>(
   "UpdateInsightRequest",
 )(
   {
-    InsightArn: S.String.pipe(T.HttpLabel()),
+    InsightArn: S.String.pipe(T.HttpLabel("InsightArn")),
     Name: S.optional(S.String),
     Filters: S.optional(AwsSecurityFindingFilters),
     GroupByAttribute: S.optional(S.String),
@@ -1775,7 +1782,7 @@ export class UpdateStandardsControlRequest extends S.Class<UpdateStandardsContro
   "UpdateStandardsControlRequest",
 )(
   {
-    StandardsControlArn: S.String.pipe(T.HttpLabel()),
+    StandardsControlArn: S.String.pipe(T.HttpLabel("StandardsControlArn")),
     ControlStatus: S.optional(S.String),
     DisabledReason: S.optional(S.String),
   },
@@ -8419,7 +8426,7 @@ export class UpdateConnectorV2Request extends S.Class<UpdateConnectorV2Request>(
   "UpdateConnectorV2Request",
 )(
   {
-    ConnectorId: S.String.pipe(T.HttpLabel()),
+    ConnectorId: S.String.pipe(T.HttpLabel("ConnectorId")),
     Description: S.optional(S.String),
     Provider: S.optional(ProviderUpdateConfiguration),
   },
@@ -9064,11 +9071,11 @@ export class AccessDeniedException extends S.TaggedError<AccessDeniedException>(
 export class InternalException extends S.TaggedError<InternalException>()(
   "InternalException",
   { Message: S.optional(S.String), Code: S.optional(S.String) },
-) {}
+).pipe(withCategory(ERROR_CATEGORIES.SERVER_ERROR)) {}
 export class InternalServerException extends S.TaggedError<InternalServerException>()(
   "InternalServerException",
   { Message: S.optional(S.String), Code: S.optional(S.String) },
-) {}
+).pipe(withCategory(ERROR_CATEGORIES.SERVER_ERROR)) {}
 export class InvalidAccessException extends S.TaggedError<InvalidAccessException>()(
   "InvalidAccessException",
   { Message: S.optional(S.String), Code: S.optional(S.String) },
@@ -9088,11 +9095,11 @@ export class ResourceNotFoundException extends S.TaggedError<ResourceNotFoundExc
 export class ThrottlingException extends S.TaggedError<ThrottlingException>()(
   "ThrottlingException",
   { Message: S.optional(S.String), Code: S.optional(S.String) },
-) {}
+).pipe(withCategory(ERROR_CATEGORIES.THROTTLING_ERROR)) {}
 export class LimitExceededException extends S.TaggedError<LimitExceededException>()(
   "LimitExceededException",
   { Message: S.optional(S.String), Code: S.optional(S.String) },
-) {}
+).pipe(withCategory(ERROR_CATEGORIES.THROTTLING_ERROR)) {}
 export class ValidationException extends S.TaggedError<ValidationException>()(
   "ValidationException",
   { Message: S.optional(S.String), Code: S.optional(S.String) },

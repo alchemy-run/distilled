@@ -1,6 +1,7 @@
 import * as S from "effect/Schema";
 import * as API from "../api.ts";
 import * as T from "../traits.ts";
+import { ERROR_CATEGORIES, withCategory } from "../error-category.ts";
 const ns = T.XmlNamespace("http://amplify.amazonaws.com");
 const svc = T.AwsApiService({ sdkId: "Amplify", serviceShapeName: "Amplify" });
 const auth = T.AwsAuthSigv4({ name: "amplify" });
@@ -246,7 +247,7 @@ export class CreateBackendEnvironmentRequest extends S.Class<CreateBackendEnviro
   "CreateBackendEnvironmentRequest",
 )(
   {
-    appId: S.String.pipe(T.HttpLabel()),
+    appId: S.String.pipe(T.HttpLabel("appId")),
     environmentName: S.String,
     stackName: S.optional(S.String),
     deploymentArtifacts: S.optional(S.String),
@@ -265,7 +266,7 @@ export class CreateWebhookRequest extends S.Class<CreateWebhookRequest>(
   "CreateWebhookRequest",
 )(
   {
-    appId: S.String.pipe(T.HttpLabel()),
+    appId: S.String.pipe(T.HttpLabel("appId")),
     branchName: S.String,
     description: S.optional(S.String),
   },
@@ -282,7 +283,7 @@ export class CreateWebhookRequest extends S.Class<CreateWebhookRequest>(
 export class DeleteAppRequest extends S.Class<DeleteAppRequest>(
   "DeleteAppRequest",
 )(
-  { appId: S.String.pipe(T.HttpLabel()) },
+  { appId: S.String.pipe(T.HttpLabel("appId")) },
   T.all(
     ns,
     T.Http({ method: "DELETE", uri: "/apps/{appId}" }),
@@ -297,8 +298,8 @@ export class DeleteBackendEnvironmentRequest extends S.Class<DeleteBackendEnviro
   "DeleteBackendEnvironmentRequest",
 )(
   {
-    appId: S.String.pipe(T.HttpLabel()),
-    environmentName: S.String.pipe(T.HttpLabel()),
+    appId: S.String.pipe(T.HttpLabel("appId")),
+    environmentName: S.String.pipe(T.HttpLabel("environmentName")),
   },
   T.all(
     ns,
@@ -317,8 +318,8 @@ export class DeleteBranchRequest extends S.Class<DeleteBranchRequest>(
   "DeleteBranchRequest",
 )(
   {
-    appId: S.String.pipe(T.HttpLabel()),
-    branchName: S.String.pipe(T.HttpLabel()),
+    appId: S.String.pipe(T.HttpLabel("appId")),
+    branchName: S.String.pipe(T.HttpLabel("branchName")),
   },
   T.all(
     ns,
@@ -334,8 +335,8 @@ export class DeleteDomainAssociationRequest extends S.Class<DeleteDomainAssociat
   "DeleteDomainAssociationRequest",
 )(
   {
-    appId: S.String.pipe(T.HttpLabel()),
-    domainName: S.String.pipe(T.HttpLabel()),
+    appId: S.String.pipe(T.HttpLabel("appId")),
+    domainName: S.String.pipe(T.HttpLabel("domainName")),
   },
   T.all(
     ns,
@@ -351,9 +352,9 @@ export class DeleteJobRequest extends S.Class<DeleteJobRequest>(
   "DeleteJobRequest",
 )(
   {
-    appId: S.String.pipe(T.HttpLabel()),
-    branchName: S.String.pipe(T.HttpLabel()),
-    jobId: S.String.pipe(T.HttpLabel()),
+    appId: S.String.pipe(T.HttpLabel("appId")),
+    branchName: S.String.pipe(T.HttpLabel("branchName")),
+    jobId: S.String.pipe(T.HttpLabel("jobId")),
   },
   T.all(
     ns,
@@ -371,7 +372,7 @@ export class DeleteJobRequest extends S.Class<DeleteJobRequest>(
 export class DeleteWebhookRequest extends S.Class<DeleteWebhookRequest>(
   "DeleteWebhookRequest",
 )(
-  { webhookId: S.String.pipe(T.HttpLabel()) },
+  { webhookId: S.String.pipe(T.HttpLabel("webhookId")) },
   T.all(
     ns,
     T.Http({ method: "DELETE", uri: "/webhooks/{webhookId}" }),
@@ -389,7 +390,7 @@ export class GenerateAccessLogsRequest extends S.Class<GenerateAccessLogsRequest
     startTime: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
     endTime: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
     domainName: S.String,
-    appId: S.String.pipe(T.HttpLabel()),
+    appId: S.String.pipe(T.HttpLabel("appId")),
   },
   T.all(
     ns,
@@ -402,7 +403,7 @@ export class GenerateAccessLogsRequest extends S.Class<GenerateAccessLogsRequest
   ),
 ) {}
 export class GetAppRequest extends S.Class<GetAppRequest>("GetAppRequest")(
-  { appId: S.String.pipe(T.HttpLabel()) },
+  { appId: S.String.pipe(T.HttpLabel("appId")) },
   T.all(
     ns,
     T.Http({ method: "GET", uri: "/apps/{appId}" }),
@@ -416,7 +417,7 @@ export class GetAppRequest extends S.Class<GetAppRequest>("GetAppRequest")(
 export class GetArtifactUrlRequest extends S.Class<GetArtifactUrlRequest>(
   "GetArtifactUrlRequest",
 )(
-  { artifactId: S.String.pipe(T.HttpLabel()) },
+  { artifactId: S.String.pipe(T.HttpLabel("artifactId")) },
   T.all(
     ns,
     T.Http({ method: "GET", uri: "/artifacts/{artifactId}" }),
@@ -431,8 +432,8 @@ export class GetBackendEnvironmentRequest extends S.Class<GetBackendEnvironmentR
   "GetBackendEnvironmentRequest",
 )(
   {
-    appId: S.String.pipe(T.HttpLabel()),
-    environmentName: S.String.pipe(T.HttpLabel()),
+    appId: S.String.pipe(T.HttpLabel("appId")),
+    environmentName: S.String.pipe(T.HttpLabel("environmentName")),
   },
   T.all(
     ns,
@@ -451,8 +452,8 @@ export class GetBranchRequest extends S.Class<GetBranchRequest>(
   "GetBranchRequest",
 )(
   {
-    appId: S.String.pipe(T.HttpLabel()),
-    branchName: S.String.pipe(T.HttpLabel()),
+    appId: S.String.pipe(T.HttpLabel("appId")),
+    branchName: S.String.pipe(T.HttpLabel("branchName")),
   },
   T.all(
     ns,
@@ -468,8 +469,8 @@ export class GetDomainAssociationRequest extends S.Class<GetDomainAssociationReq
   "GetDomainAssociationRequest",
 )(
   {
-    appId: S.String.pipe(T.HttpLabel()),
-    domainName: S.String.pipe(T.HttpLabel()),
+    appId: S.String.pipe(T.HttpLabel("appId")),
+    domainName: S.String.pipe(T.HttpLabel("domainName")),
   },
   T.all(
     ns,
@@ -483,9 +484,9 @@ export class GetDomainAssociationRequest extends S.Class<GetDomainAssociationReq
 ) {}
 export class GetJobRequest extends S.Class<GetJobRequest>("GetJobRequest")(
   {
-    appId: S.String.pipe(T.HttpLabel()),
-    branchName: S.String.pipe(T.HttpLabel()),
-    jobId: S.String.pipe(T.HttpLabel()),
+    appId: S.String.pipe(T.HttpLabel("appId")),
+    branchName: S.String.pipe(T.HttpLabel("branchName")),
+    jobId: S.String.pipe(T.HttpLabel("jobId")),
   },
   T.all(
     ns,
@@ -503,7 +504,7 @@ export class GetJobRequest extends S.Class<GetJobRequest>("GetJobRequest")(
 export class GetWebhookRequest extends S.Class<GetWebhookRequest>(
   "GetWebhookRequest",
 )(
-  { webhookId: S.String.pipe(T.HttpLabel()) },
+  { webhookId: S.String.pipe(T.HttpLabel("webhookId")) },
   T.all(
     ns,
     T.Http({ method: "GET", uri: "/webhooks/{webhookId}" }),
@@ -535,9 +536,9 @@ export class ListArtifactsRequest extends S.Class<ListArtifactsRequest>(
   "ListArtifactsRequest",
 )(
   {
-    appId: S.String.pipe(T.HttpLabel()),
-    branchName: S.String.pipe(T.HttpLabel()),
-    jobId: S.String.pipe(T.HttpLabel()),
+    appId: S.String.pipe(T.HttpLabel("appId")),
+    branchName: S.String.pipe(T.HttpLabel("branchName")),
+    jobId: S.String.pipe(T.HttpLabel("jobId")),
     nextToken: S.optional(S.String).pipe(T.HttpQuery("nextToken")),
     maxResults: S.optional(S.Number).pipe(T.HttpQuery("maxResults")),
   },
@@ -558,7 +559,7 @@ export class ListBackendEnvironmentsRequest extends S.Class<ListBackendEnvironme
   "ListBackendEnvironmentsRequest",
 )(
   {
-    appId: S.String.pipe(T.HttpLabel()),
+    appId: S.String.pipe(T.HttpLabel("appId")),
     environmentName: S.optional(S.String).pipe(T.HttpQuery("environmentName")),
     nextToken: S.optional(S.String).pipe(T.HttpQuery("nextToken")),
     maxResults: S.optional(S.Number).pipe(T.HttpQuery("maxResults")),
@@ -577,7 +578,7 @@ export class ListBranchesRequest extends S.Class<ListBranchesRequest>(
   "ListBranchesRequest",
 )(
   {
-    appId: S.String.pipe(T.HttpLabel()),
+    appId: S.String.pipe(T.HttpLabel("appId")),
     nextToken: S.optional(S.String).pipe(T.HttpQuery("nextToken")),
     maxResults: S.optional(S.Number).pipe(T.HttpQuery("maxResults")),
   },
@@ -595,7 +596,7 @@ export class ListDomainAssociationsRequest extends S.Class<ListDomainAssociation
   "ListDomainAssociationsRequest",
 )(
   {
-    appId: S.String.pipe(T.HttpLabel()),
+    appId: S.String.pipe(T.HttpLabel("appId")),
     nextToken: S.optional(S.String).pipe(T.HttpQuery("nextToken")),
     maxResults: S.optional(S.Number).pipe(T.HttpQuery("maxResults")),
   },
@@ -613,8 +614,8 @@ export class ListJobsRequest extends S.Class<ListJobsRequest>(
   "ListJobsRequest",
 )(
   {
-    appId: S.String.pipe(T.HttpLabel()),
-    branchName: S.String.pipe(T.HttpLabel()),
+    appId: S.String.pipe(T.HttpLabel("appId")),
+    branchName: S.String.pipe(T.HttpLabel("branchName")),
     nextToken: S.optional(S.String).pipe(T.HttpQuery("nextToken")),
     maxResults: S.optional(S.Number).pipe(T.HttpQuery("maxResults")),
   },
@@ -631,7 +632,7 @@ export class ListJobsRequest extends S.Class<ListJobsRequest>(
 export class ListTagsForResourceRequest extends S.Class<ListTagsForResourceRequest>(
   "ListTagsForResourceRequest",
 )(
-  { resourceArn: S.String.pipe(T.HttpLabel()) },
+  { resourceArn: S.String.pipe(T.HttpLabel("resourceArn")) },
   T.all(
     ns,
     T.Http({ method: "GET", uri: "/tags/{resourceArn}" }),
@@ -646,7 +647,7 @@ export class ListWebhooksRequest extends S.Class<ListWebhooksRequest>(
   "ListWebhooksRequest",
 )(
   {
-    appId: S.String.pipe(T.HttpLabel()),
+    appId: S.String.pipe(T.HttpLabel("appId")),
     nextToken: S.optional(S.String).pipe(T.HttpQuery("nextToken")),
     maxResults: S.optional(S.Number).pipe(T.HttpQuery("maxResults")),
   },
@@ -664,8 +665,8 @@ export class StartDeploymentRequest extends S.Class<StartDeploymentRequest>(
   "StartDeploymentRequest",
 )(
   {
-    appId: S.String.pipe(T.HttpLabel()),
-    branchName: S.String.pipe(T.HttpLabel()),
+    appId: S.String.pipe(T.HttpLabel("appId")),
+    branchName: S.String.pipe(T.HttpLabel("branchName")),
     jobId: S.optional(S.String),
     sourceUrl: S.optional(S.String),
     sourceUrlType: S.optional(S.String),
@@ -687,8 +688,8 @@ export class StartJobRequest extends S.Class<StartJobRequest>(
   "StartJobRequest",
 )(
   {
-    appId: S.String.pipe(T.HttpLabel()),
-    branchName: S.String.pipe(T.HttpLabel()),
+    appId: S.String.pipe(T.HttpLabel("appId")),
+    branchName: S.String.pipe(T.HttpLabel("branchName")),
     jobId: S.optional(S.String),
     jobType: S.String,
     jobReason: S.optional(S.String),
@@ -708,9 +709,9 @@ export class StartJobRequest extends S.Class<StartJobRequest>(
 ) {}
 export class StopJobRequest extends S.Class<StopJobRequest>("StopJobRequest")(
   {
-    appId: S.String.pipe(T.HttpLabel()),
-    branchName: S.String.pipe(T.HttpLabel()),
-    jobId: S.String.pipe(T.HttpLabel()),
+    appId: S.String.pipe(T.HttpLabel("appId")),
+    branchName: S.String.pipe(T.HttpLabel("branchName")),
+    jobId: S.String.pipe(T.HttpLabel("jobId")),
   },
   T.all(
     ns,
@@ -729,7 +730,7 @@ export const TagMap = S.Record({ key: S.String, value: S.String });
 export class TagResourceRequest extends S.Class<TagResourceRequest>(
   "TagResourceRequest",
 )(
-  { resourceArn: S.String.pipe(T.HttpLabel()), tags: TagMap },
+  { resourceArn: S.String.pipe(T.HttpLabel("resourceArn")), tags: TagMap },
   T.all(
     ns,
     T.Http({ method: "POST", uri: "/tags/{resourceArn}" }),
@@ -747,7 +748,7 @@ export class UntagResourceRequest extends S.Class<UntagResourceRequest>(
   "UntagResourceRequest",
 )(
   {
-    resourceArn: S.String.pipe(T.HttpLabel()),
+    resourceArn: S.String.pipe(T.HttpLabel("resourceArn")),
     tagKeys: TagKeyList.pipe(T.HttpQuery("tagKeys")),
   },
   T.all(
@@ -798,7 +799,7 @@ export class UpdateAppRequest extends S.Class<UpdateAppRequest>(
   "UpdateAppRequest",
 )(
   {
-    appId: S.String.pipe(T.HttpLabel()),
+    appId: S.String.pipe(T.HttpLabel("appId")),
     name: S.optional(S.String),
     description: S.optional(S.String),
     platform: S.optional(S.String),
@@ -838,8 +839,8 @@ export class UpdateBranchRequest extends S.Class<UpdateBranchRequest>(
   "UpdateBranchRequest",
 )(
   {
-    appId: S.String.pipe(T.HttpLabel()),
-    branchName: S.String.pipe(T.HttpLabel()),
+    appId: S.String.pipe(T.HttpLabel("appId")),
+    branchName: S.String.pipe(T.HttpLabel("branchName")),
     description: S.optional(S.String),
     framework: S.optional(S.String),
     stage: S.optional(S.String),
@@ -880,8 +881,8 @@ export class UpdateDomainAssociationRequest extends S.Class<UpdateDomainAssociat
   "UpdateDomainAssociationRequest",
 )(
   {
-    appId: S.String.pipe(T.HttpLabel()),
-    domainName: S.String.pipe(T.HttpLabel()),
+    appId: S.String.pipe(T.HttpLabel("appId")),
+    domainName: S.String.pipe(T.HttpLabel("domainName")),
     enableAutoSubDomain: S.optional(S.Boolean),
     subDomainSettings: S.optional(SubDomainSettings),
     autoSubDomainCreationPatterns: S.optional(AutoSubDomainCreationPatterns),
@@ -902,7 +903,7 @@ export class UpdateWebhookRequest extends S.Class<UpdateWebhookRequest>(
   "UpdateWebhookRequest",
 )(
   {
-    webhookId: S.String.pipe(T.HttpLabel()),
+    webhookId: S.String.pipe(T.HttpLabel("webhookId")),
     branchName: S.optional(S.String),
     description: S.optional(S.String),
   },
@@ -1105,7 +1106,7 @@ export class CreateBranchRequest extends S.Class<CreateBranchRequest>(
   "CreateBranchRequest",
 )(
   {
-    appId: S.String.pipe(T.HttpLabel()),
+    appId: S.String.pipe(T.HttpLabel("appId")),
     branchName: S.String,
     description: S.optional(S.String),
     stage: S.optional(S.String),
@@ -1141,8 +1142,8 @@ export class CreateDeploymentRequest extends S.Class<CreateDeploymentRequest>(
   "CreateDeploymentRequest",
 )(
   {
-    appId: S.String.pipe(T.HttpLabel()),
-    branchName: S.String.pipe(T.HttpLabel()),
+    appId: S.String.pipe(T.HttpLabel("appId")),
+    branchName: S.String.pipe(T.HttpLabel("branchName")),
     fileMap: S.optional(FileMap),
   },
   T.all(
@@ -1162,7 +1163,7 @@ export class CreateDomainAssociationRequest extends S.Class<CreateDomainAssociat
   "CreateDomainAssociationRequest",
 )(
   {
-    appId: S.String.pipe(T.HttpLabel()),
+    appId: S.String.pipe(T.HttpLabel("appId")),
     domainName: S.String,
     enableAutoSubDomain: S.optional(S.Boolean),
     subDomainSettings: SubDomainSettings,
@@ -1338,11 +1339,11 @@ export class BadRequestException extends S.TaggedError<BadRequestException>()(
 export class InternalFailureException extends S.TaggedError<InternalFailureException>()(
   "InternalFailureException",
   { message: S.optional(S.String) },
-) {}
+).pipe(withCategory(ERROR_CATEGORIES.SERVER_ERROR)) {}
 export class DependentServiceFailureException extends S.TaggedError<DependentServiceFailureException>()(
   "DependentServiceFailureException",
   { message: S.optional(S.String) },
-) {}
+).pipe(withCategory(ERROR_CATEGORIES.SERVER_ERROR)) {}
 export class ResourceNotFoundException extends S.TaggedError<ResourceNotFoundException>()(
   "ResourceNotFoundException",
   { code: S.String, message: S.String },
@@ -1354,7 +1355,7 @@ export class NotFoundException extends S.TaggedError<NotFoundException>()(
 export class LimitExceededException extends S.TaggedError<LimitExceededException>()(
   "LimitExceededException",
   { message: S.optional(S.String) },
-) {}
+).pipe(withCategory(ERROR_CATEGORIES.THROTTLING_ERROR)) {}
 export class UnauthorizedException extends S.TaggedError<UnauthorizedException>()(
   "UnauthorizedException",
   { message: S.optional(S.String) },

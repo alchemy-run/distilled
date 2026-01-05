@@ -1,6 +1,7 @@
 import * as S from "effect/Schema";
 import * as API from "../api.ts";
 import * as T from "../traits.ts";
+import { ERROR_CATEGORIES, withCategory } from "../error-category.ts";
 const svc = T.AwsApiService({
   sdkId: "Migration Hub",
   serviceShapeName: "AWSMigrationHub",
@@ -638,7 +639,7 @@ export class ThrottlingException extends S.TaggedError<ThrottlingException>()(
     Message: S.String,
     RetryAfterSeconds: S.optional(S.Number).pipe(T.HttpHeader("Retry-After")),
   },
-) {}
+).pipe(withCategory(ERROR_CATEGORIES.THROTTLING_ERROR)) {}
 export class UnauthorizedOperation extends S.TaggedError<UnauthorizedOperation>()(
   "UnauthorizedOperation",
   { Message: S.optional(S.String) },

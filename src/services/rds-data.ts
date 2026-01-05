@@ -1,6 +1,7 @@
 import * as S from "effect/Schema";
 import * as API from "../api.ts";
 import * as T from "../traits.ts";
+import { ERROR_CATEGORIES, withCategory } from "../error-category.ts";
 const svc = T.AwsApiService({
   sdkId: "RDS Data",
   serviceShapeName: "RdsDataService",
@@ -515,7 +516,7 @@ export class DatabaseNotFoundException extends S.TaggedError<DatabaseNotFoundExc
 export class DatabaseUnavailableException extends S.TaggedError<DatabaseUnavailableException>()(
   "DatabaseUnavailableException",
   {},
-) {}
+).pipe(withCategory(ERROR_CATEGORIES.SERVER_ERROR)) {}
 export class DatabaseResumingException extends S.TaggedError<DatabaseResumingException>()(
   "DatabaseResumingException",
   { message: S.optional(S.String) },
@@ -527,11 +528,11 @@ export class ForbiddenException extends S.TaggedError<ForbiddenException>()(
 export class InternalServerErrorException extends S.TaggedError<InternalServerErrorException>()(
   "InternalServerErrorException",
   {},
-) {}
+).pipe(withCategory(ERROR_CATEGORIES.SERVER_ERROR)) {}
 export class ServiceUnavailableError extends S.TaggedError<ServiceUnavailableError>()(
   "ServiceUnavailableError",
   {},
-) {}
+).pipe(withCategory(ERROR_CATEGORIES.SERVER_ERROR)) {}
 export class HttpEndpointNotEnabledException extends S.TaggedError<HttpEndpointNotEnabledException>()(
   "HttpEndpointNotEnabledException",
   { message: S.optional(S.String) },

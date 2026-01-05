@@ -1,6 +1,7 @@
 import * as S from "effect/Schema";
 import * as API from "../api.ts";
 import * as T from "../traits.ts";
+import { ERROR_CATEGORIES, withCategory } from "../error-category.ts";
 const ns = T.XmlNamespace("http://cloudsearch.amazonaws.com/doc/2013-01-01/");
 const svc = T.AwsApiService({
   sdkId: "CloudSearch",
@@ -715,7 +716,7 @@ export class InternalException extends S.TaggedError<InternalException>()(
   "InternalException",
   { Code: S.optional(S.String), Message: S.optional(S.String) },
   T.AwsQueryError({ code: "InternalException", httpResponseCode: 500 }),
-) {}
+).pipe(withCategory(ERROR_CATEGORIES.SERVER_ERROR)) {}
 export class DisabledOperationException extends S.TaggedError<DisabledOperationException>()(
   "DisabledOperationException",
   { Code: S.optional(S.String), Message: S.optional(S.String) },

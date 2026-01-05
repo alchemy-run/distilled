@@ -1,6 +1,7 @@
 import * as S from "effect/Schema";
 import * as API from "../api.ts";
 import * as T from "../traits.ts";
+import { ERROR_CATEGORIES, withCategory } from "../error-category.ts";
 const svc = T.AwsApiService({
   sdkId: "Chime SDK Identity",
   serviceShapeName: "ChimeIdentityService",
@@ -247,7 +248,7 @@ export class CreateAppInstanceAdminRequest extends S.Class<CreateAppInstanceAdmi
 )(
   {
     AppInstanceAdminArn: S.String,
-    AppInstanceArn: S.String.pipe(T.HttpLabel()),
+    AppInstanceArn: S.String.pipe(T.HttpLabel("AppInstanceArn")),
   },
   T.all(
     T.Http({ method: "POST", uri: "/app-instances/{AppInstanceArn}/admins" }),
@@ -261,7 +262,7 @@ export class CreateAppInstanceAdminRequest extends S.Class<CreateAppInstanceAdmi
 export class DeleteAppInstanceRequest extends S.Class<DeleteAppInstanceRequest>(
   "DeleteAppInstanceRequest",
 )(
-  { AppInstanceArn: S.String.pipe(T.HttpLabel()) },
+  { AppInstanceArn: S.String.pipe(T.HttpLabel("AppInstanceArn")) },
   T.all(
     T.Http({ method: "DELETE", uri: "/app-instances/{AppInstanceArn}" }),
     svc,
@@ -278,8 +279,8 @@ export class DeleteAppInstanceAdminRequest extends S.Class<DeleteAppInstanceAdmi
   "DeleteAppInstanceAdminRequest",
 )(
   {
-    AppInstanceAdminArn: S.String.pipe(T.HttpLabel()),
-    AppInstanceArn: S.String.pipe(T.HttpLabel()),
+    AppInstanceAdminArn: S.String.pipe(T.HttpLabel("AppInstanceAdminArn")),
+    AppInstanceArn: S.String.pipe(T.HttpLabel("AppInstanceArn")),
   },
   T.all(
     T.Http({
@@ -299,7 +300,7 @@ export class DeleteAppInstanceAdminResponse extends S.Class<DeleteAppInstanceAdm
 export class DeleteAppInstanceBotRequest extends S.Class<DeleteAppInstanceBotRequest>(
   "DeleteAppInstanceBotRequest",
 )(
-  { AppInstanceBotArn: S.String.pipe(T.HttpLabel()) },
+  { AppInstanceBotArn: S.String.pipe(T.HttpLabel("AppInstanceBotArn")) },
   T.all(
     T.Http({ method: "DELETE", uri: "/app-instance-bots/{AppInstanceBotArn}" }),
     svc,
@@ -315,7 +316,7 @@ export class DeleteAppInstanceBotResponse extends S.Class<DeleteAppInstanceBotRe
 export class DeleteAppInstanceUserRequest extends S.Class<DeleteAppInstanceUserRequest>(
   "DeleteAppInstanceUserRequest",
 )(
-  { AppInstanceUserArn: S.String.pipe(T.HttpLabel()) },
+  { AppInstanceUserArn: S.String.pipe(T.HttpLabel("AppInstanceUserArn")) },
   T.all(
     T.Http({
       method: "DELETE",
@@ -335,8 +336,8 @@ export class DeregisterAppInstanceUserEndpointRequest extends S.Class<Deregister
   "DeregisterAppInstanceUserEndpointRequest",
 )(
   {
-    AppInstanceUserArn: S.String.pipe(T.HttpLabel()),
-    EndpointId: S.String.pipe(T.HttpLabel()),
+    AppInstanceUserArn: S.String.pipe(T.HttpLabel("AppInstanceUserArn")),
+    EndpointId: S.String.pipe(T.HttpLabel("EndpointId")),
   },
   T.all(
     T.Http({
@@ -356,7 +357,7 @@ export class DeregisterAppInstanceUserEndpointResponse extends S.Class<Deregiste
 export class DescribeAppInstanceRequest extends S.Class<DescribeAppInstanceRequest>(
   "DescribeAppInstanceRequest",
 )(
-  { AppInstanceArn: S.String.pipe(T.HttpLabel()) },
+  { AppInstanceArn: S.String.pipe(T.HttpLabel("AppInstanceArn")) },
   T.all(
     T.Http({ method: "GET", uri: "/app-instances/{AppInstanceArn}" }),
     svc,
@@ -370,8 +371,8 @@ export class DescribeAppInstanceAdminRequest extends S.Class<DescribeAppInstance
   "DescribeAppInstanceAdminRequest",
 )(
   {
-    AppInstanceAdminArn: S.String.pipe(T.HttpLabel()),
-    AppInstanceArn: S.String.pipe(T.HttpLabel()),
+    AppInstanceAdminArn: S.String.pipe(T.HttpLabel("AppInstanceAdminArn")),
+    AppInstanceArn: S.String.pipe(T.HttpLabel("AppInstanceArn")),
   },
   T.all(
     T.Http({
@@ -388,7 +389,7 @@ export class DescribeAppInstanceAdminRequest extends S.Class<DescribeAppInstance
 export class DescribeAppInstanceBotRequest extends S.Class<DescribeAppInstanceBotRequest>(
   "DescribeAppInstanceBotRequest",
 )(
-  { AppInstanceBotArn: S.String.pipe(T.HttpLabel()) },
+  { AppInstanceBotArn: S.String.pipe(T.HttpLabel("AppInstanceBotArn")) },
   T.all(
     T.Http({ method: "GET", uri: "/app-instance-bots/{AppInstanceBotArn}" }),
     svc,
@@ -401,7 +402,7 @@ export class DescribeAppInstanceBotRequest extends S.Class<DescribeAppInstanceBo
 export class DescribeAppInstanceUserRequest extends S.Class<DescribeAppInstanceUserRequest>(
   "DescribeAppInstanceUserRequest",
 )(
-  { AppInstanceUserArn: S.String.pipe(T.HttpLabel()) },
+  { AppInstanceUserArn: S.String.pipe(T.HttpLabel("AppInstanceUserArn")) },
   T.all(
     T.Http({ method: "GET", uri: "/app-instance-users/{AppInstanceUserArn}" }),
     svc,
@@ -415,8 +416,8 @@ export class DescribeAppInstanceUserEndpointRequest extends S.Class<DescribeAppI
   "DescribeAppInstanceUserEndpointRequest",
 )(
   {
-    AppInstanceUserArn: S.String.pipe(T.HttpLabel()),
-    EndpointId: S.String.pipe(T.HttpLabel()),
+    AppInstanceUserArn: S.String.pipe(T.HttpLabel("AppInstanceUserArn")),
+    EndpointId: S.String.pipe(T.HttpLabel("EndpointId")),
   },
   T.all(
     T.Http({
@@ -433,7 +434,7 @@ export class DescribeAppInstanceUserEndpointRequest extends S.Class<DescribeAppI
 export class GetAppInstanceRetentionSettingsRequest extends S.Class<GetAppInstanceRetentionSettingsRequest>(
   "GetAppInstanceRetentionSettingsRequest",
 )(
-  { AppInstanceArn: S.String.pipe(T.HttpLabel()) },
+  { AppInstanceArn: S.String.pipe(T.HttpLabel("AppInstanceArn")) },
   T.all(
     T.Http({
       method: "GET",
@@ -450,7 +451,7 @@ export class ListAppInstanceAdminsRequest extends S.Class<ListAppInstanceAdminsR
   "ListAppInstanceAdminsRequest",
 )(
   {
-    AppInstanceArn: S.String.pipe(T.HttpLabel()),
+    AppInstanceArn: S.String.pipe(T.HttpLabel("AppInstanceArn")),
     MaxResults: S.optional(S.Number).pipe(T.HttpQuery("max-results")),
     NextToken: S.optional(S.String).pipe(T.HttpQuery("next-token")),
   },
@@ -500,7 +501,7 @@ export class ListAppInstanceUserEndpointsRequest extends S.Class<ListAppInstance
   "ListAppInstanceUserEndpointsRequest",
 )(
   {
-    AppInstanceUserArn: S.String.pipe(T.HttpLabel()),
+    AppInstanceUserArn: S.String.pipe(T.HttpLabel("AppInstanceUserArn")),
     MaxResults: S.optional(S.Number).pipe(T.HttpQuery("max-results")),
     NextToken: S.optional(S.String).pipe(T.HttpQuery("next-token")),
   },
@@ -546,7 +547,7 @@ export class PutAppInstanceUserExpirationSettingsRequest extends S.Class<PutAppI
   "PutAppInstanceUserExpirationSettingsRequest",
 )(
   {
-    AppInstanceUserArn: S.String.pipe(T.HttpLabel()),
+    AppInstanceUserArn: S.String.pipe(T.HttpLabel("AppInstanceUserArn")),
     ExpirationSettings: S.optional(ExpirationSettings),
   },
   T.all(
@@ -602,7 +603,7 @@ export class UpdateAppInstanceRequest extends S.Class<UpdateAppInstanceRequest>(
   "UpdateAppInstanceRequest",
 )(
   {
-    AppInstanceArn: S.String.pipe(T.HttpLabel()),
+    AppInstanceArn: S.String.pipe(T.HttpLabel("AppInstanceArn")),
     Name: S.String,
     Metadata: S.String,
   },
@@ -635,7 +636,7 @@ export class UpdateAppInstanceBotRequest extends S.Class<UpdateAppInstanceBotReq
   "UpdateAppInstanceBotRequest",
 )(
   {
-    AppInstanceBotArn: S.String.pipe(T.HttpLabel()),
+    AppInstanceBotArn: S.String.pipe(T.HttpLabel("AppInstanceBotArn")),
     Name: S.String,
     Metadata: S.String,
     Configuration: S.optional(Configuration),
@@ -653,7 +654,7 @@ export class UpdateAppInstanceUserRequest extends S.Class<UpdateAppInstanceUserR
   "UpdateAppInstanceUserRequest",
 )(
   {
-    AppInstanceUserArn: S.String.pipe(T.HttpLabel()),
+    AppInstanceUserArn: S.String.pipe(T.HttpLabel("AppInstanceUserArn")),
     Name: S.String,
     Metadata: S.String,
   },
@@ -670,8 +671,8 @@ export class UpdateAppInstanceUserEndpointRequest extends S.Class<UpdateAppInsta
   "UpdateAppInstanceUserEndpointRequest",
 )(
   {
-    AppInstanceUserArn: S.String.pipe(T.HttpLabel()),
-    EndpointId: S.String.pipe(T.HttpLabel()),
+    AppInstanceUserArn: S.String.pipe(T.HttpLabel("AppInstanceUserArn")),
+    EndpointId: S.String.pipe(T.HttpLabel("EndpointId")),
     Name: S.optional(S.String),
     AllowMessages: S.optional(S.String),
   },
@@ -756,7 +757,7 @@ export class RegisterAppInstanceUserEndpointRequest extends S.Class<RegisterAppI
   "RegisterAppInstanceUserEndpointRequest",
 )(
   {
-    AppInstanceUserArn: S.String.pipe(T.HttpLabel()),
+    AppInstanceUserArn: S.String.pipe(T.HttpLabel("AppInstanceUserArn")),
     Name: S.optional(S.String),
     Type: S.String,
     ResourceArn: S.String,
@@ -939,7 +940,7 @@ export class PutAppInstanceRetentionSettingsRequest extends S.Class<PutAppInstan
   "PutAppInstanceRetentionSettingsRequest",
 )(
   {
-    AppInstanceArn: S.String.pipe(T.HttpLabel()),
+    AppInstanceArn: S.String.pipe(T.HttpLabel("AppInstanceArn")),
     AppInstanceRetentionSettings: AppInstanceRetentionSettings,
   },
   T.all(
@@ -1031,7 +1032,7 @@ export class ResourceLimitExceededException extends S.TaggedError<ResourceLimitE
 export class ServiceFailureException extends S.TaggedError<ServiceFailureException>()(
   "ServiceFailureException",
   { Code: S.optional(S.String), Message: S.optional(S.String) },
-) {}
+).pipe(withCategory(ERROR_CATEGORIES.SERVER_ERROR)) {}
 export class NotFoundException extends S.TaggedError<NotFoundException>()(
   "NotFoundException",
   { Code: S.optional(S.String), Message: S.optional(S.String) },
@@ -1039,11 +1040,11 @@ export class NotFoundException extends S.TaggedError<NotFoundException>()(
 export class ServiceUnavailableException extends S.TaggedError<ServiceUnavailableException>()(
   "ServiceUnavailableException",
   { Code: S.optional(S.String), Message: S.optional(S.String) },
-) {}
+).pipe(withCategory(ERROR_CATEGORIES.SERVER_ERROR)) {}
 export class ThrottledClientException extends S.TaggedError<ThrottledClientException>()(
   "ThrottledClientException",
   { Code: S.optional(S.String), Message: S.optional(S.String) },
-) {}
+).pipe(withCategory(ERROR_CATEGORIES.THROTTLING_ERROR)) {}
 export class UnauthorizedClientException extends S.TaggedError<UnauthorizedClientException>()(
   "UnauthorizedClientException",
   { Code: S.optional(S.String), Message: S.optional(S.String) },

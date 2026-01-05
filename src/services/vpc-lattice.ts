@@ -1,6 +1,7 @@
 import * as S from "effect/Schema";
 import * as API from "../api.ts";
 import * as T from "../traits.ts";
+import { ERROR_CATEGORIES, withCategory } from "../error-category.ts";
 const svc = T.AwsApiService({
   sdkId: "VPC Lattice",
   serviceShapeName: "MercuryControlPlane",
@@ -300,7 +301,7 @@ export const SecurityGroupList = S.Array(S.String);
 export class DeleteAuthPolicyRequest extends S.Class<DeleteAuthPolicyRequest>(
   "DeleteAuthPolicyRequest",
 )(
-  { resourceIdentifier: S.String.pipe(T.HttpLabel()) },
+  { resourceIdentifier: S.String.pipe(T.HttpLabel("resourceIdentifier")) },
   T.all(
     T.Http({ method: "DELETE", uri: "/authpolicy/{resourceIdentifier}" }),
     svc,
@@ -316,7 +317,7 @@ export class DeleteAuthPolicyResponse extends S.Class<DeleteAuthPolicyResponse>(
 export class DeleteResourcePolicyRequest extends S.Class<DeleteResourcePolicyRequest>(
   "DeleteResourcePolicyRequest",
 )(
-  { resourceArn: S.String.pipe(T.HttpLabel()) },
+  { resourceArn: S.String.pipe(T.HttpLabel("resourceArn")) },
   T.all(
     T.Http({ method: "DELETE", uri: "/resourcepolicy/{resourceArn}" }),
     svc,
@@ -332,7 +333,7 @@ export class DeleteResourcePolicyResponse extends S.Class<DeleteResourcePolicyRe
 export class GetAuthPolicyRequest extends S.Class<GetAuthPolicyRequest>(
   "GetAuthPolicyRequest",
 )(
-  { resourceIdentifier: S.String.pipe(T.HttpLabel()) },
+  { resourceIdentifier: S.String.pipe(T.HttpLabel("resourceIdentifier")) },
   T.all(
     T.Http({ method: "GET", uri: "/authpolicy/{resourceIdentifier}" }),
     svc,
@@ -345,7 +346,7 @@ export class GetAuthPolicyRequest extends S.Class<GetAuthPolicyRequest>(
 export class GetResourcePolicyRequest extends S.Class<GetResourcePolicyRequest>(
   "GetResourcePolicyRequest",
 )(
-  { resourceArn: S.String.pipe(T.HttpLabel()) },
+  { resourceArn: S.String.pipe(T.HttpLabel("resourceArn")) },
   T.all(
     T.Http({ method: "GET", uri: "/resourcepolicy/{resourceArn}" }),
     svc,
@@ -377,7 +378,7 @@ export class ListServiceNetworkVpcEndpointAssociationsRequest extends S.Class<Li
 export class ListTagsForResourceRequest extends S.Class<ListTagsForResourceRequest>(
   "ListTagsForResourceRequest",
 )(
-  { resourceArn: S.String.pipe(T.HttpLabel()) },
+  { resourceArn: S.String.pipe(T.HttpLabel("resourceArn")) },
   T.all(
     T.Http({ method: "GET", uri: "/tags/{resourceArn}" }),
     svc,
@@ -390,7 +391,10 @@ export class ListTagsForResourceRequest extends S.Class<ListTagsForResourceReque
 export class PutAuthPolicyRequest extends S.Class<PutAuthPolicyRequest>(
   "PutAuthPolicyRequest",
 )(
-  { resourceIdentifier: S.String.pipe(T.HttpLabel()), policy: S.String },
+  {
+    resourceIdentifier: S.String.pipe(T.HttpLabel("resourceIdentifier")),
+    policy: S.String,
+  },
   T.all(
     T.Http({ method: "PUT", uri: "/authpolicy/{resourceIdentifier}" }),
     svc,
@@ -403,7 +407,7 @@ export class PutAuthPolicyRequest extends S.Class<PutAuthPolicyRequest>(
 export class PutResourcePolicyRequest extends S.Class<PutResourcePolicyRequest>(
   "PutResourcePolicyRequest",
 )(
-  { resourceArn: S.String.pipe(T.HttpLabel()), policy: S.String },
+  { resourceArn: S.String.pipe(T.HttpLabel("resourceArn")), policy: S.String },
   T.all(
     T.Http({ method: "PUT", uri: "/resourcepolicy/{resourceArn}" }),
     svc,
@@ -420,7 +424,7 @@ export class UntagResourceRequest extends S.Class<UntagResourceRequest>(
   "UntagResourceRequest",
 )(
   {
-    resourceArn: S.String.pipe(T.HttpLabel()),
+    resourceArn: S.String.pipe(T.HttpLabel("resourceArn")),
     tagKeys: TagKeys.pipe(T.HttpQuery("tagKeys")),
   },
   T.all(
@@ -458,7 +462,11 @@ export class CreateAccessLogSubscriptionRequest extends S.Class<CreateAccessLogS
 export class GetAccessLogSubscriptionRequest extends S.Class<GetAccessLogSubscriptionRequest>(
   "GetAccessLogSubscriptionRequest",
 )(
-  { accessLogSubscriptionIdentifier: S.String.pipe(T.HttpLabel()) },
+  {
+    accessLogSubscriptionIdentifier: S.String.pipe(
+      T.HttpLabel("accessLogSubscriptionIdentifier"),
+    ),
+  },
   T.all(
     T.Http({
       method: "GET",
@@ -475,7 +483,9 @@ export class UpdateAccessLogSubscriptionRequest extends S.Class<UpdateAccessLogS
   "UpdateAccessLogSubscriptionRequest",
 )(
   {
-    accessLogSubscriptionIdentifier: S.String.pipe(T.HttpLabel()),
+    accessLogSubscriptionIdentifier: S.String.pipe(
+      T.HttpLabel("accessLogSubscriptionIdentifier"),
+    ),
     destinationArn: S.String,
   },
   T.all(
@@ -493,7 +503,11 @@ export class UpdateAccessLogSubscriptionRequest extends S.Class<UpdateAccessLogS
 export class DeleteAccessLogSubscriptionRequest extends S.Class<DeleteAccessLogSubscriptionRequest>(
   "DeleteAccessLogSubscriptionRequest",
 )(
-  { accessLogSubscriptionIdentifier: S.String.pipe(T.HttpLabel()) },
+  {
+    accessLogSubscriptionIdentifier: S.String.pipe(
+      T.HttpLabel("accessLogSubscriptionIdentifier"),
+    ),
+  },
   T.all(
     T.Http({
       method: "DELETE",
@@ -546,7 +560,11 @@ export class StartDomainVerificationRequest extends S.Class<StartDomainVerificat
 export class GetDomainVerificationRequest extends S.Class<GetDomainVerificationRequest>(
   "GetDomainVerificationRequest",
 )(
-  { domainVerificationIdentifier: S.String.pipe(T.HttpLabel()) },
+  {
+    domainVerificationIdentifier: S.String.pipe(
+      T.HttpLabel("domainVerificationIdentifier"),
+    ),
+  },
   T.all(
     T.Http({
       method: "GET",
@@ -562,7 +580,11 @@ export class GetDomainVerificationRequest extends S.Class<GetDomainVerificationR
 export class DeleteDomainVerificationRequest extends S.Class<DeleteDomainVerificationRequest>(
   "DeleteDomainVerificationRequest",
 )(
-  { domainVerificationIdentifier: S.String.pipe(T.HttpLabel()) },
+  {
+    domainVerificationIdentifier: S.String.pipe(
+      T.HttpLabel("domainVerificationIdentifier"),
+    ),
+  },
   T.all(
     T.Http({
       method: "DELETE",
@@ -598,8 +620,8 @@ export class GetListenerRequest extends S.Class<GetListenerRequest>(
   "GetListenerRequest",
 )(
   {
-    serviceIdentifier: S.String.pipe(T.HttpLabel()),
-    listenerIdentifier: S.String.pipe(T.HttpLabel()),
+    serviceIdentifier: S.String.pipe(T.HttpLabel("serviceIdentifier")),
+    listenerIdentifier: S.String.pipe(T.HttpLabel("listenerIdentifier")),
   },
   T.all(
     T.Http({
@@ -631,8 +653,8 @@ export class UpdateListenerRequest extends S.Class<UpdateListenerRequest>(
   "UpdateListenerRequest",
 )(
   {
-    serviceIdentifier: S.String.pipe(T.HttpLabel()),
-    listenerIdentifier: S.String.pipe(T.HttpLabel()),
+    serviceIdentifier: S.String.pipe(T.HttpLabel("serviceIdentifier")),
+    listenerIdentifier: S.String.pipe(T.HttpLabel("listenerIdentifier")),
     defaultAction: RuleAction,
   },
   T.all(
@@ -651,8 +673,8 @@ export class DeleteListenerRequest extends S.Class<DeleteListenerRequest>(
   "DeleteListenerRequest",
 )(
   {
-    serviceIdentifier: S.String.pipe(T.HttpLabel()),
-    listenerIdentifier: S.String.pipe(T.HttpLabel()),
+    serviceIdentifier: S.String.pipe(T.HttpLabel("serviceIdentifier")),
+    listenerIdentifier: S.String.pipe(T.HttpLabel("listenerIdentifier")),
   },
   T.all(
     T.Http({
@@ -673,7 +695,7 @@ export class ListListenersRequest extends S.Class<ListListenersRequest>(
   "ListListenersRequest",
 )(
   {
-    serviceIdentifier: S.String.pipe(T.HttpLabel()),
+    serviceIdentifier: S.String.pipe(T.HttpLabel("serviceIdentifier")),
     maxResults: S.optional(S.Number).pipe(T.HttpQuery("maxResults")),
     nextToken: S.optional(S.String).pipe(T.HttpQuery("nextToken")),
   },
@@ -689,7 +711,11 @@ export class ListListenersRequest extends S.Class<ListListenersRequest>(
 export class GetResourceConfigurationRequest extends S.Class<GetResourceConfigurationRequest>(
   "GetResourceConfigurationRequest",
 )(
-  { resourceConfigurationIdentifier: S.String.pipe(T.HttpLabel()) },
+  {
+    resourceConfigurationIdentifier: S.String.pipe(
+      T.HttpLabel("resourceConfigurationIdentifier"),
+    ),
+  },
   T.all(
     T.Http({
       method: "GET",
@@ -721,7 +747,9 @@ export class UpdateResourceConfigurationRequest extends S.Class<UpdateResourceCo
   "UpdateResourceConfigurationRequest",
 )(
   {
-    resourceConfigurationIdentifier: S.String.pipe(T.HttpLabel()),
+    resourceConfigurationIdentifier: S.String.pipe(
+      T.HttpLabel("resourceConfigurationIdentifier"),
+    ),
     resourceConfigurationDefinition: S.optional(
       ResourceConfigurationDefinition,
     ),
@@ -743,7 +771,11 @@ export class UpdateResourceConfigurationRequest extends S.Class<UpdateResourceCo
 export class DeleteResourceConfigurationRequest extends S.Class<DeleteResourceConfigurationRequest>(
   "DeleteResourceConfigurationRequest",
 )(
-  { resourceConfigurationIdentifier: S.String.pipe(T.HttpLabel()) },
+  {
+    resourceConfigurationIdentifier: S.String.pipe(
+      T.HttpLabel("resourceConfigurationIdentifier"),
+    ),
+  },
   T.all(
     T.Http({
       method: "DELETE",
@@ -787,7 +819,11 @@ export class ListResourceConfigurationsRequest extends S.Class<ListResourceConfi
 export class DeleteResourceEndpointAssociationRequest extends S.Class<DeleteResourceEndpointAssociationRequest>(
   "DeleteResourceEndpointAssociationRequest",
 )(
-  { resourceEndpointAssociationIdentifier: S.String.pipe(T.HttpLabel()) },
+  {
+    resourceEndpointAssociationIdentifier: S.String.pipe(
+      T.HttpLabel("resourceEndpointAssociationIdentifier"),
+    ),
+  },
   T.all(
     T.Http({
       method: "DELETE",
@@ -851,7 +887,11 @@ export class CreateResourceGatewayRequest extends S.Class<CreateResourceGatewayR
 export class GetResourceGatewayRequest extends S.Class<GetResourceGatewayRequest>(
   "GetResourceGatewayRequest",
 )(
-  { resourceGatewayIdentifier: S.String.pipe(T.HttpLabel()) },
+  {
+    resourceGatewayIdentifier: S.String.pipe(
+      T.HttpLabel("resourceGatewayIdentifier"),
+    ),
+  },
   T.all(
     T.Http({
       method: "GET",
@@ -868,7 +908,9 @@ export class UpdateResourceGatewayRequest extends S.Class<UpdateResourceGatewayR
   "UpdateResourceGatewayRequest",
 )(
   {
-    resourceGatewayIdentifier: S.String.pipe(T.HttpLabel()),
+    resourceGatewayIdentifier: S.String.pipe(
+      T.HttpLabel("resourceGatewayIdentifier"),
+    ),
     securityGroupIds: S.optional(SecurityGroupList),
   },
   T.all(
@@ -886,7 +928,11 @@ export class UpdateResourceGatewayRequest extends S.Class<UpdateResourceGatewayR
 export class DeleteResourceGatewayRequest extends S.Class<DeleteResourceGatewayRequest>(
   "DeleteResourceGatewayRequest",
 )(
-  { resourceGatewayIdentifier: S.String.pipe(T.HttpLabel()) },
+  {
+    resourceGatewayIdentifier: S.String.pipe(
+      T.HttpLabel("resourceGatewayIdentifier"),
+    ),
+  },
   T.all(
     T.Http({
       method: "DELETE",
@@ -917,9 +963,9 @@ export class ListResourceGatewaysRequest extends S.Class<ListResourceGatewaysReq
 ) {}
 export class GetRuleRequest extends S.Class<GetRuleRequest>("GetRuleRequest")(
   {
-    serviceIdentifier: S.String.pipe(T.HttpLabel()),
-    listenerIdentifier: S.String.pipe(T.HttpLabel()),
-    ruleIdentifier: S.String.pipe(T.HttpLabel()),
+    serviceIdentifier: S.String.pipe(T.HttpLabel("serviceIdentifier")),
+    listenerIdentifier: S.String.pipe(T.HttpLabel("listenerIdentifier")),
+    ruleIdentifier: S.String.pipe(T.HttpLabel("ruleIdentifier")),
   },
   T.all(
     T.Http({
@@ -962,9 +1008,9 @@ export class UpdateRuleRequest extends S.Class<UpdateRuleRequest>(
   "UpdateRuleRequest",
 )(
   {
-    serviceIdentifier: S.String.pipe(T.HttpLabel()),
-    listenerIdentifier: S.String.pipe(T.HttpLabel()),
-    ruleIdentifier: S.String.pipe(T.HttpLabel()),
+    serviceIdentifier: S.String.pipe(T.HttpLabel("serviceIdentifier")),
+    listenerIdentifier: S.String.pipe(T.HttpLabel("listenerIdentifier")),
+    ruleIdentifier: S.String.pipe(T.HttpLabel("ruleIdentifier")),
     match: S.optional(RuleMatch),
     priority: S.optional(S.Number),
     action: S.optional(RuleAction),
@@ -985,9 +1031,9 @@ export class DeleteRuleRequest extends S.Class<DeleteRuleRequest>(
   "DeleteRuleRequest",
 )(
   {
-    serviceIdentifier: S.String.pipe(T.HttpLabel()),
-    listenerIdentifier: S.String.pipe(T.HttpLabel()),
-    ruleIdentifier: S.String.pipe(T.HttpLabel()),
+    serviceIdentifier: S.String.pipe(T.HttpLabel("serviceIdentifier")),
+    listenerIdentifier: S.String.pipe(T.HttpLabel("listenerIdentifier")),
+    ruleIdentifier: S.String.pipe(T.HttpLabel("ruleIdentifier")),
   },
   T.all(
     T.Http({
@@ -1008,8 +1054,8 @@ export class ListRulesRequest extends S.Class<ListRulesRequest>(
   "ListRulesRequest",
 )(
   {
-    serviceIdentifier: S.String.pipe(T.HttpLabel()),
-    listenerIdentifier: S.String.pipe(T.HttpLabel()),
+    serviceIdentifier: S.String.pipe(T.HttpLabel("serviceIdentifier")),
+    listenerIdentifier: S.String.pipe(T.HttpLabel("listenerIdentifier")),
     maxResults: S.optional(S.Number).pipe(T.HttpQuery("maxResults")),
     nextToken: S.optional(S.String).pipe(T.HttpQuery("nextToken")),
   },
@@ -1048,7 +1094,7 @@ export class CreateServiceRequest extends S.Class<CreateServiceRequest>(
 export class GetServiceRequest extends S.Class<GetServiceRequest>(
   "GetServiceRequest",
 )(
-  { serviceIdentifier: S.String.pipe(T.HttpLabel()) },
+  { serviceIdentifier: S.String.pipe(T.HttpLabel("serviceIdentifier")) },
   T.all(
     T.Http({ method: "GET", uri: "/services/{serviceIdentifier}" }),
     svc,
@@ -1062,7 +1108,7 @@ export class UpdateServiceRequest extends S.Class<UpdateServiceRequest>(
   "UpdateServiceRequest",
 )(
   {
-    serviceIdentifier: S.String.pipe(T.HttpLabel()),
+    serviceIdentifier: S.String.pipe(T.HttpLabel("serviceIdentifier")),
     certificateArn: S.optional(S.String),
     authType: S.optional(S.String),
   },
@@ -1078,7 +1124,7 @@ export class UpdateServiceRequest extends S.Class<UpdateServiceRequest>(
 export class DeleteServiceRequest extends S.Class<DeleteServiceRequest>(
   "DeleteServiceRequest",
 )(
-  { serviceIdentifier: S.String.pipe(T.HttpLabel()) },
+  { serviceIdentifier: S.String.pipe(T.HttpLabel("serviceIdentifier")) },
   T.all(
     T.Http({ method: "DELETE", uri: "/services/{serviceIdentifier}" }),
     svc,
@@ -1107,7 +1153,11 @@ export class ListServicesRequest extends S.Class<ListServicesRequest>(
 export class GetServiceNetworkRequest extends S.Class<GetServiceNetworkRequest>(
   "GetServiceNetworkRequest",
 )(
-  { serviceNetworkIdentifier: S.String.pipe(T.HttpLabel()) },
+  {
+    serviceNetworkIdentifier: S.String.pipe(
+      T.HttpLabel("serviceNetworkIdentifier"),
+    ),
+  },
   T.all(
     T.Http({
       method: "GET",
@@ -1124,7 +1174,9 @@ export class UpdateServiceNetworkRequest extends S.Class<UpdateServiceNetworkReq
   "UpdateServiceNetworkRequest",
 )(
   {
-    serviceNetworkIdentifier: S.String.pipe(T.HttpLabel()),
+    serviceNetworkIdentifier: S.String.pipe(
+      T.HttpLabel("serviceNetworkIdentifier"),
+    ),
     authType: S.String,
   },
   T.all(
@@ -1142,7 +1194,11 @@ export class UpdateServiceNetworkRequest extends S.Class<UpdateServiceNetworkReq
 export class DeleteServiceNetworkRequest extends S.Class<DeleteServiceNetworkRequest>(
   "DeleteServiceNetworkRequest",
 )(
-  { serviceNetworkIdentifier: S.String.pipe(T.HttpLabel()) },
+  {
+    serviceNetworkIdentifier: S.String.pipe(
+      T.HttpLabel("serviceNetworkIdentifier"),
+    ),
+  },
   T.all(
     T.Http({
       method: "DELETE",
@@ -1196,7 +1252,11 @@ export class CreateServiceNetworkResourceAssociationRequest extends S.Class<Crea
 export class GetServiceNetworkResourceAssociationRequest extends S.Class<GetServiceNetworkResourceAssociationRequest>(
   "GetServiceNetworkResourceAssociationRequest",
 )(
-  { serviceNetworkResourceAssociationIdentifier: S.String.pipe(T.HttpLabel()) },
+  {
+    serviceNetworkResourceAssociationIdentifier: S.String.pipe(
+      T.HttpLabel("serviceNetworkResourceAssociationIdentifier"),
+    ),
+  },
   T.all(
     T.Http({
       method: "GET",
@@ -1212,7 +1272,11 @@ export class GetServiceNetworkResourceAssociationRequest extends S.Class<GetServ
 export class DeleteServiceNetworkResourceAssociationRequest extends S.Class<DeleteServiceNetworkResourceAssociationRequest>(
   "DeleteServiceNetworkResourceAssociationRequest",
 )(
-  { serviceNetworkResourceAssociationIdentifier: S.String.pipe(T.HttpLabel()) },
+  {
+    serviceNetworkResourceAssociationIdentifier: S.String.pipe(
+      T.HttpLabel("serviceNetworkResourceAssociationIdentifier"),
+    ),
+  },
   T.all(
     T.Http({
       method: "DELETE",
@@ -1269,7 +1333,11 @@ export class CreateServiceNetworkServiceAssociationRequest extends S.Class<Creat
 export class GetServiceNetworkServiceAssociationRequest extends S.Class<GetServiceNetworkServiceAssociationRequest>(
   "GetServiceNetworkServiceAssociationRequest",
 )(
-  { serviceNetworkServiceAssociationIdentifier: S.String.pipe(T.HttpLabel()) },
+  {
+    serviceNetworkServiceAssociationIdentifier: S.String.pipe(
+      T.HttpLabel("serviceNetworkServiceAssociationIdentifier"),
+    ),
+  },
   T.all(
     T.Http({
       method: "GET",
@@ -1285,7 +1353,11 @@ export class GetServiceNetworkServiceAssociationRequest extends S.Class<GetServi
 export class DeleteServiceNetworkServiceAssociationRequest extends S.Class<DeleteServiceNetworkServiceAssociationRequest>(
   "DeleteServiceNetworkServiceAssociationRequest",
 )(
-  { serviceNetworkServiceAssociationIdentifier: S.String.pipe(T.HttpLabel()) },
+  {
+    serviceNetworkServiceAssociationIdentifier: S.String.pipe(
+      T.HttpLabel("serviceNetworkServiceAssociationIdentifier"),
+    ),
+  },
   T.all(
     T.Http({
       method: "DELETE",
@@ -1323,7 +1395,11 @@ export class ListServiceNetworkServiceAssociationsRequest extends S.Class<ListSe
 export class GetServiceNetworkVpcAssociationRequest extends S.Class<GetServiceNetworkVpcAssociationRequest>(
   "GetServiceNetworkVpcAssociationRequest",
 )(
-  { serviceNetworkVpcAssociationIdentifier: S.String.pipe(T.HttpLabel()) },
+  {
+    serviceNetworkVpcAssociationIdentifier: S.String.pipe(
+      T.HttpLabel("serviceNetworkVpcAssociationIdentifier"),
+    ),
+  },
   T.all(
     T.Http({
       method: "GET",
@@ -1340,7 +1416,9 @@ export class UpdateServiceNetworkVpcAssociationRequest extends S.Class<UpdateSer
   "UpdateServiceNetworkVpcAssociationRequest",
 )(
   {
-    serviceNetworkVpcAssociationIdentifier: S.String.pipe(T.HttpLabel()),
+    serviceNetworkVpcAssociationIdentifier: S.String.pipe(
+      T.HttpLabel("serviceNetworkVpcAssociationIdentifier"),
+    ),
     securityGroupIds: SecurityGroupList,
   },
   T.all(
@@ -1358,7 +1436,11 @@ export class UpdateServiceNetworkVpcAssociationRequest extends S.Class<UpdateSer
 export class DeleteServiceNetworkVpcAssociationRequest extends S.Class<DeleteServiceNetworkVpcAssociationRequest>(
   "DeleteServiceNetworkVpcAssociationRequest",
 )(
-  { serviceNetworkVpcAssociationIdentifier: S.String.pipe(T.HttpLabel()) },
+  {
+    serviceNetworkVpcAssociationIdentifier: S.String.pipe(
+      T.HttpLabel("serviceNetworkVpcAssociationIdentifier"),
+    ),
+  },
   T.all(
     T.Http({
       method: "DELETE",
@@ -1394,7 +1476,9 @@ export class ListServiceNetworkVpcAssociationsRequest extends S.Class<ListServic
 export class GetTargetGroupRequest extends S.Class<GetTargetGroupRequest>(
   "GetTargetGroupRequest",
 )(
-  { targetGroupIdentifier: S.String.pipe(T.HttpLabel()) },
+  {
+    targetGroupIdentifier: S.String.pipe(T.HttpLabel("targetGroupIdentifier")),
+  },
   T.all(
     T.Http({ method: "GET", uri: "/targetgroups/{targetGroupIdentifier}" }),
     svc,
@@ -1407,7 +1491,9 @@ export class GetTargetGroupRequest extends S.Class<GetTargetGroupRequest>(
 export class DeleteTargetGroupRequest extends S.Class<DeleteTargetGroupRequest>(
   "DeleteTargetGroupRequest",
 )(
-  { targetGroupIdentifier: S.String.pipe(T.HttpLabel()) },
+  {
+    targetGroupIdentifier: S.String.pipe(T.HttpLabel("targetGroupIdentifier")),
+  },
   T.all(
     T.Http({ method: "DELETE", uri: "/targetgroups/{targetGroupIdentifier}" }),
     svc,
@@ -1444,7 +1530,7 @@ export class ListTargetsRequest extends S.Class<ListTargetsRequest>(
   "ListTargetsRequest",
 )(
   {
-    targetGroupIdentifier: S.String.pipe(T.HttpLabel()),
+    targetGroupIdentifier: S.String.pipe(T.HttpLabel("targetGroupIdentifier")),
     maxResults: S.optional(S.Number).pipe(T.HttpQuery("maxResults")),
     nextToken: S.optional(S.String).pipe(T.HttpQuery("nextToken")),
     targets: S.optional(TargetList),
@@ -1464,7 +1550,10 @@ export class ListTargetsRequest extends S.Class<ListTargetsRequest>(
 export class RegisterTargetsRequest extends S.Class<RegisterTargetsRequest>(
   "RegisterTargetsRequest",
 )(
-  { targetGroupIdentifier: S.String.pipe(T.HttpLabel()), targets: TargetList },
+  {
+    targetGroupIdentifier: S.String.pipe(T.HttpLabel("targetGroupIdentifier")),
+    targets: TargetList,
+  },
   T.all(
     T.Http({
       method: "POST",
@@ -1523,8 +1612,8 @@ export class BatchUpdateRuleRequest extends S.Class<BatchUpdateRuleRequest>(
   "BatchUpdateRuleRequest",
 )(
   {
-    serviceIdentifier: S.String.pipe(T.HttpLabel()),
-    listenerIdentifier: S.String.pipe(T.HttpLabel()),
+    serviceIdentifier: S.String.pipe(T.HttpLabel("serviceIdentifier")),
+    listenerIdentifier: S.String.pipe(T.HttpLabel("listenerIdentifier")),
     rules: RuleUpdateList,
   },
   T.all(
@@ -1559,7 +1648,7 @@ export class PutAuthPolicyResponse extends S.Class<PutAuthPolicyResponse>(
 export class TagResourceRequest extends S.Class<TagResourceRequest>(
   "TagResourceRequest",
 )(
-  { resourceArn: S.String.pipe(T.HttpLabel()), tags: TagMap },
+  { resourceArn: S.String.pipe(T.HttpLabel("resourceArn")), tags: TagMap },
   T.all(
     T.Http({ method: "POST", uri: "/tags/{resourceArn}" }),
     svc,
@@ -2017,7 +2106,10 @@ export class DeleteTargetGroupResponse extends S.Class<DeleteTargetGroupResponse
 export class DeregisterTargetsRequest extends S.Class<DeregisterTargetsRequest>(
   "DeregisterTargetsRequest",
 )(
-  { targetGroupIdentifier: S.String.pipe(T.HttpLabel()), targets: TargetList },
+  {
+    targetGroupIdentifier: S.String.pipe(T.HttpLabel("targetGroupIdentifier")),
+    targets: TargetList,
+  },
   T.all(
     T.Http({
       method: "POST",
@@ -2406,7 +2498,7 @@ export class UpdateTargetGroupRequest extends S.Class<UpdateTargetGroupRequest>(
   "UpdateTargetGroupRequest",
 )(
   {
-    targetGroupIdentifier: S.String.pipe(T.HttpLabel()),
+    targetGroupIdentifier: S.String.pipe(T.HttpLabel("targetGroupIdentifier")),
     healthCheck: HealthCheckConfig,
   },
   T.all(
@@ -2466,7 +2558,7 @@ export class CreateListenerRequest extends S.Class<CreateListenerRequest>(
   "CreateListenerRequest",
 )(
   {
-    serviceIdentifier: S.String.pipe(T.HttpLabel()),
+    serviceIdentifier: S.String.pipe(T.HttpLabel("serviceIdentifier")),
     name: S.String,
     protocol: S.String,
     port: S.optional(S.Number),
@@ -2530,8 +2622,8 @@ export class CreateRuleRequest extends S.Class<CreateRuleRequest>(
   "CreateRuleRequest",
 )(
   {
-    serviceIdentifier: S.String.pipe(T.HttpLabel()),
-    listenerIdentifier: S.String.pipe(T.HttpLabel()),
+    serviceIdentifier: S.String.pipe(T.HttpLabel("serviceIdentifier")),
+    listenerIdentifier: S.String.pipe(T.HttpLabel("listenerIdentifier")),
     name: S.String,
     match: RuleMatch,
     priority: S.Number,
@@ -2577,7 +2669,8 @@ export class InternalServerException extends S.TaggedError<InternalServerExcepti
     message: S.String,
     retryAfterSeconds: S.optional(S.Number).pipe(T.HttpHeader("Retry-After")),
   },
-) {}
+  T.Retryable(),
+).pipe(withCategory(ERROR_CATEGORIES.SERVER_ERROR)) {}
 export class ConflictException extends S.TaggedError<ConflictException>()(
   "ConflictException",
   { message: S.String, resourceId: S.String, resourceType: S.String },
@@ -2594,7 +2687,8 @@ export class ThrottlingException extends S.TaggedError<ThrottlingException>()(
     quotaCode: S.optional(S.String),
     retryAfterSeconds: S.optional(S.Number).pipe(T.HttpHeader("Retry-After")),
   },
-) {}
+  T.Retryable({ throttling: true }),
+).pipe(withCategory(ERROR_CATEGORIES.THROTTLING_ERROR)) {}
 export class ServiceQuotaExceededException extends S.TaggedError<ServiceQuotaExceededException>()(
   "ServiceQuotaExceededException",
   {

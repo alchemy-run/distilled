@@ -1,6 +1,7 @@
 import * as S from "effect/Schema";
 import * as API from "../api.ts";
 import * as T from "../traits.ts";
+import { ERROR_CATEGORIES, withCategory } from "../error-category.ts";
 const svc = T.AwsApiService({
   sdkId: "CodeGuru Reviewer",
   serviceShapeName: "AWSGuruFrontendService",
@@ -254,7 +255,7 @@ export const TagKeyList = S.Array(S.String);
 export class DescribeCodeReviewRequest extends S.Class<DescribeCodeReviewRequest>(
   "DescribeCodeReviewRequest",
 )(
-  { CodeReviewArn: S.String.pipe(T.HttpLabel()) },
+  { CodeReviewArn: S.String.pipe(T.HttpLabel("CodeReviewArn")) },
   T.all(
     T.Http({ method: "GET", uri: "/codereviews/{CodeReviewArn}" }),
     svc,
@@ -268,7 +269,7 @@ export class DescribeRecommendationFeedbackRequest extends S.Class<DescribeRecom
   "DescribeRecommendationFeedbackRequest",
 )(
   {
-    CodeReviewArn: S.String.pipe(T.HttpLabel()),
+    CodeReviewArn: S.String.pipe(T.HttpLabel("CodeReviewArn")),
     RecommendationId: S.String.pipe(T.HttpQuery("RecommendationId")),
     UserId: S.optional(S.String).pipe(T.HttpQuery("UserId")),
   },
@@ -284,7 +285,7 @@ export class DescribeRecommendationFeedbackRequest extends S.Class<DescribeRecom
 export class DescribeRepositoryAssociationRequest extends S.Class<DescribeRepositoryAssociationRequest>(
   "DescribeRepositoryAssociationRequest",
 )(
-  { AssociationArn: S.String.pipe(T.HttpLabel()) },
+  { AssociationArn: S.String.pipe(T.HttpLabel("AssociationArn")) },
   T.all(
     T.Http({ method: "GET", uri: "/associations/{AssociationArn}" }),
     svc,
@@ -297,7 +298,7 @@ export class DescribeRepositoryAssociationRequest extends S.Class<DescribeReposi
 export class DisassociateRepositoryRequest extends S.Class<DisassociateRepositoryRequest>(
   "DisassociateRepositoryRequest",
 )(
-  { AssociationArn: S.String.pipe(T.HttpLabel()) },
+  { AssociationArn: S.String.pipe(T.HttpLabel("AssociationArn")) },
   T.all(
     T.Http({ method: "DELETE", uri: "/associations/{AssociationArn}" }),
     svc,
@@ -335,7 +336,7 @@ export class ListRecommendationFeedbackRequest extends S.Class<ListRecommendatio
   {
     NextToken: S.optional(S.String).pipe(T.HttpQuery("NextToken")),
     MaxResults: S.optional(S.Number).pipe(T.HttpQuery("MaxResults")),
-    CodeReviewArn: S.String.pipe(T.HttpLabel()),
+    CodeReviewArn: S.String.pipe(T.HttpLabel("CodeReviewArn")),
     UserIds: S.optional(UserIds).pipe(T.HttpQuery("UserIds")),
     RecommendationIds: S.optional(RecommendationIds).pipe(
       T.HttpQuery("RecommendationIds"),
@@ -359,7 +360,7 @@ export class ListRecommendationsRequest extends S.Class<ListRecommendationsReque
   {
     NextToken: S.optional(S.String).pipe(T.HttpQuery("NextToken")),
     MaxResults: S.optional(S.Number).pipe(T.HttpQuery("MaxResults")),
-    CodeReviewArn: S.String.pipe(T.HttpLabel()),
+    CodeReviewArn: S.String.pipe(T.HttpLabel("CodeReviewArn")),
   },
   T.all(
     T.Http({
@@ -396,7 +397,7 @@ export class ListRepositoryAssociationsRequest extends S.Class<ListRepositoryAss
 export class ListTagsForResourceRequest extends S.Class<ListTagsForResourceRequest>(
   "ListTagsForResourceRequest",
 )(
-  { resourceArn: S.String.pipe(T.HttpLabel()) },
+  { resourceArn: S.String.pipe(T.HttpLabel("resourceArn")) },
   T.all(
     T.Http({ method: "GET", uri: "/tags/{resourceArn}" }),
     svc,
@@ -426,7 +427,7 @@ export const TagMap = S.Record({ key: S.String, value: S.String });
 export class TagResourceRequest extends S.Class<TagResourceRequest>(
   "TagResourceRequest",
 )(
-  { resourceArn: S.String.pipe(T.HttpLabel()), Tags: TagMap },
+  { resourceArn: S.String.pipe(T.HttpLabel("resourceArn")), Tags: TagMap },
   T.all(
     T.Http({ method: "POST", uri: "/tags/{resourceArn}" }),
     svc,
@@ -443,7 +444,7 @@ export class UntagResourceRequest extends S.Class<UntagResourceRequest>(
   "UntagResourceRequest",
 )(
   {
-    resourceArn: S.String.pipe(T.HttpLabel()),
+    resourceArn: S.String.pipe(T.HttpLabel("resourceArn")),
     TagKeys: TagKeyList.pipe(T.HttpQuery("tagKeys")),
   },
   T.all(
@@ -760,7 +761,7 @@ export class AccessDeniedException extends S.TaggedError<AccessDeniedException>(
 export class InternalServerException extends S.TaggedError<InternalServerException>()(
   "InternalServerException",
   { Message: S.optional(S.String) },
-) {}
+).pipe(withCategory(ERROR_CATEGORIES.SERVER_ERROR)) {}
 export class ResourceNotFoundException extends S.TaggedError<ResourceNotFoundException>()(
   "ResourceNotFoundException",
   { Message: S.optional(S.String) },
@@ -772,7 +773,7 @@ export class ConflictException extends S.TaggedError<ConflictException>()(
 export class ThrottlingException extends S.TaggedError<ThrottlingException>()(
   "ThrottlingException",
   { Message: S.optional(S.String) },
-) {}
+).pipe(withCategory(ERROR_CATEGORIES.THROTTLING_ERROR)) {}
 export class ValidationException extends S.TaggedError<ValidationException>()(
   "ValidationException",
   { Message: S.optional(S.String) },

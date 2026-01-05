@@ -1,6 +1,7 @@
 import * as S from "effect/Schema";
 import * as API from "../api.ts";
 import * as T from "../traits.ts";
+import { ERROR_CATEGORIES, withCategory } from "../error-category.ts";
 const svc = T.AwsApiService({ sdkId: "RUM", serviceShapeName: "RUM" });
 const auth = T.AwsAuthSigv4({ name: "rum" });
 const ver = T.ServiceVersion("2018-05-10");
@@ -244,7 +245,7 @@ export const MetricDefinitionIds = S.Array(S.String);
 export class ListTagsForResourceRequest extends S.Class<ListTagsForResourceRequest>(
   "ListTagsForResourceRequest",
 )(
-  { ResourceArn: S.String.pipe(T.HttpLabel()) },
+  { ResourceArn: S.String.pipe(T.HttpLabel("ResourceArn")) },
   T.all(
     T.Http({ method: "GET", uri: "/tags/{ResourceArn}" }),
     svc,
@@ -258,7 +259,7 @@ export class UntagResourceRequest extends S.Class<UntagResourceRequest>(
   "UntagResourceRequest",
 )(
   {
-    ResourceArn: S.String.pipe(T.HttpLabel()),
+    ResourceArn: S.String.pipe(T.HttpLabel("ResourceArn")),
     TagKeys: TagKeyList.pipe(T.HttpQuery("tagKeys")),
   },
   T.all(
@@ -276,7 +277,7 @@ export class UntagResourceResponse extends S.Class<UntagResourceResponse>(
 export class GetAppMonitorRequest extends S.Class<GetAppMonitorRequest>(
   "GetAppMonitorRequest",
 )(
-  { Name: S.String.pipe(T.HttpLabel()) },
+  { Name: S.String.pipe(T.HttpLabel("Name")) },
   T.all(
     T.Http({ method: "GET", uri: "/appmonitor/{Name}" }),
     svc,
@@ -289,7 +290,7 @@ export class GetAppMonitorRequest extends S.Class<GetAppMonitorRequest>(
 export class DeleteAppMonitorRequest extends S.Class<DeleteAppMonitorRequest>(
   "DeleteAppMonitorRequest",
 )(
-  { Name: S.String.pipe(T.HttpLabel()) },
+  { Name: S.String.pipe(T.HttpLabel("Name")) },
   T.all(
     T.Http({ method: "DELETE", uri: "/appmonitor/{Name}" }),
     svc,
@@ -322,7 +323,7 @@ export class BatchDeleteRumMetricDefinitionsRequest extends S.Class<BatchDeleteR
   "BatchDeleteRumMetricDefinitionsRequest",
 )(
   {
-    AppMonitorName: S.String.pipe(T.HttpLabel()),
+    AppMonitorName: S.String.pipe(T.HttpLabel("AppMonitorName")),
     Destination: S.String.pipe(T.HttpQuery("destination")),
     DestinationArn: S.optional(S.String).pipe(T.HttpQuery("destinationArn")),
     MetricDefinitionIds: MetricDefinitionIds.pipe(
@@ -342,7 +343,7 @@ export class BatchGetRumMetricDefinitionsRequest extends S.Class<BatchGetRumMetr
   "BatchGetRumMetricDefinitionsRequest",
 )(
   {
-    AppMonitorName: S.String.pipe(T.HttpLabel()),
+    AppMonitorName: S.String.pipe(T.HttpLabel("AppMonitorName")),
     Destination: S.String.pipe(T.HttpQuery("destination")),
     DestinationArn: S.optional(S.String).pipe(T.HttpQuery("destinationArn")),
     MaxResults: S.optional(S.Number).pipe(T.HttpQuery("maxResults")),
@@ -410,7 +411,7 @@ export class DeleteResourcePolicyRequest extends S.Class<DeleteResourcePolicyReq
   "DeleteResourcePolicyRequest",
 )(
   {
-    Name: S.String.pipe(T.HttpLabel()),
+    Name: S.String.pipe(T.HttpLabel("Name")),
     PolicyRevisionId: S.optional(S.String).pipe(
       T.HttpQuery("policyRevisionId"),
     ),
@@ -428,7 +429,7 @@ export class DeleteRumMetricsDestinationRequest extends S.Class<DeleteRumMetrics
   "DeleteRumMetricsDestinationRequest",
 )(
   {
-    AppMonitorName: S.String.pipe(T.HttpLabel()),
+    AppMonitorName: S.String.pipe(T.HttpLabel("AppMonitorName")),
     Destination: S.String.pipe(T.HttpQuery("destination")),
     DestinationArn: S.optional(S.String).pipe(T.HttpQuery("destinationArn")),
   },
@@ -450,7 +451,7 @@ export class DeleteRumMetricsDestinationResponse extends S.Class<DeleteRumMetric
 export class GetResourcePolicyRequest extends S.Class<GetResourcePolicyRequest>(
   "GetResourcePolicyRequest",
 )(
-  { Name: S.String.pipe(T.HttpLabel()) },
+  { Name: S.String.pipe(T.HttpLabel("Name")) },
   T.all(
     T.Http({ method: "GET", uri: "/appmonitor/{Name}/policy" }),
     svc,
@@ -464,7 +465,7 @@ export class ListRumMetricsDestinationsRequest extends S.Class<ListRumMetricsDes
   "ListRumMetricsDestinationsRequest",
 )(
   {
-    AppMonitorName: S.String.pipe(T.HttpLabel()),
+    AppMonitorName: S.String.pipe(T.HttpLabel("AppMonitorName")),
     MaxResults: S.optional(S.Number).pipe(T.HttpQuery("maxResults")),
     NextToken: S.optional(S.String).pipe(T.HttpQuery("nextToken")),
   },
@@ -484,7 +485,7 @@ export class PutResourcePolicyRequest extends S.Class<PutResourcePolicyRequest>(
   "PutResourcePolicyRequest",
 )(
   {
-    Name: S.String.pipe(T.HttpLabel()),
+    Name: S.String.pipe(T.HttpLabel("Name")),
     PolicyDocument: S.String,
     PolicyRevisionId: S.optional(S.String),
   },
@@ -501,7 +502,7 @@ export class PutRumMetricsDestinationRequest extends S.Class<PutRumMetricsDestin
   "PutRumMetricsDestinationRequest",
 )(
   {
-    AppMonitorName: S.String.pipe(T.HttpLabel()),
+    AppMonitorName: S.String.pipe(T.HttpLabel("AppMonitorName")),
     Destination: S.String,
     DestinationArn: S.optional(S.String),
     IamRoleArn: S.optional(S.String),
@@ -536,7 +537,7 @@ export class UpdateRumMetricDefinitionRequest extends S.Class<UpdateRumMetricDef
   "UpdateRumMetricDefinitionRequest",
 )(
   {
-    AppMonitorName: S.String.pipe(T.HttpLabel()),
+    AppMonitorName: S.String.pipe(T.HttpLabel("AppMonitorName")),
     Destination: S.String,
     DestinationArn: S.optional(S.String),
     MetricDefinition: MetricDefinitionRequest,
@@ -590,7 +591,7 @@ export class PutRumEventsRequest extends S.Class<PutRumEventsRequest>(
   "PutRumEventsRequest",
 )(
   {
-    Id: S.String.pipe(T.HttpLabel()),
+    Id: S.String.pipe(T.HttpLabel("Id")),
     BatchId: S.String,
     AppMonitorDetails: AppMonitorDetails,
     UserDetails: UserDetails,
@@ -612,7 +613,7 @@ export class PutRumEventsResponse extends S.Class<PutRumEventsResponse>(
 export class TagResourceRequest extends S.Class<TagResourceRequest>(
   "TagResourceRequest",
 )(
-  { ResourceArn: S.String.pipe(T.HttpLabel()), Tags: TagMap },
+  { ResourceArn: S.String.pipe(T.HttpLabel("ResourceArn")), Tags: TagMap },
   T.all(
     T.Http({ method: "POST", uri: "/tags/{ResourceArn}" }),
     svc,
@@ -635,7 +636,7 @@ export class GetAppMonitorDataRequest extends S.Class<GetAppMonitorDataRequest>(
   "GetAppMonitorDataRequest",
 )(
   {
-    Name: S.String.pipe(T.HttpLabel()),
+    Name: S.String.pipe(T.HttpLabel("Name")),
     TimeRange: TimeRange,
     Filters: S.optional(QueryFilters),
     MaxResults: S.optional(S.Number),
@@ -709,7 +710,7 @@ export class UpdateAppMonitorRequest extends S.Class<UpdateAppMonitorRequest>(
   "UpdateAppMonitorRequest",
 )(
   {
-    Name: S.String.pipe(T.HttpLabel()),
+    Name: S.String.pipe(T.HttpLabel("Name")),
     Domain: S.optional(S.String),
     DomainList: S.optional(AppMonitorDomainList),
     AppMonitorConfiguration: S.optional(AppMonitorConfiguration),
@@ -739,7 +740,7 @@ export class BatchCreateRumMetricDefinitionsRequest extends S.Class<BatchCreateR
   "BatchCreateRumMetricDefinitionsRequest",
 )(
   {
-    AppMonitorName: S.String.pipe(T.HttpLabel()),
+    AppMonitorName: S.String.pipe(T.HttpLabel("AppMonitorName")),
     Destination: S.String,
     DestinationArn: S.optional(S.String),
     MetricDefinitions: MetricDefinitionsRequest,
@@ -823,7 +824,8 @@ export class InternalServerException extends S.TaggedError<InternalServerExcepti
     message: S.String,
     retryAfterSeconds: S.optional(S.Number).pipe(T.HttpHeader("Retry-After")),
   },
-) {}
+  T.Retryable(),
+).pipe(withCategory(ERROR_CATEGORIES.SERVER_ERROR)) {}
 export class AccessDeniedException extends S.TaggedError<AccessDeniedException>()(
   "AccessDeniedException",
   { message: S.String },
@@ -856,7 +858,8 @@ export class ThrottlingException extends S.TaggedError<ThrottlingException>()(
     quotaCode: S.optional(S.String),
     retryAfterSeconds: S.optional(S.Number).pipe(T.HttpHeader("Retry-After")),
   },
-) {}
+  T.Retryable({ throttling: true }),
+).pipe(withCategory(ERROR_CATEGORIES.THROTTLING_ERROR)) {}
 export class ServiceQuotaExceededException extends S.TaggedError<ServiceQuotaExceededException>()(
   "ServiceQuotaExceededException",
   { message: S.String },

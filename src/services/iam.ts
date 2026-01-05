@@ -1,6 +1,7 @@
 import * as S from "effect/Schema";
 import * as API from "../api.ts";
 import * as T from "../traits.ts";
+import { ERROR_CATEGORIES, withCategory } from "../error-category.ts";
 const ns = T.XmlNamespace("https://iam.amazonaws.com/doc/2010-05-08/");
 const svc = T.AwsApiService({
   sdkId: "IAM",
@@ -3613,7 +3614,7 @@ export class ServiceFailureException extends S.TaggedError<ServiceFailureExcepti
   "ServiceFailureException",
   { message: S.optional(S.String) },
   T.AwsQueryError({ code: "ServiceFailure", httpResponseCode: 500 }),
-) {}
+).pipe(withCategory(ERROR_CATEGORIES.SERVER_ERROR)) {}
 export class CredentialReportExpiredException extends S.TaggedError<CredentialReportExpiredException>()(
   "CredentialReportExpiredException",
   { message: S.optional(S.String) },
@@ -3658,7 +3659,7 @@ export class PolicyEvaluationException extends S.TaggedError<PolicyEvaluationExc
   "PolicyEvaluationException",
   { message: S.optional(S.String) },
   T.AwsQueryError({ code: "PolicyEvaluation", httpResponseCode: 500 }),
-) {}
+).pipe(withCategory(ERROR_CATEGORIES.SERVER_ERROR)) {}
 export class UnmodifiableEntityException extends S.TaggedError<UnmodifiableEntityException>()(
   "UnmodifiableEntityException",
   { message: S.optional(S.String) },

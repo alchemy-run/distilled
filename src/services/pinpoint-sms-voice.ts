@@ -1,6 +1,7 @@
 import * as S from "effect/Schema";
 import * as API from "../api.ts";
 import * as T from "../traits.ts";
+import { ERROR_CATEGORIES, withCategory } from "../error-category.ts";
 const svc = T.AwsApiService({
   sdkId: "Pinpoint SMS Voice",
   serviceShapeName: "PinpointSMSVoice",
@@ -312,7 +313,7 @@ export class CreateConfigurationSetResponse extends S.Class<CreateConfigurationS
 export class DeleteConfigurationSetRequest extends S.Class<DeleteConfigurationSetRequest>(
   "DeleteConfigurationSetRequest",
 )(
-  { ConfigurationSetName: S.String.pipe(T.HttpLabel()) },
+  { ConfigurationSetName: S.String.pipe(T.HttpLabel("ConfigurationSetName")) },
   T.all(
     T.Http({
       method: "DELETE",
@@ -332,8 +333,8 @@ export class DeleteConfigurationSetEventDestinationRequest extends S.Class<Delet
   "DeleteConfigurationSetEventDestinationRequest",
 )(
   {
-    ConfigurationSetName: S.String.pipe(T.HttpLabel()),
-    EventDestinationName: S.String.pipe(T.HttpLabel()),
+    ConfigurationSetName: S.String.pipe(T.HttpLabel("ConfigurationSetName")),
+    EventDestinationName: S.String.pipe(T.HttpLabel("EventDestinationName")),
   },
   T.all(
     T.Http({
@@ -353,7 +354,7 @@ export class DeleteConfigurationSetEventDestinationResponse extends S.Class<Dele
 export class GetConfigurationSetEventDestinationsRequest extends S.Class<GetConfigurationSetEventDestinationsRequest>(
   "GetConfigurationSetEventDestinationsRequest",
 )(
-  { ConfigurationSetName: S.String.pipe(T.HttpLabel()) },
+  { ConfigurationSetName: S.String.pipe(T.HttpLabel("ConfigurationSetName")) },
   T.all(
     T.Http({
       method: "GET",
@@ -408,9 +409,9 @@ export class UpdateConfigurationSetEventDestinationRequest extends S.Class<Updat
   "UpdateConfigurationSetEventDestinationRequest",
 )(
   {
-    ConfigurationSetName: S.String.pipe(T.HttpLabel()),
+    ConfigurationSetName: S.String.pipe(T.HttpLabel("ConfigurationSetName")),
     EventDestination: S.optional(EventDestinationDefinition),
-    EventDestinationName: S.String.pipe(T.HttpLabel()),
+    EventDestinationName: S.String.pipe(T.HttpLabel("EventDestinationName")),
   },
   T.all(
     T.Http({
@@ -473,7 +474,7 @@ export class CreateConfigurationSetEventDestinationRequest extends S.Class<Creat
   "CreateConfigurationSetEventDestinationRequest",
 )(
   {
-    ConfigurationSetName: S.String.pipe(T.HttpLabel()),
+    ConfigurationSetName: S.String.pipe(T.HttpLabel("ConfigurationSetName")),
     EventDestination: S.optional(EventDestinationDefinition),
     EventDestinationName: S.optional(S.String),
   },
@@ -530,7 +531,7 @@ export class BadRequestException extends S.TaggedError<BadRequestException>()(
 export class InternalServiceErrorException extends S.TaggedError<InternalServiceErrorException>()(
   "InternalServiceErrorException",
   { Message: S.optional(S.String) },
-) {}
+).pipe(withCategory(ERROR_CATEGORIES.SERVER_ERROR)) {}
 export class NotFoundException extends S.TaggedError<NotFoundException>()(
   "NotFoundException",
   { Message: S.optional(S.String) },
@@ -538,7 +539,7 @@ export class NotFoundException extends S.TaggedError<NotFoundException>()(
 export class TooManyRequestsException extends S.TaggedError<TooManyRequestsException>()(
   "TooManyRequestsException",
   { Message: S.optional(S.String) },
-) {}
+).pipe(withCategory(ERROR_CATEGORIES.THROTTLING_ERROR)) {}
 export class LimitExceededException extends S.TaggedError<LimitExceededException>()(
   "LimitExceededException",
   { Message: S.optional(S.String) },

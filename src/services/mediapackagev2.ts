@@ -1,6 +1,7 @@
 import * as S from "effect/Schema";
 import * as API from "../api.ts";
 import * as T from "../traits.ts";
+import { ERROR_CATEGORIES, withCategory } from "../error-category.ts";
 const svc = T.AwsApiService({
   sdkId: "MediaPackageV2",
   serviceShapeName: "mediapackagev2",
@@ -297,7 +298,7 @@ export const TagKeyList = S.Array(S.String);
 export class ListTagsForResourceRequest extends S.Class<ListTagsForResourceRequest>(
   "ListTagsForResourceRequest",
 )(
-  { ResourceArn: S.String.pipe(T.HttpLabel()) },
+  { ResourceArn: S.String.pipe(T.HttpLabel("ResourceArn")) },
   T.all(
     T.Http({ method: "GET", uri: "/tags/{ResourceArn}" }),
     svc,
@@ -311,7 +312,7 @@ export class UntagResourceRequest extends S.Class<UntagResourceRequest>(
   "UntagResourceRequest",
 )(
   {
-    ResourceArn: S.String.pipe(T.HttpLabel()),
+    ResourceArn: S.String.pipe(T.HttpLabel("ResourceArn")),
     TagKeys: TagKeyList.pipe(T.HttpQuery("tagKeys")),
   },
   T.all(
@@ -348,7 +349,7 @@ export class CreateChannelGroupRequest extends S.Class<CreateChannelGroupRequest
 export class GetChannelGroupRequest extends S.Class<GetChannelGroupRequest>(
   "GetChannelGroupRequest",
 )(
-  { ChannelGroupName: S.String.pipe(T.HttpLabel()) },
+  { ChannelGroupName: S.String.pipe(T.HttpLabel("ChannelGroupName")) },
   T.all(
     T.Http({ method: "GET", uri: "/channelGroup/{ChannelGroupName}" }),
     svc,
@@ -362,7 +363,7 @@ export class UpdateChannelGroupRequest extends S.Class<UpdateChannelGroupRequest
   "UpdateChannelGroupRequest",
 )(
   {
-    ChannelGroupName: S.String.pipe(T.HttpLabel()),
+    ChannelGroupName: S.String.pipe(T.HttpLabel("ChannelGroupName")),
     ETag: S.optional(S.String).pipe(T.HttpHeader("x-amzn-update-if-match")),
     Description: S.optional(S.String),
   },
@@ -378,7 +379,7 @@ export class UpdateChannelGroupRequest extends S.Class<UpdateChannelGroupRequest
 export class DeleteChannelGroupRequest extends S.Class<DeleteChannelGroupRequest>(
   "DeleteChannelGroupRequest",
 )(
-  { ChannelGroupName: S.String.pipe(T.HttpLabel()) },
+  { ChannelGroupName: S.String.pipe(T.HttpLabel("ChannelGroupName")) },
   T.all(
     T.Http({ method: "DELETE", uri: "/channelGroup/{ChannelGroupName}" }),
     svc,
@@ -411,8 +412,8 @@ export class GetChannelRequest extends S.Class<GetChannelRequest>(
   "GetChannelRequest",
 )(
   {
-    ChannelGroupName: S.String.pipe(T.HttpLabel()),
-    ChannelName: S.String.pipe(T.HttpLabel()),
+    ChannelGroupName: S.String.pipe(T.HttpLabel("ChannelGroupName")),
+    ChannelName: S.String.pipe(T.HttpLabel("ChannelName")),
   },
   T.all(
     T.Http({
@@ -439,8 +440,8 @@ export class UpdateChannelRequest extends S.Class<UpdateChannelRequest>(
   "UpdateChannelRequest",
 )(
   {
-    ChannelGroupName: S.String.pipe(T.HttpLabel()),
-    ChannelName: S.String.pipe(T.HttpLabel()),
+    ChannelGroupName: S.String.pipe(T.HttpLabel("ChannelGroupName")),
+    ChannelName: S.String.pipe(T.HttpLabel("ChannelName")),
     ETag: S.optional(S.String).pipe(T.HttpHeader("x-amzn-update-if-match")),
     Description: S.optional(S.String),
     InputSwitchConfiguration: S.optional(InputSwitchConfiguration),
@@ -462,8 +463,8 @@ export class DeleteChannelRequest extends S.Class<DeleteChannelRequest>(
   "DeleteChannelRequest",
 )(
   {
-    ChannelGroupName: S.String.pipe(T.HttpLabel()),
-    ChannelName: S.String.pipe(T.HttpLabel()),
+    ChannelGroupName: S.String.pipe(T.HttpLabel("ChannelGroupName")),
+    ChannelName: S.String.pipe(T.HttpLabel("ChannelName")),
   },
   T.all(
     T.Http({
@@ -484,7 +485,7 @@ export class ListChannelsRequest extends S.Class<ListChannelsRequest>(
   "ListChannelsRequest",
 )(
   {
-    ChannelGroupName: S.String.pipe(T.HttpLabel()),
+    ChannelGroupName: S.String.pipe(T.HttpLabel("ChannelGroupName")),
     MaxResults: S.optional(S.Number).pipe(T.HttpQuery("maxResults")),
     NextToken: S.optional(S.String).pipe(T.HttpQuery("nextToken")),
   },
@@ -501,8 +502,8 @@ export class ResetChannelStateRequest extends S.Class<ResetChannelStateRequest>(
   "ResetChannelStateRequest",
 )(
   {
-    ChannelGroupName: S.String.pipe(T.HttpLabel()),
-    ChannelName: S.String.pipe(T.HttpLabel()),
+    ChannelGroupName: S.String.pipe(T.HttpLabel("ChannelGroupName")),
+    ChannelName: S.String.pipe(T.HttpLabel("ChannelName")),
   },
   T.all(
     T.Http({
@@ -520,8 +521,8 @@ export class PutChannelPolicyRequest extends S.Class<PutChannelPolicyRequest>(
   "PutChannelPolicyRequest",
 )(
   {
-    ChannelGroupName: S.String.pipe(T.HttpLabel()),
-    ChannelName: S.String.pipe(T.HttpLabel()),
+    ChannelGroupName: S.String.pipe(T.HttpLabel("ChannelGroupName")),
+    ChannelName: S.String.pipe(T.HttpLabel("ChannelName")),
     Policy: S.String,
   },
   T.all(
@@ -543,8 +544,8 @@ export class GetChannelPolicyRequest extends S.Class<GetChannelPolicyRequest>(
   "GetChannelPolicyRequest",
 )(
   {
-    ChannelGroupName: S.String.pipe(T.HttpLabel()),
-    ChannelName: S.String.pipe(T.HttpLabel()),
+    ChannelGroupName: S.String.pipe(T.HttpLabel("ChannelGroupName")),
+    ChannelName: S.String.pipe(T.HttpLabel("ChannelName")),
   },
   T.all(
     T.Http({
@@ -562,8 +563,8 @@ export class DeleteChannelPolicyRequest extends S.Class<DeleteChannelPolicyReque
   "DeleteChannelPolicyRequest",
 )(
   {
-    ChannelGroupName: S.String.pipe(T.HttpLabel()),
-    ChannelName: S.String.pipe(T.HttpLabel()),
+    ChannelGroupName: S.String.pipe(T.HttpLabel("ChannelGroupName")),
+    ChannelName: S.String.pipe(T.HttpLabel("ChannelName")),
   },
   T.all(
     T.Http({
@@ -584,9 +585,9 @@ export class GetOriginEndpointRequest extends S.Class<GetOriginEndpointRequest>(
   "GetOriginEndpointRequest",
 )(
   {
-    ChannelGroupName: S.String.pipe(T.HttpLabel()),
-    ChannelName: S.String.pipe(T.HttpLabel()),
-    OriginEndpointName: S.String.pipe(T.HttpLabel()),
+    ChannelGroupName: S.String.pipe(T.HttpLabel("ChannelGroupName")),
+    ChannelName: S.String.pipe(T.HttpLabel("ChannelName")),
+    OriginEndpointName: S.String.pipe(T.HttpLabel("OriginEndpointName")),
   },
   T.all(
     T.Http({
@@ -774,9 +775,9 @@ export class UpdateOriginEndpointRequest extends S.Class<UpdateOriginEndpointReq
   "UpdateOriginEndpointRequest",
 )(
   {
-    ChannelGroupName: S.String.pipe(T.HttpLabel()),
-    ChannelName: S.String.pipe(T.HttpLabel()),
-    OriginEndpointName: S.String.pipe(T.HttpLabel()),
+    ChannelGroupName: S.String.pipe(T.HttpLabel("ChannelGroupName")),
+    ChannelName: S.String.pipe(T.HttpLabel("ChannelName")),
+    OriginEndpointName: S.String.pipe(T.HttpLabel("OriginEndpointName")),
     ContainerType: S.String,
     Segment: S.optional(Segment),
     Description: S.optional(S.String),
@@ -806,9 +807,9 @@ export class DeleteOriginEndpointRequest extends S.Class<DeleteOriginEndpointReq
   "DeleteOriginEndpointRequest",
 )(
   {
-    ChannelGroupName: S.String.pipe(T.HttpLabel()),
-    ChannelName: S.String.pipe(T.HttpLabel()),
-    OriginEndpointName: S.String.pipe(T.HttpLabel()),
+    ChannelGroupName: S.String.pipe(T.HttpLabel("ChannelGroupName")),
+    ChannelName: S.String.pipe(T.HttpLabel("ChannelName")),
+    OriginEndpointName: S.String.pipe(T.HttpLabel("OriginEndpointName")),
   },
   T.all(
     T.Http({
@@ -829,8 +830,8 @@ export class ListOriginEndpointsRequest extends S.Class<ListOriginEndpointsReque
   "ListOriginEndpointsRequest",
 )(
   {
-    ChannelGroupName: S.String.pipe(T.HttpLabel()),
-    ChannelName: S.String.pipe(T.HttpLabel()),
+    ChannelGroupName: S.String.pipe(T.HttpLabel("ChannelGroupName")),
+    ChannelName: S.String.pipe(T.HttpLabel("ChannelName")),
     MaxResults: S.optional(S.Number).pipe(T.HttpQuery("maxResults")),
     NextToken: S.optional(S.String).pipe(T.HttpQuery("nextToken")),
   },
@@ -850,9 +851,9 @@ export class ResetOriginEndpointStateRequest extends S.Class<ResetOriginEndpoint
   "ResetOriginEndpointStateRequest",
 )(
   {
-    ChannelGroupName: S.String.pipe(T.HttpLabel()),
-    ChannelName: S.String.pipe(T.HttpLabel()),
-    OriginEndpointName: S.String.pipe(T.HttpLabel()),
+    ChannelGroupName: S.String.pipe(T.HttpLabel("ChannelGroupName")),
+    ChannelName: S.String.pipe(T.HttpLabel("ChannelName")),
+    OriginEndpointName: S.String.pipe(T.HttpLabel("OriginEndpointName")),
   },
   T.all(
     T.Http({
@@ -870,9 +871,9 @@ export class GetOriginEndpointPolicyRequest extends S.Class<GetOriginEndpointPol
   "GetOriginEndpointPolicyRequest",
 )(
   {
-    ChannelGroupName: S.String.pipe(T.HttpLabel()),
-    ChannelName: S.String.pipe(T.HttpLabel()),
-    OriginEndpointName: S.String.pipe(T.HttpLabel()),
+    ChannelGroupName: S.String.pipe(T.HttpLabel("ChannelGroupName")),
+    ChannelName: S.String.pipe(T.HttpLabel("ChannelName")),
+    OriginEndpointName: S.String.pipe(T.HttpLabel("OriginEndpointName")),
   },
   T.all(
     T.Http({
@@ -890,9 +891,9 @@ export class DeleteOriginEndpointPolicyRequest extends S.Class<DeleteOriginEndpo
   "DeleteOriginEndpointPolicyRequest",
 )(
   {
-    ChannelGroupName: S.String.pipe(T.HttpLabel()),
-    ChannelName: S.String.pipe(T.HttpLabel()),
-    OriginEndpointName: S.String.pipe(T.HttpLabel()),
+    ChannelGroupName: S.String.pipe(T.HttpLabel("ChannelGroupName")),
+    ChannelName: S.String.pipe(T.HttpLabel("ChannelName")),
+    OriginEndpointName: S.String.pipe(T.HttpLabel("OriginEndpointName")),
   },
   T.all(
     T.Http({
@@ -913,10 +914,10 @@ export class GetHarvestJobRequest extends S.Class<GetHarvestJobRequest>(
   "GetHarvestJobRequest",
 )(
   {
-    ChannelGroupName: S.String.pipe(T.HttpLabel()),
-    ChannelName: S.String.pipe(T.HttpLabel()),
-    OriginEndpointName: S.String.pipe(T.HttpLabel()),
-    HarvestJobName: S.String.pipe(T.HttpLabel()),
+    ChannelGroupName: S.String.pipe(T.HttpLabel("ChannelGroupName")),
+    ChannelName: S.String.pipe(T.HttpLabel("ChannelName")),
+    OriginEndpointName: S.String.pipe(T.HttpLabel("OriginEndpointName")),
+    HarvestJobName: S.String.pipe(T.HttpLabel("HarvestJobName")),
   },
   T.all(
     T.Http({
@@ -934,10 +935,10 @@ export class CancelHarvestJobRequest extends S.Class<CancelHarvestJobRequest>(
   "CancelHarvestJobRequest",
 )(
   {
-    ChannelGroupName: S.String.pipe(T.HttpLabel()),
-    ChannelName: S.String.pipe(T.HttpLabel()),
-    OriginEndpointName: S.String.pipe(T.HttpLabel()),
-    HarvestJobName: S.String.pipe(T.HttpLabel()),
+    ChannelGroupName: S.String.pipe(T.HttpLabel("ChannelGroupName")),
+    ChannelName: S.String.pipe(T.HttpLabel("ChannelName")),
+    OriginEndpointName: S.String.pipe(T.HttpLabel("OriginEndpointName")),
+    HarvestJobName: S.String.pipe(T.HttpLabel("HarvestJobName")),
     ETag: S.optional(S.String).pipe(T.HttpHeader("x-amzn-update-if-match")),
   },
   T.all(
@@ -959,7 +960,7 @@ export class ListHarvestJobsRequest extends S.Class<ListHarvestJobsRequest>(
   "ListHarvestJobsRequest",
 )(
   {
-    ChannelGroupName: S.String.pipe(T.HttpLabel()),
+    ChannelGroupName: S.String.pipe(T.HttpLabel("ChannelGroupName")),
     ChannelName: S.optional(S.String).pipe(T.HttpQuery("channelName")),
     OriginEndpointName: S.optional(S.String).pipe(
       T.HttpQuery("originEndpointName"),
@@ -1000,7 +1001,7 @@ export class TagResourceRequest extends S.Class<TagResourceRequest>(
   "TagResourceRequest",
 )(
   {
-    ResourceArn: S.String.pipe(T.HttpLabel()),
+    ResourceArn: S.String.pipe(T.HttpLabel("ResourceArn")),
     Tags: TagMap.pipe(T.JsonName("tags")),
   },
   T.all(
@@ -1055,7 +1056,7 @@ export class CreateChannelRequest extends S.Class<CreateChannelRequest>(
   "CreateChannelRequest",
 )(
   {
-    ChannelGroupName: S.String.pipe(T.HttpLabel()),
+    ChannelGroupName: S.String.pipe(T.HttpLabel("ChannelGroupName")),
     ChannelName: S.String,
     ClientToken: S.optional(S.String).pipe(T.HttpHeader("x-amzn-client-token")),
     InputType: S.optional(S.String),
@@ -1202,9 +1203,9 @@ export class PutOriginEndpointPolicyRequest extends S.Class<PutOriginEndpointPol
   "PutOriginEndpointPolicyRequest",
 )(
   {
-    ChannelGroupName: S.String.pipe(T.HttpLabel()),
-    ChannelName: S.String.pipe(T.HttpLabel()),
-    OriginEndpointName: S.String.pipe(T.HttpLabel()),
+    ChannelGroupName: S.String.pipe(T.HttpLabel("ChannelGroupName")),
+    ChannelName: S.String.pipe(T.HttpLabel("ChannelName")),
+    OriginEndpointName: S.String.pipe(T.HttpLabel("OriginEndpointName")),
     Policy: S.String,
     CdnAuthConfiguration: S.optional(CdnAuthConfiguration),
   },
@@ -1382,9 +1383,9 @@ export class CreateHarvestJobRequest extends S.Class<CreateHarvestJobRequest>(
   "CreateHarvestJobRequest",
 )(
   {
-    ChannelGroupName: S.String.pipe(T.HttpLabel()),
-    ChannelName: S.String.pipe(T.HttpLabel()),
-    OriginEndpointName: S.String.pipe(T.HttpLabel()),
+    ChannelGroupName: S.String.pipe(T.HttpLabel("ChannelGroupName")),
+    ChannelName: S.String.pipe(T.HttpLabel("ChannelName")),
+    OriginEndpointName: S.String.pipe(T.HttpLabel("OriginEndpointName")),
     Description: S.optional(S.String),
     HarvestedManifests: HarvestedManifests,
     ScheduleConfiguration: HarvesterScheduleConfiguration,
@@ -1481,8 +1482,8 @@ export class CreateOriginEndpointRequest extends S.Class<CreateOriginEndpointReq
   "CreateOriginEndpointRequest",
 )(
   {
-    ChannelGroupName: S.String.pipe(T.HttpLabel()),
-    ChannelName: S.String.pipe(T.HttpLabel()),
+    ChannelGroupName: S.String.pipe(T.HttpLabel("ChannelGroupName")),
+    ChannelName: S.String.pipe(T.HttpLabel("ChannelName")),
     OriginEndpointName: S.String,
     ContainerType: S.String,
     Segment: S.optional(Segment),
@@ -1554,7 +1555,7 @@ export class ConflictException extends S.TaggedError<ConflictException>()(
 export class InternalServerException extends S.TaggedError<InternalServerException>()(
   "InternalServerException",
   { Message: S.optional(S.String) },
-) {}
+).pipe(withCategory(ERROR_CATEGORIES.SERVER_ERROR)) {}
 export class ResourceNotFoundException extends S.TaggedError<ResourceNotFoundException>()(
   "ResourceNotFoundException",
   { Message: S.optional(S.String), ResourceTypeNotFound: S.optional(S.String) },
@@ -1562,7 +1563,7 @@ export class ResourceNotFoundException extends S.TaggedError<ResourceNotFoundExc
 export class ThrottlingException extends S.TaggedError<ThrottlingException>()(
   "ThrottlingException",
   { Message: S.optional(S.String) },
-) {}
+).pipe(withCategory(ERROR_CATEGORIES.THROTTLING_ERROR)) {}
 export class ServiceQuotaExceededException extends S.TaggedError<ServiceQuotaExceededException>()(
   "ServiceQuotaExceededException",
   { Message: S.optional(S.String) },

@@ -1,6 +1,7 @@
 import * as S from "effect/Schema";
 import * as API from "../api.ts";
 import * as T from "../traits.ts";
+import { ERROR_CATEGORIES, withCategory } from "../error-category.ts";
 const svc = T.AwsApiService({
   sdkId: "Scheduler",
   serviceShapeName: "AWSChronosService",
@@ -297,7 +298,7 @@ export const TagKeyList = S.Array(S.String);
 export class ListTagsForResourceInput extends S.Class<ListTagsForResourceInput>(
   "ListTagsForResourceInput",
 )(
-  { ResourceArn: S.String.pipe(T.HttpLabel()) },
+  { ResourceArn: S.String.pipe(T.HttpLabel("ResourceArn")) },
   T.all(
     T.Http({ method: "GET", uri: "/tags/{ResourceArn}" }),
     svc,
@@ -311,7 +312,7 @@ export class UntagResourceInput extends S.Class<UntagResourceInput>(
   "UntagResourceInput",
 )(
   {
-    ResourceArn: S.String.pipe(T.HttpLabel()),
+    ResourceArn: S.String.pipe(T.HttpLabel("ResourceArn")),
     TagKeys: TagKeyList.pipe(T.HttpQuery("TagKeys")),
   },
   T.all(
@@ -330,7 +331,7 @@ export class GetScheduleInput extends S.Class<GetScheduleInput>(
   "GetScheduleInput",
 )(
   {
-    Name: S.String.pipe(T.HttpLabel()),
+    Name: S.String.pipe(T.HttpLabel("Name")),
     GroupName: S.optional(S.String).pipe(T.HttpQuery("groupName")),
   },
   T.all(
@@ -432,7 +433,7 @@ export class UpdateScheduleInput extends S.Class<UpdateScheduleInput>(
   "UpdateScheduleInput",
 )(
   {
-    Name: S.String.pipe(T.HttpLabel()),
+    Name: S.String.pipe(T.HttpLabel("Name")),
     GroupName: S.optional(S.String),
     ScheduleExpression: S.String,
     StartDate: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
@@ -459,7 +460,7 @@ export class DeleteScheduleInput extends S.Class<DeleteScheduleInput>(
   "DeleteScheduleInput",
 )(
   {
-    Name: S.String.pipe(T.HttpLabel()),
+    Name: S.String.pipe(T.HttpLabel("Name")),
     GroupName: S.optional(S.String).pipe(T.HttpQuery("groupName")),
     ClientToken: S.optional(S.String).pipe(T.HttpQuery("clientToken")),
   },
@@ -503,7 +504,7 @@ export class CreateScheduleGroupInput extends S.Class<CreateScheduleGroupInput>(
   "CreateScheduleGroupInput",
 )(
   {
-    Name: S.String.pipe(T.HttpLabel()),
+    Name: S.String.pipe(T.HttpLabel("Name")),
     Tags: S.optional(TagList),
     ClientToken: S.optional(S.String),
   },
@@ -519,7 +520,7 @@ export class CreateScheduleGroupInput extends S.Class<CreateScheduleGroupInput>(
 export class GetScheduleGroupInput extends S.Class<GetScheduleGroupInput>(
   "GetScheduleGroupInput",
 )(
-  { Name: S.String.pipe(T.HttpLabel()) },
+  { Name: S.String.pipe(T.HttpLabel("Name")) },
   T.all(
     T.Http({ method: "GET", uri: "/schedule-groups/{Name}" }),
     svc,
@@ -533,7 +534,7 @@ export class DeleteScheduleGroupInput extends S.Class<DeleteScheduleGroupInput>(
   "DeleteScheduleGroupInput",
 )(
   {
-    Name: S.String.pipe(T.HttpLabel()),
+    Name: S.String.pipe(T.HttpLabel("Name")),
     ClientToken: S.optional(S.String).pipe(T.HttpQuery("clientToken")),
   },
   T.all(
@@ -571,7 +572,7 @@ export class ListTagsForResourceOutput extends S.Class<ListTagsForResourceOutput
 export class TagResourceInput extends S.Class<TagResourceInput>(
   "TagResourceInput",
 )(
-  { ResourceArn: S.String.pipe(T.HttpLabel()), Tags: TagList },
+  { ResourceArn: S.String.pipe(T.HttpLabel("ResourceArn")), Tags: TagList },
   T.all(
     T.Http({ method: "POST", uri: "/tags/{ResourceArn}" }),
     svc,
@@ -661,7 +662,7 @@ export class CreateScheduleInput extends S.Class<CreateScheduleInput>(
   "CreateScheduleInput",
 )(
   {
-    Name: S.String.pipe(T.HttpLabel()),
+    Name: S.String.pipe(T.HttpLabel("Name")),
     GroupName: S.optional(S.String),
     ScheduleExpression: S.String,
     StartDate: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
@@ -696,7 +697,7 @@ export class ConflictException extends S.TaggedError<ConflictException>()(
 export class InternalServerException extends S.TaggedError<InternalServerException>()(
   "InternalServerException",
   { Message: S.String },
-) {}
+).pipe(withCategory(ERROR_CATEGORIES.SERVER_ERROR)) {}
 export class ResourceNotFoundException extends S.TaggedError<ResourceNotFoundException>()(
   "ResourceNotFoundException",
   { Message: S.String },
@@ -704,7 +705,7 @@ export class ResourceNotFoundException extends S.TaggedError<ResourceNotFoundExc
 export class ThrottlingException extends S.TaggedError<ThrottlingException>()(
   "ThrottlingException",
   { Message: S.String },
-) {}
+).pipe(withCategory(ERROR_CATEGORIES.THROTTLING_ERROR)) {}
 export class ServiceQuotaExceededException extends S.TaggedError<ServiceQuotaExceededException>()(
   "ServiceQuotaExceededException",
   { Message: S.String },

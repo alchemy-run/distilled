@@ -1,6 +1,7 @@
 import * as S from "effect/Schema";
 import * as API from "../api.ts";
 import * as T from "../traits.ts";
+import { ERROR_CATEGORIES, withCategory } from "../error-category.ts";
 const svc = T.AwsApiService({
   sdkId: "IoTSiteWise",
   serviceShapeName: "AWSIoTSiteWise",
@@ -289,7 +290,7 @@ export class AssociateAssetsRequest extends S.Class<AssociateAssetsRequest>(
   "AssociateAssetsRequest",
 )(
   {
-    assetId: S.String.pipe(T.HttpLabel()),
+    assetId: S.String.pipe(T.HttpLabel("assetId")),
     hierarchyId: S.String,
     childAssetId: S.String,
     clientToken: S.optional(S.String),
@@ -331,7 +332,7 @@ export class BatchAssociateProjectAssetsRequest extends S.Class<BatchAssociatePr
   "BatchAssociateProjectAssetsRequest",
 )(
   {
-    projectId: S.String.pipe(T.HttpLabel()),
+    projectId: S.String.pipe(T.HttpLabel("projectId")),
     assetIds: IDs,
     clientToken: S.optional(S.String),
   },
@@ -348,7 +349,7 @@ export class BatchDisassociateProjectAssetsRequest extends S.Class<BatchDisassoc
   "BatchDisassociateProjectAssetsRequest",
 )(
   {
-    projectId: S.String.pipe(T.HttpLabel()),
+    projectId: S.String.pipe(T.HttpLabel("projectId")),
     assetIds: IDs,
     clientToken: S.optional(S.String),
   },
@@ -462,7 +463,7 @@ export class CreateAssetModelCompositeModelRequest extends S.Class<CreateAssetMo
   "CreateAssetModelCompositeModelRequest",
 )(
   {
-    assetModelId: S.String.pipe(T.HttpLabel()),
+    assetModelId: S.String.pipe(T.HttpLabel("assetModelId")),
     assetModelCompositeModelExternalId: S.optional(S.String),
     parentAssetModelCompositeModelId: S.optional(S.String),
     assetModelCompositeModelId: S.optional(S.String),
@@ -535,7 +536,7 @@ export class DeleteAccessPolicyRequest extends S.Class<DeleteAccessPolicyRequest
   "DeleteAccessPolicyRequest",
 )(
   {
-    accessPolicyId: S.String.pipe(T.HttpLabel()),
+    accessPolicyId: S.String.pipe(T.HttpLabel("accessPolicyId")),
     clientToken: S.optional(S.String).pipe(T.HttpQuery("clientToken")),
   },
   T.all(
@@ -554,7 +555,7 @@ export class DeleteAssetRequest extends S.Class<DeleteAssetRequest>(
   "DeleteAssetRequest",
 )(
   {
-    assetId: S.String.pipe(T.HttpLabel()),
+    assetId: S.String.pipe(T.HttpLabel("assetId")),
     clientToken: S.optional(S.String).pipe(T.HttpQuery("clientToken")),
   },
   T.all(
@@ -570,7 +571,7 @@ export class DeleteAssetModelRequest extends S.Class<DeleteAssetModelRequest>(
   "DeleteAssetModelRequest",
 )(
   {
-    assetModelId: S.String.pipe(T.HttpLabel()),
+    assetModelId: S.String.pipe(T.HttpLabel("assetModelId")),
     clientToken: S.optional(S.String).pipe(T.HttpQuery("clientToken")),
     ifMatch: S.optional(S.String).pipe(T.HttpHeader("If-Match")),
     ifNoneMatch: S.optional(S.String).pipe(T.HttpHeader("If-None-Match")),
@@ -591,8 +592,10 @@ export class DeleteAssetModelCompositeModelRequest extends S.Class<DeleteAssetMo
   "DeleteAssetModelCompositeModelRequest",
 )(
   {
-    assetModelId: S.String.pipe(T.HttpLabel()),
-    assetModelCompositeModelId: S.String.pipe(T.HttpLabel()),
+    assetModelId: S.String.pipe(T.HttpLabel("assetModelId")),
+    assetModelCompositeModelId: S.String.pipe(
+      T.HttpLabel("assetModelCompositeModelId"),
+    ),
     clientToken: S.optional(S.String).pipe(T.HttpQuery("clientToken")),
     ifMatch: S.optional(S.String).pipe(T.HttpHeader("If-Match")),
     ifNoneMatch: S.optional(S.String).pipe(T.HttpHeader("If-None-Match")),
@@ -616,8 +619,8 @@ export class DeleteAssetModelInterfaceRelationshipRequest extends S.Class<Delete
   "DeleteAssetModelInterfaceRelationshipRequest",
 )(
   {
-    assetModelId: S.String.pipe(T.HttpLabel()),
-    interfaceAssetModelId: S.String.pipe(T.HttpLabel()),
+    assetModelId: S.String.pipe(T.HttpLabel("assetModelId")),
+    interfaceAssetModelId: S.String.pipe(T.HttpLabel("interfaceAssetModelId")),
     clientToken: S.optional(S.String).pipe(T.HttpQuery("clientToken")),
   },
   T.all(
@@ -636,7 +639,7 @@ export class DeleteComputationModelRequest extends S.Class<DeleteComputationMode
   "DeleteComputationModelRequest",
 )(
   {
-    computationModelId: S.String.pipe(T.HttpLabel()),
+    computationModelId: S.String.pipe(T.HttpLabel("computationModelId")),
     clientToken: S.optional(S.String).pipe(T.HttpQuery("clientToken")),
   },
   T.all(
@@ -655,7 +658,7 @@ export class DeleteDashboardRequest extends S.Class<DeleteDashboardRequest>(
   "DeleteDashboardRequest",
 )(
   {
-    dashboardId: S.String.pipe(T.HttpLabel()),
+    dashboardId: S.String.pipe(T.HttpLabel("dashboardId")),
     clientToken: S.optional(S.String).pipe(T.HttpQuery("clientToken")),
   },
   T.all(
@@ -674,7 +677,7 @@ export class DeleteDatasetRequest extends S.Class<DeleteDatasetRequest>(
   "DeleteDatasetRequest",
 )(
   {
-    datasetId: S.String.pipe(T.HttpLabel()),
+    datasetId: S.String.pipe(T.HttpLabel("datasetId")),
     clientToken: S.optional(S.String).pipe(T.HttpQuery("clientToken")),
   },
   T.all(
@@ -689,7 +692,7 @@ export class DeleteDatasetRequest extends S.Class<DeleteDatasetRequest>(
 export class DeleteGatewayRequest extends S.Class<DeleteGatewayRequest>(
   "DeleteGatewayRequest",
 )(
-  { gatewayId: S.String.pipe(T.HttpLabel()) },
+  { gatewayId: S.String.pipe(T.HttpLabel("gatewayId")) },
   T.all(
     T.Http({ method: "DELETE", uri: "/20200301/gateways/{gatewayId}" }),
     svc,
@@ -706,7 +709,7 @@ export class DeletePortalRequest extends S.Class<DeletePortalRequest>(
   "DeletePortalRequest",
 )(
   {
-    portalId: S.String.pipe(T.HttpLabel()),
+    portalId: S.String.pipe(T.HttpLabel("portalId")),
     clientToken: S.optional(S.String).pipe(T.HttpQuery("clientToken")),
   },
   T.all(
@@ -722,7 +725,7 @@ export class DeleteProjectRequest extends S.Class<DeleteProjectRequest>(
   "DeleteProjectRequest",
 )(
   {
-    projectId: S.String.pipe(T.HttpLabel()),
+    projectId: S.String.pipe(T.HttpLabel("projectId")),
     clientToken: S.optional(S.String).pipe(T.HttpQuery("clientToken")),
   },
   T.all(
@@ -761,7 +764,7 @@ export class DeleteTimeSeriesResponse extends S.Class<DeleteTimeSeriesResponse>(
 export class DescribeAccessPolicyRequest extends S.Class<DescribeAccessPolicyRequest>(
   "DescribeAccessPolicyRequest",
 )(
-  { accessPolicyId: S.String.pipe(T.HttpLabel()) },
+  { accessPolicyId: S.String.pipe(T.HttpLabel("accessPolicyId")) },
   T.all(
     T.Http({ method: "GET", uri: "/access-policies/{accessPolicyId}" }),
     svc,
@@ -774,7 +777,7 @@ export class DescribeAccessPolicyRequest extends S.Class<DescribeAccessPolicyReq
 export class DescribeActionRequest extends S.Class<DescribeActionRequest>(
   "DescribeActionRequest",
 )(
-  { actionId: S.String.pipe(T.HttpLabel()) },
+  { actionId: S.String.pipe(T.HttpLabel("actionId")) },
   T.all(
     T.Http({ method: "GET", uri: "/actions/{actionId}" }),
     svc,
@@ -788,7 +791,7 @@ export class DescribeAssetRequest extends S.Class<DescribeAssetRequest>(
   "DescribeAssetRequest",
 )(
   {
-    assetId: S.String.pipe(T.HttpLabel()),
+    assetId: S.String.pipe(T.HttpLabel("assetId")),
     excludeProperties: S.optional(S.Boolean).pipe(
       T.HttpQuery("excludeProperties"),
     ),
@@ -806,8 +809,8 @@ export class DescribeAssetCompositeModelRequest extends S.Class<DescribeAssetCom
   "DescribeAssetCompositeModelRequest",
 )(
   {
-    assetId: S.String.pipe(T.HttpLabel()),
-    assetCompositeModelId: S.String.pipe(T.HttpLabel()),
+    assetId: S.String.pipe(T.HttpLabel("assetId")),
+    assetCompositeModelId: S.String.pipe(T.HttpLabel("assetCompositeModelId")),
   },
   T.all(
     T.Http({
@@ -825,7 +828,7 @@ export class DescribeAssetModelRequest extends S.Class<DescribeAssetModelRequest
   "DescribeAssetModelRequest",
 )(
   {
-    assetModelId: S.String.pipe(T.HttpLabel()),
+    assetModelId: S.String.pipe(T.HttpLabel("assetModelId")),
     excludeProperties: S.optional(S.Boolean).pipe(
       T.HttpQuery("excludeProperties"),
     ),
@@ -846,8 +849,10 @@ export class DescribeAssetModelCompositeModelRequest extends S.Class<DescribeAss
   "DescribeAssetModelCompositeModelRequest",
 )(
   {
-    assetModelId: S.String.pipe(T.HttpLabel()),
-    assetModelCompositeModelId: S.String.pipe(T.HttpLabel()),
+    assetModelId: S.String.pipe(T.HttpLabel("assetModelId")),
+    assetModelCompositeModelId: S.String.pipe(
+      T.HttpLabel("assetModelCompositeModelId"),
+    ),
     assetModelVersion: S.optional(S.String).pipe(
       T.HttpQuery("assetModelVersion"),
     ),
@@ -868,8 +873,8 @@ export class DescribeAssetModelInterfaceRelationshipRequest extends S.Class<Desc
   "DescribeAssetModelInterfaceRelationshipRequest",
 )(
   {
-    assetModelId: S.String.pipe(T.HttpLabel()),
-    interfaceAssetModelId: S.String.pipe(T.HttpLabel()),
+    assetModelId: S.String.pipe(T.HttpLabel("assetModelId")),
+    interfaceAssetModelId: S.String.pipe(T.HttpLabel("interfaceAssetModelId")),
   },
   T.all(
     T.Http({
@@ -887,8 +892,8 @@ export class DescribeAssetPropertyRequest extends S.Class<DescribeAssetPropertyR
   "DescribeAssetPropertyRequest",
 )(
   {
-    assetId: S.String.pipe(T.HttpLabel()),
-    propertyId: S.String.pipe(T.HttpLabel()),
+    assetId: S.String.pipe(T.HttpLabel("assetId")),
+    propertyId: S.String.pipe(T.HttpLabel("propertyId")),
   },
   T.all(
     T.Http({ method: "GET", uri: "/assets/{assetId}/properties/{propertyId}" }),
@@ -902,7 +907,7 @@ export class DescribeAssetPropertyRequest extends S.Class<DescribeAssetPropertyR
 export class DescribeBulkImportJobRequest extends S.Class<DescribeBulkImportJobRequest>(
   "DescribeBulkImportJobRequest",
 )(
-  { jobId: S.String.pipe(T.HttpLabel()) },
+  { jobId: S.String.pipe(T.HttpLabel("jobId")) },
   T.all(
     T.Http({ method: "GET", uri: "/jobs/{jobId}" }),
     svc,
@@ -916,7 +921,7 @@ export class DescribeComputationModelRequest extends S.Class<DescribeComputation
   "DescribeComputationModelRequest",
 )(
   {
-    computationModelId: S.String.pipe(T.HttpLabel()),
+    computationModelId: S.String.pipe(T.HttpLabel("computationModelId")),
     computationModelVersion: S.optional(S.String).pipe(
       T.HttpQuery("computationModelVersion"),
     ),
@@ -934,7 +939,7 @@ export class DescribeComputationModelExecutionSummaryRequest extends S.Class<Des
   "DescribeComputationModelExecutionSummaryRequest",
 )(
   {
-    computationModelId: S.String.pipe(T.HttpLabel()),
+    computationModelId: S.String.pipe(T.HttpLabel("computationModelId")),
     resolveToResourceType: S.optional(S.String).pipe(
       T.HttpQuery("resolveToResourceType"),
     ),
@@ -957,7 +962,7 @@ export class DescribeComputationModelExecutionSummaryRequest extends S.Class<Des
 export class DescribeDashboardRequest extends S.Class<DescribeDashboardRequest>(
   "DescribeDashboardRequest",
 )(
-  { dashboardId: S.String.pipe(T.HttpLabel()) },
+  { dashboardId: S.String.pipe(T.HttpLabel("dashboardId")) },
   T.all(
     T.Http({ method: "GET", uri: "/dashboards/{dashboardId}" }),
     svc,
@@ -970,7 +975,7 @@ export class DescribeDashboardRequest extends S.Class<DescribeDashboardRequest>(
 export class DescribeDatasetRequest extends S.Class<DescribeDatasetRequest>(
   "DescribeDatasetRequest",
 )(
-  { datasetId: S.String.pipe(T.HttpLabel()) },
+  { datasetId: S.String.pipe(T.HttpLabel("datasetId")) },
   T.all(
     T.Http({ method: "GET", uri: "/datasets/{datasetId}" }),
     svc,
@@ -983,7 +988,7 @@ export class DescribeDatasetRequest extends S.Class<DescribeDatasetRequest>(
 export class DescribeExecutionRequest extends S.Class<DescribeExecutionRequest>(
   "DescribeExecutionRequest",
 )(
-  { executionId: S.String.pipe(T.HttpLabel()) },
+  { executionId: S.String.pipe(T.HttpLabel("executionId")) },
   T.all(
     T.Http({ method: "GET", uri: "/executions/{executionId}" }),
     svc,
@@ -996,7 +1001,7 @@ export class DescribeExecutionRequest extends S.Class<DescribeExecutionRequest>(
 export class DescribeGatewayRequest extends S.Class<DescribeGatewayRequest>(
   "DescribeGatewayRequest",
 )(
-  { gatewayId: S.String.pipe(T.HttpLabel()) },
+  { gatewayId: S.String.pipe(T.HttpLabel("gatewayId")) },
   T.all(
     T.Http({ method: "GET", uri: "/20200301/gateways/{gatewayId}" }),
     svc,
@@ -1010,8 +1015,8 @@ export class DescribeGatewayCapabilityConfigurationRequest extends S.Class<Descr
   "DescribeGatewayCapabilityConfigurationRequest",
 )(
   {
-    gatewayId: S.String.pipe(T.HttpLabel()),
-    capabilityNamespace: S.String.pipe(T.HttpLabel()),
+    gatewayId: S.String.pipe(T.HttpLabel("gatewayId")),
+    capabilityNamespace: S.String.pipe(T.HttpLabel("capabilityNamespace")),
   },
   T.all(
     T.Http({
@@ -1028,7 +1033,7 @@ export class DescribeGatewayCapabilityConfigurationRequest extends S.Class<Descr
 export class DescribePortalRequest extends S.Class<DescribePortalRequest>(
   "DescribePortalRequest",
 )(
-  { portalId: S.String.pipe(T.HttpLabel()) },
+  { portalId: S.String.pipe(T.HttpLabel("portalId")) },
   T.all(
     T.Http({ method: "GET", uri: "/portals/{portalId}" }),
     svc,
@@ -1041,7 +1046,7 @@ export class DescribePortalRequest extends S.Class<DescribePortalRequest>(
 export class DescribeProjectRequest extends S.Class<DescribeProjectRequest>(
   "DescribeProjectRequest",
 )(
-  { projectId: S.String.pipe(T.HttpLabel()) },
+  { projectId: S.String.pipe(T.HttpLabel("projectId")) },
   T.all(
     T.Http({ method: "GET", uri: "/projects/{projectId}" }),
     svc,
@@ -1072,7 +1077,7 @@ export class DisassociateAssetsRequest extends S.Class<DisassociateAssetsRequest
   "DisassociateAssetsRequest",
 )(
   {
-    assetId: S.String.pipe(T.HttpLabel()),
+    assetId: S.String.pipe(T.HttpLabel("assetId")),
     hierarchyId: S.String,
     childAssetId: S.String,
     clientToken: S.optional(S.String),
@@ -1300,7 +1305,7 @@ export class ListAssetModelCompositeModelsRequest extends S.Class<ListAssetModel
   "ListAssetModelCompositeModelsRequest",
 )(
   {
-    assetModelId: S.String.pipe(T.HttpLabel()),
+    assetModelId: S.String.pipe(T.HttpLabel("assetModelId")),
     nextToken: S.optional(S.String).pipe(T.HttpQuery("nextToken")),
     maxResults: S.optional(S.Number).pipe(T.HttpQuery("maxResults")),
     assetModelVersion: S.optional(S.String).pipe(
@@ -1323,7 +1328,7 @@ export class ListAssetModelPropertiesRequest extends S.Class<ListAssetModelPrope
   "ListAssetModelPropertiesRequest",
 )(
   {
-    assetModelId: S.String.pipe(T.HttpLabel()),
+    assetModelId: S.String.pipe(T.HttpLabel("assetModelId")),
     nextToken: S.optional(S.String).pipe(T.HttpQuery("nextToken")),
     maxResults: S.optional(S.Number).pipe(T.HttpQuery("maxResults")),
     filter: S.optional(S.String).pipe(T.HttpQuery("filter")),
@@ -1366,7 +1371,7 @@ export class ListAssetPropertiesRequest extends S.Class<ListAssetPropertiesReque
   "ListAssetPropertiesRequest",
 )(
   {
-    assetId: S.String.pipe(T.HttpLabel()),
+    assetId: S.String.pipe(T.HttpLabel("assetId")),
     nextToken: S.optional(S.String).pipe(T.HttpQuery("nextToken")),
     maxResults: S.optional(S.Number).pipe(T.HttpQuery("maxResults")),
     filter: S.optional(S.String).pipe(T.HttpQuery("filter")),
@@ -1384,7 +1389,7 @@ export class ListAssetRelationshipsRequest extends S.Class<ListAssetRelationship
   "ListAssetRelationshipsRequest",
 )(
   {
-    assetId: S.String.pipe(T.HttpLabel()),
+    assetId: S.String.pipe(T.HttpLabel("assetId")),
     traversalType: S.String.pipe(T.HttpQuery("traversalType")),
     nextToken: S.optional(S.String).pipe(T.HttpQuery("nextToken")),
     maxResults: S.optional(S.Number).pipe(T.HttpQuery("maxResults")),
@@ -1420,7 +1425,7 @@ export class ListAssociatedAssetsRequest extends S.Class<ListAssociatedAssetsReq
   "ListAssociatedAssetsRequest",
 )(
   {
-    assetId: S.String.pipe(T.HttpLabel()),
+    assetId: S.String.pipe(T.HttpLabel("assetId")),
     hierarchyId: S.optional(S.String).pipe(T.HttpQuery("hierarchyId")),
     traversalDirection: S.optional(S.String).pipe(
       T.HttpQuery("traversalDirection"),
@@ -1451,7 +1456,7 @@ export class ListCompositionRelationshipsRequest extends S.Class<ListComposition
   "ListCompositionRelationshipsRequest",
 )(
   {
-    assetModelId: S.String.pipe(T.HttpLabel()),
+    assetModelId: S.String.pipe(T.HttpLabel("assetModelId")),
     nextToken: S.optional(S.String).pipe(T.HttpQuery("nextToken")),
     maxResults: S.optional(S.Number).pipe(T.HttpQuery("maxResults")),
   },
@@ -1471,7 +1476,7 @@ export class ListComputationModelResolveToResourcesRequest extends S.Class<ListC
   "ListComputationModelResolveToResourcesRequest",
 )(
   {
-    computationModelId: S.String.pipe(T.HttpLabel()),
+    computationModelId: S.String.pipe(T.HttpLabel("computationModelId")),
     nextToken: S.optional(S.String).pipe(T.HttpQuery("nextToken")),
     maxResults: S.optional(S.Number).pipe(T.HttpQuery("maxResults")),
   },
@@ -1585,7 +1590,7 @@ export class ListInterfaceRelationshipsRequest extends S.Class<ListInterfaceRela
   "ListInterfaceRelationshipsRequest",
 )(
   {
-    interfaceAssetModelId: S.String.pipe(T.HttpLabel()),
+    interfaceAssetModelId: S.String.pipe(T.HttpLabel("interfaceAssetModelId")),
     nextToken: S.optional(S.String).pipe(T.HttpQuery("nextToken")),
     maxResults: S.optional(S.Number).pipe(T.HttpQuery("maxResults")),
   },
@@ -1621,7 +1626,7 @@ export class ListProjectAssetsRequest extends S.Class<ListProjectAssetsRequest>(
   "ListProjectAssetsRequest",
 )(
   {
-    projectId: S.String.pipe(T.HttpLabel()),
+    projectId: S.String.pipe(T.HttpLabel("projectId")),
     nextToken: S.optional(S.String).pipe(T.HttpQuery("nextToken")),
     maxResults: S.optional(S.Number).pipe(T.HttpQuery("maxResults")),
   },
@@ -1801,7 +1806,7 @@ export class UpdateAccessPolicyRequest extends S.Class<UpdateAccessPolicyRequest
   "UpdateAccessPolicyRequest",
 )(
   {
-    accessPolicyId: S.String.pipe(T.HttpLabel()),
+    accessPolicyId: S.String.pipe(T.HttpLabel("accessPolicyId")),
     accessPolicyIdentity: Identity,
     accessPolicyResource: Resource,
     accessPolicyPermission: S.String,
@@ -1823,7 +1828,7 @@ export class UpdateAssetRequest extends S.Class<UpdateAssetRequest>(
   "UpdateAssetRequest",
 )(
   {
-    assetId: S.String.pipe(T.HttpLabel()),
+    assetId: S.String.pipe(T.HttpLabel("assetId")),
     assetExternalId: S.optional(S.String),
     assetName: S.String,
     clientToken: S.optional(S.String),
@@ -1855,8 +1860,10 @@ export class UpdateAssetModelCompositeModelRequest extends S.Class<UpdateAssetMo
   "UpdateAssetModelCompositeModelRequest",
 )(
   {
-    assetModelId: S.String.pipe(T.HttpLabel()),
-    assetModelCompositeModelId: S.String.pipe(T.HttpLabel()),
+    assetModelId: S.String.pipe(T.HttpLabel("assetModelId")),
+    assetModelCompositeModelId: S.String.pipe(
+      T.HttpLabel("assetModelCompositeModelId"),
+    ),
     assetModelCompositeModelExternalId: S.optional(S.String),
     assetModelCompositeModelDescription: S.optional(S.String),
     assetModelCompositeModelName: S.String,
@@ -1884,8 +1891,8 @@ export class UpdateAssetPropertyRequest extends S.Class<UpdateAssetPropertyReque
   "UpdateAssetPropertyRequest",
 )(
   {
-    assetId: S.String.pipe(T.HttpLabel()),
-    propertyId: S.String.pipe(T.HttpLabel()),
+    assetId: S.String.pipe(T.HttpLabel("assetId")),
+    propertyId: S.String.pipe(T.HttpLabel("propertyId")),
     propertyAlias: S.optional(S.String),
     propertyNotificationState: S.optional(S.String),
     clientToken: S.optional(S.String),
@@ -1935,7 +1942,7 @@ export class UpdateComputationModelRequest extends S.Class<UpdateComputationMode
   "UpdateComputationModelRequest",
 )(
   {
-    computationModelId: S.String.pipe(T.HttpLabel()),
+    computationModelId: S.String.pipe(T.HttpLabel("computationModelId")),
     computationModelName: S.String,
     computationModelDescription: S.optional(S.String),
     computationModelConfiguration: ComputationModelConfiguration,
@@ -1955,7 +1962,7 @@ export class UpdateDashboardRequest extends S.Class<UpdateDashboardRequest>(
   "UpdateDashboardRequest",
 )(
   {
-    dashboardId: S.String.pipe(T.HttpLabel()),
+    dashboardId: S.String.pipe(T.HttpLabel("dashboardId")),
     dashboardName: S.String,
     dashboardDescription: S.optional(S.String),
     dashboardDefinition: S.String,
@@ -1988,7 +1995,7 @@ export class UpdateDatasetRequest extends S.Class<UpdateDatasetRequest>(
   "UpdateDatasetRequest",
 )(
   {
-    datasetId: S.String.pipe(T.HttpLabel()),
+    datasetId: S.String.pipe(T.HttpLabel("datasetId")),
     datasetName: S.String,
     datasetDescription: S.optional(S.String),
     datasetSource: DatasetSource,
@@ -2006,7 +2013,7 @@ export class UpdateDatasetRequest extends S.Class<UpdateDatasetRequest>(
 export class UpdateGatewayRequest extends S.Class<UpdateGatewayRequest>(
   "UpdateGatewayRequest",
 )(
-  { gatewayId: S.String.pipe(T.HttpLabel()), gatewayName: S.String },
+  { gatewayId: S.String.pipe(T.HttpLabel("gatewayId")), gatewayName: S.String },
   T.all(
     T.Http({ method: "PUT", uri: "/20200301/gateways/{gatewayId}" }),
     svc,
@@ -2023,7 +2030,7 @@ export class UpdateGatewayCapabilityConfigurationRequest extends S.Class<UpdateG
   "UpdateGatewayCapabilityConfigurationRequest",
 )(
   {
-    gatewayId: S.String.pipe(T.HttpLabel()),
+    gatewayId: S.String.pipe(T.HttpLabel("gatewayId")),
     capabilityNamespace: S.String,
     capabilityConfiguration: S.String,
   },
@@ -2043,7 +2050,7 @@ export class UpdateProjectRequest extends S.Class<UpdateProjectRequest>(
   "UpdateProjectRequest",
 )(
   {
-    projectId: S.String.pipe(T.HttpLabel()),
+    projectId: S.String.pipe(T.HttpLabel("projectId")),
     projectName: S.String,
     projectDescription: S.optional(S.String),
     clientToken: S.optional(S.String),
@@ -2557,7 +2564,7 @@ export class UpdatePortalRequest extends S.Class<UpdatePortalRequest>(
   "UpdatePortalRequest",
 )(
   {
-    portalId: S.String.pipe(T.HttpLabel()),
+    portalId: S.String.pipe(T.HttpLabel("portalId")),
     portalName: S.String,
     portalDescription: S.optional(S.String),
     portalContactEmail: S.String,
@@ -3264,8 +3271,8 @@ export class PutAssetModelInterfaceRelationshipRequest extends S.Class<PutAssetM
   "PutAssetModelInterfaceRelationshipRequest",
 )(
   {
-    assetModelId: S.String.pipe(T.HttpLabel()),
-    interfaceAssetModelId: S.String.pipe(T.HttpLabel()),
+    assetModelId: S.String.pipe(T.HttpLabel("assetModelId")),
+    interfaceAssetModelId: S.String.pipe(T.HttpLabel("interfaceAssetModelId")),
     propertyMappingConfiguration: PropertyMappingConfiguration,
     clientToken: S.optional(S.String),
   },
@@ -3285,7 +3292,7 @@ export class UpdateAssetModelRequest extends S.Class<UpdateAssetModelRequest>(
   "UpdateAssetModelRequest",
 )(
   {
-    assetModelId: S.String.pipe(T.HttpLabel()),
+    assetModelId: S.String.pipe(T.HttpLabel("assetModelId")),
     assetModelExternalId: S.optional(S.String),
     assetModelName: S.String,
     assetModelDescription: S.optional(S.String),
@@ -3825,7 +3832,7 @@ export class ConflictingOperationException extends S.TaggedError<ConflictingOper
 export class InternalFailureException extends S.TaggedError<InternalFailureException>()(
   "InternalFailureException",
   { message: S.String },
-) {}
+).pipe(withCategory(ERROR_CATEGORIES.SERVER_ERROR)) {}
 export class InvalidRequestException extends S.TaggedError<InvalidRequestException>()(
   "InvalidRequestException",
   { message: S.String },
@@ -3841,7 +3848,7 @@ export class ResourceNotFoundException extends S.TaggedError<ResourceNotFoundExc
 export class ThrottlingException extends S.TaggedError<ThrottlingException>()(
   "ThrottlingException",
   { message: S.String },
-) {}
+).pipe(withCategory(ERROR_CATEGORIES.THROTTLING_ERROR)) {}
 export class AccessDeniedException extends S.TaggedError<AccessDeniedException>()(
   "AccessDeniedException",
   { message: S.optional(S.String) },
@@ -3865,7 +3872,7 @@ export class TooManyTagsException extends S.TaggedError<TooManyTagsException>()(
 export class ServiceUnavailableException extends S.TaggedError<ServiceUnavailableException>()(
   "ServiceUnavailableException",
   { message: S.String },
-) {}
+).pipe(withCategory(ERROR_CATEGORIES.SERVER_ERROR)) {}
 export class QueryTimeoutException extends S.TaggedError<QueryTimeoutException>()(
   "QueryTimeoutException",
   { message: S.optional(S.String) },

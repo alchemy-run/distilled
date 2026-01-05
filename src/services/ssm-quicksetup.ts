@@ -1,6 +1,7 @@
 import * as S from "effect/Schema";
 import * as API from "../api.ts";
 import * as T from "../traits.ts";
+import { ERROR_CATEGORIES, withCategory } from "../error-category.ts";
 const svc = T.AwsApiService({
   sdkId: "SSM QuickSetup",
   serviceShapeName: "QuickSetup",
@@ -309,7 +310,7 @@ export const TagKeys = S.Array(S.String);
 export class DeleteConfigurationManagerInput extends S.Class<DeleteConfigurationManagerInput>(
   "DeleteConfigurationManagerInput",
 )(
-  { ManagerArn: S.String.pipe(T.HttpLabel()) },
+  { ManagerArn: S.String.pipe(T.HttpLabel("ManagerArn")) },
   T.all(
     T.Http({ method: "DELETE", uri: "/configurationManager/{ManagerArn}" }),
     svc,
@@ -325,7 +326,7 @@ export class DeleteConfigurationManagerResponse extends S.Class<DeleteConfigurat
 export class GetConfigurationInput extends S.Class<GetConfigurationInput>(
   "GetConfigurationInput",
 )(
-  { ConfigurationId: S.String.pipe(T.HttpLabel()) },
+  { ConfigurationId: S.String.pipe(T.HttpLabel("ConfigurationId")) },
   T.all(
     T.Http({ method: "GET", uri: "/getConfiguration/{ConfigurationId}" }),
     svc,
@@ -338,7 +339,7 @@ export class GetConfigurationInput extends S.Class<GetConfigurationInput>(
 export class GetConfigurationManagerInput extends S.Class<GetConfigurationManagerInput>(
   "GetConfigurationManagerInput",
 )(
-  { ManagerArn: S.String.pipe(T.HttpLabel()) },
+  { ManagerArn: S.String.pipe(T.HttpLabel("ManagerArn")) },
   T.all(
     T.Http({ method: "GET", uri: "/configurationManager/{ManagerArn}" }),
     svc,
@@ -376,7 +377,7 @@ export class ListConfigurationsInput extends S.Class<ListConfigurationsInput>(
 export class ListTagsForResourceRequest extends S.Class<ListTagsForResourceRequest>(
   "ListTagsForResourceRequest",
 )(
-  { ResourceArn: S.String.pipe(T.HttpLabel()) },
+  { ResourceArn: S.String.pipe(T.HttpLabel("ResourceArn")) },
   T.all(
     T.Http({ method: "GET", uri: "/tags/{ResourceArn}" }),
     svc,
@@ -390,7 +391,7 @@ export const TagsMap = S.Record({ key: S.String, value: S.String });
 export class TagResourceInput extends S.Class<TagResourceInput>(
   "TagResourceInput",
 )(
-  { ResourceArn: S.String.pipe(T.HttpLabel()), Tags: TagsMap },
+  { ResourceArn: S.String.pipe(T.HttpLabel("ResourceArn")), Tags: TagsMap },
   T.all(
     T.Http({ method: "PUT", uri: "/tags/{ResourceArn}" }),
     svc,
@@ -407,7 +408,7 @@ export class UntagResourceInput extends S.Class<UntagResourceInput>(
   "UntagResourceInput",
 )(
   {
-    ResourceArn: S.String.pipe(T.HttpLabel()),
+    ResourceArn: S.String.pipe(T.HttpLabel("ResourceArn")),
     TagKeys: TagKeys.pipe(T.HttpQuery("tagKeys")),
   },
   T.all(
@@ -426,7 +427,7 @@ export class UpdateConfigurationManagerInput extends S.Class<UpdateConfiguration
   "UpdateConfigurationManagerInput",
 )(
   {
-    ManagerArn: S.String.pipe(T.HttpLabel()),
+    ManagerArn: S.String.pipe(T.HttpLabel("ManagerArn")),
     Name: S.optional(S.String),
     Description: S.optional(S.String),
   },
@@ -526,8 +527,8 @@ export class UpdateConfigurationDefinitionInput extends S.Class<UpdateConfigurat
   "UpdateConfigurationDefinitionInput",
 )(
   {
-    ManagerArn: S.String.pipe(T.HttpLabel()),
-    Id: S.String.pipe(T.HttpLabel()),
+    ManagerArn: S.String.pipe(T.HttpLabel("ManagerArn")),
+    Id: S.String.pipe(T.HttpLabel("Id")),
     TypeVersion: S.optional(S.String),
     Parameters: S.optional(ConfigurationParametersMap),
     LocalDeploymentExecutionRoleName: S.optional(S.String),
@@ -669,7 +670,8 @@ export class ConflictException extends S.TaggedError<ConflictException>()(
 export class InternalServerException extends S.TaggedError<InternalServerException>()(
   "InternalServerException",
   { Message: S.optional(S.String) },
-) {}
+  T.Retryable(),
+).pipe(withCategory(ERROR_CATEGORIES.SERVER_ERROR)) {}
 export class ResourceNotFoundException extends S.TaggedError<ResourceNotFoundException>()(
   "ResourceNotFoundException",
   { Message: S.optional(S.String) },
@@ -677,7 +679,8 @@ export class ResourceNotFoundException extends S.TaggedError<ResourceNotFoundExc
 export class ThrottlingException extends S.TaggedError<ThrottlingException>()(
   "ThrottlingException",
   { Message: S.String },
-) {}
+  T.Retryable(),
+).pipe(withCategory(ERROR_CATEGORIES.THROTTLING_ERROR)) {}
 export class ValidationException extends S.TaggedError<ValidationException>()(
   "ValidationException",
   { Message: S.optional(S.String) },

@@ -1,6 +1,7 @@
 import * as S from "effect/Schema";
 import * as API from "../api.ts";
 import * as T from "../traits.ts";
+import { ERROR_CATEGORIES, withCategory } from "../error-category.ts";
 const ns = T.XmlNamespace("http://directconnect.amazonaws.com/doc/2012-10-25/");
 const svc = T.AwsApiService({
   sdkId: "Direct Connect",
@@ -1434,7 +1435,7 @@ export class DirectConnectClientException extends S.TaggedError<DirectConnectCli
 export class DirectConnectServerException extends S.TaggedError<DirectConnectServerException>()(
   "DirectConnectServerException",
   { message: S.optional(S.String) },
-) {}
+).pipe(withCategory(ERROR_CATEGORIES.SERVER_ERROR)) {}
 export class DuplicateTagKeysException extends S.TaggedError<DuplicateTagKeysException>()(
   "DuplicateTagKeysException",
   { message: S.optional(S.String) },

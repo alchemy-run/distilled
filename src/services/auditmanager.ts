@@ -1,6 +1,7 @@
 import * as S from "effect/Schema";
 import * as API from "../api.ts";
 import * as T from "../traits.ts";
+import { ERROR_CATEGORIES, withCategory } from "../error-category.ts";
 const svc = T.AwsApiService({
   sdkId: "AuditManager",
   serviceShapeName: "BedrockAssessmentManagerLambda",
@@ -312,7 +313,10 @@ export const TagKeyList = S.Array(S.String);
 export class AssociateAssessmentReportEvidenceFolderRequest extends S.Class<AssociateAssessmentReportEvidenceFolderRequest>(
   "AssociateAssessmentReportEvidenceFolderRequest",
 )(
-  { assessmentId: S.String.pipe(T.HttpLabel()), evidenceFolderId: S.String },
+  {
+    assessmentId: S.String.pipe(T.HttpLabel("assessmentId")),
+    evidenceFolderId: S.String,
+  },
   T.all(
     T.Http({
       method: "PUT",
@@ -332,7 +336,7 @@ export class BatchAssociateAssessmentReportEvidenceRequest extends S.Class<Batch
   "BatchAssociateAssessmentReportEvidenceRequest",
 )(
   {
-    assessmentId: S.String.pipe(T.HttpLabel()),
+    assessmentId: S.String.pipe(T.HttpLabel("assessmentId")),
     evidenceFolderId: S.String,
     evidenceIds: EvidenceIds,
   },
@@ -351,7 +355,10 @@ export class BatchAssociateAssessmentReportEvidenceRequest extends S.Class<Batch
 export class BatchDeleteDelegationByAssessmentRequest extends S.Class<BatchDeleteDelegationByAssessmentRequest>(
   "BatchDeleteDelegationByAssessmentRequest",
 )(
-  { delegationIds: DelegationIds, assessmentId: S.String.pipe(T.HttpLabel()) },
+  {
+    delegationIds: DelegationIds,
+    assessmentId: S.String.pipe(T.HttpLabel("assessmentId")),
+  },
   T.all(
     T.Http({ method: "PUT", uri: "/assessments/{assessmentId}/delegations" }),
     svc,
@@ -365,7 +372,7 @@ export class BatchDisassociateAssessmentReportEvidenceRequest extends S.Class<Ba
   "BatchDisassociateAssessmentReportEvidenceRequest",
 )(
   {
-    assessmentId: S.String.pipe(T.HttpLabel()),
+    assessmentId: S.String.pipe(T.HttpLabel("assessmentId")),
     evidenceFolderId: S.String,
     evidenceIds: EvidenceIds,
   },
@@ -387,7 +394,7 @@ export class CreateAssessmentReportRequest extends S.Class<CreateAssessmentRepor
   {
     name: S.String,
     description: S.optional(S.String),
-    assessmentId: S.String.pipe(T.HttpLabel()),
+    assessmentId: S.String.pipe(T.HttpLabel("assessmentId")),
     queryStatement: S.optional(S.String),
   },
   T.all(
@@ -402,7 +409,7 @@ export class CreateAssessmentReportRequest extends S.Class<CreateAssessmentRepor
 export class DeleteAssessmentRequest extends S.Class<DeleteAssessmentRequest>(
   "DeleteAssessmentRequest",
 )(
-  { assessmentId: S.String.pipe(T.HttpLabel()) },
+  { assessmentId: S.String.pipe(T.HttpLabel("assessmentId")) },
   T.all(
     T.Http({ method: "DELETE", uri: "/assessments/{assessmentId}" }),
     svc,
@@ -418,7 +425,7 @@ export class DeleteAssessmentResponse extends S.Class<DeleteAssessmentResponse>(
 export class DeleteAssessmentFrameworkRequest extends S.Class<DeleteAssessmentFrameworkRequest>(
   "DeleteAssessmentFrameworkRequest",
 )(
-  { frameworkId: S.String.pipe(T.HttpLabel()) },
+  { frameworkId: S.String.pipe(T.HttpLabel("frameworkId")) },
   T.all(
     T.Http({ method: "DELETE", uri: "/assessmentFrameworks/{frameworkId}" }),
     svc,
@@ -435,7 +442,7 @@ export class DeleteAssessmentFrameworkShareRequest extends S.Class<DeleteAssessm
   "DeleteAssessmentFrameworkShareRequest",
 )(
   {
-    requestId: S.String.pipe(T.HttpLabel()),
+    requestId: S.String.pipe(T.HttpLabel("requestId")),
     requestType: S.String.pipe(T.HttpQuery("requestType")),
   },
   T.all(
@@ -457,8 +464,8 @@ export class DeleteAssessmentReportRequest extends S.Class<DeleteAssessmentRepor
   "DeleteAssessmentReportRequest",
 )(
   {
-    assessmentId: S.String.pipe(T.HttpLabel()),
-    assessmentReportId: S.String.pipe(T.HttpLabel()),
+    assessmentId: S.String.pipe(T.HttpLabel("assessmentId")),
+    assessmentReportId: S.String.pipe(T.HttpLabel("assessmentReportId")),
   },
   T.all(
     T.Http({
@@ -478,7 +485,7 @@ export class DeleteAssessmentReportResponse extends S.Class<DeleteAssessmentRepo
 export class DeleteControlRequest extends S.Class<DeleteControlRequest>(
   "DeleteControlRequest",
 )(
-  { controlId: S.String.pipe(T.HttpLabel()) },
+  { controlId: S.String.pipe(T.HttpLabel("controlId")) },
   T.all(
     T.Http({ method: "DELETE", uri: "/controls/{controlId}" }),
     svc,
@@ -516,7 +523,10 @@ export class DeregisterOrganizationAdminAccountResponse extends S.Class<Deregist
 export class DisassociateAssessmentReportEvidenceFolderRequest extends S.Class<DisassociateAssessmentReportEvidenceFolderRequest>(
   "DisassociateAssessmentReportEvidenceFolderRequest",
 )(
-  { assessmentId: S.String.pipe(T.HttpLabel()), evidenceFolderId: S.String },
+  {
+    assessmentId: S.String.pipe(T.HttpLabel("assessmentId")),
+    evidenceFolderId: S.String,
+  },
   T.all(
     T.Http({
       method: "PUT",
@@ -538,7 +548,7 @@ export class GetAccountStatusResponse extends S.Class<GetAccountStatusResponse>(
 export class GetAssessmentRequest extends S.Class<GetAssessmentRequest>(
   "GetAssessmentRequest",
 )(
-  { assessmentId: S.String.pipe(T.HttpLabel()) },
+  { assessmentId: S.String.pipe(T.HttpLabel("assessmentId")) },
   T.all(
     T.Http({ method: "GET", uri: "/assessments/{assessmentId}" }),
     svc,
@@ -551,7 +561,7 @@ export class GetAssessmentRequest extends S.Class<GetAssessmentRequest>(
 export class GetAssessmentFrameworkRequest extends S.Class<GetAssessmentFrameworkRequest>(
   "GetAssessmentFrameworkRequest",
 )(
-  { frameworkId: S.String.pipe(T.HttpLabel()) },
+  { frameworkId: S.String.pipe(T.HttpLabel("frameworkId")) },
   T.all(
     T.Http({ method: "GET", uri: "/assessmentFrameworks/{frameworkId}" }),
     svc,
@@ -565,8 +575,8 @@ export class GetAssessmentReportUrlRequest extends S.Class<GetAssessmentReportUr
   "GetAssessmentReportUrlRequest",
 )(
   {
-    assessmentReportId: S.String.pipe(T.HttpLabel()),
-    assessmentId: S.String.pipe(T.HttpLabel()),
+    assessmentReportId: S.String.pipe(T.HttpLabel("assessmentReportId")),
+    assessmentId: S.String.pipe(T.HttpLabel("assessmentId")),
   },
   T.all(
     T.Http({
@@ -584,7 +594,7 @@ export class GetChangeLogsRequest extends S.Class<GetChangeLogsRequest>(
   "GetChangeLogsRequest",
 )(
   {
-    assessmentId: S.String.pipe(T.HttpLabel()),
+    assessmentId: S.String.pipe(T.HttpLabel("assessmentId")),
     controlSetId: S.optional(S.String).pipe(T.HttpQuery("controlSetId")),
     controlId: S.optional(S.String).pipe(T.HttpQuery("controlId")),
     nextToken: S.optional(S.String).pipe(T.HttpQuery("nextToken")),
@@ -602,7 +612,7 @@ export class GetChangeLogsRequest extends S.Class<GetChangeLogsRequest>(
 export class GetControlRequest extends S.Class<GetControlRequest>(
   "GetControlRequest",
 )(
-  { controlId: S.String.pipe(T.HttpLabel()) },
+  { controlId: S.String.pipe(T.HttpLabel("controlId")) },
   T.all(
     T.Http({ method: "GET", uri: "/controls/{controlId}" }),
     svc,
@@ -632,10 +642,10 @@ export class GetEvidenceRequest extends S.Class<GetEvidenceRequest>(
   "GetEvidenceRequest",
 )(
   {
-    assessmentId: S.String.pipe(T.HttpLabel()),
-    controlSetId: S.String.pipe(T.HttpLabel()),
-    evidenceFolderId: S.String.pipe(T.HttpLabel()),
-    evidenceId: S.String.pipe(T.HttpLabel()),
+    assessmentId: S.String.pipe(T.HttpLabel("assessmentId")),
+    controlSetId: S.String.pipe(T.HttpLabel("controlSetId")),
+    evidenceFolderId: S.String.pipe(T.HttpLabel("evidenceFolderId")),
+    evidenceId: S.String.pipe(T.HttpLabel("evidenceId")),
   },
   T.all(
     T.Http({
@@ -653,9 +663,9 @@ export class GetEvidenceByEvidenceFolderRequest extends S.Class<GetEvidenceByEvi
   "GetEvidenceByEvidenceFolderRequest",
 )(
   {
-    assessmentId: S.String.pipe(T.HttpLabel()),
-    controlSetId: S.String.pipe(T.HttpLabel()),
-    evidenceFolderId: S.String.pipe(T.HttpLabel()),
+    assessmentId: S.String.pipe(T.HttpLabel("assessmentId")),
+    controlSetId: S.String.pipe(T.HttpLabel("controlSetId")),
+    evidenceFolderId: S.String.pipe(T.HttpLabel("evidenceFolderId")),
     nextToken: S.optional(S.String).pipe(T.HttpQuery("nextToken")),
     maxResults: S.optional(S.Number).pipe(T.HttpQuery("maxResults")),
   },
@@ -688,9 +698,9 @@ export class GetEvidenceFolderRequest extends S.Class<GetEvidenceFolderRequest>(
   "GetEvidenceFolderRequest",
 )(
   {
-    assessmentId: S.String.pipe(T.HttpLabel()),
-    controlSetId: S.String.pipe(T.HttpLabel()),
-    evidenceFolderId: S.String.pipe(T.HttpLabel()),
+    assessmentId: S.String.pipe(T.HttpLabel("assessmentId")),
+    controlSetId: S.String.pipe(T.HttpLabel("controlSetId")),
+    evidenceFolderId: S.String.pipe(T.HttpLabel("evidenceFolderId")),
   },
   T.all(
     T.Http({
@@ -708,7 +718,7 @@ export class GetEvidenceFoldersByAssessmentRequest extends S.Class<GetEvidenceFo
   "GetEvidenceFoldersByAssessmentRequest",
 )(
   {
-    assessmentId: S.String.pipe(T.HttpLabel()),
+    assessmentId: S.String.pipe(T.HttpLabel("assessmentId")),
     nextToken: S.optional(S.String).pipe(T.HttpQuery("nextToken")),
     maxResults: S.optional(S.Number).pipe(T.HttpQuery("maxResults")),
   },
@@ -728,9 +738,9 @@ export class GetEvidenceFoldersByAssessmentControlRequest extends S.Class<GetEvi
   "GetEvidenceFoldersByAssessmentControlRequest",
 )(
   {
-    assessmentId: S.String.pipe(T.HttpLabel()),
-    controlSetId: S.String.pipe(T.HttpLabel()),
-    controlId: S.String.pipe(T.HttpLabel()),
+    assessmentId: S.String.pipe(T.HttpLabel("assessmentId")),
+    controlSetId: S.String.pipe(T.HttpLabel("controlSetId")),
+    controlId: S.String.pipe(T.HttpLabel("controlId")),
     nextToken: S.optional(S.String).pipe(T.HttpQuery("nextToken")),
     maxResults: S.optional(S.Number).pipe(T.HttpQuery("maxResults")),
   },
@@ -749,7 +759,7 @@ export class GetEvidenceFoldersByAssessmentControlRequest extends S.Class<GetEvi
 export class GetInsightsByAssessmentRequest extends S.Class<GetInsightsByAssessmentRequest>(
   "GetInsightsByAssessmentRequest",
 )(
-  { assessmentId: S.String.pipe(T.HttpLabel()) },
+  { assessmentId: S.String.pipe(T.HttpLabel("assessmentId")) },
   T.all(
     T.Http({ method: "GET", uri: "/insights/assessments/{assessmentId}" }),
     svc,
@@ -768,7 +778,7 @@ export class GetOrganizationAdminAccountResponse extends S.Class<GetOrganization
 export class GetSettingsRequest extends S.Class<GetSettingsRequest>(
   "GetSettingsRequest",
 )(
-  { attribute: S.String.pipe(T.HttpLabel()) },
+  { attribute: S.String.pipe(T.HttpLabel("attribute")) },
   T.all(
     T.Http({ method: "GET", uri: "/settings/{attribute}" }),
     svc,
@@ -969,7 +979,7 @@ export class ListNotificationsRequest extends S.Class<ListNotificationsRequest>(
 export class ListTagsForResourceRequest extends S.Class<ListTagsForResourceRequest>(
   "ListTagsForResourceRequest",
 )(
-  { resourceArn: S.String.pipe(T.HttpLabel()) },
+  { resourceArn: S.String.pipe(T.HttpLabel("resourceArn")) },
   T.all(
     T.Http({ method: "GET", uri: "/tags/{resourceArn}" }),
     svc,
@@ -1012,7 +1022,7 @@ export class StartAssessmentFrameworkShareRequest extends S.Class<StartAssessmen
   "StartAssessmentFrameworkShareRequest",
 )(
   {
-    frameworkId: S.String.pipe(T.HttpLabel()),
+    frameworkId: S.String.pipe(T.HttpLabel("frameworkId")),
     destinationAccount: S.String,
     destinationRegion: S.String,
     comment: S.optional(S.String),
@@ -1033,7 +1043,7 @@ export const TagMap = S.Record({ key: S.String, value: S.String });
 export class TagResourceRequest extends S.Class<TagResourceRequest>(
   "TagResourceRequest",
 )(
-  { resourceArn: S.String.pipe(T.HttpLabel()), tags: TagMap },
+  { resourceArn: S.String.pipe(T.HttpLabel("resourceArn")), tags: TagMap },
   T.all(
     T.Http({ method: "POST", uri: "/tags/{resourceArn}" }),
     svc,
@@ -1050,7 +1060,7 @@ export class UntagResourceRequest extends S.Class<UntagResourceRequest>(
   "UntagResourceRequest",
 )(
   {
-    resourceArn: S.String.pipe(T.HttpLabel()),
+    resourceArn: S.String.pipe(T.HttpLabel("resourceArn")),
     tagKeys: TagKeyList.pipe(T.HttpQuery("tagKeys")),
   },
   T.all(
@@ -1094,7 +1104,7 @@ export class UpdateAssessmentRequest extends S.Class<UpdateAssessmentRequest>(
   "UpdateAssessmentRequest",
 )(
   {
-    assessmentId: S.String.pipe(T.HttpLabel()),
+    assessmentId: S.String.pipe(T.HttpLabel("assessmentId")),
     assessmentName: S.optional(S.String),
     assessmentDescription: S.optional(S.String),
     scope: Scope,
@@ -1114,9 +1124,9 @@ export class UpdateAssessmentControlRequest extends S.Class<UpdateAssessmentCont
   "UpdateAssessmentControlRequest",
 )(
   {
-    assessmentId: S.String.pipe(T.HttpLabel()),
-    controlSetId: S.String.pipe(T.HttpLabel()),
-    controlId: S.String.pipe(T.HttpLabel()),
+    assessmentId: S.String.pipe(T.HttpLabel("assessmentId")),
+    controlSetId: S.String.pipe(T.HttpLabel("controlSetId")),
+    controlId: S.String.pipe(T.HttpLabel("controlId")),
     controlStatus: S.optional(S.String),
     commentBody: S.optional(S.String),
   },
@@ -1136,8 +1146,8 @@ export class UpdateAssessmentControlSetStatusRequest extends S.Class<UpdateAsses
   "UpdateAssessmentControlSetStatusRequest",
 )(
   {
-    assessmentId: S.String.pipe(T.HttpLabel()),
-    controlSetId: S.String.pipe(T.HttpLabel()),
+    assessmentId: S.String.pipe(T.HttpLabel("assessmentId")),
+    controlSetId: S.String.pipe(T.HttpLabel("controlSetId")),
     status: S.String,
     comment: S.String,
   },
@@ -1157,7 +1167,7 @@ export class UpdateAssessmentFrameworkShareRequest extends S.Class<UpdateAssessm
   "UpdateAssessmentFrameworkShareRequest",
 )(
   {
-    requestId: S.String.pipe(T.HttpLabel()),
+    requestId: S.String.pipe(T.HttpLabel("requestId")),
     requestType: S.String,
     action: S.String,
   },
@@ -1176,7 +1186,10 @@ export class UpdateAssessmentFrameworkShareRequest extends S.Class<UpdateAssessm
 export class UpdateAssessmentStatusRequest extends S.Class<UpdateAssessmentStatusRequest>(
   "UpdateAssessmentStatusRequest",
 )(
-  { assessmentId: S.String.pipe(T.HttpLabel()), status: S.String },
+  {
+    assessmentId: S.String.pipe(T.HttpLabel("assessmentId")),
+    status: S.String,
+  },
   T.all(
     T.Http({ method: "PUT", uri: "/assessments/{assessmentId}/status" }),
     svc,
@@ -1329,7 +1342,7 @@ export class BatchCreateDelegationByAssessmentRequest extends S.Class<BatchCreat
 )(
   {
     createDelegationRequests: CreateDelegationRequests,
-    assessmentId: S.String.pipe(T.HttpLabel()),
+    assessmentId: S.String.pipe(T.HttpLabel("assessmentId")),
   },
   T.all(
     T.Http({ method: "POST", uri: "/assessments/{assessmentId}/delegations" }),
@@ -1360,9 +1373,9 @@ export class BatchImportEvidenceToAssessmentControlRequest extends S.Class<Batch
   "BatchImportEvidenceToAssessmentControlRequest",
 )(
   {
-    assessmentId: S.String.pipe(T.HttpLabel()),
-    controlSetId: S.String.pipe(T.HttpLabel()),
-    controlId: S.String.pipe(T.HttpLabel()),
+    assessmentId: S.String.pipe(T.HttpLabel("assessmentId")),
+    controlSetId: S.String.pipe(T.HttpLabel("controlSetId")),
+    controlId: S.String.pipe(T.HttpLabel("controlId")),
     manualEvidence: ManualEvidenceList,
   },
   T.all(
@@ -1560,7 +1573,7 @@ export class UpdateAssessmentFrameworkRequest extends S.Class<UpdateAssessmentFr
   "UpdateAssessmentFrameworkRequest",
 )(
   {
-    frameworkId: S.String.pipe(T.HttpLabel()),
+    frameworkId: S.String.pipe(T.HttpLabel("frameworkId")),
     name: S.String,
     description: S.optional(S.String),
     complianceType: S.optional(S.String),
@@ -1587,7 +1600,7 @@ export class UpdateControlRequest extends S.Class<UpdateControlRequest>(
   "UpdateControlRequest",
 )(
   {
-    controlId: S.String.pipe(T.HttpLabel()),
+    controlId: S.String.pipe(T.HttpLabel("controlId")),
     name: S.String,
     description: S.optional(S.String),
     testingInformation: S.optional(S.String),
@@ -2089,7 +2102,7 @@ export class AccessDeniedException extends S.TaggedError<AccessDeniedException>(
 export class InternalServerException extends S.TaggedError<InternalServerException>()(
   "InternalServerException",
   { message: S.String },
-) {}
+).pipe(withCategory(ERROR_CATEGORIES.SERVER_ERROR)) {}
 export class ResourceNotFoundException extends S.TaggedError<ResourceNotFoundException>()(
   "ResourceNotFoundException",
   { message: S.String, resourceId: S.String, resourceType: S.String },
@@ -2097,7 +2110,7 @@ export class ResourceNotFoundException extends S.TaggedError<ResourceNotFoundExc
 export class ThrottlingException extends S.TaggedError<ThrottlingException>()(
   "ThrottlingException",
   { message: S.String },
-) {}
+).pipe(withCategory(ERROR_CATEGORIES.THROTTLING_ERROR)) {}
 export class ValidationException extends S.TaggedError<ValidationException>()(
   "ValidationException",
   {

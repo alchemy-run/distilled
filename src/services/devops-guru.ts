@@ -1,6 +1,7 @@
 import * as S from "effect/Schema";
 import * as API from "../api.ts";
 import * as T from "../traits.ts";
+import { ERROR_CATEGORIES, withCategory } from "../error-category.ts";
 const svc = T.AwsApiService({
   sdkId: "DevOps Guru",
   serviceShapeName: "CapstoneControlPlaneService",
@@ -288,7 +289,7 @@ export const SearchInsightsAccountIdList = S.Array(S.String);
 export class DeleteInsightRequest extends S.Class<DeleteInsightRequest>(
   "DeleteInsightRequest",
 )(
-  { Id: S.String.pipe(T.HttpLabel()) },
+  { Id: S.String.pipe(T.HttpLabel("Id")) },
   T.all(
     T.Http({ method: "DELETE", uri: "/insights/{Id}" }),
     svc,
@@ -330,7 +331,7 @@ export class DescribeAnomalyRequest extends S.Class<DescribeAnomalyRequest>(
   "DescribeAnomalyRequest",
 )(
   {
-    Id: S.String.pipe(T.HttpLabel()),
+    Id: S.String.pipe(T.HttpLabel("Id")),
     AccountId: S.optional(S.String).pipe(T.HttpQuery("AccountId")),
   },
   T.all(
@@ -359,7 +360,7 @@ export class DescribeInsightRequest extends S.Class<DescribeInsightRequest>(
   "DescribeInsightRequest",
 )(
   {
-    Id: S.String.pipe(T.HttpLabel()),
+    Id: S.String.pipe(T.HttpLabel("Id")),
     AccountId: S.optional(S.String).pipe(T.HttpQuery("AccountId")),
   },
   T.all(
@@ -428,7 +429,9 @@ export class DescribeResourceCollectionHealthRequest extends S.Class<DescribeRes
   "DescribeResourceCollectionHealthRequest",
 )(
   {
-    ResourceCollectionType: S.String.pipe(T.HttpLabel()),
+    ResourceCollectionType: S.String.pipe(
+      T.HttpLabel("ResourceCollectionType"),
+    ),
     NextToken: S.optional(S.String).pipe(T.HttpQuery("NextToken")),
   },
   T.all(
@@ -460,7 +463,9 @@ export class GetResourceCollectionRequest extends S.Class<GetResourceCollectionR
   "GetResourceCollectionRequest",
 )(
   {
-    ResourceCollectionType: S.String.pipe(T.HttpLabel()),
+    ResourceCollectionType: S.String.pipe(
+      T.HttpLabel("ResourceCollectionType"),
+    ),
     NextToken: S.optional(S.String).pipe(T.HttpQuery("NextToken")),
   },
   T.all(
@@ -569,7 +574,7 @@ export class ListRecommendationsRequest extends S.Class<ListRecommendationsReque
 export class RemoveNotificationChannelRequest extends S.Class<RemoveNotificationChannelRequest>(
   "RemoveNotificationChannelRequest",
 )(
-  { Id: S.String.pipe(T.HttpLabel()) },
+  { Id: S.String.pipe(T.HttpLabel("Id")) },
   T.all(
     T.Http({ method: "DELETE", uri: "/channels/{Id}" }),
     svc,
@@ -1114,7 +1119,7 @@ export class ListAnomaliesForInsightRequest extends S.Class<ListAnomaliesForInsi
   "ListAnomaliesForInsightRequest",
 )(
   {
-    InsightId: S.String.pipe(T.HttpLabel()),
+    InsightId: S.String.pipe(T.HttpLabel("InsightId")),
     StartTimeRange: S.optional(StartTimeRange),
     MaxResults: S.optional(S.Number),
     NextToken: S.optional(S.String),
@@ -1575,7 +1580,7 @@ export class InternalServerException extends S.TaggedError<InternalServerExcepti
     Message: S.String,
     RetryAfterSeconds: S.optional(S.Number).pipe(T.HttpHeader("Retry-After")),
   },
-) {}
+).pipe(withCategory(ERROR_CATEGORIES.SERVER_ERROR)) {}
 export class ThrottlingException extends S.TaggedError<ThrottlingException>()(
   "ThrottlingException",
   {
@@ -1584,7 +1589,7 @@ export class ThrottlingException extends S.TaggedError<ThrottlingException>()(
     ServiceCode: S.optional(S.String),
     RetryAfterSeconds: S.optional(S.Number).pipe(T.HttpHeader("Retry-After")),
   },
-) {}
+).pipe(withCategory(ERROR_CATEGORIES.THROTTLING_ERROR)) {}
 export class ResourceNotFoundException extends S.TaggedError<ResourceNotFoundException>()(
   "ResourceNotFoundException",
   { Message: S.String, ResourceId: S.String, ResourceType: S.String },

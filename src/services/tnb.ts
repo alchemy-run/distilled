@@ -1,6 +1,7 @@
 import * as S from "effect/Schema";
 import * as API from "../api.ts";
 import * as T from "../traits.ts";
+import { ERROR_CATEGORIES, withCategory } from "../error-category.ts";
 const svc = T.AwsApiService({ sdkId: "tnb", serviceShapeName: "TNB" });
 const auth = T.AwsAuthSigv4({ name: "tnb" });
 const ver = T.ServiceVersion("2008-10-21");
@@ -294,7 +295,7 @@ export const TagKeys = S.Array(S.String);
 export class CancelSolNetworkOperationInput extends S.Class<CancelSolNetworkOperationInput>(
   "CancelSolNetworkOperationInput",
 )(
-  { nsLcmOpOccId: S.String.pipe(T.HttpLabel()) },
+  { nsLcmOpOccId: S.String.pipe(T.HttpLabel("nsLcmOpOccId")) },
   T.all(
     T.Http({
       method: "POST",
@@ -345,7 +346,7 @@ export class CreateSolNetworkPackageInput extends S.Class<CreateSolNetworkPackag
 export class DeleteSolFunctionPackageInput extends S.Class<DeleteSolFunctionPackageInput>(
   "DeleteSolFunctionPackageInput",
 )(
-  { vnfPkgId: S.String.pipe(T.HttpLabel()) },
+  { vnfPkgId: S.String.pipe(T.HttpLabel("vnfPkgId")) },
   T.all(
     T.Http({
       method: "DELETE",
@@ -364,7 +365,7 @@ export class DeleteSolFunctionPackageResponse extends S.Class<DeleteSolFunctionP
 export class DeleteSolNetworkInstanceInput extends S.Class<DeleteSolNetworkInstanceInput>(
   "DeleteSolNetworkInstanceInput",
 )(
-  { nsInstanceId: S.String.pipe(T.HttpLabel()) },
+  { nsInstanceId: S.String.pipe(T.HttpLabel("nsInstanceId")) },
   T.all(
     T.Http({
       method: "DELETE",
@@ -383,7 +384,7 @@ export class DeleteSolNetworkInstanceResponse extends S.Class<DeleteSolNetworkIn
 export class DeleteSolNetworkPackageInput extends S.Class<DeleteSolNetworkPackageInput>(
   "DeleteSolNetworkPackageInput",
 )(
-  { nsdInfoId: S.String.pipe(T.HttpLabel()) },
+  { nsdInfoId: S.String.pipe(T.HttpLabel("nsdInfoId")) },
   T.all(
     T.Http({ method: "DELETE", uri: "/sol/nsd/v1/ns_descriptors/{nsdInfoId}" }),
     svc,
@@ -399,7 +400,7 @@ export class DeleteSolNetworkPackageResponse extends S.Class<DeleteSolNetworkPac
 export class GetSolFunctionInstanceInput extends S.Class<GetSolFunctionInstanceInput>(
   "GetSolFunctionInstanceInput",
 )(
-  { vnfInstanceId: S.String.pipe(T.HttpLabel()) },
+  { vnfInstanceId: S.String.pipe(T.HttpLabel("vnfInstanceId")) },
   T.all(
     T.Http({
       method: "GET",
@@ -415,7 +416,7 @@ export class GetSolFunctionInstanceInput extends S.Class<GetSolFunctionInstanceI
 export class GetSolFunctionPackageInput extends S.Class<GetSolFunctionPackageInput>(
   "GetSolFunctionPackageInput",
 )(
-  { vnfPkgId: S.String.pipe(T.HttpLabel()) },
+  { vnfPkgId: S.String.pipe(T.HttpLabel("vnfPkgId")) },
   T.all(
     T.Http({ method: "GET", uri: "/sol/vnfpkgm/v1/vnf_packages/{vnfPkgId}" }),
     svc,
@@ -429,7 +430,7 @@ export class GetSolFunctionPackageContentInput extends S.Class<GetSolFunctionPac
   "GetSolFunctionPackageContentInput",
 )(
   {
-    vnfPkgId: S.String.pipe(T.HttpLabel()),
+    vnfPkgId: S.String.pipe(T.HttpLabel("vnfPkgId")),
     accept: S.String.pipe(T.HttpHeader("Accept")),
   },
   T.all(
@@ -448,7 +449,7 @@ export class GetSolFunctionPackageDescriptorInput extends S.Class<GetSolFunction
   "GetSolFunctionPackageDescriptorInput",
 )(
   {
-    vnfPkgId: S.String.pipe(T.HttpLabel()),
+    vnfPkgId: S.String.pipe(T.HttpLabel("vnfPkgId")),
     accept: S.String.pipe(T.HttpHeader("Accept")),
   },
   T.all(
@@ -466,7 +467,7 @@ export class GetSolFunctionPackageDescriptorInput extends S.Class<GetSolFunction
 export class GetSolNetworkInstanceInput extends S.Class<GetSolNetworkInstanceInput>(
   "GetSolNetworkInstanceInput",
 )(
-  { nsInstanceId: S.String.pipe(T.HttpLabel()) },
+  { nsInstanceId: S.String.pipe(T.HttpLabel("nsInstanceId")) },
   T.all(
     T.Http({ method: "GET", uri: "/sol/nslcm/v1/ns_instances/{nsInstanceId}" }),
     svc,
@@ -479,7 +480,7 @@ export class GetSolNetworkInstanceInput extends S.Class<GetSolNetworkInstanceInp
 export class GetSolNetworkOperationInput extends S.Class<GetSolNetworkOperationInput>(
   "GetSolNetworkOperationInput",
 )(
-  { nsLcmOpOccId: S.String.pipe(T.HttpLabel()) },
+  { nsLcmOpOccId: S.String.pipe(T.HttpLabel("nsLcmOpOccId")) },
   T.all(
     T.Http({
       method: "GET",
@@ -495,7 +496,7 @@ export class GetSolNetworkOperationInput extends S.Class<GetSolNetworkOperationI
 export class GetSolNetworkPackageInput extends S.Class<GetSolNetworkPackageInput>(
   "GetSolNetworkPackageInput",
 )(
-  { nsdInfoId: S.String.pipe(T.HttpLabel()) },
+  { nsdInfoId: S.String.pipe(T.HttpLabel("nsdInfoId")) },
   T.all(
     T.Http({ method: "GET", uri: "/sol/nsd/v1/ns_descriptors/{nsdInfoId}" }),
     svc,
@@ -509,7 +510,7 @@ export class GetSolNetworkPackageContentInput extends S.Class<GetSolNetworkPacka
   "GetSolNetworkPackageContentInput",
 )(
   {
-    nsdInfoId: S.String.pipe(T.HttpLabel()),
+    nsdInfoId: S.String.pipe(T.HttpLabel("nsdInfoId")),
     accept: S.String.pipe(T.HttpHeader("Accept")),
   },
   T.all(
@@ -527,7 +528,7 @@ export class GetSolNetworkPackageContentInput extends S.Class<GetSolNetworkPacka
 export class GetSolNetworkPackageDescriptorInput extends S.Class<GetSolNetworkPackageDescriptorInput>(
   "GetSolNetworkPackageDescriptorInput",
 )(
-  { nsdInfoId: S.String.pipe(T.HttpLabel()) },
+  { nsdInfoId: S.String.pipe(T.HttpLabel("nsdInfoId")) },
   T.all(
     T.Http({
       method: "GET",
@@ -544,7 +545,7 @@ export class InstantiateSolNetworkInstanceInput extends S.Class<InstantiateSolNe
   "InstantiateSolNetworkInstanceInput",
 )(
   {
-    nsInstanceId: S.String.pipe(T.HttpLabel()),
+    nsInstanceId: S.String.pipe(T.HttpLabel("nsInstanceId")),
     dryRun: S.optional(S.Boolean).pipe(T.HttpQuery("dry_run")),
     additionalParamsForNs: S.optional(S.Any),
     tags: S.optional(TagMap),
@@ -645,7 +646,7 @@ export class ListSolNetworkPackagesInput extends S.Class<ListSolNetworkPackagesI
 export class ListTagsForResourceInput extends S.Class<ListTagsForResourceInput>(
   "ListTagsForResourceInput",
 )(
-  { resourceArn: S.String.pipe(T.HttpLabel()) },
+  { resourceArn: S.String.pipe(T.HttpLabel("resourceArn")) },
   T.all(
     T.Http({ method: "GET", uri: "/tags/{resourceArn}" }),
     svc,
@@ -659,7 +660,7 @@ export class PutSolFunctionPackageContentInput extends S.Class<PutSolFunctionPac
   "PutSolFunctionPackageContentInput",
 )(
   {
-    vnfPkgId: S.String.pipe(T.HttpLabel()),
+    vnfPkgId: S.String.pipe(T.HttpLabel("vnfPkgId")),
     contentType: S.optional(S.String).pipe(T.HttpHeader("Content-Type")),
     file: T.StreamingInput.pipe(T.HttpPayload()),
   },
@@ -679,7 +680,7 @@ export class PutSolNetworkPackageContentInput extends S.Class<PutSolNetworkPacka
   "PutSolNetworkPackageContentInput",
 )(
   {
-    nsdInfoId: S.String.pipe(T.HttpLabel()),
+    nsdInfoId: S.String.pipe(T.HttpLabel("nsdInfoId")),
     contentType: S.optional(S.String).pipe(T.HttpHeader("Content-Type")),
     file: T.StreamingInput.pipe(T.HttpPayload()),
   },
@@ -698,7 +699,7 @@ export class PutSolNetworkPackageContentInput extends S.Class<PutSolNetworkPacka
 export class TagResourceInput extends S.Class<TagResourceInput>(
   "TagResourceInput",
 )(
-  { resourceArn: S.String.pipe(T.HttpLabel()), tags: TagMap },
+  { resourceArn: S.String.pipe(T.HttpLabel("resourceArn")), tags: TagMap },
   T.all(
     T.Http({ method: "POST", uri: "/tags/{resourceArn}" }),
     svc,
@@ -714,7 +715,10 @@ export class TagResourceOutput extends S.Class<TagResourceOutput>(
 export class TerminateSolNetworkInstanceInput extends S.Class<TerminateSolNetworkInstanceInput>(
   "TerminateSolNetworkInstanceInput",
 )(
-  { nsInstanceId: S.String.pipe(T.HttpLabel()), tags: S.optional(TagMap) },
+  {
+    nsInstanceId: S.String.pipe(T.HttpLabel("nsInstanceId")),
+    tags: S.optional(TagMap),
+  },
   T.all(
     T.Http({
       method: "POST",
@@ -731,7 +735,7 @@ export class UntagResourceInput extends S.Class<UntagResourceInput>(
   "UntagResourceInput",
 )(
   {
-    resourceArn: S.String.pipe(T.HttpLabel()),
+    resourceArn: S.String.pipe(T.HttpLabel("resourceArn")),
     tagKeys: TagKeys.pipe(T.HttpQuery("tagKeys")),
   },
   T.all(
@@ -749,7 +753,10 @@ export class UntagResourceOutput extends S.Class<UntagResourceOutput>(
 export class UpdateSolFunctionPackageInput extends S.Class<UpdateSolFunctionPackageInput>(
   "UpdateSolFunctionPackageInput",
 )(
-  { vnfPkgId: S.String.pipe(T.HttpLabel()), operationalState: S.String },
+  {
+    vnfPkgId: S.String.pipe(T.HttpLabel("vnfPkgId")),
+    operationalState: S.String,
+  },
   T.all(
     T.Http({ method: "PATCH", uri: "/sol/vnfpkgm/v1/vnf_packages/{vnfPkgId}" }),
     svc,
@@ -762,7 +769,10 @@ export class UpdateSolFunctionPackageInput extends S.Class<UpdateSolFunctionPack
 export class UpdateSolNetworkPackageInput extends S.Class<UpdateSolNetworkPackageInput>(
   "UpdateSolNetworkPackageInput",
 )(
-  { nsdInfoId: S.String.pipe(T.HttpLabel()), nsdOperationalState: S.String },
+  {
+    nsdInfoId: S.String.pipe(T.HttpLabel("nsdInfoId")),
+    nsdOperationalState: S.String,
+  },
   T.all(
     T.Http({ method: "PATCH", uri: "/sol/nsd/v1/ns_descriptors/{nsdInfoId}" }),
     svc,
@@ -776,7 +786,7 @@ export class ValidateSolFunctionPackageContentInput extends S.Class<ValidateSolF
   "ValidateSolFunctionPackageContentInput",
 )(
   {
-    vnfPkgId: S.String.pipe(T.HttpLabel()),
+    vnfPkgId: S.String.pipe(T.HttpLabel("vnfPkgId")),
     contentType: S.optional(S.String).pipe(T.HttpHeader("Content-Type")),
     file: T.StreamingInput.pipe(T.HttpPayload()),
   },
@@ -796,7 +806,7 @@ export class ValidateSolNetworkPackageContentInput extends S.Class<ValidateSolNe
   "ValidateSolNetworkPackageContentInput",
 )(
   {
-    nsdInfoId: S.String.pipe(T.HttpLabel()),
+    nsdInfoId: S.String.pipe(T.HttpLabel("nsdInfoId")),
     contentType: S.optional(S.String).pipe(T.HttpHeader("Content-Type")),
     file: T.StreamingInput.pipe(T.HttpPayload()),
   },
@@ -891,7 +901,7 @@ export class UpdateSolNetworkInstanceInput extends S.Class<UpdateSolNetworkInsta
   "UpdateSolNetworkInstanceInput",
 )(
   {
-    nsInstanceId: S.String.pipe(T.HttpLabel()),
+    nsInstanceId: S.String.pipe(T.HttpLabel("nsInstanceId")),
     updateType: S.String,
     modifyVnfInfoData: S.optional(UpdateSolNetworkModify),
     updateNs: S.optional(UpdateSolNetworkServiceData),
@@ -1303,7 +1313,7 @@ export class AccessDeniedException extends S.TaggedError<AccessDeniedException>(
 export class InternalServerException extends S.TaggedError<InternalServerException>()(
   "InternalServerException",
   { message: S.String },
-) {}
+).pipe(withCategory(ERROR_CATEGORIES.SERVER_ERROR)) {}
 export class ResourceNotFoundException extends S.TaggedError<ResourceNotFoundException>()(
   "ResourceNotFoundException",
   { message: S.String },
@@ -1315,7 +1325,7 @@ export class ServiceQuotaExceededException extends S.TaggedError<ServiceQuotaExc
 export class ThrottlingException extends S.TaggedError<ThrottlingException>()(
   "ThrottlingException",
   { message: S.String },
-) {}
+).pipe(withCategory(ERROR_CATEGORIES.THROTTLING_ERROR)) {}
 export class ValidationException extends S.TaggedError<ValidationException>()(
   "ValidationException",
   { message: S.String },

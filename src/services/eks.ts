@@ -1,6 +1,7 @@
 import * as S from "effect/Schema";
 import * as API from "../api.ts";
 import * as T from "../traits.ts";
+import { ERROR_CATEGORIES, withCategory } from "../error-category.ts";
 const svc = T.AwsApiService({
   sdkId: "EKS",
   serviceShapeName: "AWSWesleyFrontend",
@@ -290,7 +291,7 @@ export class CreateAccessEntryRequest extends S.Class<CreateAccessEntryRequest>(
   "CreateAccessEntryRequest",
 )(
   {
-    clusterName: S.String.pipe(T.HttpLabel()),
+    clusterName: S.String.pipe(T.HttpLabel("clusterName")),
     principalArn: S.String,
     kubernetesGroups: S.optional(StringList),
     tags: S.optional(TagMap),
@@ -311,7 +312,7 @@ export class CreatePodIdentityAssociationRequest extends S.Class<CreatePodIdenti
   "CreatePodIdentityAssociationRequest",
 )(
   {
-    clusterName: S.String.pipe(T.HttpLabel()),
+    clusterName: S.String.pipe(T.HttpLabel("clusterName")),
     namespace: S.String,
     serviceAccount: S.String,
     roleArn: S.String,
@@ -336,8 +337,8 @@ export class DeleteAccessEntryRequest extends S.Class<DeleteAccessEntryRequest>(
   "DeleteAccessEntryRequest",
 )(
   {
-    clusterName: S.String.pipe(T.HttpLabel()),
-    principalArn: S.String.pipe(T.HttpLabel()),
+    clusterName: S.String.pipe(T.HttpLabel("clusterName")),
+    principalArn: S.String.pipe(T.HttpLabel("principalArn")),
   },
   T.all(
     T.Http({
@@ -358,8 +359,8 @@ export class DeleteAddonRequest extends S.Class<DeleteAddonRequest>(
   "DeleteAddonRequest",
 )(
   {
-    clusterName: S.String.pipe(T.HttpLabel()),
-    addonName: S.String.pipe(T.HttpLabel()),
+    clusterName: S.String.pipe(T.HttpLabel("clusterName")),
+    addonName: S.String.pipe(T.HttpLabel("addonName")),
     preserve: S.optional(S.Boolean).pipe(T.HttpQuery("preserve")),
   },
   T.all(
@@ -378,8 +379,8 @@ export class DeleteCapabilityRequest extends S.Class<DeleteCapabilityRequest>(
   "DeleteCapabilityRequest",
 )(
   {
-    clusterName: S.String.pipe(T.HttpLabel()),
-    capabilityName: S.String.pipe(T.HttpLabel()),
+    clusterName: S.String.pipe(T.HttpLabel("clusterName")),
+    capabilityName: S.String.pipe(T.HttpLabel("capabilityName")),
   },
   T.all(
     T.Http({
@@ -396,7 +397,7 @@ export class DeleteCapabilityRequest extends S.Class<DeleteCapabilityRequest>(
 export class DeleteClusterRequest extends S.Class<DeleteClusterRequest>(
   "DeleteClusterRequest",
 )(
-  { name: S.String.pipe(T.HttpLabel()) },
+  { name: S.String.pipe(T.HttpLabel("name")) },
   T.all(
     T.Http({ method: "DELETE", uri: "/clusters/{name}" }),
     svc,
@@ -409,7 +410,7 @@ export class DeleteClusterRequest extends S.Class<DeleteClusterRequest>(
 export class DeleteEksAnywhereSubscriptionRequest extends S.Class<DeleteEksAnywhereSubscriptionRequest>(
   "DeleteEksAnywhereSubscriptionRequest",
 )(
-  { id: S.String.pipe(T.HttpLabel()) },
+  { id: S.String.pipe(T.HttpLabel("id")) },
   T.all(
     T.Http({ method: "DELETE", uri: "/eks-anywhere-subscriptions/{id}" }),
     svc,
@@ -423,8 +424,8 @@ export class DeleteFargateProfileRequest extends S.Class<DeleteFargateProfileReq
   "DeleteFargateProfileRequest",
 )(
   {
-    clusterName: S.String.pipe(T.HttpLabel()),
-    fargateProfileName: S.String.pipe(T.HttpLabel()),
+    clusterName: S.String.pipe(T.HttpLabel("clusterName")),
+    fargateProfileName: S.String.pipe(T.HttpLabel("fargateProfileName")),
   },
   T.all(
     T.Http({
@@ -442,8 +443,8 @@ export class DeleteNodegroupRequest extends S.Class<DeleteNodegroupRequest>(
   "DeleteNodegroupRequest",
 )(
   {
-    clusterName: S.String.pipe(T.HttpLabel()),
-    nodegroupName: S.String.pipe(T.HttpLabel()),
+    clusterName: S.String.pipe(T.HttpLabel("clusterName")),
+    nodegroupName: S.String.pipe(T.HttpLabel("nodegroupName")),
   },
   T.all(
     T.Http({
@@ -461,8 +462,8 @@ export class DeletePodIdentityAssociationRequest extends S.Class<DeletePodIdenti
   "DeletePodIdentityAssociationRequest",
 )(
   {
-    clusterName: S.String.pipe(T.HttpLabel()),
-    associationId: S.String.pipe(T.HttpLabel()),
+    clusterName: S.String.pipe(T.HttpLabel("clusterName")),
+    associationId: S.String.pipe(T.HttpLabel("associationId")),
   },
   T.all(
     T.Http({
@@ -479,7 +480,7 @@ export class DeletePodIdentityAssociationRequest extends S.Class<DeletePodIdenti
 export class DeregisterClusterRequest extends S.Class<DeregisterClusterRequest>(
   "DeregisterClusterRequest",
 )(
-  { name: S.String.pipe(T.HttpLabel()) },
+  { name: S.String.pipe(T.HttpLabel("name")) },
   T.all(
     T.Http({ method: "DELETE", uri: "/cluster-registrations/{name}" }),
     svc,
@@ -493,8 +494,8 @@ export class DescribeAccessEntryRequest extends S.Class<DescribeAccessEntryReque
   "DescribeAccessEntryRequest",
 )(
   {
-    clusterName: S.String.pipe(T.HttpLabel()),
-    principalArn: S.String.pipe(T.HttpLabel()),
+    clusterName: S.String.pipe(T.HttpLabel("clusterName")),
+    principalArn: S.String.pipe(T.HttpLabel("principalArn")),
   },
   T.all(
     T.Http({
@@ -512,8 +513,8 @@ export class DescribeAddonRequest extends S.Class<DescribeAddonRequest>(
   "DescribeAddonRequest",
 )(
   {
-    clusterName: S.String.pipe(T.HttpLabel()),
-    addonName: S.String.pipe(T.HttpLabel()),
+    clusterName: S.String.pipe(T.HttpLabel("clusterName")),
+    addonName: S.String.pipe(T.HttpLabel("addonName")),
   },
   T.all(
     T.Http({
@@ -570,8 +571,8 @@ export class DescribeCapabilityRequest extends S.Class<DescribeCapabilityRequest
   "DescribeCapabilityRequest",
 )(
   {
-    clusterName: S.String.pipe(T.HttpLabel()),
-    capabilityName: S.String.pipe(T.HttpLabel()),
+    clusterName: S.String.pipe(T.HttpLabel("clusterName")),
+    capabilityName: S.String.pipe(T.HttpLabel("capabilityName")),
   },
   T.all(
     T.Http({
@@ -588,7 +589,7 @@ export class DescribeCapabilityRequest extends S.Class<DescribeCapabilityRequest
 export class DescribeClusterRequest extends S.Class<DescribeClusterRequest>(
   "DescribeClusterRequest",
 )(
-  { name: S.String.pipe(T.HttpLabel()) },
+  { name: S.String.pipe(T.HttpLabel("name")) },
   T.all(
     T.Http({ method: "GET", uri: "/clusters/{name}" }),
     svc,
@@ -625,7 +626,7 @@ export class DescribeClusterVersionsRequest extends S.Class<DescribeClusterVersi
 export class DescribeEksAnywhereSubscriptionRequest extends S.Class<DescribeEksAnywhereSubscriptionRequest>(
   "DescribeEksAnywhereSubscriptionRequest",
 )(
-  { id: S.String.pipe(T.HttpLabel()) },
+  { id: S.String.pipe(T.HttpLabel("id")) },
   T.all(
     T.Http({ method: "GET", uri: "/eks-anywhere-subscriptions/{id}" }),
     svc,
@@ -639,8 +640,8 @@ export class DescribeFargateProfileRequest extends S.Class<DescribeFargateProfil
   "DescribeFargateProfileRequest",
 )(
   {
-    clusterName: S.String.pipe(T.HttpLabel()),
-    fargateProfileName: S.String.pipe(T.HttpLabel()),
+    clusterName: S.String.pipe(T.HttpLabel("clusterName")),
+    fargateProfileName: S.String.pipe(T.HttpLabel("fargateProfileName")),
   },
   T.all(
     T.Http({
@@ -658,8 +659,8 @@ export class DescribeInsightRequest extends S.Class<DescribeInsightRequest>(
   "DescribeInsightRequest",
 )(
   {
-    clusterName: S.String.pipe(T.HttpLabel()),
-    id: S.String.pipe(T.HttpLabel()),
+    clusterName: S.String.pipe(T.HttpLabel("clusterName")),
+    id: S.String.pipe(T.HttpLabel("id")),
   },
   T.all(
     T.Http({ method: "GET", uri: "/clusters/{clusterName}/insights/{id}" }),
@@ -673,7 +674,7 @@ export class DescribeInsightRequest extends S.Class<DescribeInsightRequest>(
 export class DescribeInsightsRefreshRequest extends S.Class<DescribeInsightsRefreshRequest>(
   "DescribeInsightsRefreshRequest",
 )(
-  { clusterName: S.String.pipe(T.HttpLabel()) },
+  { clusterName: S.String.pipe(T.HttpLabel("clusterName")) },
   T.all(
     T.Http({ method: "GET", uri: "/clusters/{clusterName}/insights-refresh" }),
     svc,
@@ -687,8 +688,8 @@ export class DescribeNodegroupRequest extends S.Class<DescribeNodegroupRequest>(
   "DescribeNodegroupRequest",
 )(
   {
-    clusterName: S.String.pipe(T.HttpLabel()),
-    nodegroupName: S.String.pipe(T.HttpLabel()),
+    clusterName: S.String.pipe(T.HttpLabel("clusterName")),
+    nodegroupName: S.String.pipe(T.HttpLabel("nodegroupName")),
   },
   T.all(
     T.Http({
@@ -706,8 +707,8 @@ export class DescribePodIdentityAssociationRequest extends S.Class<DescribePodId
   "DescribePodIdentityAssociationRequest",
 )(
   {
-    clusterName: S.String.pipe(T.HttpLabel()),
-    associationId: S.String.pipe(T.HttpLabel()),
+    clusterName: S.String.pipe(T.HttpLabel("clusterName")),
+    associationId: S.String.pipe(T.HttpLabel("associationId")),
   },
   T.all(
     T.Http({
@@ -725,8 +726,8 @@ export class DescribeUpdateRequest extends S.Class<DescribeUpdateRequest>(
   "DescribeUpdateRequest",
 )(
   {
-    name: S.String.pipe(T.HttpLabel()),
-    updateId: S.String.pipe(T.HttpLabel()),
+    name: S.String.pipe(T.HttpLabel("name")),
+    updateId: S.String.pipe(T.HttpLabel("updateId")),
     nodegroupName: S.optional(S.String).pipe(T.HttpQuery("nodegroupName")),
     addonName: S.optional(S.String).pipe(T.HttpQuery("addonName")),
     capabilityName: S.optional(S.String).pipe(T.HttpQuery("capabilityName")),
@@ -744,9 +745,9 @@ export class DisassociateAccessPolicyRequest extends S.Class<DisassociateAccessP
   "DisassociateAccessPolicyRequest",
 )(
   {
-    clusterName: S.String.pipe(T.HttpLabel()),
-    principalArn: S.String.pipe(T.HttpLabel()),
-    policyArn: S.String.pipe(T.HttpLabel()),
+    clusterName: S.String.pipe(T.HttpLabel("clusterName")),
+    principalArn: S.String.pipe(T.HttpLabel("principalArn")),
+    policyArn: S.String.pipe(T.HttpLabel("policyArn")),
   },
   T.all(
     T.Http({
@@ -770,7 +771,7 @@ export class DisassociateIdentityProviderConfigRequest extends S.Class<Disassoci
   "DisassociateIdentityProviderConfigRequest",
 )(
   {
-    clusterName: S.String.pipe(T.HttpLabel()),
+    clusterName: S.String.pipe(T.HttpLabel("clusterName")),
     identityProviderConfig: IdentityProviderConfig,
     clientRequestToken: S.optional(S.String),
   },
@@ -790,7 +791,7 @@ export class ListAccessEntriesRequest extends S.Class<ListAccessEntriesRequest>(
   "ListAccessEntriesRequest",
 )(
   {
-    clusterName: S.String.pipe(T.HttpLabel()),
+    clusterName: S.String.pipe(T.HttpLabel("clusterName")),
     associatedPolicyArn: S.optional(S.String).pipe(
       T.HttpQuery("associatedPolicyArn"),
     ),
@@ -826,7 +827,7 @@ export class ListAddonsRequest extends S.Class<ListAddonsRequest>(
   "ListAddonsRequest",
 )(
   {
-    clusterName: S.String.pipe(T.HttpLabel()),
+    clusterName: S.String.pipe(T.HttpLabel("clusterName")),
     maxResults: S.optional(S.Number).pipe(T.HttpQuery("maxResults")),
     nextToken: S.optional(S.String).pipe(T.HttpQuery("nextToken")),
   },
@@ -843,8 +844,8 @@ export class ListAssociatedAccessPoliciesRequest extends S.Class<ListAssociatedA
   "ListAssociatedAccessPoliciesRequest",
 )(
   {
-    clusterName: S.String.pipe(T.HttpLabel()),
-    principalArn: S.String.pipe(T.HttpLabel()),
+    clusterName: S.String.pipe(T.HttpLabel("clusterName")),
+    principalArn: S.String.pipe(T.HttpLabel("principalArn")),
     maxResults: S.optional(S.Number).pipe(T.HttpQuery("maxResults")),
     nextToken: S.optional(S.String).pipe(T.HttpQuery("nextToken")),
   },
@@ -864,7 +865,7 @@ export class ListCapabilitiesRequest extends S.Class<ListCapabilitiesRequest>(
   "ListCapabilitiesRequest",
 )(
   {
-    clusterName: S.String.pipe(T.HttpLabel()),
+    clusterName: S.String.pipe(T.HttpLabel("clusterName")),
     nextToken: S.optional(S.String).pipe(T.HttpQuery("nextToken")),
     maxResults: S.optional(S.Number).pipe(T.HttpQuery("maxResults")),
   },
@@ -917,7 +918,7 @@ export class ListFargateProfilesRequest extends S.Class<ListFargateProfilesReque
   "ListFargateProfilesRequest",
 )(
   {
-    clusterName: S.String.pipe(T.HttpLabel()),
+    clusterName: S.String.pipe(T.HttpLabel("clusterName")),
     maxResults: S.optional(S.Number).pipe(T.HttpQuery("maxResults")),
     nextToken: S.optional(S.String).pipe(T.HttpQuery("nextToken")),
   },
@@ -934,7 +935,7 @@ export class ListIdentityProviderConfigsRequest extends S.Class<ListIdentityProv
   "ListIdentityProviderConfigsRequest",
 )(
   {
-    clusterName: S.String.pipe(T.HttpLabel()),
+    clusterName: S.String.pipe(T.HttpLabel("clusterName")),
     maxResults: S.optional(S.Number).pipe(T.HttpQuery("maxResults")),
     nextToken: S.optional(S.String).pipe(T.HttpQuery("nextToken")),
   },
@@ -954,7 +955,7 @@ export class ListNodegroupsRequest extends S.Class<ListNodegroupsRequest>(
   "ListNodegroupsRequest",
 )(
   {
-    clusterName: S.String.pipe(T.HttpLabel()),
+    clusterName: S.String.pipe(T.HttpLabel("clusterName")),
     maxResults: S.optional(S.Number).pipe(T.HttpQuery("maxResults")),
     nextToken: S.optional(S.String).pipe(T.HttpQuery("nextToken")),
   },
@@ -971,7 +972,7 @@ export class ListPodIdentityAssociationsRequest extends S.Class<ListPodIdentityA
   "ListPodIdentityAssociationsRequest",
 )(
   {
-    clusterName: S.String.pipe(T.HttpLabel()),
+    clusterName: S.String.pipe(T.HttpLabel("clusterName")),
     namespace: S.optional(S.String).pipe(T.HttpQuery("namespace")),
     serviceAccount: S.optional(S.String).pipe(T.HttpQuery("serviceAccount")),
     maxResults: S.optional(S.Number).pipe(T.HttpQuery("maxResults")),
@@ -992,7 +993,7 @@ export class ListPodIdentityAssociationsRequest extends S.Class<ListPodIdentityA
 export class ListTagsForResourceRequest extends S.Class<ListTagsForResourceRequest>(
   "ListTagsForResourceRequest",
 )(
-  { resourceArn: S.String.pipe(T.HttpLabel()) },
+  { resourceArn: S.String.pipe(T.HttpLabel("resourceArn")) },
   T.all(
     T.Http({ method: "GET", uri: "/tags/{resourceArn}" }),
     svc,
@@ -1006,7 +1007,7 @@ export class ListUpdatesRequest extends S.Class<ListUpdatesRequest>(
   "ListUpdatesRequest",
 )(
   {
-    name: S.String.pipe(T.HttpLabel()),
+    name: S.String.pipe(T.HttpLabel("name")),
     nodegroupName: S.optional(S.String).pipe(T.HttpQuery("nodegroupName")),
     addonName: S.optional(S.String).pipe(T.HttpQuery("addonName")),
     capabilityName: S.optional(S.String).pipe(T.HttpQuery("capabilityName")),
@@ -1025,7 +1026,7 @@ export class ListUpdatesRequest extends S.Class<ListUpdatesRequest>(
 export class StartInsightsRefreshRequest extends S.Class<StartInsightsRefreshRequest>(
   "StartInsightsRefreshRequest",
 )(
-  { clusterName: S.String.pipe(T.HttpLabel()) },
+  { clusterName: S.String.pipe(T.HttpLabel("clusterName")) },
   T.all(
     T.Http({ method: "POST", uri: "/clusters/{clusterName}/insights-refresh" }),
     svc,
@@ -1038,7 +1039,7 @@ export class StartInsightsRefreshRequest extends S.Class<StartInsightsRefreshReq
 export class TagResourceRequest extends S.Class<TagResourceRequest>(
   "TagResourceRequest",
 )(
-  { resourceArn: S.String.pipe(T.HttpLabel()), tags: TagMap },
+  { resourceArn: S.String.pipe(T.HttpLabel("resourceArn")), tags: TagMap },
   T.all(
     T.Http({ method: "POST", uri: "/tags/{resourceArn}" }),
     svc,
@@ -1055,7 +1056,7 @@ export class UntagResourceRequest extends S.Class<UntagResourceRequest>(
   "UntagResourceRequest",
 )(
   {
-    resourceArn: S.String.pipe(T.HttpLabel()),
+    resourceArn: S.String.pipe(T.HttpLabel("resourceArn")),
     tagKeys: TagKeyList.pipe(T.HttpQuery("tagKeys")),
   },
   T.all(
@@ -1074,8 +1075,8 @@ export class UpdateAccessEntryRequest extends S.Class<UpdateAccessEntryRequest>(
   "UpdateAccessEntryRequest",
 )(
   {
-    clusterName: S.String.pipe(T.HttpLabel()),
-    principalArn: S.String.pipe(T.HttpLabel()),
+    clusterName: S.String.pipe(T.HttpLabel("clusterName")),
+    principalArn: S.String.pipe(T.HttpLabel("principalArn")),
     kubernetesGroups: S.optional(StringList),
     clientRequestToken: S.optional(S.String),
     username: S.optional(S.String),
@@ -1102,8 +1103,8 @@ export class UpdateAddonRequest extends S.Class<UpdateAddonRequest>(
   "UpdateAddonRequest",
 )(
   {
-    clusterName: S.String.pipe(T.HttpLabel()),
-    addonName: S.String.pipe(T.HttpLabel()),
+    clusterName: S.String.pipe(T.HttpLabel("clusterName")),
+    addonName: S.String.pipe(T.HttpLabel("addonName")),
     addonVersion: S.optional(S.String),
     serviceAccountRoleArn: S.optional(S.String),
     resolveConflicts: S.optional(S.String),
@@ -1127,7 +1128,7 @@ export class UpdateClusterVersionRequest extends S.Class<UpdateClusterVersionReq
   "UpdateClusterVersionRequest",
 )(
   {
-    name: S.String.pipe(T.HttpLabel()),
+    name: S.String.pipe(T.HttpLabel("name")),
     version: S.String,
     clientRequestToken: S.optional(S.String),
     force: S.optional(S.Boolean),
@@ -1145,7 +1146,7 @@ export class UpdateEksAnywhereSubscriptionRequest extends S.Class<UpdateEksAnywh
   "UpdateEksAnywhereSubscriptionRequest",
 )(
   {
-    id: S.String.pipe(T.HttpLabel()),
+    id: S.String.pipe(T.HttpLabel("id")),
     autoRenew: S.Boolean,
     clientRequestToken: S.optional(S.String),
   },
@@ -1169,8 +1170,8 @@ export class UpdateNodegroupVersionRequest extends S.Class<UpdateNodegroupVersio
   "UpdateNodegroupVersionRequest",
 )(
   {
-    clusterName: S.String.pipe(T.HttpLabel()),
-    nodegroupName: S.String.pipe(T.HttpLabel()),
+    clusterName: S.String.pipe(T.HttpLabel("clusterName")),
+    nodegroupName: S.String.pipe(T.HttpLabel("nodegroupName")),
     version: S.optional(S.String),
     releaseVersion: S.optional(S.String),
     launchTemplate: S.optional(LaunchTemplateSpecification),
@@ -1193,8 +1194,8 @@ export class UpdatePodIdentityAssociationRequest extends S.Class<UpdatePodIdenti
   "UpdatePodIdentityAssociationRequest",
 )(
   {
-    clusterName: S.String.pipe(T.HttpLabel()),
-    associationId: S.String.pipe(T.HttpLabel()),
+    clusterName: S.String.pipe(T.HttpLabel("clusterName")),
+    associationId: S.String.pipe(T.HttpLabel("associationId")),
     roleArn: S.optional(S.String),
     clientRequestToken: S.optional(S.String),
     disableSessionTags: S.optional(S.Boolean),
@@ -1335,8 +1336,8 @@ export class AssociateAccessPolicyRequest extends S.Class<AssociateAccessPolicyR
   "AssociateAccessPolicyRequest",
 )(
   {
-    clusterName: S.String.pipe(T.HttpLabel()),
-    principalArn: S.String.pipe(T.HttpLabel()),
+    clusterName: S.String.pipe(T.HttpLabel("clusterName")),
+    principalArn: S.String.pipe(T.HttpLabel("principalArn")),
     policyArn: S.String,
     accessScope: AccessScope,
   },
@@ -1356,7 +1357,7 @@ export class CreateAddonRequest extends S.Class<CreateAddonRequest>(
   "CreateAddonRequest",
 )(
   {
-    clusterName: S.String.pipe(T.HttpLabel()),
+    clusterName: S.String.pipe(T.HttpLabel("clusterName")),
     addonName: S.String,
     addonVersion: S.optional(S.String),
     serviceAccountRoleArn: S.optional(S.String),
@@ -1713,7 +1714,7 @@ export class DescribeIdentityProviderConfigRequest extends S.Class<DescribeIdent
   "DescribeIdentityProviderConfigRequest",
 )(
   {
-    clusterName: S.String.pipe(T.HttpLabel()),
+    clusterName: S.String.pipe(T.HttpLabel("clusterName")),
     identityProviderConfig: IdentityProviderConfig,
   },
   T.all(
@@ -1859,7 +1860,7 @@ export class ListInsightsRequest extends S.Class<ListInsightsRequest>(
   "ListInsightsRequest",
 )(
   {
-    clusterName: S.String.pipe(T.HttpLabel()),
+    clusterName: S.String.pipe(T.HttpLabel("clusterName")),
     filter: S.optional(InsightsFilter),
     maxResults: S.optional(S.Number),
     nextToken: S.optional(S.String),
@@ -1929,7 +1930,7 @@ export class UpdateClusterConfigRequest extends S.Class<UpdateClusterConfigReque
   "UpdateClusterConfigRequest",
 )(
   {
-    name: S.String.pipe(T.HttpLabel()),
+    name: S.String.pipe(T.HttpLabel("name")),
     resourcesVpcConfig: S.optional(VpcConfigRequest),
     logging: S.optional(Logging),
     clientRequestToken: S.optional(S.String),
@@ -1962,8 +1963,8 @@ export class UpdateNodegroupConfigRequest extends S.Class<UpdateNodegroupConfigR
   "UpdateNodegroupConfigRequest",
 )(
   {
-    clusterName: S.String.pipe(T.HttpLabel()),
-    nodegroupName: S.String.pipe(T.HttpLabel()),
+    clusterName: S.String.pipe(T.HttpLabel("clusterName")),
+    nodegroupName: S.String.pipe(T.HttpLabel("nodegroupName")),
     labels: S.optional(UpdateLabelsPayload),
     taints: S.optional(UpdateTaintsPayload),
     scalingConfig: S.optional(NodegroupScalingConfig),
@@ -2102,7 +2103,7 @@ export class AssociateEncryptionConfigRequest extends S.Class<AssociateEncryptio
   "AssociateEncryptionConfigRequest",
 )(
   {
-    clusterName: S.String.pipe(T.HttpLabel()),
+    clusterName: S.String.pipe(T.HttpLabel("clusterName")),
     encryptionConfig: EncryptionConfigList,
     clientRequestToken: S.optional(S.String),
   },
@@ -2122,7 +2123,7 @@ export class AssociateIdentityProviderConfigRequest extends S.Class<AssociateIde
   "AssociateIdentityProviderConfigRequest",
 )(
   {
-    clusterName: S.String.pipe(T.HttpLabel()),
+    clusterName: S.String.pipe(T.HttpLabel("clusterName")),
     oidc: OidcIdentityProviderConfigRequest,
     tags: S.optional(TagMap),
     clientRequestToken: S.optional(S.String),
@@ -2186,7 +2187,7 @@ export class CreateFargateProfileRequest extends S.Class<CreateFargateProfileReq
 )(
   {
     fargateProfileName: S.String,
-    clusterName: S.String.pipe(T.HttpLabel()),
+    clusterName: S.String.pipe(T.HttpLabel("clusterName")),
     podExecutionRoleArn: S.String,
     subnets: S.optional(StringList),
     selectors: S.optional(FargateProfileSelectors),
@@ -2206,7 +2207,7 @@ export class CreateNodegroupRequest extends S.Class<CreateNodegroupRequest>(
   "CreateNodegroupRequest",
 )(
   {
-    clusterName: S.String.pipe(T.HttpLabel()),
+    clusterName: S.String.pipe(T.HttpLabel("clusterName")),
     nodegroupName: S.String,
     scalingConfig: S.optional(NodegroupScalingConfig),
     diskSize: S.optional(S.Number),
@@ -2363,8 +2364,8 @@ export class UpdateCapabilityRequest extends S.Class<UpdateCapabilityRequest>(
   "UpdateCapabilityRequest",
 )(
   {
-    clusterName: S.String.pipe(T.HttpLabel()),
-    capabilityName: S.String.pipe(T.HttpLabel()),
+    clusterName: S.String.pipe(T.HttpLabel("clusterName")),
+    capabilityName: S.String.pipe(T.HttpLabel("capabilityName")),
     roleArn: S.optional(S.String),
     configuration: S.optional(UpdateCapabilityConfiguration),
     clientRequestToken: S.optional(S.String),
@@ -2454,7 +2455,7 @@ export class CreateCapabilityRequest extends S.Class<CreateCapabilityRequest>(
 )(
   {
     capabilityName: S.String,
-    clusterName: S.String.pipe(T.HttpLabel()),
+    clusterName: S.String.pipe(T.HttpLabel("clusterName")),
     clientRequestToken: S.optional(S.String),
     type: S.String,
     roleArn: S.String,
@@ -2588,7 +2589,7 @@ export class ServerException extends S.TaggedError<ServerException>()(
     subscriptionId: S.optional(S.String),
     message: S.optional(S.String),
   },
-) {}
+).pipe(withCategory(ERROR_CATEGORIES.SERVER_ERROR)) {}
 export class ResourceInUseException extends S.TaggedError<ResourceInUseException>()(
   "ResourceInUseException",
   {
@@ -2614,11 +2615,11 @@ export class ResourceLimitExceededException extends S.TaggedError<ResourceLimitE
 export class ServiceUnavailableException extends S.TaggedError<ServiceUnavailableException>()(
   "ServiceUnavailableException",
   { message: S.optional(S.String) },
-) {}
+).pipe(withCategory(ERROR_CATEGORIES.SERVER_ERROR)) {}
 export class ThrottlingException extends S.TaggedError<ThrottlingException>()(
   "ThrottlingException",
   { clusterName: S.optional(S.String), message: S.optional(S.String) },
-) {}
+).pipe(withCategory(ERROR_CATEGORIES.THROTTLING_ERROR)) {}
 export class UnsupportedAvailabilityZoneException extends S.TaggedError<UnsupportedAvailabilityZoneException>()(
   "UnsupportedAvailabilityZoneException",
   {

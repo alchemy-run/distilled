@@ -1,6 +1,7 @@
 import * as S from "effect/Schema";
 import * as API from "../api.ts";
 import * as T from "../traits.ts";
+import { ERROR_CATEGORIES, withCategory } from "../error-category.ts";
 const svc = T.AwsApiService({
   sdkId: "CodeStar connections",
   serviceShapeName: "CodeStar_connections_20191201",
@@ -709,7 +710,7 @@ export class AccessDeniedException extends S.TaggedError<AccessDeniedException>(
 export class LimitExceededException extends S.TaggedError<LimitExceededException>()(
   "LimitExceededException",
   { Message: S.optional(S.String) },
-) {}
+).pipe(withCategory(ERROR_CATEGORIES.THROTTLING_ERROR)) {}
 export class ConflictException extends S.TaggedError<ConflictException>()(
   "ConflictException",
   { Message: S.optional(S.String) },
@@ -725,7 +726,7 @@ export class ResourceUnavailableException extends S.TaggedError<ResourceUnavaila
 export class InternalServerException extends S.TaggedError<InternalServerException>()(
   "InternalServerException",
   { Message: S.optional(S.String) },
-) {}
+).pipe(withCategory(ERROR_CATEGORIES.SERVER_ERROR)) {}
 export class ConditionalCheckFailedException extends S.TaggedError<ConditionalCheckFailedException>()(
   "ConditionalCheckFailedException",
   { Message: S.optional(S.String) },
@@ -741,11 +742,11 @@ export class UnsupportedOperationException extends S.TaggedError<UnsupportedOper
 export class ThrottlingException extends S.TaggedError<ThrottlingException>()(
   "ThrottlingException",
   { Message: S.optional(S.String) },
-) {}
+).pipe(withCategory(ERROR_CATEGORIES.THROTTLING_ERROR)) {}
 export class RetryLatestCommitFailedException extends S.TaggedError<RetryLatestCommitFailedException>()(
   "RetryLatestCommitFailedException",
   { Message: S.optional(S.String) },
-) {}
+).pipe(withCategory(ERROR_CATEGORIES.SERVER_ERROR)) {}
 export class ResourceAlreadyExistsException extends S.TaggedError<ResourceAlreadyExistsException>()(
   "ResourceAlreadyExistsException",
   { Message: S.optional(S.String) },

@@ -1,6 +1,7 @@
 import * as S from "effect/Schema";
 import * as API from "../api.ts";
 import * as T from "../traits.ts";
+import { ERROR_CATEGORIES, withCategory } from "../error-category.ts";
 const svc = T.AwsApiService({
   sdkId: "Lightsail",
   serviceShapeName: "Lightsail_20161128",
@@ -800,7 +801,7 @@ export class CreateRelationalDatabaseSnapshotRequest extends S.Class<CreateRelat
 export class DeleteAlarmRequest extends S.Class<DeleteAlarmRequest>(
   "DeleteAlarmRequest",
 )(
-  { alarmName: S.String.pipe(T.HttpLabel()) },
+  { alarmName: S.String.pipe(T.HttpLabel("alarmName")) },
   T.all(
     T.Http({
       method: "DELETE",
@@ -882,8 +883,8 @@ export class DeleteContainerImageRequest extends S.Class<DeleteContainerImageReq
   "DeleteContainerImageRequest",
 )(
   {
-    serviceName: S.String.pipe(T.HttpLabel()),
-    image: S.String.pipe(T.HttpLabel()),
+    serviceName: S.String.pipe(T.HttpLabel("serviceName")),
+    image: S.String.pipe(T.HttpLabel("image")),
   },
   T.all(
     T.Http({
@@ -903,7 +904,7 @@ export class DeleteContainerImageResult extends S.Class<DeleteContainerImageResu
 export class DeleteContainerServiceRequest extends S.Class<DeleteContainerServiceRequest>(
   "DeleteContainerServiceRequest",
 )(
-  { serviceName: S.String.pipe(T.HttpLabel()) },
+  { serviceName: S.String.pipe(T.HttpLabel("serviceName")) },
   T.all(
     T.Http({
       method: "DELETE",
@@ -1417,7 +1418,7 @@ export class GetContactMethodsRequest extends S.Class<GetContactMethodsRequest>(
 export class GetContainerImagesRequest extends S.Class<GetContainerImagesRequest>(
   "GetContainerImagesRequest",
 )(
-  { serviceName: S.String.pipe(T.HttpLabel()) },
+  { serviceName: S.String.pipe(T.HttpLabel("serviceName")) },
   T.all(
     T.Http({
       method: "GET",
@@ -1434,8 +1435,8 @@ export class GetContainerLogRequest extends S.Class<GetContainerLogRequest>(
   "GetContainerLogRequest",
 )(
   {
-    serviceName: S.String.pipe(T.HttpLabel()),
-    containerName: S.String.pipe(T.HttpLabel()),
+    serviceName: S.String.pipe(T.HttpLabel("serviceName")),
+    containerName: S.String.pipe(T.HttpLabel("containerName")),
     startTime: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))).pipe(
       T.HttpQuery("startTime"),
     ),
@@ -1460,7 +1461,7 @@ export class GetContainerLogRequest extends S.Class<GetContainerLogRequest>(
 export class GetContainerServiceDeploymentsRequest extends S.Class<GetContainerServiceDeploymentsRequest>(
   "GetContainerServiceDeploymentsRequest",
 )(
-  { serviceName: S.String.pipe(T.HttpLabel()) },
+  { serviceName: S.String.pipe(T.HttpLabel("serviceName")) },
   T.all(
     T.Http({
       method: "GET",
@@ -1477,7 +1478,7 @@ export class GetContainerServiceMetricDataRequest extends S.Class<GetContainerSe
   "GetContainerServiceMetricDataRequest",
 )(
   {
-    serviceName: S.String.pipe(T.HttpLabel()),
+    serviceName: S.String.pipe(T.HttpLabel("serviceName")),
     metricName: S.String.pipe(T.HttpQuery("metricName")),
     startTime: S.Date.pipe(T.TimestampFormat("epoch-seconds")).pipe(
       T.HttpQuery("startTime"),
@@ -2312,7 +2313,7 @@ export class RegisterContainerImageRequest extends S.Class<RegisterContainerImag
   "RegisterContainerImageRequest",
 )(
   {
-    serviceName: S.String.pipe(T.HttpLabel()),
+    serviceName: S.String.pipe(T.HttpLabel("serviceName")),
     label: S.String,
     digest: S.String,
   },
@@ -2529,7 +2530,7 @@ export class TestAlarmRequest extends S.Class<TestAlarmRequest>(
   "TestAlarmRequest",
 )(
   {
-    alarmName: S.String.pipe(T.HttpLabel()),
+    alarmName: S.String.pipe(T.HttpLabel("alarmName")),
     state: S.String.pipe(T.HttpQuery("state")),
   },
   T.all(
@@ -2611,7 +2612,7 @@ export class UpdateContainerServiceRequest extends S.Class<UpdateContainerServic
   "UpdateContainerServiceRequest",
 )(
   {
-    serviceName: S.String.pipe(T.HttpLabel()),
+    serviceName: S.String.pipe(T.HttpLabel("serviceName")),
     power: S.optional(S.String),
     scale: S.optional(S.Number),
     isDisabled: S.optional(S.Boolean),
@@ -4421,7 +4422,7 @@ export class CreateContainerServiceDeploymentRequest extends S.Class<CreateConta
   "CreateContainerServiceDeploymentRequest",
 )(
   {
-    serviceName: S.String.pipe(T.HttpLabel()),
+    serviceName: S.String.pipe(T.HttpLabel("serviceName")),
     containers: S.optional(ContainerMap),
     publicEndpoint: S.optional(EndpointRequest),
   },
@@ -4717,7 +4718,7 @@ export class ServiceException extends S.TaggedError<ServiceException>()(
     message: S.optional(S.String),
     tip: S.optional(S.String),
   },
-) {}
+).pipe(withCategory(ERROR_CATEGORIES.SERVER_ERROR)) {}
 export class OperationFailureException extends S.TaggedError<OperationFailureException>()(
   "OperationFailureException",
   {

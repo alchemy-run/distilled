@@ -1,6 +1,7 @@
 import * as S from "effect/Schema";
 import * as API from "../api.ts";
 import * as T from "../traits.ts";
+import { ERROR_CATEGORIES, withCategory } from "../error-category.ts";
 const svc = T.AwsApiService({
   sdkId: "DataZone",
   serviceShapeName: "DataZone",
@@ -221,9 +222,9 @@ export class AssociateEnvironmentRoleInput extends S.Class<AssociateEnvironmentR
   "AssociateEnvironmentRoleInput",
 )(
   {
-    domainIdentifier: S.String.pipe(T.HttpLabel()),
-    environmentIdentifier: S.String.pipe(T.HttpLabel()),
-    environmentRoleArn: S.String.pipe(T.HttpLabel()),
+    domainIdentifier: S.String.pipe(T.HttpLabel("domainIdentifier")),
+    environmentIdentifier: S.String.pipe(T.HttpLabel("environmentIdentifier")),
+    environmentRoleArn: S.String.pipe(T.HttpLabel("environmentRoleArn")),
   },
   T.all(
     T.Http({
@@ -244,9 +245,9 @@ export class AssociateGovernedTermsInput extends S.Class<AssociateGovernedTermsI
   "AssociateGovernedTermsInput",
 )(
   {
-    domainIdentifier: S.String.pipe(T.HttpLabel()),
-    entityIdentifier: S.String.pipe(T.HttpLabel()),
-    entityType: S.String.pipe(T.HttpLabel()),
+    domainIdentifier: S.String.pipe(T.HttpLabel("domainIdentifier")),
+    entityIdentifier: S.String.pipe(T.HttpLabel("entityIdentifier")),
+    entityType: S.String.pipe(T.HttpLabel("entityType")),
     governedGlossaryTerms: GovernedGlossaryTerms,
   },
   T.all(
@@ -268,9 +269,9 @@ export class BatchGetAttributesMetadataInput extends S.Class<BatchGetAttributesM
   "BatchGetAttributesMetadataInput",
 )(
   {
-    domainIdentifier: S.String.pipe(T.HttpLabel()),
-    entityType: S.String.pipe(T.HttpLabel()),
-    entityIdentifier: S.String.pipe(T.HttpLabel()),
+    domainIdentifier: S.String.pipe(T.HttpLabel("domainIdentifier")),
+    entityType: S.String.pipe(T.HttpLabel("entityType")),
+    entityIdentifier: S.String.pipe(T.HttpLabel("entityIdentifier")),
     entityRevision: S.optional(S.String).pipe(T.HttpQuery("entityRevision")),
     attributeIdentifiers: AttributesList.pipe(
       T.HttpQuery("attributeIdentifier"),
@@ -292,8 +293,8 @@ export class CancelSubscriptionInput extends S.Class<CancelSubscriptionInput>(
   "CancelSubscriptionInput",
 )(
   {
-    domainIdentifier: S.String.pipe(T.HttpLabel()),
-    identifier: S.String.pipe(T.HttpLabel()),
+    domainIdentifier: S.String.pipe(T.HttpLabel("domainIdentifier")),
+    identifier: S.String.pipe(T.HttpLabel("identifier")),
   },
   T.all(
     T.Http({
@@ -315,7 +316,7 @@ export class CreateEnvironmentProfileInput extends S.Class<CreateEnvironmentProf
   "CreateEnvironmentProfileInput",
 )(
   {
-    domainIdentifier: S.String.pipe(T.HttpLabel()),
+    domainIdentifier: S.String.pipe(T.HttpLabel("domainIdentifier")),
     name: S.String,
     description: S.optional(S.String),
     environmentBlueprintIdentifier: S.String,
@@ -340,7 +341,7 @@ export class CreateGroupProfileInput extends S.Class<CreateGroupProfileInput>(
   "CreateGroupProfileInput",
 )(
   {
-    domainIdentifier: S.String.pipe(T.HttpLabel()),
+    domainIdentifier: S.String.pipe(T.HttpLabel("domainIdentifier")),
     groupIdentifier: S.String,
     clientToken: S.optional(S.String),
   },
@@ -360,7 +361,7 @@ export class CreateListingChangeSetInput extends S.Class<CreateListingChangeSetI
   "CreateListingChangeSetInput",
 )(
   {
-    domainIdentifier: S.String.pipe(T.HttpLabel()),
+    domainIdentifier: S.String.pipe(T.HttpLabel("domainIdentifier")),
     entityIdentifier: S.String,
     entityType: S.String,
     entityRevision: S.optional(S.String),
@@ -383,7 +384,7 @@ export class CreateUserProfileInput extends S.Class<CreateUserProfileInput>(
   "CreateUserProfileInput",
 )(
   {
-    domainIdentifier: S.String.pipe(T.HttpLabel()),
+    domainIdentifier: S.String.pipe(T.HttpLabel("domainIdentifier")),
     userIdentifier: S.String,
     userType: S.optional(S.String),
     clientToken: S.optional(S.String),
@@ -404,8 +405,8 @@ export class DeleteAccountPoolInput extends S.Class<DeleteAccountPoolInput>(
   "DeleteAccountPoolInput",
 )(
   {
-    domainIdentifier: S.String.pipe(T.HttpLabel()),
-    identifier: S.String.pipe(T.HttpLabel()),
+    domainIdentifier: S.String.pipe(T.HttpLabel("domainIdentifier")),
+    identifier: S.String.pipe(T.HttpLabel("identifier")),
   },
   T.all(
     T.Http({
@@ -426,9 +427,9 @@ export class DeleteAssetFilterInput extends S.Class<DeleteAssetFilterInput>(
   "DeleteAssetFilterInput",
 )(
   {
-    domainIdentifier: S.String.pipe(T.HttpLabel()),
-    assetIdentifier: S.String.pipe(T.HttpLabel()),
-    identifier: S.String.pipe(T.HttpLabel()),
+    domainIdentifier: S.String.pipe(T.HttpLabel("domainIdentifier")),
+    assetIdentifier: S.String.pipe(T.HttpLabel("assetIdentifier")),
+    identifier: S.String.pipe(T.HttpLabel("identifier")),
   },
   T.all(
     T.Http({
@@ -449,8 +450,8 @@ export class DeleteConnectionInput extends S.Class<DeleteConnectionInput>(
   "DeleteConnectionInput",
 )(
   {
-    domainIdentifier: S.String.pipe(T.HttpLabel()),
-    identifier: S.String.pipe(T.HttpLabel()),
+    domainIdentifier: S.String.pipe(T.HttpLabel("domainIdentifier")),
+    identifier: S.String.pipe(T.HttpLabel("identifier")),
   },
   T.all(
     T.Http({
@@ -468,8 +469,8 @@ export class DeleteEnvironmentInput extends S.Class<DeleteEnvironmentInput>(
   "DeleteEnvironmentInput",
 )(
   {
-    domainIdentifier: S.String.pipe(T.HttpLabel()),
-    identifier: S.String.pipe(T.HttpLabel()),
+    domainIdentifier: S.String.pipe(T.HttpLabel("domainIdentifier")),
+    identifier: S.String.pipe(T.HttpLabel("identifier")),
   },
   T.all(
     T.Http({
@@ -490,9 +491,9 @@ export class DeleteEnvironmentActionInput extends S.Class<DeleteEnvironmentActio
   "DeleteEnvironmentActionInput",
 )(
   {
-    domainIdentifier: S.String.pipe(T.HttpLabel()),
-    environmentIdentifier: S.String.pipe(T.HttpLabel()),
-    identifier: S.String.pipe(T.HttpLabel()),
+    domainIdentifier: S.String.pipe(T.HttpLabel("domainIdentifier")),
+    environmentIdentifier: S.String.pipe(T.HttpLabel("environmentIdentifier")),
+    identifier: S.String.pipe(T.HttpLabel("identifier")),
   },
   T.all(
     T.Http({
@@ -513,8 +514,8 @@ export class DeleteEnvironmentBlueprintInput extends S.Class<DeleteEnvironmentBl
   "DeleteEnvironmentBlueprintInput",
 )(
   {
-    domainIdentifier: S.String.pipe(T.HttpLabel()),
-    identifier: S.String.pipe(T.HttpLabel()),
+    domainIdentifier: S.String.pipe(T.HttpLabel("domainIdentifier")),
+    identifier: S.String.pipe(T.HttpLabel("identifier")),
   },
   T.all(
     T.Http({
@@ -535,8 +536,8 @@ export class DeleteEnvironmentProfileInput extends S.Class<DeleteEnvironmentProf
   "DeleteEnvironmentProfileInput",
 )(
   {
-    domainIdentifier: S.String.pipe(T.HttpLabel()),
-    identifier: S.String.pipe(T.HttpLabel()),
+    domainIdentifier: S.String.pipe(T.HttpLabel("domainIdentifier")),
+    identifier: S.String.pipe(T.HttpLabel("identifier")),
   },
   T.all(
     T.Http({
@@ -557,8 +558,8 @@ export class DeleteProjectInput extends S.Class<DeleteProjectInput>(
   "DeleteProjectInput",
 )(
   {
-    domainIdentifier: S.String.pipe(T.HttpLabel()),
-    identifier: S.String.pipe(T.HttpLabel()),
+    domainIdentifier: S.String.pipe(T.HttpLabel("domainIdentifier")),
+    identifier: S.String.pipe(T.HttpLabel("identifier")),
     skipDeletionCheck: S.optional(S.Boolean).pipe(
       T.HttpQuery("skipDeletionCheck"),
     ),
@@ -586,8 +587,8 @@ export class DeleteProjectMembershipInput extends S.Class<DeleteProjectMembershi
   "DeleteProjectMembershipInput",
 )(
   {
-    domainIdentifier: S.String.pipe(T.HttpLabel()),
-    projectIdentifier: S.String.pipe(T.HttpLabel()),
+    domainIdentifier: S.String.pipe(T.HttpLabel("domainIdentifier")),
+    projectIdentifier: S.String.pipe(T.HttpLabel("projectIdentifier")),
     member: Member,
   },
   T.all(
@@ -609,8 +610,8 @@ export class DeleteProjectProfileInput extends S.Class<DeleteProjectProfileInput
   "DeleteProjectProfileInput",
 )(
   {
-    domainIdentifier: S.String.pipe(T.HttpLabel()),
-    identifier: S.String.pipe(T.HttpLabel()),
+    domainIdentifier: S.String.pipe(T.HttpLabel("domainIdentifier")),
+    identifier: S.String.pipe(T.HttpLabel("identifier")),
   },
   T.all(
     T.Http({
@@ -631,8 +632,8 @@ export class DeleteSubscriptionGrantInput extends S.Class<DeleteSubscriptionGran
   "DeleteSubscriptionGrantInput",
 )(
   {
-    domainIdentifier: S.String.pipe(T.HttpLabel()),
-    identifier: S.String.pipe(T.HttpLabel()),
+    domainIdentifier: S.String.pipe(T.HttpLabel("domainIdentifier")),
+    identifier: S.String.pipe(T.HttpLabel("identifier")),
   },
   T.all(
     T.Http({
@@ -650,8 +651,8 @@ export class DeleteSubscriptionRequestInput extends S.Class<DeleteSubscriptionRe
   "DeleteSubscriptionRequestInput",
 )(
   {
-    domainIdentifier: S.String.pipe(T.HttpLabel()),
-    identifier: S.String.pipe(T.HttpLabel()),
+    domainIdentifier: S.String.pipe(T.HttpLabel("domainIdentifier")),
+    identifier: S.String.pipe(T.HttpLabel("identifier")),
   },
   T.all(
     T.Http({
@@ -672,9 +673,9 @@ export class DeleteSubscriptionTargetInput extends S.Class<DeleteSubscriptionTar
   "DeleteSubscriptionTargetInput",
 )(
   {
-    domainIdentifier: S.String.pipe(T.HttpLabel()),
-    environmentIdentifier: S.String.pipe(T.HttpLabel()),
-    identifier: S.String.pipe(T.HttpLabel()),
+    domainIdentifier: S.String.pipe(T.HttpLabel("domainIdentifier")),
+    environmentIdentifier: S.String.pipe(T.HttpLabel("environmentIdentifier")),
+    identifier: S.String.pipe(T.HttpLabel("identifier")),
   },
   T.all(
     T.Http({
@@ -695,9 +696,9 @@ export class DeleteTimeSeriesDataPointsInput extends S.Class<DeleteTimeSeriesDat
   "DeleteTimeSeriesDataPointsInput",
 )(
   {
-    domainIdentifier: S.String.pipe(T.HttpLabel()),
-    entityIdentifier: S.String.pipe(T.HttpLabel()),
-    entityType: S.String.pipe(T.HttpLabel()),
+    domainIdentifier: S.String.pipe(T.HttpLabel("domainIdentifier")),
+    entityIdentifier: S.String.pipe(T.HttpLabel("entityIdentifier")),
+    entityType: S.String.pipe(T.HttpLabel("entityType")),
     formName: S.String.pipe(T.HttpQuery("formName")),
     clientToken: S.optional(S.String).pipe(T.HttpQuery("clientToken")),
   },
@@ -720,9 +721,9 @@ export class DisassociateEnvironmentRoleInput extends S.Class<DisassociateEnviro
   "DisassociateEnvironmentRoleInput",
 )(
   {
-    domainIdentifier: S.String.pipe(T.HttpLabel()),
-    environmentIdentifier: S.String.pipe(T.HttpLabel()),
-    environmentRoleArn: S.String.pipe(T.HttpLabel()),
+    domainIdentifier: S.String.pipe(T.HttpLabel("domainIdentifier")),
+    environmentIdentifier: S.String.pipe(T.HttpLabel("environmentIdentifier")),
+    environmentRoleArn: S.String.pipe(T.HttpLabel("environmentRoleArn")),
   },
   T.all(
     T.Http({
@@ -743,9 +744,9 @@ export class DisassociateGovernedTermsInput extends S.Class<DisassociateGoverned
   "DisassociateGovernedTermsInput",
 )(
   {
-    domainIdentifier: S.String.pipe(T.HttpLabel()),
-    entityIdentifier: S.String.pipe(T.HttpLabel()),
-    entityType: S.String.pipe(T.HttpLabel()),
+    domainIdentifier: S.String.pipe(T.HttpLabel("domainIdentifier")),
+    entityIdentifier: S.String.pipe(T.HttpLabel("entityIdentifier")),
+    entityType: S.String.pipe(T.HttpLabel("entityType")),
     governedGlossaryTerms: GovernedGlossaryTerms,
   },
   T.all(
@@ -767,8 +768,8 @@ export class GetAccountPoolInput extends S.Class<GetAccountPoolInput>(
   "GetAccountPoolInput",
 )(
   {
-    domainIdentifier: S.String.pipe(T.HttpLabel()),
-    identifier: S.String.pipe(T.HttpLabel()),
+    domainIdentifier: S.String.pipe(T.HttpLabel("domainIdentifier")),
+    identifier: S.String.pipe(T.HttpLabel("identifier")),
   },
   T.all(
     T.Http({
@@ -786,9 +787,9 @@ export class GetAssetFilterInput extends S.Class<GetAssetFilterInput>(
   "GetAssetFilterInput",
 )(
   {
-    domainIdentifier: S.String.pipe(T.HttpLabel()),
-    assetIdentifier: S.String.pipe(T.HttpLabel()),
-    identifier: S.String.pipe(T.HttpLabel()),
+    domainIdentifier: S.String.pipe(T.HttpLabel("domainIdentifier")),
+    assetIdentifier: S.String.pipe(T.HttpLabel("assetIdentifier")),
+    identifier: S.String.pipe(T.HttpLabel("identifier")),
   },
   T.all(
     T.Http({
@@ -806,8 +807,8 @@ export class GetConnectionInput extends S.Class<GetConnectionInput>(
   "GetConnectionInput",
 )(
   {
-    domainIdentifier: S.String.pipe(T.HttpLabel()),
-    identifier: S.String.pipe(T.HttpLabel()),
+    domainIdentifier: S.String.pipe(T.HttpLabel("domainIdentifier")),
+    identifier: S.String.pipe(T.HttpLabel("identifier")),
     withSecret: S.optional(S.Boolean).pipe(T.HttpQuery("withSecret")),
   },
   T.all(
@@ -825,7 +826,7 @@ export class GetConnectionInput extends S.Class<GetConnectionInput>(
 export class GetDataExportConfigurationInput extends S.Class<GetDataExportConfigurationInput>(
   "GetDataExportConfigurationInput",
 )(
-  { domainIdentifier: S.String.pipe(T.HttpLabel()) },
+  { domainIdentifier: S.String.pipe(T.HttpLabel("domainIdentifier")) },
   T.all(
     T.Http({
       method: "GET",
@@ -842,8 +843,8 @@ export class GetEnvironmentInput extends S.Class<GetEnvironmentInput>(
   "GetEnvironmentInput",
 )(
   {
-    domainIdentifier: S.String.pipe(T.HttpLabel()),
-    identifier: S.String.pipe(T.HttpLabel()),
+    domainIdentifier: S.String.pipe(T.HttpLabel("domainIdentifier")),
+    identifier: S.String.pipe(T.HttpLabel("identifier")),
   },
   T.all(
     T.Http({
@@ -861,9 +862,9 @@ export class GetEnvironmentActionInput extends S.Class<GetEnvironmentActionInput
   "GetEnvironmentActionInput",
 )(
   {
-    domainIdentifier: S.String.pipe(T.HttpLabel()),
-    environmentIdentifier: S.String.pipe(T.HttpLabel()),
-    identifier: S.String.pipe(T.HttpLabel()),
+    domainIdentifier: S.String.pipe(T.HttpLabel("domainIdentifier")),
+    environmentIdentifier: S.String.pipe(T.HttpLabel("environmentIdentifier")),
+    identifier: S.String.pipe(T.HttpLabel("identifier")),
   },
   T.all(
     T.Http({
@@ -881,8 +882,8 @@ export class GetEnvironmentBlueprintInput extends S.Class<GetEnvironmentBlueprin
   "GetEnvironmentBlueprintInput",
 )(
   {
-    domainIdentifier: S.String.pipe(T.HttpLabel()),
-    identifier: S.String.pipe(T.HttpLabel()),
+    domainIdentifier: S.String.pipe(T.HttpLabel("domainIdentifier")),
+    identifier: S.String.pipe(T.HttpLabel("identifier")),
   },
   T.all(
     T.Http({
@@ -900,8 +901,8 @@ export class GetEnvironmentCredentialsInput extends S.Class<GetEnvironmentCreden
   "GetEnvironmentCredentialsInput",
 )(
   {
-    domainIdentifier: S.String.pipe(T.HttpLabel()),
-    environmentIdentifier: S.String.pipe(T.HttpLabel()),
+    domainIdentifier: S.String.pipe(T.HttpLabel("domainIdentifier")),
+    environmentIdentifier: S.String.pipe(T.HttpLabel("environmentIdentifier")),
   },
   T.all(
     T.Http({
@@ -919,8 +920,8 @@ export class GetEnvironmentProfileInput extends S.Class<GetEnvironmentProfileInp
   "GetEnvironmentProfileInput",
 )(
   {
-    domainIdentifier: S.String.pipe(T.HttpLabel()),
-    identifier: S.String.pipe(T.HttpLabel()),
+    domainIdentifier: S.String.pipe(T.HttpLabel("domainIdentifier")),
+    identifier: S.String.pipe(T.HttpLabel("identifier")),
   },
   T.all(
     T.Http({
@@ -938,8 +939,8 @@ export class GetGroupProfileInput extends S.Class<GetGroupProfileInput>(
   "GetGroupProfileInput",
 )(
   {
-    domainIdentifier: S.String.pipe(T.HttpLabel()),
-    groupIdentifier: S.String.pipe(T.HttpLabel()),
+    domainIdentifier: S.String.pipe(T.HttpLabel("domainIdentifier")),
+    groupIdentifier: S.String.pipe(T.HttpLabel("groupIdentifier")),
   },
   T.all(
     T.Http({
@@ -956,7 +957,7 @@ export class GetGroupProfileInput extends S.Class<GetGroupProfileInput>(
 export class GetIamPortalLoginUrlInput extends S.Class<GetIamPortalLoginUrlInput>(
   "GetIamPortalLoginUrlInput",
 )(
-  { domainIdentifier: S.String.pipe(T.HttpLabel()) },
+  { domainIdentifier: S.String.pipe(T.HttpLabel("domainIdentifier")) },
   T.all(
     T.Http({
       method: "POST",
@@ -971,8 +972,8 @@ export class GetIamPortalLoginUrlInput extends S.Class<GetIamPortalLoginUrlInput
 ) {}
 export class GetJobRunInput extends S.Class<GetJobRunInput>("GetJobRunInput")(
   {
-    domainIdentifier: S.String.pipe(T.HttpLabel()),
-    identifier: S.String.pipe(T.HttpLabel()),
+    domainIdentifier: S.String.pipe(T.HttpLabel("domainIdentifier")),
+    identifier: S.String.pipe(T.HttpLabel("identifier")),
   },
   T.all(
     T.Http({
@@ -990,8 +991,8 @@ export class GetLineageEventInput extends S.Class<GetLineageEventInput>(
   "GetLineageEventInput",
 )(
   {
-    domainIdentifier: S.String.pipe(T.HttpLabel()),
-    identifier: S.String.pipe(T.HttpLabel()),
+    domainIdentifier: S.String.pipe(T.HttpLabel("domainIdentifier")),
+    identifier: S.String.pipe(T.HttpLabel("identifier")),
   },
   T.all(
     T.Http({
@@ -1009,8 +1010,8 @@ export class GetLineageNodeInput extends S.Class<GetLineageNodeInput>(
   "GetLineageNodeInput",
 )(
   {
-    domainIdentifier: S.String.pipe(T.HttpLabel()),
-    identifier: S.String.pipe(T.HttpLabel()),
+    domainIdentifier: S.String.pipe(T.HttpLabel("domainIdentifier")),
+    identifier: S.String.pipe(T.HttpLabel("identifier")),
     eventTimestamp: S.optional(
       S.Date.pipe(T.TimestampFormat("epoch-seconds")),
     ).pipe(T.HttpQuery("timestamp")),
@@ -1031,8 +1032,8 @@ export class GetProjectInput extends S.Class<GetProjectInput>(
   "GetProjectInput",
 )(
   {
-    domainIdentifier: S.String.pipe(T.HttpLabel()),
-    identifier: S.String.pipe(T.HttpLabel()),
+    domainIdentifier: S.String.pipe(T.HttpLabel("domainIdentifier")),
+    identifier: S.String.pipe(T.HttpLabel("identifier")),
   },
   T.all(
     T.Http({
@@ -1050,8 +1051,8 @@ export class GetProjectProfileInput extends S.Class<GetProjectProfileInput>(
   "GetProjectProfileInput",
 )(
   {
-    domainIdentifier: S.String.pipe(T.HttpLabel()),
-    identifier: S.String.pipe(T.HttpLabel()),
+    domainIdentifier: S.String.pipe(T.HttpLabel("domainIdentifier")),
+    identifier: S.String.pipe(T.HttpLabel("identifier")),
   },
   T.all(
     T.Http({
@@ -1069,8 +1070,8 @@ export class GetSubscriptionInput extends S.Class<GetSubscriptionInput>(
   "GetSubscriptionInput",
 )(
   {
-    domainIdentifier: S.String.pipe(T.HttpLabel()),
-    identifier: S.String.pipe(T.HttpLabel()),
+    domainIdentifier: S.String.pipe(T.HttpLabel("domainIdentifier")),
+    identifier: S.String.pipe(T.HttpLabel("identifier")),
   },
   T.all(
     T.Http({
@@ -1088,8 +1089,8 @@ export class GetSubscriptionGrantInput extends S.Class<GetSubscriptionGrantInput
   "GetSubscriptionGrantInput",
 )(
   {
-    domainIdentifier: S.String.pipe(T.HttpLabel()),
-    identifier: S.String.pipe(T.HttpLabel()),
+    domainIdentifier: S.String.pipe(T.HttpLabel("domainIdentifier")),
+    identifier: S.String.pipe(T.HttpLabel("identifier")),
   },
   T.all(
     T.Http({
@@ -1107,8 +1108,8 @@ export class GetSubscriptionRequestDetailsInput extends S.Class<GetSubscriptionR
   "GetSubscriptionRequestDetailsInput",
 )(
   {
-    domainIdentifier: S.String.pipe(T.HttpLabel()),
-    identifier: S.String.pipe(T.HttpLabel()),
+    domainIdentifier: S.String.pipe(T.HttpLabel("domainIdentifier")),
+    identifier: S.String.pipe(T.HttpLabel("identifier")),
   },
   T.all(
     T.Http({
@@ -1126,9 +1127,9 @@ export class GetSubscriptionTargetInput extends S.Class<GetSubscriptionTargetInp
   "GetSubscriptionTargetInput",
 )(
   {
-    domainIdentifier: S.String.pipe(T.HttpLabel()),
-    environmentIdentifier: S.String.pipe(T.HttpLabel()),
-    identifier: S.String.pipe(T.HttpLabel()),
+    domainIdentifier: S.String.pipe(T.HttpLabel("domainIdentifier")),
+    environmentIdentifier: S.String.pipe(T.HttpLabel("environmentIdentifier")),
+    identifier: S.String.pipe(T.HttpLabel("identifier")),
   },
   T.all(
     T.Http({
@@ -1146,10 +1147,10 @@ export class GetTimeSeriesDataPointInput extends S.Class<GetTimeSeriesDataPointI
   "GetTimeSeriesDataPointInput",
 )(
   {
-    domainIdentifier: S.String.pipe(T.HttpLabel()),
-    entityIdentifier: S.String.pipe(T.HttpLabel()),
-    entityType: S.String.pipe(T.HttpLabel()),
-    identifier: S.String.pipe(T.HttpLabel()),
+    domainIdentifier: S.String.pipe(T.HttpLabel("domainIdentifier")),
+    entityIdentifier: S.String.pipe(T.HttpLabel("entityIdentifier")),
+    entityType: S.String.pipe(T.HttpLabel("entityType")),
+    identifier: S.String.pipe(T.HttpLabel("identifier")),
     formName: S.String.pipe(T.HttpQuery("formName")),
   },
   T.all(
@@ -1168,8 +1169,8 @@ export class GetUserProfileInput extends S.Class<GetUserProfileInput>(
   "GetUserProfileInput",
 )(
   {
-    domainIdentifier: S.String.pipe(T.HttpLabel()),
-    userIdentifier: S.String.pipe(T.HttpLabel()),
+    domainIdentifier: S.String.pipe(T.HttpLabel("domainIdentifier")),
+    userIdentifier: S.String.pipe(T.HttpLabel("userIdentifier")),
     type: S.optional(S.String).pipe(T.HttpQuery("type")),
   },
   T.all(
@@ -1188,7 +1189,7 @@ export class ListAccountPoolsInput extends S.Class<ListAccountPoolsInput>(
   "ListAccountPoolsInput",
 )(
   {
-    domainIdentifier: S.String.pipe(T.HttpLabel()),
+    domainIdentifier: S.String.pipe(T.HttpLabel("domainIdentifier")),
     name: S.optional(S.String).pipe(T.HttpQuery("name")),
     sortBy: S.optional(S.String).pipe(T.HttpQuery("sortBy")),
     sortOrder: S.optional(S.String).pipe(T.HttpQuery("sortOrder")),
@@ -1211,8 +1212,8 @@ export class ListAccountsInAccountPoolInput extends S.Class<ListAccountsInAccoun
   "ListAccountsInAccountPoolInput",
 )(
   {
-    domainIdentifier: S.String.pipe(T.HttpLabel()),
-    identifier: S.String.pipe(T.HttpLabel()),
+    domainIdentifier: S.String.pipe(T.HttpLabel("domainIdentifier")),
+    identifier: S.String.pipe(T.HttpLabel("identifier")),
     nextToken: S.optional(S.String).pipe(T.HttpQuery("nextToken")),
     maxResults: S.optional(S.Number).pipe(T.HttpQuery("maxResults")),
   },
@@ -1232,8 +1233,8 @@ export class ListAssetFiltersInput extends S.Class<ListAssetFiltersInput>(
   "ListAssetFiltersInput",
 )(
   {
-    domainIdentifier: S.String.pipe(T.HttpLabel()),
-    assetIdentifier: S.String.pipe(T.HttpLabel()),
+    domainIdentifier: S.String.pipe(T.HttpLabel("domainIdentifier")),
+    assetIdentifier: S.String.pipe(T.HttpLabel("assetIdentifier")),
     status: S.optional(S.String).pipe(T.HttpQuery("status")),
     nextToken: S.optional(S.String).pipe(T.HttpQuery("nextToken")),
     maxResults: S.optional(S.Number).pipe(T.HttpQuery("maxResults")),
@@ -1254,8 +1255,8 @@ export class ListAssetRevisionsInput extends S.Class<ListAssetRevisionsInput>(
   "ListAssetRevisionsInput",
 )(
   {
-    domainIdentifier: S.String.pipe(T.HttpLabel()),
-    identifier: S.String.pipe(T.HttpLabel()),
+    domainIdentifier: S.String.pipe(T.HttpLabel("domainIdentifier")),
+    identifier: S.String.pipe(T.HttpLabel("identifier")),
     nextToken: S.optional(S.String).pipe(T.HttpQuery("nextToken")),
     maxResults: S.optional(S.Number).pipe(T.HttpQuery("maxResults")),
   },
@@ -1275,7 +1276,7 @@ export class ListConnectionsInput extends S.Class<ListConnectionsInput>(
   "ListConnectionsInput",
 )(
   {
-    domainIdentifier: S.String.pipe(T.HttpLabel()),
+    domainIdentifier: S.String.pipe(T.HttpLabel("domainIdentifier")),
     maxResults: S.optional(S.Number).pipe(T.HttpQuery("maxResults")),
     nextToken: S.optional(S.String).pipe(T.HttpQuery("nextToken")),
     sortBy: S.optional(S.String).pipe(T.HttpQuery("sortBy")),
@@ -1306,8 +1307,8 @@ export class ListDataProductRevisionsInput extends S.Class<ListDataProductRevisi
   "ListDataProductRevisionsInput",
 )(
   {
-    domainIdentifier: S.String.pipe(T.HttpLabel()),
-    identifier: S.String.pipe(T.HttpLabel()),
+    domainIdentifier: S.String.pipe(T.HttpLabel("domainIdentifier")),
+    identifier: S.String.pipe(T.HttpLabel("identifier")),
     maxResults: S.optional(S.Number).pipe(T.HttpQuery("maxResults")),
     nextToken: S.optional(S.String).pipe(T.HttpQuery("nextToken")),
   },
@@ -1327,8 +1328,8 @@ export class ListDataSourceRunActivitiesInput extends S.Class<ListDataSourceRunA
   "ListDataSourceRunActivitiesInput",
 )(
   {
-    domainIdentifier: S.String.pipe(T.HttpLabel()),
-    identifier: S.String.pipe(T.HttpLabel()),
+    domainIdentifier: S.String.pipe(T.HttpLabel("domainIdentifier")),
+    identifier: S.String.pipe(T.HttpLabel("identifier")),
     status: S.optional(S.String).pipe(T.HttpQuery("status")),
     nextToken: S.optional(S.String).pipe(T.HttpQuery("nextToken")),
     maxResults: S.optional(S.Number).pipe(T.HttpQuery("maxResults")),
@@ -1349,9 +1350,9 @@ export class ListEntityOwnersInput extends S.Class<ListEntityOwnersInput>(
   "ListEntityOwnersInput",
 )(
   {
-    domainIdentifier: S.String.pipe(T.HttpLabel()),
-    entityType: S.String.pipe(T.HttpLabel()),
-    entityIdentifier: S.String.pipe(T.HttpLabel()),
+    domainIdentifier: S.String.pipe(T.HttpLabel("domainIdentifier")),
+    entityType: S.String.pipe(T.HttpLabel("entityType")),
+    entityIdentifier: S.String.pipe(T.HttpLabel("entityIdentifier")),
     maxResults: S.optional(S.Number).pipe(T.HttpQuery("maxResults")),
     nextToken: S.optional(S.String).pipe(T.HttpQuery("nextToken")),
   },
@@ -1371,8 +1372,8 @@ export class ListEnvironmentActionsInput extends S.Class<ListEnvironmentActionsI
   "ListEnvironmentActionsInput",
 )(
   {
-    domainIdentifier: S.String.pipe(T.HttpLabel()),
-    environmentIdentifier: S.String.pipe(T.HttpLabel()),
+    domainIdentifier: S.String.pipe(T.HttpLabel("domainIdentifier")),
+    environmentIdentifier: S.String.pipe(T.HttpLabel("environmentIdentifier")),
     nextToken: S.optional(S.String).pipe(T.HttpQuery("nextToken")),
     maxResults: S.optional(S.Number).pipe(T.HttpQuery("maxResults")),
   },
@@ -1392,7 +1393,7 @@ export class ListEnvironmentBlueprintsInput extends S.Class<ListEnvironmentBluep
   "ListEnvironmentBlueprintsInput",
 )(
   {
-    domainIdentifier: S.String.pipe(T.HttpLabel()),
+    domainIdentifier: S.String.pipe(T.HttpLabel("domainIdentifier")),
     maxResults: S.optional(S.Number).pipe(T.HttpQuery("maxResults")),
     nextToken: S.optional(S.String).pipe(T.HttpQuery("nextToken")),
     name: S.optional(S.String).pipe(T.HttpQuery("name")),
@@ -1414,7 +1415,7 @@ export class ListEnvironmentProfilesInput extends S.Class<ListEnvironmentProfile
   "ListEnvironmentProfilesInput",
 )(
   {
-    domainIdentifier: S.String.pipe(T.HttpLabel()),
+    domainIdentifier: S.String.pipe(T.HttpLabel("domainIdentifier")),
     awsAccountId: S.optional(S.String).pipe(T.HttpQuery("awsAccountId")),
     awsAccountRegion: S.optional(S.String).pipe(
       T.HttpQuery("awsAccountRegion"),
@@ -1445,7 +1446,7 @@ export class ListEnvironmentsInput extends S.Class<ListEnvironmentsInput>(
   "ListEnvironmentsInput",
 )(
   {
-    domainIdentifier: S.String.pipe(T.HttpLabel()),
+    domainIdentifier: S.String.pipe(T.HttpLabel("domainIdentifier")),
     awsAccountId: S.optional(S.String).pipe(T.HttpQuery("awsAccountId")),
     status: S.optional(S.String).pipe(T.HttpQuery("status")),
     awsAccountRegion: S.optional(S.String).pipe(
@@ -1479,8 +1480,8 @@ export class ListJobRunsInput extends S.Class<ListJobRunsInput>(
   "ListJobRunsInput",
 )(
   {
-    domainIdentifier: S.String.pipe(T.HttpLabel()),
-    jobIdentifier: S.String.pipe(T.HttpLabel()),
+    domainIdentifier: S.String.pipe(T.HttpLabel("domainIdentifier")),
+    jobIdentifier: S.String.pipe(T.HttpLabel("jobIdentifier")),
     status: S.optional(S.String).pipe(T.HttpQuery("status")),
     sortOrder: S.optional(S.String).pipe(T.HttpQuery("sortOrder")),
     nextToken: S.optional(S.String).pipe(T.HttpQuery("nextToken")),
@@ -1502,7 +1503,7 @@ export class ListLineageEventsInput extends S.Class<ListLineageEventsInput>(
   "ListLineageEventsInput",
 )(
   {
-    domainIdentifier: S.String.pipe(T.HttpLabel()),
+    domainIdentifier: S.String.pipe(T.HttpLabel("domainIdentifier")),
     maxResults: S.optional(S.Number).pipe(T.HttpQuery("maxResults")),
     timestampAfter: S.optional(
       S.Date.pipe(T.TimestampFormat("epoch-seconds")),
@@ -1532,10 +1533,10 @@ export class ListLineageNodeHistoryInput extends S.Class<ListLineageNodeHistoryI
   "ListLineageNodeHistoryInput",
 )(
   {
-    domainIdentifier: S.String.pipe(T.HttpLabel()),
+    domainIdentifier: S.String.pipe(T.HttpLabel("domainIdentifier")),
     maxResults: S.optional(S.Number).pipe(T.HttpQuery("maxResults")),
     nextToken: S.optional(S.String).pipe(T.HttpQuery("nextToken")),
-    identifier: S.String.pipe(T.HttpLabel()),
+    identifier: S.String.pipe(T.HttpLabel("identifier")),
     direction: S.optional(S.String).pipe(T.HttpQuery("direction")),
     eventTimestampGTE: S.optional(
       S.Date.pipe(T.TimestampFormat("epoch-seconds")),
@@ -1561,7 +1562,7 @@ export class ListNotificationsInput extends S.Class<ListNotificationsInput>(
   "ListNotificationsInput",
 )(
   {
-    domainIdentifier: S.String.pipe(T.HttpLabel()),
+    domainIdentifier: S.String.pipe(T.HttpLabel("domainIdentifier")),
     type: S.String.pipe(T.HttpQuery("type")),
     afterTimestamp: S.optional(
       S.Date.pipe(T.TimestampFormat("epoch-seconds")),
@@ -1590,9 +1591,9 @@ export class ListPolicyGrantsInput extends S.Class<ListPolicyGrantsInput>(
   "ListPolicyGrantsInput",
 )(
   {
-    domainIdentifier: S.String.pipe(T.HttpLabel()),
-    entityType: S.String.pipe(T.HttpLabel()),
-    entityIdentifier: S.String.pipe(T.HttpLabel()),
+    domainIdentifier: S.String.pipe(T.HttpLabel("domainIdentifier")),
+    entityType: S.String.pipe(T.HttpLabel("entityType")),
+    entityIdentifier: S.String.pipe(T.HttpLabel("entityIdentifier")),
     policyType: S.String.pipe(T.HttpQuery("policyType")),
     maxResults: S.optional(S.Number).pipe(T.HttpQuery("maxResults")),
     nextToken: S.optional(S.String).pipe(T.HttpQuery("nextToken")),
@@ -1613,8 +1614,8 @@ export class ListProjectMembershipsInput extends S.Class<ListProjectMembershipsI
   "ListProjectMembershipsInput",
 )(
   {
-    domainIdentifier: S.String.pipe(T.HttpLabel()),
-    projectIdentifier: S.String.pipe(T.HttpLabel()),
+    domainIdentifier: S.String.pipe(T.HttpLabel("domainIdentifier")),
+    projectIdentifier: S.String.pipe(T.HttpLabel("projectIdentifier")),
     sortBy: S.optional(S.String).pipe(T.HttpQuery("sortBy")),
     sortOrder: S.optional(S.String).pipe(T.HttpQuery("sortOrder")),
     nextToken: S.optional(S.String).pipe(T.HttpQuery("nextToken")),
@@ -1636,7 +1637,7 @@ export class ListProjectProfilesInput extends S.Class<ListProjectProfilesInput>(
   "ListProjectProfilesInput",
 )(
   {
-    domainIdentifier: S.String.pipe(T.HttpLabel()),
+    domainIdentifier: S.String.pipe(T.HttpLabel("domainIdentifier")),
     name: S.optional(S.String).pipe(T.HttpQuery("name")),
     sortBy: S.optional(S.String).pipe(T.HttpQuery("sortBy")),
     sortOrder: S.optional(S.String).pipe(T.HttpQuery("sortOrder")),
@@ -1659,7 +1660,7 @@ export class ListProjectsInput extends S.Class<ListProjectsInput>(
   "ListProjectsInput",
 )(
   {
-    domainIdentifier: S.String.pipe(T.HttpLabel()),
+    domainIdentifier: S.String.pipe(T.HttpLabel("domainIdentifier")),
     userIdentifier: S.optional(S.String).pipe(T.HttpQuery("userIdentifier")),
     groupIdentifier: S.optional(S.String).pipe(T.HttpQuery("groupIdentifier")),
     name: S.optional(S.String).pipe(T.HttpQuery("name")),
@@ -1679,7 +1680,7 @@ export class ListSubscriptionGrantsInput extends S.Class<ListSubscriptionGrantsI
   "ListSubscriptionGrantsInput",
 )(
   {
-    domainIdentifier: S.String.pipe(T.HttpLabel()),
+    domainIdentifier: S.String.pipe(T.HttpLabel("domainIdentifier")),
     environmentId: S.optional(S.String).pipe(T.HttpQuery("environmentId")),
     subscriptionTargetId: S.optional(S.String).pipe(
       T.HttpQuery("subscriptionTargetId"),
@@ -1712,7 +1713,7 @@ export class ListSubscriptionRequestsInput extends S.Class<ListSubscriptionReque
   "ListSubscriptionRequestsInput",
 )(
   {
-    domainIdentifier: S.String.pipe(T.HttpLabel()),
+    domainIdentifier: S.String.pipe(T.HttpLabel("domainIdentifier")),
     status: S.optional(S.String).pipe(T.HttpQuery("status")),
     subscribedListingId: S.optional(S.String).pipe(
       T.HttpQuery("subscribedListingId"),
@@ -1744,7 +1745,7 @@ export class ListSubscriptionsInput extends S.Class<ListSubscriptionsInput>(
   "ListSubscriptionsInput",
 )(
   {
-    domainIdentifier: S.String.pipe(T.HttpLabel()),
+    domainIdentifier: S.String.pipe(T.HttpLabel("domainIdentifier")),
     subscriptionRequestIdentifier: S.optional(S.String).pipe(
       T.HttpQuery("subscriptionRequestIdentifier"),
     ),
@@ -1779,8 +1780,8 @@ export class ListSubscriptionTargetsInput extends S.Class<ListSubscriptionTarget
   "ListSubscriptionTargetsInput",
 )(
   {
-    domainIdentifier: S.String.pipe(T.HttpLabel()),
-    environmentIdentifier: S.String.pipe(T.HttpLabel()),
+    domainIdentifier: S.String.pipe(T.HttpLabel("domainIdentifier")),
+    environmentIdentifier: S.String.pipe(T.HttpLabel("environmentIdentifier")),
     sortBy: S.optional(S.String).pipe(T.HttpQuery("sortBy")),
     sortOrder: S.optional(S.String).pipe(T.HttpQuery("sortOrder")),
     maxResults: S.optional(S.Number).pipe(T.HttpQuery("maxResults")),
@@ -1801,7 +1802,7 @@ export class ListSubscriptionTargetsInput extends S.Class<ListSubscriptionTarget
 export class ListTagsForResourceRequest extends S.Class<ListTagsForResourceRequest>(
   "ListTagsForResourceRequest",
 )(
-  { resourceArn: S.String.pipe(T.HttpLabel()) },
+  { resourceArn: S.String.pipe(T.HttpLabel("resourceArn")) },
   T.all(
     T.Http({ method: "GET", uri: "/tags/{resourceArn}" }),
     svc,
@@ -1815,9 +1816,9 @@ export class ListTimeSeriesDataPointsInput extends S.Class<ListTimeSeriesDataPoi
   "ListTimeSeriesDataPointsInput",
 )(
   {
-    domainIdentifier: S.String.pipe(T.HttpLabel()),
-    entityIdentifier: S.String.pipe(T.HttpLabel()),
-    entityType: S.String.pipe(T.HttpLabel()),
+    domainIdentifier: S.String.pipe(T.HttpLabel("domainIdentifier")),
+    entityIdentifier: S.String.pipe(T.HttpLabel("entityIdentifier")),
+    entityType: S.String.pipe(T.HttpLabel("entityType")),
     formName: S.String.pipe(T.HttpQuery("formName")),
     startedAt: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))).pipe(
       T.HttpQuery("startedAt"),
@@ -1844,7 +1845,7 @@ export class PostLineageEventInput extends S.Class<PostLineageEventInput>(
   "PostLineageEventInput",
 )(
   {
-    domainIdentifier: S.String.pipe(T.HttpLabel()),
+    domainIdentifier: S.String.pipe(T.HttpLabel("domainIdentifier")),
     event: T.StreamingInput.pipe(T.HttpPayload()),
     clientToken: S.optional(S.String).pipe(T.HttpHeader("Client-Token")),
   },
@@ -1864,8 +1865,8 @@ export class RejectSubscriptionRequestInput extends S.Class<RejectSubscriptionRe
   "RejectSubscriptionRequestInput",
 )(
   {
-    domainIdentifier: S.String.pipe(T.HttpLabel()),
-    identifier: S.String.pipe(T.HttpLabel()),
+    domainIdentifier: S.String.pipe(T.HttpLabel("domainIdentifier")),
+    identifier: S.String.pipe(T.HttpLabel("identifier")),
     decisionComment: S.optional(S.String),
   },
   T.all(
@@ -1894,9 +1895,9 @@ export class RemoveEntityOwnerInput extends S.Class<RemoveEntityOwnerInput>(
   "RemoveEntityOwnerInput",
 )(
   {
-    domainIdentifier: S.String.pipe(T.HttpLabel()),
-    entityType: S.String.pipe(T.HttpLabel()),
-    entityIdentifier: S.String.pipe(T.HttpLabel()),
+    domainIdentifier: S.String.pipe(T.HttpLabel("domainIdentifier")),
+    entityType: S.String.pipe(T.HttpLabel("entityType")),
+    entityIdentifier: S.String.pipe(T.HttpLabel("entityIdentifier")),
     owner: OwnerProperties,
     clientToken: S.optional(S.String),
   },
@@ -1961,9 +1962,9 @@ export class RemovePolicyGrantInput extends S.Class<RemovePolicyGrantInput>(
   "RemovePolicyGrantInput",
 )(
   {
-    domainIdentifier: S.String.pipe(T.HttpLabel()),
-    entityType: S.String.pipe(T.HttpLabel()),
-    entityIdentifier: S.String.pipe(T.HttpLabel()),
+    domainIdentifier: S.String.pipe(T.HttpLabel("domainIdentifier")),
+    entityType: S.String.pipe(T.HttpLabel("entityType")),
+    entityIdentifier: S.String.pipe(T.HttpLabel("entityIdentifier")),
     policyType: S.String,
     principal: PolicyGrantPrincipal,
     grantIdentifier: S.optional(S.String),
@@ -1988,8 +1989,8 @@ export class RevokeSubscriptionInput extends S.Class<RevokeSubscriptionInput>(
   "RevokeSubscriptionInput",
 )(
   {
-    domainIdentifier: S.String.pipe(T.HttpLabel()),
-    identifier: S.String.pipe(T.HttpLabel()),
+    domainIdentifier: S.String.pipe(T.HttpLabel("domainIdentifier")),
+    identifier: S.String.pipe(T.HttpLabel("identifier")),
     retainPermissions: S.optional(S.Boolean),
   },
   T.all(
@@ -2008,7 +2009,7 @@ export class SearchGroupProfilesInput extends S.Class<SearchGroupProfilesInput>(
   "SearchGroupProfilesInput",
 )(
   {
-    domainIdentifier: S.String.pipe(T.HttpLabel()),
+    domainIdentifier: S.String.pipe(T.HttpLabel("domainIdentifier")),
     groupType: S.String,
     searchText: S.optional(S.String),
     maxResults: S.optional(S.Number),
@@ -2051,7 +2052,7 @@ export class SearchTypesInput extends S.Class<SearchTypesInput>(
   "SearchTypesInput",
 )(
   {
-    domainIdentifier: S.String.pipe(T.HttpLabel()),
+    domainIdentifier: S.String.pipe(T.HttpLabel("domainIdentifier")),
     maxResults: S.optional(S.Number),
     nextToken: S.optional(S.String),
     searchScope: S.String,
@@ -2077,7 +2078,7 @@ export class SearchUserProfilesInput extends S.Class<SearchUserProfilesInput>(
   "SearchUserProfilesInput",
 )(
   {
-    domainIdentifier: S.String.pipe(T.HttpLabel()),
+    domainIdentifier: S.String.pipe(T.HttpLabel("domainIdentifier")),
     userType: S.String,
     searchText: S.optional(S.String),
     maxResults: S.optional(S.Number),
@@ -2099,7 +2100,7 @@ export const Tags = S.Record({ key: S.String, value: S.String });
 export class TagResourceRequest extends S.Class<TagResourceRequest>(
   "TagResourceRequest",
 )(
-  { resourceArn: S.String.pipe(T.HttpLabel()), tags: Tags },
+  { resourceArn: S.String.pipe(T.HttpLabel("resourceArn")), tags: Tags },
   T.all(
     T.Http({ method: "POST", uri: "/tags/{resourceArn}" }),
     svc,
@@ -2116,7 +2117,7 @@ export class UntagResourceRequest extends S.Class<UntagResourceRequest>(
   "UntagResourceRequest",
 )(
   {
-    resourceArn: S.String.pipe(T.HttpLabel()),
+    resourceArn: S.String.pipe(T.HttpLabel("resourceArn")),
     tagKeys: TagKeyList.pipe(T.HttpQuery("tagKeys")),
   },
   T.all(
@@ -2152,8 +2153,8 @@ export class UpdateAccountPoolInput extends S.Class<UpdateAccountPoolInput>(
   "UpdateAccountPoolInput",
 )(
   {
-    domainIdentifier: S.String.pipe(T.HttpLabel()),
-    identifier: S.String.pipe(T.HttpLabel()),
+    domainIdentifier: S.String.pipe(T.HttpLabel("domainIdentifier")),
+    identifier: S.String.pipe(T.HttpLabel("identifier")),
     name: S.optional(S.String),
     description: S.optional(S.String),
     resolutionStrategy: S.optional(S.String),
@@ -2248,9 +2249,9 @@ export class UpdateAssetFilterInput extends S.Class<UpdateAssetFilterInput>(
   "UpdateAssetFilterInput",
 )(
   {
-    domainIdentifier: S.String.pipe(T.HttpLabel()),
-    assetIdentifier: S.String.pipe(T.HttpLabel()),
-    identifier: S.String.pipe(T.HttpLabel()),
+    domainIdentifier: S.String.pipe(T.HttpLabel("domainIdentifier")),
+    assetIdentifier: S.String.pipe(T.HttpLabel("assetIdentifier")),
+    identifier: S.String.pipe(T.HttpLabel("identifier")),
     name: S.optional(S.String),
     description: S.optional(S.String),
     configuration: S.optional(AssetFilterConfiguration),
@@ -2271,8 +2272,8 @@ export class UpdateEnvironmentInput extends S.Class<UpdateEnvironmentInput>(
   "UpdateEnvironmentInput",
 )(
   {
-    domainIdentifier: S.String.pipe(T.HttpLabel()),
-    identifier: S.String.pipe(T.HttpLabel()),
+    domainIdentifier: S.String.pipe(T.HttpLabel("domainIdentifier")),
+    identifier: S.String.pipe(T.HttpLabel("identifier")),
     name: S.optional(S.String),
     description: S.optional(S.String),
     glossaryTerms: S.optional(GlossaryTerms),
@@ -2301,9 +2302,9 @@ export class UpdateEnvironmentActionInput extends S.Class<UpdateEnvironmentActio
   "UpdateEnvironmentActionInput",
 )(
   {
-    domainIdentifier: S.String.pipe(T.HttpLabel()),
-    environmentIdentifier: S.String.pipe(T.HttpLabel()),
-    identifier: S.String.pipe(T.HttpLabel()),
+    domainIdentifier: S.String.pipe(T.HttpLabel("domainIdentifier")),
+    environmentIdentifier: S.String.pipe(T.HttpLabel("environmentIdentifier")),
+    identifier: S.String.pipe(T.HttpLabel("identifier")),
     parameters: S.optional(ActionParameters),
     name: S.optional(S.String),
     description: S.optional(S.String),
@@ -2342,8 +2343,8 @@ export class UpdateEnvironmentBlueprintInput extends S.Class<UpdateEnvironmentBl
   "UpdateEnvironmentBlueprintInput",
 )(
   {
-    domainIdentifier: S.String.pipe(T.HttpLabel()),
-    identifier: S.String.pipe(T.HttpLabel()),
+    domainIdentifier: S.String.pipe(T.HttpLabel("domainIdentifier")),
+    identifier: S.String.pipe(T.HttpLabel("identifier")),
     description: S.optional(S.String),
     provisioningProperties: S.optional(ProvisioningProperties),
     userParameters: S.optional(CustomParameterList),
@@ -2364,8 +2365,8 @@ export class UpdateEnvironmentProfileInput extends S.Class<UpdateEnvironmentProf
   "UpdateEnvironmentProfileInput",
 )(
   {
-    domainIdentifier: S.String.pipe(T.HttpLabel()),
-    identifier: S.String.pipe(T.HttpLabel()),
+    domainIdentifier: S.String.pipe(T.HttpLabel("domainIdentifier")),
+    identifier: S.String.pipe(T.HttpLabel("identifier")),
     name: S.optional(S.String),
     description: S.optional(S.String),
     userParameters: S.optional(EnvironmentParametersList),
@@ -2388,8 +2389,8 @@ export class UpdateGroupProfileInput extends S.Class<UpdateGroupProfileInput>(
   "UpdateGroupProfileInput",
 )(
   {
-    domainIdentifier: S.String.pipe(T.HttpLabel()),
-    groupIdentifier: S.String.pipe(T.HttpLabel()),
+    domainIdentifier: S.String.pipe(T.HttpLabel("domainIdentifier")),
+    groupIdentifier: S.String.pipe(T.HttpLabel("groupIdentifier")),
     status: S.String,
   },
   T.all(
@@ -2455,8 +2456,8 @@ export class UpdateProjectProfileInput extends S.Class<UpdateProjectProfileInput
   "UpdateProjectProfileInput",
 )(
   {
-    domainIdentifier: S.String.pipe(T.HttpLabel()),
-    identifier: S.String.pipe(T.HttpLabel()),
+    domainIdentifier: S.String.pipe(T.HttpLabel("domainIdentifier")),
+    identifier: S.String.pipe(T.HttpLabel("identifier")),
     name: S.optional(S.String),
     description: S.optional(S.String),
     status: S.optional(S.String),
@@ -2482,7 +2483,7 @@ export class UpdateRootDomainUnitOwnerInput extends S.Class<UpdateRootDomainUnit
   "UpdateRootDomainUnitOwnerInput",
 )(
   {
-    domainIdentifier: S.String.pipe(T.HttpLabel()),
+    domainIdentifier: S.String.pipe(T.HttpLabel("domainIdentifier")),
     currentOwner: S.String,
     newOwner: S.String,
     clientToken: S.optional(S.String),
@@ -2506,8 +2507,8 @@ export class UpdateSubscriptionRequestInput extends S.Class<UpdateSubscriptionRe
   "UpdateSubscriptionRequestInput",
 )(
   {
-    domainIdentifier: S.String.pipe(T.HttpLabel()),
-    identifier: S.String.pipe(T.HttpLabel()),
+    domainIdentifier: S.String.pipe(T.HttpLabel("domainIdentifier")),
+    identifier: S.String.pipe(T.HttpLabel("identifier")),
     requestReason: S.String,
   },
   T.all(
@@ -2530,9 +2531,9 @@ export class UpdateSubscriptionTargetInput extends S.Class<UpdateSubscriptionTar
   "UpdateSubscriptionTargetInput",
 )(
   {
-    domainIdentifier: S.String.pipe(T.HttpLabel()),
-    environmentIdentifier: S.String.pipe(T.HttpLabel()),
-    identifier: S.String.pipe(T.HttpLabel()),
+    domainIdentifier: S.String.pipe(T.HttpLabel("domainIdentifier")),
+    environmentIdentifier: S.String.pipe(T.HttpLabel("environmentIdentifier")),
+    identifier: S.String.pipe(T.HttpLabel("identifier")),
     name: S.optional(S.String),
     authorizedPrincipals: S.optional(AuthorizedPrincipalIdentifiers),
     applicableAssetTypes: S.optional(ApplicableAssetTypes),
@@ -2556,8 +2557,8 @@ export class UpdateUserProfileInput extends S.Class<UpdateUserProfileInput>(
   "UpdateUserProfileInput",
 )(
   {
-    domainIdentifier: S.String.pipe(T.HttpLabel()),
-    userIdentifier: S.String.pipe(T.HttpLabel()),
+    domainIdentifier: S.String.pipe(T.HttpLabel("domainIdentifier")),
+    userIdentifier: S.String.pipe(T.HttpLabel("userIdentifier")),
     type: S.optional(S.String),
     status: S.String,
   },
@@ -2575,8 +2576,8 @@ export class UpdateUserProfileInput extends S.Class<UpdateUserProfileInput>(
 ) {}
 export class GetAssetInput extends S.Class<GetAssetInput>("GetAssetInput")(
   {
-    domainIdentifier: S.String.pipe(T.HttpLabel()),
-    identifier: S.String.pipe(T.HttpLabel()),
+    domainIdentifier: S.String.pipe(T.HttpLabel("domainIdentifier")),
+    identifier: S.String.pipe(T.HttpLabel("identifier")),
     revision: S.optional(S.String).pipe(T.HttpQuery("revision")),
   },
   T.all(
@@ -2595,8 +2596,8 @@ export class DeleteAssetInput extends S.Class<DeleteAssetInput>(
   "DeleteAssetInput",
 )(
   {
-    domainIdentifier: S.String.pipe(T.HttpLabel()),
-    identifier: S.String.pipe(T.HttpLabel()),
+    domainIdentifier: S.String.pipe(T.HttpLabel("domainIdentifier")),
+    identifier: S.String.pipe(T.HttpLabel("identifier")),
   },
   T.all(
     T.Http({
@@ -2626,8 +2627,8 @@ export class CreateAssetRevisionInput extends S.Class<CreateAssetRevisionInput>(
 )(
   {
     name: S.String,
-    domainIdentifier: S.String.pipe(T.HttpLabel()),
-    identifier: S.String.pipe(T.HttpLabel()),
+    domainIdentifier: S.String.pipe(T.HttpLabel("domainIdentifier")),
+    identifier: S.String.pipe(T.HttpLabel("identifier")),
     typeRevision: S.optional(S.String),
     description: S.optional(S.String),
     glossaryTerms: S.optional(GlossaryTerms),
@@ -2651,8 +2652,8 @@ export class DeleteAssetTypeInput extends S.Class<DeleteAssetTypeInput>(
   "DeleteAssetTypeInput",
 )(
   {
-    domainIdentifier: S.String.pipe(T.HttpLabel()),
-    identifier: S.String.pipe(T.HttpLabel()),
+    domainIdentifier: S.String.pipe(T.HttpLabel("domainIdentifier")),
+    identifier: S.String.pipe(T.HttpLabel("identifier")),
   },
   T.all(
     T.Http({
@@ -2673,8 +2674,8 @@ export class GetAssetTypeInput extends S.Class<GetAssetTypeInput>(
   "GetAssetTypeInput",
 )(
   {
-    domainIdentifier: S.String.pipe(T.HttpLabel()),
-    identifier: S.String.pipe(T.HttpLabel()),
+    domainIdentifier: S.String.pipe(T.HttpLabel("domainIdentifier")),
+    identifier: S.String.pipe(T.HttpLabel("identifier")),
     revision: S.optional(S.String).pipe(T.HttpQuery("revision")),
   },
   T.all(
@@ -2693,8 +2694,8 @@ export class GetDataProductInput extends S.Class<GetDataProductInput>(
   "GetDataProductInput",
 )(
   {
-    domainIdentifier: S.String.pipe(T.HttpLabel()),
-    identifier: S.String.pipe(T.HttpLabel()),
+    domainIdentifier: S.String.pipe(T.HttpLabel("domainIdentifier")),
+    identifier: S.String.pipe(T.HttpLabel("identifier")),
     revision: S.optional(S.String).pipe(T.HttpQuery("revision")),
   },
   T.all(
@@ -2713,8 +2714,8 @@ export class DeleteDataProductInput extends S.Class<DeleteDataProductInput>(
   "DeleteDataProductInput",
 )(
   {
-    domainIdentifier: S.String.pipe(T.HttpLabel()),
-    identifier: S.String.pipe(T.HttpLabel()),
+    domainIdentifier: S.String.pipe(T.HttpLabel("domainIdentifier")),
+    identifier: S.String.pipe(T.HttpLabel("identifier")),
   },
   T.all(
     T.Http({
@@ -2745,8 +2746,8 @@ export class CreateDataProductRevisionInput extends S.Class<CreateDataProductRev
   "CreateDataProductRevisionInput",
 )(
   {
-    domainIdentifier: S.String.pipe(T.HttpLabel()),
-    identifier: S.String.pipe(T.HttpLabel()),
+    domainIdentifier: S.String.pipe(T.HttpLabel("domainIdentifier")),
+    identifier: S.String.pipe(T.HttpLabel("identifier")),
     name: S.String,
     description: S.optional(S.String),
     glossaryTerms: S.optional(GlossaryTerms),
@@ -2770,8 +2771,8 @@ export class GetDataSourceInput extends S.Class<GetDataSourceInput>(
   "GetDataSourceInput",
 )(
   {
-    domainIdentifier: S.String.pipe(T.HttpLabel()),
-    identifier: S.String.pipe(T.HttpLabel()),
+    domainIdentifier: S.String.pipe(T.HttpLabel("domainIdentifier")),
+    identifier: S.String.pipe(T.HttpLabel("identifier")),
   },
   T.all(
     T.Http({
@@ -2851,8 +2852,8 @@ export class UpdateDataSourceInput extends S.Class<UpdateDataSourceInput>(
   "UpdateDataSourceInput",
 )(
   {
-    domainIdentifier: S.String.pipe(T.HttpLabel()),
-    identifier: S.String.pipe(T.HttpLabel()),
+    domainIdentifier: S.String.pipe(T.HttpLabel("domainIdentifier")),
+    identifier: S.String.pipe(T.HttpLabel("identifier")),
     name: S.optional(S.String),
     description: S.optional(S.String),
     enableSetting: S.optional(S.String),
@@ -2879,8 +2880,8 @@ export class DeleteDataSourceInput extends S.Class<DeleteDataSourceInput>(
   "DeleteDataSourceInput",
 )(
   {
-    domainIdentifier: S.String.pipe(T.HttpLabel()),
-    identifier: S.String.pipe(T.HttpLabel()),
+    domainIdentifier: S.String.pipe(T.HttpLabel("domainIdentifier")),
+    identifier: S.String.pipe(T.HttpLabel("identifier")),
     clientToken: S.optional(S.String).pipe(T.HttpQuery("clientToken")),
     retainPermissionsOnRevokeFailure: S.optional(S.Boolean).pipe(
       T.HttpQuery("retainPermissionsOnRevokeFailure"),
@@ -2902,7 +2903,7 @@ export class ListDataSourcesInput extends S.Class<ListDataSourcesInput>(
   "ListDataSourcesInput",
 )(
   {
-    domainIdentifier: S.String.pipe(T.HttpLabel()),
+    domainIdentifier: S.String.pipe(T.HttpLabel("domainIdentifier")),
     projectIdentifier: S.String.pipe(T.HttpQuery("projectIdentifier")),
     environmentIdentifier: S.optional(S.String).pipe(
       T.HttpQuery("environmentIdentifier"),
@@ -2932,8 +2933,8 @@ export class StartDataSourceRunInput extends S.Class<StartDataSourceRunInput>(
   "StartDataSourceRunInput",
 )(
   {
-    domainIdentifier: S.String.pipe(T.HttpLabel()),
-    dataSourceIdentifier: S.String.pipe(T.HttpLabel()),
+    domainIdentifier: S.String.pipe(T.HttpLabel("domainIdentifier")),
+    dataSourceIdentifier: S.String.pipe(T.HttpLabel("dataSourceIdentifier")),
     clientToken: S.optional(S.String),
   },
   T.all(
@@ -2952,8 +2953,8 @@ export class GetDataSourceRunInput extends S.Class<GetDataSourceRunInput>(
   "GetDataSourceRunInput",
 )(
   {
-    domainIdentifier: S.String.pipe(T.HttpLabel()),
-    identifier: S.String.pipe(T.HttpLabel()),
+    domainIdentifier: S.String.pipe(T.HttpLabel("domainIdentifier")),
+    identifier: S.String.pipe(T.HttpLabel("identifier")),
   },
   T.all(
     T.Http({
@@ -2971,8 +2972,8 @@ export class ListDataSourceRunsInput extends S.Class<ListDataSourceRunsInput>(
   "ListDataSourceRunsInput",
 )(
   {
-    domainIdentifier: S.String.pipe(T.HttpLabel()),
-    dataSourceIdentifier: S.String.pipe(T.HttpLabel()),
+    domainIdentifier: S.String.pipe(T.HttpLabel("domainIdentifier")),
+    dataSourceIdentifier: S.String.pipe(T.HttpLabel("dataSourceIdentifier")),
     status: S.optional(S.String).pipe(T.HttpQuery("status")),
     nextToken: S.optional(S.String).pipe(T.HttpQuery("nextToken")),
     maxResults: S.optional(S.Number).pipe(T.HttpQuery("maxResults")),
@@ -2990,7 +2991,7 @@ export class ListDataSourceRunsInput extends S.Class<ListDataSourceRunsInput>(
   ),
 ) {}
 export class GetDomainInput extends S.Class<GetDomainInput>("GetDomainInput")(
-  { identifier: S.String.pipe(T.HttpLabel()) },
+  { identifier: S.String.pipe(T.HttpLabel("identifier")) },
   T.all(
     T.Http({ method: "GET", uri: "/v2/domains/{identifier}" }),
     svc,
@@ -3009,7 +3010,7 @@ export class UpdateDomainInput extends S.Class<UpdateDomainInput>(
   "UpdateDomainInput",
 )(
   {
-    identifier: S.String.pipe(T.HttpLabel()),
+    identifier: S.String.pipe(T.HttpLabel("identifier")),
     description: S.optional(S.String),
     singleSignOn: S.optional(SingleSignOn),
     domainExecutionRole: S.optional(S.String),
@@ -3030,7 +3031,7 @@ export class DeleteDomainInput extends S.Class<DeleteDomainInput>(
   "DeleteDomainInput",
 )(
   {
-    identifier: S.String.pipe(T.HttpLabel()),
+    identifier: S.String.pipe(T.HttpLabel("identifier")),
     clientToken: S.optional(S.String).pipe(T.HttpQuery("clientToken")),
     skipDeletionCheck: S.optional(S.Boolean).pipe(
       T.HttpQuery("skipDeletionCheck"),
@@ -3066,7 +3067,7 @@ export class CreateDomainUnitInput extends S.Class<CreateDomainUnitInput>(
   "CreateDomainUnitInput",
 )(
   {
-    domainIdentifier: S.String.pipe(T.HttpLabel()),
+    domainIdentifier: S.String.pipe(T.HttpLabel("domainIdentifier")),
     name: S.String,
     parentDomainUnitIdentifier: S.String,
     description: S.optional(S.String),
@@ -3088,8 +3089,8 @@ export class GetDomainUnitInput extends S.Class<GetDomainUnitInput>(
   "GetDomainUnitInput",
 )(
   {
-    domainIdentifier: S.String.pipe(T.HttpLabel()),
-    identifier: S.String.pipe(T.HttpLabel()),
+    domainIdentifier: S.String.pipe(T.HttpLabel("domainIdentifier")),
+    identifier: S.String.pipe(T.HttpLabel("identifier")),
   },
   T.all(
     T.Http({
@@ -3107,8 +3108,8 @@ export class UpdateDomainUnitInput extends S.Class<UpdateDomainUnitInput>(
   "UpdateDomainUnitInput",
 )(
   {
-    domainIdentifier: S.String.pipe(T.HttpLabel()),
-    identifier: S.String.pipe(T.HttpLabel()),
+    domainIdentifier: S.String.pipe(T.HttpLabel("domainIdentifier")),
+    identifier: S.String.pipe(T.HttpLabel("identifier")),
     description: S.optional(S.String),
     name: S.optional(S.String),
   },
@@ -3128,8 +3129,8 @@ export class DeleteDomainUnitInput extends S.Class<DeleteDomainUnitInput>(
   "DeleteDomainUnitInput",
 )(
   {
-    domainIdentifier: S.String.pipe(T.HttpLabel()),
-    identifier: S.String.pipe(T.HttpLabel()),
+    domainIdentifier: S.String.pipe(T.HttpLabel("domainIdentifier")),
+    identifier: S.String.pipe(T.HttpLabel("identifier")),
   },
   T.all(
     T.Http({
@@ -3150,7 +3151,7 @@ export class ListDomainUnitsForParentInput extends S.Class<ListDomainUnitsForPar
   "ListDomainUnitsForParentInput",
 )(
   {
-    domainIdentifier: S.String.pipe(T.HttpLabel()),
+    domainIdentifier: S.String.pipe(T.HttpLabel("domainIdentifier")),
     parentDomainUnitIdentifier: S.String.pipe(
       T.HttpQuery("parentDomainUnitIdentifier"),
     ),
@@ -3173,8 +3174,10 @@ export class GetEnvironmentBlueprintConfigurationInput extends S.Class<GetEnviro
   "GetEnvironmentBlueprintConfigurationInput",
 )(
   {
-    domainIdentifier: S.String.pipe(T.HttpLabel()),
-    environmentBlueprintIdentifier: S.String.pipe(T.HttpLabel()),
+    domainIdentifier: S.String.pipe(T.HttpLabel("domainIdentifier")),
+    environmentBlueprintIdentifier: S.String.pipe(
+      T.HttpLabel("environmentBlueprintIdentifier"),
+    ),
   },
   T.all(
     T.Http({
@@ -3192,8 +3195,10 @@ export class DeleteEnvironmentBlueprintConfigurationInput extends S.Class<Delete
   "DeleteEnvironmentBlueprintConfigurationInput",
 )(
   {
-    domainIdentifier: S.String.pipe(T.HttpLabel()),
-    environmentBlueprintIdentifier: S.String.pipe(T.HttpLabel()),
+    domainIdentifier: S.String.pipe(T.HttpLabel("domainIdentifier")),
+    environmentBlueprintIdentifier: S.String.pipe(
+      T.HttpLabel("environmentBlueprintIdentifier"),
+    ),
   },
   T.all(
     T.Http({
@@ -3214,7 +3219,7 @@ export class ListEnvironmentBlueprintConfigurationsInput extends S.Class<ListEnv
   "ListEnvironmentBlueprintConfigurationsInput",
 )(
   {
-    domainIdentifier: S.String.pipe(T.HttpLabel()),
+    domainIdentifier: S.String.pipe(T.HttpLabel("domainIdentifier")),
     maxResults: S.optional(S.Number).pipe(T.HttpQuery("maxResults")),
     nextToken: S.optional(S.String).pipe(T.HttpQuery("nextToken")),
   },
@@ -3234,8 +3239,8 @@ export class DeleteFormTypeInput extends S.Class<DeleteFormTypeInput>(
   "DeleteFormTypeInput",
 )(
   {
-    domainIdentifier: S.String.pipe(T.HttpLabel()),
-    formTypeIdentifier: S.String.pipe(T.HttpLabel()),
+    domainIdentifier: S.String.pipe(T.HttpLabel("domainIdentifier")),
+    formTypeIdentifier: S.String.pipe(T.HttpLabel("formTypeIdentifier")),
   },
   T.all(
     T.Http({
@@ -3256,8 +3261,8 @@ export class GetFormTypeInput extends S.Class<GetFormTypeInput>(
   "GetFormTypeInput",
 )(
   {
-    domainIdentifier: S.String.pipe(T.HttpLabel()),
-    formTypeIdentifier: S.String.pipe(T.HttpLabel()),
+    domainIdentifier: S.String.pipe(T.HttpLabel("domainIdentifier")),
+    formTypeIdentifier: S.String.pipe(T.HttpLabel("formTypeIdentifier")),
     revision: S.optional(S.String).pipe(T.HttpQuery("revision")),
   },
   T.all(
@@ -3276,7 +3281,7 @@ export class CreateGlossaryInput extends S.Class<CreateGlossaryInput>(
   "CreateGlossaryInput",
 )(
   {
-    domainIdentifier: S.String.pipe(T.HttpLabel()),
+    domainIdentifier: S.String.pipe(T.HttpLabel("domainIdentifier")),
     name: S.String,
     owningProjectIdentifier: S.String,
     description: S.optional(S.String),
@@ -3300,8 +3305,8 @@ export class GetGlossaryInput extends S.Class<GetGlossaryInput>(
   "GetGlossaryInput",
 )(
   {
-    domainIdentifier: S.String.pipe(T.HttpLabel()),
-    identifier: S.String.pipe(T.HttpLabel()),
+    domainIdentifier: S.String.pipe(T.HttpLabel("domainIdentifier")),
+    identifier: S.String.pipe(T.HttpLabel("identifier")),
   },
   T.all(
     T.Http({
@@ -3319,8 +3324,8 @@ export class UpdateGlossaryInput extends S.Class<UpdateGlossaryInput>(
   "UpdateGlossaryInput",
 )(
   {
-    domainIdentifier: S.String.pipe(T.HttpLabel()),
-    identifier: S.String.pipe(T.HttpLabel()),
+    domainIdentifier: S.String.pipe(T.HttpLabel("domainIdentifier")),
+    identifier: S.String.pipe(T.HttpLabel("identifier")),
     name: S.optional(S.String),
     description: S.optional(S.String),
     status: S.optional(S.String),
@@ -3342,8 +3347,8 @@ export class DeleteGlossaryInput extends S.Class<DeleteGlossaryInput>(
   "DeleteGlossaryInput",
 )(
   {
-    domainIdentifier: S.String.pipe(T.HttpLabel()),
-    identifier: S.String.pipe(T.HttpLabel()),
+    domainIdentifier: S.String.pipe(T.HttpLabel("domainIdentifier")),
+    identifier: S.String.pipe(T.HttpLabel("identifier")),
   },
   T.all(
     T.Http({
@@ -3364,8 +3369,8 @@ export class GetGlossaryTermInput extends S.Class<GetGlossaryTermInput>(
   "GetGlossaryTermInput",
 )(
   {
-    domainIdentifier: S.String.pipe(T.HttpLabel()),
-    identifier: S.String.pipe(T.HttpLabel()),
+    domainIdentifier: S.String.pipe(T.HttpLabel("domainIdentifier")),
+    identifier: S.String.pipe(T.HttpLabel("identifier")),
   },
   T.all(
     T.Http({
@@ -3387,9 +3392,9 @@ export class UpdateGlossaryTermInput extends S.Class<UpdateGlossaryTermInput>(
   "UpdateGlossaryTermInput",
 )(
   {
-    domainIdentifier: S.String.pipe(T.HttpLabel()),
+    domainIdentifier: S.String.pipe(T.HttpLabel("domainIdentifier")),
     glossaryIdentifier: S.optional(S.String),
-    identifier: S.String.pipe(T.HttpLabel()),
+    identifier: S.String.pipe(T.HttpLabel("identifier")),
     name: S.optional(S.String),
     shortDescription: S.optional(S.String),
     longDescription: S.optional(S.String),
@@ -3412,8 +3417,8 @@ export class DeleteGlossaryTermInput extends S.Class<DeleteGlossaryTermInput>(
   "DeleteGlossaryTermInput",
 )(
   {
-    domainIdentifier: S.String.pipe(T.HttpLabel()),
-    identifier: S.String.pipe(T.HttpLabel()),
+    domainIdentifier: S.String.pipe(T.HttpLabel("domainIdentifier")),
+    identifier: S.String.pipe(T.HttpLabel("identifier")),
   },
   T.all(
     T.Http({
@@ -3434,8 +3439,8 @@ export class GetListingInput extends S.Class<GetListingInput>(
   "GetListingInput",
 )(
   {
-    domainIdentifier: S.String.pipe(T.HttpLabel()),
-    identifier: S.String.pipe(T.HttpLabel()),
+    domainIdentifier: S.String.pipe(T.HttpLabel("domainIdentifier")),
+    identifier: S.String.pipe(T.HttpLabel("identifier")),
     listingRevision: S.optional(S.String).pipe(T.HttpQuery("listingRevision")),
   },
   T.all(
@@ -3454,8 +3459,8 @@ export class DeleteListingInput extends S.Class<DeleteListingInput>(
   "DeleteListingInput",
 )(
   {
-    domainIdentifier: S.String.pipe(T.HttpLabel()),
-    identifier: S.String.pipe(T.HttpLabel()),
+    domainIdentifier: S.String.pipe(T.HttpLabel("domainIdentifier")),
+    identifier: S.String.pipe(T.HttpLabel("identifier")),
   },
   T.all(
     T.Http({
@@ -3476,8 +3481,8 @@ export class GetMetadataGenerationRunInput extends S.Class<GetMetadataGeneration
   "GetMetadataGenerationRunInput",
 )(
   {
-    domainIdentifier: S.String.pipe(T.HttpLabel()),
-    identifier: S.String.pipe(T.HttpLabel()),
+    domainIdentifier: S.String.pipe(T.HttpLabel("domainIdentifier")),
+    identifier: S.String.pipe(T.HttpLabel("identifier")),
     type: S.optional(S.String).pipe(T.HttpQuery("type")),
   },
   T.all(
@@ -3496,8 +3501,8 @@ export class CancelMetadataGenerationRunInput extends S.Class<CancelMetadataGene
   "CancelMetadataGenerationRunInput",
 )(
   {
-    domainIdentifier: S.String.pipe(T.HttpLabel()),
-    identifier: S.String.pipe(T.HttpLabel()),
+    domainIdentifier: S.String.pipe(T.HttpLabel("domainIdentifier")),
+    identifier: S.String.pipe(T.HttpLabel("identifier")),
   },
   T.all(
     T.Http({
@@ -3518,7 +3523,7 @@ export class ListMetadataGenerationRunsInput extends S.Class<ListMetadataGenerat
   "ListMetadataGenerationRunsInput",
 )(
   {
-    domainIdentifier: S.String.pipe(T.HttpLabel()),
+    domainIdentifier: S.String.pipe(T.HttpLabel("domainIdentifier")),
     status: S.optional(S.String).pipe(T.HttpQuery("status")),
     type: S.optional(S.String).pipe(T.HttpQuery("type")),
     nextToken: S.optional(S.String).pipe(T.HttpQuery("nextToken")),
@@ -3541,8 +3546,8 @@ export class ListMetadataGenerationRunsInput extends S.Class<ListMetadataGenerat
 ) {}
 export class GetRuleInput extends S.Class<GetRuleInput>("GetRuleInput")(
   {
-    domainIdentifier: S.String.pipe(T.HttpLabel()),
-    identifier: S.String.pipe(T.HttpLabel()),
+    domainIdentifier: S.String.pipe(T.HttpLabel("domainIdentifier")),
+    identifier: S.String.pipe(T.HttpLabel("identifier")),
     revision: S.optional(S.String).pipe(T.HttpQuery("revision")),
   },
   T.all(
@@ -3595,8 +3600,8 @@ export class UpdateRuleInput extends S.Class<UpdateRuleInput>(
   "UpdateRuleInput",
 )(
   {
-    domainIdentifier: S.String.pipe(T.HttpLabel()),
-    identifier: S.String.pipe(T.HttpLabel()),
+    domainIdentifier: S.String.pipe(T.HttpLabel("domainIdentifier")),
+    identifier: S.String.pipe(T.HttpLabel("identifier")),
     name: S.optional(S.String),
     description: S.optional(S.String),
     scope: S.optional(RuleScope),
@@ -3619,8 +3624,8 @@ export class DeleteRuleInput extends S.Class<DeleteRuleInput>(
   "DeleteRuleInput",
 )(
   {
-    domainIdentifier: S.String.pipe(T.HttpLabel()),
-    identifier: S.String.pipe(T.HttpLabel()),
+    domainIdentifier: S.String.pipe(T.HttpLabel("domainIdentifier")),
+    identifier: S.String.pipe(T.HttpLabel("identifier")),
   },
   T.all(
     T.Http({
@@ -3639,9 +3644,9 @@ export class DeleteRuleOutput extends S.Class<DeleteRuleOutput>(
 )({}) {}
 export class ListRulesInput extends S.Class<ListRulesInput>("ListRulesInput")(
   {
-    domainIdentifier: S.String.pipe(T.HttpLabel()),
-    targetType: S.String.pipe(T.HttpLabel()),
-    targetIdentifier: S.String.pipe(T.HttpLabel()),
+    domainIdentifier: S.String.pipe(T.HttpLabel("domainIdentifier")),
+    targetType: S.String.pipe(T.HttpLabel("targetType")),
+    targetIdentifier: S.String.pipe(T.HttpLabel("targetIdentifier")),
     ruleType: S.optional(S.String).pipe(T.HttpQuery("ruleType")),
     action: S.optional(S.String).pipe(T.HttpQuery("ruleAction")),
     projectIds: S.optional(ProjectIds).pipe(T.HttpQuery("projectIds")),
@@ -3845,8 +3850,8 @@ export class AcceptPredictionsInput extends S.Class<AcceptPredictionsInput>(
   "AcceptPredictionsInput",
 )(
   {
-    domainIdentifier: S.String.pipe(T.HttpLabel()),
-    identifier: S.String.pipe(T.HttpLabel()),
+    domainIdentifier: S.String.pipe(T.HttpLabel("domainIdentifier")),
+    identifier: S.String.pipe(T.HttpLabel("identifier")),
     revision: S.optional(S.String).pipe(T.HttpQuery("revision")),
     acceptRule: S.optional(AcceptRule),
     acceptChoices: S.optional(AcceptChoices),
@@ -3868,9 +3873,9 @@ export class BatchPutAttributesMetadataInput extends S.Class<BatchPutAttributesM
   "BatchPutAttributesMetadataInput",
 )(
   {
-    domainIdentifier: S.String.pipe(T.HttpLabel()),
-    entityType: S.String.pipe(T.HttpLabel()),
-    entityIdentifier: S.String.pipe(T.HttpLabel()),
+    domainIdentifier: S.String.pipe(T.HttpLabel("domainIdentifier")),
+    entityType: S.String.pipe(T.HttpLabel("entityType")),
+    entityIdentifier: S.String.pipe(T.HttpLabel("entityIdentifier")),
     clientToken: S.optional(S.String),
     attributes: Attributes,
   },
@@ -3891,7 +3896,7 @@ export class CreateEnvironmentInput extends S.Class<CreateEnvironmentInput>(
 )(
   {
     projectIdentifier: S.String,
-    domainIdentifier: S.String.pipe(T.HttpLabel()),
+    domainIdentifier: S.String.pipe(T.HttpLabel("domainIdentifier")),
     description: S.optional(S.String),
     name: S.String,
     environmentProfileIdentifier: S.optional(S.String),
@@ -3946,8 +3951,8 @@ export class CreateProjectMembershipInput extends S.Class<CreateProjectMembershi
   "CreateProjectMembershipInput",
 )(
   {
-    domainIdentifier: S.String.pipe(T.HttpLabel()),
-    projectIdentifier: S.String.pipe(T.HttpLabel()),
+    domainIdentifier: S.String.pipe(T.HttpLabel("domainIdentifier")),
+    projectIdentifier: S.String.pipe(T.HttpLabel("projectIdentifier")),
     member: Member,
     designation: S.String,
   },
@@ -3970,8 +3975,8 @@ export class CreateSubscriptionTargetInput extends S.Class<CreateSubscriptionTar
   "CreateSubscriptionTargetInput",
 )(
   {
-    domainIdentifier: S.String.pipe(T.HttpLabel()),
-    environmentIdentifier: S.String.pipe(T.HttpLabel()),
+    domainIdentifier: S.String.pipe(T.HttpLabel("domainIdentifier")),
+    environmentIdentifier: S.String.pipe(T.HttpLabel("environmentIdentifier")),
     name: S.String,
     type: S.String,
     subscriptionTargetConfig: SubscriptionTargetForms,
@@ -4243,9 +4248,9 @@ export class PostTimeSeriesDataPointsInput extends S.Class<PostTimeSeriesDataPoi
   "PostTimeSeriesDataPointsInput",
 )(
   {
-    domainIdentifier: S.String.pipe(T.HttpLabel()),
-    entityIdentifier: S.String.pipe(T.HttpLabel()),
-    entityType: S.String.pipe(T.HttpLabel()),
+    domainIdentifier: S.String.pipe(T.HttpLabel("domainIdentifier")),
+    entityIdentifier: S.String.pipe(T.HttpLabel("entityIdentifier")),
+    entityType: S.String.pipe(T.HttpLabel("entityType")),
     forms: TimeSeriesDataPointFormInputList,
     clientToken: S.optional(S.String),
   },
@@ -4265,7 +4270,7 @@ export class PutDataExportConfigurationInput extends S.Class<PutDataExportConfig
   "PutDataExportConfigurationInput",
 )(
   {
-    domainIdentifier: S.String.pipe(T.HttpLabel()),
+    domainIdentifier: S.String.pipe(T.HttpLabel("domainIdentifier")),
     enableExport: S.Boolean,
     encryptionConfiguration: S.optional(EncryptionConfiguration),
     clientToken: S.optional(S.String),
@@ -4289,8 +4294,8 @@ export class RejectPredictionsInput extends S.Class<RejectPredictionsInput>(
   "RejectPredictionsInput",
 )(
   {
-    domainIdentifier: S.String.pipe(T.HttpLabel()),
-    identifier: S.String.pipe(T.HttpLabel()),
+    domainIdentifier: S.String.pipe(T.HttpLabel("domainIdentifier")),
+    identifier: S.String.pipe(T.HttpLabel("identifier")),
     revision: S.optional(S.String).pipe(T.HttpQuery("revision")),
     rejectRule: S.optional(RejectRule),
     rejectChoices: S.optional(RejectChoices),
@@ -4345,7 +4350,7 @@ export class SearchListingsInput extends S.Class<SearchListingsInput>(
   "SearchListingsInput",
 )(
   {
-    domainIdentifier: S.String.pipe(T.HttpLabel()),
+    domainIdentifier: S.String.pipe(T.HttpLabel("domainIdentifier")),
     searchText: S.optional(S.String),
     searchIn: S.optional(SearchInList),
     maxResults: S.optional(S.Number),
@@ -4525,9 +4530,9 @@ export class UpdateSubscriptionGrantStatusInput extends S.Class<UpdateSubscripti
   "UpdateSubscriptionGrantStatusInput",
 )(
   {
-    domainIdentifier: S.String.pipe(T.HttpLabel()),
-    identifier: S.String.pipe(T.HttpLabel()),
-    assetIdentifier: S.String.pipe(T.HttpLabel()),
+    domainIdentifier: S.String.pipe(T.HttpLabel("domainIdentifier")),
+    identifier: S.String.pipe(T.HttpLabel("identifier")),
+    assetIdentifier: S.String.pipe(T.HttpLabel("assetIdentifier")),
     status: S.String,
     failureCause: S.optional(FailureCause),
     targetName: S.optional(S.String),
@@ -4639,7 +4644,7 @@ export class CreateDataProductInput extends S.Class<CreateDataProductInput>(
   "CreateDataProductInput",
 )(
   {
-    domainIdentifier: S.String.pipe(T.HttpLabel()),
+    domainIdentifier: S.String.pipe(T.HttpLabel("domainIdentifier")),
     name: S.String,
     owningProjectIdentifier: S.String,
     description: S.optional(S.String),
@@ -4936,7 +4941,7 @@ export class CreateFormTypeInput extends S.Class<CreateFormTypeInput>(
   "CreateFormTypeInput",
 )(
   {
-    domainIdentifier: S.String.pipe(T.HttpLabel()),
+    domainIdentifier: S.String.pipe(T.HttpLabel("domainIdentifier")),
     name: S.String,
     model: Model,
     owningProjectIdentifier: S.String,
@@ -4996,7 +5001,7 @@ export class CreateGlossaryTermInput extends S.Class<CreateGlossaryTermInput>(
   "CreateGlossaryTermInput",
 )(
   {
-    domainIdentifier: S.String.pipe(T.HttpLabel()),
+    domainIdentifier: S.String.pipe(T.HttpLabel("domainIdentifier")),
     glossaryIdentifier: S.String,
     name: S.String,
     status: S.optional(S.String),
@@ -5051,7 +5056,7 @@ export class StartMetadataGenerationRunInput extends S.Class<StartMetadataGenera
   "StartMetadataGenerationRunInput",
 )(
   {
-    domainIdentifier: S.String.pipe(T.HttpLabel()),
+    domainIdentifier: S.String.pipe(T.HttpLabel("domainIdentifier")),
     type: S.optional(S.String),
     types: S.optional(MetadataGenerationRunTypes),
     target: MetadataGenerationRunTarget,
@@ -5957,8 +5962,8 @@ export class AcceptSubscriptionRequestInput extends S.Class<AcceptSubscriptionRe
   "AcceptSubscriptionRequestInput",
 )(
   {
-    domainIdentifier: S.String.pipe(T.HttpLabel()),
-    identifier: S.String.pipe(T.HttpLabel()),
+    domainIdentifier: S.String.pipe(T.HttpLabel("domainIdentifier")),
+    identifier: S.String.pipe(T.HttpLabel("identifier")),
     decisionComment: S.optional(S.String),
     assetScopes: S.optional(AcceptedAssetScopes),
     assetPermissions: S.optional(AssetPermissions),
@@ -5979,9 +5984,9 @@ export class AddEntityOwnerInput extends S.Class<AddEntityOwnerInput>(
   "AddEntityOwnerInput",
 )(
   {
-    domainIdentifier: S.String.pipe(T.HttpLabel()),
-    entityType: S.String.pipe(T.HttpLabel()),
-    entityIdentifier: S.String.pipe(T.HttpLabel()),
+    domainIdentifier: S.String.pipe(T.HttpLabel("domainIdentifier")),
+    entityType: S.String.pipe(T.HttpLabel("entityType")),
+    entityIdentifier: S.String.pipe(T.HttpLabel("entityIdentifier")),
     owner: OwnerProperties,
     clientToken: S.optional(S.String),
   },
@@ -6010,7 +6015,7 @@ export class CreateAccountPoolInput extends S.Class<CreateAccountPoolInput>(
   "CreateAccountPoolInput",
 )(
   {
-    domainIdentifier: S.String.pipe(T.HttpLabel()),
+    domainIdentifier: S.String.pipe(T.HttpLabel("domainIdentifier")),
     name: S.String,
     description: S.optional(S.String),
     resolutionStrategy: S.String,
@@ -6058,8 +6063,8 @@ export class CreateEnvironmentActionInput extends S.Class<CreateEnvironmentActio
   "CreateEnvironmentActionInput",
 )(
   {
-    domainIdentifier: S.String.pipe(T.HttpLabel()),
-    environmentIdentifier: S.String.pipe(T.HttpLabel()),
+    domainIdentifier: S.String.pipe(T.HttpLabel("domainIdentifier")),
+    environmentIdentifier: S.String.pipe(T.HttpLabel("environmentIdentifier")),
     name: S.String,
     parameters: ActionParameters,
     description: S.optional(S.String),
@@ -6080,7 +6085,7 @@ export class CreateEnvironmentBlueprintInput extends S.Class<CreateEnvironmentBl
   "CreateEnvironmentBlueprintInput",
 )(
   {
-    domainIdentifier: S.String.pipe(T.HttpLabel()),
+    domainIdentifier: S.String.pipe(T.HttpLabel("domainIdentifier")),
     name: S.String,
     description: S.optional(S.String),
     provisioningProperties: ProvisioningProperties,
@@ -6102,7 +6107,7 @@ export class CreateProjectInput extends S.Class<CreateProjectInput>(
   "CreateProjectInput",
 )(
   {
-    domainIdentifier: S.String.pipe(T.HttpLabel()),
+    domainIdentifier: S.String.pipe(T.HttpLabel("domainIdentifier")),
     name: S.String,
     description: S.optional(S.String),
     resourceTags: S.optional(Tags),
@@ -6124,7 +6129,7 @@ export class CreateSubscriptionGrantInput extends S.Class<CreateSubscriptionGran
   "CreateSubscriptionGrantInput",
 )(
   {
-    domainIdentifier: S.String.pipe(T.HttpLabel()),
+    domainIdentifier: S.String.pipe(T.HttpLabel("domainIdentifier")),
     environmentIdentifier: S.String,
     subscriptionTargetIdentifier: S.optional(S.String),
     grantedEntity: GrantedEntityInput,
@@ -6147,7 +6152,7 @@ export class CreateSubscriptionRequestInput extends S.Class<CreateSubscriptionRe
   "CreateSubscriptionRequestInput",
 )(
   {
-    domainIdentifier: S.String.pipe(T.HttpLabel()),
+    domainIdentifier: S.String.pipe(T.HttpLabel("domainIdentifier")),
     subscribedPrincipals: SubscribedPrincipalInputs,
     subscribedListings: SubscribedListingInputs,
     requestReason: S.String,
@@ -6326,7 +6331,7 @@ export class RejectPredictionsOutput extends S.Class<RejectPredictionsOutput>(
 )({ domainId: S.String, assetId: S.String, assetRevision: S.String }) {}
 export class SearchInput extends S.Class<SearchInput>("SearchInput")(
   {
-    domainIdentifier: S.String.pipe(T.HttpLabel()),
+    domainIdentifier: S.String.pipe(T.HttpLabel("domainIdentifier")),
     owningProjectIdentifier: S.optional(S.String),
     maxResults: S.optional(S.Number),
     nextToken: S.optional(S.String),
@@ -6379,7 +6384,7 @@ export class CreateAssetInput extends S.Class<CreateAssetInput>(
 )(
   {
     name: S.String,
-    domainIdentifier: S.String.pipe(T.HttpLabel()),
+    domainIdentifier: S.String.pipe(T.HttpLabel("domainIdentifier")),
     externalIdentifier: S.optional(S.String),
     typeIdentifier: S.String,
     typeRevision: S.optional(S.String),
@@ -6428,7 +6433,7 @@ export class CreateAssetTypeInput extends S.Class<CreateAssetTypeInput>(
   "CreateAssetTypeInput",
 )(
   {
-    domainIdentifier: S.String.pipe(T.HttpLabel()),
+    domainIdentifier: S.String.pipe(T.HttpLabel("domainIdentifier")),
     name: S.String,
     description: S.optional(S.String),
     formsInput: FormsInputMap,
@@ -6534,8 +6539,10 @@ export class PutEnvironmentBlueprintConfigurationInput extends S.Class<PutEnviro
   "PutEnvironmentBlueprintConfigurationInput",
 )(
   {
-    domainIdentifier: S.String.pipe(T.HttpLabel()),
-    environmentBlueprintIdentifier: S.String.pipe(T.HttpLabel()),
+    domainIdentifier: S.String.pipe(T.HttpLabel("domainIdentifier")),
+    environmentBlueprintIdentifier: S.String.pipe(
+      T.HttpLabel("environmentBlueprintIdentifier"),
+    ),
     provisioningRoleArn: S.optional(S.String),
     manageAccessRoleArn: S.optional(S.String),
     environmentRolePermissionBoundary: S.optional(S.String),
@@ -6904,7 +6911,7 @@ export class CreateProjectProfileInput extends S.Class<CreateProjectProfileInput
   "CreateProjectProfileInput",
 )(
   {
-    domainIdentifier: S.String.pipe(T.HttpLabel()),
+    domainIdentifier: S.String.pipe(T.HttpLabel("domainIdentifier")),
     name: S.String,
     description: S.optional(S.String),
     status: S.optional(S.String),
@@ -7031,8 +7038,8 @@ export class UpdateProjectInput extends S.Class<UpdateProjectInput>(
   "UpdateProjectInput",
 )(
   {
-    domainIdentifier: S.String.pipe(T.HttpLabel()),
-    identifier: S.String.pipe(T.HttpLabel()),
+    domainIdentifier: S.String.pipe(T.HttpLabel("domainIdentifier")),
+    identifier: S.String.pipe(T.HttpLabel("identifier")),
     name: S.optional(S.String),
     description: S.optional(S.String),
     resourceTags: S.optional(Tags),
@@ -7145,7 +7152,7 @@ export class CreateRuleInput extends S.Class<CreateRuleInput>(
   "CreateRuleInput",
 )(
   {
-    domainIdentifier: S.String.pipe(T.HttpLabel()),
+    domainIdentifier: S.String.pipe(T.HttpLabel("domainIdentifier")),
     name: S.String,
     target: RuleTarget,
     action: S.String,
@@ -7308,9 +7315,9 @@ export class AddPolicyGrantInput extends S.Class<AddPolicyGrantInput>(
   "AddPolicyGrantInput",
 )(
   {
-    domainIdentifier: S.String.pipe(T.HttpLabel()),
-    entityType: S.String.pipe(T.HttpLabel()),
-    entityIdentifier: S.String.pipe(T.HttpLabel()),
+    domainIdentifier: S.String.pipe(T.HttpLabel("domainIdentifier")),
+    entityType: S.String.pipe(T.HttpLabel("entityType")),
+    entityIdentifier: S.String.pipe(T.HttpLabel("entityIdentifier")),
     policyType: S.String,
     principal: PolicyGrantPrincipal,
     detail: PolicyGrantDetail,
@@ -7391,8 +7398,8 @@ export class UpdateConnectionInput extends S.Class<UpdateConnectionInput>(
   "UpdateConnectionInput",
 )(
   {
-    domainIdentifier: S.String.pipe(T.HttpLabel()),
-    identifier: S.String.pipe(T.HttpLabel()),
+    domainIdentifier: S.String.pipe(T.HttpLabel("domainIdentifier")),
+    identifier: S.String.pipe(T.HttpLabel("identifier")),
     description: S.optional(S.String),
     awsLocation: S.optional(AwsLocation),
     props: S.optional(ConnectionPropertiesPatch),
@@ -7434,7 +7441,7 @@ export class CreateDataSourceInput extends S.Class<CreateDataSourceInput>(
   {
     name: S.String,
     description: S.optional(S.String),
-    domainIdentifier: S.String.pipe(T.HttpLabel()),
+    domainIdentifier: S.String.pipe(T.HttpLabel("domainIdentifier")),
     projectIdentifier: S.String,
     environmentIdentifier: S.optional(S.String),
     connectionIdentifier: S.optional(S.String),
@@ -7615,8 +7622,8 @@ export class CreateAssetFilterInput extends S.Class<CreateAssetFilterInput>(
   "CreateAssetFilterInput",
 )(
   {
-    domainIdentifier: S.String.pipe(T.HttpLabel()),
-    assetIdentifier: S.String.pipe(T.HttpLabel()),
+    domainIdentifier: S.String.pipe(T.HttpLabel("domainIdentifier")),
+    assetIdentifier: S.String.pipe(T.HttpLabel("assetIdentifier")),
     name: S.String,
     description: S.optional(S.String),
     configuration: AssetFilterConfiguration,
@@ -7792,7 +7799,7 @@ export class CreateConnectionInput extends S.Class<CreateConnectionInput>(
     awsLocation: S.optional(AwsLocation),
     clientToken: S.optional(S.String),
     description: S.optional(S.String),
-    domainIdentifier: S.String.pipe(T.HttpLabel()),
+    domainIdentifier: S.String.pipe(T.HttpLabel("domainIdentifier")),
     environmentIdentifier: S.optional(S.String),
     name: S.String,
     props: S.optional(ConnectionPropertiesInput),
@@ -7880,7 +7887,8 @@ export class AccessDeniedException extends S.TaggedError<AccessDeniedException>(
 export class InternalServerException extends S.TaggedError<InternalServerException>()(
   "InternalServerException",
   { message: S.String },
-) {}
+  T.Retryable(),
+).pipe(withCategory(ERROR_CATEGORIES.SERVER_ERROR)) {}
 export class ConflictException extends S.TaggedError<ConflictException>()(
   "ConflictException",
   { message: S.String },
@@ -7892,7 +7900,8 @@ export class ResourceNotFoundException extends S.TaggedError<ResourceNotFoundExc
 export class ThrottlingException extends S.TaggedError<ThrottlingException>()(
   "ThrottlingException",
   { message: S.String },
-) {}
+  T.Retryable(),
+).pipe(withCategory(ERROR_CATEGORIES.THROTTLING_ERROR)) {}
 export class ValidationException extends S.TaggedError<ValidationException>()(
   "ValidationException",
   { message: S.String },

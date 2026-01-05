@@ -1,6 +1,7 @@
 import * as S from "effect/Schema";
 import * as API from "../api.ts";
 import * as T from "../traits.ts";
+import { ERROR_CATEGORIES, withCategory } from "../error-category.ts";
 const svc = T.AwsApiService({
   sdkId: "MigrationHubStrategy",
   serviceShapeName: "AWSMigrationHubStrategyRecommendation",
@@ -283,7 +284,11 @@ export class GetPortfolioSummaryRequest extends S.Class<GetPortfolioSummaryReque
 export class GetApplicationComponentDetailsRequest extends S.Class<GetApplicationComponentDetailsRequest>(
   "GetApplicationComponentDetailsRequest",
 )(
-  { applicationComponentId: S.String.pipe(T.HttpLabel()) },
+  {
+    applicationComponentId: S.String.pipe(
+      T.HttpLabel("applicationComponentId"),
+    ),
+  },
   T.all(
     T.Http({
       method: "GET",
@@ -299,7 +304,11 @@ export class GetApplicationComponentDetailsRequest extends S.Class<GetApplicatio
 export class GetApplicationComponentStrategiesRequest extends S.Class<GetApplicationComponentStrategiesRequest>(
   "GetApplicationComponentStrategiesRequest",
 )(
-  { applicationComponentId: S.String.pipe(T.HttpLabel()) },
+  {
+    applicationComponentId: S.String.pipe(
+      T.HttpLabel("applicationComponentId"),
+    ),
+  },
   T.all(
     T.Http({
       method: "GET",
@@ -315,7 +324,7 @@ export class GetApplicationComponentStrategiesRequest extends S.Class<GetApplica
 export class GetAssessmentRequest extends S.Class<GetAssessmentRequest>(
   "GetAssessmentRequest",
 )(
-  { id: S.String.pipe(T.HttpLabel()) },
+  { id: S.String.pipe(T.HttpLabel("id")) },
   T.all(
     T.Http({ method: "GET", uri: "/get-assessment/{id}" }),
     svc,
@@ -328,7 +337,7 @@ export class GetAssessmentRequest extends S.Class<GetAssessmentRequest>(
 export class GetImportFileTaskRequest extends S.Class<GetImportFileTaskRequest>(
   "GetImportFileTaskRequest",
 )(
-  { id: S.String.pipe(T.HttpLabel()) },
+  { id: S.String.pipe(T.HttpLabel("id")) },
   T.all(
     T.Http({ method: "GET", uri: "/get-import-file-task/{id}" }),
     svc,
@@ -344,7 +353,7 @@ export class GetLatestAssessmentIdResponse extends S.Class<GetLatestAssessmentId
 export class GetRecommendationReportDetailsRequest extends S.Class<GetRecommendationReportDetailsRequest>(
   "GetRecommendationReportDetailsRequest",
 )(
-  { id: S.String.pipe(T.HttpLabel()) },
+  { id: S.String.pipe(T.HttpLabel("id")) },
   T.all(
     T.Http({ method: "GET", uri: "/get-recommendation-report-details/{id}" }),
     svc,
@@ -358,7 +367,7 @@ export class GetServerDetailsRequest extends S.Class<GetServerDetailsRequest>(
   "GetServerDetailsRequest",
 )(
   {
-    serverId: S.String.pipe(T.HttpLabel()),
+    serverId: S.String.pipe(T.HttpLabel("serverId")),
     nextToken: S.optional(S.String).pipe(T.HttpQuery("nextToken")),
     maxResults: S.optional(S.Number).pipe(T.HttpQuery("maxResults")),
   },
@@ -374,7 +383,7 @@ export class GetServerDetailsRequest extends S.Class<GetServerDetailsRequest>(
 export class GetServerStrategiesRequest extends S.Class<GetServerStrategiesRequest>(
   "GetServerStrategiesRequest",
 )(
-  { serverId: S.String.pipe(T.HttpLabel()) },
+  { serverId: S.String.pipe(T.HttpLabel("serverId")) },
   T.all(
     T.Http({ method: "GET", uri: "/get-server-strategies/{serverId}" }),
     svc,
@@ -1090,11 +1099,11 @@ export class AccessDeniedException extends S.TaggedError<AccessDeniedException>(
 export class InternalServerException extends S.TaggedError<InternalServerException>()(
   "InternalServerException",
   { message: S.optional(S.String) },
-) {}
+).pipe(withCategory(ERROR_CATEGORIES.SERVER_ERROR)) {}
 export class DependencyException extends S.TaggedError<DependencyException>()(
   "DependencyException",
   { message: S.optional(S.String) },
-) {}
+).pipe(withCategory(ERROR_CATEGORIES.SERVER_ERROR)) {}
 export class ConflictException extends S.TaggedError<ConflictException>()(
   "ConflictException",
   { message: S.String },
@@ -1106,7 +1115,7 @@ export class ResourceNotFoundException extends S.TaggedError<ResourceNotFoundExc
 export class ThrottlingException extends S.TaggedError<ThrottlingException>()(
   "ThrottlingException",
   { message: S.optional(S.String) },
-) {}
+).pipe(withCategory(ERROR_CATEGORIES.THROTTLING_ERROR)) {}
 export class ServiceQuotaExceededException extends S.TaggedError<ServiceQuotaExceededException>()(
   "ServiceQuotaExceededException",
   { message: S.String },

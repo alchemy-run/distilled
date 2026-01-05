@@ -1,6 +1,7 @@
 import * as S from "effect/Schema";
 import * as API from "../api.ts";
 import * as T from "../traits.ts";
+import { ERROR_CATEGORIES, withCategory } from "../error-category.ts";
 const svc = T.AwsApiService({
   sdkId: "Redshift Data",
   serviceShapeName: "RedshiftData",
@@ -558,7 +559,7 @@ export class ActiveSessionsExceededException extends S.TaggedError<ActiveSession
 export class DatabaseConnectionException extends S.TaggedError<DatabaseConnectionException>()(
   "DatabaseConnectionException",
   { Message: S.String },
-) {}
+).pipe(withCategory(ERROR_CATEGORIES.SERVER_ERROR)) {}
 export class ActiveStatementsExceededException extends S.TaggedError<ActiveStatementsExceededException>()(
   "ActiveStatementsExceededException",
   { Message: S.optional(S.String) },
@@ -566,11 +567,11 @@ export class ActiveStatementsExceededException extends S.TaggedError<ActiveState
 export class InternalServerException extends S.TaggedError<InternalServerException>()(
   "InternalServerException",
   { Message: S.String },
-) {}
+).pipe(withCategory(ERROR_CATEGORIES.SERVER_ERROR)) {}
 export class BatchExecuteStatementException extends S.TaggedError<BatchExecuteStatementException>()(
   "BatchExecuteStatementException",
   { Message: S.String, StatementId: S.String },
-) {}
+).pipe(withCategory(ERROR_CATEGORIES.SERVER_ERROR)) {}
 export class QueryTimeoutException extends S.TaggedError<QueryTimeoutException>()(
   "QueryTimeoutException",
   { Message: S.optional(S.String) },
@@ -578,7 +579,7 @@ export class QueryTimeoutException extends S.TaggedError<QueryTimeoutException>(
 export class ExecuteStatementException extends S.TaggedError<ExecuteStatementException>()(
   "ExecuteStatementException",
   { Message: S.String, StatementId: S.String },
-) {}
+).pipe(withCategory(ERROR_CATEGORIES.SERVER_ERROR)) {}
 export class ResourceNotFoundException extends S.TaggedError<ResourceNotFoundException>()(
   "ResourceNotFoundException",
   { Message: S.String, ResourceId: S.String },

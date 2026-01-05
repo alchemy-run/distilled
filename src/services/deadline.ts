@@ -1,6 +1,7 @@
 import * as S from "effect/Schema";
 import * as API from "../api.ts";
 import * as T from "../traits.ts";
+import { ERROR_CATEGORIES, withCategory } from "../error-category.ts";
 const svc = T.AwsApiService({
   sdkId: "deadline",
   serviceShapeName: "Deadline",
@@ -306,7 +307,7 @@ export class CreateQueueFleetAssociationRequest extends S.Class<CreateQueueFleet
   "CreateQueueFleetAssociationRequest",
 )(
   {
-    farmId: S.String.pipe(T.HttpLabel()),
+    farmId: S.String.pipe(T.HttpLabel("farmId")),
     queueId: S.String,
     fleetId: S.String,
   },
@@ -329,7 +330,7 @@ export class CreateQueueLimitAssociationRequest extends S.Class<CreateQueueLimit
   "CreateQueueLimitAssociationRequest",
 )(
   {
-    farmId: S.String.pipe(T.HttpLabel()),
+    farmId: S.String.pipe(T.HttpLabel("farmId")),
     queueId: S.String,
     limitId: S.String,
   },
@@ -352,9 +353,9 @@ export class DeleteQueueFleetAssociationRequest extends S.Class<DeleteQueueFleet
   "DeleteQueueFleetAssociationRequest",
 )(
   {
-    farmId: S.String.pipe(T.HttpLabel()),
-    queueId: S.String.pipe(T.HttpLabel()),
-    fleetId: S.String.pipe(T.HttpLabel()),
+    farmId: S.String.pipe(T.HttpLabel("farmId")),
+    queueId: S.String.pipe(T.HttpLabel("queueId")),
+    fleetId: S.String.pipe(T.HttpLabel("fleetId")),
   },
   T.all(
     T.Http({
@@ -375,9 +376,9 @@ export class DeleteQueueLimitAssociationRequest extends S.Class<DeleteQueueLimit
   "DeleteQueueLimitAssociationRequest",
 )(
   {
-    farmId: S.String.pipe(T.HttpLabel()),
-    queueId: S.String.pipe(T.HttpLabel()),
-    limitId: S.String.pipe(T.HttpLabel()),
+    farmId: S.String.pipe(T.HttpLabel("farmId")),
+    queueId: S.String.pipe(T.HttpLabel("queueId")),
+    limitId: S.String.pipe(T.HttpLabel("limitId")),
   },
   T.all(
     T.Http({
@@ -398,9 +399,9 @@ export class GetQueueFleetAssociationRequest extends S.Class<GetQueueFleetAssoci
   "GetQueueFleetAssociationRequest",
 )(
   {
-    farmId: S.String.pipe(T.HttpLabel()),
-    queueId: S.String.pipe(T.HttpLabel()),
-    fleetId: S.String.pipe(T.HttpLabel()),
+    farmId: S.String.pipe(T.HttpLabel("farmId")),
+    queueId: S.String.pipe(T.HttpLabel("queueId")),
+    fleetId: S.String.pipe(T.HttpLabel("fleetId")),
   },
   T.all(
     T.Http({
@@ -418,9 +419,9 @@ export class GetQueueLimitAssociationRequest extends S.Class<GetQueueLimitAssoci
   "GetQueueLimitAssociationRequest",
 )(
   {
-    farmId: S.String.pipe(T.HttpLabel()),
-    queueId: S.String.pipe(T.HttpLabel()),
-    limitId: S.String.pipe(T.HttpLabel()),
+    farmId: S.String.pipe(T.HttpLabel("farmId")),
+    queueId: S.String.pipe(T.HttpLabel("queueId")),
+    limitId: S.String.pipe(T.HttpLabel("limitId")),
   },
   T.all(
     T.Http({
@@ -438,7 +439,7 @@ export class GetSessionsStatisticsAggregationRequest extends S.Class<GetSessions
   "GetSessionsStatisticsAggregationRequest",
 )(
   {
-    farmId: S.String.pipe(T.HttpLabel()),
+    farmId: S.String.pipe(T.HttpLabel("farmId")),
     aggregationId: S.String.pipe(T.HttpQuery("aggregationId")),
     maxResults: S.optional(S.Number).pipe(T.HttpQuery("maxResults")),
     nextToken: S.optional(S.String).pipe(T.HttpQuery("nextToken")),
@@ -475,7 +476,7 @@ export class ListQueueFleetAssociationsRequest extends S.Class<ListQueueFleetAss
   "ListQueueFleetAssociationsRequest",
 )(
   {
-    farmId: S.String.pipe(T.HttpLabel()),
+    farmId: S.String.pipe(T.HttpLabel("farmId")),
     queueId: S.optional(S.String).pipe(T.HttpQuery("queueId")),
     fleetId: S.optional(S.String).pipe(T.HttpQuery("fleetId")),
     nextToken: S.optional(S.String).pipe(T.HttpQuery("nextToken")),
@@ -497,7 +498,7 @@ export class ListQueueLimitAssociationsRequest extends S.Class<ListQueueLimitAss
   "ListQueueLimitAssociationsRequest",
 )(
   {
-    farmId: S.String.pipe(T.HttpLabel()),
+    farmId: S.String.pipe(T.HttpLabel("farmId")),
     queueId: S.optional(S.String).pipe(T.HttpQuery("queueId")),
     limitId: S.optional(S.String).pipe(T.HttpQuery("limitId")),
     nextToken: S.optional(S.String).pipe(T.HttpQuery("nextToken")),
@@ -518,7 +519,7 @@ export class ListQueueLimitAssociationsRequest extends S.Class<ListQueueLimitAss
 export class ListTagsForResourceRequest extends S.Class<ListTagsForResourceRequest>(
   "ListTagsForResourceRequest",
 )(
-  { resourceArn: S.String.pipe(T.HttpLabel()) },
+  { resourceArn: S.String.pipe(T.HttpLabel("resourceArn")) },
   T.all(
     T.Http({ method: "GET", uri: "/2023-10-12/tags/{resourceArn}" }),
     svc,
@@ -550,7 +551,7 @@ export class SearchStepsRequest extends S.Class<SearchStepsRequest>(
   "SearchStepsRequest",
 )(
   {
-    farmId: S.String.pipe(T.HttpLabel()),
+    farmId: S.String.pipe(T.HttpLabel("farmId")),
     queueIds: QueueIds,
     jobId: S.optional(S.String),
     filterExpressions: S.optional(SearchGroupedFilterExpressions),
@@ -571,7 +572,7 @@ export class SearchTasksRequest extends S.Class<SearchTasksRequest>(
   "SearchTasksRequest",
 )(
   {
-    farmId: S.String.pipe(T.HttpLabel()),
+    farmId: S.String.pipe(T.HttpLabel("farmId")),
     queueIds: QueueIds,
     jobId: S.optional(S.String),
     filterExpressions: S.optional(SearchGroupedFilterExpressions),
@@ -592,7 +593,7 @@ export class SearchWorkersRequest extends S.Class<SearchWorkersRequest>(
   "SearchWorkersRequest",
 )(
   {
-    farmId: S.String.pipe(T.HttpLabel()),
+    farmId: S.String.pipe(T.HttpLabel("farmId")),
     fleetIds: FleetIds,
     filterExpressions: S.optional(SearchGroupedFilterExpressions),
     sortExpressions: S.optional(SearchSortExpressions),
@@ -615,7 +616,7 @@ export class UntagResourceRequest extends S.Class<UntagResourceRequest>(
   "UntagResourceRequest",
 )(
   {
-    resourceArn: S.String.pipe(T.HttpLabel()),
+    resourceArn: S.String.pipe(T.HttpLabel("resourceArn")),
     tagKeys: StringList.pipe(T.HttpQuery("tagKeys")),
   },
   T.all(
@@ -634,9 +635,9 @@ export class UpdateQueueFleetAssociationRequest extends S.Class<UpdateQueueFleet
   "UpdateQueueFleetAssociationRequest",
 )(
   {
-    farmId: S.String.pipe(T.HttpLabel()),
-    queueId: S.String.pipe(T.HttpLabel()),
-    fleetId: S.String.pipe(T.HttpLabel()),
+    farmId: S.String.pipe(T.HttpLabel("farmId")),
+    queueId: S.String.pipe(T.HttpLabel("queueId")),
+    fleetId: S.String.pipe(T.HttpLabel("fleetId")),
     status: S.String,
   },
   T.all(
@@ -658,9 +659,9 @@ export class UpdateQueueLimitAssociationRequest extends S.Class<UpdateQueueLimit
   "UpdateQueueLimitAssociationRequest",
 )(
   {
-    farmId: S.String.pipe(T.HttpLabel()),
-    queueId: S.String.pipe(T.HttpLabel()),
-    limitId: S.String.pipe(T.HttpLabel()),
+    farmId: S.String.pipe(T.HttpLabel("farmId")),
+    queueId: S.String.pipe(T.HttpLabel("queueId")),
+    limitId: S.String.pipe(T.HttpLabel("limitId")),
     status: S.String,
   },
   T.all(
@@ -699,7 +700,7 @@ export class CreateFarmRequest extends S.Class<CreateFarmRequest>(
   ),
 ) {}
 export class GetFarmRequest extends S.Class<GetFarmRequest>("GetFarmRequest")(
-  { farmId: S.String.pipe(T.HttpLabel()) },
+  { farmId: S.String.pipe(T.HttpLabel("farmId")) },
   T.all(
     T.Http({ method: "GET", uri: "/2023-10-12/farms/{farmId}" }),
     svc,
@@ -713,7 +714,7 @@ export class UpdateFarmRequest extends S.Class<UpdateFarmRequest>(
   "UpdateFarmRequest",
 )(
   {
-    farmId: S.String.pipe(T.HttpLabel()),
+    farmId: S.String.pipe(T.HttpLabel("farmId")),
     displayName: S.optional(S.String),
     description: S.optional(S.String),
   },
@@ -732,7 +733,7 @@ export class UpdateFarmResponse extends S.Class<UpdateFarmResponse>(
 export class DeleteFarmRequest extends S.Class<DeleteFarmRequest>(
   "DeleteFarmRequest",
 )(
-  { farmId: S.String.pipe(T.HttpLabel()) },
+  { farmId: S.String.pipe(T.HttpLabel("farmId")) },
   T.all(
     T.Http({ method: "DELETE", uri: "/2023-10-12/farms/{farmId}" }),
     svc,
@@ -766,8 +767,8 @@ export class AssociateMemberToFarmRequest extends S.Class<AssociateMemberToFarmR
   "AssociateMemberToFarmRequest",
 )(
   {
-    farmId: S.String.pipe(T.HttpLabel()),
-    principalId: S.String.pipe(T.HttpLabel()),
+    farmId: S.String.pipe(T.HttpLabel("farmId")),
+    principalId: S.String.pipe(T.HttpLabel("principalId")),
     principalType: S.String,
     identityStoreId: S.String,
     membershipLevel: S.String,
@@ -795,7 +796,7 @@ export class CreateLimitRequest extends S.Class<CreateLimitRequest>(
     displayName: S.String,
     amountRequirementName: S.String,
     maxCount: S.Number,
-    farmId: S.String.pipe(T.HttpLabel()),
+    farmId: S.String.pipe(T.HttpLabel("farmId")),
     description: S.optional(S.String),
   },
   T.all(
@@ -811,8 +812,8 @@ export class DeleteLimitRequest extends S.Class<DeleteLimitRequest>(
   "DeleteLimitRequest",
 )(
   {
-    farmId: S.String.pipe(T.HttpLabel()),
-    limitId: S.String.pipe(T.HttpLabel()),
+    farmId: S.String.pipe(T.HttpLabel("farmId")),
+    limitId: S.String.pipe(T.HttpLabel("limitId")),
   },
   T.all(
     T.Http({
@@ -833,8 +834,8 @@ export class DeleteStorageProfileRequest extends S.Class<DeleteStorageProfileReq
   "DeleteStorageProfileRequest",
 )(
   {
-    farmId: S.String.pipe(T.HttpLabel()),
-    storageProfileId: S.String.pipe(T.HttpLabel()),
+    farmId: S.String.pipe(T.HttpLabel("farmId")),
+    storageProfileId: S.String.pipe(T.HttpLabel("storageProfileId")),
   },
   T.all(
     T.Http({
@@ -855,8 +856,8 @@ export class DisassociateMemberFromFarmRequest extends S.Class<DisassociateMembe
   "DisassociateMemberFromFarmRequest",
 )(
   {
-    farmId: S.String.pipe(T.HttpLabel()),
-    principalId: S.String.pipe(T.HttpLabel()),
+    farmId: S.String.pipe(T.HttpLabel("farmId")),
+    principalId: S.String.pipe(T.HttpLabel("principalId")),
   },
   T.all(
     T.Http({
@@ -877,8 +878,8 @@ export class GetLimitRequest extends S.Class<GetLimitRequest>(
   "GetLimitRequest",
 )(
   {
-    farmId: S.String.pipe(T.HttpLabel()),
-    limitId: S.String.pipe(T.HttpLabel()),
+    farmId: S.String.pipe(T.HttpLabel("farmId")),
+    limitId: S.String.pipe(T.HttpLabel("limitId")),
   },
   T.all(
     T.Http({
@@ -896,8 +897,8 @@ export class GetStorageProfileRequest extends S.Class<GetStorageProfileRequest>(
   "GetStorageProfileRequest",
 )(
   {
-    farmId: S.String.pipe(T.HttpLabel()),
-    storageProfileId: S.String.pipe(T.HttpLabel()),
+    farmId: S.String.pipe(T.HttpLabel("farmId")),
+    storageProfileId: S.String.pipe(T.HttpLabel("storageProfileId")),
   },
   T.all(
     T.Http({
@@ -915,7 +916,7 @@ export class ListFarmMembersRequest extends S.Class<ListFarmMembersRequest>(
   "ListFarmMembersRequest",
 )(
   {
-    farmId: S.String.pipe(T.HttpLabel()),
+    farmId: S.String.pipe(T.HttpLabel("farmId")),
     nextToken: S.optional(S.String).pipe(T.HttpQuery("nextToken")),
     maxResults: S.optional(S.Number).pipe(T.HttpQuery("maxResults")),
   },
@@ -932,7 +933,7 @@ export class ListLimitsRequest extends S.Class<ListLimitsRequest>(
   "ListLimitsRequest",
 )(
   {
-    farmId: S.String.pipe(T.HttpLabel()),
+    farmId: S.String.pipe(T.HttpLabel("farmId")),
     nextToken: S.optional(S.String).pipe(T.HttpQuery("nextToken")),
     maxResults: S.optional(S.Number).pipe(T.HttpQuery("maxResults")),
   },
@@ -949,7 +950,7 @@ export class ListStorageProfilesRequest extends S.Class<ListStorageProfilesReque
   "ListStorageProfilesRequest",
 )(
   {
-    farmId: S.String.pipe(T.HttpLabel()),
+    farmId: S.String.pipe(T.HttpLabel("farmId")),
     nextToken: S.optional(S.String).pipe(T.HttpQuery("nextToken")),
     maxResults: S.optional(S.Number).pipe(T.HttpQuery("maxResults")),
   },
@@ -969,8 +970,8 @@ export class UpdateLimitRequest extends S.Class<UpdateLimitRequest>(
   "UpdateLimitRequest",
 )(
   {
-    farmId: S.String.pipe(T.HttpLabel()),
-    limitId: S.String.pipe(T.HttpLabel()),
+    farmId: S.String.pipe(T.HttpLabel("farmId")),
+    limitId: S.String.pipe(T.HttpLabel("limitId")),
     displayName: S.optional(S.String),
     description: S.optional(S.String),
     maxCount: S.optional(S.Number),
@@ -999,8 +1000,8 @@ export class UpdateStorageProfileRequest extends S.Class<UpdateStorageProfileReq
 )(
   {
     clientToken: S.optional(S.String).pipe(T.HttpHeader("X-Amz-Client-Token")),
-    farmId: S.String.pipe(T.HttpLabel()),
-    storageProfileId: S.String.pipe(T.HttpLabel()),
+    farmId: S.String.pipe(T.HttpLabel("farmId")),
+    storageProfileId: S.String.pipe(T.HttpLabel("storageProfileId")),
     displayName: S.optional(S.String),
     osFamily: S.optional(S.String),
     fileSystemLocationsToAdd: S.optional(FileSystemLocationsList),
@@ -1025,8 +1026,8 @@ export class GetBudgetRequest extends S.Class<GetBudgetRequest>(
   "GetBudgetRequest",
 )(
   {
-    farmId: S.String.pipe(T.HttpLabel()),
-    budgetId: S.String.pipe(T.HttpLabel()),
+    farmId: S.String.pipe(T.HttpLabel("farmId")),
+    budgetId: S.String.pipe(T.HttpLabel("budgetId")),
   },
   T.all(
     T.Http({
@@ -1044,8 +1045,8 @@ export class DeleteBudgetRequest extends S.Class<DeleteBudgetRequest>(
   "DeleteBudgetRequest",
 )(
   {
-    farmId: S.String.pipe(T.HttpLabel()),
-    budgetId: S.String.pipe(T.HttpLabel()),
+    farmId: S.String.pipe(T.HttpLabel("farmId")),
+    budgetId: S.String.pipe(T.HttpLabel("budgetId")),
   },
   T.all(
     T.Http({
@@ -1067,7 +1068,7 @@ export class ListBudgetsRequest extends S.Class<ListBudgetsRequest>(
 )(
   {
     nextToken: S.optional(S.String).pipe(T.HttpQuery("nextToken")),
-    farmId: S.String.pipe(T.HttpLabel()),
+    farmId: S.String.pipe(T.HttpLabel("farmId")),
     maxResults: S.optional(S.Number).pipe(T.HttpQuery("maxResults")),
     status: S.optional(S.String).pipe(T.HttpQuery("status")),
   },
@@ -1084,8 +1085,8 @@ export class GetFleetRequest extends S.Class<GetFleetRequest>(
   "GetFleetRequest",
 )(
   {
-    farmId: S.String.pipe(T.HttpLabel()),
-    fleetId: S.String.pipe(T.HttpLabel()),
+    farmId: S.String.pipe(T.HttpLabel("farmId")),
+    fleetId: S.String.pipe(T.HttpLabel("fleetId")),
   },
   T.all(
     T.Http({
@@ -1203,8 +1204,8 @@ export class UpdateFleetRequest extends S.Class<UpdateFleetRequest>(
 )(
   {
     clientToken: S.optional(S.String).pipe(T.HttpHeader("X-Amz-Client-Token")),
-    farmId: S.String.pipe(T.HttpLabel()),
-    fleetId: S.String.pipe(T.HttpLabel()),
+    farmId: S.String.pipe(T.HttpLabel("farmId")),
+    fleetId: S.String.pipe(T.HttpLabel("fleetId")),
     displayName: S.optional(S.String),
     description: S.optional(S.String),
     roleArn: S.optional(S.String),
@@ -1233,8 +1234,8 @@ export class DeleteFleetRequest extends S.Class<DeleteFleetRequest>(
 )(
   {
     clientToken: S.optional(S.String).pipe(T.HttpHeader("X-Amz-Client-Token")),
-    farmId: S.String.pipe(T.HttpLabel()),
-    fleetId: S.String.pipe(T.HttpLabel()),
+    farmId: S.String.pipe(T.HttpLabel("farmId")),
+    fleetId: S.String.pipe(T.HttpLabel("fleetId")),
   },
   T.all(
     T.Http({
@@ -1255,7 +1256,7 @@ export class ListFleetsRequest extends S.Class<ListFleetsRequest>(
   "ListFleetsRequest",
 )(
   {
-    farmId: S.String.pipe(T.HttpLabel()),
+    farmId: S.String.pipe(T.HttpLabel("farmId")),
     principalId: S.optional(S.String).pipe(T.HttpQuery("principalId")),
     displayName: S.optional(S.String).pipe(T.HttpQuery("displayName")),
     status: S.optional(S.String).pipe(T.HttpQuery("status")),
@@ -1275,9 +1276,9 @@ export class AssociateMemberToFleetRequest extends S.Class<AssociateMemberToFlee
   "AssociateMemberToFleetRequest",
 )(
   {
-    farmId: S.String.pipe(T.HttpLabel()),
-    fleetId: S.String.pipe(T.HttpLabel()),
-    principalId: S.String.pipe(T.HttpLabel()),
+    farmId: S.String.pipe(T.HttpLabel("farmId")),
+    fleetId: S.String.pipe(T.HttpLabel("fleetId")),
+    principalId: S.String.pipe(T.HttpLabel("principalId")),
     principalType: S.String,
     identityStoreId: S.String,
     membershipLevel: S.String,
@@ -1301,8 +1302,8 @@ export class AssumeFleetRoleForReadRequest extends S.Class<AssumeFleetRoleForRea
   "AssumeFleetRoleForReadRequest",
 )(
   {
-    farmId: S.String.pipe(T.HttpLabel()),
-    fleetId: S.String.pipe(T.HttpLabel()),
+    farmId: S.String.pipe(T.HttpLabel("farmId")),
+    fleetId: S.String.pipe(T.HttpLabel("fleetId")),
   },
   T.all(
     T.Http({
@@ -1320,9 +1321,9 @@ export class DisassociateMemberFromFleetRequest extends S.Class<DisassociateMemb
   "DisassociateMemberFromFleetRequest",
 )(
   {
-    farmId: S.String.pipe(T.HttpLabel()),
-    fleetId: S.String.pipe(T.HttpLabel()),
-    principalId: S.String.pipe(T.HttpLabel()),
+    farmId: S.String.pipe(T.HttpLabel("farmId")),
+    fleetId: S.String.pipe(T.HttpLabel("fleetId")),
+    principalId: S.String.pipe(T.HttpLabel("principalId")),
   },
   T.all(
     T.Http({
@@ -1343,8 +1344,8 @@ export class ListFleetMembersRequest extends S.Class<ListFleetMembersRequest>(
   "ListFleetMembersRequest",
 )(
   {
-    farmId: S.String.pipe(T.HttpLabel()),
-    fleetId: S.String.pipe(T.HttpLabel()),
+    farmId: S.String.pipe(T.HttpLabel("farmId")),
+    fleetId: S.String.pipe(T.HttpLabel("fleetId")),
     nextToken: S.optional(S.String).pipe(T.HttpQuery("nextToken")),
     maxResults: S.optional(S.Number).pipe(T.HttpQuery("maxResults")),
   },
@@ -1364,9 +1365,9 @@ export class GetWorkerRequest extends S.Class<GetWorkerRequest>(
   "GetWorkerRequest",
 )(
   {
-    farmId: S.String.pipe(T.HttpLabel()),
-    fleetId: S.String.pipe(T.HttpLabel()),
-    workerId: S.String.pipe(T.HttpLabel()),
+    farmId: S.String.pipe(T.HttpLabel("farmId")),
+    fleetId: S.String.pipe(T.HttpLabel("fleetId")),
+    workerId: S.String.pipe(T.HttpLabel("workerId")),
   },
   T.all(
     T.Http({
@@ -1384,9 +1385,9 @@ export class DeleteWorkerRequest extends S.Class<DeleteWorkerRequest>(
   "DeleteWorkerRequest",
 )(
   {
-    farmId: S.String.pipe(T.HttpLabel()),
-    fleetId: S.String.pipe(T.HttpLabel()),
-    workerId: S.String.pipe(T.HttpLabel()),
+    farmId: S.String.pipe(T.HttpLabel("farmId")),
+    fleetId: S.String.pipe(T.HttpLabel("fleetId")),
+    workerId: S.String.pipe(T.HttpLabel("workerId")),
   },
   T.all(
     T.Http({
@@ -1407,8 +1408,8 @@ export class ListWorkersRequest extends S.Class<ListWorkersRequest>(
   "ListWorkersRequest",
 )(
   {
-    farmId: S.String.pipe(T.HttpLabel()),
-    fleetId: S.String.pipe(T.HttpLabel()),
+    farmId: S.String.pipe(T.HttpLabel("farmId")),
+    fleetId: S.String.pipe(T.HttpLabel("fleetId")),
     nextToken: S.optional(S.String).pipe(T.HttpQuery("nextToken")),
     maxResults: S.optional(S.Number).pipe(T.HttpQuery("maxResults")),
   },
@@ -1428,9 +1429,9 @@ export class AssumeFleetRoleForWorkerRequest extends S.Class<AssumeFleetRoleForW
   "AssumeFleetRoleForWorkerRequest",
 )(
   {
-    farmId: S.String.pipe(T.HttpLabel()),
-    fleetId: S.String.pipe(T.HttpLabel()),
-    workerId: S.String.pipe(T.HttpLabel()),
+    farmId: S.String.pipe(T.HttpLabel("farmId")),
+    fleetId: S.String.pipe(T.HttpLabel("fleetId")),
+    workerId: S.String.pipe(T.HttpLabel("workerId")),
   },
   T.all(
     T.Http({
@@ -1448,9 +1449,9 @@ export class AssumeQueueRoleForWorkerRequest extends S.Class<AssumeQueueRoleForW
   "AssumeQueueRoleForWorkerRequest",
 )(
   {
-    farmId: S.String.pipe(T.HttpLabel()),
-    fleetId: S.String.pipe(T.HttpLabel()),
-    workerId: S.String.pipe(T.HttpLabel()),
+    farmId: S.String.pipe(T.HttpLabel("farmId")),
+    fleetId: S.String.pipe(T.HttpLabel("fleetId")),
+    workerId: S.String.pipe(T.HttpLabel("workerId")),
     queueId: S.String.pipe(T.HttpQuery("queueId")),
   },
   T.all(
@@ -1469,9 +1470,9 @@ export class ListSessionsForWorkerRequest extends S.Class<ListSessionsForWorkerR
   "ListSessionsForWorkerRequest",
 )(
   {
-    farmId: S.String.pipe(T.HttpLabel()),
-    fleetId: S.String.pipe(T.HttpLabel()),
-    workerId: S.String.pipe(T.HttpLabel()),
+    farmId: S.String.pipe(T.HttpLabel("farmId")),
+    fleetId: S.String.pipe(T.HttpLabel("fleetId")),
+    workerId: S.String.pipe(T.HttpLabel("workerId")),
     nextToken: S.optional(S.String).pipe(T.HttpQuery("nextToken")),
     maxResults: S.optional(S.Number).pipe(T.HttpQuery("maxResults")),
   },
@@ -1491,8 +1492,8 @@ export class GetQueueRequest extends S.Class<GetQueueRequest>(
   "GetQueueRequest",
 )(
   {
-    farmId: S.String.pipe(T.HttpLabel()),
-    queueId: S.String.pipe(T.HttpLabel()),
+    farmId: S.String.pipe(T.HttpLabel("farmId")),
+    queueId: S.String.pipe(T.HttpLabel("queueId")),
   },
   T.all(
     T.Http({
@@ -1527,8 +1528,8 @@ export class UpdateQueueRequest extends S.Class<UpdateQueueRequest>(
 )(
   {
     clientToken: S.optional(S.String).pipe(T.HttpHeader("X-Amz-Client-Token")),
-    farmId: S.String.pipe(T.HttpLabel()),
-    queueId: S.String.pipe(T.HttpLabel()),
+    farmId: S.String.pipe(T.HttpLabel("farmId")),
+    queueId: S.String.pipe(T.HttpLabel("queueId")),
     displayName: S.optional(S.String),
     description: S.optional(S.String),
     defaultBudgetAction: S.optional(S.String),
@@ -1563,8 +1564,8 @@ export class DeleteQueueRequest extends S.Class<DeleteQueueRequest>(
   "DeleteQueueRequest",
 )(
   {
-    farmId: S.String.pipe(T.HttpLabel()),
-    queueId: S.String.pipe(T.HttpLabel()),
+    farmId: S.String.pipe(T.HttpLabel("farmId")),
+    queueId: S.String.pipe(T.HttpLabel("queueId")),
   },
   T.all(
     T.Http({
@@ -1585,7 +1586,7 @@ export class ListQueuesRequest extends S.Class<ListQueuesRequest>(
   "ListQueuesRequest",
 )(
   {
-    farmId: S.String.pipe(T.HttpLabel()),
+    farmId: S.String.pipe(T.HttpLabel("farmId")),
     principalId: S.optional(S.String).pipe(T.HttpQuery("principalId")),
     status: S.optional(S.String).pipe(T.HttpQuery("status")),
     nextToken: S.optional(S.String).pipe(T.HttpQuery("nextToken")),
@@ -1604,9 +1605,9 @@ export class AssociateMemberToQueueRequest extends S.Class<AssociateMemberToQueu
   "AssociateMemberToQueueRequest",
 )(
   {
-    farmId: S.String.pipe(T.HttpLabel()),
-    queueId: S.String.pipe(T.HttpLabel()),
-    principalId: S.String.pipe(T.HttpLabel()),
+    farmId: S.String.pipe(T.HttpLabel("farmId")),
+    queueId: S.String.pipe(T.HttpLabel("queueId")),
+    principalId: S.String.pipe(T.HttpLabel("principalId")),
     principalType: S.String,
     identityStoreId: S.String,
     membershipLevel: S.String,
@@ -1630,8 +1631,8 @@ export class AssumeQueueRoleForReadRequest extends S.Class<AssumeQueueRoleForRea
   "AssumeQueueRoleForReadRequest",
 )(
   {
-    farmId: S.String.pipe(T.HttpLabel()),
-    queueId: S.String.pipe(T.HttpLabel()),
+    farmId: S.String.pipe(T.HttpLabel("farmId")),
+    queueId: S.String.pipe(T.HttpLabel("queueId")),
   },
   T.all(
     T.Http({
@@ -1649,8 +1650,8 @@ export class AssumeQueueRoleForUserRequest extends S.Class<AssumeQueueRoleForUse
   "AssumeQueueRoleForUserRequest",
 )(
   {
-    farmId: S.String.pipe(T.HttpLabel()),
-    queueId: S.String.pipe(T.HttpLabel()),
+    farmId: S.String.pipe(T.HttpLabel("farmId")),
+    queueId: S.String.pipe(T.HttpLabel("queueId")),
   },
   T.all(
     T.Http({
@@ -1669,8 +1670,8 @@ export class CreateQueueEnvironmentRequest extends S.Class<CreateQueueEnvironmen
 )(
   {
     clientToken: S.optional(S.String).pipe(T.HttpHeader("X-Amz-Client-Token")),
-    farmId: S.String.pipe(T.HttpLabel()),
-    queueId: S.String.pipe(T.HttpLabel()),
+    farmId: S.String.pipe(T.HttpLabel("farmId")),
+    queueId: S.String.pipe(T.HttpLabel("queueId")),
     priority: S.Number,
     templateType: S.String,
     template: S.String,
@@ -1691,9 +1692,9 @@ export class DeleteQueueEnvironmentRequest extends S.Class<DeleteQueueEnvironmen
   "DeleteQueueEnvironmentRequest",
 )(
   {
-    farmId: S.String.pipe(T.HttpLabel()),
-    queueId: S.String.pipe(T.HttpLabel()),
-    queueEnvironmentId: S.String.pipe(T.HttpLabel()),
+    farmId: S.String.pipe(T.HttpLabel("farmId")),
+    queueId: S.String.pipe(T.HttpLabel("queueId")),
+    queueEnvironmentId: S.String.pipe(T.HttpLabel("queueEnvironmentId")),
   },
   T.all(
     T.Http({
@@ -1714,9 +1715,9 @@ export class DisassociateMemberFromQueueRequest extends S.Class<DisassociateMemb
   "DisassociateMemberFromQueueRequest",
 )(
   {
-    farmId: S.String.pipe(T.HttpLabel()),
-    queueId: S.String.pipe(T.HttpLabel()),
-    principalId: S.String.pipe(T.HttpLabel()),
+    farmId: S.String.pipe(T.HttpLabel("farmId")),
+    queueId: S.String.pipe(T.HttpLabel("queueId")),
+    principalId: S.String.pipe(T.HttpLabel("principalId")),
   },
   T.all(
     T.Http({
@@ -1737,9 +1738,9 @@ export class GetQueueEnvironmentRequest extends S.Class<GetQueueEnvironmentReque
   "GetQueueEnvironmentRequest",
 )(
   {
-    farmId: S.String.pipe(T.HttpLabel()),
-    queueId: S.String.pipe(T.HttpLabel()),
-    queueEnvironmentId: S.String.pipe(T.HttpLabel()),
+    farmId: S.String.pipe(T.HttpLabel("farmId")),
+    queueId: S.String.pipe(T.HttpLabel("queueId")),
+    queueEnvironmentId: S.String.pipe(T.HttpLabel("queueEnvironmentId")),
   },
   T.all(
     T.Http({
@@ -1757,9 +1758,9 @@ export class GetStorageProfileForQueueRequest extends S.Class<GetStorageProfileF
   "GetStorageProfileForQueueRequest",
 )(
   {
-    farmId: S.String.pipe(T.HttpLabel()),
-    queueId: S.String.pipe(T.HttpLabel()),
-    storageProfileId: S.String.pipe(T.HttpLabel()),
+    farmId: S.String.pipe(T.HttpLabel("farmId")),
+    queueId: S.String.pipe(T.HttpLabel("queueId")),
+    storageProfileId: S.String.pipe(T.HttpLabel("storageProfileId")),
   },
   T.all(
     T.Http({
@@ -1777,8 +1778,8 @@ export class ListQueueEnvironmentsRequest extends S.Class<ListQueueEnvironmentsR
   "ListQueueEnvironmentsRequest",
 )(
   {
-    farmId: S.String.pipe(T.HttpLabel()),
-    queueId: S.String.pipe(T.HttpLabel()),
+    farmId: S.String.pipe(T.HttpLabel("farmId")),
+    queueId: S.String.pipe(T.HttpLabel("queueId")),
     nextToken: S.optional(S.String).pipe(T.HttpQuery("nextToken")),
     maxResults: S.optional(S.Number).pipe(T.HttpQuery("maxResults")),
   },
@@ -1798,8 +1799,8 @@ export class ListQueueMembersRequest extends S.Class<ListQueueMembersRequest>(
   "ListQueueMembersRequest",
 )(
   {
-    farmId: S.String.pipe(T.HttpLabel()),
-    queueId: S.String.pipe(T.HttpLabel()),
+    farmId: S.String.pipe(T.HttpLabel("farmId")),
+    queueId: S.String.pipe(T.HttpLabel("queueId")),
     nextToken: S.optional(S.String).pipe(T.HttpQuery("nextToken")),
     maxResults: S.optional(S.Number).pipe(T.HttpQuery("maxResults")),
   },
@@ -1819,8 +1820,8 @@ export class ListStorageProfilesForQueueRequest extends S.Class<ListStorageProfi
   "ListStorageProfilesForQueueRequest",
 )(
   {
-    farmId: S.String.pipe(T.HttpLabel()),
-    queueId: S.String.pipe(T.HttpLabel()),
+    farmId: S.String.pipe(T.HttpLabel("farmId")),
+    queueId: S.String.pipe(T.HttpLabel("queueId")),
     nextToken: S.optional(S.String).pipe(T.HttpQuery("nextToken")),
     maxResults: S.optional(S.Number).pipe(T.HttpQuery("maxResults")),
   },
@@ -1841,9 +1842,9 @@ export class UpdateQueueEnvironmentRequest extends S.Class<UpdateQueueEnvironmen
 )(
   {
     clientToken: S.optional(S.String).pipe(T.HttpHeader("X-Amz-Client-Token")),
-    farmId: S.String.pipe(T.HttpLabel()),
-    queueId: S.String.pipe(T.HttpLabel()),
-    queueEnvironmentId: S.String.pipe(T.HttpLabel()),
+    farmId: S.String.pipe(T.HttpLabel("farmId")),
+    queueId: S.String.pipe(T.HttpLabel("queueId")),
+    queueEnvironmentId: S.String.pipe(T.HttpLabel("queueEnvironmentId")),
     priority: S.optional(S.Number),
     templateType: S.optional(S.String),
     template: S.optional(S.String),
@@ -1865,9 +1866,9 @@ export class UpdateQueueEnvironmentResponse extends S.Class<UpdateQueueEnvironme
 )({}) {}
 export class GetJobRequest extends S.Class<GetJobRequest>("GetJobRequest")(
   {
-    farmId: S.String.pipe(T.HttpLabel()),
-    queueId: S.String.pipe(T.HttpLabel()),
-    jobId: S.String.pipe(T.HttpLabel()),
+    farmId: S.String.pipe(T.HttpLabel("farmId")),
+    queueId: S.String.pipe(T.HttpLabel("queueId")),
+    jobId: S.String.pipe(T.HttpLabel("jobId")),
   },
   T.all(
     T.Http({
@@ -1892,9 +1893,9 @@ export class UpdateJobRequest extends S.Class<UpdateJobRequest>(
     maxRetriesPerTask: S.optional(S.Number),
     lifecycleStatus: S.optional(S.String),
     maxWorkerCount: S.optional(S.Number),
-    farmId: S.String.pipe(T.HttpLabel()),
-    queueId: S.String.pipe(T.HttpLabel()),
-    jobId: S.String.pipe(T.HttpLabel()),
+    farmId: S.String.pipe(T.HttpLabel("farmId")),
+    queueId: S.String.pipe(T.HttpLabel("queueId")),
+    jobId: S.String.pipe(T.HttpLabel("jobId")),
   },
   T.all(
     T.Http({
@@ -1915,9 +1916,9 @@ export class ListJobsRequest extends S.Class<ListJobsRequest>(
   "ListJobsRequest",
 )(
   {
-    farmId: S.String.pipe(T.HttpLabel()),
+    farmId: S.String.pipe(T.HttpLabel("farmId")),
     principalId: S.optional(S.String).pipe(T.HttpQuery("principalId")),
-    queueId: S.String.pipe(T.HttpLabel()),
+    queueId: S.String.pipe(T.HttpLabel("queueId")),
     nextToken: S.optional(S.String).pipe(T.HttpQuery("nextToken")),
     maxResults: S.optional(S.Number).pipe(T.HttpQuery("maxResults")),
   },
@@ -1937,10 +1938,10 @@ export class AssociateMemberToJobRequest extends S.Class<AssociateMemberToJobReq
   "AssociateMemberToJobRequest",
 )(
   {
-    farmId: S.String.pipe(T.HttpLabel()),
-    queueId: S.String.pipe(T.HttpLabel()),
-    jobId: S.String.pipe(T.HttpLabel()),
-    principalId: S.String.pipe(T.HttpLabel()),
+    farmId: S.String.pipe(T.HttpLabel("farmId")),
+    queueId: S.String.pipe(T.HttpLabel("queueId")),
+    jobId: S.String.pipe(T.HttpLabel("jobId")),
+    principalId: S.String.pipe(T.HttpLabel("principalId")),
     principalType: S.String,
     identityStoreId: S.String,
     membershipLevel: S.String,
@@ -1964,10 +1965,10 @@ export class DisassociateMemberFromJobRequest extends S.Class<DisassociateMember
   "DisassociateMemberFromJobRequest",
 )(
   {
-    farmId: S.String.pipe(T.HttpLabel()),
-    queueId: S.String.pipe(T.HttpLabel()),
-    jobId: S.String.pipe(T.HttpLabel()),
-    principalId: S.String.pipe(T.HttpLabel()),
+    farmId: S.String.pipe(T.HttpLabel("farmId")),
+    queueId: S.String.pipe(T.HttpLabel("queueId")),
+    jobId: S.String.pipe(T.HttpLabel("jobId")),
+    principalId: S.String.pipe(T.HttpLabel("principalId")),
   },
   T.all(
     T.Http({
@@ -1988,10 +1989,10 @@ export class GetSessionRequest extends S.Class<GetSessionRequest>(
   "GetSessionRequest",
 )(
   {
-    farmId: S.String.pipe(T.HttpLabel()),
-    queueId: S.String.pipe(T.HttpLabel()),
-    jobId: S.String.pipe(T.HttpLabel()),
-    sessionId: S.String.pipe(T.HttpLabel()),
+    farmId: S.String.pipe(T.HttpLabel("farmId")),
+    queueId: S.String.pipe(T.HttpLabel("queueId")),
+    jobId: S.String.pipe(T.HttpLabel("jobId")),
+    sessionId: S.String.pipe(T.HttpLabel("sessionId")),
   },
   T.all(
     T.Http({
@@ -2009,10 +2010,10 @@ export class GetSessionActionRequest extends S.Class<GetSessionActionRequest>(
   "GetSessionActionRequest",
 )(
   {
-    farmId: S.String.pipe(T.HttpLabel()),
-    queueId: S.String.pipe(T.HttpLabel()),
-    jobId: S.String.pipe(T.HttpLabel()),
-    sessionActionId: S.String.pipe(T.HttpLabel()),
+    farmId: S.String.pipe(T.HttpLabel("farmId")),
+    queueId: S.String.pipe(T.HttpLabel("queueId")),
+    jobId: S.String.pipe(T.HttpLabel("jobId")),
+    sessionActionId: S.String.pipe(T.HttpLabel("sessionActionId")),
   },
   T.all(
     T.Http({
@@ -2028,10 +2029,10 @@ export class GetSessionActionRequest extends S.Class<GetSessionActionRequest>(
 ) {}
 export class GetStepRequest extends S.Class<GetStepRequest>("GetStepRequest")(
   {
-    farmId: S.String.pipe(T.HttpLabel()),
-    queueId: S.String.pipe(T.HttpLabel()),
-    jobId: S.String.pipe(T.HttpLabel()),
-    stepId: S.String.pipe(T.HttpLabel()),
+    farmId: S.String.pipe(T.HttpLabel("farmId")),
+    queueId: S.String.pipe(T.HttpLabel("queueId")),
+    jobId: S.String.pipe(T.HttpLabel("jobId")),
+    stepId: S.String.pipe(T.HttpLabel("stepId")),
   },
   T.all(
     T.Http({
@@ -2047,11 +2048,11 @@ export class GetStepRequest extends S.Class<GetStepRequest>("GetStepRequest")(
 ) {}
 export class GetTaskRequest extends S.Class<GetTaskRequest>("GetTaskRequest")(
   {
-    farmId: S.String.pipe(T.HttpLabel()),
-    queueId: S.String.pipe(T.HttpLabel()),
-    jobId: S.String.pipe(T.HttpLabel()),
-    stepId: S.String.pipe(T.HttpLabel()),
-    taskId: S.String.pipe(T.HttpLabel()),
+    farmId: S.String.pipe(T.HttpLabel("farmId")),
+    queueId: S.String.pipe(T.HttpLabel("queueId")),
+    jobId: S.String.pipe(T.HttpLabel("jobId")),
+    stepId: S.String.pipe(T.HttpLabel("stepId")),
+    taskId: S.String.pipe(T.HttpLabel("taskId")),
   },
   T.all(
     T.Http({
@@ -2069,9 +2070,9 @@ export class ListJobMembersRequest extends S.Class<ListJobMembersRequest>(
   "ListJobMembersRequest",
 )(
   {
-    farmId: S.String.pipe(T.HttpLabel()),
-    queueId: S.String.pipe(T.HttpLabel()),
-    jobId: S.String.pipe(T.HttpLabel()),
+    farmId: S.String.pipe(T.HttpLabel("farmId")),
+    queueId: S.String.pipe(T.HttpLabel("queueId")),
+    jobId: S.String.pipe(T.HttpLabel("jobId")),
     nextToken: S.optional(S.String).pipe(T.HttpQuery("nextToken")),
     maxResults: S.optional(S.Number).pipe(T.HttpQuery("maxResults")),
   },
@@ -2091,9 +2092,9 @@ export class ListJobParameterDefinitionsRequest extends S.Class<ListJobParameter
   "ListJobParameterDefinitionsRequest",
 )(
   {
-    farmId: S.String.pipe(T.HttpLabel()),
-    jobId: S.String.pipe(T.HttpLabel()),
-    queueId: S.String.pipe(T.HttpLabel()),
+    farmId: S.String.pipe(T.HttpLabel("farmId")),
+    jobId: S.String.pipe(T.HttpLabel("jobId")),
+    queueId: S.String.pipe(T.HttpLabel("queueId")),
     nextToken: S.optional(S.String).pipe(T.HttpQuery("nextToken")),
     maxResults: S.optional(S.Number).pipe(T.HttpQuery("maxResults")),
   },
@@ -2113,9 +2114,9 @@ export class ListSessionActionsRequest extends S.Class<ListSessionActionsRequest
   "ListSessionActionsRequest",
 )(
   {
-    farmId: S.String.pipe(T.HttpLabel()),
-    queueId: S.String.pipe(T.HttpLabel()),
-    jobId: S.String.pipe(T.HttpLabel()),
+    farmId: S.String.pipe(T.HttpLabel("farmId")),
+    queueId: S.String.pipe(T.HttpLabel("queueId")),
+    jobId: S.String.pipe(T.HttpLabel("jobId")),
     sessionId: S.optional(S.String).pipe(T.HttpQuery("sessionId")),
     taskId: S.optional(S.String).pipe(T.HttpQuery("taskId")),
     nextToken: S.optional(S.String).pipe(T.HttpQuery("nextToken")),
@@ -2137,9 +2138,9 @@ export class ListSessionsRequest extends S.Class<ListSessionsRequest>(
   "ListSessionsRequest",
 )(
   {
-    farmId: S.String.pipe(T.HttpLabel()),
-    queueId: S.String.pipe(T.HttpLabel()),
-    jobId: S.String.pipe(T.HttpLabel()),
+    farmId: S.String.pipe(T.HttpLabel("farmId")),
+    queueId: S.String.pipe(T.HttpLabel("queueId")),
+    jobId: S.String.pipe(T.HttpLabel("jobId")),
     nextToken: S.optional(S.String).pipe(T.HttpQuery("nextToken")),
     maxResults: S.optional(S.Number).pipe(T.HttpQuery("maxResults")),
   },
@@ -2159,10 +2160,10 @@ export class ListStepConsumersRequest extends S.Class<ListStepConsumersRequest>(
   "ListStepConsumersRequest",
 )(
   {
-    farmId: S.String.pipe(T.HttpLabel()),
-    queueId: S.String.pipe(T.HttpLabel()),
-    jobId: S.String.pipe(T.HttpLabel()),
-    stepId: S.String.pipe(T.HttpLabel()),
+    farmId: S.String.pipe(T.HttpLabel("farmId")),
+    queueId: S.String.pipe(T.HttpLabel("queueId")),
+    jobId: S.String.pipe(T.HttpLabel("jobId")),
+    stepId: S.String.pipe(T.HttpLabel("stepId")),
     nextToken: S.optional(S.String).pipe(T.HttpQuery("nextToken")),
     maxResults: S.optional(S.Number).pipe(T.HttpQuery("maxResults")),
   },
@@ -2182,10 +2183,10 @@ export class ListStepDependenciesRequest extends S.Class<ListStepDependenciesReq
   "ListStepDependenciesRequest",
 )(
   {
-    farmId: S.String.pipe(T.HttpLabel()),
-    queueId: S.String.pipe(T.HttpLabel()),
-    jobId: S.String.pipe(T.HttpLabel()),
-    stepId: S.String.pipe(T.HttpLabel()),
+    farmId: S.String.pipe(T.HttpLabel("farmId")),
+    queueId: S.String.pipe(T.HttpLabel("queueId")),
+    jobId: S.String.pipe(T.HttpLabel("jobId")),
+    stepId: S.String.pipe(T.HttpLabel("stepId")),
     nextToken: S.optional(S.String).pipe(T.HttpQuery("nextToken")),
     maxResults: S.optional(S.Number).pipe(T.HttpQuery("maxResults")),
   },
@@ -2205,9 +2206,9 @@ export class ListStepsRequest extends S.Class<ListStepsRequest>(
   "ListStepsRequest",
 )(
   {
-    farmId: S.String.pipe(T.HttpLabel()),
-    queueId: S.String.pipe(T.HttpLabel()),
-    jobId: S.String.pipe(T.HttpLabel()),
+    farmId: S.String.pipe(T.HttpLabel("farmId")),
+    queueId: S.String.pipe(T.HttpLabel("queueId")),
+    jobId: S.String.pipe(T.HttpLabel("jobId")),
     nextToken: S.optional(S.String).pipe(T.HttpQuery("nextToken")),
     maxResults: S.optional(S.Number).pipe(T.HttpQuery("maxResults")),
   },
@@ -2227,10 +2228,10 @@ export class ListTasksRequest extends S.Class<ListTasksRequest>(
   "ListTasksRequest",
 )(
   {
-    farmId: S.String.pipe(T.HttpLabel()),
-    queueId: S.String.pipe(T.HttpLabel()),
-    jobId: S.String.pipe(T.HttpLabel()),
-    stepId: S.String.pipe(T.HttpLabel()),
+    farmId: S.String.pipe(T.HttpLabel("farmId")),
+    queueId: S.String.pipe(T.HttpLabel("queueId")),
+    jobId: S.String.pipe(T.HttpLabel("jobId")),
+    stepId: S.String.pipe(T.HttpLabel("stepId")),
     nextToken: S.optional(S.String).pipe(T.HttpQuery("nextToken")),
     maxResults: S.optional(S.Number).pipe(T.HttpQuery("maxResults")),
   },
@@ -2252,10 +2253,10 @@ export class UpdateSessionRequest extends S.Class<UpdateSessionRequest>(
   {
     clientToken: S.optional(S.String).pipe(T.HttpHeader("X-Amz-Client-Token")),
     targetLifecycleStatus: S.String,
-    farmId: S.String.pipe(T.HttpLabel()),
-    queueId: S.String.pipe(T.HttpLabel()),
-    jobId: S.String.pipe(T.HttpLabel()),
-    sessionId: S.String.pipe(T.HttpLabel()),
+    farmId: S.String.pipe(T.HttpLabel("farmId")),
+    queueId: S.String.pipe(T.HttpLabel("queueId")),
+    jobId: S.String.pipe(T.HttpLabel("jobId")),
+    sessionId: S.String.pipe(T.HttpLabel("sessionId")),
   },
   T.all(
     T.Http({
@@ -2278,10 +2279,10 @@ export class UpdateStepRequest extends S.Class<UpdateStepRequest>(
   {
     targetTaskRunStatus: S.String,
     clientToken: S.optional(S.String).pipe(T.HttpHeader("X-Amz-Client-Token")),
-    farmId: S.String.pipe(T.HttpLabel()),
-    queueId: S.String.pipe(T.HttpLabel()),
-    jobId: S.String.pipe(T.HttpLabel()),
-    stepId: S.String.pipe(T.HttpLabel()),
+    farmId: S.String.pipe(T.HttpLabel("farmId")),
+    queueId: S.String.pipe(T.HttpLabel("queueId")),
+    jobId: S.String.pipe(T.HttpLabel("jobId")),
+    stepId: S.String.pipe(T.HttpLabel("stepId")),
   },
   T.all(
     T.Http({
@@ -2304,11 +2305,11 @@ export class UpdateTaskRequest extends S.Class<UpdateTaskRequest>(
   {
     clientToken: S.optional(S.String).pipe(T.HttpHeader("X-Amz-Client-Token")),
     targetRunStatus: S.String,
-    farmId: S.String.pipe(T.HttpLabel()),
-    queueId: S.String.pipe(T.HttpLabel()),
-    jobId: S.String.pipe(T.HttpLabel()),
-    stepId: S.String.pipe(T.HttpLabel()),
-    taskId: S.String.pipe(T.HttpLabel()),
+    farmId: S.String.pipe(T.HttpLabel("farmId")),
+    queueId: S.String.pipe(T.HttpLabel("queueId")),
+    jobId: S.String.pipe(T.HttpLabel("jobId")),
+    stepId: S.String.pipe(T.HttpLabel("stepId")),
+    taskId: S.String.pipe(T.HttpLabel("taskId")),
   },
   T.all(
     T.Http({
@@ -2347,7 +2348,7 @@ export class CreateLicenseEndpointRequest extends S.Class<CreateLicenseEndpointR
 export class GetLicenseEndpointRequest extends S.Class<GetLicenseEndpointRequest>(
   "GetLicenseEndpointRequest",
 )(
-  { licenseEndpointId: S.String.pipe(T.HttpLabel()) },
+  { licenseEndpointId: S.String.pipe(T.HttpLabel("licenseEndpointId")) },
   T.all(
     T.Http({
       method: "GET",
@@ -2363,7 +2364,7 @@ export class GetLicenseEndpointRequest extends S.Class<GetLicenseEndpointRequest
 export class DeleteLicenseEndpointRequest extends S.Class<DeleteLicenseEndpointRequest>(
   "DeleteLicenseEndpointRequest",
 )(
-  { licenseEndpointId: S.String.pipe(T.HttpLabel()) },
+  { licenseEndpointId: S.String.pipe(T.HttpLabel("licenseEndpointId")) },
   T.all(
     T.Http({
       method: "DELETE",
@@ -2399,8 +2400,8 @@ export class PutMeteredProductRequest extends S.Class<PutMeteredProductRequest>(
   "PutMeteredProductRequest",
 )(
   {
-    licenseEndpointId: S.String.pipe(T.HttpLabel()),
-    productId: S.String.pipe(T.HttpLabel()),
+    licenseEndpointId: S.String.pipe(T.HttpLabel("licenseEndpointId")),
+    productId: S.String.pipe(T.HttpLabel("productId")),
   },
   T.all(
     T.Http({
@@ -2421,8 +2422,8 @@ export class DeleteMeteredProductRequest extends S.Class<DeleteMeteredProductReq
   "DeleteMeteredProductRequest",
 )(
   {
-    licenseEndpointId: S.String.pipe(T.HttpLabel()),
-    productId: S.String.pipe(T.HttpLabel()),
+    licenseEndpointId: S.String.pipe(T.HttpLabel("licenseEndpointId")),
+    productId: S.String.pipe(T.HttpLabel("productId")),
   },
   T.all(
     T.Http({
@@ -2443,7 +2444,7 @@ export class ListMeteredProductsRequest extends S.Class<ListMeteredProductsReque
   "ListMeteredProductsRequest",
 )(
   {
-    licenseEndpointId: S.String.pipe(T.HttpLabel()),
+    licenseEndpointId: S.String.pipe(T.HttpLabel("licenseEndpointId")),
     nextToken: S.optional(S.String).pipe(T.HttpQuery("nextToken")),
     maxResults: S.optional(S.Number).pipe(T.HttpQuery("maxResults")),
   },
@@ -2482,7 +2483,7 @@ export class CreateMonitorRequest extends S.Class<CreateMonitorRequest>(
 export class GetMonitorRequest extends S.Class<GetMonitorRequest>(
   "GetMonitorRequest",
 )(
-  { monitorId: S.String.pipe(T.HttpLabel()) },
+  { monitorId: S.String.pipe(T.HttpLabel("monitorId")) },
   T.all(
     T.Http({ method: "GET", uri: "/2023-10-12/monitors/{monitorId}" }),
     svc,
@@ -2496,7 +2497,7 @@ export class UpdateMonitorRequest extends S.Class<UpdateMonitorRequest>(
   "UpdateMonitorRequest",
 )(
   {
-    monitorId: S.String.pipe(T.HttpLabel()),
+    monitorId: S.String.pipe(T.HttpLabel("monitorId")),
     subdomain: S.optional(S.String),
     displayName: S.optional(S.String),
     roleArn: S.optional(S.String),
@@ -2516,7 +2517,7 @@ export class UpdateMonitorResponse extends S.Class<UpdateMonitorResponse>(
 export class DeleteMonitorRequest extends S.Class<DeleteMonitorRequest>(
   "DeleteMonitorRequest",
 )(
-  { monitorId: S.String.pipe(T.HttpLabel()) },
+  { monitorId: S.String.pipe(T.HttpLabel("monitorId")) },
   T.all(
     T.Http({ method: "DELETE", uri: "/2023-10-12/monitors/{monitorId}" }),
     svc,
@@ -2599,7 +2600,7 @@ export class StartSessionsStatisticsAggregationRequest extends S.Class<StartSess
   "StartSessionsStatisticsAggregationRequest",
 )(
   {
-    farmId: S.String.pipe(T.HttpLabel()),
+    farmId: S.String.pipe(T.HttpLabel("farmId")),
     resourceIds: SessionsStatisticsResources,
     startTime: S.Date.pipe(T.TimestampFormat("date-time")),
     endTime: S.Date.pipe(T.TimestampFormat("date-time")),
@@ -2623,7 +2624,10 @@ export class StartSessionsStatisticsAggregationRequest extends S.Class<StartSess
 export class TagResourceRequest extends S.Class<TagResourceRequest>(
   "TagResourceRequest",
 )(
-  { resourceArn: S.String.pipe(T.HttpLabel()), tags: S.optional(Tags) },
+  {
+    resourceArn: S.String.pipe(T.HttpLabel("resourceArn")),
+    tags: S.optional(Tags),
+  },
   T.all(
     T.Http({ method: "POST", uri: "/2023-10-12/tags/{resourceArn}" }),
     svc,
@@ -2659,7 +2663,7 @@ export class CreateStorageProfileRequest extends S.Class<CreateStorageProfileReq
 )(
   {
     clientToken: S.optional(S.String).pipe(T.HttpHeader("X-Amz-Client-Token")),
-    farmId: S.String.pipe(T.HttpLabel()),
+    farmId: S.String.pipe(T.HttpLabel("farmId")),
     displayName: S.String,
     osFamily: S.String,
     fileSystemLocations: S.optional(FileSystemLocationsList),
@@ -2715,8 +2719,8 @@ export class UpdateBudgetRequest extends S.Class<UpdateBudgetRequest>(
 )(
   {
     clientToken: S.optional(S.String).pipe(T.HttpHeader("X-Amz-Client-Token")),
-    farmId: S.String.pipe(T.HttpLabel()),
-    budgetId: S.String.pipe(T.HttpLabel()),
+    farmId: S.String.pipe(T.HttpLabel("farmId")),
+    budgetId: S.String.pipe(T.HttpLabel("budgetId")),
     displayName: S.optional(S.String),
     description: S.optional(S.String),
     status: S.optional(S.String),
@@ -2816,9 +2820,9 @@ export class CopyJobTemplateRequest extends S.Class<CopyJobTemplateRequest>(
   "CopyJobTemplateRequest",
 )(
   {
-    farmId: S.String.pipe(T.HttpLabel()),
-    jobId: S.String.pipe(T.HttpLabel()),
-    queueId: S.String.pipe(T.HttpLabel()),
+    farmId: S.String.pipe(T.HttpLabel("farmId")),
+    jobId: S.String.pipe(T.HttpLabel("jobId")),
+    queueId: S.String.pipe(T.HttpLabel("queueId")),
     targetS3Location: S3Location,
   },
   T.all(
@@ -3441,7 +3445,7 @@ export class CreateBudgetRequest extends S.Class<CreateBudgetRequest>(
 )(
   {
     clientToken: S.optional(S.String).pipe(T.HttpHeader("X-Amz-Client-Token")),
-    farmId: S.String.pipe(T.HttpLabel()),
+    farmId: S.String.pipe(T.HttpLabel("farmId")),
     usageTrackingResource: UsageTrackingResource,
     displayName: S.String,
     description: S.optional(S.String),
@@ -3492,8 +3496,8 @@ export class CreateWorkerRequest extends S.Class<CreateWorkerRequest>(
   "CreateWorkerRequest",
 )(
   {
-    farmId: S.String.pipe(T.HttpLabel()),
-    fleetId: S.String.pipe(T.HttpLabel()),
+    farmId: S.String.pipe(T.HttpLabel("farmId")),
+    fleetId: S.String.pipe(T.HttpLabel("fleetId")),
     hostProperties: S.optional(HostPropertiesRequest),
     clientToken: S.optional(S.String).pipe(T.HttpHeader("X-Amz-Client-Token")),
     tags: S.optional(Tags),
@@ -3514,9 +3518,9 @@ export class UpdateWorkerRequest extends S.Class<UpdateWorkerRequest>(
   "UpdateWorkerRequest",
 )(
   {
-    farmId: S.String.pipe(T.HttpLabel()),
-    fleetId: S.String.pipe(T.HttpLabel()),
-    workerId: S.String.pipe(T.HttpLabel()),
+    farmId: S.String.pipe(T.HttpLabel("farmId")),
+    fleetId: S.String.pipe(T.HttpLabel("fleetId")),
+    workerId: S.String.pipe(T.HttpLabel("workerId")),
     status: S.optional(S.String),
     capabilities: S.optional(WorkerCapabilities),
     hostProperties: S.optional(HostPropertiesRequest),
@@ -3540,9 +3544,9 @@ export class BatchGetJobEntityRequest extends S.Class<BatchGetJobEntityRequest>(
   "BatchGetJobEntityRequest",
 )(
   {
-    farmId: S.String.pipe(T.HttpLabel()),
-    fleetId: S.String.pipe(T.HttpLabel()),
-    workerId: S.String.pipe(T.HttpLabel()),
+    farmId: S.String.pipe(T.HttpLabel("farmId")),
+    fleetId: S.String.pipe(T.HttpLabel("fleetId")),
+    workerId: S.String.pipe(T.HttpLabel("workerId")),
     identifiers: JobEntityIdentifiers,
   },
   T.all(
@@ -3568,7 +3572,7 @@ export class CreateQueueRequest extends S.Class<CreateQueueRequest>(
 )(
   {
     clientToken: S.optional(S.String).pipe(T.HttpHeader("X-Amz-Client-Token")),
-    farmId: S.String.pipe(T.HttpLabel()),
+    farmId: S.String.pipe(T.HttpLabel("farmId")),
     displayName: S.String,
     description: S.optional(S.String),
     defaultBudgetAction: S.optional(S.String),
@@ -3606,8 +3610,8 @@ export class CreateJobRequest extends S.Class<CreateJobRequest>(
   "CreateJobRequest",
 )(
   {
-    farmId: S.String.pipe(T.HttpLabel()),
-    queueId: S.String.pipe(T.HttpLabel()),
+    farmId: S.String.pipe(T.HttpLabel("farmId")),
+    queueId: S.String.pipe(T.HttpLabel("queueId")),
     clientToken: S.optional(S.String).pipe(T.HttpHeader("X-Amz-Client-Token")),
     template: S.optional(S.String),
     templateType: S.optional(S.String),
@@ -3831,7 +3835,7 @@ export class SearchJobsRequest extends S.Class<SearchJobsRequest>(
   "SearchJobsRequest",
 )(
   {
-    farmId: S.String.pipe(T.HttpLabel()),
+    farmId: S.String.pipe(T.HttpLabel("farmId")),
     queueIds: QueueIds,
     filterExpressions: S.optional(SearchGroupedFilterExpressions),
     sortExpressions: S.optional(SearchSortExpressions),
@@ -3900,9 +3904,9 @@ export class UpdateWorkerScheduleRequest extends S.Class<UpdateWorkerScheduleReq
   "UpdateWorkerScheduleRequest",
 )(
   {
-    farmId: S.String.pipe(T.HttpLabel()),
-    fleetId: S.String.pipe(T.HttpLabel()),
-    workerId: S.String.pipe(T.HttpLabel()),
+    farmId: S.String.pipe(T.HttpLabel("farmId")),
+    fleetId: S.String.pipe(T.HttpLabel("fleetId")),
+    workerId: S.String.pipe(T.HttpLabel("workerId")),
     updatedSessionActions: S.optional(UpdatedSessionActions),
   },
   T.all(
@@ -4101,7 +4105,7 @@ export class CreateFleetRequest extends S.Class<CreateFleetRequest>(
 )(
   {
     clientToken: S.optional(S.String).pipe(T.HttpHeader("X-Amz-Client-Token")),
-    farmId: S.String.pipe(T.HttpLabel()),
+    farmId: S.String.pipe(T.HttpLabel("farmId")),
     displayName: S.String,
     description: S.optional(S.String),
     roleArn: S.String,
@@ -4210,7 +4214,8 @@ export class InternalServerErrorException extends S.TaggedError<InternalServerEr
     message: S.String,
     retryAfterSeconds: S.optional(S.Number).pipe(T.HttpHeader("Retry-After")),
   },
-) {}
+  T.Retryable(),
+).pipe(withCategory(ERROR_CATEGORIES.SERVER_ERROR)) {}
 export class ConflictException extends S.TaggedError<ConflictException>()(
   "ConflictException",
   {
@@ -4239,7 +4244,8 @@ export class ThrottlingException extends S.TaggedError<ThrottlingException>()(
     retryAfterSeconds: S.optional(S.Number).pipe(T.HttpHeader("Retry-After")),
     context: S.optional(ExceptionContext),
   },
-) {}
+  T.Retryable({ throttling: true }),
+).pipe(withCategory(ERROR_CATEGORIES.THROTTLING_ERROR)) {}
 export class ServiceQuotaExceededException extends S.TaggedError<ServiceQuotaExceededException>()(
   "ServiceQuotaExceededException",
   {

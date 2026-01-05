@@ -1,6 +1,7 @@
 import * as S from "effect/Schema";
 import * as API from "../api.ts";
 import * as T from "../traits.ts";
+import { ERROR_CATEGORIES, withCategory } from "../error-category.ts";
 const ns = T.XmlNamespace("http://events.amazonaws.com/doc/2015-10-07");
 const svc = T.AwsApiService({ sdkId: "Pipes", serviceShapeName: "Pipes" });
 const auth = T.AwsAuthSigv4({ name: "pipes" });
@@ -295,7 +296,7 @@ export const TagKeyList = S.Array(S.String);
 export class ListTagsForResourceRequest extends S.Class<ListTagsForResourceRequest>(
   "ListTagsForResourceRequest",
 )(
-  { resourceArn: S.String.pipe(T.HttpLabel()) },
+  { resourceArn: S.String.pipe(T.HttpLabel("resourceArn")) },
   T.all(
     ns,
     T.Http({ method: "GET", uri: "/tags/{resourceArn}" }),
@@ -310,7 +311,7 @@ export class UntagResourceRequest extends S.Class<UntagResourceRequest>(
   "UntagResourceRequest",
 )(
   {
-    resourceArn: S.String.pipe(T.HttpLabel()),
+    resourceArn: S.String.pipe(T.HttpLabel("resourceArn")),
     tagKeys: TagKeyList.pipe(T.HttpQuery("tagKeys")),
   },
   T.all(
@@ -329,7 +330,7 @@ export class UntagResourceResponse extends S.Class<UntagResourceResponse>(
 export class DescribePipeRequest extends S.Class<DescribePipeRequest>(
   "DescribePipeRequest",
 )(
-  { Name: S.String.pipe(T.HttpLabel()) },
+  { Name: S.String.pipe(T.HttpLabel("Name")) },
   T.all(
     ns,
     T.Http({ method: "GET", uri: "/v1/pipes/{Name}" }),
@@ -343,7 +344,7 @@ export class DescribePipeRequest extends S.Class<DescribePipeRequest>(
 export class DeletePipeRequest extends S.Class<DeletePipeRequest>(
   "DeletePipeRequest",
 )(
-  { Name: S.String.pipe(T.HttpLabel()) },
+  { Name: S.String.pipe(T.HttpLabel("Name")) },
   T.all(
     ns,
     T.Http({ method: "DELETE", uri: "/v1/pipes/{Name}" }),
@@ -379,7 +380,7 @@ export class ListPipesRequest extends S.Class<ListPipesRequest>(
 export class StartPipeRequest extends S.Class<StartPipeRequest>(
   "StartPipeRequest",
 )(
-  { Name: S.String.pipe(T.HttpLabel()) },
+  { Name: S.String.pipe(T.HttpLabel("Name")) },
   T.all(
     ns,
     T.Http({ method: "POST", uri: "/v1/pipes/{Name}/start" }),
@@ -393,7 +394,7 @@ export class StartPipeRequest extends S.Class<StartPipeRequest>(
 export class StopPipeRequest extends S.Class<StopPipeRequest>(
   "StopPipeRequest",
 )(
-  { Name: S.String.pipe(T.HttpLabel()) },
+  { Name: S.String.pipe(T.HttpLabel("Name")) },
   T.all(
     ns,
     T.Http({ method: "POST", uri: "/v1/pipes/{Name}/stop" }),
@@ -416,7 +417,7 @@ export class ListTagsForResourceResponse extends S.Class<ListTagsForResourceResp
 export class TagResourceRequest extends S.Class<TagResourceRequest>(
   "TagResourceRequest",
 )(
-  { resourceArn: S.String.pipe(T.HttpLabel()), tags: TagMap },
+  { resourceArn: S.String.pipe(T.HttpLabel("resourceArn")), tags: TagMap },
   T.all(
     ns,
     T.Http({ method: "POST", uri: "/tags/{resourceArn}" }),
@@ -932,7 +933,7 @@ export class UpdatePipeRequest extends S.Class<UpdatePipeRequest>(
   "UpdatePipeRequest",
 )(
   {
-    Name: S.String.pipe(T.HttpLabel()),
+    Name: S.String.pipe(T.HttpLabel("Name")),
     Description: S.optional(S.String),
     DesiredState: S.optional(S.String),
     SourceParameters: S.optional(UpdatePipeSourceParameters),
@@ -1090,7 +1091,7 @@ export class CreatePipeRequest extends S.Class<CreatePipeRequest>(
   "CreatePipeRequest",
 )(
   {
-    Name: S.String.pipe(T.HttpLabel()),
+    Name: S.String.pipe(T.HttpLabel("Name")),
     Description: S.optional(S.String),
     DesiredState: S.optional(S.String),
     Source: S.String,
@@ -1137,7 +1138,7 @@ export class InternalException extends S.TaggedError<InternalException>()(
     message: S.String,
     retryAfterSeconds: S.optional(S.Number).pipe(T.HttpHeader("Retry-After")),
   },
-) {}
+).pipe(withCategory(ERROR_CATEGORIES.SERVER_ERROR)) {}
 export class NotFoundException extends S.TaggedError<NotFoundException>()(
   "NotFoundException",
   { message: S.optional(S.String) },
@@ -1154,7 +1155,7 @@ export class ThrottlingException extends S.TaggedError<ThrottlingException>()(
     quotaCode: S.optional(S.String),
     retryAfterSeconds: S.optional(S.Number).pipe(T.HttpHeader("Retry-After")),
   },
-) {}
+).pipe(withCategory(ERROR_CATEGORIES.THROTTLING_ERROR)) {}
 export class ValidationException extends S.TaggedError<ValidationException>()(
   "ValidationException",
   {

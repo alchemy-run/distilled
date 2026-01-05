@@ -1,6 +1,7 @@
 import * as S from "effect/Schema";
 import * as API from "../api.ts";
 import * as T from "../traits.ts";
+import { ERROR_CATEGORIES, withCategory } from "../error-category.ts";
 const svc = T.AwsApiService({
   sdkId: "ConnectCampaigns",
   serviceShapeName: "AmazonConnectCampaignService",
@@ -246,7 +247,7 @@ export const TagKeyList = S.Array(S.String);
 export class DeleteCampaignRequest extends S.Class<DeleteCampaignRequest>(
   "DeleteCampaignRequest",
 )(
-  { id: S.String.pipe(T.HttpLabel()) },
+  { id: S.String.pipe(T.HttpLabel("id")) },
   T.all(
     T.Http({ method: "DELETE", uri: "/campaigns/{id}" }),
     svc,
@@ -262,7 +263,7 @@ export class DeleteCampaignResponse extends S.Class<DeleteCampaignResponse>(
 export class DeleteConnectInstanceConfigRequest extends S.Class<DeleteConnectInstanceConfigRequest>(
   "DeleteConnectInstanceConfigRequest",
 )(
-  { connectInstanceId: S.String.pipe(T.HttpLabel()) },
+  { connectInstanceId: S.String.pipe(T.HttpLabel("connectInstanceId")) },
   T.all(
     T.Http({
       method: "DELETE",
@@ -281,7 +282,7 @@ export class DeleteConnectInstanceConfigResponse extends S.Class<DeleteConnectIn
 export class DeleteInstanceOnboardingJobRequest extends S.Class<DeleteInstanceOnboardingJobRequest>(
   "DeleteInstanceOnboardingJobRequest",
 )(
-  { connectInstanceId: S.String.pipe(T.HttpLabel()) },
+  { connectInstanceId: S.String.pipe(T.HttpLabel("connectInstanceId")) },
   T.all(
     T.Http({
       method: "DELETE",
@@ -300,7 +301,7 @@ export class DeleteInstanceOnboardingJobResponse extends S.Class<DeleteInstanceO
 export class DescribeCampaignRequest extends S.Class<DescribeCampaignRequest>(
   "DescribeCampaignRequest",
 )(
-  { id: S.String.pipe(T.HttpLabel()) },
+  { id: S.String.pipe(T.HttpLabel("id")) },
   T.all(
     T.Http({ method: "GET", uri: "/campaigns/{id}" }),
     svc,
@@ -313,7 +314,7 @@ export class DescribeCampaignRequest extends S.Class<DescribeCampaignRequest>(
 export class GetCampaignStateRequest extends S.Class<GetCampaignStateRequest>(
   "GetCampaignStateRequest",
 )(
-  { id: S.String.pipe(T.HttpLabel()) },
+  { id: S.String.pipe(T.HttpLabel("id")) },
   T.all(
     T.Http({ method: "GET", uri: "/campaigns/{id}/state" }),
     svc,
@@ -339,7 +340,7 @@ export class GetCampaignStateBatchRequest extends S.Class<GetCampaignStateBatchR
 export class GetConnectInstanceConfigRequest extends S.Class<GetConnectInstanceConfigRequest>(
   "GetConnectInstanceConfigRequest",
 )(
-  { connectInstanceId: S.String.pipe(T.HttpLabel()) },
+  { connectInstanceId: S.String.pipe(T.HttpLabel("connectInstanceId")) },
   T.all(
     T.Http({
       method: "GET",
@@ -355,7 +356,7 @@ export class GetConnectInstanceConfigRequest extends S.Class<GetConnectInstanceC
 export class GetInstanceOnboardingJobStatusRequest extends S.Class<GetInstanceOnboardingJobStatusRequest>(
   "GetInstanceOnboardingJobStatusRequest",
 )(
-  { connectInstanceId: S.String.pipe(T.HttpLabel()) },
+  { connectInstanceId: S.String.pipe(T.HttpLabel("connectInstanceId")) },
   T.all(
     T.Http({
       method: "GET",
@@ -371,7 +372,7 @@ export class GetInstanceOnboardingJobStatusRequest extends S.Class<GetInstanceOn
 export class ListTagsForResourceRequest extends S.Class<ListTagsForResourceRequest>(
   "ListTagsForResourceRequest",
 )(
-  { arn: S.String.pipe(T.HttpLabel()) },
+  { arn: S.String.pipe(T.HttpLabel("arn")) },
   T.all(
     T.Http({ method: "GET", uri: "/tags/{arn}" }),
     svc,
@@ -384,7 +385,7 @@ export class ListTagsForResourceRequest extends S.Class<ListTagsForResourceReque
 export class PauseCampaignRequest extends S.Class<PauseCampaignRequest>(
   "PauseCampaignRequest",
 )(
-  { id: S.String.pipe(T.HttpLabel()) },
+  { id: S.String.pipe(T.HttpLabel("id")) },
   T.all(
     T.Http({ method: "POST", uri: "/campaigns/{id}/pause" }),
     svc,
@@ -400,7 +401,7 @@ export class PauseCampaignResponse extends S.Class<PauseCampaignResponse>(
 export class ResumeCampaignRequest extends S.Class<ResumeCampaignRequest>(
   "ResumeCampaignRequest",
 )(
-  { id: S.String.pipe(T.HttpLabel()) },
+  { id: S.String.pipe(T.HttpLabel("id")) },
   T.all(
     T.Http({ method: "POST", uri: "/campaigns/{id}/resume" }),
     svc,
@@ -416,7 +417,7 @@ export class ResumeCampaignResponse extends S.Class<ResumeCampaignResponse>(
 export class StartCampaignRequest extends S.Class<StartCampaignRequest>(
   "StartCampaignRequest",
 )(
-  { id: S.String.pipe(T.HttpLabel()) },
+  { id: S.String.pipe(T.HttpLabel("id")) },
   T.all(
     T.Http({ method: "POST", uri: "/campaigns/{id}/start" }),
     svc,
@@ -432,7 +433,7 @@ export class StartCampaignResponse extends S.Class<StartCampaignResponse>(
 export class StopCampaignRequest extends S.Class<StopCampaignRequest>(
   "StopCampaignRequest",
 )(
-  { id: S.String.pipe(T.HttpLabel()) },
+  { id: S.String.pipe(T.HttpLabel("id")) },
   T.all(
     T.Http({ method: "POST", uri: "/campaigns/{id}/stop" }),
     svc,
@@ -449,7 +450,7 @@ export const TagMap = S.Record({ key: S.String, value: S.String });
 export class TagResourceRequest extends S.Class<TagResourceRequest>(
   "TagResourceRequest",
 )(
-  { arn: S.String.pipe(T.HttpLabel()), tags: TagMap },
+  { arn: S.String.pipe(T.HttpLabel("arn")), tags: TagMap },
   T.all(
     T.Http({ method: "POST", uri: "/tags/{arn}" }),
     svc,
@@ -466,7 +467,7 @@ export class UntagResourceRequest extends S.Class<UntagResourceRequest>(
   "UntagResourceRequest",
 )(
   {
-    arn: S.String.pipe(T.HttpLabel()),
+    arn: S.String.pipe(T.HttpLabel("arn")),
     tagKeys: TagKeyList.pipe(T.HttpQuery("tagKeys")),
   },
   T.all(
@@ -498,7 +499,7 @@ export const DialerConfig = S.Union(
 export class UpdateCampaignDialerConfigRequest extends S.Class<UpdateCampaignDialerConfigRequest>(
   "UpdateCampaignDialerConfigRequest",
 )(
-  { id: S.String.pipe(T.HttpLabel()), dialerConfig: DialerConfig },
+  { id: S.String.pipe(T.HttpLabel("id")), dialerConfig: DialerConfig },
   T.all(
     T.Http({ method: "POST", uri: "/campaigns/{id}/dialer-config" }),
     svc,
@@ -514,7 +515,7 @@ export class UpdateCampaignDialerConfigResponse extends S.Class<UpdateCampaignDi
 export class UpdateCampaignNameRequest extends S.Class<UpdateCampaignNameRequest>(
   "UpdateCampaignNameRequest",
 )(
-  { id: S.String.pipe(T.HttpLabel()), name: S.String },
+  { id: S.String.pipe(T.HttpLabel("id")), name: S.String },
   T.all(
     T.Http({ method: "POST", uri: "/campaigns/{id}/name" }),
     svc,
@@ -558,7 +559,7 @@ export class StartInstanceOnboardingJobRequest extends S.Class<StartInstanceOnbo
   "StartInstanceOnboardingJobRequest",
 )(
   {
-    connectInstanceId: S.String.pipe(T.HttpLabel()),
+    connectInstanceId: S.String.pipe(T.HttpLabel("connectInstanceId")),
     encryptionConfig: EncryptionConfig,
   },
   T.all(
@@ -577,7 +578,7 @@ export class UpdateCampaignOutboundCallConfigRequest extends S.Class<UpdateCampa
   "UpdateCampaignOutboundCallConfigRequest",
 )(
   {
-    id: S.String.pipe(T.HttpLabel()),
+    id: S.String.pipe(T.HttpLabel("id")),
     connectContactFlowId: S.optional(S.String),
     connectSourcePhoneNumber: S.optional(S.String),
     answerMachineDetectionConfig: S.optional(AnswerMachineDetectionConfig),
@@ -697,7 +698,7 @@ export class ListCampaignsRequest extends S.Class<ListCampaignsRequest>(
 export class PutDialRequestBatchRequest extends S.Class<PutDialRequestBatchRequest>(
   "PutDialRequestBatchRequest",
 )(
-  { id: S.String.pipe(T.HttpLabel()), dialRequests: DialRequestList },
+  { id: S.String.pipe(T.HttpLabel("id")), dialRequests: DialRequestList },
   T.all(
     T.Http({ method: "PUT", uri: "/campaigns/{id}/dial-requests" }),
     svc,
@@ -765,7 +766,8 @@ export class InternalServerException extends S.TaggedError<InternalServerExcepti
     message: S.String,
     xAmzErrorType: S.optional(S.String).pipe(T.HttpHeader("x-amzn-ErrorType")),
   },
-) {}
+  T.Retryable(),
+).pipe(withCategory(ERROR_CATEGORIES.SERVER_ERROR)) {}
 export class ConflictException extends S.TaggedError<ConflictException>()(
   "ConflictException",
   {
@@ -786,7 +788,8 @@ export class ThrottlingException extends S.TaggedError<ThrottlingException>()(
     message: S.String,
     xAmzErrorType: S.optional(S.String).pipe(T.HttpHeader("x-amzn-ErrorType")),
   },
-) {}
+  T.Retryable(),
+).pipe(withCategory(ERROR_CATEGORIES.THROTTLING_ERROR)) {}
 export class InvalidStateException extends S.TaggedError<InvalidStateException>()(
   "InvalidStateException",
   {

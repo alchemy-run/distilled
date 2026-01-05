@@ -1,6 +1,7 @@
 import * as S from "effect/Schema";
 import * as API from "../api.ts";
 import * as T from "../traits.ts";
+import { ERROR_CATEGORIES, withCategory } from "../error-category.ts";
 const svc = T.AwsApiService({
   sdkId: "Backup",
   serviceShapeName: "CryoControllerUserManager",
@@ -280,7 +281,7 @@ export class AssociateBackupVaultMpaApprovalTeamInput extends S.Class<AssociateB
   "AssociateBackupVaultMpaApprovalTeamInput",
 )(
   {
-    BackupVaultName: S.String.pipe(T.HttpLabel()),
+    BackupVaultName: S.String.pipe(T.HttpLabel("BackupVaultName")),
     MpaApprovalTeamArn: S.String,
     RequesterComment: S.optional(S.String),
   },
@@ -303,7 +304,7 @@ export class CancelLegalHoldInput extends S.Class<CancelLegalHoldInput>(
   "CancelLegalHoldInput",
 )(
   {
-    LegalHoldId: S.String.pipe(T.HttpLabel()),
+    LegalHoldId: S.String.pipe(T.HttpLabel("LegalHoldId")),
     CancelDescription: S.String.pipe(T.HttpQuery("cancelDescription")),
     RetainRecordInDays: S.optional(S.Number).pipe(
       T.HttpQuery("retainRecordInDays"),
@@ -326,7 +327,7 @@ export class CreateBackupVaultInput extends S.Class<CreateBackupVaultInput>(
   "CreateBackupVaultInput",
 )(
   {
-    BackupVaultName: S.String.pipe(T.HttpLabel()),
+    BackupVaultName: S.String.pipe(T.HttpLabel("BackupVaultName")),
     BackupVaultTags: S.optional(Tags),
     EncryptionKeyArn: S.optional(S.String),
     CreatorRequestId: S.optional(S.String),
@@ -344,7 +345,7 @@ export class CreateLogicallyAirGappedBackupVaultInput extends S.Class<CreateLogi
   "CreateLogicallyAirGappedBackupVaultInput",
 )(
   {
-    BackupVaultName: S.String.pipe(T.HttpLabel()),
+    BackupVaultName: S.String.pipe(T.HttpLabel("BackupVaultName")),
     BackupVaultTags: S.optional(Tags),
     CreatorRequestId: S.optional(S.String),
     MinRetentionDays: S.Number,
@@ -385,7 +386,7 @@ export class CreateRestoreAccessBackupVaultInput extends S.Class<CreateRestoreAc
 export class DeleteBackupPlanInput extends S.Class<DeleteBackupPlanInput>(
   "DeleteBackupPlanInput",
 )(
-  { BackupPlanId: S.String.pipe(T.HttpLabel()) },
+  { BackupPlanId: S.String.pipe(T.HttpLabel("BackupPlanId")) },
   T.all(
     T.Http({ method: "DELETE", uri: "/backup/plans/{BackupPlanId}" }),
     svc,
@@ -399,8 +400,8 @@ export class DeleteBackupSelectionInput extends S.Class<DeleteBackupSelectionInp
   "DeleteBackupSelectionInput",
 )(
   {
-    BackupPlanId: S.String.pipe(T.HttpLabel()),
-    SelectionId: S.String.pipe(T.HttpLabel()),
+    BackupPlanId: S.String.pipe(T.HttpLabel("BackupPlanId")),
+    SelectionId: S.String.pipe(T.HttpLabel("SelectionId")),
   },
   T.all(
     T.Http({
@@ -420,7 +421,7 @@ export class DeleteBackupSelectionResponse extends S.Class<DeleteBackupSelection
 export class DeleteBackupVaultInput extends S.Class<DeleteBackupVaultInput>(
   "DeleteBackupVaultInput",
 )(
-  { BackupVaultName: S.String.pipe(T.HttpLabel()) },
+  { BackupVaultName: S.String.pipe(T.HttpLabel("BackupVaultName")) },
   T.all(
     T.Http({ method: "DELETE", uri: "/backup-vaults/{BackupVaultName}" }),
     svc,
@@ -436,7 +437,7 @@ export class DeleteBackupVaultResponse extends S.Class<DeleteBackupVaultResponse
 export class DeleteBackupVaultAccessPolicyInput extends S.Class<DeleteBackupVaultAccessPolicyInput>(
   "DeleteBackupVaultAccessPolicyInput",
 )(
-  { BackupVaultName: S.String.pipe(T.HttpLabel()) },
+  { BackupVaultName: S.String.pipe(T.HttpLabel("BackupVaultName")) },
   T.all(
     T.Http({
       method: "DELETE",
@@ -455,7 +456,7 @@ export class DeleteBackupVaultAccessPolicyResponse extends S.Class<DeleteBackupV
 export class DeleteBackupVaultLockConfigurationInput extends S.Class<DeleteBackupVaultLockConfigurationInput>(
   "DeleteBackupVaultLockConfigurationInput",
 )(
-  { BackupVaultName: S.String.pipe(T.HttpLabel()) },
+  { BackupVaultName: S.String.pipe(T.HttpLabel("BackupVaultName")) },
   T.all(
     T.Http({
       method: "DELETE",
@@ -474,7 +475,7 @@ export class DeleteBackupVaultLockConfigurationResponse extends S.Class<DeleteBa
 export class DeleteBackupVaultNotificationsInput extends S.Class<DeleteBackupVaultNotificationsInput>(
   "DeleteBackupVaultNotificationsInput",
 )(
-  { BackupVaultName: S.String.pipe(T.HttpLabel()) },
+  { BackupVaultName: S.String.pipe(T.HttpLabel("BackupVaultName")) },
   T.all(
     T.Http({
       method: "DELETE",
@@ -493,7 +494,7 @@ export class DeleteBackupVaultNotificationsResponse extends S.Class<DeleteBackup
 export class DeleteFrameworkInput extends S.Class<DeleteFrameworkInput>(
   "DeleteFrameworkInput",
 )(
-  { FrameworkName: S.String.pipe(T.HttpLabel()) },
+  { FrameworkName: S.String.pipe(T.HttpLabel("FrameworkName")) },
   T.all(
     T.Http({ method: "DELETE", uri: "/audit/frameworks/{FrameworkName}" }),
     svc,
@@ -510,8 +511,8 @@ export class DeleteRecoveryPointInput extends S.Class<DeleteRecoveryPointInput>(
   "DeleteRecoveryPointInput",
 )(
   {
-    BackupVaultName: S.String.pipe(T.HttpLabel()),
-    RecoveryPointArn: S.String.pipe(T.HttpLabel()),
+    BackupVaultName: S.String.pipe(T.HttpLabel("BackupVaultName")),
+    RecoveryPointArn: S.String.pipe(T.HttpLabel("RecoveryPointArn")),
   },
   T.all(
     T.Http({
@@ -531,7 +532,7 @@ export class DeleteRecoveryPointResponse extends S.Class<DeleteRecoveryPointResp
 export class DeleteReportPlanInput extends S.Class<DeleteReportPlanInput>(
   "DeleteReportPlanInput",
 )(
-  { ReportPlanName: S.String.pipe(T.HttpLabel()) },
+  { ReportPlanName: S.String.pipe(T.HttpLabel("ReportPlanName")) },
   T.all(
     T.Http({ method: "DELETE", uri: "/audit/report-plans/{ReportPlanName}" }),
     svc,
@@ -547,7 +548,11 @@ export class DeleteReportPlanResponse extends S.Class<DeleteReportPlanResponse>(
 export class DeleteRestoreTestingPlanInput extends S.Class<DeleteRestoreTestingPlanInput>(
   "DeleteRestoreTestingPlanInput",
 )(
-  { RestoreTestingPlanName: S.String.pipe(T.HttpLabel()) },
+  {
+    RestoreTestingPlanName: S.String.pipe(
+      T.HttpLabel("RestoreTestingPlanName"),
+    ),
+  },
   T.all(
     T.Http({
       method: "DELETE",
@@ -567,8 +572,12 @@ export class DeleteRestoreTestingSelectionInput extends S.Class<DeleteRestoreTes
   "DeleteRestoreTestingSelectionInput",
 )(
   {
-    RestoreTestingPlanName: S.String.pipe(T.HttpLabel()),
-    RestoreTestingSelectionName: S.String.pipe(T.HttpLabel()),
+    RestoreTestingPlanName: S.String.pipe(
+      T.HttpLabel("RestoreTestingPlanName"),
+    ),
+    RestoreTestingSelectionName: S.String.pipe(
+      T.HttpLabel("RestoreTestingSelectionName"),
+    ),
   },
   T.all(
     T.Http({
@@ -588,7 +597,11 @@ export class DeleteRestoreTestingSelectionResponse extends S.Class<DeleteRestore
 export class DeleteTieringConfigurationInput extends S.Class<DeleteTieringConfigurationInput>(
   "DeleteTieringConfigurationInput",
 )(
-  { TieringConfigurationName: S.String.pipe(T.HttpLabel()) },
+  {
+    TieringConfigurationName: S.String.pipe(
+      T.HttpLabel("TieringConfigurationName"),
+    ),
+  },
   T.all(
     T.Http({
       method: "DELETE",
@@ -607,7 +620,7 @@ export class DeleteTieringConfigurationOutput extends S.Class<DeleteTieringConfi
 export class DescribeBackupJobInput extends S.Class<DescribeBackupJobInput>(
   "DescribeBackupJobInput",
 )(
-  { BackupJobId: S.String.pipe(T.HttpLabel()) },
+  { BackupJobId: S.String.pipe(T.HttpLabel("BackupJobId")) },
   T.all(
     T.Http({ method: "GET", uri: "/backup-jobs/{BackupJobId}" }),
     svc,
@@ -621,7 +634,7 @@ export class DescribeBackupVaultInput extends S.Class<DescribeBackupVaultInput>(
   "DescribeBackupVaultInput",
 )(
   {
-    BackupVaultName: S.String.pipe(T.HttpLabel()),
+    BackupVaultName: S.String.pipe(T.HttpLabel("BackupVaultName")),
     BackupVaultAccountId: S.optional(S.String).pipe(
       T.HttpQuery("backupVaultAccountId"),
     ),
@@ -638,7 +651,7 @@ export class DescribeBackupVaultInput extends S.Class<DescribeBackupVaultInput>(
 export class DescribeCopyJobInput extends S.Class<DescribeCopyJobInput>(
   "DescribeCopyJobInput",
 )(
-  { CopyJobId: S.String.pipe(T.HttpLabel()) },
+  { CopyJobId: S.String.pipe(T.HttpLabel("CopyJobId")) },
   T.all(
     T.Http({ method: "GET", uri: "/copy-jobs/{CopyJobId}" }),
     svc,
@@ -651,7 +664,7 @@ export class DescribeCopyJobInput extends S.Class<DescribeCopyJobInput>(
 export class DescribeFrameworkInput extends S.Class<DescribeFrameworkInput>(
   "DescribeFrameworkInput",
 )(
-  { FrameworkName: S.String.pipe(T.HttpLabel()) },
+  { FrameworkName: S.String.pipe(T.HttpLabel("FrameworkName")) },
   T.all(
     T.Http({ method: "GET", uri: "/audit/frameworks/{FrameworkName}" }),
     svc,
@@ -664,7 +677,7 @@ export class DescribeFrameworkInput extends S.Class<DescribeFrameworkInput>(
 export class DescribeProtectedResourceInput extends S.Class<DescribeProtectedResourceInput>(
   "DescribeProtectedResourceInput",
 )(
-  { ResourceArn: S.String.pipe(T.HttpLabel()) },
+  { ResourceArn: S.String.pipe(T.HttpLabel("ResourceArn")) },
   T.all(
     T.Http({ method: "GET", uri: "/resources/{ResourceArn}" }),
     svc,
@@ -678,8 +691,8 @@ export class DescribeRecoveryPointInput extends S.Class<DescribeRecoveryPointInp
   "DescribeRecoveryPointInput",
 )(
   {
-    BackupVaultName: S.String.pipe(T.HttpLabel()),
-    RecoveryPointArn: S.String.pipe(T.HttpLabel()),
+    BackupVaultName: S.String.pipe(T.HttpLabel("BackupVaultName")),
+    RecoveryPointArn: S.String.pipe(T.HttpLabel("RecoveryPointArn")),
     BackupVaultAccountId: S.optional(S.String).pipe(
       T.HttpQuery("backupVaultAccountId"),
     ),
@@ -699,7 +712,7 @@ export class DescribeRecoveryPointInput extends S.Class<DescribeRecoveryPointInp
 export class DescribeReportJobInput extends S.Class<DescribeReportJobInput>(
   "DescribeReportJobInput",
 )(
-  { ReportJobId: S.String.pipe(T.HttpLabel()) },
+  { ReportJobId: S.String.pipe(T.HttpLabel("ReportJobId")) },
   T.all(
     T.Http({ method: "GET", uri: "/audit/report-jobs/{ReportJobId}" }),
     svc,
@@ -712,7 +725,7 @@ export class DescribeReportJobInput extends S.Class<DescribeReportJobInput>(
 export class DescribeReportPlanInput extends S.Class<DescribeReportPlanInput>(
   "DescribeReportPlanInput",
 )(
-  { ReportPlanName: S.String.pipe(T.HttpLabel()) },
+  { ReportPlanName: S.String.pipe(T.HttpLabel("ReportPlanName")) },
   T.all(
     T.Http({ method: "GET", uri: "/audit/report-plans/{ReportPlanName}" }),
     svc,
@@ -725,7 +738,7 @@ export class DescribeReportPlanInput extends S.Class<DescribeReportPlanInput>(
 export class DescribeRestoreJobInput extends S.Class<DescribeRestoreJobInput>(
   "DescribeRestoreJobInput",
 )(
-  { RestoreJobId: S.String.pipe(T.HttpLabel()) },
+  { RestoreJobId: S.String.pipe(T.HttpLabel("RestoreJobId")) },
   T.all(
     T.Http({ method: "GET", uri: "/restore-jobs/{RestoreJobId}" }),
     svc,
@@ -738,7 +751,7 @@ export class DescribeRestoreJobInput extends S.Class<DescribeRestoreJobInput>(
 export class DescribeScanJobInput extends S.Class<DescribeScanJobInput>(
   "DescribeScanJobInput",
 )(
-  { ScanJobId: S.String.pipe(T.HttpLabel()) },
+  { ScanJobId: S.String.pipe(T.HttpLabel("ScanJobId")) },
   T.all(
     T.Http({ method: "GET", uri: "/scan/jobs/{ScanJobId}" }),
     svc,
@@ -752,7 +765,7 @@ export class DisassociateBackupVaultMpaApprovalTeamInput extends S.Class<Disasso
   "DisassociateBackupVaultMpaApprovalTeamInput",
 )(
   {
-    BackupVaultName: S.String.pipe(T.HttpLabel()),
+    BackupVaultName: S.String.pipe(T.HttpLabel("BackupVaultName")),
     RequesterComment: S.optional(S.String),
   },
   T.all(
@@ -774,8 +787,8 @@ export class DisassociateRecoveryPointInput extends S.Class<DisassociateRecovery
   "DisassociateRecoveryPointInput",
 )(
   {
-    BackupVaultName: S.String.pipe(T.HttpLabel()),
-    RecoveryPointArn: S.String.pipe(T.HttpLabel()),
+    BackupVaultName: S.String.pipe(T.HttpLabel("BackupVaultName")),
+    RecoveryPointArn: S.String.pipe(T.HttpLabel("RecoveryPointArn")),
   },
   T.all(
     T.Http({
@@ -796,8 +809,8 @@ export class DisassociateRecoveryPointFromParentInput extends S.Class<Disassocia
   "DisassociateRecoveryPointFromParentInput",
 )(
   {
-    BackupVaultName: S.String.pipe(T.HttpLabel()),
-    RecoveryPointArn: S.String.pipe(T.HttpLabel()),
+    BackupVaultName: S.String.pipe(T.HttpLabel("BackupVaultName")),
+    RecoveryPointArn: S.String.pipe(T.HttpLabel("RecoveryPointArn")),
   },
   T.all(
     T.Http({
@@ -817,7 +830,7 @@ export class DisassociateRecoveryPointFromParentResponse extends S.Class<Disasso
 export class ExportBackupPlanTemplateInput extends S.Class<ExportBackupPlanTemplateInput>(
   "ExportBackupPlanTemplateInput",
 )(
-  { BackupPlanId: S.String.pipe(T.HttpLabel()) },
+  { BackupPlanId: S.String.pipe(T.HttpLabel("BackupPlanId")) },
   T.all(
     T.Http({ method: "GET", uri: "/backup/plans/{BackupPlanId}/toTemplate" }),
     svc,
@@ -831,7 +844,7 @@ export class GetBackupPlanInput extends S.Class<GetBackupPlanInput>(
   "GetBackupPlanInput",
 )(
   {
-    BackupPlanId: S.String.pipe(T.HttpLabel()),
+    BackupPlanId: S.String.pipe(T.HttpLabel("BackupPlanId")),
     VersionId: S.optional(S.String).pipe(T.HttpQuery("versionId")),
     MaxScheduledRunsPreview: S.optional(S.Number).pipe(
       T.HttpQuery("MaxScheduledRunsPreview"),
@@ -862,7 +875,7 @@ export class GetBackupPlanFromJSONInput extends S.Class<GetBackupPlanFromJSONInp
 export class GetBackupPlanFromTemplateInput extends S.Class<GetBackupPlanFromTemplateInput>(
   "GetBackupPlanFromTemplateInput",
 )(
-  { BackupPlanTemplateId: S.String.pipe(T.HttpLabel()) },
+  { BackupPlanTemplateId: S.String.pipe(T.HttpLabel("BackupPlanTemplateId")) },
   T.all(
     T.Http({
       method: "GET",
@@ -879,8 +892,8 @@ export class GetBackupSelectionInput extends S.Class<GetBackupSelectionInput>(
   "GetBackupSelectionInput",
 )(
   {
-    BackupPlanId: S.String.pipe(T.HttpLabel()),
-    SelectionId: S.String.pipe(T.HttpLabel()),
+    BackupPlanId: S.String.pipe(T.HttpLabel("BackupPlanId")),
+    SelectionId: S.String.pipe(T.HttpLabel("SelectionId")),
   },
   T.all(
     T.Http({
@@ -897,7 +910,7 @@ export class GetBackupSelectionInput extends S.Class<GetBackupSelectionInput>(
 export class GetBackupVaultAccessPolicyInput extends S.Class<GetBackupVaultAccessPolicyInput>(
   "GetBackupVaultAccessPolicyInput",
 )(
-  { BackupVaultName: S.String.pipe(T.HttpLabel()) },
+  { BackupVaultName: S.String.pipe(T.HttpLabel("BackupVaultName")) },
   T.all(
     T.Http({
       method: "GET",
@@ -913,7 +926,7 @@ export class GetBackupVaultAccessPolicyInput extends S.Class<GetBackupVaultAcces
 export class GetBackupVaultNotificationsInput extends S.Class<GetBackupVaultNotificationsInput>(
   "GetBackupVaultNotificationsInput",
 )(
-  { BackupVaultName: S.String.pipe(T.HttpLabel()) },
+  { BackupVaultName: S.String.pipe(T.HttpLabel("BackupVaultName")) },
   T.all(
     T.Http({
       method: "GET",
@@ -929,7 +942,7 @@ export class GetBackupVaultNotificationsInput extends S.Class<GetBackupVaultNoti
 export class GetLegalHoldInput extends S.Class<GetLegalHoldInput>(
   "GetLegalHoldInput",
 )(
-  { LegalHoldId: S.String.pipe(T.HttpLabel()) },
+  { LegalHoldId: S.String.pipe(T.HttpLabel("LegalHoldId")) },
   T.all(
     T.Http({ method: "GET", uri: "/legal-holds/{LegalHoldId}" }),
     svc,
@@ -943,8 +956,8 @@ export class GetRecoveryPointIndexDetailsInput extends S.Class<GetRecoveryPointI
   "GetRecoveryPointIndexDetailsInput",
 )(
   {
-    BackupVaultName: S.String.pipe(T.HttpLabel()),
-    RecoveryPointArn: S.String.pipe(T.HttpLabel()),
+    BackupVaultName: S.String.pipe(T.HttpLabel("BackupVaultName")),
+    RecoveryPointArn: S.String.pipe(T.HttpLabel("RecoveryPointArn")),
   },
   T.all(
     T.Http({
@@ -962,8 +975,8 @@ export class GetRecoveryPointRestoreMetadataInput extends S.Class<GetRecoveryPoi
   "GetRecoveryPointRestoreMetadataInput",
 )(
   {
-    BackupVaultName: S.String.pipe(T.HttpLabel()),
-    RecoveryPointArn: S.String.pipe(T.HttpLabel()),
+    BackupVaultName: S.String.pipe(T.HttpLabel("BackupVaultName")),
+    RecoveryPointArn: S.String.pipe(T.HttpLabel("RecoveryPointArn")),
     BackupVaultAccountId: S.optional(S.String).pipe(
       T.HttpQuery("backupVaultAccountId"),
     ),
@@ -983,7 +996,7 @@ export class GetRecoveryPointRestoreMetadataInput extends S.Class<GetRecoveryPoi
 export class GetRestoreJobMetadataInput extends S.Class<GetRestoreJobMetadataInput>(
   "GetRestoreJobMetadataInput",
 )(
-  { RestoreJobId: S.String.pipe(T.HttpLabel()) },
+  { RestoreJobId: S.String.pipe(T.HttpLabel("RestoreJobId")) },
   T.all(
     T.Http({ method: "GET", uri: "/restore-jobs/{RestoreJobId}/metadata" }),
     svc,
@@ -1015,7 +1028,11 @@ export class GetRestoreTestingInferredMetadataInput extends S.Class<GetRestoreTe
 export class GetRestoreTestingPlanInput extends S.Class<GetRestoreTestingPlanInput>(
   "GetRestoreTestingPlanInput",
 )(
-  { RestoreTestingPlanName: S.String.pipe(T.HttpLabel()) },
+  {
+    RestoreTestingPlanName: S.String.pipe(
+      T.HttpLabel("RestoreTestingPlanName"),
+    ),
+  },
   T.all(
     T.Http({
       method: "GET",
@@ -1032,8 +1049,12 @@ export class GetRestoreTestingSelectionInput extends S.Class<GetRestoreTestingSe
   "GetRestoreTestingSelectionInput",
 )(
   {
-    RestoreTestingPlanName: S.String.pipe(T.HttpLabel()),
-    RestoreTestingSelectionName: S.String.pipe(T.HttpLabel()),
+    RestoreTestingPlanName: S.String.pipe(
+      T.HttpLabel("RestoreTestingPlanName"),
+    ),
+    RestoreTestingSelectionName: S.String.pipe(
+      T.HttpLabel("RestoreTestingSelectionName"),
+    ),
   },
   T.all(
     T.Http({
@@ -1053,7 +1074,11 @@ export class GetSupportedResourceTypesOutput extends S.Class<GetSupportedResourc
 export class GetTieringConfigurationInput extends S.Class<GetTieringConfigurationInput>(
   "GetTieringConfigurationInput",
 )(
-  { TieringConfigurationName: S.String.pipe(T.HttpLabel()) },
+  {
+    TieringConfigurationName: S.String.pipe(
+      T.HttpLabel("TieringConfigurationName"),
+    ),
+  },
   T.all(
     T.Http({
       method: "GET",
@@ -1165,7 +1190,7 @@ export class ListBackupPlanVersionsInput extends S.Class<ListBackupPlanVersionsI
   "ListBackupPlanVersionsInput",
 )(
   {
-    BackupPlanId: S.String.pipe(T.HttpLabel()),
+    BackupPlanId: S.String.pipe(T.HttpLabel("BackupPlanId")),
     NextToken: S.optional(S.String).pipe(T.HttpQuery("nextToken")),
     MaxResults: S.optional(S.Number).pipe(T.HttpQuery("maxResults")),
   },
@@ -1182,7 +1207,7 @@ export class ListBackupSelectionsInput extends S.Class<ListBackupSelectionsInput
   "ListBackupSelectionsInput",
 )(
   {
-    BackupPlanId: S.String.pipe(T.HttpLabel()),
+    BackupPlanId: S.String.pipe(T.HttpLabel("BackupPlanId")),
     NextToken: S.optional(S.String).pipe(T.HttpQuery("nextToken")),
     MaxResults: S.optional(S.Number).pipe(T.HttpQuery("maxResults")),
   },
@@ -1357,7 +1382,7 @@ export class ListProtectedResourcesByBackupVaultInput extends S.Class<ListProtec
   "ListProtectedResourcesByBackupVaultInput",
 )(
   {
-    BackupVaultName: S.String.pipe(T.HttpLabel()),
+    BackupVaultName: S.String.pipe(T.HttpLabel("BackupVaultName")),
     BackupVaultAccountId: S.optional(S.String).pipe(
       T.HttpQuery("backupVaultAccountId"),
     ),
@@ -1380,7 +1405,7 @@ export class ListRecoveryPointsByBackupVaultInput extends S.Class<ListRecoveryPo
   "ListRecoveryPointsByBackupVaultInput",
 )(
   {
-    BackupVaultName: S.String.pipe(T.HttpLabel()),
+    BackupVaultName: S.String.pipe(T.HttpLabel("BackupVaultName")),
     BackupVaultAccountId: S.optional(S.String).pipe(
       T.HttpQuery("backupVaultAccountId"),
     ),
@@ -1415,7 +1440,7 @@ export class ListRecoveryPointsByLegalHoldInput extends S.Class<ListRecoveryPoin
   "ListRecoveryPointsByLegalHoldInput",
 )(
   {
-    LegalHoldId: S.String.pipe(T.HttpLabel()),
+    LegalHoldId: S.String.pipe(T.HttpLabel("LegalHoldId")),
     NextToken: S.optional(S.String).pipe(T.HttpQuery("nextToken")),
     MaxResults: S.optional(S.Number).pipe(T.HttpQuery("maxResults")),
   },
@@ -1435,7 +1460,7 @@ export class ListRecoveryPointsByResourceInput extends S.Class<ListRecoveryPoint
   "ListRecoveryPointsByResourceInput",
 )(
   {
-    ResourceArn: S.String.pipe(T.HttpLabel()),
+    ResourceArn: S.String.pipe(T.HttpLabel("ResourceArn")),
     NextToken: S.optional(S.String).pipe(T.HttpQuery("nextToken")),
     MaxResults: S.optional(S.Number).pipe(T.HttpQuery("maxResults")),
     ManagedByAWSBackupOnly: S.optional(S.Boolean).pipe(
@@ -1495,7 +1520,7 @@ export class ListRestoreAccessBackupVaultsInput extends S.Class<ListRestoreAcces
   "ListRestoreAccessBackupVaultsInput",
 )(
   {
-    BackupVaultName: S.String.pipe(T.HttpLabel()),
+    BackupVaultName: S.String.pipe(T.HttpLabel("BackupVaultName")),
     NextToken: S.optional(S.String).pipe(T.HttpQuery("nextToken")),
     MaxResults: S.optional(S.Number).pipe(T.HttpQuery("maxResults")),
   },
@@ -1550,7 +1575,7 @@ export class ListRestoreJobsByProtectedResourceInput extends S.Class<ListRestore
   "ListRestoreJobsByProtectedResourceInput",
 )(
   {
-    ResourceArn: S.String.pipe(T.HttpLabel()),
+    ResourceArn: S.String.pipe(T.HttpLabel("ResourceArn")),
     ByStatus: S.optional(S.String).pipe(T.HttpQuery("status")),
     ByRecoveryPointCreationDateAfter: S.optional(
       S.Date.pipe(T.TimestampFormat("epoch-seconds")),
@@ -1614,7 +1639,9 @@ export class ListRestoreTestingSelectionsInput extends S.Class<ListRestoreTestin
   {
     MaxResults: S.optional(S.Number).pipe(T.HttpQuery("MaxResults")),
     NextToken: S.optional(S.String).pipe(T.HttpQuery("NextToken")),
-    RestoreTestingPlanName: S.String.pipe(T.HttpLabel()),
+    RestoreTestingPlanName: S.String.pipe(
+      T.HttpLabel("RestoreTestingPlanName"),
+    ),
   },
   T.all(
     T.Http({
@@ -1694,7 +1721,7 @@ export class ListScanJobSummariesInput extends S.Class<ListScanJobSummariesInput
 ) {}
 export class ListTagsInput extends S.Class<ListTagsInput>("ListTagsInput")(
   {
-    ResourceArn: S.String.pipe(T.HttpLabel()),
+    ResourceArn: S.String.pipe(T.HttpLabel("ResourceArn")),
     NextToken: S.optional(S.String).pipe(T.HttpQuery("nextToken")),
     MaxResults: S.optional(S.Number).pipe(T.HttpQuery("maxResults")),
   },
@@ -1727,7 +1754,7 @@ export class PutBackupVaultAccessPolicyInput extends S.Class<PutBackupVaultAcces
   "PutBackupVaultAccessPolicyInput",
 )(
   {
-    BackupVaultName: S.String.pipe(T.HttpLabel()),
+    BackupVaultName: S.String.pipe(T.HttpLabel("BackupVaultName")),
     Policy: S.optional(S.String),
   },
   T.all(
@@ -1749,7 +1776,7 @@ export class PutBackupVaultLockConfigurationInput extends S.Class<PutBackupVault
   "PutBackupVaultLockConfigurationInput",
 )(
   {
-    BackupVaultName: S.String.pipe(T.HttpLabel()),
+    BackupVaultName: S.String.pipe(T.HttpLabel("BackupVaultName")),
     MinRetentionDays: S.optional(S.Number),
     MaxRetentionDays: S.optional(S.Number),
     ChangeableForDays: S.optional(S.Number),
@@ -1773,7 +1800,7 @@ export class PutBackupVaultNotificationsInput extends S.Class<PutBackupVaultNoti
   "PutBackupVaultNotificationsInput",
 )(
   {
-    BackupVaultName: S.String.pipe(T.HttpLabel()),
+    BackupVaultName: S.String.pipe(T.HttpLabel("BackupVaultName")),
     SNSTopicArn: S.String,
     BackupVaultEvents: BackupVaultEvents,
   },
@@ -1796,7 +1823,7 @@ export class PutRestoreValidationResultInput extends S.Class<PutRestoreValidatio
   "PutRestoreValidationResultInput",
 )(
   {
-    RestoreJobId: S.String.pipe(T.HttpLabel()),
+    RestoreJobId: S.String.pipe(T.HttpLabel("RestoreJobId")),
     ValidationStatus: S.String,
     ValidationStatusMessage: S.optional(S.String),
   },
@@ -1816,8 +1843,10 @@ export class RevokeRestoreAccessBackupVaultInput extends S.Class<RevokeRestoreAc
   "RevokeRestoreAccessBackupVaultInput",
 )(
   {
-    BackupVaultName: S.String.pipe(T.HttpLabel()),
-    RestoreAccessBackupVaultArn: S.String.pipe(T.HttpLabel()),
+    BackupVaultName: S.String.pipe(T.HttpLabel("BackupVaultName")),
+    RestoreAccessBackupVaultArn: S.String.pipe(
+      T.HttpLabel("RestoreAccessBackupVaultArn"),
+    ),
     RequesterComment: S.optional(S.String).pipe(
       T.HttpQuery("requesterComment"),
     ),
@@ -1867,7 +1896,7 @@ export class StartReportJobInput extends S.Class<StartReportJobInput>(
   "StartReportJobInput",
 )(
   {
-    ReportPlanName: S.String.pipe(T.HttpLabel()),
+    ReportPlanName: S.String.pipe(T.HttpLabel("ReportPlanName")),
     IdempotencyToken: S.optional(S.String),
   },
   T.all(
@@ -1904,7 +1933,7 @@ export class StartScanJobInput extends S.Class<StartScanJobInput>(
 export class StopBackupJobInput extends S.Class<StopBackupJobInput>(
   "StopBackupJobInput",
 )(
-  { BackupJobId: S.String.pipe(T.HttpLabel()) },
+  { BackupJobId: S.String.pipe(T.HttpLabel("BackupJobId")) },
   T.all(
     T.Http({ method: "POST", uri: "/backup-jobs/{BackupJobId}" }),
     svc,
@@ -1920,7 +1949,7 @@ export class StopBackupJobResponse extends S.Class<StopBackupJobResponse>(
 export class TagResourceInput extends S.Class<TagResourceInput>(
   "TagResourceInput",
 )(
-  { ResourceArn: S.String.pipe(T.HttpLabel()), Tags: Tags },
+  { ResourceArn: S.String.pipe(T.HttpLabel("ResourceArn")), Tags: Tags },
   T.all(
     T.Http({ method: "POST", uri: "/tags/{ResourceArn}" }),
     svc,
@@ -1936,7 +1965,10 @@ export class TagResourceResponse extends S.Class<TagResourceResponse>(
 export class UntagResourceInput extends S.Class<UntagResourceInput>(
   "UntagResourceInput",
 )(
-  { ResourceArn: S.String.pipe(T.HttpLabel()), TagKeyList: TagKeyList },
+  {
+    ResourceArn: S.String.pipe(T.HttpLabel("ResourceArn")),
+    TagKeyList: TagKeyList,
+  },
   T.all(
     T.Http({ method: "POST", uri: "/untag/{ResourceArn}" }),
     svc,
@@ -2006,7 +2038,10 @@ export class BackupPlanInput extends S.Class<BackupPlanInput>(
 export class UpdateBackupPlanInput extends S.Class<UpdateBackupPlanInput>(
   "UpdateBackupPlanInput",
 )(
-  { BackupPlanId: S.String.pipe(T.HttpLabel()), BackupPlan: BackupPlanInput },
+  {
+    BackupPlanId: S.String.pipe(T.HttpLabel("BackupPlanId")),
+    BackupPlan: BackupPlanInput,
+  },
   T.all(
     T.Http({ method: "POST", uri: "/backup/plans/{BackupPlanId}" }),
     svc,
@@ -2043,7 +2078,7 @@ export class UpdateFrameworkInput extends S.Class<UpdateFrameworkInput>(
   "UpdateFrameworkInput",
 )(
   {
-    FrameworkName: S.String.pipe(T.HttpLabel()),
+    FrameworkName: S.String.pipe(T.HttpLabel("FrameworkName")),
     FrameworkDescription: S.optional(S.String),
     FrameworkControls: S.optional(FrameworkControls),
     IdempotencyToken: S.optional(S.String),
@@ -2078,8 +2113,8 @@ export class UpdateRecoveryPointIndexSettingsInput extends S.Class<UpdateRecover
   "UpdateRecoveryPointIndexSettingsInput",
 )(
   {
-    BackupVaultName: S.String.pipe(T.HttpLabel()),
-    RecoveryPointArn: S.String.pipe(T.HttpLabel()),
+    BackupVaultName: S.String.pipe(T.HttpLabel("BackupVaultName")),
+    RecoveryPointArn: S.String.pipe(T.HttpLabel("RecoveryPointArn")),
     IamRoleArn: S.optional(S.String),
     Index: S.String,
   },
@@ -2099,8 +2134,8 @@ export class UpdateRecoveryPointLifecycleInput extends S.Class<UpdateRecoveryPoi
   "UpdateRecoveryPointLifecycleInput",
 )(
   {
-    BackupVaultName: S.String.pipe(T.HttpLabel()),
-    RecoveryPointArn: S.String.pipe(T.HttpLabel()),
+    BackupVaultName: S.String.pipe(T.HttpLabel("BackupVaultName")),
+    RecoveryPointArn: S.String.pipe(T.HttpLabel("RecoveryPointArn")),
     Lifecycle: S.optional(Lifecycle),
   },
   T.all(
@@ -2165,7 +2200,7 @@ export class UpdateReportPlanInput extends S.Class<UpdateReportPlanInput>(
   "UpdateReportPlanInput",
 )(
   {
-    ReportPlanName: S.String.pipe(T.HttpLabel()),
+    ReportPlanName: S.String.pipe(T.HttpLabel("ReportPlanName")),
     ReportPlanDescription: S.optional(S.String),
     ReportDeliveryChannel: S.optional(ReportDeliveryChannel),
     ReportSetting: S.optional(ReportSetting),
@@ -2757,7 +2792,9 @@ export class UpdateRestoreTestingPlanInput extends S.Class<UpdateRestoreTestingP
 )(
   {
     RestoreTestingPlan: RestoreTestingPlanForUpdate,
-    RestoreTestingPlanName: S.String.pipe(T.HttpLabel()),
+    RestoreTestingPlanName: S.String.pipe(
+      T.HttpLabel("RestoreTestingPlanName"),
+    ),
   },
   T.all(
     T.Http({
@@ -2775,9 +2812,13 @@ export class UpdateRestoreTestingSelectionInput extends S.Class<UpdateRestoreTes
   "UpdateRestoreTestingSelectionInput",
 )(
   {
-    RestoreTestingPlanName: S.String.pipe(T.HttpLabel()),
+    RestoreTestingPlanName: S.String.pipe(
+      T.HttpLabel("RestoreTestingPlanName"),
+    ),
     RestoreTestingSelection: RestoreTestingSelectionForUpdate,
-    RestoreTestingSelectionName: S.String.pipe(T.HttpLabel()),
+    RestoreTestingSelectionName: S.String.pipe(
+      T.HttpLabel("RestoreTestingSelectionName"),
+    ),
   },
   T.all(
     T.Http({
@@ -2795,7 +2836,9 @@ export class UpdateTieringConfigurationInput extends S.Class<UpdateTieringConfig
   "UpdateTieringConfigurationInput",
 )(
   {
-    TieringConfigurationName: S.String.pipe(T.HttpLabel()),
+    TieringConfigurationName: S.String.pipe(
+      T.HttpLabel("TieringConfigurationName"),
+    ),
     TieringConfiguration: TieringConfigurationInputForUpdate,
   },
   T.all(
@@ -3639,7 +3682,7 @@ export class CreateBackupSelectionInput extends S.Class<CreateBackupSelectionInp
   "CreateBackupSelectionInput",
 )(
   {
-    BackupPlanId: S.String.pipe(T.HttpLabel()),
+    BackupPlanId: S.String.pipe(T.HttpLabel("BackupPlanId")),
     BackupSelection: BackupSelection,
     CreatorRequestId: S.optional(S.String),
   },
@@ -3681,7 +3724,9 @@ export class CreateRestoreTestingSelectionInput extends S.Class<CreateRestoreTes
 )(
   {
     CreatorRequestId: S.optional(S.String),
-    RestoreTestingPlanName: S.String.pipe(T.HttpLabel()),
+    RestoreTestingPlanName: S.String.pipe(
+      T.HttpLabel("RestoreTestingPlanName"),
+    ),
     RestoreTestingSelection: RestoreTestingSelectionForCreate,
   },
   T.all(

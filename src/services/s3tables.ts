@@ -1,6 +1,7 @@
 import * as S from "effect/Schema";
 import * as API from "../api.ts";
 import * as T from "../traits.ts";
+import { ERROR_CATEGORIES, withCategory } from "../error-category.ts";
 const svc = T.AwsApiService({
   sdkId: "S3Tables",
   serviceShapeName: "S3TableBuckets",
@@ -298,7 +299,7 @@ export const NamespaceList = S.Array(S.String);
 export class ListTagsForResourceRequest extends S.Class<ListTagsForResourceRequest>(
   "ListTagsForResourceRequest",
 )(
-  { resourceArn: S.String.pipe(T.HttpLabel()) },
+  { resourceArn: S.String.pipe(T.HttpLabel("resourceArn")) },
   T.all(
     T.Http({ method: "GET", uri: "/tag/{resourceArn}" }),
     svc,
@@ -312,7 +313,7 @@ export class UntagResourceRequest extends S.Class<UntagResourceRequest>(
   "UntagResourceRequest",
 )(
   {
-    resourceArn: S.String.pipe(T.HttpLabel()),
+    resourceArn: S.String.pipe(T.HttpLabel("resourceArn")),
     tagKeys: TagKeyList.pipe(T.HttpQuery("tagKeys")),
   },
   T.all(
@@ -330,7 +331,10 @@ export class UntagResourceResponse extends S.Class<UntagResourceResponse>(
 export class CreateNamespaceRequest extends S.Class<CreateNamespaceRequest>(
   "CreateNamespaceRequest",
 )(
-  { tableBucketARN: S.String.pipe(T.HttpLabel()), namespace: NamespaceList },
+  {
+    tableBucketARN: S.String.pipe(T.HttpLabel("tableBucketARN")),
+    namespace: NamespaceList,
+  },
   T.all(
     T.Http({ method: "PUT", uri: "/namespaces/{tableBucketARN}" }),
     svc,
@@ -344,8 +348,8 @@ export class DeleteNamespaceRequest extends S.Class<DeleteNamespaceRequest>(
   "DeleteNamespaceRequest",
 )(
   {
-    tableBucketARN: S.String.pipe(T.HttpLabel()),
-    namespace: S.String.pipe(T.HttpLabel()),
+    tableBucketARN: S.String.pipe(T.HttpLabel("tableBucketARN")),
+    namespace: S.String.pipe(T.HttpLabel("namespace")),
   },
   T.all(
     T.Http({
@@ -366,8 +370,8 @@ export class GetNamespaceRequest extends S.Class<GetNamespaceRequest>(
   "GetNamespaceRequest",
 )(
   {
-    tableBucketARN: S.String.pipe(T.HttpLabel()),
-    namespace: S.String.pipe(T.HttpLabel()),
+    tableBucketARN: S.String.pipe(T.HttpLabel("tableBucketARN")),
+    namespace: S.String.pipe(T.HttpLabel("namespace")),
   },
   T.all(
     T.Http({ method: "GET", uri: "/namespaces/{tableBucketARN}/{namespace}" }),
@@ -382,7 +386,7 @@ export class ListNamespacesRequest extends S.Class<ListNamespacesRequest>(
   "ListNamespacesRequest",
 )(
   {
-    tableBucketARN: S.String.pipe(T.HttpLabel()),
+    tableBucketARN: S.String.pipe(T.HttpLabel("tableBucketARN")),
     prefix: S.optional(S.String).pipe(T.HttpQuery("prefix")),
     continuationToken: S.optional(S.String).pipe(
       T.HttpQuery("continuationToken"),
@@ -401,7 +405,7 @@ export class ListNamespacesRequest extends S.Class<ListNamespacesRequest>(
 export class DeleteTableBucketEncryptionRequest extends S.Class<DeleteTableBucketEncryptionRequest>(
   "DeleteTableBucketEncryptionRequest",
 )(
-  { tableBucketARN: S.String.pipe(T.HttpLabel()) },
+  { tableBucketARN: S.String.pipe(T.HttpLabel("tableBucketARN")) },
   T.all(
     T.Http({ method: "DELETE", uri: "/buckets/{tableBucketARN}/encryption" }),
     svc,
@@ -417,7 +421,7 @@ export class DeleteTableBucketEncryptionResponse extends S.Class<DeleteTableBuck
 export class GetTableBucketEncryptionRequest extends S.Class<GetTableBucketEncryptionRequest>(
   "GetTableBucketEncryptionRequest",
 )(
-  { tableBucketARN: S.String.pipe(T.HttpLabel()) },
+  { tableBucketARN: S.String.pipe(T.HttpLabel("tableBucketARN")) },
   T.all(
     T.Http({ method: "GET", uri: "/buckets/{tableBucketARN}/encryption" }),
     svc,
@@ -430,7 +434,7 @@ export class GetTableBucketEncryptionRequest extends S.Class<GetTableBucketEncry
 export class DeleteTableBucketPolicyRequest extends S.Class<DeleteTableBucketPolicyRequest>(
   "DeleteTableBucketPolicyRequest",
 )(
-  { tableBucketARN: S.String.pipe(T.HttpLabel()) },
+  { tableBucketARN: S.String.pipe(T.HttpLabel("tableBucketARN")) },
   T.all(
     T.Http({ method: "DELETE", uri: "/buckets/{tableBucketARN}/policy" }),
     svc,
@@ -446,7 +450,7 @@ export class DeleteTableBucketPolicyResponse extends S.Class<DeleteTableBucketPo
 export class GetTableBucketPolicyRequest extends S.Class<GetTableBucketPolicyRequest>(
   "GetTableBucketPolicyRequest",
 )(
-  { tableBucketARN: S.String.pipe(T.HttpLabel()) },
+  { tableBucketARN: S.String.pipe(T.HttpLabel("tableBucketARN")) },
   T.all(
     T.Http({ method: "GET", uri: "/buckets/{tableBucketARN}/policy" }),
     svc,
@@ -459,7 +463,10 @@ export class GetTableBucketPolicyRequest extends S.Class<GetTableBucketPolicyReq
 export class PutTableBucketPolicyRequest extends S.Class<PutTableBucketPolicyRequest>(
   "PutTableBucketPolicyRequest",
 )(
-  { tableBucketARN: S.String.pipe(T.HttpLabel()), resourcePolicy: S.String },
+  {
+    tableBucketARN: S.String.pipe(T.HttpLabel("tableBucketARN")),
+    resourcePolicy: S.String,
+  },
   T.all(
     T.Http({ method: "PUT", uri: "/buckets/{tableBucketARN}/policy" }),
     svc,
@@ -507,7 +514,7 @@ export class GetTableBucketReplicationRequest extends S.Class<GetTableBucketRepl
 export class DeleteTableBucketRequest extends S.Class<DeleteTableBucketRequest>(
   "DeleteTableBucketRequest",
 )(
-  { tableBucketARN: S.String.pipe(T.HttpLabel()) },
+  { tableBucketARN: S.String.pipe(T.HttpLabel("tableBucketARN")) },
   T.all(
     T.Http({ method: "DELETE", uri: "/buckets/{tableBucketARN}" }),
     svc,
@@ -523,7 +530,7 @@ export class DeleteTableBucketResponse extends S.Class<DeleteTableBucketResponse
 export class DeleteTableBucketMetricsConfigurationRequest extends S.Class<DeleteTableBucketMetricsConfigurationRequest>(
   "DeleteTableBucketMetricsConfigurationRequest",
 )(
-  { tableBucketARN: S.String.pipe(T.HttpLabel()) },
+  { tableBucketARN: S.String.pipe(T.HttpLabel("tableBucketARN")) },
   T.all(
     T.Http({ method: "DELETE", uri: "/buckets/{tableBucketARN}/metrics" }),
     svc,
@@ -539,7 +546,7 @@ export class DeleteTableBucketMetricsConfigurationResponse extends S.Class<Delet
 export class GetTableBucketRequest extends S.Class<GetTableBucketRequest>(
   "GetTableBucketRequest",
 )(
-  { tableBucketARN: S.String.pipe(T.HttpLabel()) },
+  { tableBucketARN: S.String.pipe(T.HttpLabel("tableBucketARN")) },
   T.all(
     T.Http({ method: "GET", uri: "/buckets/{tableBucketARN}" }),
     svc,
@@ -552,7 +559,7 @@ export class GetTableBucketRequest extends S.Class<GetTableBucketRequest>(
 export class GetTableBucketMaintenanceConfigurationRequest extends S.Class<GetTableBucketMaintenanceConfigurationRequest>(
   "GetTableBucketMaintenanceConfigurationRequest",
 )(
-  { tableBucketARN: S.String.pipe(T.HttpLabel()) },
+  { tableBucketARN: S.String.pipe(T.HttpLabel("tableBucketARN")) },
   T.all(
     T.Http({ method: "GET", uri: "/buckets/{tableBucketARN}/maintenance" }),
     svc,
@@ -565,7 +572,7 @@ export class GetTableBucketMaintenanceConfigurationRequest extends S.Class<GetTa
 export class GetTableBucketMetricsConfigurationRequest extends S.Class<GetTableBucketMetricsConfigurationRequest>(
   "GetTableBucketMetricsConfigurationRequest",
 )(
-  { tableBucketARN: S.String.pipe(T.HttpLabel()) },
+  { tableBucketARN: S.String.pipe(T.HttpLabel("tableBucketARN")) },
   T.all(
     T.Http({ method: "GET", uri: "/buckets/{tableBucketARN}/metrics" }),
     svc,
@@ -578,7 +585,7 @@ export class GetTableBucketMetricsConfigurationRequest extends S.Class<GetTableB
 export class GetTableBucketStorageClassRequest extends S.Class<GetTableBucketStorageClassRequest>(
   "GetTableBucketStorageClassRequest",
 )(
-  { tableBucketARN: S.String.pipe(T.HttpLabel()) },
+  { tableBucketARN: S.String.pipe(T.HttpLabel("tableBucketARN")) },
   T.all(
     T.Http({ method: "GET", uri: "/buckets/{tableBucketARN}/storage-class" }),
     svc,
@@ -611,7 +618,7 @@ export class ListTableBucketsRequest extends S.Class<ListTableBucketsRequest>(
 export class PutTableBucketMetricsConfigurationRequest extends S.Class<PutTableBucketMetricsConfigurationRequest>(
   "PutTableBucketMetricsConfigurationRequest",
 )(
-  { tableBucketARN: S.String.pipe(T.HttpLabel()) },
+  { tableBucketARN: S.String.pipe(T.HttpLabel("tableBucketARN")) },
   T.all(
     T.Http({ method: "PUT", uri: "/buckets/{tableBucketARN}/metrics" }),
     svc,
@@ -631,7 +638,7 @@ export class PutTableBucketStorageClassRequest extends S.Class<PutTableBucketSto
   "PutTableBucketStorageClassRequest",
 )(
   {
-    tableBucketARN: S.String.pipe(T.HttpLabel()),
+    tableBucketARN: S.String.pipe(T.HttpLabel("tableBucketARN")),
     storageClassConfiguration: StorageClassConfiguration,
   },
   T.all(
@@ -650,9 +657,9 @@ export class GetTableEncryptionRequest extends S.Class<GetTableEncryptionRequest
   "GetTableEncryptionRequest",
 )(
   {
-    tableBucketARN: S.String.pipe(T.HttpLabel()),
-    namespace: S.String.pipe(T.HttpLabel()),
-    name: S.String.pipe(T.HttpLabel()),
+    tableBucketARN: S.String.pipe(T.HttpLabel("tableBucketARN")),
+    namespace: S.String.pipe(T.HttpLabel("namespace")),
+    name: S.String.pipe(T.HttpLabel("name")),
   },
   T.all(
     T.Http({
@@ -670,9 +677,9 @@ export class DeleteTablePolicyRequest extends S.Class<DeleteTablePolicyRequest>(
   "DeleteTablePolicyRequest",
 )(
   {
-    tableBucketARN: S.String.pipe(T.HttpLabel()),
-    namespace: S.String.pipe(T.HttpLabel()),
-    name: S.String.pipe(T.HttpLabel()),
+    tableBucketARN: S.String.pipe(T.HttpLabel("tableBucketARN")),
+    namespace: S.String.pipe(T.HttpLabel("namespace")),
+    name: S.String.pipe(T.HttpLabel("name")),
   },
   T.all(
     T.Http({
@@ -693,9 +700,9 @@ export class GetTablePolicyRequest extends S.Class<GetTablePolicyRequest>(
   "GetTablePolicyRequest",
 )(
   {
-    tableBucketARN: S.String.pipe(T.HttpLabel()),
-    namespace: S.String.pipe(T.HttpLabel()),
-    name: S.String.pipe(T.HttpLabel()),
+    tableBucketARN: S.String.pipe(T.HttpLabel("tableBucketARN")),
+    namespace: S.String.pipe(T.HttpLabel("namespace")),
+    name: S.String.pipe(T.HttpLabel("name")),
   },
   T.all(
     T.Http({
@@ -713,9 +720,9 @@ export class PutTablePolicyRequest extends S.Class<PutTablePolicyRequest>(
   "PutTablePolicyRequest",
 )(
   {
-    tableBucketARN: S.String.pipe(T.HttpLabel()),
-    namespace: S.String.pipe(T.HttpLabel()),
-    name: S.String.pipe(T.HttpLabel()),
+    tableBucketARN: S.String.pipe(T.HttpLabel("tableBucketARN")),
+    namespace: S.String.pipe(T.HttpLabel("namespace")),
+    name: S.String.pipe(T.HttpLabel("name")),
     resourcePolicy: S.String,
   },
   T.all(
@@ -782,9 +789,9 @@ export class DeleteTableRequest extends S.Class<DeleteTableRequest>(
   "DeleteTableRequest",
 )(
   {
-    tableBucketARN: S.String.pipe(T.HttpLabel()),
-    namespace: S.String.pipe(T.HttpLabel()),
-    name: S.String.pipe(T.HttpLabel()),
+    tableBucketARN: S.String.pipe(T.HttpLabel("tableBucketARN")),
+    namespace: S.String.pipe(T.HttpLabel("namespace")),
+    name: S.String.pipe(T.HttpLabel("name")),
     versionToken: S.optional(S.String).pipe(T.HttpQuery("versionToken")),
   },
   T.all(
@@ -824,9 +831,9 @@ export class GetTableMaintenanceConfigurationRequest extends S.Class<GetTableMai
   "GetTableMaintenanceConfigurationRequest",
 )(
   {
-    tableBucketARN: S.String.pipe(T.HttpLabel()),
-    namespace: S.String.pipe(T.HttpLabel()),
-    name: S.String.pipe(T.HttpLabel()),
+    tableBucketARN: S.String.pipe(T.HttpLabel("tableBucketARN")),
+    namespace: S.String.pipe(T.HttpLabel("namespace")),
+    name: S.String.pipe(T.HttpLabel("name")),
   },
   T.all(
     T.Http({
@@ -844,9 +851,9 @@ export class GetTableMaintenanceJobStatusRequest extends S.Class<GetTableMainten
   "GetTableMaintenanceJobStatusRequest",
 )(
   {
-    tableBucketARN: S.String.pipe(T.HttpLabel()),
-    namespace: S.String.pipe(T.HttpLabel()),
-    name: S.String.pipe(T.HttpLabel()),
+    tableBucketARN: S.String.pipe(T.HttpLabel("tableBucketARN")),
+    namespace: S.String.pipe(T.HttpLabel("namespace")),
+    name: S.String.pipe(T.HttpLabel("name")),
   },
   T.all(
     T.Http({
@@ -864,9 +871,9 @@ export class GetTableMetadataLocationRequest extends S.Class<GetTableMetadataLoc
   "GetTableMetadataLocationRequest",
 )(
   {
-    tableBucketARN: S.String.pipe(T.HttpLabel()),
-    namespace: S.String.pipe(T.HttpLabel()),
-    name: S.String.pipe(T.HttpLabel()),
+    tableBucketARN: S.String.pipe(T.HttpLabel("tableBucketARN")),
+    namespace: S.String.pipe(T.HttpLabel("namespace")),
+    name: S.String.pipe(T.HttpLabel("name")),
   },
   T.all(
     T.Http({
@@ -910,9 +917,9 @@ export class GetTableStorageClassRequest extends S.Class<GetTableStorageClassReq
   "GetTableStorageClassRequest",
 )(
   {
-    tableBucketARN: S.String.pipe(T.HttpLabel()),
-    namespace: S.String.pipe(T.HttpLabel()),
-    name: S.String.pipe(T.HttpLabel()),
+    tableBucketARN: S.String.pipe(T.HttpLabel("tableBucketARN")),
+    namespace: S.String.pipe(T.HttpLabel("namespace")),
+    name: S.String.pipe(T.HttpLabel("name")),
   },
   T.all(
     T.Http({
@@ -930,7 +937,7 @@ export class ListTablesRequest extends S.Class<ListTablesRequest>(
   "ListTablesRequest",
 )(
   {
-    tableBucketARN: S.String.pipe(T.HttpLabel()),
+    tableBucketARN: S.String.pipe(T.HttpLabel("tableBucketARN")),
     namespace: S.optional(S.String).pipe(T.HttpQuery("namespace")),
     prefix: S.optional(S.String).pipe(T.HttpQuery("prefix")),
     continuationToken: S.optional(S.String).pipe(
@@ -951,9 +958,9 @@ export class RenameTableRequest extends S.Class<RenameTableRequest>(
   "RenameTableRequest",
 )(
   {
-    tableBucketARN: S.String.pipe(T.HttpLabel()),
-    namespace: S.String.pipe(T.HttpLabel()),
-    name: S.String.pipe(T.HttpLabel()),
+    tableBucketARN: S.String.pipe(T.HttpLabel("tableBucketARN")),
+    namespace: S.String.pipe(T.HttpLabel("namespace")),
+    name: S.String.pipe(T.HttpLabel("name")),
     newNamespaceName: S.optional(S.String),
     newName: S.optional(S.String),
     versionToken: S.optional(S.String),
@@ -977,9 +984,9 @@ export class UpdateTableMetadataLocationRequest extends S.Class<UpdateTableMetad
   "UpdateTableMetadataLocationRequest",
 )(
   {
-    tableBucketARN: S.String.pipe(T.HttpLabel()),
-    namespace: S.String.pipe(T.HttpLabel()),
-    name: S.String.pipe(T.HttpLabel()),
+    tableBucketARN: S.String.pipe(T.HttpLabel("tableBucketARN")),
+    namespace: S.String.pipe(T.HttpLabel("namespace")),
+    name: S.String.pipe(T.HttpLabel("name")),
     versionToken: S.String,
     metadataLocation: S.String,
   },
@@ -1005,7 +1012,7 @@ export class ListTagsForResourceResponse extends S.Class<ListTagsForResourceResp
 export class TagResourceRequest extends S.Class<TagResourceRequest>(
   "TagResourceRequest",
 )(
-  { resourceArn: S.String.pipe(T.HttpLabel()), tags: Tags },
+  { resourceArn: S.String.pipe(T.HttpLabel("resourceArn")), tags: Tags },
   T.all(
     T.Http({ method: "POST", uri: "/tag/{resourceArn}" }),
     svc,
@@ -1038,7 +1045,7 @@ export class PutTableBucketEncryptionRequest extends S.Class<PutTableBucketEncry
   "PutTableBucketEncryptionRequest",
 )(
   {
-    tableBucketARN: S.String.pipe(T.HttpLabel()),
+    tableBucketARN: S.String.pipe(T.HttpLabel("tableBucketARN")),
     encryptionConfiguration: EncryptionConfiguration,
   },
   T.all(
@@ -1376,8 +1383,8 @@ export class PutTableBucketMaintenanceConfigurationRequest extends S.Class<PutTa
   "PutTableBucketMaintenanceConfigurationRequest",
 )(
   {
-    tableBucketARN: S.String.pipe(T.HttpLabel()),
-    type: S.String.pipe(T.HttpLabel()),
+    tableBucketARN: S.String.pipe(T.HttpLabel("tableBucketARN")),
+    type: S.String.pipe(T.HttpLabel("type")),
     value: TableBucketMaintenanceConfigurationValue,
   },
   T.all(
@@ -1429,10 +1436,10 @@ export class PutTableMaintenanceConfigurationRequest extends S.Class<PutTableMai
   "PutTableMaintenanceConfigurationRequest",
 )(
   {
-    tableBucketARN: S.String.pipe(T.HttpLabel()),
-    namespace: S.String.pipe(T.HttpLabel()),
-    name: S.String.pipe(T.HttpLabel()),
-    type: S.String.pipe(T.HttpLabel()),
+    tableBucketARN: S.String.pipe(T.HttpLabel("tableBucketARN")),
+    namespace: S.String.pipe(T.HttpLabel("namespace")),
+    name: S.String.pipe(T.HttpLabel("name")),
+    type: S.String.pipe(T.HttpLabel("type")),
     value: TableMaintenanceConfigurationValue,
   },
   T.all(
@@ -1461,8 +1468,8 @@ export class CreateTableRequest extends S.Class<CreateTableRequest>(
   "CreateTableRequest",
 )(
   {
-    tableBucketARN: S.String.pipe(T.HttpLabel()),
-    namespace: S.String.pipe(T.HttpLabel()),
+    tableBucketARN: S.String.pipe(T.HttpLabel("tableBucketARN")),
+    namespace: S.String.pipe(T.HttpLabel("namespace")),
     name: S.String,
     format: S.String,
     metadata: S.optional(TableMetadata),
@@ -1503,7 +1510,7 @@ export class ForbiddenException extends S.TaggedError<ForbiddenException>()(
 export class InternalServerErrorException extends S.TaggedError<InternalServerErrorException>()(
   "InternalServerErrorException",
   { message: S.optional(S.String) },
-) {}
+).pipe(withCategory(ERROR_CATEGORIES.SERVER_ERROR)) {}
 export class NotFoundException extends S.TaggedError<NotFoundException>()(
   "NotFoundException",
   { message: S.optional(S.String) },
@@ -1515,7 +1522,7 @@ export class MethodNotAllowedException extends S.TaggedError<MethodNotAllowedExc
 export class TooManyRequestsException extends S.TaggedError<TooManyRequestsException>()(
   "TooManyRequestsException",
   { message: S.optional(S.String) },
-) {}
+).pipe(withCategory(ERROR_CATEGORIES.THROTTLING_ERROR)) {}
 
 //# Operations
 /**

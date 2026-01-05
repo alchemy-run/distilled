@@ -1,6 +1,7 @@
 import * as S from "effect/Schema";
 import * as API from "../api.ts";
 import * as T from "../traits.ts";
+import { ERROR_CATEGORIES, withCategory } from "../error-category.ts";
 const svc = T.AwsApiService({
   sdkId: "Bedrock Data Automation Runtime",
   serviceShapeName: "AmazonBedrockKeystoneRuntimeService",
@@ -312,7 +313,7 @@ export class UntagResourceResponse extends S.Class<UntagResourceResponse>(
 export class GetDataAutomationStatusRequest extends S.Class<GetDataAutomationStatusRequest>(
   "GetDataAutomationStatusRequest",
 )(
-  { invocationArn: S.String.pipe(T.HttpLabel()) },
+  { invocationArn: S.String.pipe(T.HttpLabel("invocationArn")) },
   T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
 ) {}
 export class SyncInputConfiguration extends S.Class<SyncInputConfiguration>(
@@ -441,7 +442,7 @@ export class AccessDeniedException extends S.TaggedError<AccessDeniedException>(
 export class InternalServerException extends S.TaggedError<InternalServerException>()(
   "InternalServerException",
   { message: S.optional(S.String) },
-) {}
+).pipe(withCategory(ERROR_CATEGORIES.SERVER_ERROR)) {}
 export class ResourceNotFoundException extends S.TaggedError<ResourceNotFoundException>()(
   "ResourceNotFoundException",
   { message: S.optional(S.String) },
@@ -449,7 +450,7 @@ export class ResourceNotFoundException extends S.TaggedError<ResourceNotFoundExc
 export class ThrottlingException extends S.TaggedError<ThrottlingException>()(
   "ThrottlingException",
   { message: S.optional(S.String) },
-) {}
+).pipe(withCategory(ERROR_CATEGORIES.THROTTLING_ERROR)) {}
 export class ServiceQuotaExceededException extends S.TaggedError<ServiceQuotaExceededException>()(
   "ServiceQuotaExceededException",
   { message: S.optional(S.String) },
@@ -457,7 +458,7 @@ export class ServiceQuotaExceededException extends S.TaggedError<ServiceQuotaExc
 export class ServiceUnavailableException extends S.TaggedError<ServiceUnavailableException>()(
   "ServiceUnavailableException",
   { message: S.optional(S.String) },
-) {}
+).pipe(withCategory(ERROR_CATEGORIES.SERVER_ERROR)) {}
 export class ValidationException extends S.TaggedError<ValidationException>()(
   "ValidationException",
   { message: S.optional(S.String) },

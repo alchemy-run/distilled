@@ -1,6 +1,7 @@
 import * as S from "effect/Schema";
 import * as API from "../api.ts";
 import * as T from "../traits.ts";
+import { ERROR_CATEGORIES, withCategory } from "../error-category.ts";
 const ns = T.XmlNamespace("http://polly.amazonaws.com/doc/v1");
 const svc = T.AwsApiService({ sdkId: "Polly", serviceShapeName: "Parrot_v1" });
 const auth = T.AwsAuthSigv4({ name: "polly" });
@@ -244,7 +245,7 @@ export const SpeechMarkTypeList = S.Array(S.String);
 export class DeleteLexiconInput extends S.Class<DeleteLexiconInput>(
   "DeleteLexiconInput",
 )(
-  { Name: S.String.pipe(T.HttpLabel()) },
+  { Name: S.String.pipe(T.HttpLabel("Name")) },
   T.all(
     ns,
     T.Http({ method: "DELETE", uri: "/v1/lexicons/{Name}" }),
@@ -282,7 +283,7 @@ export class DescribeVoicesInput extends S.Class<DescribeVoicesInput>(
 export class GetLexiconInput extends S.Class<GetLexiconInput>(
   "GetLexiconInput",
 )(
-  { Name: S.String.pipe(T.HttpLabel()) },
+  { Name: S.String.pipe(T.HttpLabel("Name")) },
   T.all(
     ns,
     T.Http({ method: "GET", uri: "/v1/lexicons/{Name}" }),
@@ -296,7 +297,7 @@ export class GetLexiconInput extends S.Class<GetLexiconInput>(
 export class GetSpeechSynthesisTaskInput extends S.Class<GetSpeechSynthesisTaskInput>(
   "GetSpeechSynthesisTaskInput",
 )(
-  { TaskId: S.String.pipe(T.HttpLabel()) },
+  { TaskId: S.String.pipe(T.HttpLabel("TaskId")) },
   T.all(
     ns,
     T.Http({ method: "GET", uri: "/v1/synthesisTasks/{TaskId}" }),
@@ -342,7 +343,7 @@ export class ListSpeechSynthesisTasksInput extends S.Class<ListSpeechSynthesisTa
 export class PutLexiconInput extends S.Class<PutLexiconInput>(
   "PutLexiconInput",
 )(
-  { Name: S.String.pipe(T.HttpLabel()), Content: S.String },
+  { Name: S.String.pipe(T.HttpLabel("Name")), Content: S.String },
   T.all(
     ns,
     T.Http({ method: "PUT", uri: "/v1/lexicons/{Name}" }),
@@ -516,7 +517,7 @@ export class InvalidLexiconException extends S.TaggedError<InvalidLexiconExcepti
 export class ServiceFailureException extends S.TaggedError<ServiceFailureException>()(
   "ServiceFailureException",
   { message: S.optional(S.String) },
-) {}
+).pipe(withCategory(ERROR_CATEGORIES.SERVER_ERROR)) {}
 export class InvalidNextTokenException extends S.TaggedError<InvalidNextTokenException>()(
   "InvalidNextTokenException",
   { message: S.optional(S.String) },

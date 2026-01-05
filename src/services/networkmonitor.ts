@@ -1,6 +1,7 @@
 import * as S from "effect/Schema";
 import * as API from "../api.ts";
 import * as T from "../traits.ts";
+import { ERROR_CATEGORIES, withCategory } from "../error-category.ts";
 const svc = T.AwsApiService({
   sdkId: "NetworkMonitor",
   serviceShapeName: "NetworkMonitor",
@@ -297,7 +298,7 @@ export const TagKeyList = S.Array(S.String);
 export class ListTagsForResourceInput extends S.Class<ListTagsForResourceInput>(
   "ListTagsForResourceInput",
 )(
-  { resourceArn: S.String.pipe(T.HttpLabel()) },
+  { resourceArn: S.String.pipe(T.HttpLabel("resourceArn")) },
   T.all(
     T.Http({ method: "GET", uri: "/tags/{resourceArn}" }),
     svc,
@@ -311,7 +312,7 @@ export class UntagResourceInput extends S.Class<UntagResourceInput>(
   "UntagResourceInput",
 )(
   {
-    resourceArn: S.String.pipe(T.HttpLabel()),
+    resourceArn: S.String.pipe(T.HttpLabel("resourceArn")),
     tagKeys: TagKeyList.pipe(T.HttpQuery("tagKeys")),
   },
   T.all(
@@ -329,7 +330,7 @@ export class UntagResourceOutput extends S.Class<UntagResourceOutput>(
 export class GetMonitorInput extends S.Class<GetMonitorInput>(
   "GetMonitorInput",
 )(
-  { monitorName: S.String.pipe(T.HttpLabel()) },
+  { monitorName: S.String.pipe(T.HttpLabel("monitorName")) },
   T.all(
     T.Http({ method: "GET", uri: "/monitors/{monitorName}" }),
     svc,
@@ -342,7 +343,10 @@ export class GetMonitorInput extends S.Class<GetMonitorInput>(
 export class UpdateMonitorInput extends S.Class<UpdateMonitorInput>(
   "UpdateMonitorInput",
 )(
-  { monitorName: S.String.pipe(T.HttpLabel()), aggregationPeriod: S.Number },
+  {
+    monitorName: S.String.pipe(T.HttpLabel("monitorName")),
+    aggregationPeriod: S.Number,
+  },
   T.all(
     T.Http({ method: "PATCH", uri: "/monitors/{monitorName}" }),
     svc,
@@ -355,7 +359,7 @@ export class UpdateMonitorInput extends S.Class<UpdateMonitorInput>(
 export class DeleteMonitorInput extends S.Class<DeleteMonitorInput>(
   "DeleteMonitorInput",
 )(
-  { monitorName: S.String.pipe(T.HttpLabel()) },
+  { monitorName: S.String.pipe(T.HttpLabel("monitorName")) },
   T.all(
     T.Http({ method: "DELETE", uri: "/monitors/{monitorName}" }),
     svc,
@@ -387,8 +391,8 @@ export class ListMonitorsInput extends S.Class<ListMonitorsInput>(
 ) {}
 export class GetProbeInput extends S.Class<GetProbeInput>("GetProbeInput")(
   {
-    monitorName: S.String.pipe(T.HttpLabel()),
-    probeId: S.String.pipe(T.HttpLabel()),
+    monitorName: S.String.pipe(T.HttpLabel("monitorName")),
+    probeId: S.String.pipe(T.HttpLabel("probeId")),
   },
   T.all(
     T.Http({ method: "GET", uri: "/monitors/{monitorName}/probes/{probeId}" }),
@@ -403,8 +407,8 @@ export class UpdateProbeInput extends S.Class<UpdateProbeInput>(
   "UpdateProbeInput",
 )(
   {
-    monitorName: S.String.pipe(T.HttpLabel()),
-    probeId: S.String.pipe(T.HttpLabel()),
+    monitorName: S.String.pipe(T.HttpLabel("monitorName")),
+    probeId: S.String.pipe(T.HttpLabel("probeId")),
     state: S.optional(S.String),
     destination: S.optional(S.String),
     destinationPort: S.optional(S.Number),
@@ -427,8 +431,8 @@ export class DeleteProbeInput extends S.Class<DeleteProbeInput>(
   "DeleteProbeInput",
 )(
   {
-    monitorName: S.String.pipe(T.HttpLabel()),
-    probeId: S.String.pipe(T.HttpLabel()),
+    monitorName: S.String.pipe(T.HttpLabel("monitorName")),
+    probeId: S.String.pipe(T.HttpLabel("probeId")),
   },
   T.all(
     T.Http({
@@ -471,7 +475,7 @@ export class ListTagsForResourceOutput extends S.Class<ListTagsForResourceOutput
 export class TagResourceInput extends S.Class<TagResourceInput>(
   "TagResourceInput",
 )(
-  { resourceArn: S.String.pipe(T.HttpLabel()), tags: TagMap },
+  { resourceArn: S.String.pipe(T.HttpLabel("resourceArn")), tags: TagMap },
   T.all(
     T.Http({ method: "POST", uri: "/tags/{resourceArn}" }),
     svc,
@@ -516,7 +520,7 @@ export class CreateProbeInput extends S.Class<CreateProbeInput>(
   "CreateProbeInput",
 )(
   {
-    monitorName: S.String.pipe(T.HttpLabel()),
+    monitorName: S.String.pipe(T.HttpLabel("monitorName")),
     probe: ProbeInput,
     clientToken: S.optional(S.String),
     tags: S.optional(TagMap),
@@ -640,7 +644,8 @@ export class ConflictException extends S.TaggedError<ConflictException>()(
 export class InternalServerException extends S.TaggedError<InternalServerException>()(
   "InternalServerException",
   { message: S.optional(S.String) },
-) {}
+  T.Retryable(),
+).pipe(withCategory(ERROR_CATEGORIES.SERVER_ERROR)) {}
 export class ResourceNotFoundException extends S.TaggedError<ResourceNotFoundException>()(
   "ResourceNotFoundException",
   { message: S.optional(S.String) },
@@ -648,7 +653,8 @@ export class ResourceNotFoundException extends S.TaggedError<ResourceNotFoundExc
 export class ThrottlingException extends S.TaggedError<ThrottlingException>()(
   "ThrottlingException",
   { message: S.optional(S.String) },
-) {}
+  T.Retryable({ throttling: true }),
+).pipe(withCategory(ERROR_CATEGORIES.THROTTLING_ERROR)) {}
 export class ServiceQuotaExceededException extends S.TaggedError<ServiceQuotaExceededException>()(
   "ServiceQuotaExceededException",
   { message: S.optional(S.String) },

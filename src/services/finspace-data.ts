@@ -1,6 +1,7 @@
 import * as S from "effect/Schema";
 import * as API from "../api.ts";
 import * as T from "../traits.ts";
+import { ERROR_CATEGORIES, withCategory } from "../error-category.ts";
 const svc = T.AwsApiService({
   sdkId: "finspace data",
   serviceShapeName: "AWSHabaneroPublicAPI",
@@ -248,8 +249,8 @@ export class AssociateUserToPermissionGroupRequest extends S.Class<AssociateUser
   "AssociateUserToPermissionGroupRequest",
 )(
   {
-    permissionGroupId: S.String.pipe(T.HttpLabel()),
-    userId: S.String.pipe(T.HttpLabel()),
+    permissionGroupId: S.String.pipe(T.HttpLabel("permissionGroupId")),
+    userId: S.String.pipe(T.HttpLabel("userId")),
     clientToken: S.optional(S.String),
   },
   T.all(
@@ -301,7 +302,7 @@ export class DeleteDatasetRequest extends S.Class<DeleteDatasetRequest>(
 )(
   {
     clientToken: S.optional(S.String).pipe(T.HttpQuery("clientToken")),
-    datasetId: S.String.pipe(T.HttpLabel()),
+    datasetId: S.String.pipe(T.HttpLabel("datasetId")),
   },
   T.all(
     T.Http({ method: "DELETE", uri: "/datasetsv2/{datasetId}" }),
@@ -316,7 +317,7 @@ export class DeletePermissionGroupRequest extends S.Class<DeletePermissionGroupR
   "DeletePermissionGroupRequest",
 )(
   {
-    permissionGroupId: S.String.pipe(T.HttpLabel()),
+    permissionGroupId: S.String.pipe(T.HttpLabel("permissionGroupId")),
     clientToken: S.optional(S.String).pipe(T.HttpQuery("clientToken")),
   },
   T.all(
@@ -331,7 +332,10 @@ export class DeletePermissionGroupRequest extends S.Class<DeletePermissionGroupR
 export class DisableUserRequest extends S.Class<DisableUserRequest>(
   "DisableUserRequest",
 )(
-  { userId: S.String.pipe(T.HttpLabel()), clientToken: S.optional(S.String) },
+  {
+    userId: S.String.pipe(T.HttpLabel("userId")),
+    clientToken: S.optional(S.String),
+  },
   T.all(
     T.Http({ method: "POST", uri: "/user/{userId}/disable" }),
     svc,
@@ -345,8 +349,8 @@ export class DisassociateUserFromPermissionGroupRequest extends S.Class<Disassoc
   "DisassociateUserFromPermissionGroupRequest",
 )(
   {
-    permissionGroupId: S.String.pipe(T.HttpLabel()),
-    userId: S.String.pipe(T.HttpLabel()),
+    permissionGroupId: S.String.pipe(T.HttpLabel("permissionGroupId")),
+    userId: S.String.pipe(T.HttpLabel("userId")),
     clientToken: S.optional(S.String).pipe(T.HttpQuery("clientToken")),
   },
   T.all(
@@ -364,7 +368,10 @@ export class DisassociateUserFromPermissionGroupRequest extends S.Class<Disassoc
 export class EnableUserRequest extends S.Class<EnableUserRequest>(
   "EnableUserRequest",
 )(
-  { userId: S.String.pipe(T.HttpLabel()), clientToken: S.optional(S.String) },
+  {
+    userId: S.String.pipe(T.HttpLabel("userId")),
+    clientToken: S.optional(S.String),
+  },
   T.all(
     T.Http({ method: "POST", uri: "/user/{userId}/enable" }),
     svc,
@@ -378,8 +385,8 @@ export class GetChangesetRequest extends S.Class<GetChangesetRequest>(
   "GetChangesetRequest",
 )(
   {
-    datasetId: S.String.pipe(T.HttpLabel()),
-    changesetId: S.String.pipe(T.HttpLabel()),
+    datasetId: S.String.pipe(T.HttpLabel("datasetId")),
+    changesetId: S.String.pipe(T.HttpLabel("changesetId")),
   },
   T.all(
     T.Http({
@@ -396,7 +403,7 @@ export class GetChangesetRequest extends S.Class<GetChangesetRequest>(
 export class GetDatasetRequest extends S.Class<GetDatasetRequest>(
   "GetDatasetRequest",
 )(
-  { datasetId: S.String.pipe(T.HttpLabel()) },
+  { datasetId: S.String.pipe(T.HttpLabel("datasetId")) },
   T.all(
     T.Http({ method: "GET", uri: "/datasetsv2/{datasetId}" }),
     svc,
@@ -410,8 +417,8 @@ export class GetDataViewRequest extends S.Class<GetDataViewRequest>(
   "GetDataViewRequest",
 )(
   {
-    dataViewId: S.String.pipe(T.HttpLabel()),
-    datasetId: S.String.pipe(T.HttpLabel()),
+    dataViewId: S.String.pipe(T.HttpLabel("dataViewId")),
+    datasetId: S.String.pipe(T.HttpLabel("datasetId")),
   },
   T.all(
     T.Http({
@@ -429,8 +436,8 @@ export class GetExternalDataViewAccessDetailsRequest extends S.Class<GetExternal
   "GetExternalDataViewAccessDetailsRequest",
 )(
   {
-    dataViewId: S.String.pipe(T.HttpLabel()),
-    datasetId: S.String.pipe(T.HttpLabel()),
+    dataViewId: S.String.pipe(T.HttpLabel("dataViewId")),
+    datasetId: S.String.pipe(T.HttpLabel("datasetId")),
   },
   T.all(
     T.Http({
@@ -447,7 +454,7 @@ export class GetExternalDataViewAccessDetailsRequest extends S.Class<GetExternal
 export class GetPermissionGroupRequest extends S.Class<GetPermissionGroupRequest>(
   "GetPermissionGroupRequest",
 )(
-  { permissionGroupId: S.String.pipe(T.HttpLabel()) },
+  { permissionGroupId: S.String.pipe(T.HttpLabel("permissionGroupId")) },
   T.all(
     T.Http({ method: "GET", uri: "/permission-group/{permissionGroupId}" }),
     svc,
@@ -476,7 +483,7 @@ export class GetProgrammaticAccessCredentialsRequest extends S.Class<GetProgramm
   ),
 ) {}
 export class GetUserRequest extends S.Class<GetUserRequest>("GetUserRequest")(
-  { userId: S.String.pipe(T.HttpLabel()) },
+  { userId: S.String.pipe(T.HttpLabel("userId")) },
   T.all(
     T.Http({ method: "GET", uri: "/user/{userId}" }),
     svc,
@@ -503,7 +510,7 @@ export class ListChangesetsRequest extends S.Class<ListChangesetsRequest>(
   "ListChangesetsRequest",
 )(
   {
-    datasetId: S.String.pipe(T.HttpLabel()),
+    datasetId: S.String.pipe(T.HttpLabel("datasetId")),
     maxResults: S.optional(S.Number).pipe(T.HttpQuery("maxResults")),
     nextToken: S.optional(S.String).pipe(T.HttpQuery("nextToken")),
   },
@@ -536,7 +543,7 @@ export class ListDataViewsRequest extends S.Class<ListDataViewsRequest>(
   "ListDataViewsRequest",
 )(
   {
-    datasetId: S.String.pipe(T.HttpLabel()),
+    datasetId: S.String.pipe(T.HttpLabel("datasetId")),
     nextToken: S.optional(S.String).pipe(T.HttpQuery("nextToken")),
     maxResults: S.optional(S.Number).pipe(T.HttpQuery("maxResults")),
   },
@@ -569,7 +576,7 @@ export class ListPermissionGroupsByUserRequest extends S.Class<ListPermissionGro
   "ListPermissionGroupsByUserRequest",
 )(
   {
-    userId: S.String.pipe(T.HttpLabel()),
+    userId: S.String.pipe(T.HttpLabel("userId")),
     nextToken: S.optional(S.String).pipe(T.HttpQuery("nextToken")),
     maxResults: S.Number.pipe(T.HttpQuery("maxResults")),
   },
@@ -595,7 +602,7 @@ export class ListUsersByPermissionGroupRequest extends S.Class<ListUsersByPermis
   "ListUsersByPermissionGroupRequest",
 )(
   {
-    permissionGroupId: S.String.pipe(T.HttpLabel()),
+    permissionGroupId: S.String.pipe(T.HttpLabel("permissionGroupId")),
     nextToken: S.optional(S.String).pipe(T.HttpQuery("nextToken")),
     maxResults: S.Number.pipe(T.HttpQuery("maxResults")),
   },
@@ -614,7 +621,10 @@ export class ListUsersByPermissionGroupRequest extends S.Class<ListUsersByPermis
 export class ResetUserPasswordRequest extends S.Class<ResetUserPasswordRequest>(
   "ResetUserPasswordRequest",
 )(
-  { userId: S.String.pipe(T.HttpLabel()), clientToken: S.optional(S.String) },
+  {
+    userId: S.String.pipe(T.HttpLabel("userId")),
+    clientToken: S.optional(S.String),
+  },
   T.all(
     T.Http({ method: "POST", uri: "/user/{userId}/password" }),
     svc,
@@ -631,8 +641,8 @@ export class UpdateChangesetRequest extends S.Class<UpdateChangesetRequest>(
 )(
   {
     clientToken: S.optional(S.String),
-    datasetId: S.String.pipe(T.HttpLabel()),
-    changesetId: S.String.pipe(T.HttpLabel()),
+    datasetId: S.String.pipe(T.HttpLabel("datasetId")),
+    changesetId: S.String.pipe(T.HttpLabel("changesetId")),
     sourceParams: SourceParams,
     formatParams: FormatParams,
   },
@@ -671,7 +681,7 @@ export class UpdateDatasetRequest extends S.Class<UpdateDatasetRequest>(
 )(
   {
     clientToken: S.optional(S.String),
-    datasetId: S.String.pipe(T.HttpLabel()),
+    datasetId: S.String.pipe(T.HttpLabel("datasetId")),
     datasetTitle: S.String,
     kind: S.String,
     datasetDescription: S.optional(S.String),
@@ -691,7 +701,7 @@ export class UpdatePermissionGroupRequest extends S.Class<UpdatePermissionGroupR
   "UpdatePermissionGroupRequest",
 )(
   {
-    permissionGroupId: S.String.pipe(T.HttpLabel()),
+    permissionGroupId: S.String.pipe(T.HttpLabel("permissionGroupId")),
     name: S.optional(S.String),
     description: S.optional(S.String),
     applicationPermissions: S.optional(ApplicationPermissionList),
@@ -710,7 +720,7 @@ export class UpdateUserRequest extends S.Class<UpdateUserRequest>(
   "UpdateUserRequest",
 )(
   {
-    userId: S.String.pipe(T.HttpLabel()),
+    userId: S.String.pipe(T.HttpLabel("userId")),
     type: S.optional(S.String),
     firstName: S.optional(S.String),
     lastName: S.optional(S.String),
@@ -754,7 +764,7 @@ export class CreateChangesetRequest extends S.Class<CreateChangesetRequest>(
 )(
   {
     clientToken: S.optional(S.String),
-    datasetId: S.String.pipe(T.HttpLabel()),
+    datasetId: S.String.pipe(T.HttpLabel("datasetId")),
     changeType: S.String,
     sourceParams: SourceParams,
     formatParams: FormatParams,
@@ -990,7 +1000,7 @@ export class CreateDataViewRequest extends S.Class<CreateDataViewRequest>(
 )(
   {
     clientToken: S.optional(S.String),
-    datasetId: S.String.pipe(T.HttpLabel()),
+    datasetId: S.String.pipe(T.HttpLabel("datasetId")),
     autoUpdate: S.optional(S.Boolean),
     sortColumns: S.optional(SortColumnList),
     partitionColumns: S.optional(PartitionColumnList),
@@ -1119,11 +1129,11 @@ export class ConflictException extends S.TaggedError<ConflictException>()(
 export class InternalServerException extends S.TaggedError<InternalServerException>()(
   "InternalServerException",
   { message: S.optional(S.String) },
-) {}
+).pipe(withCategory(ERROR_CATEGORIES.SERVER_ERROR)) {}
 export class ThrottlingException extends S.TaggedError<ThrottlingException>()(
   "ThrottlingException",
   {},
-) {}
+).pipe(withCategory(ERROR_CATEGORIES.THROTTLING_ERROR)) {}
 export class ResourceNotFoundException extends S.TaggedError<ResourceNotFoundException>()(
   "ResourceNotFoundException",
   { message: S.optional(S.String), reason: S.optional(S.String) },

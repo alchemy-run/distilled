@@ -1,6 +1,7 @@
 import * as S from "effect/Schema";
 import * as API from "../api.ts";
 import * as T from "../traits.ts";
+import { ERROR_CATEGORIES, withCategory } from "../error-category.ts";
 const svc = T.AwsApiService({
   sdkId: "m2",
   serviceShapeName: "AwsSupernovaControlPlaneService",
@@ -274,7 +275,7 @@ export class ListEngineVersionsRequest extends S.Class<ListEngineVersionsRequest
 export class ListTagsForResourceRequest extends S.Class<ListTagsForResourceRequest>(
   "ListTagsForResourceRequest",
 )(
-  { resourceArn: S.String.pipe(T.HttpLabel()) },
+  { resourceArn: S.String.pipe(T.HttpLabel("resourceArn")) },
   T.all(
     T.Http({ method: "GET", uri: "/tags/{resourceArn}" }),
     svc,
@@ -288,7 +289,7 @@ export class UntagResourceRequest extends S.Class<UntagResourceRequest>(
   "UntagResourceRequest",
 )(
   {
-    resourceArn: S.String.pipe(T.HttpLabel()),
+    resourceArn: S.String.pipe(T.HttpLabel("resourceArn")),
     tagKeys: TagKeyList.pipe(T.HttpQuery("tagKeys")),
   },
   T.all(
@@ -306,7 +307,7 @@ export class UntagResourceResponse extends S.Class<UntagResourceResponse>(
 export class GetApplicationRequest extends S.Class<GetApplicationRequest>(
   "GetApplicationRequest",
 )(
-  { applicationId: S.String.pipe(T.HttpLabel()) },
+  { applicationId: S.String.pipe(T.HttpLabel("applicationId")) },
   T.all(
     T.Http({ method: "GET", uri: "/applications/{applicationId}" }),
     svc,
@@ -324,7 +325,7 @@ export class UpdateApplicationRequest extends S.Class<UpdateApplicationRequest>(
   "UpdateApplicationRequest",
 )(
   {
-    applicationId: S.String.pipe(T.HttpLabel()),
+    applicationId: S.String.pipe(T.HttpLabel("applicationId")),
     description: S.optional(S.String),
     currentApplicationVersion: S.Number,
     definition: S.optional(Definition),
@@ -341,7 +342,7 @@ export class UpdateApplicationRequest extends S.Class<UpdateApplicationRequest>(
 export class DeleteApplicationRequest extends S.Class<DeleteApplicationRequest>(
   "DeleteApplicationRequest",
 )(
-  { applicationId: S.String.pipe(T.HttpLabel()) },
+  { applicationId: S.String.pipe(T.HttpLabel("applicationId")) },
   T.all(
     T.Http({ method: "DELETE", uri: "/applications/{applicationId}" }),
     svc,
@@ -376,8 +377,8 @@ export class CancelBatchJobExecutionRequest extends S.Class<CancelBatchJobExecut
   "CancelBatchJobExecutionRequest",
 )(
   {
-    applicationId: S.String.pipe(T.HttpLabel()),
-    executionId: S.String.pipe(T.HttpLabel()),
+    applicationId: S.String.pipe(T.HttpLabel("applicationId")),
+    executionId: S.String.pipe(T.HttpLabel("executionId")),
     authSecretsManagerArn: S.optional(S.String),
   },
   T.all(
@@ -400,7 +401,7 @@ export class CreateDeploymentRequest extends S.Class<CreateDeploymentRequest>(
 )(
   {
     environmentId: S.String,
-    applicationId: S.String.pipe(T.HttpLabel()),
+    applicationId: S.String.pipe(T.HttpLabel("applicationId")),
     applicationVersion: S.Number,
     clientToken: S.optional(S.String),
   },
@@ -420,8 +421,8 @@ export class DeleteApplicationFromEnvironmentRequest extends S.Class<DeleteAppli
   "DeleteApplicationFromEnvironmentRequest",
 )(
   {
-    applicationId: S.String.pipe(T.HttpLabel()),
-    environmentId: S.String.pipe(T.HttpLabel()),
+    applicationId: S.String.pipe(T.HttpLabel("applicationId")),
+    environmentId: S.String.pipe(T.HttpLabel("environmentId")),
   },
   T.all(
     T.Http({
@@ -442,8 +443,8 @@ export class GetApplicationVersionRequest extends S.Class<GetApplicationVersionR
   "GetApplicationVersionRequest",
 )(
   {
-    applicationId: S.String.pipe(T.HttpLabel()),
-    applicationVersion: S.Number.pipe(T.HttpLabel()),
+    applicationId: S.String.pipe(T.HttpLabel("applicationId")),
+    applicationVersion: S.Number.pipe(T.HttpLabel("applicationVersion")),
   },
   T.all(
     T.Http({
@@ -461,8 +462,8 @@ export class GetBatchJobExecutionRequest extends S.Class<GetBatchJobExecutionReq
   "GetBatchJobExecutionRequest",
 )(
   {
-    applicationId: S.String.pipe(T.HttpLabel()),
-    executionId: S.String.pipe(T.HttpLabel()),
+    applicationId: S.String.pipe(T.HttpLabel("applicationId")),
+    executionId: S.String.pipe(T.HttpLabel("executionId")),
   },
   T.all(
     T.Http({
@@ -480,8 +481,8 @@ export class GetDataSetDetailsRequest extends S.Class<GetDataSetDetailsRequest>(
   "GetDataSetDetailsRequest",
 )(
   {
-    applicationId: S.String.pipe(T.HttpLabel()),
-    dataSetName: S.String.pipe(T.HttpLabel()),
+    applicationId: S.String.pipe(T.HttpLabel("applicationId")),
+    dataSetName: S.String.pipe(T.HttpLabel("dataSetName")),
   },
   T.all(
     T.Http({
@@ -499,8 +500,8 @@ export class GetDataSetExportTaskRequest extends S.Class<GetDataSetExportTaskReq
   "GetDataSetExportTaskRequest",
 )(
   {
-    applicationId: S.String.pipe(T.HttpLabel()),
-    taskId: S.String.pipe(T.HttpLabel()),
+    applicationId: S.String.pipe(T.HttpLabel("applicationId")),
+    taskId: S.String.pipe(T.HttpLabel("taskId")),
   },
   T.all(
     T.Http({
@@ -518,8 +519,8 @@ export class GetDataSetImportTaskRequest extends S.Class<GetDataSetImportTaskReq
   "GetDataSetImportTaskRequest",
 )(
   {
-    applicationId: S.String.pipe(T.HttpLabel()),
-    taskId: S.String.pipe(T.HttpLabel()),
+    applicationId: S.String.pipe(T.HttpLabel("applicationId")),
+    taskId: S.String.pipe(T.HttpLabel("taskId")),
   },
   T.all(
     T.Http({
@@ -537,8 +538,8 @@ export class GetDeploymentRequest extends S.Class<GetDeploymentRequest>(
   "GetDeploymentRequest",
 )(
   {
-    deploymentId: S.String.pipe(T.HttpLabel()),
-    applicationId: S.String.pipe(T.HttpLabel()),
+    deploymentId: S.String.pipe(T.HttpLabel("deploymentId")),
+    applicationId: S.String.pipe(T.HttpLabel("applicationId")),
   },
   T.all(
     T.Http({
@@ -558,7 +559,7 @@ export class ListApplicationVersionsRequest extends S.Class<ListApplicationVersi
   {
     nextToken: S.optional(S.String).pipe(T.HttpQuery("nextToken")),
     maxResults: S.optional(S.Number).pipe(T.HttpQuery("maxResults")),
-    applicationId: S.String.pipe(T.HttpLabel()),
+    applicationId: S.String.pipe(T.HttpLabel("applicationId")),
   },
   T.all(
     T.Http({ method: "GET", uri: "/applications/{applicationId}/versions" }),
@@ -575,7 +576,7 @@ export class ListBatchJobDefinitionsRequest extends S.Class<ListBatchJobDefiniti
   {
     nextToken: S.optional(S.String).pipe(T.HttpQuery("nextToken")),
     maxResults: S.optional(S.Number).pipe(T.HttpQuery("maxResults")),
-    applicationId: S.String.pipe(T.HttpLabel()),
+    applicationId: S.String.pipe(T.HttpLabel("applicationId")),
     prefix: S.optional(S.String).pipe(T.HttpQuery("prefix")),
   },
   T.all(
@@ -596,7 +597,7 @@ export class ListBatchJobExecutionsRequest extends S.Class<ListBatchJobExecution
   {
     nextToken: S.optional(S.String).pipe(T.HttpQuery("nextToken")),
     maxResults: S.optional(S.Number).pipe(T.HttpQuery("maxResults")),
-    applicationId: S.String.pipe(T.HttpLabel()),
+    applicationId: S.String.pipe(T.HttpLabel("applicationId")),
     executionIds: S.optional(IdentifierList).pipe(T.HttpQuery("executionIds")),
     jobName: S.optional(S.String).pipe(T.HttpQuery("jobName")),
     status: S.optional(S.String).pipe(T.HttpQuery("status")),
@@ -623,8 +624,8 @@ export class ListBatchJobRestartPointsRequest extends S.Class<ListBatchJobRestar
   "ListBatchJobRestartPointsRequest",
 )(
   {
-    applicationId: S.String.pipe(T.HttpLabel()),
-    executionId: S.String.pipe(T.HttpLabel()),
+    applicationId: S.String.pipe(T.HttpLabel("applicationId")),
+    executionId: S.String.pipe(T.HttpLabel("executionId")),
     authSecretsManagerArn: S.optional(S.String).pipe(
       T.HttpQuery("authSecretsManagerArn"),
     ),
@@ -647,7 +648,7 @@ export class ListDataSetExportHistoryRequest extends S.Class<ListDataSetExportHi
   {
     nextToken: S.optional(S.String).pipe(T.HttpQuery("nextToken")),
     maxResults: S.optional(S.Number).pipe(T.HttpQuery("maxResults")),
-    applicationId: S.String.pipe(T.HttpLabel()),
+    applicationId: S.String.pipe(T.HttpLabel("applicationId")),
   },
   T.all(
     T.Http({
@@ -667,7 +668,7 @@ export class ListDataSetImportHistoryRequest extends S.Class<ListDataSetImportHi
   {
     nextToken: S.optional(S.String).pipe(T.HttpQuery("nextToken")),
     maxResults: S.optional(S.Number).pipe(T.HttpQuery("maxResults")),
-    applicationId: S.String.pipe(T.HttpLabel()),
+    applicationId: S.String.pipe(T.HttpLabel("applicationId")),
   },
   T.all(
     T.Http({
@@ -685,7 +686,7 @@ export class ListDataSetsRequest extends S.Class<ListDataSetsRequest>(
   "ListDataSetsRequest",
 )(
   {
-    applicationId: S.String.pipe(T.HttpLabel()),
+    applicationId: S.String.pipe(T.HttpLabel("applicationId")),
     nextToken: S.optional(S.String).pipe(T.HttpQuery("nextToken")),
     maxResults: S.optional(S.Number).pipe(T.HttpQuery("maxResults")),
     prefix: S.optional(S.String).pipe(T.HttpQuery("prefix")),
@@ -706,7 +707,7 @@ export class ListDeploymentsRequest extends S.Class<ListDeploymentsRequest>(
   {
     nextToken: S.optional(S.String).pipe(T.HttpQuery("nextToken")),
     maxResults: S.optional(S.Number).pipe(T.HttpQuery("maxResults")),
-    applicationId: S.String.pipe(T.HttpLabel()),
+    applicationId: S.String.pipe(T.HttpLabel("applicationId")),
   },
   T.all(
     T.Http({ method: "GET", uri: "/applications/{applicationId}/deployments" }),
@@ -720,7 +721,7 @@ export class ListDeploymentsRequest extends S.Class<ListDeploymentsRequest>(
 export class StartApplicationRequest extends S.Class<StartApplicationRequest>(
   "StartApplicationRequest",
 )(
-  { applicationId: S.String.pipe(T.HttpLabel()) },
+  { applicationId: S.String.pipe(T.HttpLabel("applicationId")) },
   T.all(
     T.Http({ method: "POST", uri: "/applications/{applicationId}/start" }),
     svc,
@@ -737,7 +738,7 @@ export class StopApplicationRequest extends S.Class<StopApplicationRequest>(
   "StopApplicationRequest",
 )(
   {
-    applicationId: S.String.pipe(T.HttpLabel()),
+    applicationId: S.String.pipe(T.HttpLabel("applicationId")),
     forceStop: S.optional(S.Boolean),
   },
   T.all(
@@ -755,7 +756,7 @@ export class StopApplicationResponse extends S.Class<StopApplicationResponse>(
 export class GetEnvironmentRequest extends S.Class<GetEnvironmentRequest>(
   "GetEnvironmentRequest",
 )(
-  { environmentId: S.String.pipe(T.HttpLabel()) },
+  { environmentId: S.String.pipe(T.HttpLabel("environmentId")) },
   T.all(
     T.Http({ method: "GET", uri: "/environments/{environmentId}" }),
     svc,
@@ -769,7 +770,7 @@ export class UpdateEnvironmentRequest extends S.Class<UpdateEnvironmentRequest>(
   "UpdateEnvironmentRequest",
 )(
   {
-    environmentId: S.String.pipe(T.HttpLabel()),
+    environmentId: S.String.pipe(T.HttpLabel("environmentId")),
     desiredCapacity: S.optional(S.Number),
     instanceType: S.optional(S.String),
     engineVersion: S.optional(S.String),
@@ -789,7 +790,7 @@ export class UpdateEnvironmentRequest extends S.Class<UpdateEnvironmentRequest>(
 export class DeleteEnvironmentRequest extends S.Class<DeleteEnvironmentRequest>(
   "DeleteEnvironmentRequest",
 )(
-  { environmentId: S.String.pipe(T.HttpLabel()) },
+  { environmentId: S.String.pipe(T.HttpLabel("environmentId")) },
   T.all(
     T.Http({ method: "DELETE", uri: "/environments/{environmentId}" }),
     svc,
@@ -845,7 +846,7 @@ export class ListTagsForResourceResponse extends S.Class<ListTagsForResourceResp
 export class TagResourceRequest extends S.Class<TagResourceRequest>(
   "TagResourceRequest",
 )(
-  { resourceArn: S.String.pipe(T.HttpLabel()), tags: TagMap },
+  { resourceArn: S.String.pipe(T.HttpLabel("resourceArn")), tags: TagMap },
   T.all(
     T.Http({ method: "POST", uri: "/tags/{resourceArn}" }),
     svc,
@@ -1299,7 +1300,7 @@ export class CreateDataSetExportTaskRequest extends S.Class<CreateDataSetExportT
   "CreateDataSetExportTaskRequest",
 )(
   {
-    applicationId: S.String.pipe(T.HttpLabel()),
+    applicationId: S.String.pipe(T.HttpLabel("applicationId")),
     exportConfig: DataSetExportConfig,
     clientToken: S.optional(S.String),
     kmsKeyId: S.optional(S.String),
@@ -1346,7 +1347,7 @@ export class StartBatchJobRequest extends S.Class<StartBatchJobRequest>(
   "StartBatchJobRequest",
 )(
   {
-    applicationId: S.String.pipe(T.HttpLabel()),
+    applicationId: S.String.pipe(T.HttpLabel("applicationId")),
     batchJobIdentifier: BatchJobIdentifier,
     jobParams: S.optional(BatchJobParametersMap),
     authSecretsManagerArn: S.optional(S.String),
@@ -1456,7 +1457,7 @@ export class CreateDataSetImportTaskRequest extends S.Class<CreateDataSetImportT
   "CreateDataSetImportTaskRequest",
 )(
   {
-    applicationId: S.String.pipe(T.HttpLabel()),
+    applicationId: S.String.pipe(T.HttpLabel("applicationId")),
     importConfig: DataSetImportConfig,
     clientToken: S.optional(S.String),
   },
@@ -1487,7 +1488,8 @@ export class InternalServerException extends S.TaggedError<InternalServerExcepti
     message: S.String,
     retryAfterSeconds: S.optional(S.Number).pipe(T.HttpHeader("Retry-After")),
   },
-) {}
+  T.Retryable(),
+).pipe(withCategory(ERROR_CATEGORIES.SERVER_ERROR)) {}
 export class ConflictException extends S.TaggedError<ConflictException>()(
   "ConflictException",
   {
@@ -1504,7 +1506,8 @@ export class ThrottlingException extends S.TaggedError<ThrottlingException>()(
     quotaCode: S.optional(S.String),
     retryAfterSeconds: S.optional(S.Number).pipe(T.HttpHeader("Retry-After")),
   },
-) {}
+  T.Retryable({ throttling: true }),
+).pipe(withCategory(ERROR_CATEGORIES.THROTTLING_ERROR)) {}
 export class ResourceNotFoundException extends S.TaggedError<ResourceNotFoundException>()(
   "ResourceNotFoundException",
   {
@@ -1516,7 +1519,8 @@ export class ResourceNotFoundException extends S.TaggedError<ResourceNotFoundExc
 export class ExecutionTimeoutException extends S.TaggedError<ExecutionTimeoutException>()(
   "ExecutionTimeoutException",
   { message: S.String },
-) {}
+  T.Retryable(),
+).pipe(withCategory(ERROR_CATEGORIES.SERVER_ERROR)) {}
 export class ServiceQuotaExceededException extends S.TaggedError<ServiceQuotaExceededException>()(
   "ServiceQuotaExceededException",
   {
@@ -1530,7 +1534,8 @@ export class ServiceQuotaExceededException extends S.TaggedError<ServiceQuotaExc
 export class ServiceUnavailableException extends S.TaggedError<ServiceUnavailableException>()(
   "ServiceUnavailableException",
   { message: S.String },
-) {}
+  T.Retryable(),
+).pipe(withCategory(ERROR_CATEGORIES.SERVER_ERROR)) {}
 export class ValidationException extends S.TaggedError<ValidationException>()(
   "ValidationException",
   {

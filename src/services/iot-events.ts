@@ -1,6 +1,7 @@
 import * as S from "effect/Schema";
 import * as API from "../api.ts";
 import * as T from "../traits.ts";
+import { ERROR_CATEGORIES, withCategory } from "../error-category.ts";
 const svc = T.AwsApiService({
   sdkId: "IoT Events",
   serviceShapeName: "IotColumboService",
@@ -258,7 +259,7 @@ export const TagKeys = S.Array(S.String);
 export class DeleteAlarmModelRequest extends S.Class<DeleteAlarmModelRequest>(
   "DeleteAlarmModelRequest",
 )(
-  { alarmModelName: S.String.pipe(T.HttpLabel()) },
+  { alarmModelName: S.String.pipe(T.HttpLabel("alarmModelName")) },
   T.all(
     T.Http({ method: "DELETE", uri: "/alarm-models/{alarmModelName}" }),
     svc,
@@ -274,7 +275,7 @@ export class DeleteAlarmModelResponse extends S.Class<DeleteAlarmModelResponse>(
 export class DeleteDetectorModelRequest extends S.Class<DeleteDetectorModelRequest>(
   "DeleteDetectorModelRequest",
 )(
-  { detectorModelName: S.String.pipe(T.HttpLabel()) },
+  { detectorModelName: S.String.pipe(T.HttpLabel("detectorModelName")) },
   T.all(
     T.Http({ method: "DELETE", uri: "/detector-models/{detectorModelName}" }),
     svc,
@@ -290,7 +291,7 @@ export class DeleteDetectorModelResponse extends S.Class<DeleteDetectorModelResp
 export class DeleteInputRequest extends S.Class<DeleteInputRequest>(
   "DeleteInputRequest",
 )(
-  { inputName: S.String.pipe(T.HttpLabel()) },
+  { inputName: S.String.pipe(T.HttpLabel("inputName")) },
   T.all(
     T.Http({ method: "DELETE", uri: "/inputs/{inputName}" }),
     svc,
@@ -307,7 +308,7 @@ export class DescribeAlarmModelRequest extends S.Class<DescribeAlarmModelRequest
   "DescribeAlarmModelRequest",
 )(
   {
-    alarmModelName: S.String.pipe(T.HttpLabel()),
+    alarmModelName: S.String.pipe(T.HttpLabel("alarmModelName")),
     alarmModelVersion: S.optional(S.String).pipe(T.HttpQuery("version")),
   },
   T.all(
@@ -323,7 +324,7 @@ export class DescribeDetectorModelRequest extends S.Class<DescribeDetectorModelR
   "DescribeDetectorModelRequest",
 )(
   {
-    detectorModelName: S.String.pipe(T.HttpLabel()),
+    detectorModelName: S.String.pipe(T.HttpLabel("detectorModelName")),
     detectorModelVersion: S.optional(S.String).pipe(T.HttpQuery("version")),
   },
   T.all(
@@ -338,7 +339,7 @@ export class DescribeDetectorModelRequest extends S.Class<DescribeDetectorModelR
 export class DescribeDetectorModelAnalysisRequest extends S.Class<DescribeDetectorModelAnalysisRequest>(
   "DescribeDetectorModelAnalysisRequest",
 )(
-  { analysisId: S.String.pipe(T.HttpLabel()) },
+  { analysisId: S.String.pipe(T.HttpLabel("analysisId")) },
   T.all(
     T.Http({ method: "GET", uri: "/analysis/detector-models/{analysisId}" }),
     svc,
@@ -351,7 +352,7 @@ export class DescribeDetectorModelAnalysisRequest extends S.Class<DescribeDetect
 export class DescribeInputRequest extends S.Class<DescribeInputRequest>(
   "DescribeInputRequest",
 )(
-  { inputName: S.String.pipe(T.HttpLabel()) },
+  { inputName: S.String.pipe(T.HttpLabel("inputName")) },
   T.all(
     T.Http({ method: "GET", uri: "/inputs/{inputName}" }),
     svc,
@@ -365,7 +366,7 @@ export class GetDetectorModelAnalysisResultsRequest extends S.Class<GetDetectorM
   "GetDetectorModelAnalysisResultsRequest",
 )(
   {
-    analysisId: S.String.pipe(T.HttpLabel()),
+    analysisId: S.String.pipe(T.HttpLabel("analysisId")),
     nextToken: S.optional(S.String).pipe(T.HttpQuery("nextToken")),
     maxResults: S.optional(S.Number).pipe(T.HttpQuery("maxResults")),
   },
@@ -401,7 +402,7 @@ export class ListAlarmModelVersionsRequest extends S.Class<ListAlarmModelVersion
   "ListAlarmModelVersionsRequest",
 )(
   {
-    alarmModelName: S.String.pipe(T.HttpLabel()),
+    alarmModelName: S.String.pipe(T.HttpLabel("alarmModelName")),
     nextToken: S.optional(S.String).pipe(T.HttpQuery("nextToken")),
     maxResults: S.optional(S.Number).pipe(T.HttpQuery("maxResults")),
   },
@@ -434,7 +435,7 @@ export class ListDetectorModelVersionsRequest extends S.Class<ListDetectorModelV
   "ListDetectorModelVersionsRequest",
 )(
   {
-    detectorModelName: S.String.pipe(T.HttpLabel()),
+    detectorModelName: S.String.pipe(T.HttpLabel("detectorModelName")),
     nextToken: S.optional(S.String).pipe(T.HttpQuery("nextToken")),
     maxResults: S.optional(S.Number).pipe(T.HttpQuery("maxResults")),
   },
@@ -764,7 +765,7 @@ export class UpdateAlarmModelRequest extends S.Class<UpdateAlarmModelRequest>(
   "UpdateAlarmModelRequest",
 )(
   {
-    alarmModelName: S.String.pipe(T.HttpLabel()),
+    alarmModelName: S.String.pipe(T.HttpLabel("alarmModelName")),
     alarmModelDescription: S.optional(S.String),
     roleArn: S.String,
     severity: S.optional(S.Number),
@@ -786,7 +787,7 @@ export class UpdateDetectorModelRequest extends S.Class<UpdateDetectorModelReque
   "UpdateDetectorModelRequest",
 )(
   {
-    detectorModelName: S.String.pipe(T.HttpLabel()),
+    detectorModelName: S.String.pipe(T.HttpLabel("detectorModelName")),
     detectorModelDefinition: DetectorModelDefinition,
     detectorModelDescription: S.optional(S.String),
     roleArn: S.String,
@@ -812,7 +813,7 @@ export class UpdateInputRequest extends S.Class<UpdateInputRequest>(
   "UpdateInputRequest",
 )(
   {
-    inputName: S.String.pipe(T.HttpLabel()),
+    inputName: S.String.pipe(T.HttpLabel("inputName")),
     inputDescription: S.optional(S.String),
     inputDefinition: InputDefinition,
   },
@@ -1139,7 +1140,7 @@ export class CreateDetectorModelResponse extends S.Class<CreateDetectorModelResp
 export class InternalFailureException extends S.TaggedError<InternalFailureException>()(
   "InternalFailureException",
   { message: S.optional(S.String) },
-) {}
+).pipe(withCategory(ERROR_CATEGORIES.SERVER_ERROR)) {}
 export class InvalidRequestException extends S.TaggedError<InvalidRequestException>()(
   "InvalidRequestException",
   { message: S.optional(S.String) },
@@ -1155,7 +1156,7 @@ export class ResourceNotFoundException extends S.TaggedError<ResourceNotFoundExc
 export class ServiceUnavailableException extends S.TaggedError<ServiceUnavailableException>()(
   "ServiceUnavailableException",
   { message: S.optional(S.String) },
-) {}
+).pipe(withCategory(ERROR_CATEGORIES.SERVER_ERROR)) {}
 export class LimitExceededException extends S.TaggedError<LimitExceededException>()(
   "LimitExceededException",
   { message: S.optional(S.String) },
@@ -1171,11 +1172,11 @@ export class ResourceAlreadyExistsException extends S.TaggedError<ResourceAlread
 export class ThrottlingException extends S.TaggedError<ThrottlingException>()(
   "ThrottlingException",
   { message: S.optional(S.String) },
-) {}
+).pipe(withCategory(ERROR_CATEGORIES.THROTTLING_ERROR)) {}
 export class UnsupportedOperationException extends S.TaggedError<UnsupportedOperationException>()(
   "UnsupportedOperationException",
   { message: S.optional(S.String) },
-) {}
+).pipe(withCategory(ERROR_CATEGORIES.SERVER_ERROR)) {}
 
 //# Operations
 /**

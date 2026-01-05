@@ -1,6 +1,7 @@
 import * as S from "effect/Schema";
 import * as API from "../api.ts";
 import * as T from "../traits.ts";
+import { ERROR_CATEGORIES, withCategory } from "../error-category.ts";
 const svc = T.AwsApiService({
   sdkId: "GuardDuty",
   serviceShapeName: "GuardDutyAPIService",
@@ -5119,7 +5120,7 @@ export class InternalServerErrorException extends S.TaggedError<InternalServerEr
     Message: S.optional(S.String).pipe(T.JsonName("message")),
     Type: S.optional(S.String).pipe(T.JsonName("__type")),
   },
-) {}
+).pipe(withCategory(ERROR_CATEGORIES.SERVER_ERROR)) {}
 export class ResourceNotFoundException extends S.TaggedError<ResourceNotFoundException>()(
   "ResourceNotFoundException",
   {

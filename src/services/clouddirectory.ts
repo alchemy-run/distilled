@@ -1,6 +1,7 @@
 import * as S from "effect/Schema";
 import * as API from "../api.ts";
 import * as T from "../traits.ts";
+import { ERROR_CATEGORIES, withCategory } from "../error-category.ts";
 const svc = T.AwsApiService({
   sdkId: "CloudDirectory",
   serviceShapeName: "AmazonCloudDirectory_20170111",
@@ -2436,7 +2437,7 @@ export class DirectoryAlreadyExistsException extends S.TaggedError<DirectoryAlre
 export class InternalServiceException extends S.TaggedError<InternalServiceException>()(
   "InternalServiceException",
   { Message: S.optional(S.String) },
-) {}
+).pipe(withCategory(ERROR_CATEGORIES.SERVER_ERROR)) {}
 export class DirectoryDeletedException extends S.TaggedError<DirectoryDeletedException>()(
   "DirectoryDeletedException",
   { Message: S.optional(S.String) },

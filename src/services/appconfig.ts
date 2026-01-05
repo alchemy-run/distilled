@@ -1,6 +1,7 @@
 import * as S from "effect/Schema";
 import * as API from "../api.ts";
 import * as T from "../traits.ts";
+import { ERROR_CATEGORIES, withCategory } from "../error-category.ts";
 const svc = T.AwsApiService({
   sdkId: "AppConfig",
   serviceShapeName: "AmazonAppConfig",
@@ -303,8 +304,10 @@ export class CreateHostedConfigurationVersionRequest extends S.Class<CreateHoste
   "CreateHostedConfigurationVersionRequest",
 )(
   {
-    ApplicationId: S.String.pipe(T.HttpLabel()),
-    ConfigurationProfileId: S.String.pipe(T.HttpLabel()),
+    ApplicationId: S.String.pipe(T.HttpLabel("ApplicationId")),
+    ConfigurationProfileId: S.String.pipe(
+      T.HttpLabel("ConfigurationProfileId"),
+    ),
     Description: S.optional(S.String).pipe(T.HttpHeader("Description")),
     Content: T.StreamingInput.pipe(T.HttpPayload()),
     ContentType: S.String.pipe(T.HttpHeader("Content-Type")),
@@ -328,7 +331,7 @@ export class CreateHostedConfigurationVersionRequest extends S.Class<CreateHoste
 export class DeleteApplicationRequest extends S.Class<DeleteApplicationRequest>(
   "DeleteApplicationRequest",
 )(
-  { ApplicationId: S.String.pipe(T.HttpLabel()) },
+  { ApplicationId: S.String.pipe(T.HttpLabel("ApplicationId")) },
   T.all(
     T.Http({ method: "DELETE", uri: "/applications/{ApplicationId}" }),
     svc,
@@ -345,8 +348,10 @@ export class DeleteConfigurationProfileRequest extends S.Class<DeleteConfigurati
   "DeleteConfigurationProfileRequest",
 )(
   {
-    ApplicationId: S.String.pipe(T.HttpLabel()),
-    ConfigurationProfileId: S.String.pipe(T.HttpLabel()),
+    ApplicationId: S.String.pipe(T.HttpLabel("ApplicationId")),
+    ConfigurationProfileId: S.String.pipe(
+      T.HttpLabel("ConfigurationProfileId"),
+    ),
     DeletionProtectionCheck: S.optional(S.String).pipe(
       T.HttpHeader("x-amzn-deletion-protection-check"),
     ),
@@ -369,7 +374,7 @@ export class DeleteConfigurationProfileResponse extends S.Class<DeleteConfigurat
 export class DeleteDeploymentStrategyRequest extends S.Class<DeleteDeploymentStrategyRequest>(
   "DeleteDeploymentStrategyRequest",
 )(
-  { DeploymentStrategyId: S.String.pipe(T.HttpLabel()) },
+  { DeploymentStrategyId: S.String.pipe(T.HttpLabel("DeploymentStrategyId")) },
   T.all(
     T.Http({
       method: "DELETE",
@@ -389,8 +394,8 @@ export class DeleteEnvironmentRequest extends S.Class<DeleteEnvironmentRequest>(
   "DeleteEnvironmentRequest",
 )(
   {
-    EnvironmentId: S.String.pipe(T.HttpLabel()),
-    ApplicationId: S.String.pipe(T.HttpLabel()),
+    EnvironmentId: S.String.pipe(T.HttpLabel("EnvironmentId")),
+    ApplicationId: S.String.pipe(T.HttpLabel("ApplicationId")),
     DeletionProtectionCheck: S.optional(S.String).pipe(
       T.HttpHeader("x-amzn-deletion-protection-check"),
     ),
@@ -414,7 +419,7 @@ export class DeleteExtensionRequest extends S.Class<DeleteExtensionRequest>(
   "DeleteExtensionRequest",
 )(
   {
-    ExtensionIdentifier: S.String.pipe(T.HttpLabel()),
+    ExtensionIdentifier: S.String.pipe(T.HttpLabel("ExtensionIdentifier")),
     VersionNumber: S.optional(S.Number).pipe(T.HttpQuery("version")),
   },
   T.all(
@@ -432,7 +437,11 @@ export class DeleteExtensionResponse extends S.Class<DeleteExtensionResponse>(
 export class DeleteExtensionAssociationRequest extends S.Class<DeleteExtensionAssociationRequest>(
   "DeleteExtensionAssociationRequest",
 )(
-  { ExtensionAssociationId: S.String.pipe(T.HttpLabel()) },
+  {
+    ExtensionAssociationId: S.String.pipe(
+      T.HttpLabel("ExtensionAssociationId"),
+    ),
+  },
   T.all(
     T.Http({
       method: "DELETE",
@@ -452,9 +461,11 @@ export class DeleteHostedConfigurationVersionRequest extends S.Class<DeleteHoste
   "DeleteHostedConfigurationVersionRequest",
 )(
   {
-    ApplicationId: S.String.pipe(T.HttpLabel()),
-    ConfigurationProfileId: S.String.pipe(T.HttpLabel()),
-    VersionNumber: S.Number.pipe(T.HttpLabel()),
+    ApplicationId: S.String.pipe(T.HttpLabel("ApplicationId")),
+    ConfigurationProfileId: S.String.pipe(
+      T.HttpLabel("ConfigurationProfileId"),
+    ),
+    VersionNumber: S.Number.pipe(T.HttpLabel("VersionNumber")),
   },
   T.all(
     T.Http({
@@ -474,7 +485,7 @@ export class DeleteHostedConfigurationVersionResponse extends S.Class<DeleteHost
 export class GetApplicationRequest extends S.Class<GetApplicationRequest>(
   "GetApplicationRequest",
 )(
-  { ApplicationId: S.String.pipe(T.HttpLabel()) },
+  { ApplicationId: S.String.pipe(T.HttpLabel("ApplicationId")) },
   T.all(
     T.Http({ method: "GET", uri: "/applications/{ApplicationId}" }),
     svc,
@@ -488,9 +499,9 @@ export class GetConfigurationRequest extends S.Class<GetConfigurationRequest>(
   "GetConfigurationRequest",
 )(
   {
-    Application: S.String.pipe(T.HttpLabel()),
-    Environment: S.String.pipe(T.HttpLabel()),
-    Configuration: S.String.pipe(T.HttpLabel()),
+    Application: S.String.pipe(T.HttpLabel("Application")),
+    Environment: S.String.pipe(T.HttpLabel("Environment")),
+    Configuration: S.String.pipe(T.HttpLabel("Configuration")),
     ClientId: S.String.pipe(T.HttpQuery("client_id")),
     ClientConfigurationVersion: S.optional(S.String).pipe(
       T.HttpQuery("client_configuration_version"),
@@ -512,8 +523,10 @@ export class GetConfigurationProfileRequest extends S.Class<GetConfigurationProf
   "GetConfigurationProfileRequest",
 )(
   {
-    ApplicationId: S.String.pipe(T.HttpLabel()),
-    ConfigurationProfileId: S.String.pipe(T.HttpLabel()),
+    ApplicationId: S.String.pipe(T.HttpLabel("ApplicationId")),
+    ConfigurationProfileId: S.String.pipe(
+      T.HttpLabel("ConfigurationProfileId"),
+    ),
   },
   T.all(
     T.Http({
@@ -531,9 +544,9 @@ export class GetDeploymentRequest extends S.Class<GetDeploymentRequest>(
   "GetDeploymentRequest",
 )(
   {
-    ApplicationId: S.String.pipe(T.HttpLabel()),
-    EnvironmentId: S.String.pipe(T.HttpLabel()),
-    DeploymentNumber: S.Number.pipe(T.HttpLabel()),
+    ApplicationId: S.String.pipe(T.HttpLabel("ApplicationId")),
+    EnvironmentId: S.String.pipe(T.HttpLabel("EnvironmentId")),
+    DeploymentNumber: S.Number.pipe(T.HttpLabel("DeploymentNumber")),
   },
   T.all(
     T.Http({
@@ -550,7 +563,7 @@ export class GetDeploymentRequest extends S.Class<GetDeploymentRequest>(
 export class GetDeploymentStrategyRequest extends S.Class<GetDeploymentStrategyRequest>(
   "GetDeploymentStrategyRequest",
 )(
-  { DeploymentStrategyId: S.String.pipe(T.HttpLabel()) },
+  { DeploymentStrategyId: S.String.pipe(T.HttpLabel("DeploymentStrategyId")) },
   T.all(
     T.Http({
       method: "GET",
@@ -567,8 +580,8 @@ export class GetEnvironmentRequest extends S.Class<GetEnvironmentRequest>(
   "GetEnvironmentRequest",
 )(
   {
-    ApplicationId: S.String.pipe(T.HttpLabel()),
-    EnvironmentId: S.String.pipe(T.HttpLabel()),
+    ApplicationId: S.String.pipe(T.HttpLabel("ApplicationId")),
+    EnvironmentId: S.String.pipe(T.HttpLabel("EnvironmentId")),
   },
   T.all(
     T.Http({
@@ -586,7 +599,7 @@ export class GetExtensionRequest extends S.Class<GetExtensionRequest>(
   "GetExtensionRequest",
 )(
   {
-    ExtensionIdentifier: S.String.pipe(T.HttpLabel()),
+    ExtensionIdentifier: S.String.pipe(T.HttpLabel("ExtensionIdentifier")),
     VersionNumber: S.optional(S.Number).pipe(T.HttpQuery("version_number")),
   },
   T.all(
@@ -601,7 +614,11 @@ export class GetExtensionRequest extends S.Class<GetExtensionRequest>(
 export class GetExtensionAssociationRequest extends S.Class<GetExtensionAssociationRequest>(
   "GetExtensionAssociationRequest",
 )(
-  { ExtensionAssociationId: S.String.pipe(T.HttpLabel()) },
+  {
+    ExtensionAssociationId: S.String.pipe(
+      T.HttpLabel("ExtensionAssociationId"),
+    ),
+  },
   T.all(
     T.Http({
       method: "GET",
@@ -618,9 +635,11 @@ export class GetHostedConfigurationVersionRequest extends S.Class<GetHostedConfi
   "GetHostedConfigurationVersionRequest",
 )(
   {
-    ApplicationId: S.String.pipe(T.HttpLabel()),
-    ConfigurationProfileId: S.String.pipe(T.HttpLabel()),
-    VersionNumber: S.Number.pipe(T.HttpLabel()),
+    ApplicationId: S.String.pipe(T.HttpLabel("ApplicationId")),
+    ConfigurationProfileId: S.String.pipe(
+      T.HttpLabel("ConfigurationProfileId"),
+    ),
+    VersionNumber: S.Number.pipe(T.HttpLabel("VersionNumber")),
   },
   T.all(
     T.Http({
@@ -654,7 +673,7 @@ export class ListConfigurationProfilesRequest extends S.Class<ListConfigurationP
   "ListConfigurationProfilesRequest",
 )(
   {
-    ApplicationId: S.String.pipe(T.HttpLabel()),
+    ApplicationId: S.String.pipe(T.HttpLabel("ApplicationId")),
     MaxResults: S.optional(S.Number).pipe(T.HttpQuery("max_results")),
     NextToken: S.optional(S.String).pipe(T.HttpQuery("next_token")),
     Type: S.optional(S.String).pipe(T.HttpQuery("type")),
@@ -675,8 +694,8 @@ export class ListDeploymentsRequest extends S.Class<ListDeploymentsRequest>(
   "ListDeploymentsRequest",
 )(
   {
-    ApplicationId: S.String.pipe(T.HttpLabel()),
-    EnvironmentId: S.String.pipe(T.HttpLabel()),
+    ApplicationId: S.String.pipe(T.HttpLabel("ApplicationId")),
+    EnvironmentId: S.String.pipe(T.HttpLabel("EnvironmentId")),
     MaxResults: S.optional(S.Number).pipe(T.HttpQuery("max_results")),
     NextToken: S.optional(S.String).pipe(T.HttpQuery("next_token")),
   },
@@ -712,7 +731,7 @@ export class ListEnvironmentsRequest extends S.Class<ListEnvironmentsRequest>(
   "ListEnvironmentsRequest",
 )(
   {
-    ApplicationId: S.String.pipe(T.HttpLabel()),
+    ApplicationId: S.String.pipe(T.HttpLabel("ApplicationId")),
     MaxResults: S.optional(S.Number).pipe(T.HttpQuery("max_results")),
     NextToken: S.optional(S.String).pipe(T.HttpQuery("next_token")),
   },
@@ -774,8 +793,10 @@ export class ListHostedConfigurationVersionsRequest extends S.Class<ListHostedCo
   "ListHostedConfigurationVersionsRequest",
 )(
   {
-    ApplicationId: S.String.pipe(T.HttpLabel()),
-    ConfigurationProfileId: S.String.pipe(T.HttpLabel()),
+    ApplicationId: S.String.pipe(T.HttpLabel("ApplicationId")),
+    ConfigurationProfileId: S.String.pipe(
+      T.HttpLabel("ConfigurationProfileId"),
+    ),
     MaxResults: S.optional(S.Number).pipe(T.HttpQuery("max_results")),
     NextToken: S.optional(S.String).pipe(T.HttpQuery("next_token")),
     VersionLabel: S.optional(S.String).pipe(T.HttpQuery("version_label")),
@@ -795,7 +816,7 @@ export class ListHostedConfigurationVersionsRequest extends S.Class<ListHostedCo
 export class ListTagsForResourceRequest extends S.Class<ListTagsForResourceRequest>(
   "ListTagsForResourceRequest",
 )(
-  { ResourceArn: S.String.pipe(T.HttpLabel()) },
+  { ResourceArn: S.String.pipe(T.HttpLabel("ResourceArn")) },
   T.all(
     T.Http({ method: "GET", uri: "/tags/{ResourceArn}" }),
     svc,
@@ -809,9 +830,9 @@ export class StopDeploymentRequest extends S.Class<StopDeploymentRequest>(
   "StopDeploymentRequest",
 )(
   {
-    ApplicationId: S.String.pipe(T.HttpLabel()),
-    EnvironmentId: S.String.pipe(T.HttpLabel()),
-    DeploymentNumber: S.Number.pipe(T.HttpLabel()),
+    ApplicationId: S.String.pipe(T.HttpLabel("ApplicationId")),
+    EnvironmentId: S.String.pipe(T.HttpLabel("EnvironmentId")),
+    DeploymentNumber: S.Number.pipe(T.HttpLabel("DeploymentNumber")),
     AllowRevert: S.optional(S.Boolean).pipe(T.HttpHeader("Allow-Revert")),
   },
   T.all(
@@ -829,7 +850,7 @@ export class StopDeploymentRequest extends S.Class<StopDeploymentRequest>(
 export class TagResourceRequest extends S.Class<TagResourceRequest>(
   "TagResourceRequest",
 )(
-  { ResourceArn: S.String.pipe(T.HttpLabel()), Tags: TagMap },
+  { ResourceArn: S.String.pipe(T.HttpLabel("ResourceArn")), Tags: TagMap },
   T.all(
     T.Http({ method: "POST", uri: "/tags/{ResourceArn}" }),
     svc,
@@ -846,7 +867,7 @@ export class UntagResourceRequest extends S.Class<UntagResourceRequest>(
   "UntagResourceRequest",
 )(
   {
-    ResourceArn: S.String.pipe(T.HttpLabel()),
+    ResourceArn: S.String.pipe(T.HttpLabel("ResourceArn")),
     TagKeys: TagKeyList.pipe(T.HttpQuery("tagKeys")),
   },
   T.all(
@@ -884,7 +905,7 @@ export class UpdateApplicationRequest extends S.Class<UpdateApplicationRequest>(
   "UpdateApplicationRequest",
 )(
   {
-    ApplicationId: S.String.pipe(T.HttpLabel()),
+    ApplicationId: S.String.pipe(T.HttpLabel("ApplicationId")),
     Name: S.optional(S.String),
     Description: S.optional(S.String),
   },
@@ -906,8 +927,10 @@ export class UpdateConfigurationProfileRequest extends S.Class<UpdateConfigurati
   "UpdateConfigurationProfileRequest",
 )(
   {
-    ApplicationId: S.String.pipe(T.HttpLabel()),
-    ConfigurationProfileId: S.String.pipe(T.HttpLabel()),
+    ApplicationId: S.String.pipe(T.HttpLabel("ApplicationId")),
+    ConfigurationProfileId: S.String.pipe(
+      T.HttpLabel("ConfigurationProfileId"),
+    ),
     Name: S.optional(S.String),
     Description: S.optional(S.String),
     RetrievalRoleArn: S.optional(S.String),
@@ -930,7 +953,7 @@ export class UpdateDeploymentStrategyRequest extends S.Class<UpdateDeploymentStr
   "UpdateDeploymentStrategyRequest",
 )(
   {
-    DeploymentStrategyId: S.String.pipe(T.HttpLabel()),
+    DeploymentStrategyId: S.String.pipe(T.HttpLabel("DeploymentStrategyId")),
     Description: S.optional(S.String),
     DeploymentDurationInMinutes: S.optional(S.Number),
     FinalBakeTimeInMinutes: S.optional(S.Number),
@@ -958,8 +981,8 @@ export class UpdateEnvironmentRequest extends S.Class<UpdateEnvironmentRequest>(
   "UpdateEnvironmentRequest",
 )(
   {
-    ApplicationId: S.String.pipe(T.HttpLabel()),
-    EnvironmentId: S.String.pipe(T.HttpLabel()),
+    ApplicationId: S.String.pipe(T.HttpLabel("ApplicationId")),
+    EnvironmentId: S.String.pipe(T.HttpLabel("EnvironmentId")),
     Name: S.optional(S.String),
     Description: S.optional(S.String),
     Monitors: S.optional(MonitorList),
@@ -994,7 +1017,7 @@ export class UpdateExtensionRequest extends S.Class<UpdateExtensionRequest>(
   "UpdateExtensionRequest",
 )(
   {
-    ExtensionIdentifier: S.String.pipe(T.HttpLabel()),
+    ExtensionIdentifier: S.String.pipe(T.HttpLabel("ExtensionIdentifier")),
     Description: S.optional(S.String),
     Actions: S.optional(ActionsMap),
     Parameters: S.optional(ParameterMap),
@@ -1014,7 +1037,9 @@ export class UpdateExtensionAssociationRequest extends S.Class<UpdateExtensionAs
   "UpdateExtensionAssociationRequest",
 )(
   {
-    ExtensionAssociationId: S.String.pipe(T.HttpLabel()),
+    ExtensionAssociationId: S.String.pipe(
+      T.HttpLabel("ExtensionAssociationId"),
+    ),
     Parameters: S.optional(ParameterValueMap),
   },
   T.all(
@@ -1033,8 +1058,10 @@ export class ValidateConfigurationRequest extends S.Class<ValidateConfigurationR
   "ValidateConfigurationRequest",
 )(
   {
-    ApplicationId: S.String.pipe(T.HttpLabel()),
-    ConfigurationProfileId: S.String.pipe(T.HttpLabel()),
+    ApplicationId: S.String.pipe(T.HttpLabel("ApplicationId")),
+    ConfigurationProfileId: S.String.pipe(
+      T.HttpLabel("ConfigurationProfileId"),
+    ),
     ConfigurationVersion: S.String.pipe(T.HttpQuery("configuration_version")),
   },
   T.all(
@@ -1102,7 +1129,7 @@ export class CreateConfigurationProfileRequest extends S.Class<CreateConfigurati
   "CreateConfigurationProfileRequest",
 )(
   {
-    ApplicationId: S.String.pipe(T.HttpLabel()),
+    ApplicationId: S.String.pipe(T.HttpLabel("ApplicationId")),
     Name: S.String,
     Description: S.optional(S.String),
     LocationUri: S.String,
@@ -1128,7 +1155,7 @@ export class CreateEnvironmentRequest extends S.Class<CreateEnvironmentRequest>(
   "CreateEnvironmentRequest",
 )(
   {
-    ApplicationId: S.String.pipe(T.HttpLabel()),
+    ApplicationId: S.String.pipe(T.HttpLabel("ApplicationId")),
     Name: S.String,
     Description: S.optional(S.String),
     Monitors: S.optional(MonitorList),
@@ -1243,8 +1270,8 @@ export class StartDeploymentRequest extends S.Class<StartDeploymentRequest>(
   "StartDeploymentRequest",
 )(
   {
-    ApplicationId: S.String.pipe(T.HttpLabel()),
-    EnvironmentId: S.String.pipe(T.HttpLabel()),
+    ApplicationId: S.String.pipe(T.HttpLabel("ApplicationId")),
+    EnvironmentId: S.String.pipe(T.HttpLabel("EnvironmentId")),
     DeploymentStrategyId: S.String,
     ConfigurationProfileId: S.String,
     ConfigurationVersion: S.String,
@@ -1461,7 +1488,7 @@ export class BadRequestException extends S.TaggedError<BadRequestException>()(
 export class InternalServerException extends S.TaggedError<InternalServerException>()(
   "InternalServerException",
   { Message: S.optional(S.String) },
-) {}
+).pipe(withCategory(ERROR_CATEGORIES.SERVER_ERROR)) {}
 export class ConflictException extends S.TaggedError<ConflictException>()(
   "ConflictException",
   { Message: S.optional(S.String) },

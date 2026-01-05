@@ -68,3 +68,44 @@ export * as Errors from "./aws/errors.ts";
  * @since 1.0.0
  */
 export * as Traits from "./traits.ts";
+
+/**
+ * Error categories for classifying AWS errors.
+ *
+ * @example
+ * ```ts
+ * import { ErrorCategory } from "effect-aws"
+ *
+ * // Check if an error is transient
+ * if (ErrorCategory.isTransientError(error)) {
+ *   // Retry logic
+ * }
+ *
+ * // Use category-based error handling
+ * effect.pipe(
+ *   ErrorCategory.catchCategory("THROTTLING_ERROR", (e) => ...)
+ * )
+ * ```
+ *
+ * @since 1.0.0
+ */
+export * as ErrorCategory from "./error-category.ts";
+
+/**
+ * Retry policy configuration for AWS API calls.
+ *
+ * @example
+ * ```ts
+ * import { RetryPolicy } from "effect-aws"
+ * import { Layer } from "effect"
+ *
+ * // Use custom retry policy
+ * const customRetry = Layer.succeed(RetryPolicy.RetryPolicy, {
+ *   shouldRetry: (error) => true,
+ *   getSchedule: () => Schedule.exponential("1 second"),
+ * })
+ * ```
+ *
+ * @since 1.0.0
+ */
+export * as RetryPolicy from "./retry-policy.ts";

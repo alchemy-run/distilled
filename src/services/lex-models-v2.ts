@@ -1,6 +1,7 @@
 import * as S from "effect/Schema";
 import * as API from "../api.ts";
 import * as T from "../traits.ts";
+import { ERROR_CATEGORIES, withCategory } from "../error-category.ts";
 const svc = T.AwsApiService({
   sdkId: "Lex Models V2",
   serviceShapeName: "LexModelBuildingServiceV2",
@@ -260,9 +261,9 @@ export class BuildBotLocaleRequest extends S.Class<BuildBotLocaleRequest>(
   "BuildBotLocaleRequest",
 )(
   {
-    botId: S.String.pipe(T.HttpLabel()),
-    botVersion: S.String.pipe(T.HttpLabel()),
-    localeId: S.String.pipe(T.HttpLabel()),
+    botId: S.String.pipe(T.HttpLabel("botId")),
+    botVersion: S.String.pipe(T.HttpLabel("botVersion")),
+    localeId: S.String.pipe(T.HttpLabel("localeId")),
   },
   T.all(
     T.Http({
@@ -279,7 +280,7 @@ export class BuildBotLocaleRequest extends S.Class<BuildBotLocaleRequest>(
 export class CreateBotReplicaRequest extends S.Class<CreateBotReplicaRequest>(
   "CreateBotReplicaRequest",
 )(
-  { botId: S.String.pipe(T.HttpLabel()), replicaRegion: S.String },
+  { botId: S.String.pipe(T.HttpLabel("botId")), replicaRegion: S.String },
   T.all(
     T.Http({ method: "PUT", uri: "/bots/{botId}/replicas" }),
     svc,
@@ -292,7 +293,7 @@ export class CreateBotReplicaRequest extends S.Class<CreateBotReplicaRequest>(
 export class CreateResourcePolicyRequest extends S.Class<CreateResourcePolicyRequest>(
   "CreateResourcePolicyRequest",
 )(
-  { resourceArn: S.String.pipe(T.HttpLabel()), policy: S.String },
+  { resourceArn: S.String.pipe(T.HttpLabel("resourceArn")), policy: S.String },
   T.all(
     T.Http({ method: "POST", uri: "/policy/{resourceArn}" }),
     svc,
@@ -309,7 +310,7 @@ export class DeleteBotRequest extends S.Class<DeleteBotRequest>(
   "DeleteBotRequest",
 )(
   {
-    botId: S.String.pipe(T.HttpLabel()),
+    botId: S.String.pipe(T.HttpLabel("botId")),
     skipResourceInUseCheck: S.optional(S.Boolean).pipe(
       T.HttpQuery("skipResourceInUseCheck"),
     ),
@@ -327,8 +328,8 @@ export class DeleteBotAliasRequest extends S.Class<DeleteBotAliasRequest>(
   "DeleteBotAliasRequest",
 )(
   {
-    botAliasId: S.String.pipe(T.HttpLabel()),
-    botId: S.String.pipe(T.HttpLabel()),
+    botAliasId: S.String.pipe(T.HttpLabel("botAliasId")),
+    botId: S.String.pipe(T.HttpLabel("botId")),
     skipResourceInUseCheck: S.optional(S.Boolean).pipe(
       T.HttpQuery("skipResourceInUseCheck"),
     ),
@@ -346,9 +347,9 @@ export class DeleteBotLocaleRequest extends S.Class<DeleteBotLocaleRequest>(
   "DeleteBotLocaleRequest",
 )(
   {
-    botId: S.String.pipe(T.HttpLabel()),
-    botVersion: S.String.pipe(T.HttpLabel()),
-    localeId: S.String.pipe(T.HttpLabel()),
+    botId: S.String.pipe(T.HttpLabel("botId")),
+    botVersion: S.String.pipe(T.HttpLabel("botVersion")),
+    localeId: S.String.pipe(T.HttpLabel("localeId")),
   },
   T.all(
     T.Http({
@@ -366,8 +367,8 @@ export class DeleteBotReplicaRequest extends S.Class<DeleteBotReplicaRequest>(
   "DeleteBotReplicaRequest",
 )(
   {
-    botId: S.String.pipe(T.HttpLabel()),
-    replicaRegion: S.String.pipe(T.HttpLabel()),
+    botId: S.String.pipe(T.HttpLabel("botId")),
+    replicaRegion: S.String.pipe(T.HttpLabel("replicaRegion")),
   },
   T.all(
     T.Http({ method: "DELETE", uri: "/bots/{botId}/replicas/{replicaRegion}" }),
@@ -382,8 +383,8 @@ export class DeleteBotVersionRequest extends S.Class<DeleteBotVersionRequest>(
   "DeleteBotVersionRequest",
 )(
   {
-    botId: S.String.pipe(T.HttpLabel()),
-    botVersion: S.String.pipe(T.HttpLabel()),
+    botId: S.String.pipe(T.HttpLabel("botId")),
+    botVersion: S.String.pipe(T.HttpLabel("botVersion")),
     skipResourceInUseCheck: S.optional(S.Boolean).pipe(
       T.HttpQuery("skipResourceInUseCheck"),
     ),
@@ -401,9 +402,9 @@ export class DeleteCustomVocabularyRequest extends S.Class<DeleteCustomVocabular
   "DeleteCustomVocabularyRequest",
 )(
   {
-    botId: S.String.pipe(T.HttpLabel()),
-    botVersion: S.String.pipe(T.HttpLabel()),
-    localeId: S.String.pipe(T.HttpLabel()),
+    botId: S.String.pipe(T.HttpLabel("botId")),
+    botVersion: S.String.pipe(T.HttpLabel("botVersion")),
+    localeId: S.String.pipe(T.HttpLabel("localeId")),
   },
   T.all(
     T.Http({
@@ -420,7 +421,7 @@ export class DeleteCustomVocabularyRequest extends S.Class<DeleteCustomVocabular
 export class DeleteExportRequest extends S.Class<DeleteExportRequest>(
   "DeleteExportRequest",
 )(
-  { exportId: S.String.pipe(T.HttpLabel()) },
+  { exportId: S.String.pipe(T.HttpLabel("exportId")) },
   T.all(
     T.Http({ method: "DELETE", uri: "/exports/{exportId}" }),
     svc,
@@ -433,7 +434,7 @@ export class DeleteExportRequest extends S.Class<DeleteExportRequest>(
 export class DeleteImportRequest extends S.Class<DeleteImportRequest>(
   "DeleteImportRequest",
 )(
-  { importId: S.String.pipe(T.HttpLabel()) },
+  { importId: S.String.pipe(T.HttpLabel("importId")) },
   T.all(
     T.Http({ method: "DELETE", uri: "/imports/{importId}" }),
     svc,
@@ -447,10 +448,10 @@ export class DeleteIntentRequest extends S.Class<DeleteIntentRequest>(
   "DeleteIntentRequest",
 )(
   {
-    intentId: S.String.pipe(T.HttpLabel()),
-    botId: S.String.pipe(T.HttpLabel()),
-    botVersion: S.String.pipe(T.HttpLabel()),
-    localeId: S.String.pipe(T.HttpLabel()),
+    intentId: S.String.pipe(T.HttpLabel("intentId")),
+    botId: S.String.pipe(T.HttpLabel("botId")),
+    botVersion: S.String.pipe(T.HttpLabel("botVersion")),
+    localeId: S.String.pipe(T.HttpLabel("localeId")),
   },
   T.all(
     T.Http({
@@ -471,7 +472,7 @@ export class DeleteResourcePolicyRequest extends S.Class<DeleteResourcePolicyReq
   "DeleteResourcePolicyRequest",
 )(
   {
-    resourceArn: S.String.pipe(T.HttpLabel()),
+    resourceArn: S.String.pipe(T.HttpLabel("resourceArn")),
     expectedRevisionId: S.optional(S.String).pipe(
       T.HttpQuery("expectedRevisionId"),
     ),
@@ -489,8 +490,8 @@ export class DeleteResourcePolicyStatementRequest extends S.Class<DeleteResource
   "DeleteResourcePolicyStatementRequest",
 )(
   {
-    resourceArn: S.String.pipe(T.HttpLabel()),
-    statementId: S.String.pipe(T.HttpLabel()),
+    resourceArn: S.String.pipe(T.HttpLabel("resourceArn")),
+    statementId: S.String.pipe(T.HttpLabel("statementId")),
     expectedRevisionId: S.optional(S.String).pipe(
       T.HttpQuery("expectedRevisionId"),
     ),
@@ -511,11 +512,11 @@ export class DeleteSlotRequest extends S.Class<DeleteSlotRequest>(
   "DeleteSlotRequest",
 )(
   {
-    slotId: S.String.pipe(T.HttpLabel()),
-    botId: S.String.pipe(T.HttpLabel()),
-    botVersion: S.String.pipe(T.HttpLabel()),
-    localeId: S.String.pipe(T.HttpLabel()),
-    intentId: S.String.pipe(T.HttpLabel()),
+    slotId: S.String.pipe(T.HttpLabel("slotId")),
+    botId: S.String.pipe(T.HttpLabel("botId")),
+    botVersion: S.String.pipe(T.HttpLabel("botVersion")),
+    localeId: S.String.pipe(T.HttpLabel("localeId")),
+    intentId: S.String.pipe(T.HttpLabel("intentId")),
   },
   T.all(
     T.Http({
@@ -536,10 +537,10 @@ export class DeleteSlotTypeRequest extends S.Class<DeleteSlotTypeRequest>(
   "DeleteSlotTypeRequest",
 )(
   {
-    slotTypeId: S.String.pipe(T.HttpLabel()),
-    botId: S.String.pipe(T.HttpLabel()),
-    botVersion: S.String.pipe(T.HttpLabel()),
-    localeId: S.String.pipe(T.HttpLabel()),
+    slotTypeId: S.String.pipe(T.HttpLabel("slotTypeId")),
+    botId: S.String.pipe(T.HttpLabel("botId")),
+    botVersion: S.String.pipe(T.HttpLabel("botVersion")),
+    localeId: S.String.pipe(T.HttpLabel("localeId")),
     skipResourceInUseCheck: S.optional(S.Boolean).pipe(
       T.HttpQuery("skipResourceInUseCheck"),
     ),
@@ -562,7 +563,7 @@ export class DeleteSlotTypeResponse extends S.Class<DeleteSlotTypeResponse>(
 export class DeleteTestSetRequest extends S.Class<DeleteTestSetRequest>(
   "DeleteTestSetRequest",
 )(
-  { testSetId: S.String.pipe(T.HttpLabel()) },
+  { testSetId: S.String.pipe(T.HttpLabel("testSetId")) },
   T.all(
     T.Http({ method: "DELETE", uri: "/testsets/{testSetId}" }),
     svc,
@@ -579,7 +580,7 @@ export class DeleteUtterancesRequest extends S.Class<DeleteUtterancesRequest>(
   "DeleteUtterancesRequest",
 )(
   {
-    botId: S.String.pipe(T.HttpLabel()),
+    botId: S.String.pipe(T.HttpLabel("botId")),
     localeId: S.optional(S.String).pipe(T.HttpQuery("localeId")),
     sessionId: S.optional(S.String).pipe(T.HttpQuery("sessionId")),
   },
@@ -598,7 +599,7 @@ export class DeleteUtterancesResponse extends S.Class<DeleteUtterancesResponse>(
 export class DescribeBotRequest extends S.Class<DescribeBotRequest>(
   "DescribeBotRequest",
 )(
-  { botId: S.String.pipe(T.HttpLabel()) },
+  { botId: S.String.pipe(T.HttpLabel("botId")) },
   T.all(
     T.Http({ method: "GET", uri: "/bots/{botId}" }),
     svc,
@@ -612,8 +613,8 @@ export class DescribeBotAliasRequest extends S.Class<DescribeBotAliasRequest>(
   "DescribeBotAliasRequest",
 )(
   {
-    botAliasId: S.String.pipe(T.HttpLabel()),
-    botId: S.String.pipe(T.HttpLabel()),
+    botAliasId: S.String.pipe(T.HttpLabel("botAliasId")),
+    botId: S.String.pipe(T.HttpLabel("botId")),
   },
   T.all(
     T.Http({ method: "GET", uri: "/bots/{botId}/botaliases/{botAliasId}" }),
@@ -628,9 +629,9 @@ export class DescribeBotLocaleRequest extends S.Class<DescribeBotLocaleRequest>(
   "DescribeBotLocaleRequest",
 )(
   {
-    botId: S.String.pipe(T.HttpLabel()),
-    botVersion: S.String.pipe(T.HttpLabel()),
-    localeId: S.String.pipe(T.HttpLabel()),
+    botId: S.String.pipe(T.HttpLabel("botId")),
+    botVersion: S.String.pipe(T.HttpLabel("botVersion")),
+    localeId: S.String.pipe(T.HttpLabel("localeId")),
   },
   T.all(
     T.Http({
@@ -648,10 +649,10 @@ export class DescribeBotRecommendationRequest extends S.Class<DescribeBotRecomme
   "DescribeBotRecommendationRequest",
 )(
   {
-    botId: S.String.pipe(T.HttpLabel()),
-    botVersion: S.String.pipe(T.HttpLabel()),
-    localeId: S.String.pipe(T.HttpLabel()),
-    botRecommendationId: S.String.pipe(T.HttpLabel()),
+    botId: S.String.pipe(T.HttpLabel("botId")),
+    botVersion: S.String.pipe(T.HttpLabel("botVersion")),
+    localeId: S.String.pipe(T.HttpLabel("localeId")),
+    botRecommendationId: S.String.pipe(T.HttpLabel("botRecommendationId")),
   },
   T.all(
     T.Http({
@@ -669,8 +670,8 @@ export class DescribeBotReplicaRequest extends S.Class<DescribeBotReplicaRequest
   "DescribeBotReplicaRequest",
 )(
   {
-    botId: S.String.pipe(T.HttpLabel()),
-    replicaRegion: S.String.pipe(T.HttpLabel()),
+    botId: S.String.pipe(T.HttpLabel("botId")),
+    replicaRegion: S.String.pipe(T.HttpLabel("replicaRegion")),
   },
   T.all(
     T.Http({ method: "GET", uri: "/bots/{botId}/replicas/{replicaRegion}" }),
@@ -685,10 +686,10 @@ export class DescribeBotResourceGenerationRequest extends S.Class<DescribeBotRes
   "DescribeBotResourceGenerationRequest",
 )(
   {
-    botId: S.String.pipe(T.HttpLabel()),
-    botVersion: S.String.pipe(T.HttpLabel()),
-    localeId: S.String.pipe(T.HttpLabel()),
-    generationId: S.String.pipe(T.HttpLabel()),
+    botId: S.String.pipe(T.HttpLabel("botId")),
+    botVersion: S.String.pipe(T.HttpLabel("botVersion")),
+    localeId: S.String.pipe(T.HttpLabel("localeId")),
+    generationId: S.String.pipe(T.HttpLabel("generationId")),
   },
   T.all(
     T.Http({
@@ -706,8 +707,8 @@ export class DescribeBotVersionRequest extends S.Class<DescribeBotVersionRequest
   "DescribeBotVersionRequest",
 )(
   {
-    botId: S.String.pipe(T.HttpLabel()),
-    botVersion: S.String.pipe(T.HttpLabel()),
+    botId: S.String.pipe(T.HttpLabel("botId")),
+    botVersion: S.String.pipe(T.HttpLabel("botVersion")),
   },
   T.all(
     T.Http({ method: "GET", uri: "/bots/{botId}/botversions/{botVersion}" }),
@@ -722,9 +723,9 @@ export class DescribeCustomVocabularyMetadataRequest extends S.Class<DescribeCus
   "DescribeCustomVocabularyMetadataRequest",
 )(
   {
-    botId: S.String.pipe(T.HttpLabel()),
-    botVersion: S.String.pipe(T.HttpLabel()),
-    localeId: S.String.pipe(T.HttpLabel()),
+    botId: S.String.pipe(T.HttpLabel("botId")),
+    botVersion: S.String.pipe(T.HttpLabel("botVersion")),
+    localeId: S.String.pipe(T.HttpLabel("localeId")),
   },
   T.all(
     T.Http({
@@ -741,7 +742,7 @@ export class DescribeCustomVocabularyMetadataRequest extends S.Class<DescribeCus
 export class DescribeExportRequest extends S.Class<DescribeExportRequest>(
   "DescribeExportRequest",
 )(
-  { exportId: S.String.pipe(T.HttpLabel()) },
+  { exportId: S.String.pipe(T.HttpLabel("exportId")) },
   T.all(
     T.Http({ method: "GET", uri: "/exports/{exportId}" }),
     svc,
@@ -754,7 +755,7 @@ export class DescribeExportRequest extends S.Class<DescribeExportRequest>(
 export class DescribeImportRequest extends S.Class<DescribeImportRequest>(
   "DescribeImportRequest",
 )(
-  { importId: S.String.pipe(T.HttpLabel()) },
+  { importId: S.String.pipe(T.HttpLabel("importId")) },
   T.all(
     T.Http({ method: "GET", uri: "/imports/{importId}" }),
     svc,
@@ -768,10 +769,10 @@ export class DescribeIntentRequest extends S.Class<DescribeIntentRequest>(
   "DescribeIntentRequest",
 )(
   {
-    intentId: S.String.pipe(T.HttpLabel()),
-    botId: S.String.pipe(T.HttpLabel()),
-    botVersion: S.String.pipe(T.HttpLabel()),
-    localeId: S.String.pipe(T.HttpLabel()),
+    intentId: S.String.pipe(T.HttpLabel("intentId")),
+    botId: S.String.pipe(T.HttpLabel("botId")),
+    botVersion: S.String.pipe(T.HttpLabel("botVersion")),
+    localeId: S.String.pipe(T.HttpLabel("localeId")),
   },
   T.all(
     T.Http({
@@ -788,7 +789,7 @@ export class DescribeIntentRequest extends S.Class<DescribeIntentRequest>(
 export class DescribeResourcePolicyRequest extends S.Class<DescribeResourcePolicyRequest>(
   "DescribeResourcePolicyRequest",
 )(
-  { resourceArn: S.String.pipe(T.HttpLabel()) },
+  { resourceArn: S.String.pipe(T.HttpLabel("resourceArn")) },
   T.all(
     T.Http({ method: "GET", uri: "/policy/{resourceArn}" }),
     svc,
@@ -802,11 +803,11 @@ export class DescribeSlotRequest extends S.Class<DescribeSlotRequest>(
   "DescribeSlotRequest",
 )(
   {
-    slotId: S.String.pipe(T.HttpLabel()),
-    botId: S.String.pipe(T.HttpLabel()),
-    botVersion: S.String.pipe(T.HttpLabel()),
-    localeId: S.String.pipe(T.HttpLabel()),
-    intentId: S.String.pipe(T.HttpLabel()),
+    slotId: S.String.pipe(T.HttpLabel("slotId")),
+    botId: S.String.pipe(T.HttpLabel("botId")),
+    botVersion: S.String.pipe(T.HttpLabel("botVersion")),
+    localeId: S.String.pipe(T.HttpLabel("localeId")),
+    intentId: S.String.pipe(T.HttpLabel("intentId")),
   },
   T.all(
     T.Http({
@@ -824,10 +825,10 @@ export class DescribeSlotTypeRequest extends S.Class<DescribeSlotTypeRequest>(
   "DescribeSlotTypeRequest",
 )(
   {
-    slotTypeId: S.String.pipe(T.HttpLabel()),
-    botId: S.String.pipe(T.HttpLabel()),
-    botVersion: S.String.pipe(T.HttpLabel()),
-    localeId: S.String.pipe(T.HttpLabel()),
+    slotTypeId: S.String.pipe(T.HttpLabel("slotTypeId")),
+    botId: S.String.pipe(T.HttpLabel("botId")),
+    botVersion: S.String.pipe(T.HttpLabel("botVersion")),
+    localeId: S.String.pipe(T.HttpLabel("localeId")),
   },
   T.all(
     T.Http({
@@ -844,7 +845,7 @@ export class DescribeSlotTypeRequest extends S.Class<DescribeSlotTypeRequest>(
 export class DescribeTestExecutionRequest extends S.Class<DescribeTestExecutionRequest>(
   "DescribeTestExecutionRequest",
 )(
-  { testExecutionId: S.String.pipe(T.HttpLabel()) },
+  { testExecutionId: S.String.pipe(T.HttpLabel("testExecutionId")) },
   T.all(
     T.Http({ method: "GET", uri: "/testexecutions/{testExecutionId}" }),
     svc,
@@ -857,7 +858,7 @@ export class DescribeTestExecutionRequest extends S.Class<DescribeTestExecutionR
 export class DescribeTestSetRequest extends S.Class<DescribeTestSetRequest>(
   "DescribeTestSetRequest",
 )(
-  { testSetId: S.String.pipe(T.HttpLabel()) },
+  { testSetId: S.String.pipe(T.HttpLabel("testSetId")) },
   T.all(
     T.Http({ method: "GET", uri: "/testsets/{testSetId}" }),
     svc,
@@ -870,7 +871,11 @@ export class DescribeTestSetRequest extends S.Class<DescribeTestSetRequest>(
 export class DescribeTestSetDiscrepancyReportRequest extends S.Class<DescribeTestSetDiscrepancyReportRequest>(
   "DescribeTestSetDiscrepancyReportRequest",
 )(
-  { testSetDiscrepancyReportId: S.String.pipe(T.HttpLabel()) },
+  {
+    testSetDiscrepancyReportId: S.String.pipe(
+      T.HttpLabel("testSetDiscrepancyReportId"),
+    ),
+  },
   T.all(
     T.Http({
       method: "GET",
@@ -886,7 +891,7 @@ export class DescribeTestSetDiscrepancyReportRequest extends S.Class<DescribeTes
 export class DescribeTestSetGenerationRequest extends S.Class<DescribeTestSetGenerationRequest>(
   "DescribeTestSetGenerationRequest",
 )(
-  { testSetGenerationId: S.String.pipe(T.HttpLabel()) },
+  { testSetGenerationId: S.String.pipe(T.HttpLabel("testSetGenerationId")) },
   T.all(
     T.Http({ method: "GET", uri: "/testsetgenerations/{testSetGenerationId}" }),
     svc,
@@ -901,9 +906,9 @@ export class GenerateBotElementRequest extends S.Class<GenerateBotElementRequest
 )(
   {
     intentId: S.String,
-    botId: S.String.pipe(T.HttpLabel()),
-    botVersion: S.String.pipe(T.HttpLabel()),
-    localeId: S.String.pipe(T.HttpLabel()),
+    botId: S.String.pipe(T.HttpLabel("botId")),
+    botVersion: S.String.pipe(T.HttpLabel("botVersion")),
+    localeId: S.String.pipe(T.HttpLabel("localeId")),
   },
   T.all(
     T.Http({
@@ -920,7 +925,7 @@ export class GenerateBotElementRequest extends S.Class<GenerateBotElementRequest
 export class GetTestExecutionArtifactsUrlRequest extends S.Class<GetTestExecutionArtifactsUrlRequest>(
   "GetTestExecutionArtifactsUrlRequest",
 )(
-  { testExecutionId: S.String.pipe(T.HttpLabel()) },
+  { testExecutionId: S.String.pipe(T.HttpLabel("testExecutionId")) },
   T.all(
     T.Http({
       method: "GET",
@@ -937,7 +942,7 @@ export class ListBotAliasesRequest extends S.Class<ListBotAliasesRequest>(
   "ListBotAliasesRequest",
 )(
   {
-    botId: S.String.pipe(T.HttpLabel()),
+    botId: S.String.pipe(T.HttpLabel("botId")),
     maxResults: S.optional(S.Number),
     nextToken: S.optional(S.String),
   },
@@ -954,8 +959,8 @@ export class ListBotAliasReplicasRequest extends S.Class<ListBotAliasReplicasReq
   "ListBotAliasReplicasRequest",
 )(
   {
-    botId: S.String.pipe(T.HttpLabel()),
-    replicaRegion: S.String.pipe(T.HttpLabel()),
+    botId: S.String.pipe(T.HttpLabel("botId")),
+    replicaRegion: S.String.pipe(T.HttpLabel("replicaRegion")),
     maxResults: S.optional(S.Number),
     nextToken: S.optional(S.String),
   },
@@ -975,9 +980,9 @@ export class ListBotRecommendationsRequest extends S.Class<ListBotRecommendation
   "ListBotRecommendationsRequest",
 )(
   {
-    botId: S.String.pipe(T.HttpLabel()),
-    botVersion: S.String.pipe(T.HttpLabel()),
-    localeId: S.String.pipe(T.HttpLabel()),
+    botId: S.String.pipe(T.HttpLabel("botId")),
+    botVersion: S.String.pipe(T.HttpLabel("botVersion")),
+    localeId: S.String.pipe(T.HttpLabel("localeId")),
     maxResults: S.optional(S.Number),
     nextToken: S.optional(S.String),
   },
@@ -996,7 +1001,7 @@ export class ListBotRecommendationsRequest extends S.Class<ListBotRecommendation
 export class ListBotReplicasRequest extends S.Class<ListBotReplicasRequest>(
   "ListBotReplicasRequest",
 )(
-  { botId: S.String.pipe(T.HttpLabel()) },
+  { botId: S.String.pipe(T.HttpLabel("botId")) },
   T.all(
     T.Http({ method: "POST", uri: "/bots/{botId}/replicas" }),
     svc,
@@ -1010,9 +1015,9 @@ export class ListCustomVocabularyItemsRequest extends S.Class<ListCustomVocabula
   "ListCustomVocabularyItemsRequest",
 )(
   {
-    botId: S.String.pipe(T.HttpLabel()),
-    botVersion: S.String.pipe(T.HttpLabel()),
-    localeId: S.String.pipe(T.HttpLabel()),
+    botId: S.String.pipe(T.HttpLabel("botId")),
+    botVersion: S.String.pipe(T.HttpLabel("botVersion")),
+    localeId: S.String.pipe(T.HttpLabel("localeId")),
     maxResults: S.optional(S.Number),
     nextToken: S.optional(S.String),
   },
@@ -1032,10 +1037,10 @@ export class ListRecommendedIntentsRequest extends S.Class<ListRecommendedIntent
   "ListRecommendedIntentsRequest",
 )(
   {
-    botId: S.String.pipe(T.HttpLabel()),
-    botVersion: S.String.pipe(T.HttpLabel()),
-    localeId: S.String.pipe(T.HttpLabel()),
-    botRecommendationId: S.String.pipe(T.HttpLabel()),
+    botId: S.String.pipe(T.HttpLabel("botId")),
+    botVersion: S.String.pipe(T.HttpLabel("botVersion")),
+    localeId: S.String.pipe(T.HttpLabel("localeId")),
+    botRecommendationId: S.String.pipe(T.HttpLabel("botRecommendationId")),
     nextToken: S.optional(S.String),
     maxResults: S.optional(S.Number),
   },
@@ -1054,7 +1059,7 @@ export class ListRecommendedIntentsRequest extends S.Class<ListRecommendedIntent
 export class ListTagsForResourceRequest extends S.Class<ListTagsForResourceRequest>(
   "ListTagsForResourceRequest",
 )(
-  { resourceARN: S.String.pipe(T.HttpLabel()) },
+  { resourceARN: S.String.pipe(T.HttpLabel("resourceARN")) },
   T.all(
     T.Http({ method: "GET", uri: "/tags/{resourceARN}" }),
     svc,
@@ -1068,7 +1073,7 @@ export class ListTestSetRecordsRequest extends S.Class<ListTestSetRecordsRequest
   "ListTestSetRecordsRequest",
 )(
   {
-    testSetId: S.String.pipe(T.HttpLabel()),
+    testSetId: S.String.pipe(T.HttpLabel("testSetId")),
     maxResults: S.optional(S.Number),
     nextToken: S.optional(S.String),
   },
@@ -1086,9 +1091,9 @@ export class StartBotResourceGenerationRequest extends S.Class<StartBotResourceG
 )(
   {
     generationInputPrompt: S.String,
-    botId: S.String.pipe(T.HttpLabel()),
-    botVersion: S.String.pipe(T.HttpLabel()),
-    localeId: S.String.pipe(T.HttpLabel()),
+    botId: S.String.pipe(T.HttpLabel("botId")),
+    botVersion: S.String.pipe(T.HttpLabel("botVersion")),
+    localeId: S.String.pipe(T.HttpLabel("localeId")),
   },
   T.all(
     T.Http({
@@ -1106,10 +1111,10 @@ export class StopBotRecommendationRequest extends S.Class<StopBotRecommendationR
   "StopBotRecommendationRequest",
 )(
   {
-    botId: S.String.pipe(T.HttpLabel()),
-    botVersion: S.String.pipe(T.HttpLabel()),
-    localeId: S.String.pipe(T.HttpLabel()),
-    botRecommendationId: S.String.pipe(T.HttpLabel()),
+    botId: S.String.pipe(T.HttpLabel("botId")),
+    botVersion: S.String.pipe(T.HttpLabel("botVersion")),
+    localeId: S.String.pipe(T.HttpLabel("localeId")),
+    botRecommendationId: S.String.pipe(T.HttpLabel("botRecommendationId")),
   },
   T.all(
     T.Http({
@@ -1127,7 +1132,7 @@ export const TagMap = S.Record({ key: S.String, value: S.String });
 export class TagResourceRequest extends S.Class<TagResourceRequest>(
   "TagResourceRequest",
 )(
-  { resourceARN: S.String.pipe(T.HttpLabel()), tags: TagMap },
+  { resourceARN: S.String.pipe(T.HttpLabel("resourceARN")), tags: TagMap },
   T.all(
     T.Http({ method: "POST", uri: "/tags/{resourceARN}" }),
     svc,
@@ -1144,7 +1149,7 @@ export class UntagResourceRequest extends S.Class<UntagResourceRequest>(
   "UntagResourceRequest",
 )(
   {
-    resourceARN: S.String.pipe(T.HttpLabel()),
+    resourceARN: S.String.pipe(T.HttpLabel("resourceARN")),
     tagKeys: TagKeyList.pipe(T.HttpQuery("tagKeys")),
   },
   T.all(
@@ -1177,7 +1182,7 @@ export class UpdateBotRequest extends S.Class<UpdateBotRequest>(
   "UpdateBotRequest",
 )(
   {
-    botId: S.String.pipe(T.HttpLabel()),
+    botId: S.String.pipe(T.HttpLabel("botId")),
     botName: S.String,
     description: S.optional(S.String),
     roleArn: S.String,
@@ -1256,14 +1261,14 @@ export class UpdateBotAliasRequest extends S.Class<UpdateBotAliasRequest>(
   "UpdateBotAliasRequest",
 )(
   {
-    botAliasId: S.String.pipe(T.HttpLabel()),
+    botAliasId: S.String.pipe(T.HttpLabel("botAliasId")),
     botAliasName: S.String,
     description: S.optional(S.String),
     botVersion: S.optional(S.String),
     botAliasLocaleSettings: S.optional(BotAliasLocaleSettingsMap),
     conversationLogSettings: S.optional(ConversationLogSettings),
     sentimentAnalysisSettings: S.optional(SentimentAnalysisSettings),
-    botId: S.String.pipe(T.HttpLabel()),
+    botId: S.String.pipe(T.HttpLabel("botId")),
   },
   T.all(
     T.Http({ method: "PUT", uri: "/bots/{botId}/botaliases/{botAliasId}" }),
@@ -1361,9 +1366,9 @@ export class UpdateBotLocaleRequest extends S.Class<UpdateBotLocaleRequest>(
   "UpdateBotLocaleRequest",
 )(
   {
-    botId: S.String.pipe(T.HttpLabel()),
-    botVersion: S.String.pipe(T.HttpLabel()),
-    localeId: S.String.pipe(T.HttpLabel()),
+    botId: S.String.pipe(T.HttpLabel("botId")),
+    botVersion: S.String.pipe(T.HttpLabel("botVersion")),
+    localeId: S.String.pipe(T.HttpLabel("localeId")),
     description: S.optional(S.String),
     nluIntentConfidenceThreshold: S.Number,
     voiceSettings: S.optional(VoiceSettings),
@@ -1395,10 +1400,10 @@ export class UpdateBotRecommendationRequest extends S.Class<UpdateBotRecommendat
   "UpdateBotRecommendationRequest",
 )(
   {
-    botId: S.String.pipe(T.HttpLabel()),
-    botVersion: S.String.pipe(T.HttpLabel()),
-    localeId: S.String.pipe(T.HttpLabel()),
-    botRecommendationId: S.String.pipe(T.HttpLabel()),
+    botId: S.String.pipe(T.HttpLabel("botId")),
+    botVersion: S.String.pipe(T.HttpLabel("botVersion")),
+    localeId: S.String.pipe(T.HttpLabel("localeId")),
+    botRecommendationId: S.String.pipe(T.HttpLabel("botRecommendationId")),
     encryptionSetting: EncryptionSetting,
   },
   T.all(
@@ -1417,7 +1422,7 @@ export class UpdateExportRequest extends S.Class<UpdateExportRequest>(
   "UpdateExportRequest",
 )(
   {
-    exportId: S.String.pipe(T.HttpLabel()),
+    exportId: S.String.pipe(T.HttpLabel("exportId")),
     filePassword: S.optional(S.String),
   },
   T.all(
@@ -1433,7 +1438,7 @@ export class UpdateResourcePolicyRequest extends S.Class<UpdateResourcePolicyReq
   "UpdateResourcePolicyRequest",
 )(
   {
-    resourceArn: S.String.pipe(T.HttpLabel()),
+    resourceArn: S.String.pipe(T.HttpLabel("resourceArn")),
     policy: S.String,
     expectedRevisionId: S.optional(S.String).pipe(
       T.HttpQuery("expectedRevisionId"),
@@ -1697,16 +1702,16 @@ export class UpdateSlotRequest extends S.Class<UpdateSlotRequest>(
   "UpdateSlotRequest",
 )(
   {
-    slotId: S.String.pipe(T.HttpLabel()),
+    slotId: S.String.pipe(T.HttpLabel("slotId")),
     slotName: S.String,
     description: S.optional(S.String),
     slotTypeId: S.optional(S.String),
     valueElicitationSetting: SlotValueElicitationSetting,
     obfuscationSetting: S.optional(ObfuscationSetting),
-    botId: S.String.pipe(T.HttpLabel()),
-    botVersion: S.String.pipe(T.HttpLabel()),
-    localeId: S.String.pipe(T.HttpLabel()),
-    intentId: S.String.pipe(T.HttpLabel()),
+    botId: S.String.pipe(T.HttpLabel("botId")),
+    botVersion: S.String.pipe(T.HttpLabel("botVersion")),
+    localeId: S.String.pipe(T.HttpLabel("localeId")),
+    intentId: S.String.pipe(T.HttpLabel("intentId")),
     multipleValuesSetting: S.optional(MultipleValuesSetting),
     subSlotSetting: S.optional(SubSlotSetting),
   },
@@ -1768,15 +1773,15 @@ export class UpdateSlotTypeRequest extends S.Class<UpdateSlotTypeRequest>(
   "UpdateSlotTypeRequest",
 )(
   {
-    slotTypeId: S.String.pipe(T.HttpLabel()),
+    slotTypeId: S.String.pipe(T.HttpLabel("slotTypeId")),
     slotTypeName: S.String,
     description: S.optional(S.String),
     slotTypeValues: S.optional(SlotTypeValues),
     valueSelectionSetting: S.optional(SlotValueSelectionSetting),
     parentSlotTypeSignature: S.optional(S.String),
-    botId: S.String.pipe(T.HttpLabel()),
-    botVersion: S.String.pipe(T.HttpLabel()),
-    localeId: S.String.pipe(T.HttpLabel()),
+    botId: S.String.pipe(T.HttpLabel("botId")),
+    botVersion: S.String.pipe(T.HttpLabel("botVersion")),
+    localeId: S.String.pipe(T.HttpLabel("localeId")),
     externalSourceSetting: S.optional(ExternalSourceSetting),
     compositeSlotTypeSetting: S.optional(CompositeSlotTypeSetting),
   },
@@ -1796,7 +1801,7 @@ export class UpdateTestSetRequest extends S.Class<UpdateTestSetRequest>(
   "UpdateTestSetRequest",
 )(
   {
-    testSetId: S.String.pipe(T.HttpLabel()),
+    testSetId: S.String.pipe(T.HttpLabel("testSetId")),
     testSetName: S.String,
     description: S.optional(S.String),
   },
@@ -2068,9 +2073,9 @@ export class BatchCreateCustomVocabularyItemRequest extends S.Class<BatchCreateC
   "BatchCreateCustomVocabularyItemRequest",
 )(
   {
-    botId: S.String.pipe(T.HttpLabel()),
-    botVersion: S.String.pipe(T.HttpLabel()),
-    localeId: S.String.pipe(T.HttpLabel()),
+    botId: S.String.pipe(T.HttpLabel("botId")),
+    botVersion: S.String.pipe(T.HttpLabel("botVersion")),
+    localeId: S.String.pipe(T.HttpLabel("localeId")),
     customVocabularyItemList: CreateCustomVocabularyItemsList,
   },
   T.all(
@@ -2089,9 +2094,9 @@ export class BatchDeleteCustomVocabularyItemRequest extends S.Class<BatchDeleteC
   "BatchDeleteCustomVocabularyItemRequest",
 )(
   {
-    botId: S.String.pipe(T.HttpLabel()),
-    botVersion: S.String.pipe(T.HttpLabel()),
-    localeId: S.String.pipe(T.HttpLabel()),
+    botId: S.String.pipe(T.HttpLabel("botId")),
+    botVersion: S.String.pipe(T.HttpLabel("botVersion")),
+    localeId: S.String.pipe(T.HttpLabel("localeId")),
     customVocabularyItemList: DeleteCustomVocabularyItemsList,
   },
   T.all(
@@ -2110,9 +2115,9 @@ export class BatchUpdateCustomVocabularyItemRequest extends S.Class<BatchUpdateC
   "BatchUpdateCustomVocabularyItemRequest",
 )(
   {
-    botId: S.String.pipe(T.HttpLabel()),
-    botVersion: S.String.pipe(T.HttpLabel()),
-    localeId: S.String.pipe(T.HttpLabel()),
+    botId: S.String.pipe(T.HttpLabel("botId")),
+    botVersion: S.String.pipe(T.HttpLabel("botVersion")),
+    localeId: S.String.pipe(T.HttpLabel("localeId")),
     customVocabularyItemList: UpdateCustomVocabularyItemsList,
   },
   T.all(
@@ -2685,8 +2690,8 @@ export class ListBotLocalesRequest extends S.Class<ListBotLocalesRequest>(
   "ListBotLocalesRequest",
 )(
   {
-    botId: S.String.pipe(T.HttpLabel()),
-    botVersion: S.String.pipe(T.HttpLabel()),
+    botId: S.String.pipe(T.HttpLabel("botId")),
+    botVersion: S.String.pipe(T.HttpLabel("botVersion")),
     sortBy: S.optional(BotLocaleSortBy),
     filters: S.optional(BotLocaleFilters),
     maxResults: S.optional(S.Number),
@@ -2708,9 +2713,9 @@ export class ListBotResourceGenerationsRequest extends S.Class<ListBotResourceGe
   "ListBotResourceGenerationsRequest",
 )(
   {
-    botId: S.String.pipe(T.HttpLabel()),
-    botVersion: S.String.pipe(T.HttpLabel()),
-    localeId: S.String.pipe(T.HttpLabel()),
+    botId: S.String.pipe(T.HttpLabel("botId")),
+    botVersion: S.String.pipe(T.HttpLabel("botVersion")),
+    localeId: S.String.pipe(T.HttpLabel("localeId")),
     sortBy: S.optional(GenerationSortBy),
     maxResults: S.optional(S.Number),
     nextToken: S.optional(S.String),
@@ -2742,8 +2747,8 @@ export class ListBotVersionReplicasRequest extends S.Class<ListBotVersionReplica
   "ListBotVersionReplicasRequest",
 )(
   {
-    botId: S.String.pipe(T.HttpLabel()),
-    replicaRegion: S.String.pipe(T.HttpLabel()),
+    botId: S.String.pipe(T.HttpLabel("botId")),
+    replicaRegion: S.String.pipe(T.HttpLabel("replicaRegion")),
     maxResults: S.optional(S.Number),
     nextToken: S.optional(S.String),
     sortBy: S.optional(BotVersionReplicaSortBy),
@@ -2764,7 +2769,7 @@ export class ListBotVersionsRequest extends S.Class<ListBotVersionsRequest>(
   "ListBotVersionsRequest",
 )(
   {
-    botId: S.String.pipe(T.HttpLabel()),
+    botId: S.String.pipe(T.HttpLabel("botId")),
     sortBy: S.optional(BotVersionSortBy),
     maxResults: S.optional(S.Number),
     nextToken: S.optional(S.String),
@@ -2782,7 +2787,7 @@ export class ListBuiltInIntentsRequest extends S.Class<ListBuiltInIntentsRequest
   "ListBuiltInIntentsRequest",
 )(
   {
-    localeId: S.String.pipe(T.HttpLabel()),
+    localeId: S.String.pipe(T.HttpLabel("localeId")),
     sortBy: S.optional(BuiltInIntentSortBy),
     maxResults: S.optional(S.Number),
     nextToken: S.optional(S.String),
@@ -2800,7 +2805,7 @@ export class ListBuiltInSlotTypesRequest extends S.Class<ListBuiltInSlotTypesReq
   "ListBuiltInSlotTypesRequest",
 )(
   {
-    localeId: S.String.pipe(T.HttpLabel()),
+    localeId: S.String.pipe(T.HttpLabel("localeId")),
     sortBy: S.optional(BuiltInSlotTypeSortBy),
     maxResults: S.optional(S.Number),
     nextToken: S.optional(S.String),
@@ -2869,7 +2874,7 @@ export class ListIntentMetricsRequest extends S.Class<ListIntentMetricsRequest>(
   "ListIntentMetricsRequest",
 )(
   {
-    botId: S.String.pipe(T.HttpLabel()),
+    botId: S.String.pipe(T.HttpLabel("botId")),
     startDateTime: S.Date.pipe(T.TimestampFormat("epoch-seconds")),
     endDateTime: S.Date.pipe(T.TimestampFormat("epoch-seconds")),
     metrics: AnalyticsIntentMetrics,
@@ -2892,7 +2897,7 @@ export class ListIntentPathsRequest extends S.Class<ListIntentPathsRequest>(
   "ListIntentPathsRequest",
 )(
   {
-    botId: S.String.pipe(T.HttpLabel()),
+    botId: S.String.pipe(T.HttpLabel("botId")),
     startDateTime: S.Date.pipe(T.TimestampFormat("epoch-seconds")),
     endDateTime: S.Date.pipe(T.TimestampFormat("epoch-seconds")),
     intentPath: S.String,
@@ -2911,9 +2916,9 @@ export class ListIntentsRequest extends S.Class<ListIntentsRequest>(
   "ListIntentsRequest",
 )(
   {
-    botId: S.String.pipe(T.HttpLabel()),
-    botVersion: S.String.pipe(T.HttpLabel()),
-    localeId: S.String.pipe(T.HttpLabel()),
+    botId: S.String.pipe(T.HttpLabel("botId")),
+    botVersion: S.String.pipe(T.HttpLabel("botVersion")),
+    localeId: S.String.pipe(T.HttpLabel("localeId")),
     sortBy: S.optional(IntentSortBy),
     filters: S.optional(IntentFilters),
     maxResults: S.optional(S.Number),
@@ -2935,7 +2940,7 @@ export class ListIntentStageMetricsRequest extends S.Class<ListIntentStageMetric
   "ListIntentStageMetricsRequest",
 )(
   {
-    botId: S.String.pipe(T.HttpLabel()),
+    botId: S.String.pipe(T.HttpLabel("botId")),
     startDateTime: S.Date.pipe(T.TimestampFormat("epoch-seconds")),
     endDateTime: S.Date.pipe(T.TimestampFormat("epoch-seconds")),
     metrics: AnalyticsIntentStageMetrics,
@@ -2961,7 +2966,7 @@ export class ListSessionAnalyticsDataRequest extends S.Class<ListSessionAnalytic
   "ListSessionAnalyticsDataRequest",
 )(
   {
-    botId: S.String.pipe(T.HttpLabel()),
+    botId: S.String.pipe(T.HttpLabel("botId")),
     startDateTime: S.Date.pipe(T.TimestampFormat("epoch-seconds")),
     endDateTime: S.Date.pipe(T.TimestampFormat("epoch-seconds")),
     sortBy: S.optional(SessionDataSortBy),
@@ -2982,7 +2987,7 @@ export class ListSessionMetricsRequest extends S.Class<ListSessionMetricsRequest
   "ListSessionMetricsRequest",
 )(
   {
-    botId: S.String.pipe(T.HttpLabel()),
+    botId: S.String.pipe(T.HttpLabel("botId")),
     startDateTime: S.Date.pipe(T.TimestampFormat("epoch-seconds")),
     endDateTime: S.Date.pipe(T.TimestampFormat("epoch-seconds")),
     metrics: AnalyticsSessionMetrics,
@@ -3005,10 +3010,10 @@ export class ListSlotsRequest extends S.Class<ListSlotsRequest>(
   "ListSlotsRequest",
 )(
   {
-    botId: S.String.pipe(T.HttpLabel()),
-    botVersion: S.String.pipe(T.HttpLabel()),
-    localeId: S.String.pipe(T.HttpLabel()),
-    intentId: S.String.pipe(T.HttpLabel()),
+    botId: S.String.pipe(T.HttpLabel("botId")),
+    botVersion: S.String.pipe(T.HttpLabel("botVersion")),
+    localeId: S.String.pipe(T.HttpLabel("localeId")),
+    intentId: S.String.pipe(T.HttpLabel("intentId")),
     sortBy: S.optional(SlotSortBy),
     filters: S.optional(SlotFilters),
     maxResults: S.optional(S.Number),
@@ -3030,9 +3035,9 @@ export class ListSlotTypesRequest extends S.Class<ListSlotTypesRequest>(
   "ListSlotTypesRequest",
 )(
   {
-    botId: S.String.pipe(T.HttpLabel()),
-    botVersion: S.String.pipe(T.HttpLabel()),
-    localeId: S.String.pipe(T.HttpLabel()),
+    botId: S.String.pipe(T.HttpLabel("botId")),
+    botVersion: S.String.pipe(T.HttpLabel("botVersion")),
+    localeId: S.String.pipe(T.HttpLabel("localeId")),
     sortBy: S.optional(SlotTypeSortBy),
     filters: S.optional(SlotTypeFilters),
     maxResults: S.optional(S.Number),
@@ -3091,7 +3096,7 @@ export class ListUtteranceAnalyticsDataRequest extends S.Class<ListUtteranceAnal
   "ListUtteranceAnalyticsDataRequest",
 )(
   {
-    botId: S.String.pipe(T.HttpLabel()),
+    botId: S.String.pipe(T.HttpLabel("botId")),
     startDateTime: S.Date.pipe(T.TimestampFormat("epoch-seconds")),
     endDateTime: S.Date.pipe(T.TimestampFormat("epoch-seconds")),
     sortBy: S.optional(UtteranceDataSortBy),
@@ -3112,7 +3117,7 @@ export class ListUtteranceMetricsRequest extends S.Class<ListUtteranceMetricsReq
   "ListUtteranceMetricsRequest",
 )(
   {
-    botId: S.String.pipe(T.HttpLabel()),
+    botId: S.String.pipe(T.HttpLabel("botId")),
     startDateTime: S.Date.pipe(T.TimestampFormat("epoch-seconds")),
     endDateTime: S.Date.pipe(T.TimestampFormat("epoch-seconds")),
     metrics: AnalyticsUtteranceMetrics,
@@ -3136,10 +3141,10 @@ export class SearchAssociatedTranscriptsRequest extends S.Class<SearchAssociated
   "SearchAssociatedTranscriptsRequest",
 )(
   {
-    botId: S.String.pipe(T.HttpLabel()),
-    botVersion: S.String.pipe(T.HttpLabel()),
-    localeId: S.String.pipe(T.HttpLabel()),
-    botRecommendationId: S.String.pipe(T.HttpLabel()),
+    botId: S.String.pipe(T.HttpLabel("botId")),
+    botVersion: S.String.pipe(T.HttpLabel("botVersion")),
+    localeId: S.String.pipe(T.HttpLabel("localeId")),
+    botRecommendationId: S.String.pipe(T.HttpLabel("botRecommendationId")),
     searchOrder: S.optional(S.String),
     filters: AssociatedTranscriptFilters,
     maxResults: S.optional(S.Number),
@@ -3293,7 +3298,7 @@ export class UpdateIntentRequest extends S.Class<UpdateIntentRequest>(
   "UpdateIntentRequest",
 )(
   {
-    intentId: S.String.pipe(T.HttpLabel()),
+    intentId: S.String.pipe(T.HttpLabel("intentId")),
     intentName: S.String,
     intentDisplayName: S.optional(S.String),
     description: S.optional(S.String),
@@ -3307,9 +3312,9 @@ export class UpdateIntentRequest extends S.Class<UpdateIntentRequest>(
     inputContexts: S.optional(InputContextsList),
     outputContexts: S.optional(OutputContextsList),
     kendraConfiguration: S.optional(KendraConfiguration),
-    botId: S.String.pipe(T.HttpLabel()),
-    botVersion: S.String.pipe(T.HttpLabel()),
-    localeId: S.String.pipe(T.HttpLabel()),
+    botId: S.String.pipe(T.HttpLabel("botId")),
+    botVersion: S.String.pipe(T.HttpLabel("botVersion")),
+    localeId: S.String.pipe(T.HttpLabel("localeId")),
     initialResponseSetting: S.optional(InitialResponseSetting),
     qnAIntentConfiguration: S.optional(QnAIntentConfiguration),
     qInConnectIntentConfiguration: S.optional(QInConnectIntentConfiguration),
@@ -3539,7 +3544,7 @@ export class CreateBotVersionRequest extends S.Class<CreateBotVersionRequest>(
   "CreateBotVersionRequest",
 )(
   {
-    botId: S.String.pipe(T.HttpLabel()),
+    botId: S.String.pipe(T.HttpLabel("botId")),
     description: S.optional(S.String),
     botVersionLocaleSpecification: BotVersionLocaleSpecification,
   },
@@ -3573,7 +3578,7 @@ export class CreateResourcePolicyStatementRequest extends S.Class<CreateResource
   "CreateResourcePolicyStatementRequest",
 )(
   {
-    resourceArn: S.String.pipe(T.HttpLabel()),
+    resourceArn: S.String.pipe(T.HttpLabel("resourceArn")),
     statementId: S.String,
     effect: S.String,
     principal: PrincipalList,
@@ -3596,7 +3601,7 @@ export class CreateTestSetDiscrepancyReportRequest extends S.Class<CreateTestSet
   "CreateTestSetDiscrepancyReportRequest",
 )(
   {
-    testSetId: S.String.pipe(T.HttpLabel()),
+    testSetId: S.String.pipe(T.HttpLabel("testSetId")),
     target: TestSetDiscrepancyReportResourceTarget,
   },
   T.all(
@@ -3659,7 +3664,7 @@ export class ListAggregatedUtterancesRequest extends S.Class<ListAggregatedUtter
   "ListAggregatedUtterancesRequest",
 )(
   {
-    botId: S.String.pipe(T.HttpLabel()),
+    botId: S.String.pipe(T.HttpLabel("botId")),
     botAliasId: S.optional(S.String),
     botVersion: S.optional(S.String),
     localeId: S.String,
@@ -3724,7 +3729,7 @@ export class ListTestExecutionResultItemsRequest extends S.Class<ListTestExecuti
   "ListTestExecutionResultItemsRequest",
 )(
   {
-    testExecutionId: S.String.pipe(T.HttpLabel()),
+    testExecutionId: S.String.pipe(T.HttpLabel("testExecutionId")),
     resultFilterBy: TestExecutionResultFilterBy,
     maxResults: S.optional(S.Number),
     nextToken: S.optional(S.String),
@@ -3745,7 +3750,7 @@ export class StartTestExecutionRequest extends S.Class<StartTestExecutionRequest
   "StartTestExecutionRequest",
 )(
   {
-    testSetId: S.String.pipe(T.HttpLabel()),
+    testSetId: S.String.pipe(T.HttpLabel("testSetId")),
     target: TestExecutionTarget,
     apiMode: S.String,
     testExecutionModality: S.optional(S.String),
@@ -4034,9 +4039,9 @@ export class CreateSlotTypeRequest extends S.Class<CreateSlotTypeRequest>(
     slotTypeValues: S.optional(SlotTypeValues),
     valueSelectionSetting: S.optional(SlotValueSelectionSetting),
     parentSlotTypeSignature: S.optional(S.String),
-    botId: S.String.pipe(T.HttpLabel()),
-    botVersion: S.String.pipe(T.HttpLabel()),
-    localeId: S.String.pipe(T.HttpLabel()),
+    botId: S.String.pipe(T.HttpLabel("botId")),
+    botVersion: S.String.pipe(T.HttpLabel("botVersion")),
+    localeId: S.String.pipe(T.HttpLabel("localeId")),
     externalSourceSetting: S.optional(ExternalSourceSetting),
     compositeSlotTypeSetting: S.optional(CompositeSlotTypeSetting),
   },
@@ -4458,7 +4463,7 @@ export class CreateBotAliasRequest extends S.Class<CreateBotAliasRequest>(
     botAliasLocaleSettings: S.optional(BotAliasLocaleSettingsMap),
     conversationLogSettings: S.optional(ConversationLogSettings),
     sentimentAnalysisSettings: S.optional(SentimentAnalysisSettings),
-    botId: S.String.pipe(T.HttpLabel()),
+    botId: S.String.pipe(T.HttpLabel("botId")),
     tags: S.optional(TagMap),
   },
   T.all(
@@ -4474,8 +4479,8 @@ export class CreateBotLocaleRequest extends S.Class<CreateBotLocaleRequest>(
   "CreateBotLocaleRequest",
 )(
   {
-    botId: S.String.pipe(T.HttpLabel()),
-    botVersion: S.String.pipe(T.HttpLabel()),
+    botId: S.String.pipe(T.HttpLabel("botId")),
+    botVersion: S.String.pipe(T.HttpLabel("botVersion")),
     localeId: S.String,
     description: S.optional(S.String),
     nluIntentConfidenceThreshold: S.Number,
@@ -4506,10 +4511,10 @@ export class CreateSlotRequest extends S.Class<CreateSlotRequest>(
     slotTypeId: S.optional(S.String),
     valueElicitationSetting: SlotValueElicitationSetting,
     obfuscationSetting: S.optional(ObfuscationSetting),
-    botId: S.String.pipe(T.HttpLabel()),
-    botVersion: S.String.pipe(T.HttpLabel()),
-    localeId: S.String.pipe(T.HttpLabel()),
-    intentId: S.String.pipe(T.HttpLabel()),
+    botId: S.String.pipe(T.HttpLabel("botId")),
+    botVersion: S.String.pipe(T.HttpLabel("botVersion")),
+    localeId: S.String.pipe(T.HttpLabel("localeId")),
+    intentId: S.String.pipe(T.HttpLabel("intentId")),
     multipleValuesSetting: S.optional(MultipleValuesSetting),
     subSlotSetting: S.optional(SubSlotSetting),
   },
@@ -4712,9 +4717,9 @@ export class StartBotRecommendationRequest extends S.Class<StartBotRecommendatio
   "StartBotRecommendationRequest",
 )(
   {
-    botId: S.String.pipe(T.HttpLabel()),
-    botVersion: S.String.pipe(T.HttpLabel()),
-    localeId: S.String.pipe(T.HttpLabel()),
+    botId: S.String.pipe(T.HttpLabel("botId")),
+    botVersion: S.String.pipe(T.HttpLabel("botVersion")),
+    localeId: S.String.pipe(T.HttpLabel("localeId")),
     transcriptSourceSetting: TranscriptSourceSetting,
     encryptionSetting: S.optional(EncryptionSetting),
   },
@@ -4812,9 +4817,9 @@ export class CreateIntentRequest extends S.Class<CreateIntentRequest>(
     inputContexts: S.optional(InputContextsList),
     outputContexts: S.optional(OutputContextsList),
     kendraConfiguration: S.optional(KendraConfiguration),
-    botId: S.String.pipe(T.HttpLabel()),
-    botVersion: S.String.pipe(T.HttpLabel()),
-    localeId: S.String.pipe(T.HttpLabel()),
+    botId: S.String.pipe(T.HttpLabel("botId")),
+    botVersion: S.String.pipe(T.HttpLabel("botVersion")),
+    localeId: S.String.pipe(T.HttpLabel("localeId")),
     initialResponseSetting: S.optional(InitialResponseSetting),
     qnAIntentConfiguration: S.optional(QnAIntentConfiguration),
     qInConnectIntentConfiguration: S.optional(QInConnectIntentConfiguration),
@@ -5046,14 +5051,14 @@ export class ConflictException extends S.TaggedError<ConflictException>()(
 export class InternalServerException extends S.TaggedError<InternalServerException>()(
   "InternalServerException",
   { message: S.optional(S.String) },
-) {}
+).pipe(withCategory(ERROR_CATEGORIES.SERVER_ERROR)) {}
 export class ThrottlingException extends S.TaggedError<ThrottlingException>()(
   "ThrottlingException",
   {
     retryAfterSeconds: S.optional(S.Number).pipe(T.HttpHeader("Retry-After")),
     message: S.optional(S.String),
   },
-) {}
+).pipe(withCategory(ERROR_CATEGORIES.THROTTLING_ERROR)) {}
 export class ResourceNotFoundException extends S.TaggedError<ResourceNotFoundException>()(
   "ResourceNotFoundException",
   { message: S.optional(S.String) },

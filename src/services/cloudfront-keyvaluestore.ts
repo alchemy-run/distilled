@@ -1,6 +1,7 @@
 import * as S from "effect/Schema";
 import * as API from "../api.ts";
 import * as T from "../traits.ts";
+import { ERROR_CATEGORIES, withCategory } from "../error-category.ts";
 const svc = T.AwsApiService({
   sdkId: "CloudFront KeyValueStore",
   serviceShapeName: "CloudFrontKeyValueStore",
@@ -409,8 +410,8 @@ export class DeleteKeyRequest extends S.Class<DeleteKeyRequest>(
   "DeleteKeyRequest",
 )(
   {
-    KvsARN: S.String.pipe(T.HttpLabel(), T.ContextParam("KvsARN")),
-    Key: S.String.pipe(T.HttpLabel()),
+    KvsARN: S.String.pipe(T.HttpLabel("KvsARN"), T.ContextParam("KvsARN")),
+    Key: S.String.pipe(T.HttpLabel("Key")),
     IfMatch: S.String.pipe(T.HttpHeader("If-Match")),
   },
   T.all(
@@ -425,7 +426,7 @@ export class DeleteKeyRequest extends S.Class<DeleteKeyRequest>(
 export class DescribeKeyValueStoreRequest extends S.Class<DescribeKeyValueStoreRequest>(
   "DescribeKeyValueStoreRequest",
 )(
-  { KvsARN: S.String.pipe(T.HttpLabel(), T.ContextParam("KvsARN")) },
+  { KvsARN: S.String.pipe(T.HttpLabel("KvsARN"), T.ContextParam("KvsARN")) },
   T.all(
     T.Http({ method: "GET", uri: "/key-value-stores/{KvsARN}" }),
     svc,
@@ -437,8 +438,8 @@ export class DescribeKeyValueStoreRequest extends S.Class<DescribeKeyValueStoreR
 ) {}
 export class GetKeyRequest extends S.Class<GetKeyRequest>("GetKeyRequest")(
   {
-    KvsARN: S.String.pipe(T.HttpLabel(), T.ContextParam("KvsARN")),
-    Key: S.String.pipe(T.HttpLabel()),
+    KvsARN: S.String.pipe(T.HttpLabel("KvsARN"), T.ContextParam("KvsARN")),
+    Key: S.String.pipe(T.HttpLabel("Key")),
   },
   T.all(
     T.Http({ method: "GET", uri: "/key-value-stores/{KvsARN}/keys/{Key}" }),
@@ -453,7 +454,7 @@ export class ListKeysRequest extends S.Class<ListKeysRequest>(
   "ListKeysRequest",
 )(
   {
-    KvsARN: S.String.pipe(T.HttpLabel(), T.ContextParam("KvsARN")),
+    KvsARN: S.String.pipe(T.HttpLabel("KvsARN"), T.ContextParam("KvsARN")),
     NextToken: S.optional(S.String).pipe(T.HttpQuery("NextToken")),
     MaxResults: S.optional(S.Number).pipe(T.HttpQuery("MaxResults")),
   },
@@ -468,9 +469,9 @@ export class ListKeysRequest extends S.Class<ListKeysRequest>(
 ) {}
 export class PutKeyRequest extends S.Class<PutKeyRequest>("PutKeyRequest")(
   {
-    Key: S.String.pipe(T.HttpLabel()),
+    Key: S.String.pipe(T.HttpLabel("Key")),
     Value: S.String,
-    KvsARN: S.String.pipe(T.HttpLabel(), T.ContextParam("KvsARN")),
+    KvsARN: S.String.pipe(T.HttpLabel("KvsARN"), T.ContextParam("KvsARN")),
     IfMatch: S.String.pipe(T.HttpHeader("If-Match")),
   },
   T.all(
@@ -524,7 +525,7 @@ export class UpdateKeysRequest extends S.Class<UpdateKeysRequest>(
   "UpdateKeysRequest",
 )(
   {
-    KvsARN: S.String.pipe(T.HttpLabel(), T.ContextParam("KvsARN")),
+    KvsARN: S.String.pipe(T.HttpLabel("KvsARN"), T.ContextParam("KvsARN")),
     IfMatch: S.String.pipe(T.HttpHeader("If-Match")),
     Puts: S.optional(PutKeyRequestsList),
     Deletes: S.optional(DeleteKeyRequestsList),
@@ -568,7 +569,7 @@ export class ConflictException extends S.TaggedError<ConflictException>()(
 export class InternalServerException extends S.TaggedError<InternalServerException>()(
   "InternalServerException",
   { Message: S.optional(S.String) },
-) {}
+).pipe(withCategory(ERROR_CATEGORIES.SERVER_ERROR)) {}
 export class ResourceNotFoundException extends S.TaggedError<ResourceNotFoundException>()(
   "ResourceNotFoundException",
   { Message: S.optional(S.String) },

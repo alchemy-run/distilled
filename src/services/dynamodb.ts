@@ -1,6 +1,7 @@
 import * as S from "effect/Schema";
 import * as API from "../api.ts";
 import * as T from "../traits.ts";
+import { ERROR_CATEGORIES, withCategory } from "../error-category.ts";
 const ns = T.XmlNamespace("http://dynamodb.amazonaws.com/doc/2012-08-10/");
 const svc = T.AwsApiService({
   sdkId: "DynamoDB",
@@ -3208,6 +3209,7 @@ export class ThrottlingException extends S.TaggedError<ThrottlingException>()(
 export class ReplicatedWriteConflictException extends S.TaggedError<ReplicatedWriteConflictException>()(
   "ReplicatedWriteConflictException",
   { message: S.optional(S.String) },
+  T.Retryable(),
 ) {}
 export class TransactionConflictException extends S.TaggedError<TransactionConflictException>()(
   "TransactionConflictException",

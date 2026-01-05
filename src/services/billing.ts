@@ -1,6 +1,7 @@
 import * as S from "effect/Schema";
 import * as API from "../api.ts";
 import * as T from "../traits.ts";
+import { ERROR_CATEGORIES, withCategory } from "../error-category.ts";
 const svc = T.AwsApiService({
   sdkId: "Billing",
   serviceShapeName: "AWSBilling",
@@ -598,7 +599,7 @@ export class InternalServerException extends S.TaggedError<InternalServerExcepti
   "InternalServerException",
   { message: S.String },
   T.AwsQueryError({ code: "BillingInternalServer", httpResponseCode: 500 }),
-) {}
+).pipe(withCategory(ERROR_CATEGORIES.SERVER_ERROR)) {}
 export class BillingViewHealthStatusException extends S.TaggedError<BillingViewHealthStatusException>()(
   "BillingViewHealthStatusException",
   { message: S.String },
@@ -617,7 +618,7 @@ export class ThrottlingException extends S.TaggedError<ThrottlingException>()(
   "ThrottlingException",
   { message: S.String },
   T.AwsQueryError({ code: "BillingThrottling", httpResponseCode: 429 }),
-) {}
+).pipe(withCategory(ERROR_CATEGORIES.THROTTLING_ERROR)) {}
 export class ServiceQuotaExceededException extends S.TaggedError<ServiceQuotaExceededException>()(
   "ServiceQuotaExceededException",
   {

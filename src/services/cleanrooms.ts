@@ -1,6 +1,7 @@
 import * as S from "effect/Schema";
 import * as API from "../api.ts";
 import * as T from "../traits.ts";
+import { ERROR_CATEGORIES, withCategory } from "../error-category.ts";
 const svc = T.AwsApiService({
   sdkId: "CleanRooms",
   serviceShapeName: "AWSBastionControlPlaneServiceLambda",
@@ -304,7 +305,7 @@ export const SelectedAnalysisMethods = S.Array(S.String);
 export class ListTagsForResourceInput extends S.Class<ListTagsForResourceInput>(
   "ListTagsForResourceInput",
 )(
-  { resourceArn: S.String.pipe(T.HttpLabel()) },
+  { resourceArn: S.String.pipe(T.HttpLabel("resourceArn")) },
   T.all(
     T.Http({ method: "GET", uri: "/tags/{resourceArn}" }),
     svc,
@@ -318,7 +319,7 @@ export class UntagResourceInput extends S.Class<UntagResourceInput>(
   "UntagResourceInput",
 )(
   {
-    resourceArn: S.String.pipe(T.HttpLabel()),
+    resourceArn: S.String.pipe(T.HttpLabel("resourceArn")),
     tagKeys: TagKeys.pipe(T.HttpQuery("tagKeys")),
   },
   T.all(
@@ -337,8 +338,10 @@ export class GetAnalysisTemplateInput extends S.Class<GetAnalysisTemplateInput>(
   "GetAnalysisTemplateInput",
 )(
   {
-    membershipIdentifier: S.String.pipe(T.HttpLabel()),
-    analysisTemplateIdentifier: S.String.pipe(T.HttpLabel()),
+    membershipIdentifier: S.String.pipe(T.HttpLabel("membershipIdentifier")),
+    analysisTemplateIdentifier: S.String.pipe(
+      T.HttpLabel("analysisTemplateIdentifier"),
+    ),
   },
   T.all(
     T.Http({
@@ -356,8 +359,10 @@ export class UpdateAnalysisTemplateInput extends S.Class<UpdateAnalysisTemplateI
   "UpdateAnalysisTemplateInput",
 )(
   {
-    membershipIdentifier: S.String.pipe(T.HttpLabel()),
-    analysisTemplateIdentifier: S.String.pipe(T.HttpLabel()),
+    membershipIdentifier: S.String.pipe(T.HttpLabel("membershipIdentifier")),
+    analysisTemplateIdentifier: S.String.pipe(
+      T.HttpLabel("analysisTemplateIdentifier"),
+    ),
     description: S.optional(S.String),
   },
   T.all(
@@ -376,8 +381,10 @@ export class DeleteAnalysisTemplateInput extends S.Class<DeleteAnalysisTemplateI
   "DeleteAnalysisTemplateInput",
 )(
   {
-    membershipIdentifier: S.String.pipe(T.HttpLabel()),
-    analysisTemplateIdentifier: S.String.pipe(T.HttpLabel()),
+    membershipIdentifier: S.String.pipe(T.HttpLabel("membershipIdentifier")),
+    analysisTemplateIdentifier: S.String.pipe(
+      T.HttpLabel("analysisTemplateIdentifier"),
+    ),
   },
   T.all(
     T.Http({
@@ -398,7 +405,7 @@ export class ListAnalysisTemplatesInput extends S.Class<ListAnalysisTemplatesInp
   "ListAnalysisTemplatesInput",
 )(
   {
-    membershipIdentifier: S.String.pipe(T.HttpLabel()),
+    membershipIdentifier: S.String.pipe(T.HttpLabel("membershipIdentifier")),
     nextToken: S.optional(S.String).pipe(T.HttpQuery("nextToken")),
     maxResults: S.optional(S.Number).pipe(T.HttpQuery("maxResults")),
   },
@@ -417,7 +424,11 @@ export class ListAnalysisTemplatesInput extends S.Class<ListAnalysisTemplatesInp
 export class GetCollaborationInput extends S.Class<GetCollaborationInput>(
   "GetCollaborationInput",
 )(
-  { collaborationIdentifier: S.String.pipe(T.HttpLabel()) },
+  {
+    collaborationIdentifier: S.String.pipe(
+      T.HttpLabel("collaborationIdentifier"),
+    ),
+  },
   T.all(
     T.Http({ method: "GET", uri: "/collaborations/{collaborationIdentifier}" }),
     svc,
@@ -431,7 +442,9 @@ export class UpdateCollaborationInput extends S.Class<UpdateCollaborationInput>(
   "UpdateCollaborationInput",
 )(
   {
-    collaborationIdentifier: S.String.pipe(T.HttpLabel()),
+    collaborationIdentifier: S.String.pipe(
+      T.HttpLabel("collaborationIdentifier"),
+    ),
     name: S.optional(S.String),
     description: S.optional(S.String),
     analyticsEngine: S.optional(S.String),
@@ -451,7 +464,11 @@ export class UpdateCollaborationInput extends S.Class<UpdateCollaborationInput>(
 export class DeleteCollaborationInput extends S.Class<DeleteCollaborationInput>(
   "DeleteCollaborationInput",
 )(
-  { collaborationIdentifier: S.String.pipe(T.HttpLabel()) },
+  {
+    collaborationIdentifier: S.String.pipe(
+      T.HttpLabel("collaborationIdentifier"),
+    ),
+  },
   T.all(
     T.Http({
       method: "DELETE",
@@ -488,7 +505,9 @@ export class BatchGetCollaborationAnalysisTemplateInput extends S.Class<BatchGet
   "BatchGetCollaborationAnalysisTemplateInput",
 )(
   {
-    collaborationIdentifier: S.String.pipe(T.HttpLabel()),
+    collaborationIdentifier: S.String.pipe(
+      T.HttpLabel("collaborationIdentifier"),
+    ),
     analysisTemplateArns: AnalysisTemplateArnList,
   },
   T.all(
@@ -507,7 +526,9 @@ export class BatchGetSchemaInput extends S.Class<BatchGetSchemaInput>(
   "BatchGetSchemaInput",
 )(
   {
-    collaborationIdentifier: S.String.pipe(T.HttpLabel()),
+    collaborationIdentifier: S.String.pipe(
+      T.HttpLabel("collaborationIdentifier"),
+    ),
     names: TableAliasList,
   },
   T.all(
@@ -526,8 +547,10 @@ export class DeleteMemberInput extends S.Class<DeleteMemberInput>(
   "DeleteMemberInput",
 )(
   {
-    collaborationIdentifier: S.String.pipe(T.HttpLabel()),
-    accountId: S.String.pipe(T.HttpLabel()),
+    collaborationIdentifier: S.String.pipe(
+      T.HttpLabel("collaborationIdentifier"),
+    ),
+    accountId: S.String.pipe(T.HttpLabel("accountId")),
   },
   T.all(
     T.Http({
@@ -548,8 +571,10 @@ export class GetCollaborationAnalysisTemplateInput extends S.Class<GetCollaborat
   "GetCollaborationAnalysisTemplateInput",
 )(
   {
-    collaborationIdentifier: S.String.pipe(T.HttpLabel()),
-    analysisTemplateArn: S.String.pipe(T.HttpLabel()),
+    collaborationIdentifier: S.String.pipe(
+      T.HttpLabel("collaborationIdentifier"),
+    ),
+    analysisTemplateArn: S.String.pipe(T.HttpLabel("analysisTemplateArn")),
   },
   T.all(
     T.Http({
@@ -567,8 +592,12 @@ export class GetCollaborationChangeRequestInput extends S.Class<GetCollaboration
   "GetCollaborationChangeRequestInput",
 )(
   {
-    collaborationIdentifier: S.String.pipe(T.HttpLabel()),
-    changeRequestIdentifier: S.String.pipe(T.HttpLabel()),
+    collaborationIdentifier: S.String.pipe(
+      T.HttpLabel("collaborationIdentifier"),
+    ),
+    changeRequestIdentifier: S.String.pipe(
+      T.HttpLabel("changeRequestIdentifier"),
+    ),
   },
   T.all(
     T.Http({
@@ -586,8 +615,12 @@ export class GetCollaborationConfiguredAudienceModelAssociationInput extends S.C
   "GetCollaborationConfiguredAudienceModelAssociationInput",
 )(
   {
-    collaborationIdentifier: S.String.pipe(T.HttpLabel()),
-    configuredAudienceModelAssociationIdentifier: S.String.pipe(T.HttpLabel()),
+    collaborationIdentifier: S.String.pipe(
+      T.HttpLabel("collaborationIdentifier"),
+    ),
+    configuredAudienceModelAssociationIdentifier: S.String.pipe(
+      T.HttpLabel("configuredAudienceModelAssociationIdentifier"),
+    ),
   },
   T.all(
     T.Http({
@@ -605,8 +638,12 @@ export class GetCollaborationIdNamespaceAssociationInput extends S.Class<GetColl
   "GetCollaborationIdNamespaceAssociationInput",
 )(
   {
-    collaborationIdentifier: S.String.pipe(T.HttpLabel()),
-    idNamespaceAssociationIdentifier: S.String.pipe(T.HttpLabel()),
+    collaborationIdentifier: S.String.pipe(
+      T.HttpLabel("collaborationIdentifier"),
+    ),
+    idNamespaceAssociationIdentifier: S.String.pipe(
+      T.HttpLabel("idNamespaceAssociationIdentifier"),
+    ),
   },
   T.all(
     T.Http({
@@ -624,8 +661,12 @@ export class GetCollaborationPrivacyBudgetTemplateInput extends S.Class<GetColla
   "GetCollaborationPrivacyBudgetTemplateInput",
 )(
   {
-    collaborationIdentifier: S.String.pipe(T.HttpLabel()),
-    privacyBudgetTemplateIdentifier: S.String.pipe(T.HttpLabel()),
+    collaborationIdentifier: S.String.pipe(
+      T.HttpLabel("collaborationIdentifier"),
+    ),
+    privacyBudgetTemplateIdentifier: S.String.pipe(
+      T.HttpLabel("privacyBudgetTemplateIdentifier"),
+    ),
   },
   T.all(
     T.Http({
@@ -641,8 +682,10 @@ export class GetCollaborationPrivacyBudgetTemplateInput extends S.Class<GetColla
 ) {}
 export class GetSchemaInput extends S.Class<GetSchemaInput>("GetSchemaInput")(
   {
-    collaborationIdentifier: S.String.pipe(T.HttpLabel()),
-    name: S.String.pipe(T.HttpLabel()),
+    collaborationIdentifier: S.String.pipe(
+      T.HttpLabel("collaborationIdentifier"),
+    ),
+    name: S.String.pipe(T.HttpLabel("name")),
   },
   T.all(
     T.Http({
@@ -660,9 +703,11 @@ export class GetSchemaAnalysisRuleInput extends S.Class<GetSchemaAnalysisRuleInp
   "GetSchemaAnalysisRuleInput",
 )(
   {
-    collaborationIdentifier: S.String.pipe(T.HttpLabel()),
-    name: S.String.pipe(T.HttpLabel()),
-    type: S.String.pipe(T.HttpLabel()),
+    collaborationIdentifier: S.String.pipe(
+      T.HttpLabel("collaborationIdentifier"),
+    ),
+    name: S.String.pipe(T.HttpLabel("name")),
+    type: S.String.pipe(T.HttpLabel("type")),
   },
   T.all(
     T.Http({
@@ -680,7 +725,9 @@ export class ListCollaborationAnalysisTemplatesInput extends S.Class<ListCollabo
   "ListCollaborationAnalysisTemplatesInput",
 )(
   {
-    collaborationIdentifier: S.String.pipe(T.HttpLabel()),
+    collaborationIdentifier: S.String.pipe(
+      T.HttpLabel("collaborationIdentifier"),
+    ),
     nextToken: S.optional(S.String).pipe(T.HttpQuery("nextToken")),
     maxResults: S.optional(S.Number).pipe(T.HttpQuery("maxResults")),
   },
@@ -700,7 +747,9 @@ export class ListCollaborationChangeRequestsInput extends S.Class<ListCollaborat
   "ListCollaborationChangeRequestsInput",
 )(
   {
-    collaborationIdentifier: S.String.pipe(T.HttpLabel()),
+    collaborationIdentifier: S.String.pipe(
+      T.HttpLabel("collaborationIdentifier"),
+    ),
     status: S.optional(S.String).pipe(T.HttpQuery("status")),
     nextToken: S.optional(S.String).pipe(T.HttpQuery("nextToken")),
     maxResults: S.optional(S.Number).pipe(T.HttpQuery("maxResults")),
@@ -721,7 +770,9 @@ export class ListCollaborationConfiguredAudienceModelAssociationsInput extends S
   "ListCollaborationConfiguredAudienceModelAssociationsInput",
 )(
   {
-    collaborationIdentifier: S.String.pipe(T.HttpLabel()),
+    collaborationIdentifier: S.String.pipe(
+      T.HttpLabel("collaborationIdentifier"),
+    ),
     nextToken: S.optional(S.String).pipe(T.HttpQuery("nextToken")),
     maxResults: S.optional(S.Number).pipe(T.HttpQuery("maxResults")),
   },
@@ -741,7 +792,9 @@ export class ListCollaborationIdNamespaceAssociationsInput extends S.Class<ListC
   "ListCollaborationIdNamespaceAssociationsInput",
 )(
   {
-    collaborationIdentifier: S.String.pipe(T.HttpLabel()),
+    collaborationIdentifier: S.String.pipe(
+      T.HttpLabel("collaborationIdentifier"),
+    ),
     nextToken: S.optional(S.String).pipe(T.HttpQuery("nextToken")),
     maxResults: S.optional(S.Number).pipe(T.HttpQuery("maxResults")),
   },
@@ -761,7 +814,9 @@ export class ListCollaborationPrivacyBudgetsInput extends S.Class<ListCollaborat
   "ListCollaborationPrivacyBudgetsInput",
 )(
   {
-    collaborationIdentifier: S.String.pipe(T.HttpLabel()),
+    collaborationIdentifier: S.String.pipe(
+      T.HttpLabel("collaborationIdentifier"),
+    ),
     privacyBudgetType: S.String.pipe(T.HttpQuery("privacyBudgetType")),
     maxResults: S.optional(S.Number).pipe(T.HttpQuery("maxResults")),
     nextToken: S.optional(S.String).pipe(T.HttpQuery("nextToken")),
@@ -785,7 +840,9 @@ export class ListCollaborationPrivacyBudgetTemplatesInput extends S.Class<ListCo
   "ListCollaborationPrivacyBudgetTemplatesInput",
 )(
   {
-    collaborationIdentifier: S.String.pipe(T.HttpLabel()),
+    collaborationIdentifier: S.String.pipe(
+      T.HttpLabel("collaborationIdentifier"),
+    ),
     nextToken: S.optional(S.String).pipe(T.HttpQuery("nextToken")),
     maxResults: S.optional(S.Number).pipe(T.HttpQuery("maxResults")),
   },
@@ -805,7 +862,9 @@ export class ListMembersInput extends S.Class<ListMembersInput>(
   "ListMembersInput",
 )(
   {
-    collaborationIdentifier: S.String.pipe(T.HttpLabel()),
+    collaborationIdentifier: S.String.pipe(
+      T.HttpLabel("collaborationIdentifier"),
+    ),
     nextToken: S.optional(S.String).pipe(T.HttpQuery("nextToken")),
     maxResults: S.optional(S.Number).pipe(T.HttpQuery("maxResults")),
   },
@@ -825,7 +884,9 @@ export class ListSchemasInput extends S.Class<ListSchemasInput>(
   "ListSchemasInput",
 )(
   {
-    collaborationIdentifier: S.String.pipe(T.HttpLabel()),
+    collaborationIdentifier: S.String.pipe(
+      T.HttpLabel("collaborationIdentifier"),
+    ),
     schemaType: S.optional(S.String).pipe(T.HttpQuery("schemaType")),
     nextToken: S.optional(S.String).pipe(T.HttpQuery("nextToken")),
     maxResults: S.optional(S.Number).pipe(T.HttpQuery("maxResults")),
@@ -846,8 +907,12 @@ export class UpdateCollaborationChangeRequestInput extends S.Class<UpdateCollabo
   "UpdateCollaborationChangeRequestInput",
 )(
   {
-    collaborationIdentifier: S.String.pipe(T.HttpLabel()),
-    changeRequestIdentifier: S.String.pipe(T.HttpLabel()),
+    collaborationIdentifier: S.String.pipe(
+      T.HttpLabel("collaborationIdentifier"),
+    ),
+    changeRequestIdentifier: S.String.pipe(
+      T.HttpLabel("changeRequestIdentifier"),
+    ),
     action: S.String,
   },
   T.all(
@@ -867,7 +932,7 @@ export class CreateConfiguredAudienceModelAssociationInput extends S.Class<Creat
   "CreateConfiguredAudienceModelAssociationInput",
 )(
   {
-    membershipIdentifier: S.String.pipe(T.HttpLabel()),
+    membershipIdentifier: S.String.pipe(T.HttpLabel("membershipIdentifier")),
     configuredAudienceModelArn: S.String,
     configuredAudienceModelAssociationName: S.String,
     manageResourcePolicies: S.Boolean,
@@ -890,8 +955,10 @@ export class GetConfiguredAudienceModelAssociationInput extends S.Class<GetConfi
   "GetConfiguredAudienceModelAssociationInput",
 )(
   {
-    configuredAudienceModelAssociationIdentifier: S.String.pipe(T.HttpLabel()),
-    membershipIdentifier: S.String.pipe(T.HttpLabel()),
+    configuredAudienceModelAssociationIdentifier: S.String.pipe(
+      T.HttpLabel("configuredAudienceModelAssociationIdentifier"),
+    ),
+    membershipIdentifier: S.String.pipe(T.HttpLabel("membershipIdentifier")),
   },
   T.all(
     T.Http({
@@ -909,8 +976,10 @@ export class UpdateConfiguredAudienceModelAssociationInput extends S.Class<Updat
   "UpdateConfiguredAudienceModelAssociationInput",
 )(
   {
-    configuredAudienceModelAssociationIdentifier: S.String.pipe(T.HttpLabel()),
-    membershipIdentifier: S.String.pipe(T.HttpLabel()),
+    configuredAudienceModelAssociationIdentifier: S.String.pipe(
+      T.HttpLabel("configuredAudienceModelAssociationIdentifier"),
+    ),
+    membershipIdentifier: S.String.pipe(T.HttpLabel("membershipIdentifier")),
     description: S.optional(S.String),
     name: S.optional(S.String),
   },
@@ -930,8 +999,10 @@ export class DeleteConfiguredAudienceModelAssociationInput extends S.Class<Delet
   "DeleteConfiguredAudienceModelAssociationInput",
 )(
   {
-    configuredAudienceModelAssociationIdentifier: S.String.pipe(T.HttpLabel()),
-    membershipIdentifier: S.String.pipe(T.HttpLabel()),
+    configuredAudienceModelAssociationIdentifier: S.String.pipe(
+      T.HttpLabel("configuredAudienceModelAssociationIdentifier"),
+    ),
+    membershipIdentifier: S.String.pipe(T.HttpLabel("membershipIdentifier")),
   },
   T.all(
     T.Http({
@@ -952,7 +1023,7 @@ export class ListConfiguredAudienceModelAssociationsInput extends S.Class<ListCo
   "ListConfiguredAudienceModelAssociationsInput",
 )(
   {
-    membershipIdentifier: S.String.pipe(T.HttpLabel()),
+    membershipIdentifier: S.String.pipe(T.HttpLabel("membershipIdentifier")),
     nextToken: S.optional(S.String).pipe(T.HttpQuery("nextToken")),
     maxResults: S.optional(S.Number).pipe(T.HttpQuery("maxResults")),
   },
@@ -974,7 +1045,7 @@ export class CreateConfiguredTableAssociationInput extends S.Class<CreateConfigu
   {
     name: S.String,
     description: S.optional(S.String),
-    membershipIdentifier: S.String.pipe(T.HttpLabel()),
+    membershipIdentifier: S.String.pipe(T.HttpLabel("membershipIdentifier")),
     configuredTableIdentifier: S.String,
     roleArn: S.String,
     tags: S.optional(TagMap),
@@ -995,8 +1066,10 @@ export class GetConfiguredTableAssociationInput extends S.Class<GetConfiguredTab
   "GetConfiguredTableAssociationInput",
 )(
   {
-    configuredTableAssociationIdentifier: S.String.pipe(T.HttpLabel()),
-    membershipIdentifier: S.String.pipe(T.HttpLabel()),
+    configuredTableAssociationIdentifier: S.String.pipe(
+      T.HttpLabel("configuredTableAssociationIdentifier"),
+    ),
+    membershipIdentifier: S.String.pipe(T.HttpLabel("membershipIdentifier")),
   },
   T.all(
     T.Http({
@@ -1014,8 +1087,10 @@ export class UpdateConfiguredTableAssociationInput extends S.Class<UpdateConfigu
   "UpdateConfiguredTableAssociationInput",
 )(
   {
-    configuredTableAssociationIdentifier: S.String.pipe(T.HttpLabel()),
-    membershipIdentifier: S.String.pipe(T.HttpLabel()),
+    configuredTableAssociationIdentifier: S.String.pipe(
+      T.HttpLabel("configuredTableAssociationIdentifier"),
+    ),
+    membershipIdentifier: S.String.pipe(T.HttpLabel("membershipIdentifier")),
     description: S.optional(S.String),
     roleArn: S.optional(S.String),
   },
@@ -1035,8 +1110,10 @@ export class DeleteConfiguredTableAssociationInput extends S.Class<DeleteConfigu
   "DeleteConfiguredTableAssociationInput",
 )(
   {
-    configuredTableAssociationIdentifier: S.String.pipe(T.HttpLabel()),
-    membershipIdentifier: S.String.pipe(T.HttpLabel()),
+    configuredTableAssociationIdentifier: S.String.pipe(
+      T.HttpLabel("configuredTableAssociationIdentifier"),
+    ),
+    membershipIdentifier: S.String.pipe(T.HttpLabel("membershipIdentifier")),
   },
   T.all(
     T.Http({
@@ -1057,7 +1134,7 @@ export class ListConfiguredTableAssociationsInput extends S.Class<ListConfigured
   "ListConfiguredTableAssociationsInput",
 )(
   {
-    membershipIdentifier: S.String.pipe(T.HttpLabel()),
+    membershipIdentifier: S.String.pipe(T.HttpLabel("membershipIdentifier")),
     nextToken: S.optional(S.String).pipe(T.HttpQuery("nextToken")),
     maxResults: S.optional(S.Number).pipe(T.HttpQuery("maxResults")),
   },
@@ -1077,9 +1154,11 @@ export class DeleteConfiguredTableAssociationAnalysisRuleInput extends S.Class<D
   "DeleteConfiguredTableAssociationAnalysisRuleInput",
 )(
   {
-    membershipIdentifier: S.String.pipe(T.HttpLabel()),
-    configuredTableAssociationIdentifier: S.String.pipe(T.HttpLabel()),
-    analysisRuleType: S.String.pipe(T.HttpLabel()),
+    membershipIdentifier: S.String.pipe(T.HttpLabel("membershipIdentifier")),
+    configuredTableAssociationIdentifier: S.String.pipe(
+      T.HttpLabel("configuredTableAssociationIdentifier"),
+    ),
+    analysisRuleType: S.String.pipe(T.HttpLabel("analysisRuleType")),
   },
   T.all(
     T.Http({
@@ -1100,9 +1179,11 @@ export class GetConfiguredTableAssociationAnalysisRuleInput extends S.Class<GetC
   "GetConfiguredTableAssociationAnalysisRuleInput",
 )(
   {
-    membershipIdentifier: S.String.pipe(T.HttpLabel()),
-    configuredTableAssociationIdentifier: S.String.pipe(T.HttpLabel()),
-    analysisRuleType: S.String.pipe(T.HttpLabel()),
+    membershipIdentifier: S.String.pipe(T.HttpLabel("membershipIdentifier")),
+    configuredTableAssociationIdentifier: S.String.pipe(
+      T.HttpLabel("configuredTableAssociationIdentifier"),
+    ),
+    analysisRuleType: S.String.pipe(T.HttpLabel("analysisRuleType")),
   },
   T.all(
     T.Http({
@@ -1148,9 +1229,11 @@ export class UpdateConfiguredTableAssociationAnalysisRuleInput extends S.Class<U
   "UpdateConfiguredTableAssociationAnalysisRuleInput",
 )(
   {
-    membershipIdentifier: S.String.pipe(T.HttpLabel()),
-    configuredTableAssociationIdentifier: S.String.pipe(T.HttpLabel()),
-    analysisRuleType: S.String.pipe(T.HttpLabel()),
+    membershipIdentifier: S.String.pipe(T.HttpLabel("membershipIdentifier")),
+    configuredTableAssociationIdentifier: S.String.pipe(
+      T.HttpLabel("configuredTableAssociationIdentifier"),
+    ),
+    analysisRuleType: S.String.pipe(T.HttpLabel("analysisRuleType")),
     analysisRulePolicy: ConfiguredTableAssociationAnalysisRulePolicy,
   },
   T.all(
@@ -1168,7 +1251,11 @@ export class UpdateConfiguredTableAssociationAnalysisRuleInput extends S.Class<U
 export class GetConfiguredTableInput extends S.Class<GetConfiguredTableInput>(
   "GetConfiguredTableInput",
 )(
-  { configuredTableIdentifier: S.String.pipe(T.HttpLabel()) },
+  {
+    configuredTableIdentifier: S.String.pipe(
+      T.HttpLabel("configuredTableIdentifier"),
+    ),
+  },
   T.all(
     T.Http({
       method: "GET",
@@ -1223,7 +1310,9 @@ export class UpdateConfiguredTableInput extends S.Class<UpdateConfiguredTableInp
   "UpdateConfiguredTableInput",
 )(
   {
-    configuredTableIdentifier: S.String.pipe(T.HttpLabel()),
+    configuredTableIdentifier: S.String.pipe(
+      T.HttpLabel("configuredTableIdentifier"),
+    ),
     name: S.optional(S.String),
     description: S.optional(S.String),
     tableReference: S.optional(TableReference),
@@ -1246,7 +1335,11 @@ export class UpdateConfiguredTableInput extends S.Class<UpdateConfiguredTableInp
 export class DeleteConfiguredTableInput extends S.Class<DeleteConfiguredTableInput>(
   "DeleteConfiguredTableInput",
 )(
-  { configuredTableIdentifier: S.String.pipe(T.HttpLabel()) },
+  {
+    configuredTableIdentifier: S.String.pipe(
+      T.HttpLabel("configuredTableIdentifier"),
+    ),
+  },
   T.all(
     T.Http({
       method: "DELETE",
@@ -1282,8 +1375,10 @@ export class DeleteConfiguredTableAnalysisRuleInput extends S.Class<DeleteConfig
   "DeleteConfiguredTableAnalysisRuleInput",
 )(
   {
-    configuredTableIdentifier: S.String.pipe(T.HttpLabel()),
-    analysisRuleType: S.String.pipe(T.HttpLabel()),
+    configuredTableIdentifier: S.String.pipe(
+      T.HttpLabel("configuredTableIdentifier"),
+    ),
+    analysisRuleType: S.String.pipe(T.HttpLabel("analysisRuleType")),
   },
   T.all(
     T.Http({
@@ -1304,8 +1399,10 @@ export class GetConfiguredTableAnalysisRuleInput extends S.Class<GetConfiguredTa
   "GetConfiguredTableAnalysisRuleInput",
 )(
   {
-    configuredTableIdentifier: S.String.pipe(T.HttpLabel()),
-    analysisRuleType: S.String.pipe(T.HttpLabel()),
+    configuredTableIdentifier: S.String.pipe(
+      T.HttpLabel("configuredTableIdentifier"),
+    ),
+    analysisRuleType: S.String.pipe(T.HttpLabel("analysisRuleType")),
   },
   T.all(
     T.Http({
@@ -1381,8 +1478,10 @@ export class UpdateConfiguredTableAnalysisRuleInput extends S.Class<UpdateConfig
   "UpdateConfiguredTableAnalysisRuleInput",
 )(
   {
-    configuredTableIdentifier: S.String.pipe(T.HttpLabel()),
-    analysisRuleType: S.String.pipe(T.HttpLabel()),
+    configuredTableIdentifier: S.String.pipe(
+      T.HttpLabel("configuredTableIdentifier"),
+    ),
+    analysisRuleType: S.String.pipe(T.HttpLabel("analysisRuleType")),
     analysisRulePolicy: ConfiguredTableAnalysisRulePolicy,
   },
   T.all(
@@ -1401,8 +1500,10 @@ export class GetIdMappingTableInput extends S.Class<GetIdMappingTableInput>(
   "GetIdMappingTableInput",
 )(
   {
-    idMappingTableIdentifier: S.String.pipe(T.HttpLabel()),
-    membershipIdentifier: S.String.pipe(T.HttpLabel()),
+    idMappingTableIdentifier: S.String.pipe(
+      T.HttpLabel("idMappingTableIdentifier"),
+    ),
+    membershipIdentifier: S.String.pipe(T.HttpLabel("membershipIdentifier")),
   },
   T.all(
     T.Http({
@@ -1420,8 +1521,10 @@ export class UpdateIdMappingTableInput extends S.Class<UpdateIdMappingTableInput
   "UpdateIdMappingTableInput",
 )(
   {
-    idMappingTableIdentifier: S.String.pipe(T.HttpLabel()),
-    membershipIdentifier: S.String.pipe(T.HttpLabel()),
+    idMappingTableIdentifier: S.String.pipe(
+      T.HttpLabel("idMappingTableIdentifier"),
+    ),
+    membershipIdentifier: S.String.pipe(T.HttpLabel("membershipIdentifier")),
     description: S.optional(S.String),
     kmsKeyArn: S.optional(S.String),
   },
@@ -1441,8 +1544,10 @@ export class DeleteIdMappingTableInput extends S.Class<DeleteIdMappingTableInput
   "DeleteIdMappingTableInput",
 )(
   {
-    idMappingTableIdentifier: S.String.pipe(T.HttpLabel()),
-    membershipIdentifier: S.String.pipe(T.HttpLabel()),
+    idMappingTableIdentifier: S.String.pipe(
+      T.HttpLabel("idMappingTableIdentifier"),
+    ),
+    membershipIdentifier: S.String.pipe(T.HttpLabel("membershipIdentifier")),
   },
   T.all(
     T.Http({
@@ -1463,7 +1568,7 @@ export class ListIdMappingTablesInput extends S.Class<ListIdMappingTablesInput>(
   "ListIdMappingTablesInput",
 )(
   {
-    membershipIdentifier: S.String.pipe(T.HttpLabel()),
+    membershipIdentifier: S.String.pipe(T.HttpLabel("membershipIdentifier")),
     nextToken: S.optional(S.String).pipe(T.HttpQuery("nextToken")),
     maxResults: S.optional(S.Number).pipe(T.HttpQuery("maxResults")),
   },
@@ -1483,8 +1588,10 @@ export class PopulateIdMappingTableInput extends S.Class<PopulateIdMappingTableI
   "PopulateIdMappingTableInput",
 )(
   {
-    idMappingTableIdentifier: S.String.pipe(T.HttpLabel()),
-    membershipIdentifier: S.String.pipe(T.HttpLabel()),
+    idMappingTableIdentifier: S.String.pipe(
+      T.HttpLabel("idMappingTableIdentifier"),
+    ),
+    membershipIdentifier: S.String.pipe(T.HttpLabel("membershipIdentifier")),
     jobType: S.optional(S.String),
   },
   T.all(
@@ -1503,8 +1610,10 @@ export class GetIdNamespaceAssociationInput extends S.Class<GetIdNamespaceAssoci
   "GetIdNamespaceAssociationInput",
 )(
   {
-    idNamespaceAssociationIdentifier: S.String.pipe(T.HttpLabel()),
-    membershipIdentifier: S.String.pipe(T.HttpLabel()),
+    idNamespaceAssociationIdentifier: S.String.pipe(
+      T.HttpLabel("idNamespaceAssociationIdentifier"),
+    ),
+    membershipIdentifier: S.String.pipe(T.HttpLabel("membershipIdentifier")),
   },
   T.all(
     T.Http({
@@ -1525,8 +1634,10 @@ export class UpdateIdNamespaceAssociationInput extends S.Class<UpdateIdNamespace
   "UpdateIdNamespaceAssociationInput",
 )(
   {
-    idNamespaceAssociationIdentifier: S.String.pipe(T.HttpLabel()),
-    membershipIdentifier: S.String.pipe(T.HttpLabel()),
+    idNamespaceAssociationIdentifier: S.String.pipe(
+      T.HttpLabel("idNamespaceAssociationIdentifier"),
+    ),
+    membershipIdentifier: S.String.pipe(T.HttpLabel("membershipIdentifier")),
     name: S.optional(S.String),
     description: S.optional(S.String),
     idMappingConfig: S.optional(IdMappingConfig),
@@ -1547,8 +1658,10 @@ export class DeleteIdNamespaceAssociationInput extends S.Class<DeleteIdNamespace
   "DeleteIdNamespaceAssociationInput",
 )(
   {
-    idNamespaceAssociationIdentifier: S.String.pipe(T.HttpLabel()),
-    membershipIdentifier: S.String.pipe(T.HttpLabel()),
+    idNamespaceAssociationIdentifier: S.String.pipe(
+      T.HttpLabel("idNamespaceAssociationIdentifier"),
+    ),
+    membershipIdentifier: S.String.pipe(T.HttpLabel("membershipIdentifier")),
   },
   T.all(
     T.Http({
@@ -1569,7 +1682,7 @@ export class ListIdNamespaceAssociationsInput extends S.Class<ListIdNamespaceAss
   "ListIdNamespaceAssociationsInput",
 )(
   {
-    membershipIdentifier: S.String.pipe(T.HttpLabel()),
+    membershipIdentifier: S.String.pipe(T.HttpLabel("membershipIdentifier")),
     nextToken: S.optional(S.String).pipe(T.HttpQuery("nextToken")),
     maxResults: S.optional(S.Number).pipe(T.HttpQuery("maxResults")),
   },
@@ -1588,7 +1701,7 @@ export class ListIdNamespaceAssociationsInput extends S.Class<ListIdNamespaceAss
 export class GetMembershipInput extends S.Class<GetMembershipInput>(
   "GetMembershipInput",
 )(
-  { membershipIdentifier: S.String.pipe(T.HttpLabel()) },
+  { membershipIdentifier: S.String.pipe(T.HttpLabel("membershipIdentifier")) },
   T.all(
     T.Http({ method: "GET", uri: "/memberships/{membershipIdentifier}" }),
     svc,
@@ -1631,7 +1744,7 @@ export class UpdateMembershipInput extends S.Class<UpdateMembershipInput>(
   "UpdateMembershipInput",
 )(
   {
-    membershipIdentifier: S.String.pipe(T.HttpLabel()),
+    membershipIdentifier: S.String.pipe(T.HttpLabel("membershipIdentifier")),
     queryLogStatus: S.optional(S.String),
     jobLogStatus: S.optional(S.String),
     defaultResultConfiguration: S.optional(
@@ -1653,7 +1766,7 @@ export class UpdateMembershipInput extends S.Class<UpdateMembershipInput>(
 export class DeleteMembershipInput extends S.Class<DeleteMembershipInput>(
   "DeleteMembershipInput",
 )(
-  { membershipIdentifier: S.String.pipe(T.HttpLabel()) },
+  { membershipIdentifier: S.String.pipe(T.HttpLabel("membershipIdentifier")) },
   T.all(
     T.Http({ method: "DELETE", uri: "/memberships/{membershipIdentifier}" }),
     svc,
@@ -1687,8 +1800,10 @@ export class GetProtectedJobInput extends S.Class<GetProtectedJobInput>(
   "GetProtectedJobInput",
 )(
   {
-    membershipIdentifier: S.String.pipe(T.HttpLabel()),
-    protectedJobIdentifier: S.String.pipe(T.HttpLabel()),
+    membershipIdentifier: S.String.pipe(T.HttpLabel("membershipIdentifier")),
+    protectedJobIdentifier: S.String.pipe(
+      T.HttpLabel("protectedJobIdentifier"),
+    ),
   },
   T.all(
     T.Http({
@@ -1706,8 +1821,10 @@ export class GetProtectedQueryInput extends S.Class<GetProtectedQueryInput>(
   "GetProtectedQueryInput",
 )(
   {
-    membershipIdentifier: S.String.pipe(T.HttpLabel()),
-    protectedQueryIdentifier: S.String.pipe(T.HttpLabel()),
+    membershipIdentifier: S.String.pipe(T.HttpLabel("membershipIdentifier")),
+    protectedQueryIdentifier: S.String.pipe(
+      T.HttpLabel("protectedQueryIdentifier"),
+    ),
   },
   T.all(
     T.Http({
@@ -1725,7 +1842,7 @@ export class ListPrivacyBudgetsInput extends S.Class<ListPrivacyBudgetsInput>(
   "ListPrivacyBudgetsInput",
 )(
   {
-    membershipIdentifier: S.String.pipe(T.HttpLabel()),
+    membershipIdentifier: S.String.pipe(T.HttpLabel("membershipIdentifier")),
     privacyBudgetType: S.String.pipe(T.HttpQuery("privacyBudgetType")),
     nextToken: S.optional(S.String).pipe(T.HttpQuery("nextToken")),
     maxResults: S.optional(S.Number).pipe(T.HttpQuery("maxResults")),
@@ -1749,7 +1866,7 @@ export class ListProtectedJobsInput extends S.Class<ListProtectedJobsInput>(
   "ListProtectedJobsInput",
 )(
   {
-    membershipIdentifier: S.String.pipe(T.HttpLabel()),
+    membershipIdentifier: S.String.pipe(T.HttpLabel("membershipIdentifier")),
     status: S.optional(S.String).pipe(T.HttpQuery("status")),
     nextToken: S.optional(S.String).pipe(T.HttpQuery("nextToken")),
     maxResults: S.optional(S.Number).pipe(T.HttpQuery("maxResults")),
@@ -1770,7 +1887,7 @@ export class ListProtectedQueriesInput extends S.Class<ListProtectedQueriesInput
   "ListProtectedQueriesInput",
 )(
   {
-    membershipIdentifier: S.String.pipe(T.HttpLabel()),
+    membershipIdentifier: S.String.pipe(T.HttpLabel("membershipIdentifier")),
     status: S.optional(S.String).pipe(T.HttpQuery("status")),
     nextToken: S.optional(S.String).pipe(T.HttpQuery("nextToken")),
     maxResults: S.optional(S.Number).pipe(T.HttpQuery("maxResults")),
@@ -1791,8 +1908,10 @@ export class UpdateProtectedJobInput extends S.Class<UpdateProtectedJobInput>(
   "UpdateProtectedJobInput",
 )(
   {
-    membershipIdentifier: S.String.pipe(T.HttpLabel()),
-    protectedJobIdentifier: S.String.pipe(T.HttpLabel()),
+    membershipIdentifier: S.String.pipe(T.HttpLabel("membershipIdentifier")),
+    protectedJobIdentifier: S.String.pipe(
+      T.HttpLabel("protectedJobIdentifier"),
+    ),
     targetStatus: S.String,
   },
   T.all(
@@ -1811,8 +1930,10 @@ export class UpdateProtectedQueryInput extends S.Class<UpdateProtectedQueryInput
   "UpdateProtectedQueryInput",
 )(
   {
-    membershipIdentifier: S.String.pipe(T.HttpLabel()),
-    protectedQueryIdentifier: S.String.pipe(T.HttpLabel()),
+    membershipIdentifier: S.String.pipe(T.HttpLabel("membershipIdentifier")),
+    protectedQueryIdentifier: S.String.pipe(
+      T.HttpLabel("protectedQueryIdentifier"),
+    ),
     targetStatus: S.String,
   },
   T.all(
@@ -1831,8 +1952,10 @@ export class GetPrivacyBudgetTemplateInput extends S.Class<GetPrivacyBudgetTempl
   "GetPrivacyBudgetTemplateInput",
 )(
   {
-    membershipIdentifier: S.String.pipe(T.HttpLabel()),
-    privacyBudgetTemplateIdentifier: S.String.pipe(T.HttpLabel()),
+    membershipIdentifier: S.String.pipe(T.HttpLabel("membershipIdentifier")),
+    privacyBudgetTemplateIdentifier: S.String.pipe(
+      T.HttpLabel("privacyBudgetTemplateIdentifier"),
+    ),
   },
   T.all(
     T.Http({
@@ -1850,8 +1973,10 @@ export class DeletePrivacyBudgetTemplateInput extends S.Class<DeletePrivacyBudge
   "DeletePrivacyBudgetTemplateInput",
 )(
   {
-    membershipIdentifier: S.String.pipe(T.HttpLabel()),
-    privacyBudgetTemplateIdentifier: S.String.pipe(T.HttpLabel()),
+    membershipIdentifier: S.String.pipe(T.HttpLabel("membershipIdentifier")),
+    privacyBudgetTemplateIdentifier: S.String.pipe(
+      T.HttpLabel("privacyBudgetTemplateIdentifier"),
+    ),
   },
   T.all(
     T.Http({
@@ -1872,7 +1997,7 @@ export class ListPrivacyBudgetTemplatesInput extends S.Class<ListPrivacyBudgetTe
   "ListPrivacyBudgetTemplatesInput",
 )(
   {
-    membershipIdentifier: S.String.pipe(T.HttpLabel()),
+    membershipIdentifier: S.String.pipe(T.HttpLabel("membershipIdentifier")),
     nextToken: S.optional(S.String).pipe(T.HttpQuery("nextToken")),
     maxResults: S.optional(S.Number).pipe(T.HttpQuery("maxResults")),
   },
@@ -1977,7 +2102,7 @@ export class ListTagsForResourceOutput extends S.Class<ListTagsForResourceOutput
 export class TagResourceInput extends S.Class<TagResourceInput>(
   "TagResourceInput",
 )(
-  { resourceArn: S.String.pipe(T.HttpLabel()), tags: TagMap },
+  { resourceArn: S.String.pipe(T.HttpLabel("resourceArn")), tags: TagMap },
   T.all(
     T.Http({ method: "POST", uri: "/tags/{resourceArn}" }),
     svc,
@@ -2099,7 +2224,9 @@ export class BatchGetSchemaAnalysisRuleInput extends S.Class<BatchGetSchemaAnaly
   "BatchGetSchemaAnalysisRuleInput",
 )(
   {
-    collaborationIdentifier: S.String.pipe(T.HttpLabel()),
+    collaborationIdentifier: S.String.pipe(
+      T.HttpLabel("collaborationIdentifier"),
+    ),
     schemaAnalysisRuleRequests: SchemaAnalysisRuleRequestList,
   },
   T.all(
@@ -2328,7 +2455,7 @@ export class CreateIdMappingTableInput extends S.Class<CreateIdMappingTableInput
   "CreateIdMappingTableInput",
 )(
   {
-    membershipIdentifier: S.String.pipe(T.HttpLabel()),
+    membershipIdentifier: S.String.pipe(T.HttpLabel("membershipIdentifier")),
     name: S.String,
     description: S.optional(S.String),
     inputReferenceConfig: IdMappingTableInputReferenceConfig,
@@ -2375,7 +2502,7 @@ export class CreateIdNamespaceAssociationInput extends S.Class<CreateIdNamespace
   "CreateIdNamespaceAssociationInput",
 )(
   {
-    membershipIdentifier: S.String.pipe(T.HttpLabel()),
+    membershipIdentifier: S.String.pipe(T.HttpLabel("membershipIdentifier")),
     inputReferenceConfig: IdNamespaceAssociationInputReferenceConfig,
     tags: S.optional(TagMap),
     name: S.String,
@@ -3236,7 +3363,7 @@ export class PreviewPrivacyImpactInput extends S.Class<PreviewPrivacyImpactInput
   "PreviewPrivacyImpactInput",
 )(
   {
-    membershipIdentifier: S.String.pipe(T.HttpLabel()),
+    membershipIdentifier: S.String.pipe(T.HttpLabel("membershipIdentifier")),
     parameters: PreviewPrivacyImpactParametersInput,
   },
   T.all(
@@ -3258,8 +3385,10 @@ export class UpdatePrivacyBudgetTemplateInput extends S.Class<UpdatePrivacyBudge
   "UpdatePrivacyBudgetTemplateInput",
 )(
   {
-    membershipIdentifier: S.String.pipe(T.HttpLabel()),
-    privacyBudgetTemplateIdentifier: S.String.pipe(T.HttpLabel()),
+    membershipIdentifier: S.String.pipe(T.HttpLabel("membershipIdentifier")),
+    privacyBudgetTemplateIdentifier: S.String.pipe(
+      T.HttpLabel("privacyBudgetTemplateIdentifier"),
+    ),
     privacyBudgetType: S.String,
     parameters: S.optional(PrivacyBudgetTemplateUpdateParameters),
   },
@@ -3382,7 +3511,9 @@ export class CreateCollaborationChangeRequestInput extends S.Class<CreateCollabo
   "CreateCollaborationChangeRequestInput",
 )(
   {
-    collaborationIdentifier: S.String.pipe(T.HttpLabel()),
+    collaborationIdentifier: S.String.pipe(
+      T.HttpLabel("collaborationIdentifier"),
+    ),
     changes: ChangeInputList,
   },
   T.all(
@@ -3413,8 +3544,10 @@ export class CreateConfiguredTableAssociationAnalysisRuleInput extends S.Class<C
   "CreateConfiguredTableAssociationAnalysisRuleInput",
 )(
   {
-    membershipIdentifier: S.String.pipe(T.HttpLabel()),
-    configuredTableAssociationIdentifier: S.String.pipe(T.HttpLabel()),
+    membershipIdentifier: S.String.pipe(T.HttpLabel("membershipIdentifier")),
+    configuredTableAssociationIdentifier: S.String.pipe(
+      T.HttpLabel("configuredTableAssociationIdentifier"),
+    ),
     analysisRuleType: S.String,
     analysisRulePolicy: ConfiguredTableAssociationAnalysisRulePolicy,
   },
@@ -3462,7 +3595,7 @@ export class StartProtectedJobInput extends S.Class<StartProtectedJobInput>(
 )(
   {
     type: S.String,
-    membershipIdentifier: S.String.pipe(T.HttpLabel()),
+    membershipIdentifier: S.String.pipe(T.HttpLabel("membershipIdentifier")),
     jobParameters: ProtectedJobParameters,
     resultConfiguration: S.optional(ProtectedJobResultConfigurationInput),
     computeConfiguration: S.optional(ProtectedJobComputeConfiguration),
@@ -3483,7 +3616,7 @@ export class CreatePrivacyBudgetTemplateInput extends S.Class<CreatePrivacyBudge
   "CreatePrivacyBudgetTemplateInput",
 )(
   {
-    membershipIdentifier: S.String.pipe(T.HttpLabel()),
+    membershipIdentifier: S.String.pipe(T.HttpLabel("membershipIdentifier")),
     autoRefresh: S.optional(S.String),
     privacyBudgetType: S.String,
     parameters: PrivacyBudgetTemplateParametersInput,
@@ -3541,7 +3674,7 @@ export class CreateAnalysisTemplateInput extends S.Class<CreateAnalysisTemplateI
 )(
   {
     description: S.optional(S.String),
-    membershipIdentifier: S.String.pipe(T.HttpLabel()),
+    membershipIdentifier: S.String.pipe(T.HttpLabel("membershipIdentifier")),
     name: S.String,
     format: S.String,
     source: AnalysisSource,
@@ -3616,7 +3749,7 @@ export class StartProtectedQueryInput extends S.Class<StartProtectedQueryInput>(
 )(
   {
     type: S.String,
-    membershipIdentifier: S.String.pipe(T.HttpLabel()),
+    membershipIdentifier: S.String.pipe(T.HttpLabel("membershipIdentifier")),
     sqlParameters: ProtectedQuerySQLParameters,
     resultConfiguration: S.optional(ProtectedQueryResultConfiguration),
     computeConfiguration: S.optional(ComputeConfiguration),
@@ -3716,7 +3849,9 @@ export class CreateConfiguredTableAnalysisRuleInput extends S.Class<CreateConfig
   "CreateConfiguredTableAnalysisRuleInput",
 )(
   {
-    configuredTableIdentifier: S.String.pipe(T.HttpLabel()),
+    configuredTableIdentifier: S.String.pipe(
+      T.HttpLabel("configuredTableIdentifier"),
+    ),
     analysisRuleType: S.String,
     analysisRulePolicy: ConfiguredTableAnalysisRulePolicy,
   },
@@ -3781,7 +3916,7 @@ export class AccessDeniedException extends S.TaggedError<AccessDeniedException>(
 export class InternalServerException extends S.TaggedError<InternalServerException>()(
   "InternalServerException",
   { message: S.optional(S.String) },
-) {}
+).pipe(withCategory(ERROR_CATEGORIES.SERVER_ERROR)) {}
 export class ConflictException extends S.TaggedError<ConflictException>()(
   "ConflictException",
   {
@@ -3802,7 +3937,7 @@ export class ValidationException extends S.TaggedError<ValidationException>()(
 export class ThrottlingException extends S.TaggedError<ThrottlingException>()(
   "ThrottlingException",
   { message: S.optional(S.String) },
-) {}
+).pipe(withCategory(ERROR_CATEGORIES.THROTTLING_ERROR)) {}
 export class ServiceQuotaExceededException extends S.TaggedError<ServiceQuotaExceededException>()(
   "ServiceQuotaExceededException",
   { message: S.String, quotaName: S.String, quotaValue: S.Number },

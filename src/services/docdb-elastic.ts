@@ -1,6 +1,7 @@
 import * as S from "effect/Schema";
 import * as API from "../api.ts";
 import * as T from "../traits.ts";
+import { ERROR_CATEGORIES, withCategory } from "../error-category.ts";
 const svc = T.AwsApiService({
   sdkId: "DocDB Elastic",
   serviceShapeName: "ChimeraDbLionfishServiceLambda",
@@ -359,7 +360,7 @@ export class CreateClusterSnapshotInput extends S.Class<CreateClusterSnapshotInp
 export class DeleteClusterInput extends S.Class<DeleteClusterInput>(
   "DeleteClusterInput",
 )(
-  { clusterArn: S.String.pipe(T.HttpLabel()) },
+  { clusterArn: S.String.pipe(T.HttpLabel("clusterArn")) },
   T.all(
     T.Http({ method: "DELETE", uri: "/cluster/{clusterArn}" }),
     svc,
@@ -372,7 +373,7 @@ export class DeleteClusterInput extends S.Class<DeleteClusterInput>(
 export class DeleteClusterSnapshotInput extends S.Class<DeleteClusterSnapshotInput>(
   "DeleteClusterSnapshotInput",
 )(
-  { snapshotArn: S.String.pipe(T.HttpLabel()) },
+  { snapshotArn: S.String.pipe(T.HttpLabel("snapshotArn")) },
   T.all(
     T.Http({ method: "DELETE", uri: "/cluster-snapshot/{snapshotArn}" }),
     svc,
@@ -385,7 +386,7 @@ export class DeleteClusterSnapshotInput extends S.Class<DeleteClusterSnapshotInp
 export class GetClusterInput extends S.Class<GetClusterInput>(
   "GetClusterInput",
 )(
-  { clusterArn: S.String.pipe(T.HttpLabel()) },
+  { clusterArn: S.String.pipe(T.HttpLabel("clusterArn")) },
   T.all(
     T.Http({ method: "GET", uri: "/cluster/{clusterArn}" }),
     svc,
@@ -398,7 +399,7 @@ export class GetClusterInput extends S.Class<GetClusterInput>(
 export class GetClusterSnapshotInput extends S.Class<GetClusterSnapshotInput>(
   "GetClusterSnapshotInput",
 )(
-  { snapshotArn: S.String.pipe(T.HttpLabel()) },
+  { snapshotArn: S.String.pipe(T.HttpLabel("snapshotArn")) },
   T.all(
     T.Http({ method: "GET", uri: "/cluster-snapshot/{snapshotArn}" }),
     svc,
@@ -411,7 +412,7 @@ export class GetClusterSnapshotInput extends S.Class<GetClusterSnapshotInput>(
 export class GetPendingMaintenanceActionInput extends S.Class<GetPendingMaintenanceActionInput>(
   "GetPendingMaintenanceActionInput",
 )(
-  { resourceArn: S.String.pipe(T.HttpLabel()) },
+  { resourceArn: S.String.pipe(T.HttpLabel("resourceArn")) },
   T.all(
     T.Http({ method: "GET", uri: "/pending-action/{resourceArn}" }),
     svc,
@@ -474,7 +475,7 @@ export class ListPendingMaintenanceActionsInput extends S.Class<ListPendingMaint
 export class ListTagsForResourceRequest extends S.Class<ListTagsForResourceRequest>(
   "ListTagsForResourceRequest",
 )(
-  { resourceArn: S.String.pipe(T.HttpLabel()) },
+  { resourceArn: S.String.pipe(T.HttpLabel("resourceArn")) },
   T.all(
     T.Http({ method: "GET", uri: "/tags/{resourceArn}" }),
     svc,
@@ -489,7 +490,7 @@ export class RestoreClusterFromSnapshotInput extends S.Class<RestoreClusterFromS
 )(
   {
     clusterName: S.String,
-    snapshotArn: S.String.pipe(T.HttpLabel()),
+    snapshotArn: S.String.pipe(T.HttpLabel("snapshotArn")),
     vpcSecurityGroupIds: S.optional(StringList),
     subnetIds: S.optional(StringList),
     kmsKeyId: S.optional(S.String),
@@ -509,7 +510,7 @@ export class RestoreClusterFromSnapshotInput extends S.Class<RestoreClusterFromS
 export class StartClusterInput extends S.Class<StartClusterInput>(
   "StartClusterInput",
 )(
-  { clusterArn: S.String.pipe(T.HttpLabel()) },
+  { clusterArn: S.String.pipe(T.HttpLabel("clusterArn")) },
   T.all(
     T.Http({ method: "POST", uri: "/cluster/{clusterArn}/start" }),
     svc,
@@ -522,7 +523,7 @@ export class StartClusterInput extends S.Class<StartClusterInput>(
 export class StopClusterInput extends S.Class<StopClusterInput>(
   "StopClusterInput",
 )(
-  { clusterArn: S.String.pipe(T.HttpLabel()) },
+  { clusterArn: S.String.pipe(T.HttpLabel("clusterArn")) },
   T.all(
     T.Http({ method: "POST", uri: "/cluster/{clusterArn}/stop" }),
     svc,
@@ -535,7 +536,7 @@ export class StopClusterInput extends S.Class<StopClusterInput>(
 export class TagResourceRequest extends S.Class<TagResourceRequest>(
   "TagResourceRequest",
 )(
-  { resourceArn: S.String.pipe(T.HttpLabel()), tags: TagMap },
+  { resourceArn: S.String.pipe(T.HttpLabel("resourceArn")), tags: TagMap },
   T.all(
     T.Http({ method: "POST", uri: "/tags/{resourceArn}" }),
     svc,
@@ -552,7 +553,7 @@ export class UntagResourceRequest extends S.Class<UntagResourceRequest>(
   "UntagResourceRequest",
 )(
   {
-    resourceArn: S.String.pipe(T.HttpLabel()),
+    resourceArn: S.String.pipe(T.HttpLabel("resourceArn")),
     tagKeys: TagKeyList.pipe(T.HttpQuery("tagKeys")),
   },
   T.all(
@@ -571,7 +572,7 @@ export class UpdateClusterInput extends S.Class<UpdateClusterInput>(
   "UpdateClusterInput",
 )(
   {
-    clusterArn: S.String.pipe(T.HttpLabel()),
+    clusterArn: S.String.pipe(T.HttpLabel("clusterArn")),
     authType: S.optional(S.String),
     shardCapacity: S.optional(S.Number),
     shardCount: S.optional(S.Number),
@@ -621,7 +622,7 @@ export class CopyClusterSnapshotInput extends S.Class<CopyClusterSnapshotInput>(
   "CopyClusterSnapshotInput",
 )(
   {
-    snapshotArn: S.String.pipe(T.HttpLabel()),
+    snapshotArn: S.String.pipe(T.HttpLabel("snapshotArn")),
     targetSnapshotName: S.String,
     kmsKeyId: S.optional(S.String),
     copyTags: S.optional(S.Boolean),
@@ -758,7 +759,8 @@ export const ValidationExceptionFieldList = S.Array(ValidationExceptionField);
 export class InternalServerException extends S.TaggedError<InternalServerException>()(
   "InternalServerException",
   { message: S.String },
-) {}
+  T.Retryable(),
+).pipe(withCategory(ERROR_CATEGORIES.SERVER_ERROR)) {}
 export class AccessDeniedException extends S.TaggedError<AccessDeniedException>()(
   "AccessDeniedException",
   { message: S.String },
@@ -777,7 +779,8 @@ export class ThrottlingException extends S.TaggedError<ThrottlingException>()(
     message: S.String,
     retryAfterSeconds: S.optional(S.Number).pipe(T.HttpHeader("Retry-After")),
   },
-) {}
+  T.Retryable(),
+).pipe(withCategory(ERROR_CATEGORIES.THROTTLING_ERROR)) {}
 export class ServiceQuotaExceededException extends S.TaggedError<ServiceQuotaExceededException>()(
   "ServiceQuotaExceededException",
   { message: S.String },

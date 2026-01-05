@@ -1,6 +1,7 @@
 import * as S from "effect/Schema";
 import * as API from "../api.ts";
 import * as T from "../traits.ts";
+import { ERROR_CATEGORIES, withCategory } from "../error-category.ts";
 const ns = T.XmlNamespace("http://appsync.amazonaws.com");
 const svc = T.AwsApiService({
   sdkId: "AppSync",
@@ -246,7 +247,7 @@ export const TagKeyList = S.Array(S.String);
 export class AssociateApiRequest extends S.Class<AssociateApiRequest>(
   "AssociateApiRequest",
 )(
-  { domainName: S.String.pipe(T.HttpLabel()), apiId: S.String },
+  { domainName: S.String.pipe(T.HttpLabel("domainName")), apiId: S.String },
   T.all(
     ns,
     T.Http({
@@ -267,7 +268,7 @@ export class AssociateSourceGraphqlApiRequest extends S.Class<AssociateSourceGra
   "AssociateSourceGraphqlApiRequest",
 )(
   {
-    mergedApiIdentifier: S.String.pipe(T.HttpLabel()),
+    mergedApiIdentifier: S.String.pipe(T.HttpLabel("mergedApiIdentifier")),
     sourceApiIdentifier: S.String,
     description: S.optional(S.String),
     sourceApiAssociationConfig: S.optional(SourceApiAssociationConfig),
@@ -289,7 +290,7 @@ export class CreateApiCacheRequest extends S.Class<CreateApiCacheRequest>(
   "CreateApiCacheRequest",
 )(
   {
-    apiId: S.String.pipe(T.HttpLabel()),
+    apiId: S.String.pipe(T.HttpLabel("apiId")),
     ttl: S.Number,
     transitEncryptionEnabled: S.optional(S.Boolean),
     atRestEncryptionEnabled: S.optional(S.Boolean),
@@ -311,7 +312,7 @@ export class CreateApiKeyRequest extends S.Class<CreateApiKeyRequest>(
   "CreateApiKeyRequest",
 )(
   {
-    apiId: S.String.pipe(T.HttpLabel()),
+    apiId: S.String.pipe(T.HttpLabel("apiId")),
     description: S.optional(S.String),
     expires: S.optional(S.Number),
   },
@@ -349,7 +350,7 @@ export class CreateTypeRequest extends S.Class<CreateTypeRequest>(
   "CreateTypeRequest",
 )(
   {
-    apiId: S.String.pipe(T.HttpLabel()),
+    apiId: S.String.pipe(T.HttpLabel("apiId")),
     definition: S.String,
     format: S.String,
   },
@@ -366,7 +367,7 @@ export class CreateTypeRequest extends S.Class<CreateTypeRequest>(
 export class DeleteApiRequest extends S.Class<DeleteApiRequest>(
   "DeleteApiRequest",
 )(
-  { apiId: S.String.pipe(T.HttpLabel()) },
+  { apiId: S.String.pipe(T.HttpLabel("apiId")) },
   T.all(
     ns,
     T.Http({ method: "DELETE", uri: "/v2/apis/{apiId}" }),
@@ -383,7 +384,7 @@ export class DeleteApiResponse extends S.Class<DeleteApiResponse>(
 export class DeleteApiCacheRequest extends S.Class<DeleteApiCacheRequest>(
   "DeleteApiCacheRequest",
 )(
-  { apiId: S.String.pipe(T.HttpLabel()) },
+  { apiId: S.String.pipe(T.HttpLabel("apiId")) },
   T.all(
     ns,
     T.Http({ method: "DELETE", uri: "/v1/apis/{apiId}/ApiCaches" }),
@@ -400,7 +401,10 @@ export class DeleteApiCacheResponse extends S.Class<DeleteApiCacheResponse>(
 export class DeleteApiKeyRequest extends S.Class<DeleteApiKeyRequest>(
   "DeleteApiKeyRequest",
 )(
-  { apiId: S.String.pipe(T.HttpLabel()), id: S.String.pipe(T.HttpLabel()) },
+  {
+    apiId: S.String.pipe(T.HttpLabel("apiId")),
+    id: S.String.pipe(T.HttpLabel("id")),
+  },
   T.all(
     ns,
     T.Http({ method: "DELETE", uri: "/v1/apis/{apiId}/apikeys/{id}" }),
@@ -417,7 +421,10 @@ export class DeleteApiKeyResponse extends S.Class<DeleteApiKeyResponse>(
 export class DeleteChannelNamespaceRequest extends S.Class<DeleteChannelNamespaceRequest>(
   "DeleteChannelNamespaceRequest",
 )(
-  { apiId: S.String.pipe(T.HttpLabel()), name: S.String.pipe(T.HttpLabel()) },
+  {
+    apiId: S.String.pipe(T.HttpLabel("apiId")),
+    name: S.String.pipe(T.HttpLabel("name")),
+  },
   T.all(
     ns,
     T.Http({
@@ -437,7 +444,10 @@ export class DeleteChannelNamespaceResponse extends S.Class<DeleteChannelNamespa
 export class DeleteDataSourceRequest extends S.Class<DeleteDataSourceRequest>(
   "DeleteDataSourceRequest",
 )(
-  { apiId: S.String.pipe(T.HttpLabel()), name: S.String.pipe(T.HttpLabel()) },
+  {
+    apiId: S.String.pipe(T.HttpLabel("apiId")),
+    name: S.String.pipe(T.HttpLabel("name")),
+  },
   T.all(
     ns,
     T.Http({ method: "DELETE", uri: "/v1/apis/{apiId}/datasources/{name}" }),
@@ -454,7 +464,7 @@ export class DeleteDataSourceResponse extends S.Class<DeleteDataSourceResponse>(
 export class DeleteDomainNameRequest extends S.Class<DeleteDomainNameRequest>(
   "DeleteDomainNameRequest",
 )(
-  { domainName: S.String.pipe(T.HttpLabel()) },
+  { domainName: S.String.pipe(T.HttpLabel("domainName")) },
   T.all(
     ns,
     T.Http({ method: "DELETE", uri: "/v1/domainnames/{domainName}" }),
@@ -472,8 +482,8 @@ export class DeleteFunctionRequest extends S.Class<DeleteFunctionRequest>(
   "DeleteFunctionRequest",
 )(
   {
-    apiId: S.String.pipe(T.HttpLabel()),
-    functionId: S.String.pipe(T.HttpLabel()),
+    apiId: S.String.pipe(T.HttpLabel("apiId")),
+    functionId: S.String.pipe(T.HttpLabel("functionId")),
   },
   T.all(
     ns,
@@ -494,7 +504,7 @@ export class DeleteFunctionResponse extends S.Class<DeleteFunctionResponse>(
 export class DeleteGraphqlApiRequest extends S.Class<DeleteGraphqlApiRequest>(
   "DeleteGraphqlApiRequest",
 )(
-  { apiId: S.String.pipe(T.HttpLabel()) },
+  { apiId: S.String.pipe(T.HttpLabel("apiId")) },
   T.all(
     ns,
     T.Http({ method: "DELETE", uri: "/v1/apis/{apiId}" }),
@@ -512,9 +522,9 @@ export class DeleteResolverRequest extends S.Class<DeleteResolverRequest>(
   "DeleteResolverRequest",
 )(
   {
-    apiId: S.String.pipe(T.HttpLabel()),
-    typeName: S.String.pipe(T.HttpLabel()),
-    fieldName: S.String.pipe(T.HttpLabel()),
+    apiId: S.String.pipe(T.HttpLabel("apiId")),
+    typeName: S.String.pipe(T.HttpLabel("typeName")),
+    fieldName: S.String.pipe(T.HttpLabel("fieldName")),
   },
   T.all(
     ns,
@@ -536,8 +546,8 @@ export class DeleteTypeRequest extends S.Class<DeleteTypeRequest>(
   "DeleteTypeRequest",
 )(
   {
-    apiId: S.String.pipe(T.HttpLabel()),
-    typeName: S.String.pipe(T.HttpLabel()),
+    apiId: S.String.pipe(T.HttpLabel("apiId")),
+    typeName: S.String.pipe(T.HttpLabel("typeName")),
   },
   T.all(
     ns,
@@ -555,7 +565,7 @@ export class DeleteTypeResponse extends S.Class<DeleteTypeResponse>(
 export class DisassociateApiRequest extends S.Class<DisassociateApiRequest>(
   "DisassociateApiRequest",
 )(
-  { domainName: S.String.pipe(T.HttpLabel()) },
+  { domainName: S.String.pipe(T.HttpLabel("domainName")) },
   T.all(
     ns,
     T.Http({
@@ -576,8 +586,8 @@ export class DisassociateMergedGraphqlApiRequest extends S.Class<DisassociateMer
   "DisassociateMergedGraphqlApiRequest",
 )(
   {
-    sourceApiIdentifier: S.String.pipe(T.HttpLabel()),
-    associationId: S.String.pipe(T.HttpLabel()),
+    sourceApiIdentifier: S.String.pipe(T.HttpLabel("sourceApiIdentifier")),
+    associationId: S.String.pipe(T.HttpLabel("associationId")),
   },
   T.all(
     ns,
@@ -596,8 +606,8 @@ export class DisassociateSourceGraphqlApiRequest extends S.Class<DisassociateSou
   "DisassociateSourceGraphqlApiRequest",
 )(
   {
-    mergedApiIdentifier: S.String.pipe(T.HttpLabel()),
-    associationId: S.String.pipe(T.HttpLabel()),
+    mergedApiIdentifier: S.String.pipe(T.HttpLabel("mergedApiIdentifier")),
+    associationId: S.String.pipe(T.HttpLabel("associationId")),
   },
   T.all(
     ns,
@@ -652,7 +662,7 @@ export class EvaluateMappingTemplateRequest extends S.Class<EvaluateMappingTempl
 export class FlushApiCacheRequest extends S.Class<FlushApiCacheRequest>(
   "FlushApiCacheRequest",
 )(
-  { apiId: S.String.pipe(T.HttpLabel()) },
+  { apiId: S.String.pipe(T.HttpLabel("apiId")) },
   T.all(
     ns,
     T.Http({ method: "DELETE", uri: "/v1/apis/{apiId}/FlushCache" }),
@@ -667,7 +677,7 @@ export class FlushApiCacheResponse extends S.Class<FlushApiCacheResponse>(
   "FlushApiCacheResponse",
 )({}, ns) {}
 export class GetApiRequest extends S.Class<GetApiRequest>("GetApiRequest")(
-  { apiId: S.String.pipe(T.HttpLabel()) },
+  { apiId: S.String.pipe(T.HttpLabel("apiId")) },
   T.all(
     ns,
     T.Http({ method: "GET", uri: "/v2/apis/{apiId}" }),
@@ -681,7 +691,7 @@ export class GetApiRequest extends S.Class<GetApiRequest>("GetApiRequest")(
 export class GetApiAssociationRequest extends S.Class<GetApiAssociationRequest>(
   "GetApiAssociationRequest",
 )(
-  { domainName: S.String.pipe(T.HttpLabel()) },
+  { domainName: S.String.pipe(T.HttpLabel("domainName")) },
   T.all(
     ns,
     T.Http({
@@ -698,7 +708,7 @@ export class GetApiAssociationRequest extends S.Class<GetApiAssociationRequest>(
 export class GetApiCacheRequest extends S.Class<GetApiCacheRequest>(
   "GetApiCacheRequest",
 )(
-  { apiId: S.String.pipe(T.HttpLabel()) },
+  { apiId: S.String.pipe(T.HttpLabel("apiId")) },
   T.all(
     ns,
     T.Http({ method: "GET", uri: "/v1/apis/{apiId}/ApiCaches" }),
@@ -712,7 +722,10 @@ export class GetApiCacheRequest extends S.Class<GetApiCacheRequest>(
 export class GetChannelNamespaceRequest extends S.Class<GetChannelNamespaceRequest>(
   "GetChannelNamespaceRequest",
 )(
-  { apiId: S.String.pipe(T.HttpLabel()), name: S.String.pipe(T.HttpLabel()) },
+  {
+    apiId: S.String.pipe(T.HttpLabel("apiId")),
+    name: S.String.pipe(T.HttpLabel("name")),
+  },
   T.all(
     ns,
     T.Http({ method: "GET", uri: "/v2/apis/{apiId}/channelNamespaces/{name}" }),
@@ -726,7 +739,10 @@ export class GetChannelNamespaceRequest extends S.Class<GetChannelNamespaceReque
 export class GetDataSourceRequest extends S.Class<GetDataSourceRequest>(
   "GetDataSourceRequest",
 )(
-  { apiId: S.String.pipe(T.HttpLabel()), name: S.String.pipe(T.HttpLabel()) },
+  {
+    apiId: S.String.pipe(T.HttpLabel("apiId")),
+    name: S.String.pipe(T.HttpLabel("name")),
+  },
   T.all(
     ns,
     T.Http({ method: "GET", uri: "/v1/apis/{apiId}/datasources/{name}" }),
@@ -741,7 +757,7 @@ export class GetDataSourceIntrospectionRequest extends S.Class<GetDataSourceIntr
   "GetDataSourceIntrospectionRequest",
 )(
   {
-    introspectionId: S.String.pipe(T.HttpLabel()),
+    introspectionId: S.String.pipe(T.HttpLabel("introspectionId")),
     includeModelsSDL: S.optional(S.Boolean).pipe(
       T.HttpQuery("includeModelsSDL"),
     ),
@@ -764,7 +780,7 @@ export class GetDataSourceIntrospectionRequest extends S.Class<GetDataSourceIntr
 export class GetDomainNameRequest extends S.Class<GetDomainNameRequest>(
   "GetDomainNameRequest",
 )(
-  { domainName: S.String.pipe(T.HttpLabel()) },
+  { domainName: S.String.pipe(T.HttpLabel("domainName")) },
   T.all(
     ns,
     T.Http({ method: "GET", uri: "/v1/domainnames/{domainName}" }),
@@ -779,8 +795,8 @@ export class GetFunctionRequest extends S.Class<GetFunctionRequest>(
   "GetFunctionRequest",
 )(
   {
-    apiId: S.String.pipe(T.HttpLabel()),
-    functionId: S.String.pipe(T.HttpLabel()),
+    apiId: S.String.pipe(T.HttpLabel("apiId")),
+    functionId: S.String.pipe(T.HttpLabel("functionId")),
   },
   T.all(
     ns,
@@ -795,7 +811,7 @@ export class GetFunctionRequest extends S.Class<GetFunctionRequest>(
 export class GetGraphqlApiRequest extends S.Class<GetGraphqlApiRequest>(
   "GetGraphqlApiRequest",
 )(
-  { apiId: S.String.pipe(T.HttpLabel()) },
+  { apiId: S.String.pipe(T.HttpLabel("apiId")) },
   T.all(
     ns,
     T.Http({ method: "GET", uri: "/v1/apis/{apiId}" }),
@@ -809,7 +825,7 @@ export class GetGraphqlApiRequest extends S.Class<GetGraphqlApiRequest>(
 export class GetGraphqlApiEnvironmentVariablesRequest extends S.Class<GetGraphqlApiEnvironmentVariablesRequest>(
   "GetGraphqlApiEnvironmentVariablesRequest",
 )(
-  { apiId: S.String.pipe(T.HttpLabel()) },
+  { apiId: S.String.pipe(T.HttpLabel("apiId")) },
   T.all(
     ns,
     T.Http({ method: "GET", uri: "/v1/apis/{apiId}/environmentVariables" }),
@@ -824,7 +840,7 @@ export class GetIntrospectionSchemaRequest extends S.Class<GetIntrospectionSchem
   "GetIntrospectionSchemaRequest",
 )(
   {
-    apiId: S.String.pipe(T.HttpLabel()),
+    apiId: S.String.pipe(T.HttpLabel("apiId")),
     format: S.String.pipe(T.HttpQuery("format")),
     includeDirectives: S.optional(S.Boolean).pipe(
       T.HttpQuery("includeDirectives"),
@@ -844,9 +860,9 @@ export class GetResolverRequest extends S.Class<GetResolverRequest>(
   "GetResolverRequest",
 )(
   {
-    apiId: S.String.pipe(T.HttpLabel()),
-    typeName: S.String.pipe(T.HttpLabel()),
-    fieldName: S.String.pipe(T.HttpLabel()),
+    apiId: S.String.pipe(T.HttpLabel("apiId")),
+    typeName: S.String.pipe(T.HttpLabel("typeName")),
+    fieldName: S.String.pipe(T.HttpLabel("fieldName")),
   },
   T.all(
     ns,
@@ -864,7 +880,7 @@ export class GetResolverRequest extends S.Class<GetResolverRequest>(
 export class GetSchemaCreationStatusRequest extends S.Class<GetSchemaCreationStatusRequest>(
   "GetSchemaCreationStatusRequest",
 )(
-  { apiId: S.String.pipe(T.HttpLabel()) },
+  { apiId: S.String.pipe(T.HttpLabel("apiId")) },
   T.all(
     ns,
     T.Http({ method: "GET", uri: "/v1/apis/{apiId}/schemacreation" }),
@@ -879,8 +895,8 @@ export class GetSourceApiAssociationRequest extends S.Class<GetSourceApiAssociat
   "GetSourceApiAssociationRequest",
 )(
   {
-    mergedApiIdentifier: S.String.pipe(T.HttpLabel()),
-    associationId: S.String.pipe(T.HttpLabel()),
+    mergedApiIdentifier: S.String.pipe(T.HttpLabel("mergedApiIdentifier")),
+    associationId: S.String.pipe(T.HttpLabel("associationId")),
   },
   T.all(
     ns,
@@ -897,8 +913,8 @@ export class GetSourceApiAssociationRequest extends S.Class<GetSourceApiAssociat
 ) {}
 export class GetTypeRequest extends S.Class<GetTypeRequest>("GetTypeRequest")(
   {
-    apiId: S.String.pipe(T.HttpLabel()),
-    typeName: S.String.pipe(T.HttpLabel()),
+    apiId: S.String.pipe(T.HttpLabel("apiId")),
+    typeName: S.String.pipe(T.HttpLabel("typeName")),
     format: S.String.pipe(T.HttpQuery("format")),
   },
   T.all(
@@ -915,7 +931,7 @@ export class ListApiKeysRequest extends S.Class<ListApiKeysRequest>(
   "ListApiKeysRequest",
 )(
   {
-    apiId: S.String.pipe(T.HttpLabel()),
+    apiId: S.String.pipe(T.HttpLabel("apiId")),
     nextToken: S.optional(S.String).pipe(T.HttpQuery("nextToken")),
     maxResults: S.optional(S.Number).pipe(T.HttpQuery("maxResults")),
   },
@@ -950,7 +966,7 @@ export class ListChannelNamespacesRequest extends S.Class<ListChannelNamespacesR
   "ListChannelNamespacesRequest",
 )(
   {
-    apiId: S.String.pipe(T.HttpLabel()),
+    apiId: S.String.pipe(T.HttpLabel("apiId")),
     nextToken: S.optional(S.String).pipe(T.HttpQuery("nextToken")),
     maxResults: S.optional(S.Number).pipe(T.HttpQuery("maxResults")),
   },
@@ -968,7 +984,7 @@ export class ListDataSourcesRequest extends S.Class<ListDataSourcesRequest>(
   "ListDataSourcesRequest",
 )(
   {
-    apiId: S.String.pipe(T.HttpLabel()),
+    apiId: S.String.pipe(T.HttpLabel("apiId")),
     nextToken: S.optional(S.String).pipe(T.HttpQuery("nextToken")),
     maxResults: S.optional(S.Number).pipe(T.HttpQuery("maxResults")),
   },
@@ -1003,7 +1019,7 @@ export class ListFunctionsRequest extends S.Class<ListFunctionsRequest>(
   "ListFunctionsRequest",
 )(
   {
-    apiId: S.String.pipe(T.HttpLabel()),
+    apiId: S.String.pipe(T.HttpLabel("apiId")),
     nextToken: S.optional(S.String).pipe(T.HttpQuery("nextToken")),
     maxResults: S.optional(S.Number).pipe(T.HttpQuery("maxResults")),
   },
@@ -1040,8 +1056,8 @@ export class ListResolversRequest extends S.Class<ListResolversRequest>(
   "ListResolversRequest",
 )(
   {
-    apiId: S.String.pipe(T.HttpLabel()),
-    typeName: S.String.pipe(T.HttpLabel()),
+    apiId: S.String.pipe(T.HttpLabel("apiId")),
+    typeName: S.String.pipe(T.HttpLabel("typeName")),
     nextToken: S.optional(S.String).pipe(T.HttpQuery("nextToken")),
     maxResults: S.optional(S.Number).pipe(T.HttpQuery("maxResults")),
   },
@@ -1062,8 +1078,8 @@ export class ListResolversByFunctionRequest extends S.Class<ListResolversByFunct
   "ListResolversByFunctionRequest",
 )(
   {
-    apiId: S.String.pipe(T.HttpLabel()),
-    functionId: S.String.pipe(T.HttpLabel()),
+    apiId: S.String.pipe(T.HttpLabel("apiId")),
+    functionId: S.String.pipe(T.HttpLabel("functionId")),
     nextToken: S.optional(S.String).pipe(T.HttpQuery("nextToken")),
     maxResults: S.optional(S.Number).pipe(T.HttpQuery("maxResults")),
   },
@@ -1084,7 +1100,7 @@ export class ListSourceApiAssociationsRequest extends S.Class<ListSourceApiAssoc
   "ListSourceApiAssociationsRequest",
 )(
   {
-    apiId: S.String.pipe(T.HttpLabel()),
+    apiId: S.String.pipe(T.HttpLabel("apiId")),
     nextToken: S.optional(S.String).pipe(T.HttpQuery("nextToken")),
     maxResults: S.optional(S.Number).pipe(T.HttpQuery("maxResults")),
   },
@@ -1101,7 +1117,7 @@ export class ListSourceApiAssociationsRequest extends S.Class<ListSourceApiAssoc
 export class ListTagsForResourceRequest extends S.Class<ListTagsForResourceRequest>(
   "ListTagsForResourceRequest",
 )(
-  { resourceArn: S.String.pipe(T.HttpLabel()) },
+  { resourceArn: S.String.pipe(T.HttpLabel("resourceArn")) },
   T.all(
     ns,
     T.Http({ method: "GET", uri: "/v1/tags/{resourceArn}" }),
@@ -1116,7 +1132,7 @@ export class ListTypesRequest extends S.Class<ListTypesRequest>(
   "ListTypesRequest",
 )(
   {
-    apiId: S.String.pipe(T.HttpLabel()),
+    apiId: S.String.pipe(T.HttpLabel("apiId")),
     format: S.String.pipe(T.HttpQuery("format")),
     nextToken: S.optional(S.String).pipe(T.HttpQuery("nextToken")),
     maxResults: S.optional(S.Number).pipe(T.HttpQuery("maxResults")),
@@ -1135,8 +1151,8 @@ export class ListTypesByAssociationRequest extends S.Class<ListTypesByAssociatio
   "ListTypesByAssociationRequest",
 )(
   {
-    mergedApiIdentifier: S.String.pipe(T.HttpLabel()),
-    associationId: S.String.pipe(T.HttpLabel()),
+    mergedApiIdentifier: S.String.pipe(T.HttpLabel("mergedApiIdentifier")),
+    associationId: S.String.pipe(T.HttpLabel("associationId")),
     format: S.String.pipe(T.HttpQuery("format")),
     nextToken: S.optional(S.String).pipe(T.HttpQuery("nextToken")),
     maxResults: S.optional(S.Number).pipe(T.HttpQuery("maxResults")),
@@ -1157,7 +1173,7 @@ export class ListTypesByAssociationRequest extends S.Class<ListTypesByAssociatio
 export class StartSchemaCreationRequest extends S.Class<StartSchemaCreationRequest>(
   "StartSchemaCreationRequest",
 )(
-  { apiId: S.String.pipe(T.HttpLabel()), definition: T.Blob },
+  { apiId: S.String.pipe(T.HttpLabel("apiId")), definition: T.Blob },
   T.all(
     ns,
     T.Http({ method: "POST", uri: "/v1/apis/{apiId}/schemacreation" }),
@@ -1172,8 +1188,8 @@ export class StartSchemaMergeRequest extends S.Class<StartSchemaMergeRequest>(
   "StartSchemaMergeRequest",
 )(
   {
-    associationId: S.String.pipe(T.HttpLabel()),
-    mergedApiIdentifier: S.String.pipe(T.HttpLabel()),
+    associationId: S.String.pipe(T.HttpLabel("associationId")),
+    mergedApiIdentifier: S.String.pipe(T.HttpLabel("mergedApiIdentifier")),
   },
   T.all(
     ns,
@@ -1191,7 +1207,7 @@ export class StartSchemaMergeRequest extends S.Class<StartSchemaMergeRequest>(
 export class TagResourceRequest extends S.Class<TagResourceRequest>(
   "TagResourceRequest",
 )(
-  { resourceArn: S.String.pipe(T.HttpLabel()), tags: TagMap },
+  { resourceArn: S.String.pipe(T.HttpLabel("resourceArn")), tags: TagMap },
   T.all(
     ns,
     T.Http({ method: "POST", uri: "/v1/tags/{resourceArn}" }),
@@ -1209,7 +1225,7 @@ export class UntagResourceRequest extends S.Class<UntagResourceRequest>(
   "UntagResourceRequest",
 )(
   {
-    resourceArn: S.String.pipe(T.HttpLabel()),
+    resourceArn: S.String.pipe(T.HttpLabel("resourceArn")),
     tagKeys: TagKeyList.pipe(T.HttpQuery("tagKeys")),
   },
   T.all(
@@ -1271,7 +1287,7 @@ export class UpdateApiRequest extends S.Class<UpdateApiRequest>(
   "UpdateApiRequest",
 )(
   {
-    apiId: S.String.pipe(T.HttpLabel()),
+    apiId: S.String.pipe(T.HttpLabel("apiId")),
     name: S.String,
     ownerContact: S.optional(S.String),
     eventConfig: EventConfig,
@@ -1290,7 +1306,7 @@ export class UpdateApiCacheRequest extends S.Class<UpdateApiCacheRequest>(
   "UpdateApiCacheRequest",
 )(
   {
-    apiId: S.String.pipe(T.HttpLabel()),
+    apiId: S.String.pipe(T.HttpLabel("apiId")),
     ttl: S.Number,
     apiCachingBehavior: S.String,
     type: S.String,
@@ -1310,8 +1326,8 @@ export class UpdateApiKeyRequest extends S.Class<UpdateApiKeyRequest>(
   "UpdateApiKeyRequest",
 )(
   {
-    apiId: S.String.pipe(T.HttpLabel()),
-    id: S.String.pipe(T.HttpLabel()),
+    apiId: S.String.pipe(T.HttpLabel("apiId")),
+    id: S.String.pipe(T.HttpLabel("id")),
     description: S.optional(S.String),
     expires: S.optional(S.Number),
   },
@@ -1344,8 +1360,8 @@ export class UpdateChannelNamespaceRequest extends S.Class<UpdateChannelNamespac
   "UpdateChannelNamespaceRequest",
 )(
   {
-    apiId: S.String.pipe(T.HttpLabel()),
-    name: S.String.pipe(T.HttpLabel()),
+    apiId: S.String.pipe(T.HttpLabel("apiId")),
+    name: S.String.pipe(T.HttpLabel("name")),
     subscribeAuthModes: S.optional(AuthModes),
     publishAuthModes: S.optional(AuthModes),
     codeHandlers: S.optional(S.String),
@@ -1424,8 +1440,8 @@ export class UpdateDataSourceRequest extends S.Class<UpdateDataSourceRequest>(
   "UpdateDataSourceRequest",
 )(
   {
-    apiId: S.String.pipe(T.HttpLabel()),
-    name: S.String.pipe(T.HttpLabel()),
+    apiId: S.String.pipe(T.HttpLabel("apiId")),
+    name: S.String.pipe(T.HttpLabel("name")),
     description: S.optional(S.String),
     type: S.String,
     serviceRoleArn: S.optional(S.String),
@@ -1452,7 +1468,7 @@ export class UpdateDomainNameRequest extends S.Class<UpdateDomainNameRequest>(
   "UpdateDomainNameRequest",
 )(
   {
-    domainName: S.String.pipe(T.HttpLabel()),
+    domainName: S.String.pipe(T.HttpLabel("domainName")),
     description: S.optional(S.String),
   },
   T.all(
@@ -1477,10 +1493,10 @@ export class UpdateFunctionRequest extends S.Class<UpdateFunctionRequest>(
   "UpdateFunctionRequest",
 )(
   {
-    apiId: S.String.pipe(T.HttpLabel()),
+    apiId: S.String.pipe(T.HttpLabel("apiId")),
     name: S.String,
     description: S.optional(S.String),
-    functionId: S.String.pipe(T.HttpLabel()),
+    functionId: S.String.pipe(T.HttpLabel("functionId")),
     dataSourceName: S.String,
     requestMappingTemplate: S.optional(S.String),
     responseMappingTemplate: S.optional(S.String),
@@ -1540,7 +1556,7 @@ export class UpdateGraphqlApiRequest extends S.Class<UpdateGraphqlApiRequest>(
   "UpdateGraphqlApiRequest",
 )(
   {
-    apiId: S.String.pipe(T.HttpLabel()),
+    apiId: S.String.pipe(T.HttpLabel("apiId")),
     name: S.String,
     logConfig: S.optional(LogConfig),
     authenticationType: S.String,
@@ -1581,9 +1597,9 @@ export class UpdateResolverRequest extends S.Class<UpdateResolverRequest>(
   "UpdateResolverRequest",
 )(
   {
-    apiId: S.String.pipe(T.HttpLabel()),
-    typeName: S.String.pipe(T.HttpLabel()),
-    fieldName: S.String.pipe(T.HttpLabel()),
+    apiId: S.String.pipe(T.HttpLabel("apiId")),
+    typeName: S.String.pipe(T.HttpLabel("typeName")),
+    fieldName: S.String.pipe(T.HttpLabel("fieldName")),
     dataSourceName: S.optional(S.String),
     requestMappingTemplate: S.optional(S.String),
     responseMappingTemplate: S.optional(S.String),
@@ -1613,8 +1629,8 @@ export class UpdateSourceApiAssociationRequest extends S.Class<UpdateSourceApiAs
   "UpdateSourceApiAssociationRequest",
 )(
   {
-    associationId: S.String.pipe(T.HttpLabel()),
-    mergedApiIdentifier: S.String.pipe(T.HttpLabel()),
+    associationId: S.String.pipe(T.HttpLabel("associationId")),
+    mergedApiIdentifier: S.String.pipe(T.HttpLabel("mergedApiIdentifier")),
     description: S.optional(S.String),
     sourceApiAssociationConfig: S.optional(SourceApiAssociationConfig),
   },
@@ -1635,8 +1651,8 @@ export class UpdateTypeRequest extends S.Class<UpdateTypeRequest>(
   "UpdateTypeRequest",
 )(
   {
-    apiId: S.String.pipe(T.HttpLabel()),
-    typeName: S.String.pipe(T.HttpLabel()),
+    apiId: S.String.pipe(T.HttpLabel("apiId")),
+    typeName: S.String.pipe(T.HttpLabel("typeName")),
     definition: S.optional(S.String),
     format: S.String,
   },
@@ -1796,7 +1812,7 @@ export class AssociateMergedGraphqlApiRequest extends S.Class<AssociateMergedGra
   "AssociateMergedGraphqlApiRequest",
 )(
   {
-    sourceApiIdentifier: S.String.pipe(T.HttpLabel()),
+    sourceApiIdentifier: S.String.pipe(T.HttpLabel("sourceApiIdentifier")),
     mergedApiIdentifier: S.String,
     description: S.optional(S.String),
     sourceApiAssociationConfig: S.optional(SourceApiAssociationConfig),
@@ -1818,8 +1834,8 @@ export class CreateResolverRequest extends S.Class<CreateResolverRequest>(
   "CreateResolverRequest",
 )(
   {
-    apiId: S.String.pipe(T.HttpLabel()),
-    typeName: S.String.pipe(T.HttpLabel()),
+    apiId: S.String.pipe(T.HttpLabel("apiId")),
+    typeName: S.String.pipe(T.HttpLabel("typeName")),
     fieldName: S.String,
     dataSourceName: S.optional(S.String),
     requestMappingTemplate: S.optional(S.String),
@@ -1966,7 +1982,7 @@ export class PutGraphqlApiEnvironmentVariablesRequest extends S.Class<PutGraphql
   "PutGraphqlApiEnvironmentVariablesRequest",
 )(
   {
-    apiId: S.String.pipe(T.HttpLabel()),
+    apiId: S.String.pipe(T.HttpLabel("apiId")),
     environmentVariables: EnvironmentVariableMap,
   },
   T.all(
@@ -2097,7 +2113,7 @@ export class CreateFunctionRequest extends S.Class<CreateFunctionRequest>(
   "CreateFunctionRequest",
 )(
   {
-    apiId: S.String.pipe(T.HttpLabel()),
+    apiId: S.String.pipe(T.HttpLabel("apiId")),
     name: S.String,
     description: S.optional(S.String),
     dataSourceName: S.String,
@@ -2243,7 +2259,7 @@ export class CreateDataSourceRequest extends S.Class<CreateDataSourceRequest>(
   "CreateDataSourceRequest",
 )(
   {
-    apiId: S.String.pipe(T.HttpLabel()),
+    apiId: S.String.pipe(T.HttpLabel("apiId")),
     name: S.String,
     description: S.optional(S.String),
     type: S.String,
@@ -2311,7 +2327,7 @@ export class CreateChannelNamespaceRequest extends S.Class<CreateChannelNamespac
   "CreateChannelNamespaceRequest",
 )(
   {
-    apiId: S.String.pipe(T.HttpLabel()),
+    apiId: S.String.pipe(T.HttpLabel("apiId")),
     name: S.String,
     subscribeAuthModes: S.optional(AuthModes),
     publishAuthModes: S.optional(AuthModes),
@@ -2389,7 +2405,7 @@ export class ConcurrentModificationException extends S.TaggedError<ConcurrentMod
 export class InternalFailureException extends S.TaggedError<InternalFailureException>()(
   "InternalFailureException",
   { message: S.optional(S.String) },
-) {}
+).pipe(withCategory(ERROR_CATEGORIES.SERVER_ERROR)) {}
 export class ApiLimitExceededException extends S.TaggedError<ApiLimitExceededException>()(
   "ApiLimitExceededException",
   { message: S.optional(S.String) },
@@ -2413,7 +2429,7 @@ export class UnauthorizedException extends S.TaggedError<UnauthorizedException>(
 export class LimitExceededException extends S.TaggedError<LimitExceededException>()(
   "LimitExceededException",
   { message: S.optional(S.String) },
-) {}
+).pipe(withCategory(ERROR_CATEGORIES.THROTTLING_ERROR)) {}
 export class ServiceQuotaExceededException extends S.TaggedError<ServiceQuotaExceededException>()(
   "ServiceQuotaExceededException",
   { message: S.optional(S.String) },

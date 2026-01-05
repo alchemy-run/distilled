@@ -1,6 +1,7 @@
 import * as S from "effect/Schema";
 import * as API from "../api.ts";
 import * as T from "../traits.ts";
+import { ERROR_CATEGORIES, withCategory } from "../error-category.ts";
 const svc = T.AwsApiService({
   sdkId: "Auto Scaling Plans",
   serviceShapeName: "AnyScaleScalingPlannerFrontendService",
@@ -488,12 +489,12 @@ export class ConcurrentUpdateException extends S.TaggedError<ConcurrentUpdateExc
   "ConcurrentUpdateException",
   { Message: S.optional(S.String) },
   T.AwsQueryError({ code: "ConcurrentUpdateException", httpResponseCode: 500 }),
-) {}
+).pipe(withCategory(ERROR_CATEGORIES.SERVER_ERROR)) {}
 export class InternalServiceException extends S.TaggedError<InternalServiceException>()(
   "InternalServiceException",
   { Message: S.optional(S.String) },
   T.AwsQueryError({ code: "InternalServiceException", httpResponseCode: 500 }),
-) {}
+).pipe(withCategory(ERROR_CATEGORIES.SERVER_ERROR)) {}
 export class ObjectNotFoundException extends S.TaggedError<ObjectNotFoundException>()(
   "ObjectNotFoundException",
   { Message: S.optional(S.String) },

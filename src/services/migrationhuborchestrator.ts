@@ -1,6 +1,7 @@
 import * as S from "effect/Schema";
 import * as API from "../api.ts";
 import * as T from "../traits.ts";
+import { ERROR_CATEGORIES, withCategory } from "../error-category.ts";
 const svc = T.AwsApiService({
   sdkId: "MigrationHubOrchestrator",
   serviceShapeName: "AWSMigrationHubOrchestrator",
@@ -298,7 +299,7 @@ export const StringList = S.Array(S.String);
 export class ListTagsForResourceRequest extends S.Class<ListTagsForResourceRequest>(
   "ListTagsForResourceRequest",
 )(
-  { resourceArn: S.String.pipe(T.HttpLabel()) },
+  { resourceArn: S.String.pipe(T.HttpLabel("resourceArn")) },
   T.all(
     T.Http({ method: "GET", uri: "/tags/{resourceArn}" }),
     svc,
@@ -312,7 +313,7 @@ export class UntagResourceRequest extends S.Class<UntagResourceRequest>(
   "UntagResourceRequest",
 )(
   {
-    resourceArn: S.String.pipe(T.HttpLabel()),
+    resourceArn: S.String.pipe(T.HttpLabel("resourceArn")),
     tagKeys: TagKeyList.pipe(T.HttpQuery("tagKeys")),
   },
   T.all(
@@ -330,7 +331,7 @@ export class UntagResourceResponse extends S.Class<UntagResourceResponse>(
 export class GetMigrationWorkflowRequest extends S.Class<GetMigrationWorkflowRequest>(
   "GetMigrationWorkflowRequest",
 )(
-  { id: S.String.pipe(T.HttpLabel()) },
+  { id: S.String.pipe(T.HttpLabel("id")) },
   T.all(
     T.Http({ method: "GET", uri: "/migrationworkflow/{id}" }),
     svc,
@@ -355,7 +356,7 @@ export class UpdateMigrationWorkflowRequest extends S.Class<UpdateMigrationWorkf
   "UpdateMigrationWorkflowRequest",
 )(
   {
-    id: S.String.pipe(T.HttpLabel()),
+    id: S.String.pipe(T.HttpLabel("id")),
     name: S.optional(S.String),
     description: S.optional(S.String),
     inputParameters: S.optional(StepInputParameters),
@@ -373,7 +374,7 @@ export class UpdateMigrationWorkflowRequest extends S.Class<UpdateMigrationWorkf
 export class DeleteMigrationWorkflowRequest extends S.Class<DeleteMigrationWorkflowRequest>(
   "DeleteMigrationWorkflowRequest",
 )(
-  { id: S.String.pipe(T.HttpLabel()) },
+  { id: S.String.pipe(T.HttpLabel("id")) },
   T.all(
     T.Http({ method: "DELETE", uri: "/migrationworkflow/{id}" }),
     svc,
@@ -408,7 +409,7 @@ export class ListMigrationWorkflowsRequest extends S.Class<ListMigrationWorkflow
 export class StartMigrationWorkflowRequest extends S.Class<StartMigrationWorkflowRequest>(
   "StartMigrationWorkflowRequest",
 )(
-  { id: S.String.pipe(T.HttpLabel()) },
+  { id: S.String.pipe(T.HttpLabel("id")) },
   T.all(
     T.Http({ method: "POST", uri: "/migrationworkflow/{id}/start" }),
     svc,
@@ -421,7 +422,7 @@ export class StartMigrationWorkflowRequest extends S.Class<StartMigrationWorkflo
 export class StopMigrationWorkflowRequest extends S.Class<StopMigrationWorkflowRequest>(
   "StopMigrationWorkflowRequest",
 )(
-  { id: S.String.pipe(T.HttpLabel()) },
+  { id: S.String.pipe(T.HttpLabel("id")) },
   T.all(
     T.Http({ method: "POST", uri: "/migrationworkflow/{id}/stop" }),
     svc,
@@ -434,7 +435,7 @@ export class StopMigrationWorkflowRequest extends S.Class<StopMigrationWorkflowR
 export class GetMigrationWorkflowTemplateRequest extends S.Class<GetMigrationWorkflowTemplateRequest>(
   "GetMigrationWorkflowTemplateRequest",
 )(
-  { id: S.String.pipe(T.HttpLabel()) },
+  { id: S.String.pipe(T.HttpLabel("id")) },
   T.all(
     T.Http({ method: "GET", uri: "/migrationworkflowtemplate/{id}" }),
     svc,
@@ -448,7 +449,7 @@ export class UpdateTemplateRequest extends S.Class<UpdateTemplateRequest>(
   "UpdateTemplateRequest",
 )(
   {
-    id: S.String.pipe(T.HttpLabel()),
+    id: S.String.pipe(T.HttpLabel("id")),
     templateName: S.optional(S.String),
     templateDescription: S.optional(S.String),
     clientToken: S.optional(S.String),
@@ -465,7 +466,7 @@ export class UpdateTemplateRequest extends S.Class<UpdateTemplateRequest>(
 export class DeleteTemplateRequest extends S.Class<DeleteTemplateRequest>(
   "DeleteTemplateRequest",
 )(
-  { id: S.String.pipe(T.HttpLabel()) },
+  { id: S.String.pipe(T.HttpLabel("id")) },
   T.all(
     T.Http({ method: "DELETE", uri: "/template/{id}" }),
     svc,
@@ -515,7 +516,7 @@ export class GetTemplateStepRequest extends S.Class<GetTemplateStepRequest>(
   "GetTemplateStepRequest",
 )(
   {
-    id: S.String.pipe(T.HttpLabel()),
+    id: S.String.pipe(T.HttpLabel("id")),
     templateId: S.String.pipe(T.HttpQuery("templateId")),
     stepGroupId: S.String.pipe(T.HttpQuery("stepGroupId")),
   },
@@ -550,8 +551,8 @@ export class GetTemplateStepGroupRequest extends S.Class<GetTemplateStepGroupReq
   "GetTemplateStepGroupRequest",
 )(
   {
-    templateId: S.String.pipe(T.HttpLabel()),
-    id: S.String.pipe(T.HttpLabel()),
+    templateId: S.String.pipe(T.HttpLabel("templateId")),
+    id: S.String.pipe(T.HttpLabel("id")),
   },
   T.all(
     T.Http({ method: "GET", uri: "/templates/{templateId}/stepgroups/{id}" }),
@@ -568,7 +569,7 @@ export class ListTemplateStepGroupsRequest extends S.Class<ListTemplateStepGroup
   {
     maxResults: S.optional(S.Number).pipe(T.HttpQuery("maxResults")),
     nextToken: S.optional(S.String).pipe(T.HttpQuery("nextToken")),
-    templateId: S.String.pipe(T.HttpLabel()),
+    templateId: S.String.pipe(T.HttpLabel("templateId")),
   },
   T.all(
     T.Http({ method: "GET", uri: "/templatestepgroups/{templateId}" }),
@@ -585,7 +586,7 @@ export class GetWorkflowStepRequest extends S.Class<GetWorkflowStepRequest>(
   {
     workflowId: S.String.pipe(T.HttpQuery("workflowId")),
     stepGroupId: S.String.pipe(T.HttpQuery("stepGroupId")),
-    id: S.String.pipe(T.HttpLabel()),
+    id: S.String.pipe(T.HttpLabel("id")),
   },
   T.all(
     T.Http({ method: "GET", uri: "/workflowstep/{id}" }),
@@ -630,7 +631,7 @@ export class UpdateWorkflowStepRequest extends S.Class<UpdateWorkflowStepRequest
   "UpdateWorkflowStepRequest",
 )(
   {
-    id: S.String.pipe(T.HttpLabel()),
+    id: S.String.pipe(T.HttpLabel("id")),
     stepGroupId: S.String,
     workflowId: S.String,
     name: S.optional(S.String),
@@ -658,7 +659,7 @@ export class DeleteWorkflowStepRequest extends S.Class<DeleteWorkflowStepRequest
   "DeleteWorkflowStepRequest",
 )(
   {
-    id: S.String.pipe(T.HttpLabel()),
+    id: S.String.pipe(T.HttpLabel("id")),
     stepGroupId: S.String.pipe(T.HttpQuery("stepGroupId")),
     workflowId: S.String.pipe(T.HttpQuery("workflowId")),
   },
@@ -680,8 +681,8 @@ export class ListWorkflowStepsRequest extends S.Class<ListWorkflowStepsRequest>(
   {
     nextToken: S.optional(S.String).pipe(T.HttpQuery("nextToken")),
     maxResults: S.optional(S.Number).pipe(T.HttpQuery("maxResults")),
-    workflowId: S.String.pipe(T.HttpLabel()),
-    stepGroupId: S.String.pipe(T.HttpLabel()),
+    workflowId: S.String.pipe(T.HttpLabel("workflowId")),
+    stepGroupId: S.String.pipe(T.HttpLabel("stepGroupId")),
   },
   T.all(
     T.Http({
@@ -701,7 +702,7 @@ export class RetryWorkflowStepRequest extends S.Class<RetryWorkflowStepRequest>(
   {
     workflowId: S.String.pipe(T.HttpQuery("workflowId")),
     stepGroupId: S.String.pipe(T.HttpQuery("stepGroupId")),
-    id: S.String.pipe(T.HttpLabel()),
+    id: S.String.pipe(T.HttpLabel("id")),
   },
   T.all(
     T.Http({ method: "POST", uri: "/retryworkflowstep/{id}" }),
@@ -735,7 +736,7 @@ export class GetWorkflowStepGroupRequest extends S.Class<GetWorkflowStepGroupReq
   "GetWorkflowStepGroupRequest",
 )(
   {
-    id: S.String.pipe(T.HttpLabel()),
+    id: S.String.pipe(T.HttpLabel("id")),
     workflowId: S.String.pipe(T.HttpQuery("workflowId")),
   },
   T.all(
@@ -752,7 +753,7 @@ export class UpdateWorkflowStepGroupRequest extends S.Class<UpdateWorkflowStepGr
 )(
   {
     workflowId: S.String.pipe(T.HttpQuery("workflowId")),
-    id: S.String.pipe(T.HttpLabel()),
+    id: S.String.pipe(T.HttpLabel("id")),
     name: S.optional(S.String),
     description: S.optional(S.String),
     next: S.optional(StringList),
@@ -772,7 +773,7 @@ export class DeleteWorkflowStepGroupRequest extends S.Class<DeleteWorkflowStepGr
 )(
   {
     workflowId: S.String.pipe(T.HttpQuery("workflowId")),
-    id: S.String.pipe(T.HttpLabel()),
+    id: S.String.pipe(T.HttpLabel("id")),
   },
   T.all(
     T.Http({ method: "DELETE", uri: "/workflowstepgroup/{id}" }),
@@ -811,7 +812,7 @@ export class ListTagsForResourceResponse extends S.Class<ListTagsForResourceResp
 export class TagResourceRequest extends S.Class<TagResourceRequest>(
   "TagResourceRequest",
 )(
-  { resourceArn: S.String.pipe(T.HttpLabel()), tags: TagMap },
+  { resourceArn: S.String.pipe(T.HttpLabel("resourceArn")), tags: TagMap },
   T.all(
     T.Http({ method: "POST", uri: "/tags/{resourceArn}" }),
     svc,
@@ -1276,23 +1277,26 @@ export class ResourceNotFoundException extends S.TaggedError<ResourceNotFoundExc
 export class AccessDeniedException extends S.TaggedError<AccessDeniedException>()(
   "AccessDeniedException",
   { message: S.String },
+  T.Retryable(),
 ) {}
 export class ValidationException extends S.TaggedError<ValidationException>()(
   "ValidationException",
   { message: S.String },
+  T.Retryable(),
 ) {}
 export class InternalServerException extends S.TaggedError<InternalServerException>()(
   "InternalServerException",
   { message: S.String },
-) {}
+).pipe(withCategory(ERROR_CATEGORIES.SERVER_ERROR)) {}
 export class ConflictException extends S.TaggedError<ConflictException>()(
   "ConflictException",
   { message: S.String },
+  T.Retryable(),
 ) {}
 export class ThrottlingException extends S.TaggedError<ThrottlingException>()(
   "ThrottlingException",
   { message: S.String },
-) {}
+).pipe(withCategory(ERROR_CATEGORIES.THROTTLING_ERROR)) {}
 
 //# Operations
 /**

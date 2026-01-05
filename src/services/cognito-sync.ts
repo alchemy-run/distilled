@@ -1,6 +1,7 @@
 import * as S from "effect/Schema";
 import * as API from "../api.ts";
 import * as T from "../traits.ts";
+import { ERROR_CATEGORIES, withCategory } from "../error-category.ts";
 const ns = T.XmlNamespace("http://cognito-sync.amazonaws.com/doc/2014-06-30/");
 const svc = T.AwsApiService({
   sdkId: "Cognito Sync",
@@ -245,7 +246,7 @@ const rules = T.EndpointRuleSet({
 export class BulkPublishRequest extends S.Class<BulkPublishRequest>(
   "BulkPublishRequest",
 )(
-  { IdentityPoolId: S.String.pipe(T.HttpLabel()) },
+  { IdentityPoolId: S.String.pipe(T.HttpLabel("IdentityPoolId")) },
   T.all(
     ns,
     T.Http({
@@ -263,9 +264,9 @@ export class DeleteDatasetRequest extends S.Class<DeleteDatasetRequest>(
   "DeleteDatasetRequest",
 )(
   {
-    IdentityPoolId: S.String.pipe(T.HttpLabel()),
-    IdentityId: S.String.pipe(T.HttpLabel()),
-    DatasetName: S.String.pipe(T.HttpLabel()),
+    IdentityPoolId: S.String.pipe(T.HttpLabel("IdentityPoolId")),
+    IdentityId: S.String.pipe(T.HttpLabel("IdentityId")),
+    DatasetName: S.String.pipe(T.HttpLabel("DatasetName")),
   },
   T.all(
     ns,
@@ -284,9 +285,9 @@ export class DescribeDatasetRequest extends S.Class<DescribeDatasetRequest>(
   "DescribeDatasetRequest",
 )(
   {
-    IdentityPoolId: S.String.pipe(T.HttpLabel()),
-    IdentityId: S.String.pipe(T.HttpLabel()),
-    DatasetName: S.String.pipe(T.HttpLabel()),
+    IdentityPoolId: S.String.pipe(T.HttpLabel("IdentityPoolId")),
+    IdentityId: S.String.pipe(T.HttpLabel("IdentityId")),
+    DatasetName: S.String.pipe(T.HttpLabel("DatasetName")),
   },
   T.all(
     ns,
@@ -304,7 +305,7 @@ export class DescribeDatasetRequest extends S.Class<DescribeDatasetRequest>(
 export class DescribeIdentityPoolUsageRequest extends S.Class<DescribeIdentityPoolUsageRequest>(
   "DescribeIdentityPoolUsageRequest",
 )(
-  { IdentityPoolId: S.String.pipe(T.HttpLabel()) },
+  { IdentityPoolId: S.String.pipe(T.HttpLabel("IdentityPoolId")) },
   T.all(
     ns,
     T.Http({ method: "GET", uri: "/identitypools/{IdentityPoolId}" }),
@@ -319,8 +320,8 @@ export class DescribeIdentityUsageRequest extends S.Class<DescribeIdentityUsageR
   "DescribeIdentityUsageRequest",
 )(
   {
-    IdentityPoolId: S.String.pipe(T.HttpLabel()),
-    IdentityId: S.String.pipe(T.HttpLabel()),
+    IdentityPoolId: S.String.pipe(T.HttpLabel("IdentityPoolId")),
+    IdentityId: S.String.pipe(T.HttpLabel("IdentityId")),
   },
   T.all(
     ns,
@@ -338,7 +339,7 @@ export class DescribeIdentityUsageRequest extends S.Class<DescribeIdentityUsageR
 export class GetBulkPublishDetailsRequest extends S.Class<GetBulkPublishDetailsRequest>(
   "GetBulkPublishDetailsRequest",
 )(
-  { IdentityPoolId: S.String.pipe(T.HttpLabel()) },
+  { IdentityPoolId: S.String.pipe(T.HttpLabel("IdentityPoolId")) },
   T.all(
     ns,
     T.Http({
@@ -355,7 +356,7 @@ export class GetBulkPublishDetailsRequest extends S.Class<GetBulkPublishDetailsR
 export class GetCognitoEventsRequest extends S.Class<GetCognitoEventsRequest>(
   "GetCognitoEventsRequest",
 )(
-  { IdentityPoolId: S.String.pipe(T.HttpLabel()) },
+  { IdentityPoolId: S.String.pipe(T.HttpLabel("IdentityPoolId")) },
   T.all(
     ns,
     T.Http({ method: "GET", uri: "/identitypools/{IdentityPoolId}/events" }),
@@ -369,7 +370,7 @@ export class GetCognitoEventsRequest extends S.Class<GetCognitoEventsRequest>(
 export class GetIdentityPoolConfigurationRequest extends S.Class<GetIdentityPoolConfigurationRequest>(
   "GetIdentityPoolConfigurationRequest",
 )(
-  { IdentityPoolId: S.String.pipe(T.HttpLabel()) },
+  { IdentityPoolId: S.String.pipe(T.HttpLabel("IdentityPoolId")) },
   T.all(
     ns,
     T.Http({
@@ -387,8 +388,8 @@ export class ListDatasetsRequest extends S.Class<ListDatasetsRequest>(
   "ListDatasetsRequest",
 )(
   {
-    IdentityPoolId: S.String.pipe(T.HttpLabel()),
-    IdentityId: S.String.pipe(T.HttpLabel()),
+    IdentityPoolId: S.String.pipe(T.HttpLabel("IdentityPoolId")),
+    IdentityId: S.String.pipe(T.HttpLabel("IdentityId")),
     NextToken: S.optional(S.String).pipe(T.HttpQuery("nextToken")),
     MaxResults: S.optional(S.Number).pipe(T.HttpQuery("maxResults")),
   },
@@ -426,9 +427,9 @@ export class ListRecordsRequest extends S.Class<ListRecordsRequest>(
   "ListRecordsRequest",
 )(
   {
-    IdentityPoolId: S.String.pipe(T.HttpLabel()),
-    IdentityId: S.String.pipe(T.HttpLabel()),
-    DatasetName: S.String.pipe(T.HttpLabel()),
+    IdentityPoolId: S.String.pipe(T.HttpLabel("IdentityPoolId")),
+    IdentityId: S.String.pipe(T.HttpLabel("IdentityId")),
+    DatasetName: S.String.pipe(T.HttpLabel("DatasetName")),
     LastSyncCount: S.optional(S.Number).pipe(T.HttpQuery("lastSyncCount")),
     NextToken: S.optional(S.String).pipe(T.HttpQuery("nextToken")),
     MaxResults: S.optional(S.Number).pipe(T.HttpQuery("maxResults")),
@@ -453,8 +454,8 @@ export class RegisterDeviceRequest extends S.Class<RegisterDeviceRequest>(
   "RegisterDeviceRequest",
 )(
   {
-    IdentityPoolId: S.String.pipe(T.HttpLabel()),
-    IdentityId: S.String.pipe(T.HttpLabel()),
+    IdentityPoolId: S.String.pipe(T.HttpLabel("IdentityPoolId")),
+    IdentityId: S.String.pipe(T.HttpLabel("IdentityId")),
     Platform: S.String,
     Token: S.String,
   },
@@ -475,10 +476,10 @@ export class SubscribeToDatasetRequest extends S.Class<SubscribeToDatasetRequest
   "SubscribeToDatasetRequest",
 )(
   {
-    IdentityPoolId: S.String.pipe(T.HttpLabel()),
-    IdentityId: S.String.pipe(T.HttpLabel()),
-    DatasetName: S.String.pipe(T.HttpLabel()),
-    DeviceId: S.String.pipe(T.HttpLabel()),
+    IdentityPoolId: S.String.pipe(T.HttpLabel("IdentityPoolId")),
+    IdentityId: S.String.pipe(T.HttpLabel("IdentityId")),
+    DatasetName: S.String.pipe(T.HttpLabel("DatasetName")),
+    DeviceId: S.String.pipe(T.HttpLabel("DeviceId")),
   },
   T.all(
     ns,
@@ -500,10 +501,10 @@ export class UnsubscribeFromDatasetRequest extends S.Class<UnsubscribeFromDatase
   "UnsubscribeFromDatasetRequest",
 )(
   {
-    IdentityPoolId: S.String.pipe(T.HttpLabel()),
-    IdentityId: S.String.pipe(T.HttpLabel()),
-    DatasetName: S.String.pipe(T.HttpLabel()),
-    DeviceId: S.String.pipe(T.HttpLabel()),
+    IdentityPoolId: S.String.pipe(T.HttpLabel("IdentityPoolId")),
+    IdentityId: S.String.pipe(T.HttpLabel("IdentityId")),
+    DatasetName: S.String.pipe(T.HttpLabel("DatasetName")),
+    DeviceId: S.String.pipe(T.HttpLabel("DeviceId")),
   },
   T.all(
     ns,
@@ -624,7 +625,10 @@ export class RegisterDeviceResponse extends S.Class<RegisterDeviceResponse>(
 export class SetCognitoEventsRequest extends S.Class<SetCognitoEventsRequest>(
   "SetCognitoEventsRequest",
 )(
-  { IdentityPoolId: S.String.pipe(T.HttpLabel()), Events: Events },
+  {
+    IdentityPoolId: S.String.pipe(T.HttpLabel("IdentityPoolId")),
+    Events: Events,
+  },
   T.all(
     ns,
     T.Http({ method: "POST", uri: "/identitypools/{IdentityPoolId}/events" }),
@@ -642,7 +646,7 @@ export class SetIdentityPoolConfigurationRequest extends S.Class<SetIdentityPool
   "SetIdentityPoolConfigurationRequest",
 )(
   {
-    IdentityPoolId: S.String.pipe(T.HttpLabel()),
+    IdentityPoolId: S.String.pipe(T.HttpLabel("IdentityPoolId")),
     PushSync: S.optional(PushSync),
     CognitoStreams: S.optional(CognitoStreams),
   },
@@ -663,9 +667,9 @@ export class UpdateRecordsRequest extends S.Class<UpdateRecordsRequest>(
   "UpdateRecordsRequest",
 )(
   {
-    IdentityPoolId: S.String.pipe(T.HttpLabel()),
-    IdentityId: S.String.pipe(T.HttpLabel()),
-    DatasetName: S.String.pipe(T.HttpLabel()),
+    IdentityPoolId: S.String.pipe(T.HttpLabel("IdentityPoolId")),
+    IdentityId: S.String.pipe(T.HttpLabel("IdentityId")),
+    DatasetName: S.String.pipe(T.HttpLabel("DatasetName")),
     DeviceId: S.optional(S.String),
     RecordPatches: S.optional(RecordPatchList),
     SyncSessionToken: S.String,
@@ -748,7 +752,7 @@ export class InternalErrorException extends S.TaggedError<InternalErrorException
   "InternalErrorException",
   { message: S.String },
   T.AwsQueryError({ code: "InternalError", httpResponseCode: 500 }),
-) {}
+).pipe(withCategory(ERROR_CATEGORIES.SERVER_ERROR)) {}
 export class AlreadyStreamedException extends S.TaggedError<AlreadyStreamedException>()(
   "AlreadyStreamedException",
   { message: S.String },
@@ -791,7 +795,7 @@ export class LambdaThrottledException extends S.TaggedError<LambdaThrottledExcep
   "LambdaThrottledException",
   { message: S.String },
   T.AwsQueryError({ code: "LambdaThrottled", httpResponseCode: 429 }),
-) {}
+).pipe(withCategory(ERROR_CATEGORIES.THROTTLING_ERROR)) {}
 export class ResourceNotFoundException extends S.TaggedError<ResourceNotFoundException>()(
   "ResourceNotFoundException",
   { message: S.String },
@@ -801,7 +805,7 @@ export class TooManyRequestsException extends S.TaggedError<TooManyRequestsExcep
   "TooManyRequestsException",
   { message: S.String },
   T.AwsQueryError({ code: "TooManyRequests", httpResponseCode: 429 }),
-) {}
+).pipe(withCategory(ERROR_CATEGORIES.THROTTLING_ERROR)) {}
 export class ResourceConflictException extends S.TaggedError<ResourceConflictException>()(
   "ResourceConflictException",
   { message: S.String },

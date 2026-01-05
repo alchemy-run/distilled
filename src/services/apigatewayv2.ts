@@ -1,6 +1,7 @@
 import * as S from "effect/Schema";
 import * as API from "../api.ts";
 import * as T from "../traits.ts";
+import { ERROR_CATEGORIES, withCategory } from "../error-category.ts";
 const svc = T.AwsApiService({
   sdkId: "ApiGatewayV2",
   serviceShapeName: "ApiGatewayV2",
@@ -253,7 +254,7 @@ export class CreateApiMappingRequest extends S.Class<CreateApiMappingRequest>(
   {
     ApiId: S.String.pipe(T.JsonName("apiId")),
     ApiMappingKey: S.optional(S.String).pipe(T.JsonName("apiMappingKey")),
-    DomainName: S.String.pipe(T.HttpLabel()),
+    DomainName: S.String.pipe(T.HttpLabel("DomainName")),
     Stage: S.String.pipe(T.JsonName("stage")),
   },
   T.all(
@@ -269,7 +270,7 @@ export class CreateDeploymentRequest extends S.Class<CreateDeploymentRequest>(
   "CreateDeploymentRequest",
 )(
   {
-    ApiId: S.String.pipe(T.HttpLabel()),
+    ApiId: S.String.pipe(T.HttpLabel("ApiId")),
     Description: S.optional(S.String).pipe(T.JsonName("description")),
     StageName: S.optional(S.String).pipe(T.JsonName("stageName")),
   },
@@ -291,11 +292,11 @@ export class CreateIntegrationResponseRequest extends S.Class<CreateIntegrationR
   "CreateIntegrationResponseRequest",
 )(
   {
-    ApiId: S.String.pipe(T.HttpLabel()),
+    ApiId: S.String.pipe(T.HttpLabel("ApiId")),
     ContentHandlingStrategy: S.optional(S.String).pipe(
       T.JsonName("contentHandlingStrategy"),
     ),
-    IntegrationId: S.String.pipe(T.HttpLabel()),
+    IntegrationId: S.String.pipe(T.HttpLabel("IntegrationId")),
     IntegrationResponseKey: S.String.pipe(T.JsonName("integrationResponseKey")),
     ResponseParameters: S.optional(IntegrationParameters).pipe(
       T.JsonName("responseParameters"),
@@ -323,7 +324,7 @@ export class CreateModelRequest extends S.Class<CreateModelRequest>(
   "CreateModelRequest",
 )(
   {
-    ApiId: S.String.pipe(T.HttpLabel()),
+    ApiId: S.String.pipe(T.HttpLabel("ApiId")),
     ContentType: S.optional(S.String).pipe(T.JsonName("contentType")),
     Description: S.optional(S.String).pipe(T.JsonName("description")),
     Name: S.String.pipe(T.JsonName("name")),
@@ -368,7 +369,7 @@ export class CreateRouteResponseRequest extends S.Class<CreateRouteResponseReque
   "CreateRouteResponseRequest",
 )(
   {
-    ApiId: S.String.pipe(T.HttpLabel()),
+    ApiId: S.String.pipe(T.HttpLabel("ApiId")),
     ModelSelectionExpression: S.optional(S.String).pipe(
       T.JsonName("modelSelectionExpression"),
     ),
@@ -376,7 +377,7 @@ export class CreateRouteResponseRequest extends S.Class<CreateRouteResponseReque
     ResponseParameters: S.optional(RouteParameters).pipe(
       T.JsonName("responseParameters"),
     ),
-    RouteId: S.String.pipe(T.HttpLabel()),
+    RouteId: S.String.pipe(T.HttpLabel("RouteId")),
     RouteResponseKey: S.String.pipe(T.JsonName("routeResponseKey")),
   },
   T.all(
@@ -415,8 +416,8 @@ export class DeleteAccessLogSettingsRequest extends S.Class<DeleteAccessLogSetti
   "DeleteAccessLogSettingsRequest",
 )(
   {
-    ApiId: S.String.pipe(T.HttpLabel()),
-    StageName: S.String.pipe(T.HttpLabel()),
+    ApiId: S.String.pipe(T.HttpLabel("ApiId")),
+    StageName: S.String.pipe(T.HttpLabel("StageName")),
   },
   T.all(
     T.Http({
@@ -436,7 +437,7 @@ export class DeleteAccessLogSettingsResponse extends S.Class<DeleteAccessLogSett
 export class DeleteApiRequest extends S.Class<DeleteApiRequest>(
   "DeleteApiRequest",
 )(
-  { ApiId: S.String.pipe(T.HttpLabel()) },
+  { ApiId: S.String.pipe(T.HttpLabel("ApiId")) },
   T.all(
     T.Http({ method: "DELETE", uri: "/v2/apis/{ApiId}" }),
     svc,
@@ -453,8 +454,8 @@ export class DeleteApiMappingRequest extends S.Class<DeleteApiMappingRequest>(
   "DeleteApiMappingRequest",
 )(
   {
-    ApiMappingId: S.String.pipe(T.HttpLabel()),
-    DomainName: S.String.pipe(T.HttpLabel()),
+    ApiMappingId: S.String.pipe(T.HttpLabel("ApiMappingId")),
+    DomainName: S.String.pipe(T.HttpLabel("DomainName")),
   },
   T.all(
     T.Http({
@@ -475,8 +476,8 @@ export class DeleteAuthorizerRequest extends S.Class<DeleteAuthorizerRequest>(
   "DeleteAuthorizerRequest",
 )(
   {
-    ApiId: S.String.pipe(T.HttpLabel()),
-    AuthorizerId: S.String.pipe(T.HttpLabel()),
+    ApiId: S.String.pipe(T.HttpLabel("ApiId")),
+    AuthorizerId: S.String.pipe(T.HttpLabel("AuthorizerId")),
   },
   T.all(
     T.Http({
@@ -496,7 +497,7 @@ export class DeleteAuthorizerResponse extends S.Class<DeleteAuthorizerResponse>(
 export class DeleteCorsConfigurationRequest extends S.Class<DeleteCorsConfigurationRequest>(
   "DeleteCorsConfigurationRequest",
 )(
-  { ApiId: S.String.pipe(T.HttpLabel()) },
+  { ApiId: S.String.pipe(T.HttpLabel("ApiId")) },
   T.all(
     T.Http({ method: "DELETE", uri: "/v2/apis/{ApiId}/cors" }),
     svc,
@@ -513,8 +514,8 @@ export class DeleteDeploymentRequest extends S.Class<DeleteDeploymentRequest>(
   "DeleteDeploymentRequest",
 )(
   {
-    ApiId: S.String.pipe(T.HttpLabel()),
-    DeploymentId: S.String.pipe(T.HttpLabel()),
+    ApiId: S.String.pipe(T.HttpLabel("ApiId")),
+    DeploymentId: S.String.pipe(T.HttpLabel("DeploymentId")),
   },
   T.all(
     T.Http({
@@ -534,7 +535,7 @@ export class DeleteDeploymentResponse extends S.Class<DeleteDeploymentResponse>(
 export class DeleteDomainNameRequest extends S.Class<DeleteDomainNameRequest>(
   "DeleteDomainNameRequest",
 )(
-  { DomainName: S.String.pipe(T.HttpLabel()) },
+  { DomainName: S.String.pipe(T.HttpLabel("DomainName")) },
   T.all(
     T.Http({ method: "DELETE", uri: "/v2/domainnames/{DomainName}" }),
     svc,
@@ -551,8 +552,8 @@ export class DeleteIntegrationRequest extends S.Class<DeleteIntegrationRequest>(
   "DeleteIntegrationRequest",
 )(
   {
-    ApiId: S.String.pipe(T.HttpLabel()),
-    IntegrationId: S.String.pipe(T.HttpLabel()),
+    ApiId: S.String.pipe(T.HttpLabel("ApiId")),
+    IntegrationId: S.String.pipe(T.HttpLabel("IntegrationId")),
   },
   T.all(
     T.Http({
@@ -573,9 +574,9 @@ export class DeleteIntegrationResponseRequest extends S.Class<DeleteIntegrationR
   "DeleteIntegrationResponseRequest",
 )(
   {
-    ApiId: S.String.pipe(T.HttpLabel()),
-    IntegrationId: S.String.pipe(T.HttpLabel()),
-    IntegrationResponseId: S.String.pipe(T.HttpLabel()),
+    ApiId: S.String.pipe(T.HttpLabel("ApiId")),
+    IntegrationId: S.String.pipe(T.HttpLabel("IntegrationId")),
+    IntegrationResponseId: S.String.pipe(T.HttpLabel("IntegrationResponseId")),
   },
   T.all(
     T.Http({
@@ -596,8 +597,8 @@ export class DeleteModelRequest extends S.Class<DeleteModelRequest>(
   "DeleteModelRequest",
 )(
   {
-    ApiId: S.String.pipe(T.HttpLabel()),
-    ModelId: S.String.pipe(T.HttpLabel()),
+    ApiId: S.String.pipe(T.HttpLabel("ApiId")),
+    ModelId: S.String.pipe(T.HttpLabel("ModelId")),
   },
   T.all(
     T.Http({ method: "DELETE", uri: "/v2/apis/{ApiId}/models/{ModelId}" }),
@@ -614,7 +615,7 @@ export class DeleteModelResponse extends S.Class<DeleteModelResponse>(
 export class DeletePortalRequest extends S.Class<DeletePortalRequest>(
   "DeletePortalRequest",
 )(
-  { PortalId: S.String.pipe(T.HttpLabel()) },
+  { PortalId: S.String.pipe(T.HttpLabel("PortalId")) },
   T.all(
     T.Http({ method: "DELETE", uri: "/v2/portals/{PortalId}" }),
     svc,
@@ -630,7 +631,7 @@ export class DeletePortalResponse extends S.Class<DeletePortalResponse>(
 export class DeletePortalProductRequest extends S.Class<DeletePortalProductRequest>(
   "DeletePortalProductRequest",
 )(
-  { PortalProductId: S.String.pipe(T.HttpLabel()) },
+  { PortalProductId: S.String.pipe(T.HttpLabel("PortalProductId")) },
   T.all(
     T.Http({ method: "DELETE", uri: "/v2/portalproducts/{PortalProductId}" }),
     svc,
@@ -646,7 +647,7 @@ export class DeletePortalProductResponse extends S.Class<DeletePortalProductResp
 export class DeletePortalProductSharingPolicyRequest extends S.Class<DeletePortalProductSharingPolicyRequest>(
   "DeletePortalProductSharingPolicyRequest",
 )(
-  { PortalProductId: S.String.pipe(T.HttpLabel()) },
+  { PortalProductId: S.String.pipe(T.HttpLabel("PortalProductId")) },
   T.all(
     T.Http({
       method: "DELETE",
@@ -666,8 +667,8 @@ export class DeleteProductPageRequest extends S.Class<DeleteProductPageRequest>(
   "DeleteProductPageRequest",
 )(
   {
-    PortalProductId: S.String.pipe(T.HttpLabel()),
-    ProductPageId: S.String.pipe(T.HttpLabel()),
+    PortalProductId: S.String.pipe(T.HttpLabel("PortalProductId")),
+    ProductPageId: S.String.pipe(T.HttpLabel("ProductPageId")),
   },
   T.all(
     T.Http({
@@ -688,8 +689,10 @@ export class DeleteProductRestEndpointPageRequest extends S.Class<DeleteProductR
   "DeleteProductRestEndpointPageRequest",
 )(
   {
-    PortalProductId: S.String.pipe(T.HttpLabel()),
-    ProductRestEndpointPageId: S.String.pipe(T.HttpLabel()),
+    PortalProductId: S.String.pipe(T.HttpLabel("PortalProductId")),
+    ProductRestEndpointPageId: S.String.pipe(
+      T.HttpLabel("ProductRestEndpointPageId"),
+    ),
   },
   T.all(
     T.Http({
@@ -710,8 +713,8 @@ export class DeleteRouteRequest extends S.Class<DeleteRouteRequest>(
   "DeleteRouteRequest",
 )(
   {
-    ApiId: S.String.pipe(T.HttpLabel()),
-    RouteId: S.String.pipe(T.HttpLabel()),
+    ApiId: S.String.pipe(T.HttpLabel("ApiId")),
+    RouteId: S.String.pipe(T.HttpLabel("RouteId")),
   },
   T.all(
     T.Http({ method: "DELETE", uri: "/v2/apis/{ApiId}/routes/{RouteId}" }),
@@ -729,9 +732,9 @@ export class DeleteRouteRequestParameterRequest extends S.Class<DeleteRouteReque
   "DeleteRouteRequestParameterRequest",
 )(
   {
-    ApiId: S.String.pipe(T.HttpLabel()),
-    RequestParameterKey: S.String.pipe(T.HttpLabel()),
-    RouteId: S.String.pipe(T.HttpLabel()),
+    ApiId: S.String.pipe(T.HttpLabel("ApiId")),
+    RequestParameterKey: S.String.pipe(T.HttpLabel("RequestParameterKey")),
+    RouteId: S.String.pipe(T.HttpLabel("RouteId")),
   },
   T.all(
     T.Http({
@@ -752,9 +755,9 @@ export class DeleteRouteResponseRequest extends S.Class<DeleteRouteResponseReque
   "DeleteRouteResponseRequest",
 )(
   {
-    ApiId: S.String.pipe(T.HttpLabel()),
-    RouteId: S.String.pipe(T.HttpLabel()),
-    RouteResponseId: S.String.pipe(T.HttpLabel()),
+    ApiId: S.String.pipe(T.HttpLabel("ApiId")),
+    RouteId: S.String.pipe(T.HttpLabel("RouteId")),
+    RouteResponseId: S.String.pipe(T.HttpLabel("RouteResponseId")),
   },
   T.all(
     T.Http({
@@ -775,9 +778,9 @@ export class DeleteRouteSettingsRequest extends S.Class<DeleteRouteSettingsReque
   "DeleteRouteSettingsRequest",
 )(
   {
-    ApiId: S.String.pipe(T.HttpLabel()),
-    RouteKey: S.String.pipe(T.HttpLabel()),
-    StageName: S.String.pipe(T.HttpLabel()),
+    ApiId: S.String.pipe(T.HttpLabel("ApiId")),
+    RouteKey: S.String.pipe(T.HttpLabel("RouteKey")),
+    StageName: S.String.pipe(T.HttpLabel("StageName")),
   },
   T.all(
     T.Http({
@@ -798,9 +801,9 @@ export class DeleteRoutingRuleRequest extends S.Class<DeleteRoutingRuleRequest>(
   "DeleteRoutingRuleRequest",
 )(
   {
-    DomainName: S.String.pipe(T.HttpLabel()),
+    DomainName: S.String.pipe(T.HttpLabel("DomainName")),
     DomainNameId: S.optional(S.String).pipe(T.HttpQuery("domainNameId")),
-    RoutingRuleId: S.String.pipe(T.HttpLabel()),
+    RoutingRuleId: S.String.pipe(T.HttpLabel("RoutingRuleId")),
   },
   T.all(
     T.Http({
@@ -821,8 +824,8 @@ export class DeleteStageRequest extends S.Class<DeleteStageRequest>(
   "DeleteStageRequest",
 )(
   {
-    ApiId: S.String.pipe(T.HttpLabel()),
-    StageName: S.String.pipe(T.HttpLabel()),
+    ApiId: S.String.pipe(T.HttpLabel("ApiId")),
+    StageName: S.String.pipe(T.HttpLabel("StageName")),
   },
   T.all(
     T.Http({ method: "DELETE", uri: "/v2/apis/{ApiId}/stages/{StageName}" }),
@@ -839,7 +842,7 @@ export class DeleteStageResponse extends S.Class<DeleteStageResponse>(
 export class DeleteVpcLinkRequest extends S.Class<DeleteVpcLinkRequest>(
   "DeleteVpcLinkRequest",
 )(
-  { VpcLinkId: S.String.pipe(T.HttpLabel()) },
+  { VpcLinkId: S.String.pipe(T.HttpLabel("VpcLinkId")) },
   T.all(
     T.Http({ method: "DELETE", uri: "/v2/vpclinks/{VpcLinkId}" }),
     svc,
@@ -855,7 +858,7 @@ export class DeleteVpcLinkResponse extends S.Class<DeleteVpcLinkResponse>(
 export class DisablePortalRequest extends S.Class<DisablePortalRequest>(
   "DisablePortalRequest",
 )(
-  { PortalId: S.String.pipe(T.HttpLabel()) },
+  { PortalId: S.String.pipe(T.HttpLabel("PortalId")) },
   T.all(
     T.Http({ method: "DELETE", uri: "/v2/portals/{PortalId}/publish" }),
     svc,
@@ -872,13 +875,13 @@ export class ExportApiRequest extends S.Class<ExportApiRequest>(
   "ExportApiRequest",
 )(
   {
-    ApiId: S.String.pipe(T.HttpLabel()),
+    ApiId: S.String.pipe(T.HttpLabel("ApiId")),
     ExportVersion: S.optional(S.String).pipe(T.HttpQuery("exportVersion")),
     IncludeExtensions: S.optional(S.Boolean).pipe(
       T.HttpQuery("includeExtensions"),
     ),
     OutputType: S.String.pipe(T.HttpQuery("outputType")),
-    Specification: S.String.pipe(T.HttpLabel()),
+    Specification: S.String.pipe(T.HttpLabel("Specification")),
     StageName: S.optional(S.String).pipe(T.HttpQuery("stageName")),
   },
   T.all(
@@ -891,7 +894,7 @@ export class ExportApiRequest extends S.Class<ExportApiRequest>(
   ),
 ) {}
 export class GetApiRequest extends S.Class<GetApiRequest>("GetApiRequest")(
-  { ApiId: S.String.pipe(T.HttpLabel()) },
+  { ApiId: S.String.pipe(T.HttpLabel("ApiId")) },
   T.all(
     T.Http({ method: "GET", uri: "/v2/apis/{ApiId}" }),
     svc,
@@ -905,8 +908,8 @@ export class GetApiMappingRequest extends S.Class<GetApiMappingRequest>(
   "GetApiMappingRequest",
 )(
   {
-    ApiMappingId: S.String.pipe(T.HttpLabel()),
-    DomainName: S.String.pipe(T.HttpLabel()),
+    ApiMappingId: S.String.pipe(T.HttpLabel("ApiMappingId")),
+    DomainName: S.String.pipe(T.HttpLabel("DomainName")),
   },
   T.all(
     T.Http({
@@ -924,7 +927,7 @@ export class GetApiMappingsRequest extends S.Class<GetApiMappingsRequest>(
   "GetApiMappingsRequest",
 )(
   {
-    DomainName: S.String.pipe(T.HttpLabel()),
+    DomainName: S.String.pipe(T.HttpLabel("DomainName")),
     MaxResults: S.optional(S.String).pipe(T.HttpQuery("maxResults")),
     NextToken: S.optional(S.String).pipe(T.HttpQuery("nextToken")),
   },
@@ -955,8 +958,8 @@ export class GetAuthorizerRequest extends S.Class<GetAuthorizerRequest>(
   "GetAuthorizerRequest",
 )(
   {
-    ApiId: S.String.pipe(T.HttpLabel()),
-    AuthorizerId: S.String.pipe(T.HttpLabel()),
+    ApiId: S.String.pipe(T.HttpLabel("ApiId")),
+    AuthorizerId: S.String.pipe(T.HttpLabel("AuthorizerId")),
   },
   T.all(
     T.Http({
@@ -974,7 +977,7 @@ export class GetAuthorizersRequest extends S.Class<GetAuthorizersRequest>(
   "GetAuthorizersRequest",
 )(
   {
-    ApiId: S.String.pipe(T.HttpLabel()),
+    ApiId: S.String.pipe(T.HttpLabel("ApiId")),
     MaxResults: S.optional(S.String).pipe(T.HttpQuery("maxResults")),
     NextToken: S.optional(S.String).pipe(T.HttpQuery("nextToken")),
   },
@@ -991,8 +994,8 @@ export class GetDeploymentRequest extends S.Class<GetDeploymentRequest>(
   "GetDeploymentRequest",
 )(
   {
-    ApiId: S.String.pipe(T.HttpLabel()),
-    DeploymentId: S.String.pipe(T.HttpLabel()),
+    ApiId: S.String.pipe(T.HttpLabel("ApiId")),
+    DeploymentId: S.String.pipe(T.HttpLabel("DeploymentId")),
   },
   T.all(
     T.Http({
@@ -1010,7 +1013,7 @@ export class GetDeploymentsRequest extends S.Class<GetDeploymentsRequest>(
   "GetDeploymentsRequest",
 )(
   {
-    ApiId: S.String.pipe(T.HttpLabel()),
+    ApiId: S.String.pipe(T.HttpLabel("ApiId")),
     MaxResults: S.optional(S.String).pipe(T.HttpQuery("maxResults")),
     NextToken: S.optional(S.String).pipe(T.HttpQuery("nextToken")),
   },
@@ -1026,7 +1029,7 @@ export class GetDeploymentsRequest extends S.Class<GetDeploymentsRequest>(
 export class GetDomainNameRequest extends S.Class<GetDomainNameRequest>(
   "GetDomainNameRequest",
 )(
-  { DomainName: S.String.pipe(T.HttpLabel()) },
+  { DomainName: S.String.pipe(T.HttpLabel("DomainName")) },
   T.all(
     T.Http({ method: "GET", uri: "/v2/domainnames/{DomainName}" }),
     svc,
@@ -1056,8 +1059,8 @@ export class GetIntegrationRequest extends S.Class<GetIntegrationRequest>(
   "GetIntegrationRequest",
 )(
   {
-    ApiId: S.String.pipe(T.HttpLabel()),
-    IntegrationId: S.String.pipe(T.HttpLabel()),
+    ApiId: S.String.pipe(T.HttpLabel("ApiId")),
+    IntegrationId: S.String.pipe(T.HttpLabel("IntegrationId")),
   },
   T.all(
     T.Http({
@@ -1075,9 +1078,9 @@ export class GetIntegrationResponseRequest extends S.Class<GetIntegrationRespons
   "GetIntegrationResponseRequest",
 )(
   {
-    ApiId: S.String.pipe(T.HttpLabel()),
-    IntegrationId: S.String.pipe(T.HttpLabel()),
-    IntegrationResponseId: S.String.pipe(T.HttpLabel()),
+    ApiId: S.String.pipe(T.HttpLabel("ApiId")),
+    IntegrationId: S.String.pipe(T.HttpLabel("IntegrationId")),
+    IntegrationResponseId: S.String.pipe(T.HttpLabel("IntegrationResponseId")),
   },
   T.all(
     T.Http({
@@ -1095,8 +1098,8 @@ export class GetIntegrationResponsesRequest extends S.Class<GetIntegrationRespon
   "GetIntegrationResponsesRequest",
 )(
   {
-    ApiId: S.String.pipe(T.HttpLabel()),
-    IntegrationId: S.String.pipe(T.HttpLabel()),
+    ApiId: S.String.pipe(T.HttpLabel("ApiId")),
+    IntegrationId: S.String.pipe(T.HttpLabel("IntegrationId")),
     MaxResults: S.optional(S.String).pipe(T.HttpQuery("maxResults")),
     NextToken: S.optional(S.String).pipe(T.HttpQuery("nextToken")),
   },
@@ -1116,7 +1119,7 @@ export class GetIntegrationsRequest extends S.Class<GetIntegrationsRequest>(
   "GetIntegrationsRequest",
 )(
   {
-    ApiId: S.String.pipe(T.HttpLabel()),
+    ApiId: S.String.pipe(T.HttpLabel("ApiId")),
     MaxResults: S.optional(S.String).pipe(T.HttpQuery("maxResults")),
     NextToken: S.optional(S.String).pipe(T.HttpQuery("nextToken")),
   },
@@ -1133,8 +1136,8 @@ export class GetModelRequest extends S.Class<GetModelRequest>(
   "GetModelRequest",
 )(
   {
-    ApiId: S.String.pipe(T.HttpLabel()),
-    ModelId: S.String.pipe(T.HttpLabel()),
+    ApiId: S.String.pipe(T.HttpLabel("ApiId")),
+    ModelId: S.String.pipe(T.HttpLabel("ModelId")),
   },
   T.all(
     T.Http({ method: "GET", uri: "/v2/apis/{ApiId}/models/{ModelId}" }),
@@ -1149,7 +1152,7 @@ export class GetModelsRequest extends S.Class<GetModelsRequest>(
   "GetModelsRequest",
 )(
   {
-    ApiId: S.String.pipe(T.HttpLabel()),
+    ApiId: S.String.pipe(T.HttpLabel("ApiId")),
     MaxResults: S.optional(S.String).pipe(T.HttpQuery("maxResults")),
     NextToken: S.optional(S.String).pipe(T.HttpQuery("nextToken")),
   },
@@ -1166,8 +1169,8 @@ export class GetModelTemplateRequest extends S.Class<GetModelTemplateRequest>(
   "GetModelTemplateRequest",
 )(
   {
-    ApiId: S.String.pipe(T.HttpLabel()),
-    ModelId: S.String.pipe(T.HttpLabel()),
+    ApiId: S.String.pipe(T.HttpLabel("ApiId")),
+    ModelId: S.String.pipe(T.HttpLabel("ModelId")),
   },
   T.all(
     T.Http({
@@ -1184,7 +1187,7 @@ export class GetModelTemplateRequest extends S.Class<GetModelTemplateRequest>(
 export class GetPortalRequest extends S.Class<GetPortalRequest>(
   "GetPortalRequest",
 )(
-  { PortalId: S.String.pipe(T.HttpLabel()) },
+  { PortalId: S.String.pipe(T.HttpLabel("PortalId")) },
   T.all(
     T.Http({ method: "GET", uri: "/v2/portals/{PortalId}" }),
     svc,
@@ -1198,7 +1201,7 @@ export class GetPortalProductRequest extends S.Class<GetPortalProductRequest>(
   "GetPortalProductRequest",
 )(
   {
-    PortalProductId: S.String.pipe(T.HttpLabel()),
+    PortalProductId: S.String.pipe(T.HttpLabel("PortalProductId")),
     ResourceOwnerAccountId: S.optional(S.String).pipe(
       T.HttpQuery("resourceOwnerAccountId"),
     ),
@@ -1215,7 +1218,7 @@ export class GetPortalProductRequest extends S.Class<GetPortalProductRequest>(
 export class GetPortalProductSharingPolicyRequest extends S.Class<GetPortalProductSharingPolicyRequest>(
   "GetPortalProductSharingPolicyRequest",
 )(
-  { PortalProductId: S.String.pipe(T.HttpLabel()) },
+  { PortalProductId: S.String.pipe(T.HttpLabel("PortalProductId")) },
   T.all(
     T.Http({
       method: "GET",
@@ -1232,8 +1235,8 @@ export class GetProductPageRequest extends S.Class<GetProductPageRequest>(
   "GetProductPageRequest",
 )(
   {
-    PortalProductId: S.String.pipe(T.HttpLabel()),
-    ProductPageId: S.String.pipe(T.HttpLabel()),
+    PortalProductId: S.String.pipe(T.HttpLabel("PortalProductId")),
+    ProductPageId: S.String.pipe(T.HttpLabel("ProductPageId")),
     ResourceOwnerAccountId: S.optional(S.String).pipe(
       T.HttpQuery("resourceOwnerAccountId"),
     ),
@@ -1257,8 +1260,10 @@ export class GetProductRestEndpointPageRequest extends S.Class<GetProductRestEnd
     IncludeRawDisplayContent: S.optional(S.String).pipe(
       T.HttpQuery("includeRawDisplayContent"),
     ),
-    PortalProductId: S.String.pipe(T.HttpLabel()),
-    ProductRestEndpointPageId: S.String.pipe(T.HttpLabel()),
+    PortalProductId: S.String.pipe(T.HttpLabel("PortalProductId")),
+    ProductRestEndpointPageId: S.String.pipe(
+      T.HttpLabel("ProductRestEndpointPageId"),
+    ),
     ResourceOwnerAccountId: S.optional(S.String).pipe(
       T.HttpQuery("resourceOwnerAccountId"),
     ),
@@ -1279,8 +1284,8 @@ export class GetRouteRequest extends S.Class<GetRouteRequest>(
   "GetRouteRequest",
 )(
   {
-    ApiId: S.String.pipe(T.HttpLabel()),
-    RouteId: S.String.pipe(T.HttpLabel()),
+    ApiId: S.String.pipe(T.HttpLabel("ApiId")),
+    RouteId: S.String.pipe(T.HttpLabel("RouteId")),
   },
   T.all(
     T.Http({ method: "GET", uri: "/v2/apis/{ApiId}/routes/{RouteId}" }),
@@ -1295,9 +1300,9 @@ export class GetRouteResponseRequest extends S.Class<GetRouteResponseRequest>(
   "GetRouteResponseRequest",
 )(
   {
-    ApiId: S.String.pipe(T.HttpLabel()),
-    RouteId: S.String.pipe(T.HttpLabel()),
-    RouteResponseId: S.String.pipe(T.HttpLabel()),
+    ApiId: S.String.pipe(T.HttpLabel("ApiId")),
+    RouteId: S.String.pipe(T.HttpLabel("RouteId")),
+    RouteResponseId: S.String.pipe(T.HttpLabel("RouteResponseId")),
   },
   T.all(
     T.Http({
@@ -1315,10 +1320,10 @@ export class GetRouteResponsesRequest extends S.Class<GetRouteResponsesRequest>(
   "GetRouteResponsesRequest",
 )(
   {
-    ApiId: S.String.pipe(T.HttpLabel()),
+    ApiId: S.String.pipe(T.HttpLabel("ApiId")),
     MaxResults: S.optional(S.String).pipe(T.HttpQuery("maxResults")),
     NextToken: S.optional(S.String).pipe(T.HttpQuery("nextToken")),
-    RouteId: S.String.pipe(T.HttpLabel()),
+    RouteId: S.String.pipe(T.HttpLabel("RouteId")),
   },
   T.all(
     T.Http({
@@ -1336,7 +1341,7 @@ export class GetRoutesRequest extends S.Class<GetRoutesRequest>(
   "GetRoutesRequest",
 )(
   {
-    ApiId: S.String.pipe(T.HttpLabel()),
+    ApiId: S.String.pipe(T.HttpLabel("ApiId")),
     MaxResults: S.optional(S.String).pipe(T.HttpQuery("maxResults")),
     NextToken: S.optional(S.String).pipe(T.HttpQuery("nextToken")),
   },
@@ -1353,9 +1358,9 @@ export class GetRoutingRuleRequest extends S.Class<GetRoutingRuleRequest>(
   "GetRoutingRuleRequest",
 )(
   {
-    DomainName: S.String.pipe(T.HttpLabel()),
+    DomainName: S.String.pipe(T.HttpLabel("DomainName")),
     DomainNameId: S.optional(S.String).pipe(T.HttpQuery("domainNameId")),
-    RoutingRuleId: S.String.pipe(T.HttpLabel()),
+    RoutingRuleId: S.String.pipe(T.HttpLabel("RoutingRuleId")),
   },
   T.all(
     T.Http({
@@ -1373,8 +1378,8 @@ export class GetStageRequest extends S.Class<GetStageRequest>(
   "GetStageRequest",
 )(
   {
-    ApiId: S.String.pipe(T.HttpLabel()),
-    StageName: S.String.pipe(T.HttpLabel()),
+    ApiId: S.String.pipe(T.HttpLabel("ApiId")),
+    StageName: S.String.pipe(T.HttpLabel("StageName")),
   },
   T.all(
     T.Http({ method: "GET", uri: "/v2/apis/{ApiId}/stages/{StageName}" }),
@@ -1389,7 +1394,7 @@ export class GetStagesRequest extends S.Class<GetStagesRequest>(
   "GetStagesRequest",
 )(
   {
-    ApiId: S.String.pipe(T.HttpLabel()),
+    ApiId: S.String.pipe(T.HttpLabel("ApiId")),
     MaxResults: S.optional(S.String).pipe(T.HttpQuery("maxResults")),
     NextToken: S.optional(S.String).pipe(T.HttpQuery("nextToken")),
   },
@@ -1403,7 +1408,7 @@ export class GetStagesRequest extends S.Class<GetStagesRequest>(
   ),
 ) {}
 export class GetTagsRequest extends S.Class<GetTagsRequest>("GetTagsRequest")(
-  { ResourceArn: S.String.pipe(T.HttpLabel()) },
+  { ResourceArn: S.String.pipe(T.HttpLabel("ResourceArn")) },
   T.all(
     T.Http({ method: "GET", uri: "/v2/tags/{ResourceArn}" }),
     svc,
@@ -1416,7 +1421,7 @@ export class GetTagsRequest extends S.Class<GetTagsRequest>("GetTagsRequest")(
 export class GetVpcLinkRequest extends S.Class<GetVpcLinkRequest>(
   "GetVpcLinkRequest",
 )(
-  { VpcLinkId: S.String.pipe(T.HttpLabel()) },
+  { VpcLinkId: S.String.pipe(T.HttpLabel("VpcLinkId")) },
   T.all(
     T.Http({ method: "GET", uri: "/v2/vpclinks/{VpcLinkId}" }),
     svc,
@@ -1498,7 +1503,7 @@ export class ListProductPagesRequest extends S.Class<ListProductPagesRequest>(
   {
     MaxResults: S.optional(S.String).pipe(T.HttpQuery("maxResults")),
     NextToken: S.optional(S.String).pipe(T.HttpQuery("nextToken")),
-    PortalProductId: S.String.pipe(T.HttpLabel()),
+    PortalProductId: S.String.pipe(T.HttpLabel("PortalProductId")),
     ResourceOwnerAccountId: S.optional(S.String).pipe(
       T.HttpQuery("resourceOwnerAccountId"),
     ),
@@ -1521,7 +1526,7 @@ export class ListProductRestEndpointPagesRequest extends S.Class<ListProductRest
   {
     MaxResults: S.optional(S.String).pipe(T.HttpQuery("maxResults")),
     NextToken: S.optional(S.String).pipe(T.HttpQuery("nextToken")),
-    PortalProductId: S.String.pipe(T.HttpLabel()),
+    PortalProductId: S.String.pipe(T.HttpLabel("PortalProductId")),
     ResourceOwnerAccountId: S.optional(S.String).pipe(
       T.HttpQuery("resourceOwnerAccountId"),
     ),
@@ -1542,7 +1547,7 @@ export class ListRoutingRulesRequest extends S.Class<ListRoutingRulesRequest>(
   "ListRoutingRulesRequest",
 )(
   {
-    DomainName: S.String.pipe(T.HttpLabel()),
+    DomainName: S.String.pipe(T.HttpLabel("DomainName")),
     DomainNameId: S.optional(S.String).pipe(T.HttpQuery("domainNameId")),
     MaxResults: S.optional(S.Number).pipe(T.HttpQuery("maxResults")),
     NextToken: S.optional(S.String).pipe(T.HttpQuery("nextToken")),
@@ -1559,7 +1564,7 @@ export class ListRoutingRulesRequest extends S.Class<ListRoutingRulesRequest>(
 export class PreviewPortalRequest extends S.Class<PreviewPortalRequest>(
   "PreviewPortalRequest",
 )(
-  { PortalId: S.String.pipe(T.HttpLabel()) },
+  { PortalId: S.String.pipe(T.HttpLabel("PortalId")) },
   T.all(
     T.Http({ method: "POST", uri: "/v2/portals/{PortalId}/preview" }),
     svc,
@@ -1577,7 +1582,7 @@ export class PublishPortalRequest extends S.Class<PublishPortalRequest>(
 )(
   {
     Description: S.optional(S.String).pipe(T.JsonName("description")),
-    PortalId: S.String.pipe(T.HttpLabel()),
+    PortalId: S.String.pipe(T.HttpLabel("PortalId")),
   },
   T.all(
     T.Http({ method: "POST", uri: "/v2/portals/{PortalId}/publish" }),
@@ -1596,7 +1601,7 @@ export class PutPortalProductSharingPolicyRequest extends S.Class<PutPortalProdu
 )(
   {
     PolicyDocument: S.String.pipe(T.JsonName("policyDocument")),
-    PortalProductId: S.String.pipe(T.HttpLabel()),
+    PortalProductId: S.String.pipe(T.HttpLabel("PortalProductId")),
   },
   T.all(
     T.Http({
@@ -1657,10 +1662,10 @@ export class PutRoutingRuleRequest extends S.Class<PutRoutingRuleRequest>(
   {
     Actions: __listOfRoutingRuleAction.pipe(T.JsonName("actions")),
     Conditions: __listOfRoutingRuleCondition.pipe(T.JsonName("conditions")),
-    DomainName: S.String.pipe(T.HttpLabel()),
+    DomainName: S.String.pipe(T.HttpLabel("DomainName")),
     DomainNameId: S.optional(S.String).pipe(T.HttpQuery("domainNameId")),
     Priority: S.Number.pipe(T.JsonName("priority")),
-    RoutingRuleId: S.String.pipe(T.HttpLabel()),
+    RoutingRuleId: S.String.pipe(T.HttpLabel("RoutingRuleId")),
   },
   T.all(
     T.Http({
@@ -1678,7 +1683,7 @@ export class ReimportApiRequest extends S.Class<ReimportApiRequest>(
   "ReimportApiRequest",
 )(
   {
-    ApiId: S.String.pipe(T.HttpLabel()),
+    ApiId: S.String.pipe(T.HttpLabel("ApiId")),
     Basepath: S.optional(S.String).pipe(T.HttpQuery("basepath")),
     Body: S.String.pipe(T.JsonName("body")),
     FailOnWarnings: S.optional(S.Boolean).pipe(T.HttpQuery("failOnWarnings")),
@@ -1696,8 +1701,8 @@ export class ResetAuthorizersCacheRequest extends S.Class<ResetAuthorizersCacheR
   "ResetAuthorizersCacheRequest",
 )(
   {
-    ApiId: S.String.pipe(T.HttpLabel()),
-    StageName: S.String.pipe(T.HttpLabel()),
+    ApiId: S.String.pipe(T.HttpLabel("ApiId")),
+    StageName: S.String.pipe(T.HttpLabel("StageName")),
   },
   T.all(
     T.Http({
@@ -1718,7 +1723,7 @@ export class TagResourceRequest extends S.Class<TagResourceRequest>(
   "TagResourceRequest",
 )(
   {
-    ResourceArn: S.String.pipe(T.HttpLabel()),
+    ResourceArn: S.String.pipe(T.HttpLabel("ResourceArn")),
     Tags: S.optional(Tags).pipe(T.JsonName("tags")),
   },
   T.all(
@@ -1737,7 +1742,7 @@ export class UntagResourceRequest extends S.Class<UntagResourceRequest>(
   "UntagResourceRequest",
 )(
   {
-    ResourceArn: S.String.pipe(T.HttpLabel()),
+    ResourceArn: S.String.pipe(T.HttpLabel("ResourceArn")),
     TagKeys: __listOf__string.pipe(T.HttpQuery("tagKeys")),
   },
   T.all(
@@ -1767,7 +1772,7 @@ export class UpdateApiRequest extends S.Class<UpdateApiRequest>(
   "UpdateApiRequest",
 )(
   {
-    ApiId: S.String.pipe(T.HttpLabel()),
+    ApiId: S.String.pipe(T.HttpLabel("ApiId")),
     ApiKeySelectionExpression: S.optional(S.String).pipe(
       T.JsonName("apiKeySelectionExpression"),
     ),
@@ -1803,9 +1808,9 @@ export class UpdateApiMappingRequest extends S.Class<UpdateApiMappingRequest>(
 )(
   {
     ApiId: S.String.pipe(T.JsonName("apiId")),
-    ApiMappingId: S.String.pipe(T.HttpLabel()),
+    ApiMappingId: S.String.pipe(T.HttpLabel("ApiMappingId")),
     ApiMappingKey: S.optional(S.String).pipe(T.JsonName("apiMappingKey")),
-    DomainName: S.String.pipe(T.HttpLabel()),
+    DomainName: S.String.pipe(T.HttpLabel("DomainName")),
     Stage: S.optional(S.String).pipe(T.JsonName("stage")),
   },
   T.all(
@@ -1830,11 +1835,11 @@ export class UpdateAuthorizerRequest extends S.Class<UpdateAuthorizerRequest>(
   "UpdateAuthorizerRequest",
 )(
   {
-    ApiId: S.String.pipe(T.HttpLabel()),
+    ApiId: S.String.pipe(T.HttpLabel("ApiId")),
     AuthorizerCredentialsArn: S.optional(S.String).pipe(
       T.JsonName("authorizerCredentialsArn"),
     ),
-    AuthorizerId: S.String.pipe(T.HttpLabel()),
+    AuthorizerId: S.String.pipe(T.HttpLabel("AuthorizerId")),
     AuthorizerPayloadFormatVersion: S.optional(S.String).pipe(
       T.JsonName("authorizerPayloadFormatVersion"),
     ),
@@ -1873,8 +1878,8 @@ export class UpdateDeploymentRequest extends S.Class<UpdateDeploymentRequest>(
   "UpdateDeploymentRequest",
 )(
   {
-    ApiId: S.String.pipe(T.HttpLabel()),
-    DeploymentId: S.String.pipe(T.HttpLabel()),
+    ApiId: S.String.pipe(T.HttpLabel("ApiId")),
+    DeploymentId: S.String.pipe(T.HttpLabel("DeploymentId")),
     Description: S.optional(S.String).pipe(T.JsonName("description")),
   },
   T.all(
@@ -1923,7 +1928,7 @@ export class UpdateDomainNameRequest extends S.Class<UpdateDomainNameRequest>(
   "UpdateDomainNameRequest",
 )(
   {
-    DomainName: S.String.pipe(T.HttpLabel()),
+    DomainName: S.String.pipe(T.HttpLabel("DomainName")),
     DomainNameConfigurations: S.optional(DomainNameConfigurations).pipe(
       T.JsonName("domainNameConfigurations"),
     ),
@@ -1954,7 +1959,7 @@ export class UpdateIntegrationRequest extends S.Class<UpdateIntegrationRequest>(
   "UpdateIntegrationRequest",
 )(
   {
-    ApiId: S.String.pipe(T.HttpLabel()),
+    ApiId: S.String.pipe(T.HttpLabel("ApiId")),
     ConnectionId: S.optional(S.String).pipe(T.JsonName("connectionId")),
     ConnectionType: S.optional(S.String).pipe(T.JsonName("connectionType")),
     ContentHandlingStrategy: S.optional(S.String).pipe(
@@ -1962,7 +1967,7 @@ export class UpdateIntegrationRequest extends S.Class<UpdateIntegrationRequest>(
     ),
     CredentialsArn: S.optional(S.String).pipe(T.JsonName("credentialsArn")),
     Description: S.optional(S.String).pipe(T.JsonName("description")),
-    IntegrationId: S.String.pipe(T.HttpLabel()),
+    IntegrationId: S.String.pipe(T.HttpLabel("IntegrationId")),
     IntegrationMethod: S.optional(S.String).pipe(
       T.JsonName("integrationMethod"),
     ),
@@ -2008,12 +2013,12 @@ export class UpdateIntegrationResponseRequest extends S.Class<UpdateIntegrationR
   "UpdateIntegrationResponseRequest",
 )(
   {
-    ApiId: S.String.pipe(T.HttpLabel()),
+    ApiId: S.String.pipe(T.HttpLabel("ApiId")),
     ContentHandlingStrategy: S.optional(S.String).pipe(
       T.JsonName("contentHandlingStrategy"),
     ),
-    IntegrationId: S.String.pipe(T.HttpLabel()),
-    IntegrationResponseId: S.String.pipe(T.HttpLabel()),
+    IntegrationId: S.String.pipe(T.HttpLabel("IntegrationId")),
+    IntegrationResponseId: S.String.pipe(T.HttpLabel("IntegrationResponseId")),
     IntegrationResponseKey: S.optional(S.String).pipe(
       T.JsonName("integrationResponseKey"),
     ),
@@ -2043,10 +2048,10 @@ export class UpdateModelRequest extends S.Class<UpdateModelRequest>(
   "UpdateModelRequest",
 )(
   {
-    ApiId: S.String.pipe(T.HttpLabel()),
+    ApiId: S.String.pipe(T.HttpLabel("ApiId")),
     ContentType: S.optional(S.String).pipe(T.JsonName("contentType")),
     Description: S.optional(S.String).pipe(T.JsonName("description")),
-    ModelId: S.String.pipe(T.HttpLabel()),
+    ModelId: S.String.pipe(T.HttpLabel("ModelId")),
     Name: S.optional(S.String).pipe(T.JsonName("name")),
     Schema: S.optional(S.String).pipe(T.JsonName("schema")),
   },
@@ -2111,7 +2116,7 @@ export class UpdatePortalRequest extends S.Class<UpdatePortalRequest>(
     ),
     LogoUri: S.optional(S.String).pipe(T.JsonName("logoUri")),
     PortalContent: S.optional(PortalContent).pipe(T.JsonName("portalContent")),
-    PortalId: S.String.pipe(T.HttpLabel()),
+    PortalId: S.String.pipe(T.HttpLabel("PortalId")),
     RumAppMonitorName: S.optional(S.String).pipe(
       T.JsonName("rumAppMonitorName"),
     ),
@@ -2136,8 +2141,8 @@ export class UpdateProductPageRequest extends S.Class<UpdateProductPageRequest>(
     DisplayContent: S.optional(DisplayContent).pipe(
       T.JsonName("displayContent"),
     ),
-    PortalProductId: S.String.pipe(T.HttpLabel()),
-    ProductPageId: S.String.pipe(T.HttpLabel()),
+    PortalProductId: S.String.pipe(T.HttpLabel("PortalProductId")),
+    ProductPageId: S.String.pipe(T.HttpLabel("ProductPageId")),
   },
   T.all(
     T.Http({
@@ -2171,8 +2176,10 @@ export class UpdateProductRestEndpointPageRequest extends S.Class<UpdateProductR
     DisplayContent: S.optional(EndpointDisplayContent).pipe(
       T.JsonName("displayContent"),
     ),
-    PortalProductId: S.String.pipe(T.HttpLabel()),
-    ProductRestEndpointPageId: S.String.pipe(T.HttpLabel()),
+    PortalProductId: S.String.pipe(T.HttpLabel("PortalProductId")),
+    ProductRestEndpointPageId: S.String.pipe(
+      T.HttpLabel("ProductRestEndpointPageId"),
+    ),
     TryItState: S.optional(S.String).pipe(T.JsonName("tryItState")),
   },
   T.all(
@@ -2191,7 +2198,7 @@ export class UpdateRouteRequest extends S.Class<UpdateRouteRequest>(
   "UpdateRouteRequest",
 )(
   {
-    ApiId: S.String.pipe(T.HttpLabel()),
+    ApiId: S.String.pipe(T.HttpLabel("ApiId")),
     ApiKeyRequired: S.optional(S.Boolean).pipe(T.JsonName("apiKeyRequired")),
     AuthorizationScopes: S.optional(AuthorizationScopes).pipe(
       T.JsonName("authorizationScopes"),
@@ -2208,7 +2215,7 @@ export class UpdateRouteRequest extends S.Class<UpdateRouteRequest>(
     RequestParameters: S.optional(RouteParameters).pipe(
       T.JsonName("requestParameters"),
     ),
-    RouteId: S.String.pipe(T.HttpLabel()),
+    RouteId: S.String.pipe(T.HttpLabel("RouteId")),
     RouteKey: S.optional(S.String).pipe(T.JsonName("routeKey")),
     RouteResponseSelectionExpression: S.optional(S.String).pipe(
       T.JsonName("routeResponseSelectionExpression"),
@@ -2228,7 +2235,7 @@ export class UpdateRouteResponseRequest extends S.Class<UpdateRouteResponseReque
   "UpdateRouteResponseRequest",
 )(
   {
-    ApiId: S.String.pipe(T.HttpLabel()),
+    ApiId: S.String.pipe(T.HttpLabel("ApiId")),
     ModelSelectionExpression: S.optional(S.String).pipe(
       T.JsonName("modelSelectionExpression"),
     ),
@@ -2236,8 +2243,8 @@ export class UpdateRouteResponseRequest extends S.Class<UpdateRouteResponseReque
     ResponseParameters: S.optional(RouteParameters).pipe(
       T.JsonName("responseParameters"),
     ),
-    RouteId: S.String.pipe(T.HttpLabel()),
-    RouteResponseId: S.String.pipe(T.HttpLabel()),
+    RouteId: S.String.pipe(T.HttpLabel("RouteId")),
+    RouteResponseId: S.String.pipe(T.HttpLabel("RouteResponseId")),
     RouteResponseKey: S.optional(S.String).pipe(T.JsonName("routeResponseKey")),
   },
   T.all(
@@ -2283,7 +2290,7 @@ export class UpdateStageRequest extends S.Class<UpdateStageRequest>(
     AccessLogSettings: S.optional(AccessLogSettings).pipe(
       T.JsonName("accessLogSettings"),
     ),
-    ApiId: S.String.pipe(T.HttpLabel()),
+    ApiId: S.String.pipe(T.HttpLabel("ApiId")),
     AutoDeploy: S.optional(S.Boolean).pipe(T.JsonName("autoDeploy")),
     ClientCertificateId: S.optional(S.String).pipe(
       T.JsonName("clientCertificateId"),
@@ -2296,7 +2303,7 @@ export class UpdateStageRequest extends S.Class<UpdateStageRequest>(
     RouteSettings: S.optional(RouteSettingsMap).pipe(
       T.JsonName("routeSettings"),
     ),
-    StageName: S.String.pipe(T.HttpLabel()),
+    StageName: S.String.pipe(T.HttpLabel("StageName")),
     StageVariables: S.optional(StageVariablesMap).pipe(
       T.JsonName("stageVariables"),
     ),
@@ -2315,7 +2322,7 @@ export class UpdateVpcLinkRequest extends S.Class<UpdateVpcLinkRequest>(
 )(
   {
     Name: S.optional(S.String).pipe(T.JsonName("name")),
-    VpcLinkId: S.String.pipe(T.HttpLabel()),
+    VpcLinkId: S.String.pipe(T.HttpLabel("VpcLinkId")),
   },
   T.all(
     T.Http({ method: "PATCH", uri: "/v2/vpclinks/{VpcLinkId}" }),
@@ -2374,7 +2381,7 @@ export class CreateAuthorizerRequest extends S.Class<CreateAuthorizerRequest>(
   "CreateAuthorizerRequest",
 )(
   {
-    ApiId: S.String.pipe(T.HttpLabel()),
+    ApiId: S.String.pipe(T.HttpLabel("ApiId")),
     AuthorizerCredentialsArn: S.optional(S.String).pipe(
       T.JsonName("authorizerCredentialsArn"),
     ),
@@ -2448,7 +2455,7 @@ export class CreateIntegrationRequest extends S.Class<CreateIntegrationRequest>(
   "CreateIntegrationRequest",
 )(
   {
-    ApiId: S.String.pipe(T.HttpLabel()),
+    ApiId: S.String.pipe(T.HttpLabel("ApiId")),
     ConnectionId: S.optional(S.String).pipe(T.JsonName("connectionId")),
     ConnectionType: S.optional(S.String).pipe(T.JsonName("connectionType")),
     ContentHandlingStrategy: S.optional(S.String).pipe(
@@ -2557,7 +2564,7 @@ export class CreateProductPageRequest extends S.Class<CreateProductPageRequest>(
 )(
   {
     DisplayContent: DisplayContent.pipe(T.JsonName("displayContent")),
-    PortalProductId: S.String.pipe(T.HttpLabel()),
+    PortalProductId: S.String.pipe(T.HttpLabel("PortalProductId")),
   },
   T.all(
     T.Http({
@@ -2591,7 +2598,7 @@ export class CreateStageRequest extends S.Class<CreateStageRequest>(
     AccessLogSettings: S.optional(AccessLogSettings).pipe(
       T.JsonName("accessLogSettings"),
     ),
-    ApiId: S.String.pipe(T.HttpLabel()),
+    ApiId: S.String.pipe(T.HttpLabel("ApiId")),
     AutoDeploy: S.optional(S.Boolean).pipe(T.JsonName("autoDeploy")),
     ClientCertificateId: S.optional(S.String).pipe(
       T.JsonName("clientCertificateId"),
@@ -3846,7 +3853,7 @@ export class CreateProductRestEndpointPageRequest extends S.Class<CreateProductR
     DisplayContent: S.optional(EndpointDisplayContent).pipe(
       T.JsonName("displayContent"),
     ),
-    PortalProductId: S.String.pipe(T.HttpLabel()),
+    PortalProductId: S.String.pipe(T.HttpLabel("PortalProductId")),
     RestEndpointIdentifier: RestEndpointIdentifier.pipe(
       T.JsonName("restEndpointIdentifier"),
     ),
@@ -3868,7 +3875,7 @@ export class CreateRouteRequest extends S.Class<CreateRouteRequest>(
   "CreateRouteRequest",
 )(
   {
-    ApiId: S.String.pipe(T.HttpLabel()),
+    ApiId: S.String.pipe(T.HttpLabel("ApiId")),
     ApiKeyRequired: S.optional(S.Boolean).pipe(T.JsonName("apiKeyRequired")),
     AuthorizationScopes: S.optional(AuthorizationScopes).pipe(
       T.JsonName("authorizationScopes"),
@@ -4163,7 +4170,7 @@ export class UpdatePortalProductRequest extends S.Class<UpdatePortalProductReque
     Description: S.optional(S.String).pipe(T.JsonName("description")),
     DisplayName: S.optional(S.String).pipe(T.JsonName("displayName")),
     DisplayOrder: S.optional(DisplayOrder).pipe(T.JsonName("displayOrder")),
-    PortalProductId: S.String.pipe(T.HttpLabel()),
+    PortalProductId: S.String.pipe(T.HttpLabel("PortalProductId")),
   },
   T.all(
     T.Http({ method: "PATCH", uri: "/v2/portalproducts/{PortalProductId}" }),
@@ -4258,7 +4265,7 @@ export class CreateRoutingRuleRequest extends S.Class<CreateRoutingRuleRequest>(
   {
     Actions: __listOfRoutingRuleAction.pipe(T.JsonName("actions")),
     Conditions: __listOfRoutingRuleCondition.pipe(T.JsonName("conditions")),
-    DomainName: S.String.pipe(T.HttpLabel()),
+    DomainName: S.String.pipe(T.HttpLabel("DomainName")),
     DomainNameId: S.optional(S.String).pipe(T.HttpQuery("domainNameId")),
     Priority: S.Number.pipe(T.JsonName("priority")),
   },
@@ -4350,7 +4357,7 @@ export class TooManyRequestsException extends S.TaggedError<TooManyRequestsExcep
     LimitType: S.optional(S.String).pipe(T.JsonName("limitType")),
     Message: S.optional(S.String).pipe(T.JsonName("message")),
   },
-) {}
+).pipe(withCategory(ERROR_CATEGORIES.THROTTLING_ERROR)) {}
 export class ConflictException extends S.TaggedError<ConflictException>()(
   "ConflictException",
   { Message: S.optional(S.String).pipe(T.JsonName("message")) },

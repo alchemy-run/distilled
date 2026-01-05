@@ -1,6 +1,7 @@
 import * as S from "effect/Schema";
 import * as API from "../api.ts";
 import * as T from "../traits.ts";
+import { ERROR_CATEGORIES, withCategory } from "../error-category.ts";
 const svc = T.AwsApiService({
   sdkId: "CloudControl",
   serviceShapeName: "CloudApiService",
@@ -414,7 +415,7 @@ export class ConcurrentModificationException extends S.TaggedError<ConcurrentMod
     code: "ConcurrentModificationException",
     httpResponseCode: 500,
   }),
-) {}
+).pipe(withCategory(ERROR_CATEGORIES.SERVER_ERROR)) {}
 export class ClientTokenConflictException extends S.TaggedError<ClientTokenConflictException>()(
   "ClientTokenConflictException",
   { Message: S.optional(S.String) },
@@ -448,7 +449,7 @@ export class HandlerFailureException extends S.TaggedError<HandlerFailureExcepti
   "HandlerFailureException",
   { Message: S.optional(S.String) },
   T.AwsQueryError({ code: "HandlerFailureException", httpResponseCode: 502 }),
-) {}
+).pipe(withCategory(ERROR_CATEGORIES.SERVER_ERROR)) {}
 export class HandlerInternalFailureException extends S.TaggedError<HandlerInternalFailureException>()(
   "HandlerInternalFailureException",
   { Message: S.optional(S.String) },
@@ -456,7 +457,7 @@ export class HandlerInternalFailureException extends S.TaggedError<HandlerIntern
     code: "HandlerInternalFailureException",
     httpResponseCode: 502,
   }),
-) {}
+).pipe(withCategory(ERROR_CATEGORIES.SERVER_ERROR)) {}
 export class InvalidCredentialsException extends S.TaggedError<InvalidCredentialsException>()(
   "InvalidCredentialsException",
   { Message: S.optional(S.String) },
@@ -474,7 +475,7 @@ export class NetworkFailureException extends S.TaggedError<NetworkFailureExcepti
   "NetworkFailureException",
   { Message: S.optional(S.String) },
   T.AwsQueryError({ code: "NetworkFailureException", httpResponseCode: 502 }),
-) {}
+).pipe(withCategory(ERROR_CATEGORIES.SERVER_ERROR)) {}
 export class NotStabilizedException extends S.TaggedError<NotStabilizedException>()(
   "NotStabilizedException",
   { Message: S.optional(S.String) },
@@ -507,7 +508,7 @@ export class ServiceInternalErrorException extends S.TaggedError<ServiceInternal
     code: "ServiceInternalErrorException",
     httpResponseCode: 502,
   }),
-) {}
+).pipe(withCategory(ERROR_CATEGORIES.SERVER_ERROR)) {}
 export class ServiceLimitExceededException extends S.TaggedError<ServiceLimitExceededException>()(
   "ServiceLimitExceededException",
   { Message: S.optional(S.String) },
@@ -520,7 +521,7 @@ export class ThrottlingException extends S.TaggedError<ThrottlingException>()(
   "ThrottlingException",
   { Message: S.optional(S.String) },
   T.AwsQueryError({ code: "ThrottlingException", httpResponseCode: 429 }),
-) {}
+).pipe(withCategory(ERROR_CATEGORIES.THROTTLING_ERROR)) {}
 export class TypeNotFoundException extends S.TaggedError<TypeNotFoundException>()(
   "TypeNotFoundException",
   { Message: S.optional(S.String) },

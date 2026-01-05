@@ -1,6 +1,7 @@
 import * as S from "effect/Schema";
 import * as API from "../api.ts";
 import * as T from "../traits.ts";
+import { ERROR_CATEGORIES, withCategory } from "../error-category.ts";
 const svc = T.AwsApiService({
   sdkId: "SageMaker Runtime",
   serviceShapeName: "AmazonSageMakerRuntime",
@@ -285,7 +286,7 @@ export class InvokeEndpointInput extends S.Class<InvokeEndpointInput>(
   "InvokeEndpointInput",
 )(
   {
-    EndpointName: S.String.pipe(T.HttpLabel()),
+    EndpointName: S.String.pipe(T.HttpLabel("EndpointName")),
     Body: T.StreamingInput.pipe(T.HttpPayload()),
     ContentType: S.optional(S.String).pipe(T.HttpHeader("Content-Type")),
     Accept: S.optional(S.String).pipe(T.HttpHeader("Accept")),
@@ -327,7 +328,7 @@ export class InvokeEndpointAsyncInput extends S.Class<InvokeEndpointAsyncInput>(
   "InvokeEndpointAsyncInput",
 )(
   {
-    EndpointName: S.String.pipe(T.HttpLabel()),
+    EndpointName: S.String.pipe(T.HttpLabel("EndpointName")),
     ContentType: S.optional(S.String).pipe(
       T.HttpHeader("X-Amzn-SageMaker-Content-Type"),
     ),
@@ -364,7 +365,7 @@ export class InvokeEndpointWithResponseStreamInput extends S.Class<InvokeEndpoin
   "InvokeEndpointWithResponseStreamInput",
 )(
   {
-    EndpointName: S.String.pipe(T.HttpLabel()),
+    EndpointName: S.String.pipe(T.HttpLabel("EndpointName")),
     Body: T.StreamingInput.pipe(T.HttpPayload()),
     ContentType: S.optional(S.String).pipe(T.HttpHeader("Content-Type")),
     Accept: S.optional(S.String).pipe(T.HttpHeader("X-Amzn-SageMaker-Accept")),
@@ -457,15 +458,15 @@ export class InvokeEndpointWithResponseStreamOutput extends S.Class<InvokeEndpoi
 export class InternalDependencyException extends S.TaggedError<InternalDependencyException>()(
   "InternalDependencyException",
   { Message: S.optional(S.String) },
-) {}
+).pipe(withCategory(ERROR_CATEGORIES.SERVER_ERROR)) {}
 export class InternalFailure extends S.TaggedError<InternalFailure>()(
   "InternalFailure",
   { Message: S.optional(S.String) },
-) {}
+).pipe(withCategory(ERROR_CATEGORIES.SERVER_ERROR)) {}
 export class ServiceUnavailable extends S.TaggedError<ServiceUnavailable>()(
   "ServiceUnavailable",
   { Message: S.optional(S.String) },
-) {}
+).pipe(withCategory(ERROR_CATEGORIES.SERVER_ERROR)) {}
 export class InternalStreamFailure extends S.TaggedError<InternalStreamFailure>()(
   "InternalStreamFailure",
   { Message: S.optional(S.String) },
@@ -488,7 +489,7 @@ export class ModelNotReadyException extends S.TaggedError<ModelNotReadyException
   "ModelNotReadyException",
   { Message: S.optional(S.String) },
   T.AwsQueryError({ code: "ModelNotReadyException", httpResponseCode: 429 }),
-) {}
+).pipe(withCategory(ERROR_CATEGORIES.THROTTLING_ERROR)) {}
 
 //# Operations
 /**

@@ -1,6 +1,7 @@
 import * as S from "effect/Schema";
 import * as API from "../api.ts";
 import * as T from "../traits.ts";
+import { ERROR_CATEGORIES, withCategory } from "../error-category.ts";
 const svc = T.AwsApiService({
   sdkId: "QConnect",
   serviceShapeName: "WisdomService",
@@ -299,7 +300,7 @@ export const Channels = S.Array(S.String);
 export class ListTagsForResourceRequest extends S.Class<ListTagsForResourceRequest>(
   "ListTagsForResourceRequest",
 )(
-  { resourceArn: S.String.pipe(T.HttpLabel()) },
+  { resourceArn: S.String.pipe(T.HttpLabel("resourceArn")) },
   T.all(
     T.Http({ method: "GET", uri: "/tags/{resourceArn}" }),
     svc,
@@ -313,7 +314,7 @@ export class UntagResourceRequest extends S.Class<UntagResourceRequest>(
   "UntagResourceRequest",
 )(
   {
-    resourceArn: S.String.pipe(T.HttpLabel()),
+    resourceArn: S.String.pipe(T.HttpLabel("resourceArn")),
     tagKeys: TagKeyList.pipe(T.HttpQuery("tagKeys")),
   },
   T.all(
@@ -331,7 +332,7 @@ export class UntagResourceResponse extends S.Class<UntagResourceResponse>(
 export class GetAssistantRequest extends S.Class<GetAssistantRequest>(
   "GetAssistantRequest",
 )(
-  { assistantId: S.String.pipe(T.HttpLabel()) },
+  { assistantId: S.String.pipe(T.HttpLabel("assistantId")) },
   T.all(
     T.Http({ method: "GET", uri: "/assistants/{assistantId}" }),
     svc,
@@ -344,7 +345,7 @@ export class GetAssistantRequest extends S.Class<GetAssistantRequest>(
 export class DeleteAssistantRequest extends S.Class<DeleteAssistantRequest>(
   "DeleteAssistantRequest",
 )(
-  { assistantId: S.String.pipe(T.HttpLabel()) },
+  { assistantId: S.String.pipe(T.HttpLabel("assistantId")) },
   T.all(
     T.Http({ method: "DELETE", uri: "/assistants/{assistantId}" }),
     svc,
@@ -377,8 +378,8 @@ export class GetRecommendationsRequest extends S.Class<GetRecommendationsRequest
   "GetRecommendationsRequest",
 )(
   {
-    assistantId: S.String.pipe(T.HttpLabel()),
-    sessionId: S.String.pipe(T.HttpLabel()),
+    assistantId: S.String.pipe(T.HttpLabel("assistantId")),
+    sessionId: S.String.pipe(T.HttpLabel("sessionId")),
     maxResults: S.optional(S.Number).pipe(T.HttpQuery("maxResults")),
     waitTimeSeconds: S.optional(S.Number).pipe(T.HttpQuery("waitTimeSeconds")),
     nextChunkToken: S.optional(S.String).pipe(T.HttpQuery("nextChunkToken")),
@@ -402,8 +403,8 @@ export class NotifyRecommendationsReceivedRequest extends S.Class<NotifyRecommen
   "NotifyRecommendationsReceivedRequest",
 )(
   {
-    assistantId: S.String.pipe(T.HttpLabel()),
-    sessionId: S.String.pipe(T.HttpLabel()),
+    assistantId: S.String.pipe(T.HttpLabel("assistantId")),
+    sessionId: S.String.pipe(T.HttpLabel("sessionId")),
     recommendationIds: RecommendationIdList,
   },
   T.all(
@@ -422,7 +423,7 @@ export class RemoveAssistantAIAgentRequest extends S.Class<RemoveAssistantAIAgen
   "RemoveAssistantAIAgentRequest",
 )(
   {
-    assistantId: S.String.pipe(T.HttpLabel()),
+    assistantId: S.String.pipe(T.HttpLabel("assistantId")),
     aiAgentType: S.String.pipe(T.HttpQuery("aiAgentType")),
     orchestratorUseCase: S.optional(S.String).pipe(
       T.HttpQuery("orchestratorUseCase"),
@@ -447,8 +448,8 @@ export class GetAIAgentRequest extends S.Class<GetAIAgentRequest>(
   "GetAIAgentRequest",
 )(
   {
-    assistantId: S.String.pipe(T.HttpLabel()),
-    aiAgentId: S.String.pipe(T.HttpLabel()),
+    assistantId: S.String.pipe(T.HttpLabel("assistantId")),
+    aiAgentId: S.String.pipe(T.HttpLabel("aiAgentId")),
   },
   T.all(
     T.Http({
@@ -660,8 +661,8 @@ export class UpdateAIAgentRequest extends S.Class<UpdateAIAgentRequest>(
 )(
   {
     clientToken: S.optional(S.String),
-    assistantId: S.String.pipe(T.HttpLabel()),
-    aiAgentId: S.String.pipe(T.HttpLabel()),
+    assistantId: S.String.pipe(T.HttpLabel("assistantId")),
+    aiAgentId: S.String.pipe(T.HttpLabel("aiAgentId")),
     visibilityStatus: S.String,
     configuration: S.optional(AIAgentConfiguration),
     description: S.optional(S.String),
@@ -682,8 +683,8 @@ export class DeleteAIAgentRequest extends S.Class<DeleteAIAgentRequest>(
   "DeleteAIAgentRequest",
 )(
   {
-    assistantId: S.String.pipe(T.HttpLabel()),
-    aiAgentId: S.String.pipe(T.HttpLabel()),
+    assistantId: S.String.pipe(T.HttpLabel("assistantId")),
+    aiAgentId: S.String.pipe(T.HttpLabel("aiAgentId")),
   },
   T.all(
     T.Http({
@@ -704,7 +705,7 @@ export class ListAIAgentsRequest extends S.Class<ListAIAgentsRequest>(
   "ListAIAgentsRequest",
 )(
   {
-    assistantId: S.String.pipe(T.HttpLabel()),
+    assistantId: S.String.pipe(T.HttpLabel("assistantId")),
     nextToken: S.optional(S.String).pipe(T.HttpQuery("nextToken")),
     maxResults: S.optional(S.Number).pipe(T.HttpQuery("maxResults")),
     origin: S.optional(S.String).pipe(T.HttpQuery("origin")),
@@ -722,8 +723,8 @@ export class CreateAIAgentVersionRequest extends S.Class<CreateAIAgentVersionReq
   "CreateAIAgentVersionRequest",
 )(
   {
-    assistantId: S.String.pipe(T.HttpLabel()),
-    aiAgentId: S.String.pipe(T.HttpLabel()),
+    assistantId: S.String.pipe(T.HttpLabel("assistantId")),
+    aiAgentId: S.String.pipe(T.HttpLabel("aiAgentId")),
     modifiedTime: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
     clientToken: S.optional(S.String),
   },
@@ -743,9 +744,9 @@ export class DeleteAIAgentVersionRequest extends S.Class<DeleteAIAgentVersionReq
   "DeleteAIAgentVersionRequest",
 )(
   {
-    assistantId: S.String.pipe(T.HttpLabel()),
-    aiAgentId: S.String.pipe(T.HttpLabel()),
-    versionNumber: S.Number.pipe(T.HttpLabel()),
+    assistantId: S.String.pipe(T.HttpLabel("assistantId")),
+    aiAgentId: S.String.pipe(T.HttpLabel("aiAgentId")),
+    versionNumber: S.Number.pipe(T.HttpLabel("versionNumber")),
   },
   T.all(
     T.Http({
@@ -766,8 +767,8 @@ export class ListAIAgentVersionsRequest extends S.Class<ListAIAgentVersionsReque
   "ListAIAgentVersionsRequest",
 )(
   {
-    assistantId: S.String.pipe(T.HttpLabel()),
-    aiAgentId: S.String.pipe(T.HttpLabel()),
+    assistantId: S.String.pipe(T.HttpLabel("assistantId")),
+    aiAgentId: S.String.pipe(T.HttpLabel("aiAgentId")),
     nextToken: S.optional(S.String).pipe(T.HttpQuery("nextToken")),
     maxResults: S.optional(S.Number).pipe(T.HttpQuery("maxResults")),
     origin: S.optional(S.String).pipe(T.HttpQuery("origin")),
@@ -788,8 +789,8 @@ export class GetAIGuardrailRequest extends S.Class<GetAIGuardrailRequest>(
   "GetAIGuardrailRequest",
 )(
   {
-    assistantId: S.String.pipe(T.HttpLabel()),
-    aiGuardrailId: S.String.pipe(T.HttpLabel()),
+    assistantId: S.String.pipe(T.HttpLabel("assistantId")),
+    aiGuardrailId: S.String.pipe(T.HttpLabel("aiGuardrailId")),
   },
   T.all(
     T.Http({
@@ -874,8 +875,8 @@ export class UpdateAIGuardrailRequest extends S.Class<UpdateAIGuardrailRequest>(
 )(
   {
     clientToken: S.optional(S.String),
-    assistantId: S.String.pipe(T.HttpLabel()),
-    aiGuardrailId: S.String.pipe(T.HttpLabel()),
+    assistantId: S.String.pipe(T.HttpLabel("assistantId")),
+    aiGuardrailId: S.String.pipe(T.HttpLabel("aiGuardrailId")),
     visibilityStatus: S.String,
     blockedInputMessaging: S.String,
     blockedOutputsMessaging: S.String,
@@ -906,8 +907,8 @@ export class DeleteAIGuardrailRequest extends S.Class<DeleteAIGuardrailRequest>(
   "DeleteAIGuardrailRequest",
 )(
   {
-    assistantId: S.String.pipe(T.HttpLabel()),
-    aiGuardrailId: S.String.pipe(T.HttpLabel()),
+    assistantId: S.String.pipe(T.HttpLabel("assistantId")),
+    aiGuardrailId: S.String.pipe(T.HttpLabel("aiGuardrailId")),
   },
   T.all(
     T.Http({
@@ -928,7 +929,7 @@ export class ListAIGuardrailsRequest extends S.Class<ListAIGuardrailsRequest>(
   "ListAIGuardrailsRequest",
 )(
   {
-    assistantId: S.String.pipe(T.HttpLabel()),
+    assistantId: S.String.pipe(T.HttpLabel("assistantId")),
     nextToken: S.optional(S.String).pipe(T.HttpQuery("nextToken")),
     maxResults: S.optional(S.Number).pipe(T.HttpQuery("maxResults")),
   },
@@ -945,8 +946,8 @@ export class CreateAIGuardrailVersionRequest extends S.Class<CreateAIGuardrailVe
   "CreateAIGuardrailVersionRequest",
 )(
   {
-    assistantId: S.String.pipe(T.HttpLabel()),
-    aiGuardrailId: S.String.pipe(T.HttpLabel()),
+    assistantId: S.String.pipe(T.HttpLabel("assistantId")),
+    aiGuardrailId: S.String.pipe(T.HttpLabel("aiGuardrailId")),
     modifiedTime: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
     clientToken: S.optional(S.String),
   },
@@ -966,9 +967,9 @@ export class DeleteAIGuardrailVersionRequest extends S.Class<DeleteAIGuardrailVe
   "DeleteAIGuardrailVersionRequest",
 )(
   {
-    assistantId: S.String.pipe(T.HttpLabel()),
-    aiGuardrailId: S.String.pipe(T.HttpLabel()),
-    versionNumber: S.Number.pipe(T.HttpLabel()),
+    assistantId: S.String.pipe(T.HttpLabel("assistantId")),
+    aiGuardrailId: S.String.pipe(T.HttpLabel("aiGuardrailId")),
+    versionNumber: S.Number.pipe(T.HttpLabel("versionNumber")),
   },
   T.all(
     T.Http({
@@ -989,8 +990,8 @@ export class ListAIGuardrailVersionsRequest extends S.Class<ListAIGuardrailVersi
   "ListAIGuardrailVersionsRequest",
 )(
   {
-    assistantId: S.String.pipe(T.HttpLabel()),
-    aiGuardrailId: S.String.pipe(T.HttpLabel()),
+    assistantId: S.String.pipe(T.HttpLabel("assistantId")),
+    aiGuardrailId: S.String.pipe(T.HttpLabel("aiGuardrailId")),
     nextToken: S.optional(S.String).pipe(T.HttpQuery("nextToken")),
     maxResults: S.optional(S.Number).pipe(T.HttpQuery("maxResults")),
   },
@@ -1010,8 +1011,8 @@ export class GetAIPromptRequest extends S.Class<GetAIPromptRequest>(
   "GetAIPromptRequest",
 )(
   {
-    assistantId: S.String.pipe(T.HttpLabel()),
-    aiPromptId: S.String.pipe(T.HttpLabel()),
+    assistantId: S.String.pipe(T.HttpLabel("assistantId")),
+    aiPromptId: S.String.pipe(T.HttpLabel("aiPromptId")),
   },
   T.all(
     T.Http({
@@ -1052,8 +1053,8 @@ export class UpdateAIPromptRequest extends S.Class<UpdateAIPromptRequest>(
 )(
   {
     clientToken: S.optional(S.String),
-    assistantId: S.String.pipe(T.HttpLabel()),
-    aiPromptId: S.String.pipe(T.HttpLabel()),
+    assistantId: S.String.pipe(T.HttpLabel("assistantId")),
+    aiPromptId: S.String.pipe(T.HttpLabel("aiPromptId")),
     visibilityStatus: S.String,
     templateConfiguration: S.optional(AIPromptTemplateConfiguration),
     description: S.optional(S.String),
@@ -1076,8 +1077,8 @@ export class DeleteAIPromptRequest extends S.Class<DeleteAIPromptRequest>(
   "DeleteAIPromptRequest",
 )(
   {
-    assistantId: S.String.pipe(T.HttpLabel()),
-    aiPromptId: S.String.pipe(T.HttpLabel()),
+    assistantId: S.String.pipe(T.HttpLabel("assistantId")),
+    aiPromptId: S.String.pipe(T.HttpLabel("aiPromptId")),
   },
   T.all(
     T.Http({
@@ -1098,7 +1099,7 @@ export class ListAIPromptsRequest extends S.Class<ListAIPromptsRequest>(
   "ListAIPromptsRequest",
 )(
   {
-    assistantId: S.String.pipe(T.HttpLabel()),
+    assistantId: S.String.pipe(T.HttpLabel("assistantId")),
     nextToken: S.optional(S.String).pipe(T.HttpQuery("nextToken")),
     maxResults: S.optional(S.Number).pipe(T.HttpQuery("maxResults")),
     origin: S.optional(S.String).pipe(T.HttpQuery("origin")),
@@ -1116,8 +1117,8 @@ export class CreateAIPromptVersionRequest extends S.Class<CreateAIPromptVersionR
   "CreateAIPromptVersionRequest",
 )(
   {
-    assistantId: S.String.pipe(T.HttpLabel()),
-    aiPromptId: S.String.pipe(T.HttpLabel()),
+    assistantId: S.String.pipe(T.HttpLabel("assistantId")),
+    aiPromptId: S.String.pipe(T.HttpLabel("aiPromptId")),
     modifiedTime: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
     clientToken: S.optional(S.String),
   },
@@ -1137,9 +1138,9 @@ export class DeleteAIPromptVersionRequest extends S.Class<DeleteAIPromptVersionR
   "DeleteAIPromptVersionRequest",
 )(
   {
-    assistantId: S.String.pipe(T.HttpLabel()),
-    aiPromptId: S.String.pipe(T.HttpLabel()),
-    versionNumber: S.Number.pipe(T.HttpLabel()),
+    assistantId: S.String.pipe(T.HttpLabel("assistantId")),
+    aiPromptId: S.String.pipe(T.HttpLabel("aiPromptId")),
+    versionNumber: S.Number.pipe(T.HttpLabel("versionNumber")),
   },
   T.all(
     T.Http({
@@ -1160,8 +1161,8 @@ export class ListAIPromptVersionsRequest extends S.Class<ListAIPromptVersionsReq
   "ListAIPromptVersionsRequest",
 )(
   {
-    assistantId: S.String.pipe(T.HttpLabel()),
-    aiPromptId: S.String.pipe(T.HttpLabel()),
+    assistantId: S.String.pipe(T.HttpLabel("assistantId")),
+    aiPromptId: S.String.pipe(T.HttpLabel("aiPromptId")),
     nextToken: S.optional(S.String).pipe(T.HttpQuery("nextToken")),
     maxResults: S.optional(S.Number).pipe(T.HttpQuery("maxResults")),
     origin: S.optional(S.String).pipe(T.HttpQuery("origin")),
@@ -1182,8 +1183,10 @@ export class GetAssistantAssociationRequest extends S.Class<GetAssistantAssociat
   "GetAssistantAssociationRequest",
 )(
   {
-    assistantAssociationId: S.String.pipe(T.HttpLabel()),
-    assistantId: S.String.pipe(T.HttpLabel()),
+    assistantAssociationId: S.String.pipe(
+      T.HttpLabel("assistantAssociationId"),
+    ),
+    assistantId: S.String.pipe(T.HttpLabel("assistantId")),
   },
   T.all(
     T.Http({
@@ -1201,8 +1204,10 @@ export class DeleteAssistantAssociationRequest extends S.Class<DeleteAssistantAs
   "DeleteAssistantAssociationRequest",
 )(
   {
-    assistantAssociationId: S.String.pipe(T.HttpLabel()),
-    assistantId: S.String.pipe(T.HttpLabel()),
+    assistantAssociationId: S.String.pipe(
+      T.HttpLabel("assistantAssociationId"),
+    ),
+    assistantId: S.String.pipe(T.HttpLabel("assistantId")),
   },
   T.all(
     T.Http({
@@ -1225,7 +1230,7 @@ export class ListAssistantAssociationsRequest extends S.Class<ListAssistantAssoc
   {
     nextToken: S.optional(S.String).pipe(T.HttpQuery("nextToken")),
     maxResults: S.optional(S.Number).pipe(T.HttpQuery("maxResults")),
-    assistantId: S.String.pipe(T.HttpLabel()),
+    assistantId: S.String.pipe(T.HttpLabel("assistantId")),
   },
   T.all(
     T.Http({ method: "GET", uri: "/assistants/{assistantId}/associations" }),
@@ -1240,8 +1245,8 @@ export class GetSessionRequest extends S.Class<GetSessionRequest>(
   "GetSessionRequest",
 )(
   {
-    assistantId: S.String.pipe(T.HttpLabel()),
-    sessionId: S.String.pipe(T.HttpLabel()),
+    assistantId: S.String.pipe(T.HttpLabel("assistantId")),
+    sessionId: S.String.pipe(T.HttpLabel("sessionId")),
   },
   T.all(
     T.Http({
@@ -1272,8 +1277,8 @@ export class UpdateSessionRequest extends S.Class<UpdateSessionRequest>(
   "UpdateSessionRequest",
 )(
   {
-    assistantId: S.String.pipe(T.HttpLabel()),
-    sessionId: S.String.pipe(T.HttpLabel()),
+    assistantId: S.String.pipe(T.HttpLabel("assistantId")),
+    sessionId: S.String.pipe(T.HttpLabel("sessionId")),
     description: S.optional(S.String),
     tagFilter: S.optional(TagFilter),
     aiAgentConfiguration: S.optional(AIAgentConfigurationMap),
@@ -1296,8 +1301,8 @@ export class GetNextMessageRequest extends S.Class<GetNextMessageRequest>(
   "GetNextMessageRequest",
 )(
   {
-    assistantId: S.String.pipe(T.HttpLabel()),
-    sessionId: S.String.pipe(T.HttpLabel()),
+    assistantId: S.String.pipe(T.HttpLabel("assistantId")),
+    sessionId: S.String.pipe(T.HttpLabel("sessionId")),
     nextMessageToken: S.String.pipe(T.HttpQuery("nextMessageToken")),
   },
   T.all(
@@ -1316,8 +1321,8 @@ export class ListMessagesRequest extends S.Class<ListMessagesRequest>(
   "ListMessagesRequest",
 )(
   {
-    assistantId: S.String.pipe(T.HttpLabel()),
-    sessionId: S.String.pipe(T.HttpLabel()),
+    assistantId: S.String.pipe(T.HttpLabel("assistantId")),
+    sessionId: S.String.pipe(T.HttpLabel("sessionId")),
     nextToken: S.optional(S.String).pipe(T.HttpQuery("nextToken")),
     maxResults: S.optional(S.Number).pipe(T.HttpQuery("maxResults")),
     filter: S.optional(S.String).pipe(T.HttpQuery("filter")),
@@ -1338,8 +1343,8 @@ export class ListSpansRequest extends S.Class<ListSpansRequest>(
   "ListSpansRequest",
 )(
   {
-    assistantId: S.String.pipe(T.HttpLabel()),
-    sessionId: S.String.pipe(T.HttpLabel()),
+    assistantId: S.String.pipe(T.HttpLabel("assistantId")),
+    sessionId: S.String.pipe(T.HttpLabel("sessionId")),
     nextToken: S.optional(S.String).pipe(T.HttpQuery("nextToken")),
     maxResults: S.optional(S.Number).pipe(T.HttpQuery("maxResults")),
   },
@@ -1358,7 +1363,7 @@ export class ListSpansRequest extends S.Class<ListSpansRequest>(
 export class GetKnowledgeBaseRequest extends S.Class<GetKnowledgeBaseRequest>(
   "GetKnowledgeBaseRequest",
 )(
-  { knowledgeBaseId: S.String.pipe(T.HttpLabel()) },
+  { knowledgeBaseId: S.String.pipe(T.HttpLabel("knowledgeBaseId")) },
   T.all(
     T.Http({ method: "GET", uri: "/knowledgeBases/{knowledgeBaseId}" }),
     svc,
@@ -1371,7 +1376,7 @@ export class GetKnowledgeBaseRequest extends S.Class<GetKnowledgeBaseRequest>(
 export class DeleteKnowledgeBaseRequest extends S.Class<DeleteKnowledgeBaseRequest>(
   "DeleteKnowledgeBaseRequest",
 )(
-  { knowledgeBaseId: S.String.pipe(T.HttpLabel()) },
+  { knowledgeBaseId: S.String.pipe(T.HttpLabel("knowledgeBaseId")) },
   T.all(
     T.Http({ method: "DELETE", uri: "/knowledgeBases/{knowledgeBaseId}" }),
     svc,
@@ -1404,8 +1409,8 @@ export class DeleteImportJobRequest extends S.Class<DeleteImportJobRequest>(
   "DeleteImportJobRequest",
 )(
   {
-    knowledgeBaseId: S.String.pipe(T.HttpLabel()),
-    importJobId: S.String.pipe(T.HttpLabel()),
+    knowledgeBaseId: S.String.pipe(T.HttpLabel("knowledgeBaseId")),
+    importJobId: S.String.pipe(T.HttpLabel("importJobId")),
   },
   T.all(
     T.Http({
@@ -1426,8 +1431,8 @@ export class GetImportJobRequest extends S.Class<GetImportJobRequest>(
   "GetImportJobRequest",
 )(
   {
-    importJobId: S.String.pipe(T.HttpLabel()),
-    knowledgeBaseId: S.String.pipe(T.HttpLabel()),
+    importJobId: S.String.pipe(T.HttpLabel("importJobId")),
+    knowledgeBaseId: S.String.pipe(T.HttpLabel("knowledgeBaseId")),
   },
   T.all(
     T.Http({
@@ -1447,7 +1452,7 @@ export class ListImportJobsRequest extends S.Class<ListImportJobsRequest>(
   {
     nextToken: S.optional(S.String).pipe(T.HttpQuery("nextToken")),
     maxResults: S.optional(S.Number).pipe(T.HttpQuery("maxResults")),
-    knowledgeBaseId: S.String.pipe(T.HttpLabel()),
+    knowledgeBaseId: S.String.pipe(T.HttpLabel("knowledgeBaseId")),
   },
   T.all(
     T.Http({
@@ -1464,7 +1469,7 @@ export class ListImportJobsRequest extends S.Class<ListImportJobsRequest>(
 export class RemoveKnowledgeBaseTemplateUriRequest extends S.Class<RemoveKnowledgeBaseTemplateUriRequest>(
   "RemoveKnowledgeBaseTemplateUriRequest",
 )(
-  { knowledgeBaseId: S.String.pipe(T.HttpLabel()) },
+  { knowledgeBaseId: S.String.pipe(T.HttpLabel("knowledgeBaseId")) },
   T.all(
     T.Http({
       method: "DELETE",
@@ -1495,7 +1500,7 @@ export class SearchContentRequest extends S.Class<SearchContentRequest>(
   {
     nextToken: S.optional(S.String).pipe(T.HttpQuery("nextToken")),
     maxResults: S.optional(S.Number).pipe(T.HttpQuery("maxResults")),
-    knowledgeBaseId: S.String.pipe(T.HttpLabel()),
+    knowledgeBaseId: S.String.pipe(T.HttpLabel("knowledgeBaseId")),
     searchExpression: SearchExpression,
   },
   T.all(
@@ -1511,7 +1516,7 @@ export class StartContentUploadRequest extends S.Class<StartContentUploadRequest
   "StartContentUploadRequest",
 )(
   {
-    knowledgeBaseId: S.String.pipe(T.HttpLabel()),
+    knowledgeBaseId: S.String.pipe(T.HttpLabel("knowledgeBaseId")),
     contentType: S.String,
     presignedUrlTimeToLive: S.optional(S.Number),
   },
@@ -1527,7 +1532,10 @@ export class StartContentUploadRequest extends S.Class<StartContentUploadRequest
 export class UpdateKnowledgeBaseTemplateUriRequest extends S.Class<UpdateKnowledgeBaseTemplateUriRequest>(
   "UpdateKnowledgeBaseTemplateUriRequest",
 )(
-  { knowledgeBaseId: S.String.pipe(T.HttpLabel()), templateUri: S.String },
+  {
+    knowledgeBaseId: S.String.pipe(T.HttpLabel("knowledgeBaseId")),
+    templateUri: S.String,
+  },
   T.all(
     T.Http({
       method: "POST",
@@ -1546,7 +1554,7 @@ export class CreateContentRequest extends S.Class<CreateContentRequest>(
   "CreateContentRequest",
 )(
   {
-    knowledgeBaseId: S.String.pipe(T.HttpLabel()),
+    knowledgeBaseId: S.String.pipe(T.HttpLabel("knowledgeBaseId")),
     name: S.String,
     title: S.optional(S.String),
     overrideLinkOutUri: S.optional(S.String),
@@ -1571,8 +1579,8 @@ export class GetContentRequest extends S.Class<GetContentRequest>(
   "GetContentRequest",
 )(
   {
-    contentId: S.String.pipe(T.HttpLabel()),
-    knowledgeBaseId: S.String.pipe(T.HttpLabel()),
+    contentId: S.String.pipe(T.HttpLabel("contentId")),
+    knowledgeBaseId: S.String.pipe(T.HttpLabel("knowledgeBaseId")),
   },
   T.all(
     T.Http({
@@ -1590,8 +1598,8 @@ export class UpdateContentRequest extends S.Class<UpdateContentRequest>(
   "UpdateContentRequest",
 )(
   {
-    knowledgeBaseId: S.String.pipe(T.HttpLabel()),
-    contentId: S.String.pipe(T.HttpLabel()),
+    knowledgeBaseId: S.String.pipe(T.HttpLabel("knowledgeBaseId")),
+    contentId: S.String.pipe(T.HttpLabel("contentId")),
     revisionId: S.optional(S.String),
     title: S.optional(S.String),
     overrideLinkOutUri: S.optional(S.String),
@@ -1615,8 +1623,8 @@ export class DeleteContentRequest extends S.Class<DeleteContentRequest>(
   "DeleteContentRequest",
 )(
   {
-    knowledgeBaseId: S.String.pipe(T.HttpLabel()),
-    contentId: S.String.pipe(T.HttpLabel()),
+    knowledgeBaseId: S.String.pipe(T.HttpLabel("knowledgeBaseId")),
+    contentId: S.String.pipe(T.HttpLabel("contentId")),
   },
   T.all(
     T.Http({
@@ -1639,7 +1647,7 @@ export class ListContentsRequest extends S.Class<ListContentsRequest>(
   {
     nextToken: S.optional(S.String).pipe(T.HttpQuery("nextToken")),
     maxResults: S.optional(S.Number).pipe(T.HttpQuery("maxResults")),
-    knowledgeBaseId: S.String.pipe(T.HttpLabel()),
+    knowledgeBaseId: S.String.pipe(T.HttpLabel("knowledgeBaseId")),
   },
   T.all(
     T.Http({
@@ -1657,8 +1665,8 @@ export class GetContentSummaryRequest extends S.Class<GetContentSummaryRequest>(
   "GetContentSummaryRequest",
 )(
   {
-    contentId: S.String.pipe(T.HttpLabel()),
-    knowledgeBaseId: S.String.pipe(T.HttpLabel()),
+    contentId: S.String.pipe(T.HttpLabel("contentId")),
+    knowledgeBaseId: S.String.pipe(T.HttpLabel("knowledgeBaseId")),
   },
   T.all(
     T.Http({
@@ -1676,9 +1684,9 @@ export class GetContentAssociationRequest extends S.Class<GetContentAssociationR
   "GetContentAssociationRequest",
 )(
   {
-    knowledgeBaseId: S.String.pipe(T.HttpLabel()),
-    contentId: S.String.pipe(T.HttpLabel()),
-    contentAssociationId: S.String.pipe(T.HttpLabel()),
+    knowledgeBaseId: S.String.pipe(T.HttpLabel("knowledgeBaseId")),
+    contentId: S.String.pipe(T.HttpLabel("contentId")),
+    contentAssociationId: S.String.pipe(T.HttpLabel("contentAssociationId")),
   },
   T.all(
     T.Http({
@@ -1696,9 +1704,9 @@ export class DeleteContentAssociationRequest extends S.Class<DeleteContentAssoci
   "DeleteContentAssociationRequest",
 )(
   {
-    knowledgeBaseId: S.String.pipe(T.HttpLabel()),
-    contentId: S.String.pipe(T.HttpLabel()),
-    contentAssociationId: S.String.pipe(T.HttpLabel()),
+    knowledgeBaseId: S.String.pipe(T.HttpLabel("knowledgeBaseId")),
+    contentId: S.String.pipe(T.HttpLabel("contentId")),
+    contentAssociationId: S.String.pipe(T.HttpLabel("contentAssociationId")),
   },
   T.all(
     T.Http({
@@ -1721,8 +1729,8 @@ export class ListContentAssociationsRequest extends S.Class<ListContentAssociati
   {
     nextToken: S.optional(S.String).pipe(T.HttpQuery("nextToken")),
     maxResults: S.optional(S.Number).pipe(T.HttpQuery("maxResults")),
-    knowledgeBaseId: S.String.pipe(T.HttpLabel()),
-    contentId: S.String.pipe(T.HttpLabel()),
+    knowledgeBaseId: S.String.pipe(T.HttpLabel("knowledgeBaseId")),
+    contentId: S.String.pipe(T.HttpLabel("contentId")),
   },
   T.all(
     T.Http({
@@ -1740,8 +1748,8 @@ export class GetMessageTemplateRequest extends S.Class<GetMessageTemplateRequest
   "GetMessageTemplateRequest",
 )(
   {
-    messageTemplateId: S.String.pipe(T.HttpLabel()),
-    knowledgeBaseId: S.String.pipe(T.HttpLabel()),
+    messageTemplateId: S.String.pipe(T.HttpLabel("messageTemplateId")),
+    knowledgeBaseId: S.String.pipe(T.HttpLabel("knowledgeBaseId")),
   },
   T.all(
     T.Http({
@@ -1948,8 +1956,8 @@ export class UpdateMessageTemplateRequest extends S.Class<UpdateMessageTemplateR
   "UpdateMessageTemplateRequest",
 )(
   {
-    knowledgeBaseId: S.String.pipe(T.HttpLabel()),
-    messageTemplateId: S.String.pipe(T.HttpLabel()),
+    knowledgeBaseId: S.String.pipe(T.HttpLabel("knowledgeBaseId")),
+    messageTemplateId: S.String.pipe(T.HttpLabel("messageTemplateId")),
     content: S.optional(MessageTemplateContentProvider),
     language: S.optional(S.String),
     sourceConfiguration: S.optional(MessageTemplateSourceConfiguration),
@@ -1971,8 +1979,8 @@ export class DeleteMessageTemplateRequest extends S.Class<DeleteMessageTemplateR
   "DeleteMessageTemplateRequest",
 )(
   {
-    knowledgeBaseId: S.String.pipe(T.HttpLabel()),
-    messageTemplateId: S.String.pipe(T.HttpLabel()),
+    knowledgeBaseId: S.String.pipe(T.HttpLabel("knowledgeBaseId")),
+    messageTemplateId: S.String.pipe(T.HttpLabel("messageTemplateId")),
   },
   T.all(
     T.Http({
@@ -1995,7 +2003,7 @@ export class ListMessageTemplatesRequest extends S.Class<ListMessageTemplatesReq
   {
     nextToken: S.optional(S.String).pipe(T.HttpQuery("nextToken")),
     maxResults: S.optional(S.Number).pipe(T.HttpQuery("maxResults")),
-    knowledgeBaseId: S.String.pipe(T.HttpLabel()),
+    knowledgeBaseId: S.String.pipe(T.HttpLabel("knowledgeBaseId")),
   },
   T.all(
     T.Http({
@@ -2013,8 +2021,8 @@ export class ActivateMessageTemplateRequest extends S.Class<ActivateMessageTempl
   "ActivateMessageTemplateRequest",
 )(
   {
-    knowledgeBaseId: S.String.pipe(T.HttpLabel()),
-    messageTemplateId: S.String.pipe(T.HttpLabel()),
+    knowledgeBaseId: S.String.pipe(T.HttpLabel("knowledgeBaseId")),
+    messageTemplateId: S.String.pipe(T.HttpLabel("messageTemplateId")),
     versionNumber: S.Number,
   },
   T.all(
@@ -2033,8 +2041,8 @@ export class CreateMessageTemplateAttachmentRequest extends S.Class<CreateMessag
   "CreateMessageTemplateAttachmentRequest",
 )(
   {
-    knowledgeBaseId: S.String.pipe(T.HttpLabel()),
-    messageTemplateId: S.String.pipe(T.HttpLabel()),
+    knowledgeBaseId: S.String.pipe(T.HttpLabel("knowledgeBaseId")),
+    messageTemplateId: S.String.pipe(T.HttpLabel("messageTemplateId")),
     contentDisposition: S.String,
     name: S.String,
     body: S.String,
@@ -2056,8 +2064,8 @@ export class CreateMessageTemplateVersionRequest extends S.Class<CreateMessageTe
   "CreateMessageTemplateVersionRequest",
 )(
   {
-    knowledgeBaseId: S.String.pipe(T.HttpLabel()),
-    messageTemplateId: S.String.pipe(T.HttpLabel()),
+    knowledgeBaseId: S.String.pipe(T.HttpLabel("knowledgeBaseId")),
+    messageTemplateId: S.String.pipe(T.HttpLabel("messageTemplateId")),
     messageTemplateContentSha256: S.optional(S.String),
   },
   T.all(
@@ -2076,8 +2084,8 @@ export class DeactivateMessageTemplateRequest extends S.Class<DeactivateMessageT
   "DeactivateMessageTemplateRequest",
 )(
   {
-    knowledgeBaseId: S.String.pipe(T.HttpLabel()),
-    messageTemplateId: S.String.pipe(T.HttpLabel()),
+    knowledgeBaseId: S.String.pipe(T.HttpLabel("knowledgeBaseId")),
+    messageTemplateId: S.String.pipe(T.HttpLabel("messageTemplateId")),
     versionNumber: S.Number,
   },
   T.all(
@@ -2096,9 +2104,9 @@ export class DeleteMessageTemplateAttachmentRequest extends S.Class<DeleteMessag
   "DeleteMessageTemplateAttachmentRequest",
 )(
   {
-    knowledgeBaseId: S.String.pipe(T.HttpLabel()),
-    messageTemplateId: S.String.pipe(T.HttpLabel()),
-    attachmentId: S.String.pipe(T.HttpLabel()),
+    knowledgeBaseId: S.String.pipe(T.HttpLabel("knowledgeBaseId")),
+    messageTemplateId: S.String.pipe(T.HttpLabel("messageTemplateId")),
+    attachmentId: S.String.pipe(T.HttpLabel("attachmentId")),
   },
   T.all(
     T.Http({
@@ -2119,8 +2127,8 @@ export class ListMessageTemplateVersionsRequest extends S.Class<ListMessageTempl
   "ListMessageTemplateVersionsRequest",
 )(
   {
-    knowledgeBaseId: S.String.pipe(T.HttpLabel()),
-    messageTemplateId: S.String.pipe(T.HttpLabel()),
+    knowledgeBaseId: S.String.pipe(T.HttpLabel("knowledgeBaseId")),
+    messageTemplateId: S.String.pipe(T.HttpLabel("messageTemplateId")),
     nextToken: S.optional(S.String).pipe(T.HttpQuery("nextToken")),
     maxResults: S.optional(S.Number).pipe(T.HttpQuery("maxResults")),
   },
@@ -2140,8 +2148,8 @@ export class RenderMessageTemplateRequest extends S.Class<RenderMessageTemplateR
   "RenderMessageTemplateRequest",
 )(
   {
-    knowledgeBaseId: S.String.pipe(T.HttpLabel()),
-    messageTemplateId: S.String.pipe(T.HttpLabel()),
+    knowledgeBaseId: S.String.pipe(T.HttpLabel("knowledgeBaseId")),
+    messageTemplateId: S.String.pipe(T.HttpLabel("messageTemplateId")),
     attributes: MessageTemplateAttributes,
   },
   T.all(
@@ -2164,8 +2172,8 @@ export class UpdateMessageTemplateMetadataRequest extends S.Class<UpdateMessageT
   "UpdateMessageTemplateMetadataRequest",
 )(
   {
-    knowledgeBaseId: S.String.pipe(T.HttpLabel()),
-    messageTemplateId: S.String.pipe(T.HttpLabel()),
+    knowledgeBaseId: S.String.pipe(T.HttpLabel("knowledgeBaseId")),
+    messageTemplateId: S.String.pipe(T.HttpLabel("messageTemplateId")),
     name: S.optional(S.String),
     description: S.optional(S.String),
     groupingConfiguration: S.optional(GroupingConfiguration),
@@ -2186,8 +2194,8 @@ export class GetQuickResponseRequest extends S.Class<GetQuickResponseRequest>(
   "GetQuickResponseRequest",
 )(
   {
-    quickResponseId: S.String.pipe(T.HttpLabel()),
-    knowledgeBaseId: S.String.pipe(T.HttpLabel()),
+    quickResponseId: S.String.pipe(T.HttpLabel("quickResponseId")),
+    knowledgeBaseId: S.String.pipe(T.HttpLabel("knowledgeBaseId")),
   },
   T.all(
     T.Http({
@@ -2208,8 +2216,8 @@ export class UpdateQuickResponseRequest extends S.Class<UpdateQuickResponseReque
   "UpdateQuickResponseRequest",
 )(
   {
-    knowledgeBaseId: S.String.pipe(T.HttpLabel()),
-    quickResponseId: S.String.pipe(T.HttpLabel()),
+    knowledgeBaseId: S.String.pipe(T.HttpLabel("knowledgeBaseId")),
+    quickResponseId: S.String.pipe(T.HttpLabel("quickResponseId")),
     name: S.optional(S.String),
     content: S.optional(QuickResponseDataProvider),
     contentType: S.optional(S.String),
@@ -2239,8 +2247,8 @@ export class DeleteQuickResponseRequest extends S.Class<DeleteQuickResponseReque
   "DeleteQuickResponseRequest",
 )(
   {
-    knowledgeBaseId: S.String.pipe(T.HttpLabel()),
-    quickResponseId: S.String.pipe(T.HttpLabel()),
+    knowledgeBaseId: S.String.pipe(T.HttpLabel("knowledgeBaseId")),
+    quickResponseId: S.String.pipe(T.HttpLabel("quickResponseId")),
   },
   T.all(
     T.Http({
@@ -2263,7 +2271,7 @@ export class ListQuickResponsesRequest extends S.Class<ListQuickResponsesRequest
   {
     nextToken: S.optional(S.String).pipe(T.HttpQuery("nextToken")),
     maxResults: S.optional(S.Number).pipe(T.HttpQuery("maxResults")),
-    knowledgeBaseId: S.String.pipe(T.HttpLabel()),
+    knowledgeBaseId: S.String.pipe(T.HttpLabel("knowledgeBaseId")),
   },
   T.all(
     T.Http({
@@ -2359,7 +2367,7 @@ export class ListTagsForResourceResponse extends S.Class<ListTagsForResourceResp
 export class TagResourceRequest extends S.Class<TagResourceRequest>(
   "TagResourceRequest",
 )(
-  { resourceArn: S.String.pipe(T.HttpLabel()), tags: Tags },
+  { resourceArn: S.String.pipe(T.HttpLabel("resourceArn")), tags: Tags },
   T.all(
     T.Http({ method: "POST", uri: "/tags/{resourceArn}" }),
     svc,
@@ -2398,7 +2406,7 @@ export class UpdateAssistantAIAgentRequest extends S.Class<UpdateAssistantAIAgen
   "UpdateAssistantAIAgentRequest",
 )(
   {
-    assistantId: S.String.pipe(T.HttpLabel()),
+    assistantId: S.String.pipe(T.HttpLabel("assistantId")),
     aiAgentType: S.String,
     configuration: AIAgentConfigurationData,
     orchestratorConfigurationList: S.optional(OrchestratorConfigurationList),
@@ -2764,7 +2772,7 @@ export class CreateQuickResponseRequest extends S.Class<CreateQuickResponseReque
   "CreateQuickResponseRequest",
 )(
   {
-    knowledgeBaseId: S.String.pipe(T.HttpLabel()),
+    knowledgeBaseId: S.String.pipe(T.HttpLabel("knowledgeBaseId")),
     name: S.String,
     content: QuickResponseDataProvider,
     contentType: S.optional(S.String),
@@ -3258,7 +3266,7 @@ export class PutFeedbackRequest extends S.Class<PutFeedbackRequest>(
   "PutFeedbackRequest",
 )(
   {
-    assistantId: S.String.pipe(T.HttpLabel()),
+    assistantId: S.String.pipe(T.HttpLabel("assistantId")),
     targetId: S.String,
     targetType: S.String,
     contentFeedback: ContentFeedbackData,
@@ -3276,7 +3284,7 @@ export class QueryAssistantRequest extends S.Class<QueryAssistantRequest>(
   "QueryAssistantRequest",
 )(
   {
-    assistantId: S.String.pipe(T.HttpLabel()),
+    assistantId: S.String.pipe(T.HttpLabel("assistantId")),
     queryText: S.optional(S.String),
     nextToken: S.optional(S.String),
     maxResults: S.optional(S.Number),
@@ -3300,7 +3308,7 @@ export class SearchSessionsRequest extends S.Class<SearchSessionsRequest>(
   {
     nextToken: S.optional(S.String).pipe(T.HttpQuery("nextToken")),
     maxResults: S.optional(S.Number).pipe(T.HttpQuery("maxResults")),
-    assistantId: S.String.pipe(T.HttpLabel()),
+    assistantId: S.String.pipe(T.HttpLabel("assistantId")),
     searchExpression: SearchExpression,
   },
   T.all(
@@ -3332,7 +3340,7 @@ export class CreateAIGuardrailRequest extends S.Class<CreateAIGuardrailRequest>(
 )(
   {
     clientToken: S.optional(S.String),
-    assistantId: S.String.pipe(T.HttpLabel()),
+    assistantId: S.String.pipe(T.HttpLabel("assistantId")),
     name: S.String,
     blockedInputMessaging: S.String,
     blockedOutputsMessaging: S.String,
@@ -3381,7 +3389,7 @@ export class CreateAIPromptRequest extends S.Class<CreateAIPromptRequest>(
 )(
   {
     clientToken: S.optional(S.String),
-    assistantId: S.String.pipe(T.HttpLabel()),
+    assistantId: S.String.pipe(T.HttpLabel("assistantId")),
     name: S.String,
     type: S.String,
     templateConfiguration: AIPromptTemplateConfiguration,
@@ -3424,7 +3432,7 @@ export class CreateAssistantAssociationRequest extends S.Class<CreateAssistantAs
   "CreateAssistantAssociationRequest",
 )(
   {
-    assistantId: S.String.pipe(T.HttpLabel()),
+    assistantId: S.String.pipe(T.HttpLabel("assistantId")),
     associationType: S.String,
     association: AssistantAssociationInputData,
     clientToken: S.optional(S.String),
@@ -3450,7 +3458,7 @@ export class CreateSessionRequest extends S.Class<CreateSessionRequest>(
 )(
   {
     clientToken: S.optional(S.String),
-    assistantId: S.String.pipe(T.HttpLabel()),
+    assistantId: S.String.pipe(T.HttpLabel("assistantId")),
     name: S.String,
     description: S.optional(S.String),
     tags: S.optional(Tags),
@@ -3484,8 +3492,8 @@ export class UpdateSessionDataRequest extends S.Class<UpdateSessionDataRequest>(
   "UpdateSessionDataRequest",
 )(
   {
-    assistantId: S.String.pipe(T.HttpLabel()),
-    sessionId: S.String.pipe(T.HttpLabel()),
+    assistantId: S.String.pipe(T.HttpLabel("assistantId")),
+    sessionId: S.String.pipe(T.HttpLabel("sessionId")),
     namespace: S.optional(S.String),
     data: RuntimeSessionDataList,
   },
@@ -3523,7 +3531,7 @@ export class SearchMessageTemplatesRequest extends S.Class<SearchMessageTemplate
   "SearchMessageTemplatesRequest",
 )(
   {
-    knowledgeBaseId: S.String.pipe(T.HttpLabel()),
+    knowledgeBaseId: S.String.pipe(T.HttpLabel("knowledgeBaseId")),
     searchExpression: MessageTemplateSearchExpression,
     nextToken: S.optional(S.String).pipe(T.HttpQuery("nextToken")),
     maxResults: S.optional(S.Number).pipe(T.HttpQuery("maxResults")),
@@ -3544,7 +3552,7 @@ export class SearchQuickResponsesRequest extends S.Class<SearchQuickResponsesReq
   "SearchQuickResponsesRequest",
 )(
   {
-    knowledgeBaseId: S.String.pipe(T.HttpLabel()),
+    knowledgeBaseId: S.String.pipe(T.HttpLabel("knowledgeBaseId")),
     searchExpression: QuickResponseSearchExpression,
     nextToken: S.optional(S.String).pipe(T.HttpQuery("nextToken")),
     maxResults: S.optional(S.Number).pipe(T.HttpQuery("maxResults")),
@@ -3578,8 +3586,8 @@ export class CreateContentAssociationRequest extends S.Class<CreateContentAssoci
 )(
   {
     clientToken: S.optional(S.String),
-    knowledgeBaseId: S.String.pipe(T.HttpLabel()),
-    contentId: S.String.pipe(T.HttpLabel()),
+    knowledgeBaseId: S.String.pipe(T.HttpLabel("knowledgeBaseId")),
+    contentId: S.String.pipe(T.HttpLabel("contentId")),
     associationType: S.String,
     association: ContentAssociationContents,
     tags: S.optional(Tags),
@@ -3716,7 +3724,7 @@ export class RetrieveRequest extends S.Class<RetrieveRequest>(
   "RetrieveRequest",
 )(
   {
-    assistantId: S.String.pipe(T.HttpLabel()),
+    assistantId: S.String.pipe(T.HttpLabel("assistantId")),
     retrievalConfiguration: RetrievalConfiguration,
     retrievalQuery: S.String,
   },
@@ -3767,7 +3775,7 @@ export class StartImportJobRequest extends S.Class<StartImportJobRequest>(
   "StartImportJobRequest",
 )(
   {
-    knowledgeBaseId: S.String.pipe(T.HttpLabel()),
+    knowledgeBaseId: S.String.pipe(T.HttpLabel("knowledgeBaseId")),
     importJobType: S.String,
     uploadId: S.String,
     clientToken: S.optional(S.String),
@@ -4018,7 +4026,7 @@ export class CreateMessageTemplateRequest extends S.Class<CreateMessageTemplateR
   "CreateMessageTemplateRequest",
 )(
   {
-    knowledgeBaseId: S.String.pipe(T.HttpLabel()),
+    knowledgeBaseId: S.String.pipe(T.HttpLabel("knowledgeBaseId")),
     name: S.optional(S.String),
     content: S.optional(MessageTemplateContentProvider),
     description: S.optional(S.String),
@@ -4124,8 +4132,8 @@ export class SendMessageRequest extends S.Class<SendMessageRequest>(
   "SendMessageRequest",
 )(
   {
-    assistantId: S.String.pipe(T.HttpLabel()),
-    sessionId: S.String.pipe(T.HttpLabel()),
+    assistantId: S.String.pipe(T.HttpLabel("assistantId")),
+    sessionId: S.String.pipe(T.HttpLabel("sessionId")),
     type: S.String,
     message: MessageInput,
     aiAgentId: S.optional(S.String),
@@ -4247,7 +4255,7 @@ export class CreateAIAgentRequest extends S.Class<CreateAIAgentRequest>(
 )(
   {
     clientToken: S.optional(S.String),
-    assistantId: S.String.pipe(T.HttpLabel()),
+    assistantId: S.String.pipe(T.HttpLabel("assistantId")),
     name: S.String,
     type: S.String,
     configuration: AIAgentConfiguration,
@@ -4313,6 +4321,7 @@ export class TooManyTagsException extends S.TaggedError<TooManyTagsException>()(
 export class ThrottlingException extends S.TaggedError<ThrottlingException>()(
   "ThrottlingException",
   { message: S.optional(S.String) },
+  T.Retryable(),
 ) {}
 export class UnprocessableContentException extends S.TaggedError<UnprocessableContentException>()(
   "UnprocessableContentException",
@@ -4329,6 +4338,7 @@ export class DependencyFailedException extends S.TaggedError<DependencyFailedExc
 export class RequestTimeoutException extends S.TaggedError<RequestTimeoutException>()(
   "RequestTimeoutException",
   { message: S.optional(S.String) },
+  T.Retryable(),
 ) {}
 
 //# Operations

@@ -1,6 +1,7 @@
 import * as S from "effect/Schema";
 import * as API from "../api.ts";
 import * as T from "../traits.ts";
+import { ERROR_CATEGORIES, withCategory } from "../error-category.ts";
 const svc = T.AwsApiService({
   sdkId: "BackupSearch",
   serviceShapeName: "CryoBackupSearchService",
@@ -110,7 +111,7 @@ export class ListSearchJobBackupsInput extends S.Class<ListSearchJobBackupsInput
   "ListSearchJobBackupsInput",
 )(
   {
-    SearchJobIdentifier: S.String.pipe(T.HttpLabel()),
+    SearchJobIdentifier: S.String.pipe(T.HttpLabel("SearchJobIdentifier")),
     NextToken: S.optional(S.String).pipe(T.HttpQuery("nextToken")),
     MaxResults: S.optional(S.Number).pipe(T.HttpQuery("maxResults")),
   },
@@ -130,7 +131,7 @@ export class ListSearchJobResultsInput extends S.Class<ListSearchJobResultsInput
   "ListSearchJobResultsInput",
 )(
   {
-    SearchJobIdentifier: S.String.pipe(T.HttpLabel()),
+    SearchJobIdentifier: S.String.pipe(T.HttpLabel("SearchJobIdentifier")),
     NextToken: S.optional(S.String).pipe(T.HttpQuery("nextToken")),
     MaxResults: S.optional(S.Number).pipe(T.HttpQuery("maxResults")),
   },
@@ -149,7 +150,7 @@ export class ListSearchJobResultsInput extends S.Class<ListSearchJobResultsInput
 export class ListTagsForResourceRequest extends S.Class<ListTagsForResourceRequest>(
   "ListTagsForResourceRequest",
 )(
-  { ResourceArn: S.String.pipe(T.HttpLabel()) },
+  { ResourceArn: S.String.pipe(T.HttpLabel("ResourceArn")) },
   T.all(
     T.Http({ method: "GET", uri: "/tags/{ResourceArn}" }),
     svc,
@@ -163,7 +164,7 @@ export class UntagResourceRequest extends S.Class<UntagResourceRequest>(
   "UntagResourceRequest",
 )(
   {
-    ResourceArn: S.String.pipe(T.HttpLabel()),
+    ResourceArn: S.String.pipe(T.HttpLabel("ResourceArn")),
     TagKeys: TagKeys.pipe(T.HttpQuery("tagKeys")),
   },
   T.all(
@@ -181,7 +182,7 @@ export class UntagResourceResponse extends S.Class<UntagResourceResponse>(
 export class GetSearchJobInput extends S.Class<GetSearchJobInput>(
   "GetSearchJobInput",
 )(
-  { SearchJobIdentifier: S.String.pipe(T.HttpLabel()) },
+  { SearchJobIdentifier: S.String.pipe(T.HttpLabel("SearchJobIdentifier")) },
   T.all(
     T.Http({ method: "GET", uri: "/search-jobs/{SearchJobIdentifier}" }),
     svc,
@@ -194,7 +195,7 @@ export class GetSearchJobInput extends S.Class<GetSearchJobInput>(
 export class StopSearchJobInput extends S.Class<StopSearchJobInput>(
   "StopSearchJobInput",
 )(
-  { SearchJobIdentifier: S.String.pipe(T.HttpLabel()) },
+  { SearchJobIdentifier: S.String.pipe(T.HttpLabel("SearchJobIdentifier")) },
   T.all(
     T.Http({
       method: "PUT",
@@ -230,7 +231,7 @@ export class ListSearchJobsInput extends S.Class<ListSearchJobsInput>(
 export class GetSearchResultExportJobInput extends S.Class<GetSearchResultExportJobInput>(
   "GetSearchResultExportJobInput",
 )(
-  { ExportJobIdentifier: S.String.pipe(T.HttpLabel()) },
+  { ExportJobIdentifier: S.String.pipe(T.HttpLabel("ExportJobIdentifier")) },
   T.all(
     T.Http({ method: "GET", uri: "/export-search-jobs/{ExportJobIdentifier}" }),
     svc,
@@ -272,7 +273,7 @@ export class ListTagsForResourceResponse extends S.Class<ListTagsForResourceResp
 export class TagResourceRequest extends S.Class<TagResourceRequest>(
   "TagResourceRequest",
 )(
-  { ResourceArn: S.String.pipe(T.HttpLabel()), Tags: TagMap },
+  { ResourceArn: S.String.pipe(T.HttpLabel("ResourceArn")), Tags: TagMap },
   T.all(
     T.Http({ method: "POST", uri: "/tags/{ResourceArn}" }),
     svc,

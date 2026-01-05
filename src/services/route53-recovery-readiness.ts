@@ -1,6 +1,7 @@
 import * as S from "effect/Schema";
 import * as API from "../api.ts";
 import * as T from "../traits.ts";
+import { ERROR_CATEGORIES, withCategory } from "../error-category.ts";
 const svc = T.AwsApiService({
   sdkId: "Route53 Recovery Readiness",
   serviceShapeName: "Route53RecoveryReadiness",
@@ -297,7 +298,7 @@ export class CreateRecoveryGroupRequest extends S.Class<CreateRecoveryGroupReque
 export class DeleteCellRequest extends S.Class<DeleteCellRequest>(
   "DeleteCellRequest",
 )(
-  { CellName: S.String.pipe(T.HttpLabel()) },
+  { CellName: S.String.pipe(T.HttpLabel("CellName")) },
   T.all(
     T.Http({ method: "DELETE", uri: "/cells/{CellName}" }),
     svc,
@@ -313,7 +314,11 @@ export class DeleteCellResponse extends S.Class<DeleteCellResponse>(
 export class DeleteCrossAccountAuthorizationRequest extends S.Class<DeleteCrossAccountAuthorizationRequest>(
   "DeleteCrossAccountAuthorizationRequest",
 )(
-  { CrossAccountAuthorization: S.String.pipe(T.HttpLabel()) },
+  {
+    CrossAccountAuthorization: S.String.pipe(
+      T.HttpLabel("CrossAccountAuthorization"),
+    ),
+  },
   T.all(
     T.Http({
       method: "DELETE",
@@ -332,7 +337,7 @@ export class DeleteCrossAccountAuthorizationResponse extends S.Class<DeleteCross
 export class DeleteReadinessCheckRequest extends S.Class<DeleteReadinessCheckRequest>(
   "DeleteReadinessCheckRequest",
 )(
-  { ReadinessCheckName: S.String.pipe(T.HttpLabel()) },
+  { ReadinessCheckName: S.String.pipe(T.HttpLabel("ReadinessCheckName")) },
   T.all(
     T.Http({ method: "DELETE", uri: "/readinesschecks/{ReadinessCheckName}" }),
     svc,
@@ -348,7 +353,7 @@ export class DeleteReadinessCheckResponse extends S.Class<DeleteReadinessCheckRe
 export class DeleteRecoveryGroupRequest extends S.Class<DeleteRecoveryGroupRequest>(
   "DeleteRecoveryGroupRequest",
 )(
-  { RecoveryGroupName: S.String.pipe(T.HttpLabel()) },
+  { RecoveryGroupName: S.String.pipe(T.HttpLabel("RecoveryGroupName")) },
   T.all(
     T.Http({ method: "DELETE", uri: "/recoverygroups/{RecoveryGroupName}" }),
     svc,
@@ -364,7 +369,7 @@ export class DeleteRecoveryGroupResponse extends S.Class<DeleteRecoveryGroupResp
 export class DeleteResourceSetRequest extends S.Class<DeleteResourceSetRequest>(
   "DeleteResourceSetRequest",
 )(
-  { ResourceSetName: S.String.pipe(T.HttpLabel()) },
+  { ResourceSetName: S.String.pipe(T.HttpLabel("ResourceSetName")) },
   T.all(
     T.Http({ method: "DELETE", uri: "/resourcesets/{ResourceSetName}" }),
     svc,
@@ -383,7 +388,7 @@ export class GetArchitectureRecommendationsRequest extends S.Class<GetArchitectu
   {
     MaxResults: S.optional(S.Number).pipe(T.HttpQuery("maxResults")),
     NextToken: S.optional(S.String).pipe(T.HttpQuery("nextToken")),
-    RecoveryGroupName: S.String.pipe(T.HttpLabel()),
+    RecoveryGroupName: S.String.pipe(T.HttpLabel("RecoveryGroupName")),
   },
   T.all(
     T.Http({
@@ -398,7 +403,7 @@ export class GetArchitectureRecommendationsRequest extends S.Class<GetArchitectu
   ),
 ) {}
 export class GetCellRequest extends S.Class<GetCellRequest>("GetCellRequest")(
-  { CellName: S.String.pipe(T.HttpLabel()) },
+  { CellName: S.String.pipe(T.HttpLabel("CellName")) },
   T.all(
     T.Http({ method: "GET", uri: "/cells/{CellName}" }),
     svc,
@@ -412,7 +417,7 @@ export class GetCellReadinessSummaryRequest extends S.Class<GetCellReadinessSumm
   "GetCellReadinessSummaryRequest",
 )(
   {
-    CellName: S.String.pipe(T.HttpLabel()),
+    CellName: S.String.pipe(T.HttpLabel("CellName")),
     MaxResults: S.optional(S.Number).pipe(T.HttpQuery("maxResults")),
     NextToken: S.optional(S.String).pipe(T.HttpQuery("nextToken")),
   },
@@ -428,7 +433,7 @@ export class GetCellReadinessSummaryRequest extends S.Class<GetCellReadinessSumm
 export class GetReadinessCheckRequest extends S.Class<GetReadinessCheckRequest>(
   "GetReadinessCheckRequest",
 )(
-  { ReadinessCheckName: S.String.pipe(T.HttpLabel()) },
+  { ReadinessCheckName: S.String.pipe(T.HttpLabel("ReadinessCheckName")) },
   T.all(
     T.Http({ method: "GET", uri: "/readinesschecks/{ReadinessCheckName}" }),
     svc,
@@ -444,8 +449,8 @@ export class GetReadinessCheckResourceStatusRequest extends S.Class<GetReadiness
   {
     MaxResults: S.optional(S.Number).pipe(T.HttpQuery("maxResults")),
     NextToken: S.optional(S.String).pipe(T.HttpQuery("nextToken")),
-    ReadinessCheckName: S.String.pipe(T.HttpLabel()),
-    ResourceIdentifier: S.String.pipe(T.HttpLabel()),
+    ReadinessCheckName: S.String.pipe(T.HttpLabel("ReadinessCheckName")),
+    ResourceIdentifier: S.String.pipe(T.HttpLabel("ResourceIdentifier")),
   },
   T.all(
     T.Http({
@@ -465,7 +470,7 @@ export class GetReadinessCheckStatusRequest extends S.Class<GetReadinessCheckSta
   {
     MaxResults: S.optional(S.Number).pipe(T.HttpQuery("maxResults")),
     NextToken: S.optional(S.String).pipe(T.HttpQuery("nextToken")),
-    ReadinessCheckName: S.String.pipe(T.HttpLabel()),
+    ReadinessCheckName: S.String.pipe(T.HttpLabel("ReadinessCheckName")),
   },
   T.all(
     T.Http({
@@ -482,7 +487,7 @@ export class GetReadinessCheckStatusRequest extends S.Class<GetReadinessCheckSta
 export class GetRecoveryGroupRequest extends S.Class<GetRecoveryGroupRequest>(
   "GetRecoveryGroupRequest",
 )(
-  { RecoveryGroupName: S.String.pipe(T.HttpLabel()) },
+  { RecoveryGroupName: S.String.pipe(T.HttpLabel("RecoveryGroupName")) },
   T.all(
     T.Http({ method: "GET", uri: "/recoverygroups/{RecoveryGroupName}" }),
     svc,
@@ -498,7 +503,7 @@ export class GetRecoveryGroupReadinessSummaryRequest extends S.Class<GetRecovery
   {
     MaxResults: S.optional(S.Number).pipe(T.HttpQuery("maxResults")),
     NextToken: S.optional(S.String).pipe(T.HttpQuery("nextToken")),
-    RecoveryGroupName: S.String.pipe(T.HttpLabel()),
+    RecoveryGroupName: S.String.pipe(T.HttpLabel("RecoveryGroupName")),
   },
   T.all(
     T.Http({
@@ -515,7 +520,7 @@ export class GetRecoveryGroupReadinessSummaryRequest extends S.Class<GetRecovery
 export class GetResourceSetRequest extends S.Class<GetResourceSetRequest>(
   "GetResourceSetRequest",
 )(
-  { ResourceSetName: S.String.pipe(T.HttpLabel()) },
+  { ResourceSetName: S.String.pipe(T.HttpLabel("ResourceSetName")) },
   T.all(
     T.Http({ method: "GET", uri: "/resourcesets/{ResourceSetName}" }),
     svc,
@@ -611,7 +616,7 @@ export class ListRulesRequest extends S.Class<ListRulesRequest>(
 export class ListTagsForResourcesRequest extends S.Class<ListTagsForResourcesRequest>(
   "ListTagsForResourcesRequest",
 )(
-  { ResourceArn: S.String.pipe(T.HttpLabel()) },
+  { ResourceArn: S.String.pipe(T.HttpLabel("ResourceArn")) },
   T.all(
     T.Http({ method: "GET", uri: "/tags/{ResourceArn}" }),
     svc,
@@ -625,7 +630,7 @@ export class TagResourceRequest extends S.Class<TagResourceRequest>(
   "TagResourceRequest",
 )(
   {
-    ResourceArn: S.String.pipe(T.HttpLabel()),
+    ResourceArn: S.String.pipe(T.HttpLabel("ResourceArn")),
     Tags: Tags.pipe(T.JsonName("tags")),
   },
   T.all(
@@ -644,7 +649,7 @@ export class UntagResourceRequest extends S.Class<UntagResourceRequest>(
   "UntagResourceRequest",
 )(
   {
-    ResourceArn: S.String.pipe(T.HttpLabel()),
+    ResourceArn: S.String.pipe(T.HttpLabel("ResourceArn")),
     TagKeys: __listOf__string.pipe(T.HttpQuery("tagKeys")),
   },
   T.all(
@@ -663,7 +668,7 @@ export class UpdateCellRequest extends S.Class<UpdateCellRequest>(
   "UpdateCellRequest",
 )(
   {
-    CellName: S.String.pipe(T.HttpLabel()),
+    CellName: S.String.pipe(T.HttpLabel("CellName")),
     Cells: __listOf__string.pipe(T.JsonName("cells")),
   },
   T.all(
@@ -679,7 +684,7 @@ export class UpdateReadinessCheckRequest extends S.Class<UpdateReadinessCheckReq
   "UpdateReadinessCheckRequest",
 )(
   {
-    ReadinessCheckName: S.String.pipe(T.HttpLabel()),
+    ReadinessCheckName: S.String.pipe(T.HttpLabel("ReadinessCheckName")),
     ResourceSetName: S.String.pipe(T.JsonName("resourceSetName")),
   },
   T.all(
@@ -696,7 +701,7 @@ export class UpdateRecoveryGroupRequest extends S.Class<UpdateRecoveryGroupReque
 )(
   {
     Cells: __listOf__string.pipe(T.JsonName("cells")),
-    RecoveryGroupName: S.String.pipe(T.HttpLabel()),
+    RecoveryGroupName: S.String.pipe(T.HttpLabel("RecoveryGroupName")),
   },
   T.all(
     T.Http({ method: "PUT", uri: "/recoverygroups/{RecoveryGroupName}" }),
@@ -744,7 +749,7 @@ export class UpdateResourceSetRequest extends S.Class<UpdateResourceSetRequest>(
   "UpdateResourceSetRequest",
 )(
   {
-    ResourceSetName: S.String.pipe(T.HttpLabel()),
+    ResourceSetName: S.String.pipe(T.HttpLabel("ResourceSetName")),
     ResourceSetType: S.String.pipe(T.JsonName("resourceSetType")),
     Resources: __listOfResource.pipe(T.JsonName("resources")),
   },
@@ -1097,7 +1102,7 @@ export class AccessDeniedException extends S.TaggedError<AccessDeniedException>(
 export class InternalServerException extends S.TaggedError<InternalServerException>()(
   "InternalServerException",
   { Message: S.optional(S.String).pipe(T.JsonName("message")) },
-) {}
+).pipe(withCategory(ERROR_CATEGORIES.SERVER_ERROR)) {}
 export class ResourceNotFoundException extends S.TaggedError<ResourceNotFoundException>()(
   "ResourceNotFoundException",
   { Message: S.optional(S.String).pipe(T.JsonName("message")) },
@@ -1105,7 +1110,7 @@ export class ResourceNotFoundException extends S.TaggedError<ResourceNotFoundExc
 export class ThrottlingException extends S.TaggedError<ThrottlingException>()(
   "ThrottlingException",
   { Message: S.optional(S.String).pipe(T.JsonName("message")) },
-) {}
+).pipe(withCategory(ERROR_CATEGORIES.THROTTLING_ERROR)) {}
 export class ConflictException extends S.TaggedError<ConflictException>()(
   "ConflictException",
   { Message: S.optional(S.String).pipe(T.JsonName("message")) },

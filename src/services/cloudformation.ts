@@ -1,6 +1,7 @@
 import * as S from "effect/Schema";
 import * as API from "../api.ts";
 import * as T from "../traits.ts";
+import { ERROR_CATEGORIES, withCategory } from "../error-category.ts";
 const ns = T.XmlNamespace(
   "http://cloudformation.amazonaws.com/doc/2010-05-15/",
 );
@@ -2697,7 +2698,7 @@ export class ConcurrentResourcesLimitExceededException extends S.TaggedError<Con
     code: "ConcurrentResourcesLimitExceeded",
     httpResponseCode: 429,
   }),
-) {}
+).pipe(withCategory(ERROR_CATEGORIES.THROTTLING_ERROR)) {}
 export class OperationInProgressException extends S.TaggedError<OperationInProgressException>()(
   "OperationInProgressException",
   { Message: S.optional(S.String) },

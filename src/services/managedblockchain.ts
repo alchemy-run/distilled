@@ -1,6 +1,7 @@
 import * as S from "effect/Schema";
 import * as API from "../api.ts";
 import * as T from "../traits.ts";
+import { ERROR_CATEGORIES, withCategory } from "../error-category.ts";
 const svc = T.AwsApiService({
   sdkId: "ManagedBlockchain",
   serviceShapeName: "TaigaWebService",
@@ -245,7 +246,7 @@ export const TagKeyList = S.Array(S.String);
 export class DeleteAccessorInput extends S.Class<DeleteAccessorInput>(
   "DeleteAccessorInput",
 )(
-  { AccessorId: S.String.pipe(T.HttpLabel()) },
+  { AccessorId: S.String.pipe(T.HttpLabel("AccessorId")) },
   T.all(
     T.Http({ method: "DELETE", uri: "/accessors/{AccessorId}" }),
     svc,
@@ -262,8 +263,8 @@ export class DeleteMemberInput extends S.Class<DeleteMemberInput>(
   "DeleteMemberInput",
 )(
   {
-    NetworkId: S.String.pipe(T.HttpLabel()),
-    MemberId: S.String.pipe(T.HttpLabel()),
+    NetworkId: S.String.pipe(T.HttpLabel("NetworkId")),
+    MemberId: S.String.pipe(T.HttpLabel("MemberId")),
   },
   T.all(
     T.Http({
@@ -284,9 +285,9 @@ export class DeleteNodeInput extends S.Class<DeleteNodeInput>(
   "DeleteNodeInput",
 )(
   {
-    NetworkId: S.String.pipe(T.HttpLabel()),
+    NetworkId: S.String.pipe(T.HttpLabel("NetworkId")),
     MemberId: S.optional(S.String).pipe(T.HttpQuery("memberId")),
-    NodeId: S.String.pipe(T.HttpLabel()),
+    NodeId: S.String.pipe(T.HttpLabel("NodeId")),
   },
   T.all(
     T.Http({ method: "DELETE", uri: "/networks/{NetworkId}/nodes/{NodeId}" }),
@@ -303,7 +304,7 @@ export class DeleteNodeOutput extends S.Class<DeleteNodeOutput>(
 export class GetAccessorInput extends S.Class<GetAccessorInput>(
   "GetAccessorInput",
 )(
-  { AccessorId: S.String.pipe(T.HttpLabel()) },
+  { AccessorId: S.String.pipe(T.HttpLabel("AccessorId")) },
   T.all(
     T.Http({ method: "GET", uri: "/accessors/{AccessorId}" }),
     svc,
@@ -315,8 +316,8 @@ export class GetAccessorInput extends S.Class<GetAccessorInput>(
 ) {}
 export class GetMemberInput extends S.Class<GetMemberInput>("GetMemberInput")(
   {
-    NetworkId: S.String.pipe(T.HttpLabel()),
-    MemberId: S.String.pipe(T.HttpLabel()),
+    NetworkId: S.String.pipe(T.HttpLabel("NetworkId")),
+    MemberId: S.String.pipe(T.HttpLabel("MemberId")),
   },
   T.all(
     T.Http({ method: "GET", uri: "/networks/{NetworkId}/members/{MemberId}" }),
@@ -330,7 +331,7 @@ export class GetMemberInput extends S.Class<GetMemberInput>("GetMemberInput")(
 export class GetNetworkInput extends S.Class<GetNetworkInput>(
   "GetNetworkInput",
 )(
-  { NetworkId: S.String.pipe(T.HttpLabel()) },
+  { NetworkId: S.String.pipe(T.HttpLabel("NetworkId")) },
   T.all(
     T.Http({ method: "GET", uri: "/networks/{NetworkId}" }),
     svc,
@@ -342,9 +343,9 @@ export class GetNetworkInput extends S.Class<GetNetworkInput>(
 ) {}
 export class GetNodeInput extends S.Class<GetNodeInput>("GetNodeInput")(
   {
-    NetworkId: S.String.pipe(T.HttpLabel()),
+    NetworkId: S.String.pipe(T.HttpLabel("NetworkId")),
     MemberId: S.optional(S.String).pipe(T.HttpQuery("memberId")),
-    NodeId: S.String.pipe(T.HttpLabel()),
+    NodeId: S.String.pipe(T.HttpLabel("NodeId")),
   },
   T.all(
     T.Http({ method: "GET", uri: "/networks/{NetworkId}/nodes/{NodeId}" }),
@@ -359,8 +360,8 @@ export class GetProposalInput extends S.Class<GetProposalInput>(
   "GetProposalInput",
 )(
   {
-    NetworkId: S.String.pipe(T.HttpLabel()),
-    ProposalId: S.String.pipe(T.HttpLabel()),
+    NetworkId: S.String.pipe(T.HttpLabel("NetworkId")),
+    ProposalId: S.String.pipe(T.HttpLabel("ProposalId")),
   },
   T.all(
     T.Http({
@@ -411,7 +412,7 @@ export class ListMembersInput extends S.Class<ListMembersInput>(
   "ListMembersInput",
 )(
   {
-    NetworkId: S.String.pipe(T.HttpLabel()),
+    NetworkId: S.String.pipe(T.HttpLabel("NetworkId")),
     Name: S.optional(S.String).pipe(T.HttpQuery("name")),
     Status: S.optional(S.String).pipe(T.HttpQuery("status")),
     IsOwned: S.optional(S.Boolean).pipe(T.HttpQuery("isOwned")),
@@ -448,7 +449,7 @@ export class ListNetworksInput extends S.Class<ListNetworksInput>(
 ) {}
 export class ListNodesInput extends S.Class<ListNodesInput>("ListNodesInput")(
   {
-    NetworkId: S.String.pipe(T.HttpLabel()),
+    NetworkId: S.String.pipe(T.HttpLabel("NetworkId")),
     MemberId: S.optional(S.String).pipe(T.HttpQuery("memberId")),
     Status: S.optional(S.String).pipe(T.HttpQuery("status")),
     MaxResults: S.optional(S.Number).pipe(T.HttpQuery("maxResults")),
@@ -467,7 +468,7 @@ export class ListProposalsInput extends S.Class<ListProposalsInput>(
   "ListProposalsInput",
 )(
   {
-    NetworkId: S.String.pipe(T.HttpLabel()),
+    NetworkId: S.String.pipe(T.HttpLabel("NetworkId")),
     MaxResults: S.optional(S.Number).pipe(T.HttpQuery("maxResults")),
     NextToken: S.optional(S.String).pipe(T.HttpQuery("nextToken")),
   },
@@ -484,8 +485,8 @@ export class ListProposalVotesInput extends S.Class<ListProposalVotesInput>(
   "ListProposalVotesInput",
 )(
   {
-    NetworkId: S.String.pipe(T.HttpLabel()),
-    ProposalId: S.String.pipe(T.HttpLabel()),
+    NetworkId: S.String.pipe(T.HttpLabel("NetworkId")),
+    ProposalId: S.String.pipe(T.HttpLabel("ProposalId")),
     MaxResults: S.optional(S.Number).pipe(T.HttpQuery("maxResults")),
     NextToken: S.optional(S.String).pipe(T.HttpQuery("nextToken")),
   },
@@ -504,7 +505,7 @@ export class ListProposalVotesInput extends S.Class<ListProposalVotesInput>(
 export class ListTagsForResourceRequest extends S.Class<ListTagsForResourceRequest>(
   "ListTagsForResourceRequest",
 )(
-  { ResourceArn: S.String.pipe(T.HttpLabel()) },
+  { ResourceArn: S.String.pipe(T.HttpLabel("ResourceArn")) },
   T.all(
     T.Http({ method: "GET", uri: "/tags/{ResourceArn}" }),
     svc,
@@ -517,7 +518,7 @@ export class ListTagsForResourceRequest extends S.Class<ListTagsForResourceReque
 export class RejectInvitationInput extends S.Class<RejectInvitationInput>(
   "RejectInvitationInput",
 )(
-  { InvitationId: S.String.pipe(T.HttpLabel()) },
+  { InvitationId: S.String.pipe(T.HttpLabel("InvitationId")) },
   T.all(
     T.Http({ method: "DELETE", uri: "/invitations/{InvitationId}" }),
     svc,
@@ -534,7 +535,7 @@ export const InputTagMap = S.Record({ key: S.String, value: S.String });
 export class TagResourceRequest extends S.Class<TagResourceRequest>(
   "TagResourceRequest",
 )(
-  { ResourceArn: S.String.pipe(T.HttpLabel()), Tags: InputTagMap },
+  { ResourceArn: S.String.pipe(T.HttpLabel("ResourceArn")), Tags: InputTagMap },
   T.all(
     T.Http({ method: "POST", uri: "/tags/{ResourceArn}" }),
     svc,
@@ -551,7 +552,7 @@ export class UntagResourceRequest extends S.Class<UntagResourceRequest>(
   "UntagResourceRequest",
 )(
   {
-    ResourceArn: S.String.pipe(T.HttpLabel()),
+    ResourceArn: S.String.pipe(T.HttpLabel("ResourceArn")),
     TagKeys: TagKeyList.pipe(T.HttpQuery("tagKeys")),
   },
   T.all(
@@ -570,8 +571,8 @@ export class VoteOnProposalInput extends S.Class<VoteOnProposalInput>(
   "VoteOnProposalInput",
 )(
   {
-    NetworkId: S.String.pipe(T.HttpLabel()),
-    ProposalId: S.String.pipe(T.HttpLabel()),
+    NetworkId: S.String.pipe(T.HttpLabel("NetworkId")),
+    ProposalId: S.String.pipe(T.HttpLabel("ProposalId")),
     VoterMemberId: S.String,
     Vote: S.String,
   },
@@ -636,7 +637,7 @@ export class CreateNodeInput extends S.Class<CreateNodeInput>(
 )(
   {
     ClientRequestToken: S.String,
-    NetworkId: S.String.pipe(T.HttpLabel()),
+    NetworkId: S.String.pipe(T.HttpLabel("NetworkId")),
     MemberId: S.optional(S.String),
     NodeConfiguration: NodeConfiguration,
     Tags: S.optional(InputTagMap),
@@ -836,7 +837,7 @@ export class CreateProposalInput extends S.Class<CreateProposalInput>(
 )(
   {
     ClientRequestToken: S.String,
-    NetworkId: S.String.pipe(T.HttpLabel()),
+    NetworkId: S.String.pipe(T.HttpLabel("NetworkId")),
     MemberId: S.String,
     Actions: ProposalActions,
     Description: S.optional(S.String),
@@ -903,9 +904,9 @@ export class UpdateNodeInput extends S.Class<UpdateNodeInput>(
   "UpdateNodeInput",
 )(
   {
-    NetworkId: S.String.pipe(T.HttpLabel()),
+    NetworkId: S.String.pipe(T.HttpLabel("NetworkId")),
     MemberId: S.optional(S.String),
-    NodeId: S.String.pipe(T.HttpLabel()),
+    NodeId: S.String.pipe(T.HttpLabel("NodeId")),
     LogPublishingConfiguration: S.optional(NodeLogPublishingConfiguration),
   },
   T.all(
@@ -950,7 +951,7 @@ export class CreateMemberInput extends S.Class<CreateMemberInput>(
   {
     ClientRequestToken: S.String,
     InvitationId: S.String,
-    NetworkId: S.String.pipe(T.HttpLabel()),
+    NetworkId: S.String.pipe(T.HttpLabel("NetworkId")),
     MemberConfiguration: MemberConfiguration,
   },
   T.all(
@@ -1041,8 +1042,8 @@ export class UpdateMemberInput extends S.Class<UpdateMemberInput>(
   "UpdateMemberInput",
 )(
   {
-    NetworkId: S.String.pipe(T.HttpLabel()),
-    MemberId: S.String.pipe(T.HttpLabel()),
+    NetworkId: S.String.pipe(T.HttpLabel("NetworkId")),
+    MemberId: S.String.pipe(T.HttpLabel("MemberId")),
     LogPublishingConfiguration: S.optional(MemberLogPublishingConfiguration),
   },
   T.all(
@@ -1065,7 +1066,7 @@ export class UpdateMemberOutput extends S.Class<UpdateMemberOutput>(
 export class InternalServiceErrorException extends S.TaggedError<InternalServiceErrorException>()(
   "InternalServiceErrorException",
   {},
-) {}
+).pipe(withCategory(ERROR_CATEGORIES.SERVER_ERROR)) {}
 export class AccessDeniedException extends S.TaggedError<AccessDeniedException>()(
   "AccessDeniedException",
   { Message: S.optional(S.String) },
@@ -1077,7 +1078,7 @@ export class InvalidRequestException extends S.TaggedError<InvalidRequestExcepti
 export class ThrottlingException extends S.TaggedError<ThrottlingException>()(
   "ThrottlingException",
   {},
-) {}
+).pipe(withCategory(ERROR_CATEGORIES.THROTTLING_ERROR)) {}
 export class ResourceNotFoundException extends S.TaggedError<ResourceNotFoundException>()(
   "ResourceNotFoundException",
   { Message: S.optional(S.String), ResourceName: S.optional(S.String) },
@@ -1093,7 +1094,7 @@ export class ResourceAlreadyExistsException extends S.TaggedError<ResourceAlread
 export class ResourceLimitExceededException extends S.TaggedError<ResourceLimitExceededException>()(
   "ResourceLimitExceededException",
   { Message: S.optional(S.String) },
-) {}
+).pipe(withCategory(ERROR_CATEGORIES.THROTTLING_ERROR)) {}
 export class ResourceNotReadyException extends S.TaggedError<ResourceNotReadyException>()(
   "ResourceNotReadyException",
   { Message: S.optional(S.String) },

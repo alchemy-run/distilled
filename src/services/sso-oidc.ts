@@ -1,6 +1,7 @@
 import * as S from "effect/Schema";
 import * as API from "../api.ts";
 import * as T from "../traits.ts";
+import { ERROR_CATEGORIES, withCategory } from "../error-category.ts";
 const svc = T.AwsApiService({
   sdkId: "SSO OIDC",
   serviceShapeName: "AWSSSOOIDCService",
@@ -403,7 +404,7 @@ export class AccessDeniedException extends S.TaggedError<AccessDeniedException>(
 export class InternalServerException extends S.TaggedError<InternalServerException>()(
   "InternalServerException",
   { error: S.optional(S.String), error_description: S.optional(S.String) },
-) {}
+).pipe(withCategory(ERROR_CATEGORIES.SERVER_ERROR)) {}
 export class AuthorizationPendingException extends S.TaggedError<AuthorizationPendingException>()(
   "AuthorizationPendingException",
   { error: S.optional(S.String), error_description: S.optional(S.String) },

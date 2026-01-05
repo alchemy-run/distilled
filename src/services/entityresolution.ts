@@ -1,6 +1,7 @@
 import * as S from "effect/Schema";
 import * as API from "../api.ts";
 import * as T from "../traits.ts";
+import { ERROR_CATEGORIES, withCategory } from "../error-category.ts";
 const svc = T.AwsApiService({
   sdkId: "EntityResolution",
   serviceShapeName: "AWSVeniceService",
@@ -301,8 +302,8 @@ export class AddPolicyStatementInput extends S.Class<AddPolicyStatementInput>(
   "AddPolicyStatementInput",
 )(
   {
-    arn: S.String.pipe(T.HttpLabel()),
-    statementId: S.String.pipe(T.HttpLabel()),
+    arn: S.String.pipe(T.HttpLabel("arn")),
+    statementId: S.String.pipe(T.HttpLabel("statementId")),
     effect: S.String,
     action: StatementActionList,
     principal: StatementPrincipalList,
@@ -321,7 +322,7 @@ export class BatchDeleteUniqueIdInput extends S.Class<BatchDeleteUniqueIdInput>(
   "BatchDeleteUniqueIdInput",
 )(
   {
-    workflowName: S.String.pipe(T.HttpLabel()),
+    workflowName: S.String.pipe(T.HttpLabel("workflowName")),
     inputSource: S.optional(S.String).pipe(T.HttpHeader("inputSource")),
     uniqueIds: UniqueIdList.pipe(T.HttpHeader("uniqueIds")),
   },
@@ -340,7 +341,7 @@ export class BatchDeleteUniqueIdInput extends S.Class<BatchDeleteUniqueIdInput>(
 export class DeleteIdMappingWorkflowInput extends S.Class<DeleteIdMappingWorkflowInput>(
   "DeleteIdMappingWorkflowInput",
 )(
-  { workflowName: S.String.pipe(T.HttpLabel()) },
+  { workflowName: S.String.pipe(T.HttpLabel("workflowName")) },
   T.all(
     T.Http({ method: "DELETE", uri: "/idmappingworkflows/{workflowName}" }),
     svc,
@@ -353,7 +354,7 @@ export class DeleteIdMappingWorkflowInput extends S.Class<DeleteIdMappingWorkflo
 export class DeleteIdNamespaceInput extends S.Class<DeleteIdNamespaceInput>(
   "DeleteIdNamespaceInput",
 )(
-  { idNamespaceName: S.String.pipe(T.HttpLabel()) },
+  { idNamespaceName: S.String.pipe(T.HttpLabel("idNamespaceName")) },
   T.all(
     T.Http({ method: "DELETE", uri: "/idnamespaces/{idNamespaceName}" }),
     svc,
@@ -366,7 +367,7 @@ export class DeleteIdNamespaceInput extends S.Class<DeleteIdNamespaceInput>(
 export class DeleteMatchingWorkflowInput extends S.Class<DeleteMatchingWorkflowInput>(
   "DeleteMatchingWorkflowInput",
 )(
-  { workflowName: S.String.pipe(T.HttpLabel()) },
+  { workflowName: S.String.pipe(T.HttpLabel("workflowName")) },
   T.all(
     T.Http({ method: "DELETE", uri: "/matchingworkflows/{workflowName}" }),
     svc,
@@ -380,8 +381,8 @@ export class DeletePolicyStatementInput extends S.Class<DeletePolicyStatementInp
   "DeletePolicyStatementInput",
 )(
   {
-    arn: S.String.pipe(T.HttpLabel()),
-    statementId: S.String.pipe(T.HttpLabel()),
+    arn: S.String.pipe(T.HttpLabel("arn")),
+    statementId: S.String.pipe(T.HttpLabel("statementId")),
   },
   T.all(
     T.Http({ method: "DELETE", uri: "/policies/{arn}/{statementId}" }),
@@ -395,7 +396,7 @@ export class DeletePolicyStatementInput extends S.Class<DeletePolicyStatementInp
 export class DeleteSchemaMappingInput extends S.Class<DeleteSchemaMappingInput>(
   "DeleteSchemaMappingInput",
 )(
-  { schemaName: S.String.pipe(T.HttpLabel()) },
+  { schemaName: S.String.pipe(T.HttpLabel("schemaName")) },
   T.all(
     T.Http({ method: "DELETE", uri: "/schemas/{schemaName}" }),
     svc,
@@ -409,8 +410,8 @@ export class GetIdMappingJobInput extends S.Class<GetIdMappingJobInput>(
   "GetIdMappingJobInput",
 )(
   {
-    workflowName: S.String.pipe(T.HttpLabel()),
-    jobId: S.String.pipe(T.HttpLabel()),
+    workflowName: S.String.pipe(T.HttpLabel("workflowName")),
+    jobId: S.String.pipe(T.HttpLabel("jobId")),
   },
   T.all(
     T.Http({
@@ -427,7 +428,7 @@ export class GetIdMappingJobInput extends S.Class<GetIdMappingJobInput>(
 export class GetIdMappingWorkflowInput extends S.Class<GetIdMappingWorkflowInput>(
   "GetIdMappingWorkflowInput",
 )(
-  { workflowName: S.String.pipe(T.HttpLabel()) },
+  { workflowName: S.String.pipe(T.HttpLabel("workflowName")) },
   T.all(
     T.Http({ method: "GET", uri: "/idmappingworkflows/{workflowName}" }),
     svc,
@@ -440,7 +441,7 @@ export class GetIdMappingWorkflowInput extends S.Class<GetIdMappingWorkflowInput
 export class GetIdNamespaceInput extends S.Class<GetIdNamespaceInput>(
   "GetIdNamespaceInput",
 )(
-  { idNamespaceName: S.String.pipe(T.HttpLabel()) },
+  { idNamespaceName: S.String.pipe(T.HttpLabel("idNamespaceName")) },
   T.all(
     T.Http({ method: "GET", uri: "/idnamespaces/{idNamespaceName}" }),
     svc,
@@ -454,8 +455,8 @@ export class GetMatchingJobInput extends S.Class<GetMatchingJobInput>(
   "GetMatchingJobInput",
 )(
   {
-    workflowName: S.String.pipe(T.HttpLabel()),
-    jobId: S.String.pipe(T.HttpLabel()),
+    workflowName: S.String.pipe(T.HttpLabel("workflowName")),
+    jobId: S.String.pipe(T.HttpLabel("jobId")),
   },
   T.all(
     T.Http({
@@ -472,7 +473,7 @@ export class GetMatchingJobInput extends S.Class<GetMatchingJobInput>(
 export class GetMatchingWorkflowInput extends S.Class<GetMatchingWorkflowInput>(
   "GetMatchingWorkflowInput",
 )(
-  { workflowName: S.String.pipe(T.HttpLabel()) },
+  { workflowName: S.String.pipe(T.HttpLabel("workflowName")) },
   T.all(
     T.Http({ method: "GET", uri: "/matchingworkflows/{workflowName}" }),
     svc,
@@ -483,7 +484,7 @@ export class GetMatchingWorkflowInput extends S.Class<GetMatchingWorkflowInput>(
   ),
 ) {}
 export class GetPolicyInput extends S.Class<GetPolicyInput>("GetPolicyInput")(
-  { arn: S.String.pipe(T.HttpLabel()) },
+  { arn: S.String.pipe(T.HttpLabel("arn")) },
   T.all(
     T.Http({ method: "GET", uri: "/policies/{arn}" }),
     svc,
@@ -497,8 +498,8 @@ export class GetProviderServiceInput extends S.Class<GetProviderServiceInput>(
   "GetProviderServiceInput",
 )(
   {
-    providerName: S.String.pipe(T.HttpLabel()),
-    providerServiceName: S.String.pipe(T.HttpLabel()),
+    providerName: S.String.pipe(T.HttpLabel("providerName")),
+    providerServiceName: S.String.pipe(T.HttpLabel("providerServiceName")),
   },
   T.all(
     T.Http({
@@ -515,7 +516,7 @@ export class GetProviderServiceInput extends S.Class<GetProviderServiceInput>(
 export class GetSchemaMappingInput extends S.Class<GetSchemaMappingInput>(
   "GetSchemaMappingInput",
 )(
-  { schemaName: S.String.pipe(T.HttpLabel()) },
+  { schemaName: S.String.pipe(T.HttpLabel("schemaName")) },
   T.all(
     T.Http({ method: "GET", uri: "/schemas/{schemaName}" }),
     svc,
@@ -529,7 +530,7 @@ export class ListIdMappingJobsInput extends S.Class<ListIdMappingJobsInput>(
   "ListIdMappingJobsInput",
 )(
   {
-    workflowName: S.String.pipe(T.HttpLabel()),
+    workflowName: S.String.pipe(T.HttpLabel("workflowName")),
     nextToken: S.optional(S.String).pipe(T.HttpQuery("nextToken")),
     maxResults: S.optional(S.Number).pipe(T.HttpQuery("maxResults")),
   },
@@ -578,7 +579,7 @@ export class ListMatchingJobsInput extends S.Class<ListMatchingJobsInput>(
   "ListMatchingJobsInput",
 )(
   {
-    workflowName: S.String.pipe(T.HttpLabel()),
+    workflowName: S.String.pipe(T.HttpLabel("workflowName")),
     nextToken: S.optional(S.String).pipe(T.HttpQuery("nextToken")),
     maxResults: S.optional(S.Number).pipe(T.HttpQuery("maxResults")),
   },
@@ -643,7 +644,7 @@ export class ListSchemaMappingsInput extends S.Class<ListSchemaMappingsInput>(
 export class ListTagsForResourceInput extends S.Class<ListTagsForResourceInput>(
   "ListTagsForResourceInput",
 )(
-  { resourceArn: S.String.pipe(T.HttpLabel()) },
+  { resourceArn: S.String.pipe(T.HttpLabel("resourceArn")) },
   T.all(
     T.Http({ method: "GET", uri: "/tags/{resourceArn}" }),
     svc,
@@ -655,7 +656,7 @@ export class ListTagsForResourceInput extends S.Class<ListTagsForResourceInput>(
 ) {}
 export class PutPolicyInput extends S.Class<PutPolicyInput>("PutPolicyInput")(
   {
-    arn: S.String.pipe(T.HttpLabel()),
+    arn: S.String.pipe(T.HttpLabel("arn")),
     token: S.optional(S.String),
     policy: S.String,
   },
@@ -671,7 +672,7 @@ export class PutPolicyInput extends S.Class<PutPolicyInput>("PutPolicyInput")(
 export class StartMatchingJobInput extends S.Class<StartMatchingJobInput>(
   "StartMatchingJobInput",
 )(
-  { workflowName: S.String.pipe(T.HttpLabel()) },
+  { workflowName: S.String.pipe(T.HttpLabel("workflowName")) },
   T.all(
     T.Http({ method: "POST", uri: "/matchingworkflows/{workflowName}/jobs" }),
     svc,
@@ -685,7 +686,7 @@ export const TagMap = S.Record({ key: S.String, value: S.String });
 export class TagResourceInput extends S.Class<TagResourceInput>(
   "TagResourceInput",
 )(
-  { resourceArn: S.String.pipe(T.HttpLabel()), tags: TagMap },
+  { resourceArn: S.String.pipe(T.HttpLabel("resourceArn")), tags: TagMap },
   T.all(
     T.Http({ method: "POST", uri: "/tags/{resourceArn}" }),
     svc,
@@ -702,7 +703,7 @@ export class UntagResourceInput extends S.Class<UntagResourceInput>(
   "UntagResourceInput",
 )(
   {
-    resourceArn: S.String.pipe(T.HttpLabel()),
+    resourceArn: S.String.pipe(T.HttpLabel("resourceArn")),
     tagKeys: TagKeyList.pipe(T.HttpQuery("tagKeys")),
   },
   T.all(
@@ -771,7 +772,7 @@ export class UpdateIdMappingWorkflowInput extends S.Class<UpdateIdMappingWorkflo
   "UpdateIdMappingWorkflowInput",
 )(
   {
-    workflowName: S.String.pipe(T.HttpLabel()),
+    workflowName: S.String.pipe(T.HttpLabel("workflowName")),
     description: S.optional(S.String),
     inputSourceConfig: IdMappingWorkflowInputSourceConfig,
     outputSourceConfig: S.optional(IdMappingWorkflowOutputSourceConfig),
@@ -819,7 +820,7 @@ export class UpdateIdNamespaceInput extends S.Class<UpdateIdNamespaceInput>(
   "UpdateIdNamespaceInput",
 )(
   {
-    idNamespaceName: S.String.pipe(T.HttpLabel()),
+    idNamespaceName: S.String.pipe(T.HttpLabel("idNamespaceName")),
     description: S.optional(S.String),
     inputSourceConfig: S.optional(IdNamespaceInputSourceConfig),
     idMappingWorkflowProperties: S.optional(
@@ -889,7 +890,7 @@ export class UpdateMatchingWorkflowInput extends S.Class<UpdateMatchingWorkflowI
   "UpdateMatchingWorkflowInput",
 )(
   {
-    workflowName: S.String.pipe(T.HttpLabel()),
+    workflowName: S.String.pipe(T.HttpLabel("workflowName")),
     description: S.optional(S.String),
     inputSourceConfig: InputSourceConfig,
     outputSourceConfig: OutputSourceConfig,
@@ -921,7 +922,7 @@ export class UpdateSchemaMappingInput extends S.Class<UpdateSchemaMappingInput>(
   "UpdateSchemaMappingInput",
 )(
   {
-    schemaName: S.String.pipe(T.HttpLabel()),
+    schemaName: S.String.pipe(T.HttpLabel("schemaName")),
     description: S.optional(S.String),
     mappedInputFields: SchemaInputAttributes,
   },
@@ -1015,7 +1016,7 @@ export class GetMatchIdInput extends S.Class<GetMatchIdInput>(
   "GetMatchIdInput",
 )(
   {
-    workflowName: S.String.pipe(T.HttpLabel()),
+    workflowName: S.String.pipe(T.HttpLabel("workflowName")),
     record: RecordAttributeMap,
     applyNormalization: S.optional(S.Boolean),
   },
@@ -1081,7 +1082,7 @@ export class StartIdMappingJobInput extends S.Class<StartIdMappingJobInput>(
   "StartIdMappingJobInput",
 )(
   {
-    workflowName: S.String.pipe(T.HttpLabel()),
+    workflowName: S.String.pipe(T.HttpLabel("workflowName")),
     outputSourceConfig: S.optional(IdMappingJobOutputSourceConfig),
     jobType: S.optional(S.String),
   },
@@ -1297,7 +1298,7 @@ export class GenerateMatchIdInput extends S.Class<GenerateMatchIdInput>(
   "GenerateMatchIdInput",
 )(
   {
-    workflowName: S.String.pipe(T.HttpLabel()),
+    workflowName: S.String.pipe(T.HttpLabel("workflowName")),
     records: RecordList,
     processingType: S.optional(S.String),
   },
@@ -1555,7 +1556,8 @@ export class GenerateMatchIdOutput extends S.Class<GenerateMatchIdOutput>(
 export class InternalServerException extends S.TaggedError<InternalServerException>()(
   "InternalServerException",
   { message: S.optional(S.String) },
-) {}
+  T.Retryable(),
+).pipe(withCategory(ERROR_CATEGORIES.SERVER_ERROR)) {}
 export class AccessDeniedException extends S.TaggedError<AccessDeniedException>()(
   "AccessDeniedException",
   { message: S.optional(S.String) },
@@ -1571,7 +1573,8 @@ export class ConflictException extends S.TaggedError<ConflictException>()(
 export class ThrottlingException extends S.TaggedError<ThrottlingException>()(
   "ThrottlingException",
   { message: S.optional(S.String) },
-) {}
+  T.Retryable({ throttling: true }),
+).pipe(withCategory(ERROR_CATEGORIES.THROTTLING_ERROR)) {}
 export class ValidationException extends S.TaggedError<ValidationException>()(
   "ValidationException",
   { message: S.optional(S.String) },

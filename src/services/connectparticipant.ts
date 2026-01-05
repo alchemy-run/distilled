@@ -1,6 +1,7 @@
 import * as S from "effect/Schema";
 import * as API from "../api.ts";
 import * as T from "../traits.ts";
+import { ERROR_CATEGORIES, withCategory } from "../error-category.ts";
 const svc = T.AwsApiService({
   sdkId: "ConnectParticipant",
   serviceShapeName: "AmazonConnectParticipantServiceLambda",
@@ -323,7 +324,7 @@ export class DescribeViewRequest extends S.Class<DescribeViewRequest>(
   "DescribeViewRequest",
 )(
   {
-    ViewToken: S.String.pipe(T.HttpLabel()),
+    ViewToken: S.String.pipe(T.HttpLabel("ViewToken")),
     ConnectionToken: S.String.pipe(T.HttpHeader("X-Amz-Bearer")),
   },
   T.all(
@@ -614,7 +615,7 @@ export class AccessDeniedException extends S.TaggedError<AccessDeniedException>(
 export class InternalServerException extends S.TaggedError<InternalServerException>()(
   "InternalServerException",
   { Message: S.String },
-) {}
+).pipe(withCategory(ERROR_CATEGORIES.SERVER_ERROR)) {}
 export class ConflictException extends S.TaggedError<ConflictException>()(
   "ConflictException",
   { Message: S.String },
@@ -622,7 +623,7 @@ export class ConflictException extends S.TaggedError<ConflictException>()(
 export class ThrottlingException extends S.TaggedError<ThrottlingException>()(
   "ThrottlingException",
   { Message: S.String },
-) {}
+).pipe(withCategory(ERROR_CATEGORIES.THROTTLING_ERROR)) {}
 export class ServiceQuotaExceededException extends S.TaggedError<ServiceQuotaExceededException>()(
   "ServiceQuotaExceededException",
   { Message: S.String },

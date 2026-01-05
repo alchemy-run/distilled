@@ -1,6 +1,7 @@
 import * as S from "effect/Schema";
 import * as API from "../api.ts";
 import * as T from "../traits.ts";
+import { ERROR_CATEGORIES, withCategory } from "../error-category.ts";
 const svc = T.AwsApiService({
   sdkId: "Medical Imaging",
   serviceShapeName: "AHIGatewayService",
@@ -298,8 +299,8 @@ export class DeleteImageSetRequest extends S.Class<DeleteImageSetRequest>(
   "DeleteImageSetRequest",
 )(
   {
-    datastoreId: S.String.pipe(T.HttpLabel()),
-    imageSetId: S.String.pipe(T.HttpLabel()),
+    datastoreId: S.String.pipe(T.HttpLabel("datastoreId")),
+    imageSetId: S.String.pipe(T.HttpLabel("imageSetId")),
   },
   T.all(
     T.Http({
@@ -317,8 +318,8 @@ export class GetDICOMImportJobRequest extends S.Class<GetDICOMImportJobRequest>(
   "GetDICOMImportJobRequest",
 )(
   {
-    datastoreId: S.String.pipe(T.HttpLabel()),
-    jobId: S.String.pipe(T.HttpLabel()),
+    datastoreId: S.String.pipe(T.HttpLabel("datastoreId")),
+    jobId: S.String.pipe(T.HttpLabel("jobId")),
   },
   T.all(
     T.Http({
@@ -336,8 +337,8 @@ export class GetImageSetRequest extends S.Class<GetImageSetRequest>(
   "GetImageSetRequest",
 )(
   {
-    datastoreId: S.String.pipe(T.HttpLabel()),
-    imageSetId: S.String.pipe(T.HttpLabel()),
+    datastoreId: S.String.pipe(T.HttpLabel("datastoreId")),
+    imageSetId: S.String.pipe(T.HttpLabel("imageSetId")),
     versionId: S.optional(S.String).pipe(T.HttpQuery("version")),
   },
   T.all(
@@ -356,8 +357,8 @@ export class GetImageSetMetadataRequest extends S.Class<GetImageSetMetadataReque
   "GetImageSetMetadataRequest",
 )(
   {
-    datastoreId: S.String.pipe(T.HttpLabel()),
-    imageSetId: S.String.pipe(T.HttpLabel()),
+    datastoreId: S.String.pipe(T.HttpLabel("datastoreId")),
+    imageSetId: S.String.pipe(T.HttpLabel("imageSetId")),
     versionId: S.optional(S.String).pipe(T.HttpQuery("version")),
   },
   T.all(
@@ -376,7 +377,7 @@ export class ListDICOMImportJobsRequest extends S.Class<ListDICOMImportJobsReque
   "ListDICOMImportJobsRequest",
 )(
   {
-    datastoreId: S.String.pipe(T.HttpLabel()),
+    datastoreId: S.String.pipe(T.HttpLabel("datastoreId")),
     jobStatus: S.optional(S.String).pipe(T.HttpQuery("jobStatus")),
     nextToken: S.optional(S.String).pipe(T.HttpQuery("nextToken")),
     maxResults: S.optional(S.Number).pipe(T.HttpQuery("maxResults")),
@@ -397,8 +398,8 @@ export class ListImageSetVersionsRequest extends S.Class<ListImageSetVersionsReq
   "ListImageSetVersionsRequest",
 )(
   {
-    datastoreId: S.String.pipe(T.HttpLabel()),
-    imageSetId: S.String.pipe(T.HttpLabel()),
+    datastoreId: S.String.pipe(T.HttpLabel("datastoreId")),
+    imageSetId: S.String.pipe(T.HttpLabel("imageSetId")),
     nextToken: S.optional(S.String).pipe(T.HttpQuery("nextToken")),
     maxResults: S.optional(S.Number).pipe(T.HttpQuery("maxResults")),
   },
@@ -417,7 +418,7 @@ export class ListImageSetVersionsRequest extends S.Class<ListImageSetVersionsReq
 export class ListTagsForResourceRequest extends S.Class<ListTagsForResourceRequest>(
   "ListTagsForResourceRequest",
 )(
-  { resourceArn: S.String.pipe(T.HttpLabel()) },
+  { resourceArn: S.String.pipe(T.HttpLabel("resourceArn")) },
   T.all(
     T.Http({ method: "GET", uri: "/tags/{resourceArn}" }),
     svc,
@@ -434,7 +435,7 @@ export class StartDICOMImportJobRequest extends S.Class<StartDICOMImportJobReque
     jobName: S.optional(S.String),
     dataAccessRoleArn: S.String,
     clientToken: S.String,
-    datastoreId: S.String.pipe(T.HttpLabel()),
+    datastoreId: S.String.pipe(T.HttpLabel("datastoreId")),
     inputS3Uri: S.String,
     outputS3Uri: S.String,
     inputOwnerAccountId: S.optional(S.String),
@@ -455,7 +456,7 @@ export class UntagResourceRequest extends S.Class<UntagResourceRequest>(
   "UntagResourceRequest",
 )(
   {
-    resourceArn: S.String.pipe(T.HttpLabel()),
+    resourceArn: S.String.pipe(T.HttpLabel("resourceArn")),
     tagKeys: TagKeyList.pipe(T.HttpQuery("tagKeys")),
   },
   T.all(
@@ -494,7 +495,7 @@ export class CreateDatastoreRequest extends S.Class<CreateDatastoreRequest>(
 export class GetDatastoreRequest extends S.Class<GetDatastoreRequest>(
   "GetDatastoreRequest",
 )(
-  { datastoreId: S.String.pipe(T.HttpLabel()) },
+  { datastoreId: S.String.pipe(T.HttpLabel("datastoreId")) },
   T.all(
     T.Http({ method: "GET", uri: "/datastore/{datastoreId}" }),
     svc,
@@ -507,7 +508,7 @@ export class GetDatastoreRequest extends S.Class<GetDatastoreRequest>(
 export class DeleteDatastoreRequest extends S.Class<DeleteDatastoreRequest>(
   "DeleteDatastoreRequest",
 )(
-  { datastoreId: S.String.pipe(T.HttpLabel()) },
+  { datastoreId: S.String.pipe(T.HttpLabel("datastoreId")) },
   T.all(
     T.Http({ method: "DELETE", uri: "/datastore/{datastoreId}" }),
     svc,
@@ -549,8 +550,8 @@ export class GetImageFrameRequest extends S.Class<GetImageFrameRequest>(
   "GetImageFrameRequest",
 )(
   {
-    datastoreId: S.String.pipe(T.HttpLabel()),
-    imageSetId: S.String.pipe(T.HttpLabel()),
+    datastoreId: S.String.pipe(T.HttpLabel("datastoreId")),
+    imageSetId: S.String.pipe(T.HttpLabel("imageSetId")),
     imageFrameInformation: ImageFrameInformation.pipe(T.HttpPayload()),
   },
   T.all(
@@ -586,7 +587,7 @@ export class StartDICOMImportJobResponse extends S.Class<StartDICOMImportJobResp
 export class TagResourceRequest extends S.Class<TagResourceRequest>(
   "TagResourceRequest",
 )(
-  { resourceArn: S.String.pipe(T.HttpLabel()), tags: TagMap },
+  { resourceArn: S.String.pipe(T.HttpLabel("resourceArn")), tags: TagMap },
   T.all(
     T.Http({ method: "POST", uri: "/tags/{resourceArn}" }),
     svc,
@@ -732,8 +733,8 @@ export class UpdateImageSetMetadataRequest extends S.Class<UpdateImageSetMetadat
   "UpdateImageSetMetadataRequest",
 )(
   {
-    datastoreId: S.String.pipe(T.HttpLabel()),
-    imageSetId: S.String.pipe(T.HttpLabel()),
+    datastoreId: S.String.pipe(T.HttpLabel("datastoreId")),
+    imageSetId: S.String.pipe(T.HttpLabel("imageSetId")),
     latestVersionId: S.String.pipe(T.HttpQuery("latestVersion")),
     force: S.optional(S.Boolean).pipe(T.HttpQuery("force")),
     updateImageSetMetadataUpdates: MetadataUpdates.pipe(T.HttpPayload()),
@@ -787,8 +788,8 @@ export class CopyImageSetRequest extends S.Class<CopyImageSetRequest>(
   "CopyImageSetRequest",
 )(
   {
-    datastoreId: S.String.pipe(T.HttpLabel()),
-    sourceImageSetId: S.String.pipe(T.HttpLabel()),
+    datastoreId: S.String.pipe(T.HttpLabel("datastoreId")),
+    sourceImageSetId: S.String.pipe(T.HttpLabel("sourceImageSetId")),
     copyImageSetInformation: CopyImageSetInformation.pipe(T.HttpPayload()),
     force: S.optional(S.Boolean).pipe(T.HttpQuery("force")),
     promoteToPrimary: S.optional(S.Boolean).pipe(
@@ -832,7 +833,7 @@ export class SearchImageSetsRequest extends S.Class<SearchImageSetsRequest>(
   "SearchImageSetsRequest",
 )(
   {
-    datastoreId: S.String.pipe(T.HttpLabel()),
+    datastoreId: S.String.pipe(T.HttpLabel("datastoreId")),
     searchCriteria: S.optional(SearchCriteria).pipe(T.HttpPayload()),
     maxResults: S.optional(S.Number).pipe(T.HttpQuery("maxResults")),
     nextToken: S.optional(S.String).pipe(T.HttpQuery("nextToken")),
@@ -922,7 +923,7 @@ export class AccessDeniedException extends S.TaggedError<AccessDeniedException>(
 export class InternalServerException extends S.TaggedError<InternalServerException>()(
   "InternalServerException",
   { message: S.String },
-) {}
+).pipe(withCategory(ERROR_CATEGORIES.SERVER_ERROR)) {}
 export class ConflictException extends S.TaggedError<ConflictException>()(
   "ConflictException",
   { message: S.String },
@@ -934,7 +935,7 @@ export class ResourceNotFoundException extends S.TaggedError<ResourceNotFoundExc
 export class ThrottlingException extends S.TaggedError<ThrottlingException>()(
   "ThrottlingException",
   { message: S.String },
-) {}
+).pipe(withCategory(ERROR_CATEGORIES.THROTTLING_ERROR)) {}
 export class ServiceQuotaExceededException extends S.TaggedError<ServiceQuotaExceededException>()(
   "ServiceQuotaExceededException",
   { message: S.String },

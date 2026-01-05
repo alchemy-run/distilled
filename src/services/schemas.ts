@@ -1,6 +1,7 @@
 import * as S from "effect/Schema";
 import * as API from "../api.ts";
 import * as T from "../traits.ts";
+import { ERROR_CATEGORIES, withCategory } from "../error-category.ts";
 const svc = T.AwsApiService({ sdkId: "schemas", serviceShapeName: "schemas" });
 const auth = T.AwsAuthSigv4({ name: "schemas" });
 const ver = T.ServiceVersion("2019-12-02");
@@ -246,7 +247,7 @@ export class CreateRegistryRequest extends S.Class<CreateRegistryRequest>(
 )(
   {
     Description: S.optional(S.String),
-    RegistryName: S.String.pipe(T.HttpLabel()),
+    RegistryName: S.String.pipe(T.HttpLabel("RegistryName")),
     Tags: S.optional(Tags).pipe(T.JsonName("tags")),
   },
   T.all(
@@ -264,8 +265,8 @@ export class CreateSchemaRequest extends S.Class<CreateSchemaRequest>(
   {
     Content: S.String,
     Description: S.optional(S.String),
-    RegistryName: S.String.pipe(T.HttpLabel()),
-    SchemaName: S.String.pipe(T.HttpLabel()),
+    RegistryName: S.String.pipe(T.HttpLabel("RegistryName")),
+    SchemaName: S.String.pipe(T.HttpLabel("SchemaName")),
     Tags: S.optional(Tags).pipe(T.JsonName("tags")),
     Type: S.String,
   },
@@ -284,7 +285,7 @@ export class CreateSchemaRequest extends S.Class<CreateSchemaRequest>(
 export class DeleteDiscovererRequest extends S.Class<DeleteDiscovererRequest>(
   "DeleteDiscovererRequest",
 )(
-  { DiscovererId: S.String.pipe(T.HttpLabel()) },
+  { DiscovererId: S.String.pipe(T.HttpLabel("DiscovererId")) },
   T.all(
     T.Http({ method: "DELETE", uri: "/v1/discoverers/id/{DiscovererId}" }),
     svc,
@@ -300,7 +301,7 @@ export class DeleteDiscovererResponse extends S.Class<DeleteDiscovererResponse>(
 export class DeleteRegistryRequest extends S.Class<DeleteRegistryRequest>(
   "DeleteRegistryRequest",
 )(
-  { RegistryName: S.String.pipe(T.HttpLabel()) },
+  { RegistryName: S.String.pipe(T.HttpLabel("RegistryName")) },
   T.all(
     T.Http({ method: "DELETE", uri: "/v1/registries/name/{RegistryName}" }),
     svc,
@@ -333,8 +334,8 @@ export class DeleteSchemaRequest extends S.Class<DeleteSchemaRequest>(
   "DeleteSchemaRequest",
 )(
   {
-    RegistryName: S.String.pipe(T.HttpLabel()),
-    SchemaName: S.String.pipe(T.HttpLabel()),
+    RegistryName: S.String.pipe(T.HttpLabel("RegistryName")),
+    SchemaName: S.String.pipe(T.HttpLabel("SchemaName")),
   },
   T.all(
     T.Http({
@@ -355,9 +356,9 @@ export class DeleteSchemaVersionRequest extends S.Class<DeleteSchemaVersionReque
   "DeleteSchemaVersionRequest",
 )(
   {
-    RegistryName: S.String.pipe(T.HttpLabel()),
-    SchemaName: S.String.pipe(T.HttpLabel()),
-    SchemaVersion: S.String.pipe(T.HttpLabel()),
+    RegistryName: S.String.pipe(T.HttpLabel("RegistryName")),
+    SchemaName: S.String.pipe(T.HttpLabel("SchemaName")),
+    SchemaVersion: S.String.pipe(T.HttpLabel("SchemaVersion")),
   },
   T.all(
     T.Http({
@@ -378,9 +379,9 @@ export class DescribeCodeBindingRequest extends S.Class<DescribeCodeBindingReque
   "DescribeCodeBindingRequest",
 )(
   {
-    Language: S.String.pipe(T.HttpLabel()),
-    RegistryName: S.String.pipe(T.HttpLabel()),
-    SchemaName: S.String.pipe(T.HttpLabel()),
+    Language: S.String.pipe(T.HttpLabel("Language")),
+    RegistryName: S.String.pipe(T.HttpLabel("RegistryName")),
+    SchemaName: S.String.pipe(T.HttpLabel("SchemaName")),
     SchemaVersion: S.optional(S.String).pipe(T.HttpQuery("schemaVersion")),
   },
   T.all(
@@ -398,7 +399,7 @@ export class DescribeCodeBindingRequest extends S.Class<DescribeCodeBindingReque
 export class DescribeDiscovererRequest extends S.Class<DescribeDiscovererRequest>(
   "DescribeDiscovererRequest",
 )(
-  { DiscovererId: S.String.pipe(T.HttpLabel()) },
+  { DiscovererId: S.String.pipe(T.HttpLabel("DiscovererId")) },
   T.all(
     T.Http({ method: "GET", uri: "/v1/discoverers/id/{DiscovererId}" }),
     svc,
@@ -411,7 +412,7 @@ export class DescribeDiscovererRequest extends S.Class<DescribeDiscovererRequest
 export class DescribeRegistryRequest extends S.Class<DescribeRegistryRequest>(
   "DescribeRegistryRequest",
 )(
-  { RegistryName: S.String.pipe(T.HttpLabel()) },
+  { RegistryName: S.String.pipe(T.HttpLabel("RegistryName")) },
   T.all(
     T.Http({ method: "GET", uri: "/v1/registries/name/{RegistryName}" }),
     svc,
@@ -425,8 +426,8 @@ export class DescribeSchemaRequest extends S.Class<DescribeSchemaRequest>(
   "DescribeSchemaRequest",
 )(
   {
-    RegistryName: S.String.pipe(T.HttpLabel()),
-    SchemaName: S.String.pipe(T.HttpLabel()),
+    RegistryName: S.String.pipe(T.HttpLabel("RegistryName")),
+    SchemaName: S.String.pipe(T.HttpLabel("SchemaName")),
     SchemaVersion: S.optional(S.String).pipe(T.HttpQuery("schemaVersion")),
   },
   T.all(
@@ -445,8 +446,8 @@ export class ExportSchemaRequest extends S.Class<ExportSchemaRequest>(
   "ExportSchemaRequest",
 )(
   {
-    RegistryName: S.String.pipe(T.HttpLabel()),
-    SchemaName: S.String.pipe(T.HttpLabel()),
+    RegistryName: S.String.pipe(T.HttpLabel("RegistryName")),
+    SchemaName: S.String.pipe(T.HttpLabel("SchemaName")),
     SchemaVersion: S.optional(S.String).pipe(T.HttpQuery("schemaVersion")),
     Type: S.String.pipe(T.HttpQuery("type")),
   },
@@ -466,9 +467,9 @@ export class GetCodeBindingSourceRequest extends S.Class<GetCodeBindingSourceReq
   "GetCodeBindingSourceRequest",
 )(
   {
-    Language: S.String.pipe(T.HttpLabel()),
-    RegistryName: S.String.pipe(T.HttpLabel()),
-    SchemaName: S.String.pipe(T.HttpLabel()),
+    Language: S.String.pipe(T.HttpLabel("Language")),
+    RegistryName: S.String.pipe(T.HttpLabel("RegistryName")),
+    SchemaName: S.String.pipe(T.HttpLabel("SchemaName")),
     SchemaVersion: S.optional(S.String).pipe(T.HttpQuery("schemaVersion")),
   },
   T.all(
@@ -555,7 +556,7 @@ export class ListSchemasRequest extends S.Class<ListSchemasRequest>(
   {
     Limit: S.optional(S.Number).pipe(T.HttpQuery("limit")),
     NextToken: S.optional(S.String).pipe(T.HttpQuery("nextToken")),
-    RegistryName: S.String.pipe(T.HttpLabel()),
+    RegistryName: S.String.pipe(T.HttpLabel("RegistryName")),
     SchemaNamePrefix: S.optional(S.String).pipe(
       T.HttpQuery("schemaNamePrefix"),
     ),
@@ -578,8 +579,8 @@ export class ListSchemaVersionsRequest extends S.Class<ListSchemaVersionsRequest
   {
     Limit: S.optional(S.Number).pipe(T.HttpQuery("limit")),
     NextToken: S.optional(S.String).pipe(T.HttpQuery("nextToken")),
-    RegistryName: S.String.pipe(T.HttpLabel()),
-    SchemaName: S.String.pipe(T.HttpLabel()),
+    RegistryName: S.String.pipe(T.HttpLabel("RegistryName")),
+    SchemaName: S.String.pipe(T.HttpLabel("SchemaName")),
   },
   T.all(
     T.Http({
@@ -596,7 +597,7 @@ export class ListSchemaVersionsRequest extends S.Class<ListSchemaVersionsRequest
 export class ListTagsForResourceRequest extends S.Class<ListTagsForResourceRequest>(
   "ListTagsForResourceRequest",
 )(
-  { ResourceArn: S.String.pipe(T.HttpLabel()) },
+  { ResourceArn: S.String.pipe(T.HttpLabel("ResourceArn")) },
   T.all(
     T.Http({ method: "GET", uri: "/tags/{ResourceArn}" }),
     svc,
@@ -610,9 +611,9 @@ export class PutCodeBindingRequest extends S.Class<PutCodeBindingRequest>(
   "PutCodeBindingRequest",
 )(
   {
-    Language: S.String.pipe(T.HttpLabel()),
-    RegistryName: S.String.pipe(T.HttpLabel()),
-    SchemaName: S.String.pipe(T.HttpLabel()),
+    Language: S.String.pipe(T.HttpLabel("Language")),
+    RegistryName: S.String.pipe(T.HttpLabel("RegistryName")),
+    SchemaName: S.String.pipe(T.HttpLabel("SchemaName")),
     SchemaVersion: S.optional(S.String).pipe(T.HttpQuery("schemaVersion")),
   },
   T.all(
@@ -651,7 +652,7 @@ export class SearchSchemasRequest extends S.Class<SearchSchemasRequest>(
     Keywords: S.String.pipe(T.HttpQuery("keywords")),
     Limit: S.optional(S.Number).pipe(T.HttpQuery("limit")),
     NextToken: S.optional(S.String).pipe(T.HttpQuery("nextToken")),
-    RegistryName: S.String.pipe(T.HttpLabel()),
+    RegistryName: S.String.pipe(T.HttpLabel("RegistryName")),
   },
   T.all(
     T.Http({
@@ -668,7 +669,7 @@ export class SearchSchemasRequest extends S.Class<SearchSchemasRequest>(
 export class StartDiscovererRequest extends S.Class<StartDiscovererRequest>(
   "StartDiscovererRequest",
 )(
-  { DiscovererId: S.String.pipe(T.HttpLabel()) },
+  { DiscovererId: S.String.pipe(T.HttpLabel("DiscovererId")) },
   T.all(
     T.Http({ method: "POST", uri: "/v1/discoverers/id/{DiscovererId}/start" }),
     svc,
@@ -681,7 +682,7 @@ export class StartDiscovererRequest extends S.Class<StartDiscovererRequest>(
 export class StopDiscovererRequest extends S.Class<StopDiscovererRequest>(
   "StopDiscovererRequest",
 )(
-  { DiscovererId: S.String.pipe(T.HttpLabel()) },
+  { DiscovererId: S.String.pipe(T.HttpLabel("DiscovererId")) },
   T.all(
     T.Http({ method: "POST", uri: "/v1/discoverers/id/{DiscovererId}/stop" }),
     svc,
@@ -695,7 +696,7 @@ export class TagResourceRequest extends S.Class<TagResourceRequest>(
   "TagResourceRequest",
 )(
   {
-    ResourceArn: S.String.pipe(T.HttpLabel()),
+    ResourceArn: S.String.pipe(T.HttpLabel("ResourceArn")),
     Tags: Tags.pipe(T.JsonName("tags")),
   },
   T.all(
@@ -714,7 +715,7 @@ export class UntagResourceRequest extends S.Class<UntagResourceRequest>(
   "UntagResourceRequest",
 )(
   {
-    ResourceArn: S.String.pipe(T.HttpLabel()),
+    ResourceArn: S.String.pipe(T.HttpLabel("ResourceArn")),
     TagKeys: __listOf__string.pipe(T.HttpQuery("tagKeys")),
   },
   T.all(
@@ -734,7 +735,7 @@ export class UpdateDiscovererRequest extends S.Class<UpdateDiscovererRequest>(
 )(
   {
     Description: S.optional(S.String),
-    DiscovererId: S.String.pipe(T.HttpLabel()),
+    DiscovererId: S.String.pipe(T.HttpLabel("DiscovererId")),
     CrossAccount: S.optional(S.Boolean),
   },
   T.all(
@@ -751,7 +752,7 @@ export class UpdateRegistryRequest extends S.Class<UpdateRegistryRequest>(
 )(
   {
     Description: S.optional(S.String),
-    RegistryName: S.String.pipe(T.HttpLabel()),
+    RegistryName: S.String.pipe(T.HttpLabel("RegistryName")),
   },
   T.all(
     T.Http({ method: "PUT", uri: "/v1/registries/name/{RegistryName}" }),
@@ -769,8 +770,8 @@ export class UpdateSchemaRequest extends S.Class<UpdateSchemaRequest>(
     ClientTokenId: S.optional(S.String),
     Content: S.optional(S.String),
     Description: S.optional(S.String),
-    RegistryName: S.String.pipe(T.HttpLabel()),
-    SchemaName: S.String.pipe(T.HttpLabel()),
+    RegistryName: S.String.pipe(T.HttpLabel("RegistryName")),
+    SchemaName: S.String.pipe(T.HttpLabel("SchemaName")),
     Type: S.optional(S.String),
   },
   T.all(
@@ -1045,7 +1046,7 @@ export class ConflictException extends S.TaggedError<ConflictException>()(
 export class InternalServerErrorException extends S.TaggedError<InternalServerErrorException>()(
   "InternalServerErrorException",
   { Code: S.String, Message: S.String },
-) {}
+).pipe(withCategory(ERROR_CATEGORIES.SERVER_ERROR)) {}
 export class GoneException extends S.TaggedError<GoneException>()(
   "GoneException",
   { Code: S.String, Message: S.String },
@@ -1057,7 +1058,7 @@ export class NotFoundException extends S.TaggedError<NotFoundException>()(
 export class ServiceUnavailableException extends S.TaggedError<ServiceUnavailableException>()(
   "ServiceUnavailableException",
   { Code: S.String, Message: S.String },
-) {}
+).pipe(withCategory(ERROR_CATEGORIES.SERVER_ERROR)) {}
 export class UnauthorizedException extends S.TaggedError<UnauthorizedException>()(
   "UnauthorizedException",
   { Code: S.String, Message: S.String },
@@ -1065,7 +1066,7 @@ export class UnauthorizedException extends S.TaggedError<UnauthorizedException>(
 export class TooManyRequestsException extends S.TaggedError<TooManyRequestsException>()(
   "TooManyRequestsException",
   { Code: S.String, Message: S.String },
-) {}
+).pipe(withCategory(ERROR_CATEGORIES.THROTTLING_ERROR)) {}
 export class PreconditionFailedException extends S.TaggedError<PreconditionFailedException>()(
   "PreconditionFailedException",
   { Code: S.String, Message: S.String },

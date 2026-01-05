@@ -1,6 +1,7 @@
 import * as S from "effect/Schema";
 import * as API from "../api.ts";
 import * as T from "../traits.ts";
+import { ERROR_CATEGORIES, withCategory } from "../error-category.ts";
 const svc = T.AwsApiService({
   sdkId: "SageMaker A2I Runtime",
   serviceShapeName: "AmazonSageMakerA2IRuntime",
@@ -244,7 +245,7 @@ const rules = T.EndpointRuleSet({
 export class DeleteHumanLoopRequest extends S.Class<DeleteHumanLoopRequest>(
   "DeleteHumanLoopRequest",
 )(
-  { HumanLoopName: S.String.pipe(T.HttpLabel()) },
+  { HumanLoopName: S.String.pipe(T.HttpLabel("HumanLoopName")) },
   T.all(
     T.Http({ method: "DELETE", uri: "/human-loops/{HumanLoopName}" }),
     svc,
@@ -260,7 +261,7 @@ export class DeleteHumanLoopResponse extends S.Class<DeleteHumanLoopResponse>(
 export class DescribeHumanLoopRequest extends S.Class<DescribeHumanLoopRequest>(
   "DescribeHumanLoopRequest",
 )(
-  { HumanLoopName: S.String.pipe(T.HttpLabel()) },
+  { HumanLoopName: S.String.pipe(T.HttpLabel("HumanLoopName")) },
   T.all(
     T.Http({ method: "GET", uri: "/human-loops/{HumanLoopName}" }),
     svc,
@@ -374,7 +375,7 @@ export class StartHumanLoopResponse extends S.Class<StartHumanLoopResponse>(
 export class InternalServerException extends S.TaggedError<InternalServerException>()(
   "InternalServerException",
   { Message: S.optional(S.String) },
-) {}
+).pipe(withCategory(ERROR_CATEGORIES.SERVER_ERROR)) {}
 export class ResourceNotFoundException extends S.TaggedError<ResourceNotFoundException>()(
   "ResourceNotFoundException",
   { Message: S.optional(S.String) },
@@ -382,7 +383,7 @@ export class ResourceNotFoundException extends S.TaggedError<ResourceNotFoundExc
 export class ThrottlingException extends S.TaggedError<ThrottlingException>()(
   "ThrottlingException",
   { Message: S.optional(S.String) },
-) {}
+).pipe(withCategory(ERROR_CATEGORIES.THROTTLING_ERROR)) {}
 export class ConflictException extends S.TaggedError<ConflictException>()(
   "ConflictException",
   { Message: S.optional(S.String) },

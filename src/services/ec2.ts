@@ -1,6 +1,7 @@
 import * as S from "effect/Schema";
 import * as API from "../api.ts";
 import * as T from "../traits.ts";
+import { ERROR_CATEGORIES, withCategory } from "../error-category.ts";
 const ns = T.XmlNamespace("http://ec2.amazonaws.com/doc/2016-11-15");
 const svc = T.AwsApiService({ sdkId: "EC2", serviceShapeName: "AmazonEC2" });
 const auth = T.AwsAuthSigv4({ name: "ec2" });

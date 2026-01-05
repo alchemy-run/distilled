@@ -1,6 +1,7 @@
 import * as S from "effect/Schema";
 import * as API from "../api.ts";
 import * as T from "../traits.ts";
+import { ERROR_CATEGORIES, withCategory } from "../error-category.ts";
 const svc = T.AwsApiService({
   sdkId: "Lambda",
   serviceShapeName: "AWSGirApiService",
@@ -267,7 +268,7 @@ export class DeleteFunctionRequest extends S.Class<DeleteFunctionRequest>(
   "DeleteFunctionRequest",
 )(
   {
-    FunctionName: S.String.pipe(T.HttpLabel()),
+    FunctionName: S.String.pipe(T.HttpLabel("FunctionName")),
     Qualifier: S.optional(S.String).pipe(T.HttpQuery("Qualifier")),
   },
   T.all(
@@ -283,7 +284,7 @@ export class DeleteFunctionEventInvokeConfigRequest extends S.Class<DeleteFuncti
   "DeleteFunctionEventInvokeConfigRequest",
 )(
   {
-    FunctionName: S.String.pipe(T.HttpLabel()),
+    FunctionName: S.String.pipe(T.HttpLabel("FunctionName")),
     Qualifier: S.optional(S.String).pipe(T.HttpQuery("Qualifier")),
   },
   T.all(
@@ -304,7 +305,7 @@ export class DeleteFunctionEventInvokeConfigResponse extends S.Class<DeleteFunct
 export class GetDurableExecutionRequest extends S.Class<GetDurableExecutionRequest>(
   "GetDurableExecutionRequest",
 )(
-  { DurableExecutionArn: S.String.pipe(T.HttpLabel()) },
+  { DurableExecutionArn: S.String.pipe(T.HttpLabel("DurableExecutionArn")) },
   T.all(
     T.Http({
       method: "GET",
@@ -321,7 +322,7 @@ export class GetDurableExecutionHistoryRequest extends S.Class<GetDurableExecuti
   "GetDurableExecutionHistoryRequest",
 )(
   {
-    DurableExecutionArn: S.String.pipe(T.HttpLabel()),
+    DurableExecutionArn: S.String.pipe(T.HttpLabel("DurableExecutionArn")),
     IncludeExecutionData: S.optional(S.Boolean).pipe(
       T.HttpQuery("IncludeExecutionData"),
     ),
@@ -345,7 +346,7 @@ export class GetDurableExecutionStateRequest extends S.Class<GetDurableExecution
   "GetDurableExecutionStateRequest",
 )(
   {
-    DurableExecutionArn: S.String.pipe(T.HttpLabel()),
+    DurableExecutionArn: S.String.pipe(T.HttpLabel("DurableExecutionArn")),
     CheckpointToken: S.String.pipe(T.HttpQuery("CheckpointToken")),
     Marker: S.optional(S.String).pipe(T.HttpQuery("Marker")),
     MaxItems: S.optional(S.Number).pipe(T.HttpQuery("MaxItems")),
@@ -366,7 +367,7 @@ export class GetFunctionEventInvokeConfigRequest extends S.Class<GetFunctionEven
   "GetFunctionEventInvokeConfigRequest",
 )(
   {
-    FunctionName: S.String.pipe(T.HttpLabel()),
+    FunctionName: S.String.pipe(T.HttpLabel("FunctionName")),
     Qualifier: S.optional(S.String).pipe(T.HttpQuery("Qualifier")),
   },
   T.all(
@@ -385,7 +386,7 @@ export class ListDurableExecutionsByFunctionRequest extends S.Class<ListDurableE
   "ListDurableExecutionsByFunctionRequest",
 )(
   {
-    FunctionName: S.String.pipe(T.HttpLabel()),
+    FunctionName: S.String.pipe(T.HttpLabel("FunctionName")),
     Qualifier: S.optional(S.String).pipe(T.HttpQuery("Qualifier")),
     DurableExecutionName: S.optional(S.String).pipe(
       T.HttpQuery("DurableExecutionName"),
@@ -417,7 +418,7 @@ export class ListFunctionEventInvokeConfigsRequest extends S.Class<ListFunctionE
   "ListFunctionEventInvokeConfigsRequest",
 )(
   {
-    FunctionName: S.String.pipe(T.HttpLabel()),
+    FunctionName: S.String.pipe(T.HttpLabel("FunctionName")),
     Marker: S.optional(S.String).pipe(T.HttpQuery("Marker")),
     MaxItems: S.optional(S.Number).pipe(T.HttpQuery("MaxItems")),
   },
@@ -436,7 +437,7 @@ export class ListFunctionEventInvokeConfigsRequest extends S.Class<ListFunctionE
 export class ListTagsRequest extends S.Class<ListTagsRequest>(
   "ListTagsRequest",
 )(
-  { Resource: S.String.pipe(T.HttpLabel()) },
+  { Resource: S.String.pipe(T.HttpLabel("Resource")) },
   T.all(
     T.Http({ method: "GET", uri: "/2017-03-31/tags/{Resource}" }),
     svc,
@@ -449,7 +450,7 @@ export class ListTagsRequest extends S.Class<ListTagsRequest>(
 export class SendDurableExecutionCallbackHeartbeatRequest extends S.Class<SendDurableExecutionCallbackHeartbeatRequest>(
   "SendDurableExecutionCallbackHeartbeatRequest",
 )(
-  { CallbackId: S.String.pipe(T.HttpLabel()) },
+  { CallbackId: S.String.pipe(T.HttpLabel("CallbackId")) },
   T.all(
     T.Http({
       method: "POST",
@@ -469,7 +470,7 @@ export class SendDurableExecutionCallbackSuccessRequest extends S.Class<SendDura
   "SendDurableExecutionCallbackSuccessRequest",
 )(
   {
-    CallbackId: S.String.pipe(T.HttpLabel()),
+    CallbackId: S.String.pipe(T.HttpLabel("CallbackId")),
     Result: S.optional(T.StreamingInput).pipe(T.HttpPayload()),
   },
   T.all(
@@ -498,7 +499,7 @@ export class StopDurableExecutionRequest extends S.Class<StopDurableExecutionReq
   "StopDurableExecutionRequest",
 )(
   {
-    DurableExecutionArn: S.String.pipe(T.HttpLabel()),
+    DurableExecutionArn: S.String.pipe(T.HttpLabel("DurableExecutionArn")),
     Error: S.optional(ErrorObject).pipe(T.HttpPayload()),
   },
   T.all(
@@ -517,7 +518,7 @@ export class UntagResourceRequest extends S.Class<UntagResourceRequest>(
   "UntagResourceRequest",
 )(
   {
-    Resource: S.String.pipe(T.HttpLabel()),
+    Resource: S.String.pipe(T.HttpLabel("Resource")),
     TagKeys: TagKeyList.pipe(T.HttpQuery("tagKeys")),
   },
   T.all(
@@ -545,7 +546,7 @@ export class UpdateFunctionEventInvokeConfigRequest extends S.Class<UpdateFuncti
   "UpdateFunctionEventInvokeConfigRequest",
 )(
   {
-    FunctionName: S.String.pipe(T.HttpLabel()),
+    FunctionName: S.String.pipe(T.HttpLabel("FunctionName")),
     Qualifier: S.optional(S.String).pipe(T.HttpQuery("Qualifier")),
     MaximumRetryAttempts: S.optional(S.Number),
     MaximumEventAgeInSeconds: S.optional(S.Number),
@@ -566,7 +567,7 @@ export class UpdateFunctionEventInvokeConfigRequest extends S.Class<UpdateFuncti
 export class GetCapacityProviderRequest extends S.Class<GetCapacityProviderRequest>(
   "GetCapacityProviderRequest",
 )(
-  { CapacityProviderName: S.String.pipe(T.HttpLabel()) },
+  { CapacityProviderName: S.String.pipe(T.HttpLabel("CapacityProviderName")) },
   T.all(
     T.Http({
       method: "GET",
@@ -596,7 +597,7 @@ export class UpdateCapacityProviderRequest extends S.Class<UpdateCapacityProvide
   "UpdateCapacityProviderRequest",
 )(
   {
-    CapacityProviderName: S.String.pipe(T.HttpLabel()),
+    CapacityProviderName: S.String.pipe(T.HttpLabel("CapacityProviderName")),
     CapacityProviderScalingConfig: S.optional(CapacityProviderScalingConfig),
   },
   T.all(
@@ -614,7 +615,7 @@ export class UpdateCapacityProviderRequest extends S.Class<UpdateCapacityProvide
 export class DeleteCapacityProviderRequest extends S.Class<DeleteCapacityProviderRequest>(
   "DeleteCapacityProviderRequest",
 )(
-  { CapacityProviderName: S.String.pipe(T.HttpLabel()) },
+  { CapacityProviderName: S.String.pipe(T.HttpLabel("CapacityProviderName")) },
   T.all(
     T.Http({
       method: "DELETE",
@@ -648,7 +649,7 @@ export class ListFunctionVersionsByCapacityProviderRequest extends S.Class<ListF
   "ListFunctionVersionsByCapacityProviderRequest",
 )(
   {
-    CapacityProviderName: S.String.pipe(T.HttpLabel()),
+    CapacityProviderName: S.String.pipe(T.HttpLabel("CapacityProviderName")),
     Marker: S.optional(S.String).pipe(T.HttpQuery("Marker")),
     MaxItems: S.optional(S.Number).pipe(T.HttpQuery("MaxItems")),
   },
@@ -683,7 +684,7 @@ export class ListCodeSigningConfigsRequest extends S.Class<ListCodeSigningConfig
 export class DeleteCodeSigningConfigRequest extends S.Class<DeleteCodeSigningConfigRequest>(
   "DeleteCodeSigningConfigRequest",
 )(
-  { CodeSigningConfigArn: S.String.pipe(T.HttpLabel()) },
+  { CodeSigningConfigArn: S.String.pipe(T.HttpLabel("CodeSigningConfigArn")) },
   T.all(
     T.Http({
       method: "DELETE",
@@ -702,7 +703,7 @@ export class DeleteCodeSigningConfigResponse extends S.Class<DeleteCodeSigningCo
 export class GetCodeSigningConfigRequest extends S.Class<GetCodeSigningConfigRequest>(
   "GetCodeSigningConfigRequest",
 )(
-  { CodeSigningConfigArn: S.String.pipe(T.HttpLabel()) },
+  { CodeSigningConfigArn: S.String.pipe(T.HttpLabel("CodeSigningConfigArn")) },
   T.all(
     T.Http({
       method: "GET",
@@ -719,7 +720,7 @@ export class ListFunctionsByCodeSigningConfigRequest extends S.Class<ListFunctio
   "ListFunctionsByCodeSigningConfigRequest",
 )(
   {
-    CodeSigningConfigArn: S.String.pipe(T.HttpLabel()),
+    CodeSigningConfigArn: S.String.pipe(T.HttpLabel("CodeSigningConfigArn")),
     Marker: S.optional(S.String).pipe(T.HttpQuery("Marker")),
     MaxItems: S.optional(S.Number).pipe(T.HttpQuery("MaxItems")),
   },
@@ -746,7 +747,7 @@ export class UpdateCodeSigningConfigRequest extends S.Class<UpdateCodeSigningCon
   "UpdateCodeSigningConfigRequest",
 )(
   {
-    CodeSigningConfigArn: S.String.pipe(T.HttpLabel()),
+    CodeSigningConfigArn: S.String.pipe(T.HttpLabel("CodeSigningConfigArn")),
     Description: S.optional(S.String),
     AllowedPublishers: S.optional(AllowedPublishers),
     CodeSigningPolicies: S.optional(CodeSigningPolicies),
@@ -766,7 +767,7 @@ export class UpdateCodeSigningConfigRequest extends S.Class<UpdateCodeSigningCon
 export class GetEventSourceMappingRequest extends S.Class<GetEventSourceMappingRequest>(
   "GetEventSourceMappingRequest",
 )(
-  { UUID: S.String.pipe(T.HttpLabel()) },
+  { UUID: S.String.pipe(T.HttpLabel("UUID")) },
   T.all(
     T.Http({ method: "GET", uri: "/2015-03-31/event-source-mappings/{UUID}" }),
     svc,
@@ -844,7 +845,7 @@ export class UpdateEventSourceMappingRequest extends S.Class<UpdateEventSourceMa
   "UpdateEventSourceMappingRequest",
 )(
   {
-    UUID: S.String.pipe(T.HttpLabel()),
+    UUID: S.String.pipe(T.HttpLabel("UUID")),
     FunctionName: S.optional(S.String),
     Enabled: S.optional(S.Boolean),
     BatchSize: S.optional(S.Number),
@@ -882,7 +883,7 @@ export class UpdateEventSourceMappingRequest extends S.Class<UpdateEventSourceMa
 export class DeleteEventSourceMappingRequest extends S.Class<DeleteEventSourceMappingRequest>(
   "DeleteEventSourceMappingRequest",
 )(
-  { UUID: S.String.pipe(T.HttpLabel()) },
+  { UUID: S.String.pipe(T.HttpLabel("UUID")) },
   T.all(
     T.Http({
       method: "DELETE",
@@ -934,7 +935,7 @@ export class ListFunctionsRequest extends S.Class<ListFunctionsRequest>(
 export class DeleteFunctionConcurrencyRequest extends S.Class<DeleteFunctionConcurrencyRequest>(
   "DeleteFunctionConcurrencyRequest",
 )(
-  { FunctionName: S.String.pipe(T.HttpLabel()) },
+  { FunctionName: S.String.pipe(T.HttpLabel("FunctionName")) },
   T.all(
     T.Http({
       method: "DELETE",
@@ -954,7 +955,7 @@ export class DeleteFunctionUrlConfigRequest extends S.Class<DeleteFunctionUrlCon
   "DeleteFunctionUrlConfigRequest",
 )(
   {
-    FunctionName: S.String.pipe(T.HttpLabel()),
+    FunctionName: S.String.pipe(T.HttpLabel("FunctionName")),
     Qualifier: S.optional(S.String).pipe(T.HttpQuery("Qualifier")),
   },
   T.all(
@@ -975,7 +976,7 @@ export class DeleteFunctionUrlConfigResponse extends S.Class<DeleteFunctionUrlCo
 export class GetFunctionConcurrencyRequest extends S.Class<GetFunctionConcurrencyRequest>(
   "GetFunctionConcurrencyRequest",
 )(
-  { FunctionName: S.String.pipe(T.HttpLabel()) },
+  { FunctionName: S.String.pipe(T.HttpLabel("FunctionName")) },
   T.all(
     T.Http({
       method: "GET",
@@ -992,7 +993,7 @@ export class GetFunctionUrlConfigRequest extends S.Class<GetFunctionUrlConfigReq
   "GetFunctionUrlConfigRequest",
 )(
   {
-    FunctionName: S.String.pipe(T.HttpLabel()),
+    FunctionName: S.String.pipe(T.HttpLabel("FunctionName")),
     Qualifier: S.optional(S.String).pipe(T.HttpQuery("Qualifier")),
   },
   T.all(
@@ -1008,7 +1009,7 @@ export class ListFunctionUrlConfigsRequest extends S.Class<ListFunctionUrlConfig
   "ListFunctionUrlConfigsRequest",
 )(
   {
-    FunctionName: S.String.pipe(T.HttpLabel()),
+    FunctionName: S.String.pipe(T.HttpLabel("FunctionName")),
     Marker: S.optional(S.String).pipe(T.HttpQuery("Marker")),
     MaxItems: S.optional(S.Number).pipe(T.HttpQuery("MaxItems")),
   },
@@ -1025,7 +1026,7 @@ export class ListProvisionedConcurrencyConfigsRequest extends S.Class<ListProvis
   "ListProvisionedConcurrencyConfigsRequest",
 )(
   {
-    FunctionName: S.String.pipe(T.HttpLabel()),
+    FunctionName: S.String.pipe(T.HttpLabel("FunctionName")),
     Marker: S.optional(S.String).pipe(T.HttpQuery("Marker")),
     MaxItems: S.optional(S.Number).pipe(T.HttpQuery("MaxItems")),
   },
@@ -1045,7 +1046,7 @@ export class PutFunctionConcurrencyRequest extends S.Class<PutFunctionConcurrenc
   "PutFunctionConcurrencyRequest",
 )(
   {
-    FunctionName: S.String.pipe(T.HttpLabel()),
+    FunctionName: S.String.pipe(T.HttpLabel("FunctionName")),
     ReservedConcurrentExecutions: S.Number,
   },
   T.all(
@@ -1064,7 +1065,7 @@ export class UpdateFunctionCodeRequest extends S.Class<UpdateFunctionCodeRequest
   "UpdateFunctionCodeRequest",
 )(
   {
-    FunctionName: S.String.pipe(T.HttpLabel()),
+    FunctionName: S.String.pipe(T.HttpLabel("FunctionName")),
     ZipFile: S.optional(T.Blob),
     S3Bucket: S.optional(S.String),
     S3Key: S.optional(S.String),
@@ -1149,7 +1150,7 @@ export class UpdateFunctionConfigurationRequest extends S.Class<UpdateFunctionCo
   "UpdateFunctionConfigurationRequest",
 )(
   {
-    FunctionName: S.String.pipe(T.HttpLabel()),
+    FunctionName: S.String.pipe(T.HttpLabel("FunctionName")),
     Role: S.optional(S.String),
     Handler: S.optional(S.String),
     Description: S.optional(S.String),
@@ -1198,7 +1199,7 @@ export class UpdateFunctionUrlConfigRequest extends S.Class<UpdateFunctionUrlCon
   "UpdateFunctionUrlConfigRequest",
 )(
   {
-    FunctionName: S.String.pipe(T.HttpLabel()),
+    FunctionName: S.String.pipe(T.HttpLabel("FunctionName")),
     Qualifier: S.optional(S.String).pipe(T.HttpQuery("Qualifier")),
     AuthType: S.optional(S.String),
     Cors: S.optional(Cors),
@@ -1216,7 +1217,7 @@ export class UpdateFunctionUrlConfigRequest extends S.Class<UpdateFunctionUrlCon
 export class DeleteFunctionCodeSigningConfigRequest extends S.Class<DeleteFunctionCodeSigningConfigRequest>(
   "DeleteFunctionCodeSigningConfigRequest",
 )(
-  { FunctionName: S.String.pipe(T.HttpLabel()) },
+  { FunctionName: S.String.pipe(T.HttpLabel("FunctionName")) },
   T.all(
     T.Http({
       method: "DELETE",
@@ -1236,7 +1237,7 @@ export class GetFunctionRequest extends S.Class<GetFunctionRequest>(
   "GetFunctionRequest",
 )(
   {
-    FunctionName: S.String.pipe(T.HttpLabel()),
+    FunctionName: S.String.pipe(T.HttpLabel("FunctionName")),
     Qualifier: S.optional(S.String).pipe(T.HttpQuery("Qualifier")),
   },
   T.all(
@@ -1251,7 +1252,7 @@ export class GetFunctionRequest extends S.Class<GetFunctionRequest>(
 export class GetFunctionCodeSigningConfigRequest extends S.Class<GetFunctionCodeSigningConfigRequest>(
   "GetFunctionCodeSigningConfigRequest",
 )(
-  { FunctionName: S.String.pipe(T.HttpLabel()) },
+  { FunctionName: S.String.pipe(T.HttpLabel("FunctionName")) },
   T.all(
     T.Http({
       method: "GET",
@@ -1268,7 +1269,7 @@ export class GetFunctionConfigurationRequest extends S.Class<GetFunctionConfigur
   "GetFunctionConfigurationRequest",
 )(
   {
-    FunctionName: S.String.pipe(T.HttpLabel()),
+    FunctionName: S.String.pipe(T.HttpLabel("FunctionName")),
     Qualifier: S.optional(S.String).pipe(T.HttpQuery("Qualifier")),
   },
   T.all(
@@ -1286,7 +1287,7 @@ export class GetFunctionConfigurationRequest extends S.Class<GetFunctionConfigur
 export class GetFunctionRecursionConfigRequest extends S.Class<GetFunctionRecursionConfigRequest>(
   "GetFunctionRecursionConfigRequest",
 )(
-  { FunctionName: S.String.pipe(T.HttpLabel()) },
+  { FunctionName: S.String.pipe(T.HttpLabel("FunctionName")) },
   T.all(
     T.Http({
       method: "GET",
@@ -1303,7 +1304,7 @@ export class GetFunctionScalingConfigRequest extends S.Class<GetFunctionScalingC
   "GetFunctionScalingConfigRequest",
 )(
   {
-    FunctionName: S.String.pipe(T.HttpLabel()),
+    FunctionName: S.String.pipe(T.HttpLabel("FunctionName")),
     Qualifier: S.String.pipe(T.HttpQuery("Qualifier")),
   },
   T.all(
@@ -1322,7 +1323,7 @@ export class GetPolicyRequest extends S.Class<GetPolicyRequest>(
   "GetPolicyRequest",
 )(
   {
-    FunctionName: S.String.pipe(T.HttpLabel()),
+    FunctionName: S.String.pipe(T.HttpLabel("FunctionName")),
     Qualifier: S.optional(S.String).pipe(T.HttpQuery("Qualifier")),
   },
   T.all(
@@ -1341,7 +1342,7 @@ export class GetRuntimeManagementConfigRequest extends S.Class<GetRuntimeManagem
   "GetRuntimeManagementConfigRequest",
 )(
   {
-    FunctionName: S.String.pipe(T.HttpLabel()),
+    FunctionName: S.String.pipe(T.HttpLabel("FunctionName")),
     Qualifier: S.optional(S.String).pipe(T.HttpQuery("Qualifier")),
   },
   T.all(
@@ -1360,7 +1361,7 @@ export class InvocationRequest extends S.Class<InvocationRequest>(
   "InvocationRequest",
 )(
   {
-    FunctionName: S.String.pipe(T.HttpLabel()),
+    FunctionName: S.String.pipe(T.HttpLabel("FunctionName")),
     InvocationType: S.optional(S.String).pipe(
       T.HttpHeader("X-Amz-Invocation-Type"),
     ),
@@ -1391,7 +1392,7 @@ export class InvokeAsyncRequest extends S.Class<InvokeAsyncRequest>(
   "InvokeAsyncRequest",
 )(
   {
-    FunctionName: S.String.pipe(T.HttpLabel()),
+    FunctionName: S.String.pipe(T.HttpLabel("FunctionName")),
     InvokeArgs: T.StreamingInput.pipe(T.HttpPayload()),
   },
   T.all(
@@ -1410,7 +1411,7 @@ export class InvokeWithResponseStreamRequest extends S.Class<InvokeWithResponseS
   "InvokeWithResponseStreamRequest",
 )(
   {
-    FunctionName: S.String.pipe(T.HttpLabel()),
+    FunctionName: S.String.pipe(T.HttpLabel("FunctionName")),
     InvocationType: S.optional(S.String).pipe(
       T.HttpHeader("X-Amz-Invocation-Type"),
     ),
@@ -1439,7 +1440,7 @@ export class PutFunctionCodeSigningConfigRequest extends S.Class<PutFunctionCode
 )(
   {
     CodeSigningConfigArn: S.String,
-    FunctionName: S.String.pipe(T.HttpLabel()),
+    FunctionName: S.String.pipe(T.HttpLabel("FunctionName")),
   },
   T.all(
     T.Http({
@@ -1456,7 +1457,10 @@ export class PutFunctionCodeSigningConfigRequest extends S.Class<PutFunctionCode
 export class PutFunctionRecursionConfigRequest extends S.Class<PutFunctionRecursionConfigRequest>(
   "PutFunctionRecursionConfigRequest",
 )(
-  { FunctionName: S.String.pipe(T.HttpLabel()), RecursiveLoop: S.String },
+  {
+    FunctionName: S.String.pipe(T.HttpLabel("FunctionName")),
+    RecursiveLoop: S.String,
+  },
   T.all(
     T.Http({
       method: "PUT",
@@ -1473,7 +1477,7 @@ export class PutRuntimeManagementConfigRequest extends S.Class<PutRuntimeManagem
   "PutRuntimeManagementConfigRequest",
 )(
   {
-    FunctionName: S.String.pipe(T.HttpLabel()),
+    FunctionName: S.String.pipe(T.HttpLabel("FunctionName")),
     Qualifier: S.optional(S.String).pipe(T.HttpQuery("Qualifier")),
     UpdateRuntimeOn: S.String,
     RuntimeVersionArn: S.optional(S.String),
@@ -1494,8 +1498,8 @@ export class GetAliasRequest extends S.Class<GetAliasRequest>(
   "GetAliasRequest",
 )(
   {
-    FunctionName: S.String.pipe(T.HttpLabel()),
-    Name: S.String.pipe(T.HttpLabel()),
+    FunctionName: S.String.pipe(T.HttpLabel("FunctionName")),
+    Name: S.String.pipe(T.HttpLabel("Name")),
   },
   T.all(
     T.Http({
@@ -1520,8 +1524,8 @@ export class UpdateAliasRequest extends S.Class<UpdateAliasRequest>(
   "UpdateAliasRequest",
 )(
   {
-    FunctionName: S.String.pipe(T.HttpLabel()),
-    Name: S.String.pipe(T.HttpLabel()),
+    FunctionName: S.String.pipe(T.HttpLabel("FunctionName")),
+    Name: S.String.pipe(T.HttpLabel("Name")),
     FunctionVersion: S.optional(S.String),
     Description: S.optional(S.String),
     RoutingConfig: S.optional(AliasRoutingConfiguration),
@@ -1543,8 +1547,8 @@ export class DeleteAliasRequest extends S.Class<DeleteAliasRequest>(
   "DeleteAliasRequest",
 )(
   {
-    FunctionName: S.String.pipe(T.HttpLabel()),
-    Name: S.String.pipe(T.HttpLabel()),
+    FunctionName: S.String.pipe(T.HttpLabel("FunctionName")),
+    Name: S.String.pipe(T.HttpLabel("Name")),
   },
   T.all(
     T.Http({
@@ -1565,7 +1569,7 @@ export class ListAliasesRequest extends S.Class<ListAliasesRequest>(
   "ListAliasesRequest",
 )(
   {
-    FunctionName: S.String.pipe(T.HttpLabel()),
+    FunctionName: S.String.pipe(T.HttpLabel("FunctionName")),
     FunctionVersion: S.optional(S.String).pipe(T.HttpQuery("FunctionVersion")),
     Marker: S.optional(S.String).pipe(T.HttpQuery("Marker")),
     MaxItems: S.optional(S.Number).pipe(T.HttpQuery("MaxItems")),
@@ -1586,7 +1590,7 @@ export class PublishVersionRequest extends S.Class<PublishVersionRequest>(
   "PublishVersionRequest",
 )(
   {
-    FunctionName: S.String.pipe(T.HttpLabel()),
+    FunctionName: S.String.pipe(T.HttpLabel("FunctionName")),
     CodeSha256: S.optional(S.String),
     Description: S.optional(S.String),
     RevisionId: S.optional(S.String),
@@ -1608,7 +1612,7 @@ export class ListVersionsByFunctionRequest extends S.Class<ListVersionsByFunctio
   "ListVersionsByFunctionRequest",
 )(
   {
-    FunctionName: S.String.pipe(T.HttpLabel()),
+    FunctionName: S.String.pipe(T.HttpLabel("FunctionName")),
     Marker: S.optional(S.String).pipe(T.HttpQuery("Marker")),
     MaxItems: S.optional(S.Number).pipe(T.HttpQuery("MaxItems")),
   },
@@ -1653,7 +1657,7 @@ export class ListLayerVersionsRequest extends S.Class<ListLayerVersionsRequest>(
     CompatibleRuntime: S.optional(S.String).pipe(
       T.HttpQuery("CompatibleRuntime"),
     ),
-    LayerName: S.String.pipe(T.HttpLabel()),
+    LayerName: S.String.pipe(T.HttpLabel("LayerName")),
     Marker: S.optional(S.String).pipe(T.HttpQuery("Marker")),
     MaxItems: S.optional(S.Number).pipe(T.HttpQuery("MaxItems")),
     CompatibleArchitecture: S.optional(S.String).pipe(
@@ -1673,8 +1677,8 @@ export class AddLayerVersionPermissionRequest extends S.Class<AddLayerVersionPer
   "AddLayerVersionPermissionRequest",
 )(
   {
-    LayerName: S.String.pipe(T.HttpLabel()),
-    VersionNumber: S.Number.pipe(T.HttpLabel()),
+    LayerName: S.String.pipe(T.HttpLabel("LayerName")),
+    VersionNumber: S.Number.pipe(T.HttpLabel("VersionNumber")),
     StatementId: S.String,
     Action: S.String,
     Principal: S.String,
@@ -1697,8 +1701,8 @@ export class DeleteLayerVersionRequest extends S.Class<DeleteLayerVersionRequest
   "DeleteLayerVersionRequest",
 )(
   {
-    LayerName: S.String.pipe(T.HttpLabel()),
-    VersionNumber: S.Number.pipe(T.HttpLabel()),
+    LayerName: S.String.pipe(T.HttpLabel("LayerName")),
+    VersionNumber: S.Number.pipe(T.HttpLabel("VersionNumber")),
   },
   T.all(
     T.Http({
@@ -1719,8 +1723,8 @@ export class GetLayerVersionRequest extends S.Class<GetLayerVersionRequest>(
   "GetLayerVersionRequest",
 )(
   {
-    LayerName: S.String.pipe(T.HttpLabel()),
-    VersionNumber: S.Number.pipe(T.HttpLabel()),
+    LayerName: S.String.pipe(T.HttpLabel("LayerName")),
+    VersionNumber: S.Number.pipe(T.HttpLabel("VersionNumber")),
   },
   T.all(
     T.Http({
@@ -1751,8 +1755,8 @@ export class GetLayerVersionPolicyRequest extends S.Class<GetLayerVersionPolicyR
   "GetLayerVersionPolicyRequest",
 )(
   {
-    LayerName: S.String.pipe(T.HttpLabel()),
-    VersionNumber: S.Number.pipe(T.HttpLabel()),
+    LayerName: S.String.pipe(T.HttpLabel("LayerName")),
+    VersionNumber: S.Number.pipe(T.HttpLabel("VersionNumber")),
   },
   T.all(
     T.Http({
@@ -1770,9 +1774,9 @@ export class RemoveLayerVersionPermissionRequest extends S.Class<RemoveLayerVers
   "RemoveLayerVersionPermissionRequest",
 )(
   {
-    LayerName: S.String.pipe(T.HttpLabel()),
-    VersionNumber: S.Number.pipe(T.HttpLabel()),
-    StatementId: S.String.pipe(T.HttpLabel()),
+    LayerName: S.String.pipe(T.HttpLabel("LayerName")),
+    VersionNumber: S.Number.pipe(T.HttpLabel("VersionNumber")),
+    StatementId: S.String.pipe(T.HttpLabel("StatementId")),
     RevisionId: S.optional(S.String).pipe(T.HttpQuery("RevisionId")),
   },
   T.all(
@@ -1794,7 +1798,7 @@ export class AddPermissionRequest extends S.Class<AddPermissionRequest>(
   "AddPermissionRequest",
 )(
   {
-    FunctionName: S.String.pipe(T.HttpLabel()),
+    FunctionName: S.String.pipe(T.HttpLabel("FunctionName")),
     StatementId: S.String,
     Action: S.String,
     Principal: S.String,
@@ -1823,8 +1827,8 @@ export class RemovePermissionRequest extends S.Class<RemovePermissionRequest>(
   "RemovePermissionRequest",
 )(
   {
-    FunctionName: S.String.pipe(T.HttpLabel()),
-    StatementId: S.String.pipe(T.HttpLabel()),
+    FunctionName: S.String.pipe(T.HttpLabel("FunctionName")),
+    StatementId: S.String.pipe(T.HttpLabel("StatementId")),
     Qualifier: S.optional(S.String).pipe(T.HttpQuery("Qualifier")),
     RevisionId: S.optional(S.String).pipe(T.HttpQuery("RevisionId")),
   },
@@ -1847,7 +1851,7 @@ export class PutProvisionedConcurrencyConfigRequest extends S.Class<PutProvision
   "PutProvisionedConcurrencyConfigRequest",
 )(
   {
-    FunctionName: S.String.pipe(T.HttpLabel()),
+    FunctionName: S.String.pipe(T.HttpLabel("FunctionName")),
     Qualifier: S.String.pipe(T.HttpQuery("Qualifier")),
     ProvisionedConcurrentExecutions: S.Number,
   },
@@ -1867,7 +1871,7 @@ export class GetProvisionedConcurrencyConfigRequest extends S.Class<GetProvision
   "GetProvisionedConcurrencyConfigRequest",
 )(
   {
-    FunctionName: S.String.pipe(T.HttpLabel()),
+    FunctionName: S.String.pipe(T.HttpLabel("FunctionName")),
     Qualifier: S.String.pipe(T.HttpQuery("Qualifier")),
   },
   T.all(
@@ -1886,7 +1890,7 @@ export class DeleteProvisionedConcurrencyConfigRequest extends S.Class<DeletePro
   "DeleteProvisionedConcurrencyConfigRequest",
 )(
   {
-    FunctionName: S.String.pipe(T.HttpLabel()),
+    FunctionName: S.String.pipe(T.HttpLabel("FunctionName")),
     Qualifier: S.String.pipe(T.HttpQuery("Qualifier")),
   },
   T.all(
@@ -2164,7 +2168,7 @@ export class SendDurableExecutionCallbackFailureRequest extends S.Class<SendDura
   "SendDurableExecutionCallbackFailureRequest",
 )(
   {
-    CallbackId: S.String.pipe(T.HttpLabel()),
+    CallbackId: S.String.pipe(T.HttpLabel("CallbackId")),
     Error: S.optional(ErrorObject).pipe(T.HttpPayload()),
   },
   T.all(
@@ -2188,7 +2192,7 @@ export class StopDurableExecutionResponse extends S.Class<StopDurableExecutionRe
 export class TagResourceRequest extends S.Class<TagResourceRequest>(
   "TagResourceRequest",
 )(
-  { Resource: S.String.pipe(T.HttpLabel()), Tags: Tags },
+  { Resource: S.String.pipe(T.HttpLabel("Resource")), Tags: Tags },
   T.all(
     T.Http({ method: "POST", uri: "/2017-03-31/tags/{Resource}" }),
     svc,
@@ -2266,7 +2270,7 @@ export class CreateFunctionUrlConfigRequest extends S.Class<CreateFunctionUrlCon
   "CreateFunctionUrlConfigRequest",
 )(
   {
-    FunctionName: S.String.pipe(T.HttpLabel()),
+    FunctionName: S.String.pipe(T.HttpLabel("FunctionName")),
     Qualifier: S.optional(S.String).pipe(T.HttpQuery("Qualifier")),
     AuthType: S.String,
     Cors: S.optional(Cors),
@@ -2361,7 +2365,7 @@ export class PutFunctionScalingConfigRequest extends S.Class<PutFunctionScalingC
   "PutFunctionScalingConfigRequest",
 )(
   {
-    FunctionName: S.String.pipe(T.HttpLabel()),
+    FunctionName: S.String.pipe(T.HttpLabel("FunctionName")),
     Qualifier: S.String.pipe(T.HttpQuery("Qualifier")),
     FunctionScalingConfig: S.optional(FunctionScalingConfig),
   },
@@ -2400,7 +2404,7 @@ export class PublishLayerVersionRequest extends S.Class<PublishLayerVersionReque
   "PublishLayerVersionRequest",
 )(
   {
-    LayerName: S.String.pipe(T.HttpLabel()),
+    LayerName: S.String.pipe(T.HttpLabel("LayerName")),
     Description: S.optional(S.String),
     Content: LayerVersionContentInput,
     CompatibleRuntimes: S.optional(CompatibleRuntimes),
@@ -2570,7 +2574,7 @@ export class CheckpointDurableExecutionRequest extends S.Class<CheckpointDurable
   "CheckpointDurableExecutionRequest",
 )(
   {
-    DurableExecutionArn: S.String.pipe(T.HttpLabel()),
+    DurableExecutionArn: S.String.pipe(T.HttpLabel("DurableExecutionArn")),
     CheckpointToken: S.String,
     Updates: S.optional(OperationUpdates),
     ClientToken: S.optional(S.String),
@@ -2612,7 +2616,7 @@ export class PutFunctionEventInvokeConfigRequest extends S.Class<PutFunctionEven
   "PutFunctionEventInvokeConfigRequest",
 )(
   {
-    FunctionName: S.String.pipe(T.HttpLabel()),
+    FunctionName: S.String.pipe(T.HttpLabel("FunctionName")),
     Qualifier: S.optional(S.String).pipe(T.HttpQuery("Qualifier")),
     MaximumRetryAttempts: S.optional(S.Number),
     MaximumEventAgeInSeconds: S.optional(S.Number),
@@ -2750,7 +2754,7 @@ export class CreateAliasRequest extends S.Class<CreateAliasRequest>(
   "CreateAliasRequest",
 )(
   {
-    FunctionName: S.String.pipe(T.HttpLabel()),
+    FunctionName: S.String.pipe(T.HttpLabel("FunctionName")),
     Name: S.String,
     FunctionVersion: S.String,
     Description: S.optional(S.String),
@@ -3105,7 +3109,7 @@ export class CodeStorageExceededException extends S.TaggedError<CodeStorageExcee
 export class ServiceException extends S.TaggedError<ServiceException>()(
   "ServiceException",
   { Type: S.optional(S.String), Message: S.optional(S.String) },
-) {}
+).pipe(withCategory(ERROR_CATEGORIES.SERVER_ERROR)) {}
 export class ResourceNotFoundException extends S.TaggedError<ResourceNotFoundException>()(
   "ResourceNotFoundException",
   { Type: S.optional(S.String), Message: S.optional(S.String) },
@@ -3138,7 +3142,7 @@ export class TooManyRequestsException extends S.TaggedError<TooManyRequestsExcep
     message: S.optional(S.String),
     Reason: S.optional(S.String),
   },
-) {}
+).pipe(withCategory(ERROR_CATEGORIES.THROTTLING_ERROR)) {}
 export class ParseError extends S.TaggedError<ParseError>()("ParseError", {}) {}
 export class ProvisionedConcurrencyConfigNotFoundException extends S.TaggedError<ProvisionedConcurrencyConfigNotFoundException>()(
   "ProvisionedConcurrencyConfigNotFoundException",
@@ -3159,11 +3163,11 @@ export class InvalidCodeSignatureException extends S.TaggedError<InvalidCodeSign
 export class EC2AccessDeniedException extends S.TaggedError<EC2AccessDeniedException>()(
   "EC2AccessDeniedException",
   { Type: S.optional(S.String), Message: S.optional(S.String) },
-) {}
+).pipe(withCategory(ERROR_CATEGORIES.SERVER_ERROR)) {}
 export class InvalidRuntimeException extends S.TaggedError<InvalidRuntimeException>()(
   "InvalidRuntimeException",
   { Type: S.optional(S.String), Message: S.optional(S.String) },
-) {}
+).pipe(withCategory(ERROR_CATEGORIES.SERVER_ERROR)) {}
 export class CapacityProviderLimitExceededException extends S.TaggedError<CapacityProviderLimitExceededException>()(
   "CapacityProviderLimitExceededException",
   { Type: S.optional(S.String), message: S.optional(S.String) },
@@ -3171,7 +3175,7 @@ export class CapacityProviderLimitExceededException extends S.TaggedError<Capaci
 export class EC2ThrottledException extends S.TaggedError<EC2ThrottledException>()(
   "EC2ThrottledException",
   { Type: S.optional(S.String), Message: S.optional(S.String) },
-) {}
+).pipe(withCategory(ERROR_CATEGORIES.SERVER_ERROR)) {}
 export class EC2UnexpectedException extends S.TaggedError<EC2UnexpectedException>()(
   "EC2UnexpectedException",
   {
@@ -3179,7 +3183,7 @@ export class EC2UnexpectedException extends S.TaggedError<EC2UnexpectedException
     Message: S.optional(S.String),
     EC2ErrorCode: S.optional(S.String),
   },
-) {}
+).pipe(withCategory(ERROR_CATEGORIES.SERVER_ERROR)) {}
 export class EFSIOException extends S.TaggedError<EFSIOException>()(
   "EFSIOException",
   { Type: S.optional(S.String), Message: S.optional(S.String) },
@@ -3199,35 +3203,35 @@ export class EFSMountTimeoutException extends S.TaggedError<EFSMountTimeoutExcep
 export class ENILimitReachedException extends S.TaggedError<ENILimitReachedException>()(
   "ENILimitReachedException",
   { Type: S.optional(S.String), Message: S.optional(S.String) },
-) {}
+).pipe(withCategory(ERROR_CATEGORIES.SERVER_ERROR)) {}
 export class InvalidSecurityGroupIDException extends S.TaggedError<InvalidSecurityGroupIDException>()(
   "InvalidSecurityGroupIDException",
   { Type: S.optional(S.String), Message: S.optional(S.String) },
-) {}
+).pipe(withCategory(ERROR_CATEGORIES.SERVER_ERROR)) {}
 export class InvalidSubnetIDException extends S.TaggedError<InvalidSubnetIDException>()(
   "InvalidSubnetIDException",
   { Type: S.optional(S.String), Message: S.optional(S.String) },
-) {}
+).pipe(withCategory(ERROR_CATEGORIES.SERVER_ERROR)) {}
 export class InvalidZipFileException extends S.TaggedError<InvalidZipFileException>()(
   "InvalidZipFileException",
   { Type: S.optional(S.String), Message: S.optional(S.String) },
-) {}
+).pipe(withCategory(ERROR_CATEGORIES.SERVER_ERROR)) {}
 export class KMSAccessDeniedException extends S.TaggedError<KMSAccessDeniedException>()(
   "KMSAccessDeniedException",
   { Type: S.optional(S.String), Message: S.optional(S.String) },
-) {}
+).pipe(withCategory(ERROR_CATEGORIES.SERVER_ERROR)) {}
 export class KMSDisabledException extends S.TaggedError<KMSDisabledException>()(
   "KMSDisabledException",
   { Type: S.optional(S.String), Message: S.optional(S.String) },
-) {}
+).pipe(withCategory(ERROR_CATEGORIES.SERVER_ERROR)) {}
 export class KMSInvalidStateException extends S.TaggedError<KMSInvalidStateException>()(
   "KMSInvalidStateException",
   { Type: S.optional(S.String), Message: S.optional(S.String) },
-) {}
+).pipe(withCategory(ERROR_CATEGORIES.SERVER_ERROR)) {}
 export class KMSNotFoundException extends S.TaggedError<KMSNotFoundException>()(
   "KMSNotFoundException",
   { Type: S.optional(S.String), Message: S.optional(S.String) },
-) {}
+).pipe(withCategory(ERROR_CATEGORIES.SERVER_ERROR)) {}
 export class NoPublishedVersionException extends S.TaggedError<NoPublishedVersionException>()(
   "NoPublishedVersionException",
   { Type: S.optional(S.String), Message: S.optional(S.String) },
@@ -3243,7 +3247,7 @@ export class RequestTooLargeException extends S.TaggedError<RequestTooLargeExcep
 export class ResourceNotReadyException extends S.TaggedError<ResourceNotReadyException>()(
   "ResourceNotReadyException",
   { Type: S.optional(S.String), message: S.optional(S.String) },
-) {}
+).pipe(withCategory(ERROR_CATEGORIES.SERVER_ERROR)) {}
 export class SerializedRequestEntityTooLargeException extends S.TaggedError<SerializedRequestEntityTooLargeException>()(
   "SerializedRequestEntityTooLargeException",
   { Type: S.optional(S.String), message: S.optional(S.String) },
@@ -3263,7 +3267,7 @@ export class SnapStartTimeoutException extends S.TaggedError<SnapStartTimeoutExc
 export class SubnetIPAddressLimitReachedException extends S.TaggedError<SubnetIPAddressLimitReachedException>()(
   "SubnetIPAddressLimitReachedException",
   { Type: S.optional(S.String), Message: S.optional(S.String) },
-) {}
+).pipe(withCategory(ERROR_CATEGORIES.SERVER_ERROR)) {}
 export class UnsupportedMediaTypeException extends S.TaggedError<UnsupportedMediaTypeException>()(
   "UnsupportedMediaTypeException",
   { Type: S.optional(S.String), message: S.optional(S.String) },

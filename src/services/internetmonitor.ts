@@ -1,6 +1,7 @@
 import * as S from "effect/Schema";
 import * as API from "../api.ts";
 import * as T from "../traits.ts";
+import { ERROR_CATEGORIES, withCategory } from "../error-category.ts";
 const svc = T.AwsApiService({
   sdkId: "InternetMonitor",
   serviceShapeName: "InternetMonitor20210603",
@@ -246,7 +247,7 @@ export const SetOfARNs = S.Array(S.String);
 export class ListTagsForResourceInput extends S.Class<ListTagsForResourceInput>(
   "ListTagsForResourceInput",
 )(
-  { ResourceArn: S.String.pipe(T.HttpLabel()) },
+  { ResourceArn: S.String.pipe(T.HttpLabel("ResourceArn")) },
   T.all(
     T.Http({ method: "GET", uri: "/tags/{ResourceArn}" }),
     svc,
@@ -260,7 +261,7 @@ export class UntagResourceInput extends S.Class<UntagResourceInput>(
   "UntagResourceInput",
 )(
   {
-    ResourceArn: S.String.pipe(T.HttpLabel()),
+    ResourceArn: S.String.pipe(T.HttpLabel("ResourceArn")),
     TagKeys: TagKeys.pipe(T.HttpQuery("tagKeys")),
   },
   T.all(
@@ -278,7 +279,7 @@ export class UntagResourceOutput extends S.Class<UntagResourceOutput>(
 export class GetInternetEventInput extends S.Class<GetInternetEventInput>(
   "GetInternetEventInput",
 )(
-  { EventId: S.String.pipe(T.HttpLabel()) },
+  { EventId: S.String.pipe(T.HttpLabel("EventId")) },
   T.all(
     T.Http({ method: "GET", uri: "/v20210603/InternetEvents/{EventId}" }),
     svc,
@@ -318,7 +319,7 @@ export class GetMonitorInput extends S.Class<GetMonitorInput>(
   "GetMonitorInput",
 )(
   {
-    MonitorName: S.String.pipe(T.HttpLabel()),
+    MonitorName: S.String.pipe(T.HttpLabel("MonitorName")),
     LinkedAccountId: S.optional(S.String).pipe(T.HttpQuery("LinkedAccountId")),
   },
   T.all(
@@ -357,7 +358,7 @@ export class UpdateMonitorInput extends S.Class<UpdateMonitorInput>(
   "UpdateMonitorInput",
 )(
   {
-    MonitorName: S.String.pipe(T.HttpLabel()),
+    MonitorName: S.String.pipe(T.HttpLabel("MonitorName")),
     ResourcesToAdd: S.optional(SetOfARNs),
     ResourcesToRemove: S.optional(SetOfARNs),
     Status: S.optional(S.String),
@@ -381,7 +382,7 @@ export class UpdateMonitorInput extends S.Class<UpdateMonitorInput>(
 export class DeleteMonitorInput extends S.Class<DeleteMonitorInput>(
   "DeleteMonitorInput",
 )(
-  { MonitorName: S.String.pipe(T.HttpLabel()) },
+  { MonitorName: S.String.pipe(T.HttpLabel("MonitorName")) },
   T.all(
     T.Http({ method: "DELETE", uri: "/v20210603/Monitors/{MonitorName}" }),
     svc,
@@ -418,8 +419,8 @@ export class GetQueryResultsInput extends S.Class<GetQueryResultsInput>(
   "GetQueryResultsInput",
 )(
   {
-    MonitorName: S.String.pipe(T.HttpLabel()),
-    QueryId: S.String.pipe(T.HttpLabel()),
+    MonitorName: S.String.pipe(T.HttpLabel("MonitorName")),
+    QueryId: S.String.pipe(T.HttpLabel("QueryId")),
     NextToken: S.optional(S.String).pipe(T.HttpQuery("NextToken")),
     MaxResults: S.optional(S.Number).pipe(T.HttpQuery("MaxResults")),
   },
@@ -439,8 +440,8 @@ export class GetQueryStatusInput extends S.Class<GetQueryStatusInput>(
   "GetQueryStatusInput",
 )(
   {
-    MonitorName: S.String.pipe(T.HttpLabel()),
-    QueryId: S.String.pipe(T.HttpLabel()),
+    MonitorName: S.String.pipe(T.HttpLabel("MonitorName")),
+    QueryId: S.String.pipe(T.HttpLabel("QueryId")),
   },
   T.all(
     T.Http({
@@ -456,8 +457,8 @@ export class GetQueryStatusInput extends S.Class<GetQueryStatusInput>(
 ) {}
 export class StopQueryInput extends S.Class<StopQueryInput>("StopQueryInput")(
   {
-    MonitorName: S.String.pipe(T.HttpLabel()),
-    QueryId: S.String.pipe(T.HttpLabel()),
+    MonitorName: S.String.pipe(T.HttpLabel("MonitorName")),
+    QueryId: S.String.pipe(T.HttpLabel("QueryId")),
   },
   T.all(
     T.Http({
@@ -478,8 +479,8 @@ export class GetHealthEventInput extends S.Class<GetHealthEventInput>(
   "GetHealthEventInput",
 )(
   {
-    MonitorName: S.String.pipe(T.HttpLabel()),
-    EventId: S.String.pipe(T.HttpLabel()),
+    MonitorName: S.String.pipe(T.HttpLabel("MonitorName")),
+    EventId: S.String.pipe(T.HttpLabel("EventId")),
     LinkedAccountId: S.optional(S.String).pipe(T.HttpQuery("LinkedAccountId")),
   },
   T.all(
@@ -498,7 +499,7 @@ export class ListHealthEventsInput extends S.Class<ListHealthEventsInput>(
   "ListHealthEventsInput",
 )(
   {
-    MonitorName: S.String.pipe(T.HttpLabel()),
+    MonitorName: S.String.pipe(T.HttpLabel("MonitorName")),
     StartTime: S.optional(S.Date.pipe(T.TimestampFormat("date-time"))).pipe(
       T.HttpQuery("StartTime"),
     ),
@@ -540,7 +541,7 @@ export class ListTagsForResourceOutput extends S.Class<ListTagsForResourceOutput
 export class TagResourceInput extends S.Class<TagResourceInput>(
   "TagResourceInput",
 )(
-  { ResourceArn: S.String.pipe(T.HttpLabel()), Tags: TagMap },
+  { ResourceArn: S.String.pipe(T.HttpLabel("ResourceArn")), Tags: TagMap },
   T.all(
     T.Http({ method: "POST", uri: "/tags/{ResourceArn}" }),
     svc,
@@ -580,7 +581,7 @@ export class StartQueryInput extends S.Class<StartQueryInput>(
   "StartQueryInput",
 )(
   {
-    MonitorName: S.String.pipe(T.HttpLabel()),
+    MonitorName: S.String.pipe(T.HttpLabel("MonitorName")),
     StartTime: S.Date.pipe(T.TimestampFormat("date-time")),
     EndTime: S.Date.pipe(T.TimestampFormat("date-time")),
     QueryType: S.String,
@@ -781,15 +782,18 @@ export class BadRequestException extends S.TaggedError<BadRequestException>()(
 export class InternalServerException extends S.TaggedError<InternalServerException>()(
   "InternalServerException",
   { message: S.optional(S.String) },
-) {}
+  T.Retryable(),
+).pipe(withCategory(ERROR_CATEGORIES.SERVER_ERROR)) {}
 export class InternalServerErrorException extends S.TaggedError<InternalServerErrorException>()(
   "InternalServerErrorException",
   { message: S.optional(S.String) },
-) {}
+  T.Retryable(),
+).pipe(withCategory(ERROR_CATEGORIES.SERVER_ERROR)) {}
 export class ThrottlingException extends S.TaggedError<ThrottlingException>()(
   "ThrottlingException",
   { message: S.optional(S.String) },
-) {}
+  T.Retryable({ throttling: true }),
+).pipe(withCategory(ERROR_CATEGORIES.THROTTLING_ERROR)) {}
 export class LimitExceededException extends S.TaggedError<LimitExceededException>()(
   "LimitExceededException",
   { message: S.optional(S.String) },
@@ -813,7 +817,8 @@ export class ResourceNotFoundException extends S.TaggedError<ResourceNotFoundExc
 export class TooManyRequestsException extends S.TaggedError<TooManyRequestsException>()(
   "TooManyRequestsException",
   { message: S.optional(S.String) },
-) {}
+  T.Retryable({ throttling: true }),
+).pipe(withCategory(ERROR_CATEGORIES.THROTTLING_ERROR)) {}
 
 //# Operations
 /**

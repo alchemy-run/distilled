@@ -1,6 +1,7 @@
 import * as S from "effect/Schema";
 import * as API from "../api.ts";
 import * as T from "../traits.ts";
+import { ERROR_CATEGORIES, withCategory } from "../error-category.ts";
 const svc = T.AwsApiService({
   sdkId: "Comprehend",
   serviceShapeName: "Comprehend_20171127",
@@ -2356,7 +2357,7 @@ export class DescribeEntityRecognizerResponse extends S.Class<DescribeEntityReco
 export class InternalServerException extends S.TaggedError<InternalServerException>()(
   "InternalServerException",
   { Message: S.optional(S.String) },
-) {}
+).pipe(withCategory(ERROR_CATEGORIES.SERVER_ERROR)) {}
 export class ConcurrentModificationException extends S.TaggedError<ConcurrentModificationException>()(
   "ConcurrentModificationException",
   { Message: S.optional(S.String) },
@@ -2396,7 +2397,7 @@ export class TextSizeLimitExceededException extends S.TaggedError<TextSizeLimitE
 export class TooManyRequestsException extends S.TaggedError<TooManyRequestsException>()(
   "TooManyRequestsException",
   { Message: S.optional(S.String) },
-) {}
+).pipe(withCategory(ERROR_CATEGORIES.THROTTLING_ERROR)) {}
 export class KmsKeyValidationException extends S.TaggedError<KmsKeyValidationException>()(
   "KmsKeyValidationException",
   { Message: S.optional(S.String) },

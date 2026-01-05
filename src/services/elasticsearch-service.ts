@@ -1,6 +1,7 @@
 import * as S from "effect/Schema";
 import * as API from "../api.ts";
 import * as T from "../traits.ts";
+import { ERROR_CATEGORIES, withCategory } from "../error-category.ts";
 const ns = T.XmlNamespace("http://es.amazonaws.com/doc/2015-01-01/");
 const svc = T.AwsApiService({
   sdkId: "Elasticsearch Service",
@@ -317,7 +318,11 @@ export const StringList = S.Array(S.String);
 export class AcceptInboundCrossClusterSearchConnectionRequest extends S.Class<AcceptInboundCrossClusterSearchConnectionRequest>(
   "AcceptInboundCrossClusterSearchConnectionRequest",
 )(
-  { CrossClusterSearchConnectionId: S.String.pipe(T.HttpLabel()) },
+  {
+    CrossClusterSearchConnectionId: S.String.pipe(
+      T.HttpLabel("CrossClusterSearchConnectionId"),
+    ),
+  },
   T.all(
     ns,
     T.Http({
@@ -335,8 +340,8 @@ export class AssociatePackageRequest extends S.Class<AssociatePackageRequest>(
   "AssociatePackageRequest",
 )(
   {
-    PackageID: S.String.pipe(T.HttpLabel()),
-    DomainName: S.String.pipe(T.HttpLabel()),
+    PackageID: S.String.pipe(T.HttpLabel("PackageID")),
+    DomainName: S.String.pipe(T.HttpLabel("DomainName")),
   },
   T.all(
     ns,
@@ -354,7 +359,7 @@ export class AssociatePackageRequest extends S.Class<AssociatePackageRequest>(
 export class AuthorizeVpcEndpointAccessRequest extends S.Class<AuthorizeVpcEndpointAccessRequest>(
   "AuthorizeVpcEndpointAccessRequest",
 )(
-  { DomainName: S.String.pipe(T.HttpLabel()), Account: S.String },
+  { DomainName: S.String.pipe(T.HttpLabel("DomainName")), Account: S.String },
   T.all(
     ns,
     T.Http({
@@ -371,7 +376,10 @@ export class AuthorizeVpcEndpointAccessRequest extends S.Class<AuthorizeVpcEndpo
 export class CancelDomainConfigChangeRequest extends S.Class<CancelDomainConfigChangeRequest>(
   "CancelDomainConfigChangeRequest",
 )(
-  { DomainName: S.String.pipe(T.HttpLabel()), DryRun: S.optional(S.Boolean) },
+  {
+    DomainName: S.String.pipe(T.HttpLabel("DomainName")),
+    DryRun: S.optional(S.Boolean),
+  },
   T.all(
     ns,
     T.Http({
@@ -427,7 +435,7 @@ export class CreateVpcEndpointRequest extends S.Class<CreateVpcEndpointRequest>(
 export class DeleteElasticsearchDomainRequest extends S.Class<DeleteElasticsearchDomainRequest>(
   "DeleteElasticsearchDomainRequest",
 )(
-  { DomainName: S.String.pipe(T.HttpLabel()) },
+  { DomainName: S.String.pipe(T.HttpLabel("DomainName")) },
   T.all(
     ns,
     T.Http({ method: "DELETE", uri: "/2015-01-01/es/domain/{DomainName}" }),
@@ -441,7 +449,11 @@ export class DeleteElasticsearchDomainRequest extends S.Class<DeleteElasticsearc
 export class DeleteInboundCrossClusterSearchConnectionRequest extends S.Class<DeleteInboundCrossClusterSearchConnectionRequest>(
   "DeleteInboundCrossClusterSearchConnectionRequest",
 )(
-  { CrossClusterSearchConnectionId: S.String.pipe(T.HttpLabel()) },
+  {
+    CrossClusterSearchConnectionId: S.String.pipe(
+      T.HttpLabel("CrossClusterSearchConnectionId"),
+    ),
+  },
   T.all(
     ns,
     T.Http({
@@ -458,7 +470,11 @@ export class DeleteInboundCrossClusterSearchConnectionRequest extends S.Class<De
 export class DeleteOutboundCrossClusterSearchConnectionRequest extends S.Class<DeleteOutboundCrossClusterSearchConnectionRequest>(
   "DeleteOutboundCrossClusterSearchConnectionRequest",
 )(
-  { CrossClusterSearchConnectionId: S.String.pipe(T.HttpLabel()) },
+  {
+    CrossClusterSearchConnectionId: S.String.pipe(
+      T.HttpLabel("CrossClusterSearchConnectionId"),
+    ),
+  },
   T.all(
     ns,
     T.Http({
@@ -475,7 +491,7 @@ export class DeleteOutboundCrossClusterSearchConnectionRequest extends S.Class<D
 export class DeletePackageRequest extends S.Class<DeletePackageRequest>(
   "DeletePackageRequest",
 )(
-  { PackageID: S.String.pipe(T.HttpLabel()) },
+  { PackageID: S.String.pipe(T.HttpLabel("PackageID")) },
   T.all(
     ns,
     T.Http({ method: "DELETE", uri: "/2015-01-01/packages/{PackageID}" }),
@@ -489,7 +505,7 @@ export class DeletePackageRequest extends S.Class<DeletePackageRequest>(
 export class DeleteVpcEndpointRequest extends S.Class<DeleteVpcEndpointRequest>(
   "DeleteVpcEndpointRequest",
 )(
-  { VpcEndpointId: S.String.pipe(T.HttpLabel()) },
+  { VpcEndpointId: S.String.pipe(T.HttpLabel("VpcEndpointId")) },
   T.all(
     ns,
     T.Http({
@@ -507,7 +523,7 @@ export class DescribeDomainAutoTunesRequest extends S.Class<DescribeDomainAutoTu
   "DescribeDomainAutoTunesRequest",
 )(
   {
-    DomainName: S.String.pipe(T.HttpLabel()),
+    DomainName: S.String.pipe(T.HttpLabel("DomainName")),
     MaxResults: S.optional(S.Number),
     NextToken: S.optional(S.String),
   },
@@ -528,7 +544,7 @@ export class DescribeDomainChangeProgressRequest extends S.Class<DescribeDomainC
   "DescribeDomainChangeProgressRequest",
 )(
   {
-    DomainName: S.String.pipe(T.HttpLabel()),
+    DomainName: S.String.pipe(T.HttpLabel("DomainName")),
     ChangeId: S.optional(S.String).pipe(T.HttpQuery("changeid")),
   },
   T.all(
@@ -547,7 +563,7 @@ export class DescribeDomainChangeProgressRequest extends S.Class<DescribeDomainC
 export class DescribeElasticsearchDomainRequest extends S.Class<DescribeElasticsearchDomainRequest>(
   "DescribeElasticsearchDomainRequest",
 )(
-  { DomainName: S.String.pipe(T.HttpLabel()) },
+  { DomainName: S.String.pipe(T.HttpLabel("DomainName")) },
   T.all(
     ns,
     T.Http({ method: "GET", uri: "/2015-01-01/es/domain/{DomainName}" }),
@@ -561,7 +577,7 @@ export class DescribeElasticsearchDomainRequest extends S.Class<DescribeElastics
 export class DescribeElasticsearchDomainConfigRequest extends S.Class<DescribeElasticsearchDomainConfigRequest>(
   "DescribeElasticsearchDomainConfigRequest",
 )(
-  { DomainName: S.String.pipe(T.HttpLabel()) },
+  { DomainName: S.String.pipe(T.HttpLabel("DomainName")) },
   T.all(
     ns,
     T.Http({ method: "GET", uri: "/2015-01-01/es/domain/{DomainName}/config" }),
@@ -591,8 +607,8 @@ export class DescribeElasticsearchInstanceTypeLimitsRequest extends S.Class<Desc
 )(
   {
     DomainName: S.optional(S.String).pipe(T.HttpQuery("domainName")),
-    InstanceType: S.String.pipe(T.HttpLabel()),
-    ElasticsearchVersion: S.String.pipe(T.HttpLabel()),
+    InstanceType: S.String.pipe(T.HttpLabel("InstanceType")),
+    ElasticsearchVersion: S.String.pipe(T.HttpLabel("ElasticsearchVersion")),
   },
   T.all(
     ns,
@@ -692,8 +708,8 @@ export class DissociatePackageRequest extends S.Class<DissociatePackageRequest>(
   "DissociatePackageRequest",
 )(
   {
-    PackageID: S.String.pipe(T.HttpLabel()),
-    DomainName: S.String.pipe(T.HttpLabel()),
+    PackageID: S.String.pipe(T.HttpLabel("PackageID")),
+    DomainName: S.String.pipe(T.HttpLabel("DomainName")),
   },
   T.all(
     ns,
@@ -726,7 +742,7 @@ export class GetPackageVersionHistoryRequest extends S.Class<GetPackageVersionHi
   "GetPackageVersionHistoryRequest",
 )(
   {
-    PackageID: S.String.pipe(T.HttpLabel()),
+    PackageID: S.String.pipe(T.HttpLabel("PackageID")),
     MaxResults: S.optional(S.Number).pipe(T.HttpQuery("maxResults")),
     NextToken: S.optional(S.String).pipe(T.HttpQuery("nextToken")),
   },
@@ -744,7 +760,7 @@ export class GetUpgradeHistoryRequest extends S.Class<GetUpgradeHistoryRequest>(
   "GetUpgradeHistoryRequest",
 )(
   {
-    DomainName: S.String.pipe(T.HttpLabel()),
+    DomainName: S.String.pipe(T.HttpLabel("DomainName")),
     MaxResults: S.optional(S.Number).pipe(T.HttpQuery("maxResults")),
     NextToken: S.optional(S.String).pipe(T.HttpQuery("nextToken")),
   },
@@ -764,7 +780,7 @@ export class GetUpgradeHistoryRequest extends S.Class<GetUpgradeHistoryRequest>(
 export class GetUpgradeStatusRequest extends S.Class<GetUpgradeStatusRequest>(
   "GetUpgradeStatusRequest",
 )(
-  { DomainName: S.String.pipe(T.HttpLabel()) },
+  { DomainName: S.String.pipe(T.HttpLabel("DomainName")) },
   T.all(
     ns,
     T.Http({
@@ -796,7 +812,7 @@ export class ListDomainsForPackageRequest extends S.Class<ListDomainsForPackageR
   "ListDomainsForPackageRequest",
 )(
   {
-    PackageID: S.String.pipe(T.HttpLabel()),
+    PackageID: S.String.pipe(T.HttpLabel("PackageID")),
     MaxResults: S.optional(S.Number).pipe(T.HttpQuery("maxResults")),
     NextToken: S.optional(S.String).pipe(T.HttpQuery("nextToken")),
   },
@@ -814,7 +830,7 @@ export class ListElasticsearchInstanceTypesRequest extends S.Class<ListElasticse
   "ListElasticsearchInstanceTypesRequest",
 )(
   {
-    ElasticsearchVersion: S.String.pipe(T.HttpLabel()),
+    ElasticsearchVersion: S.String.pipe(T.HttpLabel("ElasticsearchVersion")),
     DomainName: S.optional(S.String).pipe(T.HttpQuery("domainName")),
     MaxResults: S.optional(S.Number).pipe(T.HttpQuery("maxResults")),
     NextToken: S.optional(S.String).pipe(T.HttpQuery("nextToken")),
@@ -853,7 +869,7 @@ export class ListPackagesForDomainRequest extends S.Class<ListPackagesForDomainR
   "ListPackagesForDomainRequest",
 )(
   {
-    DomainName: S.String.pipe(T.HttpLabel()),
+    DomainName: S.String.pipe(T.HttpLabel("DomainName")),
     MaxResults: S.optional(S.Number).pipe(T.HttpQuery("maxResults")),
     NextToken: S.optional(S.String).pipe(T.HttpQuery("nextToken")),
   },
@@ -885,7 +901,7 @@ export class ListVpcEndpointAccessRequest extends S.Class<ListVpcEndpointAccessR
   "ListVpcEndpointAccessRequest",
 )(
   {
-    DomainName: S.String.pipe(T.HttpLabel()),
+    DomainName: S.String.pipe(T.HttpLabel("DomainName")),
     NextToken: S.optional(S.String).pipe(T.HttpQuery("nextToken")),
   },
   T.all(
@@ -919,7 +935,7 @@ export class ListVpcEndpointsForDomainRequest extends S.Class<ListVpcEndpointsFo
   "ListVpcEndpointsForDomainRequest",
 )(
   {
-    DomainName: S.String.pipe(T.HttpLabel()),
+    DomainName: S.String.pipe(T.HttpLabel("DomainName")),
     NextToken: S.optional(S.String).pipe(T.HttpQuery("nextToken")),
   },
   T.all(
@@ -959,7 +975,11 @@ export class PurchaseReservedElasticsearchInstanceOfferingRequest extends S.Clas
 export class RejectInboundCrossClusterSearchConnectionRequest extends S.Class<RejectInboundCrossClusterSearchConnectionRequest>(
   "RejectInboundCrossClusterSearchConnectionRequest",
 )(
-  { CrossClusterSearchConnectionId: S.String.pipe(T.HttpLabel()) },
+  {
+    CrossClusterSearchConnectionId: S.String.pipe(
+      T.HttpLabel("CrossClusterSearchConnectionId"),
+    ),
+  },
   T.all(
     ns,
     T.Http({
@@ -993,7 +1013,7 @@ export class RemoveTagsResponse extends S.Class<RemoveTagsResponse>(
 export class RevokeVpcEndpointAccessRequest extends S.Class<RevokeVpcEndpointAccessRequest>(
   "RevokeVpcEndpointAccessRequest",
 )(
-  { DomainName: S.String.pipe(T.HttpLabel()), Account: S.String },
+  { DomainName: S.String.pipe(T.HttpLabel("DomainName")), Account: S.String },
   T.all(
     ns,
     T.Http({
@@ -1595,7 +1615,7 @@ export class UpdateElasticsearchDomainConfigRequest extends S.Class<UpdateElasti
   "UpdateElasticsearchDomainConfigRequest",
 )(
   {
-    DomainName: S.String.pipe(T.HttpLabel()),
+    DomainName: S.String.pipe(T.HttpLabel("DomainName")),
     ElasticsearchClusterConfig: S.optional(ElasticsearchClusterConfig),
     EBSOptions: S.optional(EBSOptions),
     SnapshotOptions: S.optional(SnapshotOptions),
@@ -2138,7 +2158,7 @@ export class BaseException extends S.TaggedError<BaseException>()(
 export class InternalException extends S.TaggedError<InternalException>()(
   "InternalException",
   { message: S.optional(S.String) },
-) {}
+).pipe(withCategory(ERROR_CATEGORIES.SERVER_ERROR)) {}
 export class DisabledOperationException extends S.TaggedError<DisabledOperationException>()(
   "DisabledOperationException",
   { message: S.optional(S.String) },

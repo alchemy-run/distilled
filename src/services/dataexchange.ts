@@ -1,6 +1,7 @@
 import * as S from "effect/Schema";
 import * as API from "../api.ts";
 import * as T from "../traits.ts";
+import { ERROR_CATEGORIES, withCategory } from "../error-category.ts";
 const svc = T.AwsApiService({
   sdkId: "DataExchange",
   serviceShapeName: "DataExchange",
@@ -246,7 +247,7 @@ export const ListOf__string = S.Array(S.String);
 export class AcceptDataGrantRequest extends S.Class<AcceptDataGrantRequest>(
   "AcceptDataGrantRequest",
 )(
-  { DataGrantArn: S.String.pipe(T.HttpLabel()) },
+  { DataGrantArn: S.String.pipe(T.HttpLabel("DataGrantArn")) },
   T.all(
     T.Http({ method: "POST", uri: "/v1/data-grants/{DataGrantArn}/accept" }),
     svc,
@@ -259,7 +260,7 @@ export class AcceptDataGrantRequest extends S.Class<AcceptDataGrantRequest>(
 export class CancelJobRequest extends S.Class<CancelJobRequest>(
   "CancelJobRequest",
 )(
-  { JobId: S.String.pipe(T.HttpLabel()) },
+  { JobId: S.String.pipe(T.HttpLabel("JobId")) },
   T.all(
     T.Http({ method: "DELETE", uri: "/v1/jobs/{JobId}" }),
     svc,
@@ -296,7 +297,7 @@ export class CreateRevisionRequest extends S.Class<CreateRevisionRequest>(
 )(
   {
     Comment: S.optional(S.String),
-    DataSetId: S.String.pipe(T.HttpLabel()),
+    DataSetId: S.String.pipe(T.HttpLabel("DataSetId")),
     Tags: S.optional(MapOf__string),
   },
   T.all(
@@ -312,9 +313,9 @@ export class DeleteAssetRequest extends S.Class<DeleteAssetRequest>(
   "DeleteAssetRequest",
 )(
   {
-    AssetId: S.String.pipe(T.HttpLabel()),
-    DataSetId: S.String.pipe(T.HttpLabel()),
-    RevisionId: S.String.pipe(T.HttpLabel()),
+    AssetId: S.String.pipe(T.HttpLabel("AssetId")),
+    DataSetId: S.String.pipe(T.HttpLabel("DataSetId")),
+    RevisionId: S.String.pipe(T.HttpLabel("RevisionId")),
   },
   T.all(
     T.Http({
@@ -334,7 +335,7 @@ export class DeleteAssetResponse extends S.Class<DeleteAssetResponse>(
 export class DeleteDataGrantRequest extends S.Class<DeleteDataGrantRequest>(
   "DeleteDataGrantRequest",
 )(
-  { DataGrantId: S.String.pipe(T.HttpLabel()) },
+  { DataGrantId: S.String.pipe(T.HttpLabel("DataGrantId")) },
   T.all(
     T.Http({ method: "DELETE", uri: "/v1/data-grants/{DataGrantId}" }),
     svc,
@@ -350,7 +351,7 @@ export class DeleteDataGrantResponse extends S.Class<DeleteDataGrantResponse>(
 export class DeleteDataSetRequest extends S.Class<DeleteDataSetRequest>(
   "DeleteDataSetRequest",
 )(
-  { DataSetId: S.String.pipe(T.HttpLabel()) },
+  { DataSetId: S.String.pipe(T.HttpLabel("DataSetId")) },
   T.all(
     T.Http({ method: "DELETE", uri: "/v1/data-sets/{DataSetId}" }),
     svc,
@@ -366,7 +367,7 @@ export class DeleteDataSetResponse extends S.Class<DeleteDataSetResponse>(
 export class DeleteEventActionRequest extends S.Class<DeleteEventActionRequest>(
   "DeleteEventActionRequest",
 )(
-  { EventActionId: S.String.pipe(T.HttpLabel()) },
+  { EventActionId: S.String.pipe(T.HttpLabel("EventActionId")) },
   T.all(
     T.Http({ method: "DELETE", uri: "/v1/event-actions/{EventActionId}" }),
     svc,
@@ -383,8 +384,8 @@ export class DeleteRevisionRequest extends S.Class<DeleteRevisionRequest>(
   "DeleteRevisionRequest",
 )(
   {
-    DataSetId: S.String.pipe(T.HttpLabel()),
-    RevisionId: S.String.pipe(T.HttpLabel()),
+    DataSetId: S.String.pipe(T.HttpLabel("DataSetId")),
+    RevisionId: S.String.pipe(T.HttpLabel("RevisionId")),
   },
   T.all(
     T.Http({
@@ -405,9 +406,9 @@ export class GetAssetRequest extends S.Class<GetAssetRequest>(
   "GetAssetRequest",
 )(
   {
-    AssetId: S.String.pipe(T.HttpLabel()),
-    DataSetId: S.String.pipe(T.HttpLabel()),
-    RevisionId: S.String.pipe(T.HttpLabel()),
+    AssetId: S.String.pipe(T.HttpLabel("AssetId")),
+    DataSetId: S.String.pipe(T.HttpLabel("DataSetId")),
+    RevisionId: S.String.pipe(T.HttpLabel("RevisionId")),
   },
   T.all(
     T.Http({
@@ -424,7 +425,7 @@ export class GetAssetRequest extends S.Class<GetAssetRequest>(
 export class GetDataGrantRequest extends S.Class<GetDataGrantRequest>(
   "GetDataGrantRequest",
 )(
-  { DataGrantId: S.String.pipe(T.HttpLabel()) },
+  { DataGrantId: S.String.pipe(T.HttpLabel("DataGrantId")) },
   T.all(
     T.Http({ method: "GET", uri: "/v1/data-grants/{DataGrantId}" }),
     svc,
@@ -437,7 +438,7 @@ export class GetDataGrantRequest extends S.Class<GetDataGrantRequest>(
 export class GetDataSetRequest extends S.Class<GetDataSetRequest>(
   "GetDataSetRequest",
 )(
-  { DataSetId: S.String.pipe(T.HttpLabel()) },
+  { DataSetId: S.String.pipe(T.HttpLabel("DataSetId")) },
   T.all(
     T.Http({ method: "GET", uri: "/v1/data-sets/{DataSetId}" }),
     svc,
@@ -450,7 +451,7 @@ export class GetDataSetRequest extends S.Class<GetDataSetRequest>(
 export class GetEventActionRequest extends S.Class<GetEventActionRequest>(
   "GetEventActionRequest",
 )(
-  { EventActionId: S.String.pipe(T.HttpLabel()) },
+  { EventActionId: S.String.pipe(T.HttpLabel("EventActionId")) },
   T.all(
     T.Http({ method: "GET", uri: "/v1/event-actions/{EventActionId}" }),
     svc,
@@ -461,7 +462,7 @@ export class GetEventActionRequest extends S.Class<GetEventActionRequest>(
   ),
 ) {}
 export class GetJobRequest extends S.Class<GetJobRequest>("GetJobRequest")(
-  { JobId: S.String.pipe(T.HttpLabel()) },
+  { JobId: S.String.pipe(T.HttpLabel("JobId")) },
   T.all(
     T.Http({ method: "GET", uri: "/v1/jobs/{JobId}" }),
     svc,
@@ -474,7 +475,7 @@ export class GetJobRequest extends S.Class<GetJobRequest>("GetJobRequest")(
 export class GetReceivedDataGrantRequest extends S.Class<GetReceivedDataGrantRequest>(
   "GetReceivedDataGrantRequest",
 )(
-  { DataGrantArn: S.String.pipe(T.HttpLabel()) },
+  { DataGrantArn: S.String.pipe(T.HttpLabel("DataGrantArn")) },
   T.all(
     T.Http({ method: "GET", uri: "/v1/received-data-grants/{DataGrantArn}" }),
     svc,
@@ -488,8 +489,8 @@ export class GetRevisionRequest extends S.Class<GetRevisionRequest>(
   "GetRevisionRequest",
 )(
   {
-    DataSetId: S.String.pipe(T.HttpLabel()),
-    RevisionId: S.String.pipe(T.HttpLabel()),
+    DataSetId: S.String.pipe(T.HttpLabel("DataSetId")),
+    RevisionId: S.String.pipe(T.HttpLabel("RevisionId")),
   },
   T.all(
     T.Http({
@@ -523,7 +524,7 @@ export class ListDataSetRevisionsRequest extends S.Class<ListDataSetRevisionsReq
   "ListDataSetRevisionsRequest",
 )(
   {
-    DataSetId: S.String.pipe(T.HttpLabel()),
+    DataSetId: S.String.pipe(T.HttpLabel("DataSetId")),
     MaxResults: S.optional(S.Number).pipe(T.HttpQuery("maxResults")),
     NextToken: S.optional(S.String).pipe(T.HttpQuery("nextToken")),
   },
@@ -611,10 +612,10 @@ export class ListRevisionAssetsRequest extends S.Class<ListRevisionAssetsRequest
   "ListRevisionAssetsRequest",
 )(
   {
-    DataSetId: S.String.pipe(T.HttpLabel()),
+    DataSetId: S.String.pipe(T.HttpLabel("DataSetId")),
     MaxResults: S.optional(S.Number).pipe(T.HttpQuery("maxResults")),
     NextToken: S.optional(S.String).pipe(T.HttpQuery("nextToken")),
-    RevisionId: S.String.pipe(T.HttpLabel()),
+    RevisionId: S.String.pipe(T.HttpLabel("RevisionId")),
   },
   T.all(
     T.Http({
@@ -631,7 +632,7 @@ export class ListRevisionAssetsRequest extends S.Class<ListRevisionAssetsRequest
 export class ListTagsForResourceRequest extends S.Class<ListTagsForResourceRequest>(
   "ListTagsForResourceRequest",
 )(
-  { ResourceArn: S.String.pipe(T.HttpLabel()) },
+  { ResourceArn: S.String.pipe(T.HttpLabel("ResourceArn")) },
   T.all(
     T.Http({ method: "GET", uri: "/tags/{ResourceArn}" }),
     svc,
@@ -645,8 +646,8 @@ export class RevokeRevisionRequest extends S.Class<RevokeRevisionRequest>(
   "RevokeRevisionRequest",
 )(
   {
-    DataSetId: S.String.pipe(T.HttpLabel()),
-    RevisionId: S.String.pipe(T.HttpLabel()),
+    DataSetId: S.String.pipe(T.HttpLabel("DataSetId")),
+    RevisionId: S.String.pipe(T.HttpLabel("RevisionId")),
     RevocationComment: S.String,
   },
   T.all(
@@ -683,7 +684,7 @@ export class SendApiAssetRequest extends S.Class<SendApiAssetRequest>(
 export class StartJobRequest extends S.Class<StartJobRequest>(
   "StartJobRequest",
 )(
-  { JobId: S.String.pipe(T.HttpLabel()) },
+  { JobId: S.String.pipe(T.HttpLabel("JobId")) },
   T.all(
     T.Http({ method: "PATCH", uri: "/v1/jobs/{JobId}" }),
     svc,
@@ -700,7 +701,7 @@ export class TagResourceRequest extends S.Class<TagResourceRequest>(
   "TagResourceRequest",
 )(
   {
-    ResourceArn: S.String.pipe(T.HttpLabel()),
+    ResourceArn: S.String.pipe(T.HttpLabel("ResourceArn")),
     Tags: MapOf__string.pipe(T.JsonName("tags")),
   },
   T.all(
@@ -719,7 +720,7 @@ export class UntagResourceRequest extends S.Class<UntagResourceRequest>(
   "UntagResourceRequest",
 )(
   {
-    ResourceArn: S.String.pipe(T.HttpLabel()),
+    ResourceArn: S.String.pipe(T.HttpLabel("ResourceArn")),
     TagKeys: ListOf__string.pipe(T.HttpQuery("tagKeys")),
   },
   T.all(
@@ -738,10 +739,10 @@ export class UpdateAssetRequest extends S.Class<UpdateAssetRequest>(
   "UpdateAssetRequest",
 )(
   {
-    AssetId: S.String.pipe(T.HttpLabel()),
-    DataSetId: S.String.pipe(T.HttpLabel()),
+    AssetId: S.String.pipe(T.HttpLabel("AssetId")),
+    DataSetId: S.String.pipe(T.HttpLabel("DataSetId")),
     Name: S.String,
-    RevisionId: S.String.pipe(T.HttpLabel()),
+    RevisionId: S.String.pipe(T.HttpLabel("RevisionId")),
   },
   T.all(
     T.Http({
@@ -759,7 +760,7 @@ export class UpdateDataSetRequest extends S.Class<UpdateDataSetRequest>(
   "UpdateDataSetRequest",
 )(
   {
-    DataSetId: S.String.pipe(T.HttpLabel()),
+    DataSetId: S.String.pipe(T.HttpLabel("DataSetId")),
     Description: S.optional(S.String),
     Name: S.optional(S.String),
   },
@@ -790,7 +791,10 @@ export class Action extends S.Class<Action>("Action")({
 export class UpdateEventActionRequest extends S.Class<UpdateEventActionRequest>(
   "UpdateEventActionRequest",
 )(
-  { Action: S.optional(Action), EventActionId: S.String.pipe(T.HttpLabel()) },
+  {
+    Action: S.optional(Action),
+    EventActionId: S.String.pipe(T.HttpLabel("EventActionId")),
+  },
   T.all(
     T.Http({ method: "PATCH", uri: "/v1/event-actions/{EventActionId}" }),
     svc,
@@ -805,9 +809,9 @@ export class UpdateRevisionRequest extends S.Class<UpdateRevisionRequest>(
 )(
   {
     Comment: S.optional(S.String),
-    DataSetId: S.String.pipe(T.HttpLabel()),
+    DataSetId: S.String.pipe(T.HttpLabel("DataSetId")),
     Finalized: S.optional(S.Boolean),
-    RevisionId: S.String.pipe(T.HttpLabel()),
+    RevisionId: S.String.pipe(T.HttpLabel("RevisionId")),
   },
   T.all(
     T.Http({
@@ -1580,7 +1584,7 @@ export class SendDataSetNotificationRequest extends S.Class<SendDataSetNotificat
     Scope: S.optional(ScopeDetails),
     ClientToken: S.optional(S.String),
     Comment: S.optional(S.String),
-    DataSetId: S.String.pipe(T.HttpLabel()),
+    DataSetId: S.String.pipe(T.HttpLabel("DataSetId")),
     Details: S.optional(NotificationDetails),
     Type: S.String,
   },
@@ -1709,7 +1713,7 @@ export class AccessDeniedException extends S.TaggedError<AccessDeniedException>(
 export class InternalServerException extends S.TaggedError<InternalServerException>()(
   "InternalServerException",
   { Message: S.String },
-) {}
+).pipe(withCategory(ERROR_CATEGORIES.SERVER_ERROR)) {}
 export class ResourceNotFoundException extends S.TaggedError<ResourceNotFoundException>()(
   "ResourceNotFoundException",
   {
@@ -1729,7 +1733,7 @@ export class ServiceLimitExceededException extends S.TaggedError<ServiceLimitExc
 export class ThrottlingException extends S.TaggedError<ThrottlingException>()(
   "ThrottlingException",
   { Message: S.String },
-) {}
+).pipe(withCategory(ERROR_CATEGORIES.THROTTLING_ERROR)) {}
 export class ValidationException extends S.TaggedError<ValidationException>()(
   "ValidationException",
   { Message: S.String, ExceptionCause: S.optional(S.String) },

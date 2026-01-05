@@ -1,6 +1,7 @@
 import * as S from "effect/Schema";
 import * as API from "../api.ts";
 import * as T from "../traits.ts";
+import { ERROR_CATEGORIES, withCategory } from "../error-category.ts";
 const svc = T.AwsApiService({
   sdkId: "ServiceDiscovery",
   serviceShapeName: "Route53AutoNaming_v20170314",
@@ -937,7 +938,7 @@ export class ServiceNotFound extends S.TaggedError<ServiceNotFound>()(
 export class RequestLimitExceeded extends S.TaggedError<RequestLimitExceeded>()(
   "RequestLimitExceeded",
   { Message: S.optional(S.String) },
-) {}
+).pipe(withCategory(ERROR_CATEGORIES.THROTTLING_ERROR)) {}
 export class ResourceLimitExceeded extends S.TaggedError<ResourceLimitExceeded>()(
   "ResourceLimitExceeded",
   { Message: S.optional(S.String) },

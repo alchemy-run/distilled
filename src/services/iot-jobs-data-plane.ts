@@ -1,6 +1,7 @@
 import * as S from "effect/Schema";
 import * as API from "../api.ts";
 import * as T from "../traits.ts";
+import { ERROR_CATEGORIES, withCategory } from "../error-category.ts";
 const svc = T.AwsApiService({
   sdkId: "IoT Jobs Data Plane",
   serviceShapeName: "IotLaserThingJobManagerExternalService",
@@ -245,8 +246,8 @@ export class DescribeJobExecutionRequest extends S.Class<DescribeJobExecutionReq
   "DescribeJobExecutionRequest",
 )(
   {
-    jobId: S.String.pipe(T.HttpLabel()),
-    thingName: S.String.pipe(T.HttpLabel()),
+    jobId: S.String.pipe(T.HttpLabel("jobId")),
+    thingName: S.String.pipe(T.HttpLabel("thingName")),
     includeJobDocument: S.optional(S.Boolean).pipe(
       T.HttpQuery("includeJobDocument"),
     ),
@@ -264,7 +265,7 @@ export class DescribeJobExecutionRequest extends S.Class<DescribeJobExecutionReq
 export class GetPendingJobExecutionsRequest extends S.Class<GetPendingJobExecutionsRequest>(
   "GetPendingJobExecutionsRequest",
 )(
-  { thingName: S.String.pipe(T.HttpLabel()) },
+  { thingName: S.String.pipe(T.HttpLabel("thingName")) },
   T.all(
     T.Http({ method: "GET", uri: "/things/{thingName}/jobs" }),
     svc,
@@ -279,8 +280,8 @@ export class UpdateJobExecutionRequest extends S.Class<UpdateJobExecutionRequest
   "UpdateJobExecutionRequest",
 )(
   {
-    jobId: S.String.pipe(T.HttpLabel()),
-    thingName: S.String.pipe(T.HttpLabel()),
+    jobId: S.String.pipe(T.HttpLabel("jobId")),
+    thingName: S.String.pipe(T.HttpLabel("thingName")),
     status: S.String,
     statusDetails: S.optional(DetailsMap),
     stepTimeoutInMinutes: S.optional(S.Number),
@@ -302,7 +303,7 @@ export class StartNextPendingJobExecutionRequest extends S.Class<StartNextPendin
   "StartNextPendingJobExecutionRequest",
 )(
   {
-    thingName: S.String.pipe(T.HttpLabel()),
+    thingName: S.String.pipe(T.HttpLabel("thingName")),
     statusDetails: S.optional(DetailsMap),
     stepTimeoutInMinutes: S.optional(S.Number),
   },
@@ -422,7 +423,7 @@ export class ResourceNotFoundException extends S.TaggedError<ResourceNotFoundExc
 export class InternalServerException extends S.TaggedError<InternalServerException>()(
   "InternalServerException",
   { message: S.optional(S.String) },
-) {}
+).pipe(withCategory(ERROR_CATEGORIES.SERVER_ERROR)) {}
 export class InvalidStateTransitionException extends S.TaggedError<InvalidStateTransitionException>()(
   "InvalidStateTransitionException",
   { message: S.optional(S.String) },
@@ -430,7 +431,7 @@ export class InvalidStateTransitionException extends S.TaggedError<InvalidStateT
 export class ServiceUnavailableException extends S.TaggedError<ServiceUnavailableException>()(
   "ServiceUnavailableException",
   { message: S.optional(S.String) },
-) {}
+).pipe(withCategory(ERROR_CATEGORIES.SERVER_ERROR)) {}
 export class ServiceQuotaExceededException extends S.TaggedError<ServiceQuotaExceededException>()(
   "ServiceQuotaExceededException",
   { message: S.optional(S.String) },
@@ -442,7 +443,7 @@ export class TerminalStateException extends S.TaggedError<TerminalStateException
 export class ThrottlingException extends S.TaggedError<ThrottlingException>()(
   "ThrottlingException",
   { message: S.optional(S.String), payload: S.optional(T.Blob) },
-) {}
+).pipe(withCategory(ERROR_CATEGORIES.THROTTLING_ERROR)) {}
 export class ValidationException extends S.TaggedError<ValidationException>()(
   "ValidationException",
   { message: S.optional(S.String) },

@@ -1,6 +1,7 @@
 import * as S from "effect/Schema";
 import * as API from "../api.ts";
 import * as T from "../traits.ts";
+import { ERROR_CATEGORIES, withCategory } from "../error-category.ts";
 const svc = T.AwsApiService({
   sdkId: "RAM",
   serviceShapeName: "AmazonResourceSharing",
@@ -1235,7 +1236,7 @@ export class ServerInternalException extends S.TaggedError<ServerInternalExcepti
   "ServerInternalException",
   { message: S.String },
   T.AwsQueryError({ code: "InternalError", httpResponseCode: 500 }),
-) {}
+).pipe(withCategory(ERROR_CATEGORIES.SERVER_ERROR)) {}
 export class InvalidNextTokenException extends S.TaggedError<InvalidNextTokenException>()(
   "InvalidNextTokenException",
   { message: S.String },
@@ -1263,7 +1264,7 @@ export class ServiceUnavailableException extends S.TaggedError<ServiceUnavailabl
   "ServiceUnavailableException",
   { message: S.String },
   T.AwsQueryError({ code: "Unavailable", httpResponseCode: 503 }),
-) {}
+).pipe(withCategory(ERROR_CATEGORIES.SERVER_ERROR)) {}
 export class ResourceArnNotFoundException extends S.TaggedError<ResourceArnNotFoundException>()(
   "ResourceArnNotFoundException",
   { message: S.String },
@@ -1347,7 +1348,7 @@ export class ThrottlingException extends S.TaggedError<ThrottlingException>()(
   "ThrottlingException",
   { message: S.String },
   T.AwsQueryError({ code: "ThrottlingException", httpResponseCode: 429 }),
-) {}
+).pipe(withCategory(ERROR_CATEGORIES.THROTTLING_ERROR)) {}
 export class TagPolicyViolationException extends S.TaggedError<TagPolicyViolationException>()(
   "TagPolicyViolationException",
   { message: S.String },

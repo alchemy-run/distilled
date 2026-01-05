@@ -1,6 +1,7 @@
 import * as S from "effect/Schema";
 import * as API from "../api.ts";
 import * as T from "../traits.ts";
+import { ERROR_CATEGORIES, withCategory } from "../error-category.ts";
 const svc = T.AwsApiService({
   sdkId: "Route53 Recovery Control Config",
   serviceShapeName: "Route53RecoveryControlConfig",
@@ -408,7 +409,7 @@ export class CreateRoutingControlRequest extends S.Class<CreateRoutingControlReq
 export class DeleteClusterRequest extends S.Class<DeleteClusterRequest>(
   "DeleteClusterRequest",
 )(
-  { ClusterArn: S.String.pipe(T.HttpLabel()) },
+  { ClusterArn: S.String.pipe(T.HttpLabel("ClusterArn")) },
   T.all(
     T.Http({ method: "DELETE", uri: "/cluster/{ClusterArn}" }),
     svc,
@@ -424,7 +425,7 @@ export class DeleteClusterResponse extends S.Class<DeleteClusterResponse>(
 export class DeleteControlPanelRequest extends S.Class<DeleteControlPanelRequest>(
   "DeleteControlPanelRequest",
 )(
-  { ControlPanelArn: S.String.pipe(T.HttpLabel()) },
+  { ControlPanelArn: S.String.pipe(T.HttpLabel("ControlPanelArn")) },
   T.all(
     T.Http({ method: "DELETE", uri: "/controlpanel/{ControlPanelArn}" }),
     svc,
@@ -440,7 +441,7 @@ export class DeleteControlPanelResponse extends S.Class<DeleteControlPanelRespon
 export class DeleteRoutingControlRequest extends S.Class<DeleteRoutingControlRequest>(
   "DeleteRoutingControlRequest",
 )(
-  { RoutingControlArn: S.String.pipe(T.HttpLabel()) },
+  { RoutingControlArn: S.String.pipe(T.HttpLabel("RoutingControlArn")) },
   T.all(
     T.Http({ method: "DELETE", uri: "/routingcontrol/{RoutingControlArn}" }),
     svc,
@@ -456,7 +457,7 @@ export class DeleteRoutingControlResponse extends S.Class<DeleteRoutingControlRe
 export class DeleteSafetyRuleRequest extends S.Class<DeleteSafetyRuleRequest>(
   "DeleteSafetyRuleRequest",
 )(
-  { SafetyRuleArn: S.String.pipe(T.HttpLabel()) },
+  { SafetyRuleArn: S.String.pipe(T.HttpLabel("SafetyRuleArn")) },
   T.all(
     T.Http({ method: "DELETE", uri: "/safetyrule/{SafetyRuleArn}" }),
     svc,
@@ -472,7 +473,7 @@ export class DeleteSafetyRuleResponse extends S.Class<DeleteSafetyRuleResponse>(
 export class DescribeClusterRequest extends S.Class<DescribeClusterRequest>(
   "DescribeClusterRequest",
 )(
-  { ClusterArn: S.String.pipe(T.HttpLabel()) },
+  { ClusterArn: S.String.pipe(T.HttpLabel("ClusterArn")) },
   T.all(
     T.Http({ method: "GET", uri: "/cluster/{ClusterArn}" }),
     svc,
@@ -485,7 +486,7 @@ export class DescribeClusterRequest extends S.Class<DescribeClusterRequest>(
 export class DescribeControlPanelRequest extends S.Class<DescribeControlPanelRequest>(
   "DescribeControlPanelRequest",
 )(
-  { ControlPanelArn: S.String.pipe(T.HttpLabel()) },
+  { ControlPanelArn: S.String.pipe(T.HttpLabel("ControlPanelArn")) },
   T.all(
     T.Http({ method: "GET", uri: "/controlpanel/{ControlPanelArn}" }),
     svc,
@@ -498,7 +499,7 @@ export class DescribeControlPanelRequest extends S.Class<DescribeControlPanelReq
 export class DescribeRoutingControlRequest extends S.Class<DescribeRoutingControlRequest>(
   "DescribeRoutingControlRequest",
 )(
-  { RoutingControlArn: S.String.pipe(T.HttpLabel()) },
+  { RoutingControlArn: S.String.pipe(T.HttpLabel("RoutingControlArn")) },
   T.all(
     T.Http({ method: "GET", uri: "/routingcontrol/{RoutingControlArn}" }),
     svc,
@@ -511,7 +512,7 @@ export class DescribeRoutingControlRequest extends S.Class<DescribeRoutingContro
 export class DescribeSafetyRuleRequest extends S.Class<DescribeSafetyRuleRequest>(
   "DescribeSafetyRuleRequest",
 )(
-  { SafetyRuleArn: S.String.pipe(T.HttpLabel()) },
+  { SafetyRuleArn: S.String.pipe(T.HttpLabel("SafetyRuleArn")) },
   T.all(
     T.Http({ method: "GET", uri: "/safetyrule/{SafetyRuleArn}" }),
     svc,
@@ -524,7 +525,7 @@ export class DescribeSafetyRuleRequest extends S.Class<DescribeSafetyRuleRequest
 export class GetResourcePolicyRequest extends S.Class<GetResourcePolicyRequest>(
   "GetResourcePolicyRequest",
 )(
-  { ResourceArn: S.String.pipe(T.HttpLabel()) },
+  { ResourceArn: S.String.pipe(T.HttpLabel("ResourceArn")) },
   T.all(
     T.Http({ method: "GET", uri: "/resourcePolicy/{ResourceArn}" }),
     svc,
@@ -540,7 +541,7 @@ export class ListAssociatedRoute53HealthChecksRequest extends S.Class<ListAssoci
   {
     MaxResults: S.optional(S.Number).pipe(T.HttpQuery("MaxResults")),
     NextToken: S.optional(S.String).pipe(T.HttpQuery("NextToken")),
-    RoutingControlArn: S.String.pipe(T.HttpLabel()),
+    RoutingControlArn: S.String.pipe(T.HttpLabel("RoutingControlArn")),
   },
   T.all(
     T.Http({
@@ -591,7 +592,7 @@ export class ListRoutingControlsRequest extends S.Class<ListRoutingControlsReque
   "ListRoutingControlsRequest",
 )(
   {
-    ControlPanelArn: S.String.pipe(T.HttpLabel()),
+    ControlPanelArn: S.String.pipe(T.HttpLabel("ControlPanelArn")),
     MaxResults: S.optional(S.Number).pipe(T.HttpQuery("MaxResults")),
     NextToken: S.optional(S.String).pipe(T.HttpQuery("NextToken")),
   },
@@ -611,7 +612,7 @@ export class ListSafetyRulesRequest extends S.Class<ListSafetyRulesRequest>(
   "ListSafetyRulesRequest",
 )(
   {
-    ControlPanelArn: S.String.pipe(T.HttpLabel()),
+    ControlPanelArn: S.String.pipe(T.HttpLabel("ControlPanelArn")),
     MaxResults: S.optional(S.Number).pipe(T.HttpQuery("MaxResults")),
     NextToken: S.optional(S.String).pipe(T.HttpQuery("NextToken")),
   },
@@ -630,7 +631,7 @@ export class ListSafetyRulesRequest extends S.Class<ListSafetyRulesRequest>(
 export class ListTagsForResourceRequest extends S.Class<ListTagsForResourceRequest>(
   "ListTagsForResourceRequest",
 )(
-  { ResourceArn: S.String.pipe(T.HttpLabel()) },
+  { ResourceArn: S.String.pipe(T.HttpLabel("ResourceArn")) },
   T.all(
     T.Http({ method: "GET", uri: "/tags/{ResourceArn}" }),
     svc,
@@ -644,7 +645,7 @@ export class TagResourceRequest extends S.Class<TagResourceRequest>(
   "TagResourceRequest",
 )(
   {
-    ResourceArn: S.String.pipe(T.HttpLabel()),
+    ResourceArn: S.String.pipe(T.HttpLabel("ResourceArn")),
     Tags: __mapOf__stringMin0Max256PatternS,
   },
   T.all(
@@ -663,7 +664,7 @@ export class UntagResourceRequest extends S.Class<UntagResourceRequest>(
   "UntagResourceRequest",
 )(
   {
-    ResourceArn: S.String.pipe(T.HttpLabel()),
+    ResourceArn: S.String.pipe(T.HttpLabel("ResourceArn")),
     TagKeys: __listOf__string.pipe(T.HttpQuery("TagKeys")),
   },
   T.all(
@@ -940,7 +941,7 @@ export class AccessDeniedException extends S.TaggedError<AccessDeniedException>(
 export class InternalServerException extends S.TaggedError<InternalServerException>()(
   "InternalServerException",
   { Message: S.String.pipe(T.JsonName("message")) },
-) {}
+).pipe(withCategory(ERROR_CATEGORIES.SERVER_ERROR)) {}
 export class ConflictException extends S.TaggedError<ConflictException>()(
   "ConflictException",
   { Message: S.String.pipe(T.JsonName("message")) },
@@ -956,7 +957,7 @@ export class ValidationException extends S.TaggedError<ValidationException>()(
 export class ThrottlingException extends S.TaggedError<ThrottlingException>()(
   "ThrottlingException",
   { Message: S.String.pipe(T.JsonName("message")) },
-) {}
+).pipe(withCategory(ERROR_CATEGORIES.THROTTLING_ERROR)) {}
 export class ServiceQuotaExceededException extends S.TaggedError<ServiceQuotaExceededException>()(
   "ServiceQuotaExceededException",
   { Message: S.String.pipe(T.JsonName("message")) },

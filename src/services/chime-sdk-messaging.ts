@@ -1,6 +1,7 @@
 import * as S from "effect/Schema";
 import * as API from "../api.ts";
 import * as T from "../traits.ts";
+import { ERROR_CATEGORIES, withCategory } from "../error-category.ts";
 const svc = T.AwsApiService({
   sdkId: "Chime SDK Messaging",
   serviceShapeName: "ChimeMessagingService",
@@ -249,7 +250,7 @@ export class AssociateChannelFlowRequest extends S.Class<AssociateChannelFlowReq
   "AssociateChannelFlowRequest",
 )(
   {
-    ChannelArn: S.String.pipe(T.HttpLabel()),
+    ChannelArn: S.String.pipe(T.HttpLabel("ChannelArn")),
     ChannelFlowArn: S.String,
     ChimeBearer: S.String.pipe(T.HttpHeader("x-amz-chime-bearer")),
   },
@@ -269,7 +270,7 @@ export class BatchCreateChannelMembershipRequest extends S.Class<BatchCreateChan
   "BatchCreateChannelMembershipRequest",
 )(
   {
-    ChannelArn: S.String.pipe(T.HttpLabel()),
+    ChannelArn: S.String.pipe(T.HttpLabel("ChannelArn")),
     Type: S.optional(S.String),
     MemberArns: MemberArns,
     ChimeBearer: S.String.pipe(T.HttpHeader("x-amz-chime-bearer")),
@@ -291,7 +292,7 @@ export class CreateChannelBanRequest extends S.Class<CreateChannelBanRequest>(
   "CreateChannelBanRequest",
 )(
   {
-    ChannelArn: S.String.pipe(T.HttpLabel()),
+    ChannelArn: S.String.pipe(T.HttpLabel("ChannelArn")),
     MemberArn: S.String,
     ChimeBearer: S.String.pipe(T.HttpHeader("x-amz-chime-bearer")),
   },
@@ -308,7 +309,7 @@ export class CreateChannelMembershipRequest extends S.Class<CreateChannelMembers
   "CreateChannelMembershipRequest",
 )(
   {
-    ChannelArn: S.String.pipe(T.HttpLabel()),
+    ChannelArn: S.String.pipe(T.HttpLabel("ChannelArn")),
     MemberArn: S.String,
     Type: S.String,
     ChimeBearer: S.String.pipe(T.HttpHeader("x-amz-chime-bearer")),
@@ -327,7 +328,7 @@ export class CreateChannelModeratorRequest extends S.Class<CreateChannelModerato
   "CreateChannelModeratorRequest",
 )(
   {
-    ChannelArn: S.String.pipe(T.HttpLabel()),
+    ChannelArn: S.String.pipe(T.HttpLabel("ChannelArn")),
     ChannelModeratorArn: S.String,
     ChimeBearer: S.String.pipe(T.HttpHeader("x-amz-chime-bearer")),
   },
@@ -344,7 +345,7 @@ export class DeleteChannelRequest extends S.Class<DeleteChannelRequest>(
   "DeleteChannelRequest",
 )(
   {
-    ChannelArn: S.String.pipe(T.HttpLabel()),
+    ChannelArn: S.String.pipe(T.HttpLabel("ChannelArn")),
     ChimeBearer: S.String.pipe(T.HttpHeader("x-amz-chime-bearer")),
   },
   T.all(
@@ -363,8 +364,8 @@ export class DeleteChannelBanRequest extends S.Class<DeleteChannelBanRequest>(
   "DeleteChannelBanRequest",
 )(
   {
-    ChannelArn: S.String.pipe(T.HttpLabel()),
-    MemberArn: S.String.pipe(T.HttpLabel()),
+    ChannelArn: S.String.pipe(T.HttpLabel("ChannelArn")),
+    MemberArn: S.String.pipe(T.HttpLabel("MemberArn")),
     ChimeBearer: S.String.pipe(T.HttpHeader("x-amz-chime-bearer")),
   },
   T.all(
@@ -385,7 +386,7 @@ export class DeleteChannelBanResponse extends S.Class<DeleteChannelBanResponse>(
 export class DeleteChannelFlowRequest extends S.Class<DeleteChannelFlowRequest>(
   "DeleteChannelFlowRequest",
 )(
-  { ChannelFlowArn: S.String.pipe(T.HttpLabel()) },
+  { ChannelFlowArn: S.String.pipe(T.HttpLabel("ChannelFlowArn")) },
   T.all(
     T.Http({ method: "DELETE", uri: "/channel-flows/{ChannelFlowArn}" }),
     svc,
@@ -402,8 +403,8 @@ export class DeleteChannelMembershipRequest extends S.Class<DeleteChannelMembers
   "DeleteChannelMembershipRequest",
 )(
   {
-    ChannelArn: S.String.pipe(T.HttpLabel()),
-    MemberArn: S.String.pipe(T.HttpLabel()),
+    ChannelArn: S.String.pipe(T.HttpLabel("ChannelArn")),
+    MemberArn: S.String.pipe(T.HttpLabel("MemberArn")),
     ChimeBearer: S.String.pipe(T.HttpHeader("x-amz-chime-bearer")),
     SubChannelId: S.optional(S.String).pipe(T.HttpQuery("sub-channel-id")),
   },
@@ -426,8 +427,8 @@ export class DeleteChannelMessageRequest extends S.Class<DeleteChannelMessageReq
   "DeleteChannelMessageRequest",
 )(
   {
-    ChannelArn: S.String.pipe(T.HttpLabel()),
-    MessageId: S.String.pipe(T.HttpLabel()),
+    ChannelArn: S.String.pipe(T.HttpLabel("ChannelArn")),
+    MessageId: S.String.pipe(T.HttpLabel("MessageId")),
     ChimeBearer: S.String.pipe(T.HttpHeader("x-amz-chime-bearer")),
     SubChannelId: S.optional(S.String).pipe(T.HttpQuery("sub-channel-id")),
   },
@@ -450,8 +451,8 @@ export class DeleteChannelModeratorRequest extends S.Class<DeleteChannelModerato
   "DeleteChannelModeratorRequest",
 )(
   {
-    ChannelArn: S.String.pipe(T.HttpLabel()),
-    ChannelModeratorArn: S.String.pipe(T.HttpLabel()),
+    ChannelArn: S.String.pipe(T.HttpLabel("ChannelArn")),
+    ChannelModeratorArn: S.String.pipe(T.HttpLabel("ChannelModeratorArn")),
     ChimeBearer: S.String.pipe(T.HttpHeader("x-amz-chime-bearer")),
   },
   T.all(
@@ -472,7 +473,7 @@ export class DeleteChannelModeratorResponse extends S.Class<DeleteChannelModerat
 export class DeleteMessagingStreamingConfigurationsRequest extends S.Class<DeleteMessagingStreamingConfigurationsRequest>(
   "DeleteMessagingStreamingConfigurationsRequest",
 )(
-  { AppInstanceArn: S.String.pipe(T.HttpLabel()) },
+  { AppInstanceArn: S.String.pipe(T.HttpLabel("AppInstanceArn")) },
   T.all(
     T.Http({
       method: "DELETE",
@@ -492,7 +493,7 @@ export class DescribeChannelRequest extends S.Class<DescribeChannelRequest>(
   "DescribeChannelRequest",
 )(
   {
-    ChannelArn: S.String.pipe(T.HttpLabel()),
+    ChannelArn: S.String.pipe(T.HttpLabel("ChannelArn")),
     ChimeBearer: S.String.pipe(T.HttpHeader("x-amz-chime-bearer")),
   },
   T.all(
@@ -508,8 +509,8 @@ export class DescribeChannelBanRequest extends S.Class<DescribeChannelBanRequest
   "DescribeChannelBanRequest",
 )(
   {
-    ChannelArn: S.String.pipe(T.HttpLabel()),
-    MemberArn: S.String.pipe(T.HttpLabel()),
+    ChannelArn: S.String.pipe(T.HttpLabel("ChannelArn")),
+    MemberArn: S.String.pipe(T.HttpLabel("MemberArn")),
     ChimeBearer: S.String.pipe(T.HttpHeader("x-amz-chime-bearer")),
   },
   T.all(
@@ -524,7 +525,7 @@ export class DescribeChannelBanRequest extends S.Class<DescribeChannelBanRequest
 export class DescribeChannelFlowRequest extends S.Class<DescribeChannelFlowRequest>(
   "DescribeChannelFlowRequest",
 )(
-  { ChannelFlowArn: S.String.pipe(T.HttpLabel()) },
+  { ChannelFlowArn: S.String.pipe(T.HttpLabel("ChannelFlowArn")) },
   T.all(
     T.Http({ method: "GET", uri: "/channel-flows/{ChannelFlowArn}" }),
     svc,
@@ -538,8 +539,8 @@ export class DescribeChannelMembershipRequest extends S.Class<DescribeChannelMem
   "DescribeChannelMembershipRequest",
 )(
   {
-    ChannelArn: S.String.pipe(T.HttpLabel()),
-    MemberArn: S.String.pipe(T.HttpLabel()),
+    ChannelArn: S.String.pipe(T.HttpLabel("ChannelArn")),
+    MemberArn: S.String.pipe(T.HttpLabel("MemberArn")),
     ChimeBearer: S.String.pipe(T.HttpHeader("x-amz-chime-bearer")),
     SubChannelId: S.optional(S.String).pipe(T.HttpQuery("sub-channel-id")),
   },
@@ -559,7 +560,7 @@ export class DescribeChannelMembershipForAppInstanceUserRequest extends S.Class<
   "DescribeChannelMembershipForAppInstanceUserRequest",
 )(
   {
-    ChannelArn: S.String.pipe(T.HttpLabel()),
+    ChannelArn: S.String.pipe(T.HttpLabel("ChannelArn")),
     AppInstanceUserArn: S.String.pipe(T.HttpQuery("app-instance-user-arn")),
     ChimeBearer: S.String.pipe(T.HttpHeader("x-amz-chime-bearer")),
   },
@@ -579,7 +580,7 @@ export class DescribeChannelModeratedByAppInstanceUserRequest extends S.Class<De
   "DescribeChannelModeratedByAppInstanceUserRequest",
 )(
   {
-    ChannelArn: S.String.pipe(T.HttpLabel()),
+    ChannelArn: S.String.pipe(T.HttpLabel("ChannelArn")),
     AppInstanceUserArn: S.String.pipe(T.HttpQuery("app-instance-user-arn")),
     ChimeBearer: S.String.pipe(T.HttpHeader("x-amz-chime-bearer")),
   },
@@ -599,8 +600,8 @@ export class DescribeChannelModeratorRequest extends S.Class<DescribeChannelMode
   "DescribeChannelModeratorRequest",
 )(
   {
-    ChannelArn: S.String.pipe(T.HttpLabel()),
-    ChannelModeratorArn: S.String.pipe(T.HttpLabel()),
+    ChannelArn: S.String.pipe(T.HttpLabel("ChannelArn")),
+    ChannelModeratorArn: S.String.pipe(T.HttpLabel("ChannelModeratorArn")),
     ChimeBearer: S.String.pipe(T.HttpHeader("x-amz-chime-bearer")),
   },
   T.all(
@@ -619,8 +620,8 @@ export class DisassociateChannelFlowRequest extends S.Class<DisassociateChannelF
   "DisassociateChannelFlowRequest",
 )(
   {
-    ChannelArn: S.String.pipe(T.HttpLabel()),
-    ChannelFlowArn: S.String.pipe(T.HttpLabel()),
+    ChannelArn: S.String.pipe(T.HttpLabel("ChannelArn")),
+    ChannelFlowArn: S.String.pipe(T.HttpLabel("ChannelFlowArn")),
     ChimeBearer: S.String.pipe(T.HttpHeader("x-amz-chime-bearer")),
   },
   T.all(
@@ -642,8 +643,8 @@ export class GetChannelMembershipPreferencesRequest extends S.Class<GetChannelMe
   "GetChannelMembershipPreferencesRequest",
 )(
   {
-    ChannelArn: S.String.pipe(T.HttpLabel()),
-    MemberArn: S.String.pipe(T.HttpLabel()),
+    ChannelArn: S.String.pipe(T.HttpLabel("ChannelArn")),
+    MemberArn: S.String.pipe(T.HttpLabel("MemberArn")),
     ChimeBearer: S.String.pipe(T.HttpHeader("x-amz-chime-bearer")),
   },
   T.all(
@@ -662,8 +663,8 @@ export class GetChannelMessageRequest extends S.Class<GetChannelMessageRequest>(
   "GetChannelMessageRequest",
 )(
   {
-    ChannelArn: S.String.pipe(T.HttpLabel()),
-    MessageId: S.String.pipe(T.HttpLabel()),
+    ChannelArn: S.String.pipe(T.HttpLabel("ChannelArn")),
+    MessageId: S.String.pipe(T.HttpLabel("MessageId")),
     ChimeBearer: S.String.pipe(T.HttpHeader("x-amz-chime-bearer")),
     SubChannelId: S.optional(S.String).pipe(T.HttpQuery("sub-channel-id")),
   },
@@ -683,8 +684,8 @@ export class GetChannelMessageStatusRequest extends S.Class<GetChannelMessageSta
   "GetChannelMessageStatusRequest",
 )(
   {
-    ChannelArn: S.String.pipe(T.HttpLabel()),
-    MessageId: S.String.pipe(T.HttpLabel()),
+    ChannelArn: S.String.pipe(T.HttpLabel("ChannelArn")),
+    MessageId: S.String.pipe(T.HttpLabel("MessageId")),
     ChimeBearer: S.String.pipe(T.HttpHeader("x-amz-chime-bearer")),
     SubChannelId: S.optional(S.String).pipe(T.HttpQuery("sub-channel-id")),
   },
@@ -716,7 +717,7 @@ export class GetMessagingSessionEndpointRequest extends S.Class<GetMessagingSess
 export class GetMessagingStreamingConfigurationsRequest extends S.Class<GetMessagingStreamingConfigurationsRequest>(
   "GetMessagingStreamingConfigurationsRequest",
 )(
-  { AppInstanceArn: S.String.pipe(T.HttpLabel()) },
+  { AppInstanceArn: S.String.pipe(T.HttpLabel("AppInstanceArn")) },
   T.all(
     T.Http({
       method: "GET",
@@ -733,7 +734,7 @@ export class ListChannelBansRequest extends S.Class<ListChannelBansRequest>(
   "ListChannelBansRequest",
 )(
   {
-    ChannelArn: S.String.pipe(T.HttpLabel()),
+    ChannelArn: S.String.pipe(T.HttpLabel("ChannelArn")),
     MaxResults: S.optional(S.Number).pipe(T.HttpQuery("max-results")),
     NextToken: S.optional(S.String).pipe(T.HttpQuery("next-token")),
     ChimeBearer: S.String.pipe(T.HttpHeader("x-amz-chime-bearer")),
@@ -768,7 +769,7 @@ export class ListChannelMembershipsRequest extends S.Class<ListChannelMembership
   "ListChannelMembershipsRequest",
 )(
   {
-    ChannelArn: S.String.pipe(T.HttpLabel()),
+    ChannelArn: S.String.pipe(T.HttpLabel("ChannelArn")),
     Type: S.optional(S.String).pipe(T.HttpQuery("type")),
     MaxResults: S.optional(S.Number).pipe(T.HttpQuery("max-results")),
     NextToken: S.optional(S.String).pipe(T.HttpQuery("next-token")),
@@ -811,7 +812,7 @@ export class ListChannelMessagesRequest extends S.Class<ListChannelMessagesReque
   "ListChannelMessagesRequest",
 )(
   {
-    ChannelArn: S.String.pipe(T.HttpLabel()),
+    ChannelArn: S.String.pipe(T.HttpLabel("ChannelArn")),
     SortOrder: S.optional(S.String).pipe(T.HttpQuery("sort-order")),
     NotBefore: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))).pipe(
       T.HttpQuery("not-before"),
@@ -837,7 +838,7 @@ export class ListChannelModeratorsRequest extends S.Class<ListChannelModeratorsR
   "ListChannelModeratorsRequest",
 )(
   {
-    ChannelArn: S.String.pipe(T.HttpLabel()),
+    ChannelArn: S.String.pipe(T.HttpLabel("ChannelArn")),
     MaxResults: S.optional(S.Number).pipe(T.HttpQuery("max-results")),
     NextToken: S.optional(S.String).pipe(T.HttpQuery("next-token")),
     ChimeBearer: S.String.pipe(T.HttpHeader("x-amz-chime-bearer")),
@@ -914,7 +915,7 @@ export class ListSubChannelsRequest extends S.Class<ListSubChannelsRequest>(
   "ListSubChannelsRequest",
 )(
   {
-    ChannelArn: S.String.pipe(T.HttpLabel()),
+    ChannelArn: S.String.pipe(T.HttpLabel("ChannelArn")),
     ChimeBearer: S.String.pipe(T.HttpHeader("x-amz-chime-bearer")),
     MaxResults: S.optional(S.Number).pipe(T.HttpQuery("max-results")),
     NextToken: S.optional(S.String).pipe(T.HttpQuery("next-token")),
@@ -941,7 +942,7 @@ export class PutChannelExpirationSettingsRequest extends S.Class<PutChannelExpir
   "PutChannelExpirationSettingsRequest",
 )(
   {
-    ChannelArn: S.String.pipe(T.HttpLabel()),
+    ChannelArn: S.String.pipe(T.HttpLabel("ChannelArn")),
     ChimeBearer: S.optional(S.String).pipe(T.HttpHeader("x-amz-chime-bearer")),
     ExpirationSettings: S.optional(ExpirationSettings),
   },
@@ -961,8 +962,8 @@ export class RedactChannelMessageRequest extends S.Class<RedactChannelMessageReq
   "RedactChannelMessageRequest",
 )(
   {
-    ChannelArn: S.String.pipe(T.HttpLabel()),
-    MessageId: S.String.pipe(T.HttpLabel()),
+    ChannelArn: S.String.pipe(T.HttpLabel("ChannelArn")),
+    MessageId: S.String.pipe(T.HttpLabel("MessageId")),
     ChimeBearer: S.String.pipe(T.HttpHeader("x-amz-chime-bearer")),
     SubChannelId: S.optional(S.String),
   },
@@ -1019,7 +1020,7 @@ export class UpdateChannelRequest extends S.Class<UpdateChannelRequest>(
   "UpdateChannelRequest",
 )(
   {
-    ChannelArn: S.String.pipe(T.HttpLabel()),
+    ChannelArn: S.String.pipe(T.HttpLabel("ChannelArn")),
     Name: S.optional(S.String),
     Mode: S.optional(S.String),
     Metadata: S.optional(S.String),
@@ -1051,7 +1052,7 @@ export class UpdateChannelFlowRequest extends S.Class<UpdateChannelFlowRequest>(
   "UpdateChannelFlowRequest",
 )(
   {
-    ChannelFlowArn: S.String.pipe(T.HttpLabel()),
+    ChannelFlowArn: S.String.pipe(T.HttpLabel("ChannelFlowArn")),
     Processors: ProcessorList,
     Name: S.String,
   },
@@ -1068,8 +1069,8 @@ export class UpdateChannelMessageRequest extends S.Class<UpdateChannelMessageReq
   "UpdateChannelMessageRequest",
 )(
   {
-    ChannelArn: S.String.pipe(T.HttpLabel()),
-    MessageId: S.String.pipe(T.HttpLabel()),
+    ChannelArn: S.String.pipe(T.HttpLabel("ChannelArn")),
+    MessageId: S.String.pipe(T.HttpLabel("MessageId")),
     Content: S.String,
     Metadata: S.optional(S.String),
     ChimeBearer: S.String.pipe(T.HttpHeader("x-amz-chime-bearer")),
@@ -1092,7 +1093,7 @@ export class UpdateChannelReadMarkerRequest extends S.Class<UpdateChannelReadMar
   "UpdateChannelReadMarkerRequest",
 )(
   {
-    ChannelArn: S.String.pipe(T.HttpLabel()),
+    ChannelArn: S.String.pipe(T.HttpLabel("ChannelArn")),
     ChimeBearer: S.String.pipe(T.HttpHeader("x-amz-chime-bearer")),
   },
   T.all(
@@ -1193,7 +1194,7 @@ export class ChannelFlowCallbackRequest extends S.Class<ChannelFlowCallbackReque
 )(
   {
     CallbackId: S.String,
-    ChannelArn: S.String.pipe(T.HttpLabel()),
+    ChannelArn: S.String.pipe(T.HttpLabel("ChannelArn")),
     DeleteResource: S.optional(S.Boolean),
     ChannelMessage: ChannelMessageCallback,
   },
@@ -1296,7 +1297,7 @@ export class PutMessagingStreamingConfigurationsRequest extends S.Class<PutMessa
   "PutMessagingStreamingConfigurationsRequest",
 )(
   {
-    AppInstanceArn: S.String.pipe(T.HttpLabel()),
+    AppInstanceArn: S.String.pipe(T.HttpLabel("AppInstanceArn")),
     StreamingConfigurations: StreamingConfigurationList,
   },
   T.all(
@@ -1617,8 +1618,8 @@ export class PutChannelMembershipPreferencesRequest extends S.Class<PutChannelMe
   "PutChannelMembershipPreferencesRequest",
 )(
   {
-    ChannelArn: S.String.pipe(T.HttpLabel()),
-    MemberArn: S.String.pipe(T.HttpLabel()),
+    ChannelArn: S.String.pipe(T.HttpLabel("ChannelArn")),
+    MemberArn: S.String.pipe(T.HttpLabel("MemberArn")),
     ChimeBearer: S.String.pipe(T.HttpHeader("x-amz-chime-bearer")),
     Preferences: ChannelMembershipPreferences,
   },
@@ -1647,7 +1648,7 @@ export class SendChannelMessageRequest extends S.Class<SendChannelMessageRequest
   "SendChannelMessageRequest",
 )(
   {
-    ChannelArn: S.String.pipe(T.HttpLabel()),
+    ChannelArn: S.String.pipe(T.HttpLabel("ChannelArn")),
     Content: S.String,
     Type: S.String,
     Persistence: S.String,
@@ -1728,7 +1729,7 @@ export class ForbiddenException extends S.TaggedError<ForbiddenException>()(
 export class ServiceFailureException extends S.TaggedError<ServiceFailureException>()(
   "ServiceFailureException",
   { Code: S.optional(S.String), Message: S.optional(S.String) },
-) {}
+).pipe(withCategory(ERROR_CATEGORIES.SERVER_ERROR)) {}
 export class NotFoundException extends S.TaggedError<NotFoundException>()(
   "NotFoundException",
   { Code: S.optional(S.String), Message: S.optional(S.String) },
@@ -1740,11 +1741,11 @@ export class ResourceLimitExceededException extends S.TaggedError<ResourceLimitE
 export class ServiceUnavailableException extends S.TaggedError<ServiceUnavailableException>()(
   "ServiceUnavailableException",
   { Code: S.optional(S.String), Message: S.optional(S.String) },
-) {}
+).pipe(withCategory(ERROR_CATEGORIES.SERVER_ERROR)) {}
 export class ThrottledClientException extends S.TaggedError<ThrottledClientException>()(
   "ThrottledClientException",
   { Code: S.optional(S.String), Message: S.optional(S.String) },
-) {}
+).pipe(withCategory(ERROR_CATEGORIES.THROTTLING_ERROR)) {}
 export class UnauthorizedClientException extends S.TaggedError<UnauthorizedClientException>()(
   "UnauthorizedClientException",
   { Code: S.optional(S.String), Message: S.optional(S.String) },

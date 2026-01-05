@@ -1,6 +1,7 @@
 import * as S from "effect/Schema";
 import * as API from "../api.ts";
 import * as T from "../traits.ts";
+import { ERROR_CATEGORIES, withCategory } from "../error-category.ts";
 const svc = T.AwsApiService({
   sdkId: "Lex Runtime V2",
   serviceShapeName: "AWSDeepSenseRunTimeServiceApi2_0",
@@ -245,10 +246,10 @@ export class DeleteSessionRequest extends S.Class<DeleteSessionRequest>(
   "DeleteSessionRequest",
 )(
   {
-    botId: S.String.pipe(T.HttpLabel()),
-    botAliasId: S.String.pipe(T.HttpLabel()),
-    localeId: S.String.pipe(T.HttpLabel()),
-    sessionId: S.String.pipe(T.HttpLabel()),
+    botId: S.String.pipe(T.HttpLabel("botId")),
+    botAliasId: S.String.pipe(T.HttpLabel("botAliasId")),
+    localeId: S.String.pipe(T.HttpLabel("localeId")),
+    sessionId: S.String.pipe(T.HttpLabel("sessionId")),
   },
   T.all(
     T.Http({
@@ -266,10 +267,10 @@ export class GetSessionRequest extends S.Class<GetSessionRequest>(
   "GetSessionRequest",
 )(
   {
-    botId: S.String.pipe(T.HttpLabel()),
-    botAliasId: S.String.pipe(T.HttpLabel()),
-    localeId: S.String.pipe(T.HttpLabel()),
-    sessionId: S.String.pipe(T.HttpLabel()),
+    botId: S.String.pipe(T.HttpLabel("botId")),
+    botAliasId: S.String.pipe(T.HttpLabel("botAliasId")),
+    localeId: S.String.pipe(T.HttpLabel("localeId")),
+    sessionId: S.String.pipe(T.HttpLabel("sessionId")),
   },
   T.all(
     T.Http({
@@ -344,10 +345,10 @@ export class RecognizeTextRequest extends S.Class<RecognizeTextRequest>(
   "RecognizeTextRequest",
 )(
   {
-    botId: S.String.pipe(T.HttpLabel()),
-    botAliasId: S.String.pipe(T.HttpLabel()),
-    localeId: S.String.pipe(T.HttpLabel()),
-    sessionId: S.String.pipe(T.HttpLabel()),
+    botId: S.String.pipe(T.HttpLabel("botId")),
+    botAliasId: S.String.pipe(T.HttpLabel("botAliasId")),
+    localeId: S.String.pipe(T.HttpLabel("localeId")),
+    sessionId: S.String.pipe(T.HttpLabel("sessionId")),
     text: S.String,
     sessionState: S.optional(SessionState),
     requestAttributes: S.optional(StringMap),
@@ -368,10 +369,10 @@ export class RecognizeUtteranceRequest extends S.Class<RecognizeUtteranceRequest
   "RecognizeUtteranceRequest",
 )(
   {
-    botId: S.String.pipe(T.HttpLabel()),
-    botAliasId: S.String.pipe(T.HttpLabel()),
-    localeId: S.String.pipe(T.HttpLabel()),
-    sessionId: S.String.pipe(T.HttpLabel()),
+    botId: S.String.pipe(T.HttpLabel("botId")),
+    botAliasId: S.String.pipe(T.HttpLabel("botAliasId")),
+    localeId: S.String.pipe(T.HttpLabel("localeId")),
+    sessionId: S.String.pipe(T.HttpLabel("sessionId")),
     sessionState: S.optional(S.String).pipe(
       T.HttpHeader("x-amz-lex-session-state"),
     ),
@@ -541,10 +542,10 @@ export class StartConversationRequest extends S.Class<StartConversationRequest>(
   "StartConversationRequest",
 )(
   {
-    botId: S.String.pipe(T.HttpLabel()),
-    botAliasId: S.String.pipe(T.HttpLabel()),
-    localeId: S.String.pipe(T.HttpLabel()),
-    sessionId: S.String.pipe(T.HttpLabel()),
+    botId: S.String.pipe(T.HttpLabel("botId")),
+    botAliasId: S.String.pipe(T.HttpLabel("botAliasId")),
+    localeId: S.String.pipe(T.HttpLabel("localeId")),
+    sessionId: S.String.pipe(T.HttpLabel("sessionId")),
     conversationMode: S.optional(S.String).pipe(
       T.HttpHeader("x-amz-lex-conversation-mode"),
     ),
@@ -663,10 +664,10 @@ export class PutSessionRequest extends S.Class<PutSessionRequest>(
   "PutSessionRequest",
 )(
   {
-    botId: S.String.pipe(T.HttpLabel()),
-    botAliasId: S.String.pipe(T.HttpLabel()),
-    localeId: S.String.pipe(T.HttpLabel()),
-    sessionId: S.String.pipe(T.HttpLabel()),
+    botId: S.String.pipe(T.HttpLabel("botId")),
+    botAliasId: S.String.pipe(T.HttpLabel("botAliasId")),
+    localeId: S.String.pipe(T.HttpLabel("localeId")),
+    sessionId: S.String.pipe(T.HttpLabel("sessionId")),
     messages: S.optional(Messages),
     sessionState: SessionState,
     requestAttributes: S.optional(StringMap),
@@ -713,11 +714,11 @@ export class ConflictException extends S.TaggedError<ConflictException>()(
 export class BadGatewayException extends S.TaggedError<BadGatewayException>()(
   "BadGatewayException",
   { message: S.String },
-) {}
+).pipe(withCategory(ERROR_CATEGORIES.SERVER_ERROR)) {}
 export class InternalServerException extends S.TaggedError<InternalServerException>()(
   "InternalServerException",
   { message: S.String },
-) {}
+).pipe(withCategory(ERROR_CATEGORIES.SERVER_ERROR)) {}
 export class DependencyFailedException extends S.TaggedError<DependencyFailedException>()(
   "DependencyFailedException",
   { message: S.String },
@@ -729,7 +730,7 @@ export class ResourceNotFoundException extends S.TaggedError<ResourceNotFoundExc
 export class ThrottlingException extends S.TaggedError<ThrottlingException>()(
   "ThrottlingException",
   { message: S.String },
-) {}
+).pipe(withCategory(ERROR_CATEGORIES.THROTTLING_ERROR)) {}
 export class ValidationException extends S.TaggedError<ValidationException>()(
   "ValidationException",
   { message: S.String },

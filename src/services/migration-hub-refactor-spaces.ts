@@ -1,6 +1,7 @@
 import * as S from "effect/Schema";
 import * as API from "../api.ts";
 import * as T from "../traits.ts";
+import { ERROR_CATEGORIES, withCategory } from "../error-category.ts";
 const svc = T.AwsApiService({
   sdkId: "Migration Hub Refactor Spaces",
   serviceShapeName: "RefactorSpaces",
@@ -266,8 +267,8 @@ export class DeleteApplicationRequest extends S.Class<DeleteApplicationRequest>(
   "DeleteApplicationRequest",
 )(
   {
-    EnvironmentIdentifier: S.String.pipe(T.HttpLabel()),
-    ApplicationIdentifier: S.String.pipe(T.HttpLabel()),
+    EnvironmentIdentifier: S.String.pipe(T.HttpLabel("EnvironmentIdentifier")),
+    ApplicationIdentifier: S.String.pipe(T.HttpLabel("ApplicationIdentifier")),
   },
   T.all(
     T.Http({
@@ -284,7 +285,9 @@ export class DeleteApplicationRequest extends S.Class<DeleteApplicationRequest>(
 export class DeleteEnvironmentRequest extends S.Class<DeleteEnvironmentRequest>(
   "DeleteEnvironmentRequest",
 )(
-  { EnvironmentIdentifier: S.String.pipe(T.HttpLabel()) },
+  {
+    EnvironmentIdentifier: S.String.pipe(T.HttpLabel("EnvironmentIdentifier")),
+  },
   T.all(
     T.Http({ method: "DELETE", uri: "/environments/{EnvironmentIdentifier}" }),
     svc,
@@ -297,7 +300,7 @@ export class DeleteEnvironmentRequest extends S.Class<DeleteEnvironmentRequest>(
 export class DeleteResourcePolicyRequest extends S.Class<DeleteResourcePolicyRequest>(
   "DeleteResourcePolicyRequest",
 )(
-  { Identifier: S.String.pipe(T.HttpLabel()) },
+  { Identifier: S.String.pipe(T.HttpLabel("Identifier")) },
   T.all(
     T.Http({ method: "DELETE", uri: "/resourcepolicy/{Identifier}" }),
     svc,
@@ -314,9 +317,9 @@ export class DeleteRouteRequest extends S.Class<DeleteRouteRequest>(
   "DeleteRouteRequest",
 )(
   {
-    EnvironmentIdentifier: S.String.pipe(T.HttpLabel()),
-    ApplicationIdentifier: S.String.pipe(T.HttpLabel()),
-    RouteIdentifier: S.String.pipe(T.HttpLabel()),
+    EnvironmentIdentifier: S.String.pipe(T.HttpLabel("EnvironmentIdentifier")),
+    ApplicationIdentifier: S.String.pipe(T.HttpLabel("ApplicationIdentifier")),
+    RouteIdentifier: S.String.pipe(T.HttpLabel("RouteIdentifier")),
   },
   T.all(
     T.Http({
@@ -334,9 +337,9 @@ export class DeleteServiceRequest extends S.Class<DeleteServiceRequest>(
   "DeleteServiceRequest",
 )(
   {
-    EnvironmentIdentifier: S.String.pipe(T.HttpLabel()),
-    ApplicationIdentifier: S.String.pipe(T.HttpLabel()),
-    ServiceIdentifier: S.String.pipe(T.HttpLabel()),
+    EnvironmentIdentifier: S.String.pipe(T.HttpLabel("EnvironmentIdentifier")),
+    ApplicationIdentifier: S.String.pipe(T.HttpLabel("ApplicationIdentifier")),
+    ServiceIdentifier: S.String.pipe(T.HttpLabel("ServiceIdentifier")),
   },
   T.all(
     T.Http({
@@ -354,8 +357,8 @@ export class GetApplicationRequest extends S.Class<GetApplicationRequest>(
   "GetApplicationRequest",
 )(
   {
-    EnvironmentIdentifier: S.String.pipe(T.HttpLabel()),
-    ApplicationIdentifier: S.String.pipe(T.HttpLabel()),
+    EnvironmentIdentifier: S.String.pipe(T.HttpLabel("EnvironmentIdentifier")),
+    ApplicationIdentifier: S.String.pipe(T.HttpLabel("ApplicationIdentifier")),
   },
   T.all(
     T.Http({
@@ -372,7 +375,9 @@ export class GetApplicationRequest extends S.Class<GetApplicationRequest>(
 export class GetEnvironmentRequest extends S.Class<GetEnvironmentRequest>(
   "GetEnvironmentRequest",
 )(
-  { EnvironmentIdentifier: S.String.pipe(T.HttpLabel()) },
+  {
+    EnvironmentIdentifier: S.String.pipe(T.HttpLabel("EnvironmentIdentifier")),
+  },
   T.all(
     T.Http({ method: "GET", uri: "/environments/{EnvironmentIdentifier}" }),
     svc,
@@ -385,7 +390,7 @@ export class GetEnvironmentRequest extends S.Class<GetEnvironmentRequest>(
 export class GetResourcePolicyRequest extends S.Class<GetResourcePolicyRequest>(
   "GetResourcePolicyRequest",
 )(
-  { Identifier: S.String.pipe(T.HttpLabel()) },
+  { Identifier: S.String.pipe(T.HttpLabel("Identifier")) },
   T.all(
     T.Http({ method: "GET", uri: "/resourcepolicy/{Identifier}" }),
     svc,
@@ -399,9 +404,9 @@ export class GetRouteRequest extends S.Class<GetRouteRequest>(
   "GetRouteRequest",
 )(
   {
-    EnvironmentIdentifier: S.String.pipe(T.HttpLabel()),
-    ApplicationIdentifier: S.String.pipe(T.HttpLabel()),
-    RouteIdentifier: S.String.pipe(T.HttpLabel()),
+    EnvironmentIdentifier: S.String.pipe(T.HttpLabel("EnvironmentIdentifier")),
+    ApplicationIdentifier: S.String.pipe(T.HttpLabel("ApplicationIdentifier")),
+    RouteIdentifier: S.String.pipe(T.HttpLabel("RouteIdentifier")),
   },
   T.all(
     T.Http({
@@ -419,9 +424,9 @@ export class GetServiceRequest extends S.Class<GetServiceRequest>(
   "GetServiceRequest",
 )(
   {
-    EnvironmentIdentifier: S.String.pipe(T.HttpLabel()),
-    ApplicationIdentifier: S.String.pipe(T.HttpLabel()),
-    ServiceIdentifier: S.String.pipe(T.HttpLabel()),
+    EnvironmentIdentifier: S.String.pipe(T.HttpLabel("EnvironmentIdentifier")),
+    ApplicationIdentifier: S.String.pipe(T.HttpLabel("ApplicationIdentifier")),
+    ServiceIdentifier: S.String.pipe(T.HttpLabel("ServiceIdentifier")),
   },
   T.all(
     T.Http({
@@ -439,7 +444,7 @@ export class ListApplicationsRequest extends S.Class<ListApplicationsRequest>(
   "ListApplicationsRequest",
 )(
   {
-    EnvironmentIdentifier: S.String.pipe(T.HttpLabel()),
+    EnvironmentIdentifier: S.String.pipe(T.HttpLabel("EnvironmentIdentifier")),
     NextToken: S.optional(S.String).pipe(T.HttpQuery("nextToken")),
     MaxResults: S.optional(S.Number).pipe(T.HttpQuery("maxResults")),
   },
@@ -475,7 +480,7 @@ export class ListEnvironmentVpcsRequest extends S.Class<ListEnvironmentVpcsReque
   "ListEnvironmentVpcsRequest",
 )(
   {
-    EnvironmentIdentifier: S.String.pipe(T.HttpLabel()),
+    EnvironmentIdentifier: S.String.pipe(T.HttpLabel("EnvironmentIdentifier")),
     NextToken: S.optional(S.String).pipe(T.HttpQuery("nextToken")),
     MaxResults: S.optional(S.Number).pipe(T.HttpQuery("maxResults")),
   },
@@ -495,8 +500,8 @@ export class ListRoutesRequest extends S.Class<ListRoutesRequest>(
   "ListRoutesRequest",
 )(
   {
-    EnvironmentIdentifier: S.String.pipe(T.HttpLabel()),
-    ApplicationIdentifier: S.String.pipe(T.HttpLabel()),
+    EnvironmentIdentifier: S.String.pipe(T.HttpLabel("EnvironmentIdentifier")),
+    ApplicationIdentifier: S.String.pipe(T.HttpLabel("ApplicationIdentifier")),
     NextToken: S.optional(S.String).pipe(T.HttpQuery("nextToken")),
     MaxResults: S.optional(S.Number).pipe(T.HttpQuery("maxResults")),
   },
@@ -516,8 +521,8 @@ export class ListServicesRequest extends S.Class<ListServicesRequest>(
   "ListServicesRequest",
 )(
   {
-    EnvironmentIdentifier: S.String.pipe(T.HttpLabel()),
-    ApplicationIdentifier: S.String.pipe(T.HttpLabel()),
+    EnvironmentIdentifier: S.String.pipe(T.HttpLabel("EnvironmentIdentifier")),
+    ApplicationIdentifier: S.String.pipe(T.HttpLabel("ApplicationIdentifier")),
     NextToken: S.optional(S.String).pipe(T.HttpQuery("nextToken")),
     MaxResults: S.optional(S.Number).pipe(T.HttpQuery("maxResults")),
   },
@@ -536,7 +541,7 @@ export class ListServicesRequest extends S.Class<ListServicesRequest>(
 export class ListTagsForResourceRequest extends S.Class<ListTagsForResourceRequest>(
   "ListTagsForResourceRequest",
 )(
-  { ResourceArn: S.String.pipe(T.HttpLabel()) },
+  { ResourceArn: S.String.pipe(T.HttpLabel("ResourceArn")) },
   T.all(
     T.Http({ method: "GET", uri: "/tags/{ResourceArn}" }),
     svc,
@@ -565,7 +570,7 @@ export class PutResourcePolicyResponse extends S.Class<PutResourcePolicyResponse
 export class TagResourceRequest extends S.Class<TagResourceRequest>(
   "TagResourceRequest",
 )(
-  { ResourceArn: S.String.pipe(T.HttpLabel()), Tags: TagMap },
+  { ResourceArn: S.String.pipe(T.HttpLabel("ResourceArn")), Tags: TagMap },
   T.all(
     T.Http({ method: "POST", uri: "/tags/{ResourceArn}" }),
     svc,
@@ -582,7 +587,7 @@ export class UntagResourceRequest extends S.Class<UntagResourceRequest>(
   "UntagResourceRequest",
 )(
   {
-    ResourceArn: S.String.pipe(T.HttpLabel()),
+    ResourceArn: S.String.pipe(T.HttpLabel("ResourceArn")),
     TagKeys: TagKeys.pipe(T.HttpQuery("tagKeys")),
   },
   T.all(
@@ -601,9 +606,9 @@ export class UpdateRouteRequest extends S.Class<UpdateRouteRequest>(
   "UpdateRouteRequest",
 )(
   {
-    EnvironmentIdentifier: S.String.pipe(T.HttpLabel()),
-    ApplicationIdentifier: S.String.pipe(T.HttpLabel()),
-    RouteIdentifier: S.String.pipe(T.HttpLabel()),
+    EnvironmentIdentifier: S.String.pipe(T.HttpLabel("EnvironmentIdentifier")),
+    ApplicationIdentifier: S.String.pipe(T.HttpLabel("ApplicationIdentifier")),
+    RouteIdentifier: S.String.pipe(T.HttpLabel("RouteIdentifier")),
     ActivationState: S.String,
   },
   T.all(
@@ -645,7 +650,7 @@ export class CreateApplicationRequest extends S.Class<CreateApplicationRequest>(
 )(
   {
     Name: S.String,
-    EnvironmentIdentifier: S.String.pipe(T.HttpLabel()),
+    EnvironmentIdentifier: S.String.pipe(T.HttpLabel("EnvironmentIdentifier")),
     VpcId: S.String,
     ProxyType: S.String,
     ApiGatewayProxy: S.optional(ApiGatewayProxyInput),
@@ -682,8 +687,8 @@ export class CreateRouteRequest extends S.Class<CreateRouteRequest>(
   "CreateRouteRequest",
 )(
   {
-    EnvironmentIdentifier: S.String.pipe(T.HttpLabel()),
-    ApplicationIdentifier: S.String.pipe(T.HttpLabel()),
+    EnvironmentIdentifier: S.String.pipe(T.HttpLabel("EnvironmentIdentifier")),
+    ApplicationIdentifier: S.String.pipe(T.HttpLabel("ApplicationIdentifier")),
     ServiceIdentifier: S.String,
     RouteType: S.String,
     DefaultRoute: S.optional(DefaultRouteInput),
@@ -709,8 +714,8 @@ export class CreateServiceRequest extends S.Class<CreateServiceRequest>(
   {
     Name: S.String,
     Description: S.optional(S.String),
-    EnvironmentIdentifier: S.String.pipe(T.HttpLabel()),
-    ApplicationIdentifier: S.String.pipe(T.HttpLabel()),
+    EnvironmentIdentifier: S.String.pipe(T.HttpLabel("EnvironmentIdentifier")),
+    ApplicationIdentifier: S.String.pipe(T.HttpLabel("ApplicationIdentifier")),
     VpcId: S.optional(S.String),
     EndpointType: S.String,
     UrlEndpoint: S.optional(UrlEndpointInput),
@@ -1087,7 +1092,7 @@ export class AccessDeniedException extends S.TaggedError<AccessDeniedException>(
 export class InternalServerException extends S.TaggedError<InternalServerException>()(
   "InternalServerException",
   { Message: S.String },
-) {}
+).pipe(withCategory(ERROR_CATEGORIES.SERVER_ERROR)) {}
 export class ConflictException extends S.TaggedError<ConflictException>()(
   "ConflictException",
   { Message: S.String, ResourceId: S.String, ResourceType: S.String },
@@ -1112,7 +1117,7 @@ export class ThrottlingException extends S.TaggedError<ThrottlingException>()(
     ServiceCode: S.optional(S.String),
     RetryAfterSeconds: S.optional(S.Number).pipe(T.HttpHeader("Retry-After")),
   },
-) {}
+).pipe(withCategory(ERROR_CATEGORIES.THROTTLING_ERROR)) {}
 export class ServiceQuotaExceededException extends S.TaggedError<ServiceQuotaExceededException>()(
   "ServiceQuotaExceededException",
   {

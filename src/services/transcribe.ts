@@ -1,6 +1,7 @@
 import * as S from "effect/Schema";
 import * as API from "../api.ts";
 import * as T from "../traits.ts";
+import { ERROR_CATEGORIES, withCategory } from "../error-category.ts";
 const svc = T.AwsApiService({
   sdkId: "Transcribe",
   serviceShapeName: "Transcribe",
@@ -319,7 +320,7 @@ export class CreateMedicalVocabularyRequest extends S.Class<CreateMedicalVocabul
   "CreateMedicalVocabularyRequest",
 )(
   {
-    VocabularyName: S.String.pipe(T.HttpLabel()),
+    VocabularyName: S.String.pipe(T.HttpLabel("VocabularyName")),
     LanguageCode: S.String,
     VocabularyFileUri: S.String,
     Tags: S.optional(TagList),
@@ -337,7 +338,7 @@ export class CreateVocabularyRequest extends S.Class<CreateVocabularyRequest>(
   "CreateVocabularyRequest",
 )(
   {
-    VocabularyName: S.String.pipe(T.HttpLabel()),
+    VocabularyName: S.String.pipe(T.HttpLabel("VocabularyName")),
     LanguageCode: S.String,
     Phrases: S.optional(Phrases),
     VocabularyFileUri: S.optional(S.String),
@@ -357,7 +358,7 @@ export class CreateVocabularyFilterRequest extends S.Class<CreateVocabularyFilte
   "CreateVocabularyFilterRequest",
 )(
   {
-    VocabularyFilterName: S.String.pipe(T.HttpLabel()),
+    VocabularyFilterName: S.String.pipe(T.HttpLabel("VocabularyFilterName")),
     LanguageCode: S.String,
     Words: S.optional(Words),
     VocabularyFilterFileUri: S.optional(S.String),
@@ -379,7 +380,7 @@ export class CreateVocabularyFilterRequest extends S.Class<CreateVocabularyFilte
 export class DeleteCallAnalyticsCategoryRequest extends S.Class<DeleteCallAnalyticsCategoryRequest>(
   "DeleteCallAnalyticsCategoryRequest",
 )(
-  { CategoryName: S.String.pipe(T.HttpLabel()) },
+  { CategoryName: S.String.pipe(T.HttpLabel("CategoryName")) },
   T.all(
     T.Http({
       method: "DELETE",
@@ -398,7 +399,7 @@ export class DeleteCallAnalyticsCategoryResponse extends S.Class<DeleteCallAnaly
 export class DeleteCallAnalyticsJobRequest extends S.Class<DeleteCallAnalyticsJobRequest>(
   "DeleteCallAnalyticsJobRequest",
 )(
-  { CallAnalyticsJobName: S.String.pipe(T.HttpLabel()) },
+  { CallAnalyticsJobName: S.String.pipe(T.HttpLabel("CallAnalyticsJobName")) },
   T.all(
     T.Http({
       method: "DELETE",
@@ -417,7 +418,7 @@ export class DeleteCallAnalyticsJobResponse extends S.Class<DeleteCallAnalyticsJ
 export class DeleteLanguageModelRequest extends S.Class<DeleteLanguageModelRequest>(
   "DeleteLanguageModelRequest",
 )(
-  { ModelName: S.String.pipe(T.HttpLabel()) },
+  { ModelName: S.String.pipe(T.HttpLabel("ModelName")) },
   T.all(
     T.Http({ method: "DELETE", uri: "/languagemodels/{ModelName}" }),
     svc,
@@ -433,7 +434,7 @@ export class DeleteLanguageModelResponse extends S.Class<DeleteLanguageModelResp
 export class DeleteMedicalScribeJobRequest extends S.Class<DeleteMedicalScribeJobRequest>(
   "DeleteMedicalScribeJobRequest",
 )(
-  { MedicalScribeJobName: S.String.pipe(T.HttpLabel()) },
+  { MedicalScribeJobName: S.String.pipe(T.HttpLabel("MedicalScribeJobName")) },
   T.all(
     T.Http({
       method: "DELETE",
@@ -452,7 +453,11 @@ export class DeleteMedicalScribeJobResponse extends S.Class<DeleteMedicalScribeJ
 export class DeleteMedicalTranscriptionJobRequest extends S.Class<DeleteMedicalTranscriptionJobRequest>(
   "DeleteMedicalTranscriptionJobRequest",
 )(
-  { MedicalTranscriptionJobName: S.String.pipe(T.HttpLabel()) },
+  {
+    MedicalTranscriptionJobName: S.String.pipe(
+      T.HttpLabel("MedicalTranscriptionJobName"),
+    ),
+  },
   T.all(
     T.Http({
       method: "DELETE",
@@ -471,7 +476,7 @@ export class DeleteMedicalTranscriptionJobResponse extends S.Class<DeleteMedical
 export class DeleteMedicalVocabularyRequest extends S.Class<DeleteMedicalVocabularyRequest>(
   "DeleteMedicalVocabularyRequest",
 )(
-  { VocabularyName: S.String.pipe(T.HttpLabel()) },
+  { VocabularyName: S.String.pipe(T.HttpLabel("VocabularyName")) },
   T.all(
     T.Http({ method: "DELETE", uri: "/medicalvocabularies/{VocabularyName}" }),
     svc,
@@ -487,7 +492,7 @@ export class DeleteMedicalVocabularyResponse extends S.Class<DeleteMedicalVocabu
 export class DeleteTranscriptionJobRequest extends S.Class<DeleteTranscriptionJobRequest>(
   "DeleteTranscriptionJobRequest",
 )(
-  { TranscriptionJobName: S.String.pipe(T.HttpLabel()) },
+  { TranscriptionJobName: S.String.pipe(T.HttpLabel("TranscriptionJobName")) },
   T.all(
     T.Http({
       method: "DELETE",
@@ -506,7 +511,7 @@ export class DeleteTranscriptionJobResponse extends S.Class<DeleteTranscriptionJ
 export class DeleteVocabularyRequest extends S.Class<DeleteVocabularyRequest>(
   "DeleteVocabularyRequest",
 )(
-  { VocabularyName: S.String.pipe(T.HttpLabel()) },
+  { VocabularyName: S.String.pipe(T.HttpLabel("VocabularyName")) },
   T.all(
     T.Http({ method: "DELETE", uri: "/vocabularies/{VocabularyName}" }),
     svc,
@@ -522,7 +527,7 @@ export class DeleteVocabularyResponse extends S.Class<DeleteVocabularyResponse>(
 export class DeleteVocabularyFilterRequest extends S.Class<DeleteVocabularyFilterRequest>(
   "DeleteVocabularyFilterRequest",
 )(
-  { VocabularyFilterName: S.String.pipe(T.HttpLabel()) },
+  { VocabularyFilterName: S.String.pipe(T.HttpLabel("VocabularyFilterName")) },
   T.all(
     T.Http({
       method: "DELETE",
@@ -541,7 +546,7 @@ export class DeleteVocabularyFilterResponse extends S.Class<DeleteVocabularyFilt
 export class DescribeLanguageModelRequest extends S.Class<DescribeLanguageModelRequest>(
   "DescribeLanguageModelRequest",
 )(
-  { ModelName: S.String.pipe(T.HttpLabel()) },
+  { ModelName: S.String.pipe(T.HttpLabel("ModelName")) },
   T.all(
     T.Http({ method: "GET", uri: "/languagemodels/{ModelName}" }),
     svc,
@@ -554,7 +559,7 @@ export class DescribeLanguageModelRequest extends S.Class<DescribeLanguageModelR
 export class GetCallAnalyticsCategoryRequest extends S.Class<GetCallAnalyticsCategoryRequest>(
   "GetCallAnalyticsCategoryRequest",
 )(
-  { CategoryName: S.String.pipe(T.HttpLabel()) },
+  { CategoryName: S.String.pipe(T.HttpLabel("CategoryName")) },
   T.all(
     T.Http({ method: "GET", uri: "/callanalyticscategories/{CategoryName}" }),
     svc,
@@ -567,7 +572,7 @@ export class GetCallAnalyticsCategoryRequest extends S.Class<GetCallAnalyticsCat
 export class GetCallAnalyticsJobRequest extends S.Class<GetCallAnalyticsJobRequest>(
   "GetCallAnalyticsJobRequest",
 )(
-  { CallAnalyticsJobName: S.String.pipe(T.HttpLabel()) },
+  { CallAnalyticsJobName: S.String.pipe(T.HttpLabel("CallAnalyticsJobName")) },
   T.all(
     T.Http({ method: "GET", uri: "/callanalyticsjobs/{CallAnalyticsJobName}" }),
     svc,
@@ -580,7 +585,7 @@ export class GetCallAnalyticsJobRequest extends S.Class<GetCallAnalyticsJobReque
 export class GetMedicalScribeJobRequest extends S.Class<GetMedicalScribeJobRequest>(
   "GetMedicalScribeJobRequest",
 )(
-  { MedicalScribeJobName: S.String.pipe(T.HttpLabel()) },
+  { MedicalScribeJobName: S.String.pipe(T.HttpLabel("MedicalScribeJobName")) },
   T.all(
     T.Http({ method: "GET", uri: "/medicalscribejobs/{MedicalScribeJobName}" }),
     svc,
@@ -593,7 +598,11 @@ export class GetMedicalScribeJobRequest extends S.Class<GetMedicalScribeJobReque
 export class GetMedicalTranscriptionJobRequest extends S.Class<GetMedicalTranscriptionJobRequest>(
   "GetMedicalTranscriptionJobRequest",
 )(
-  { MedicalTranscriptionJobName: S.String.pipe(T.HttpLabel()) },
+  {
+    MedicalTranscriptionJobName: S.String.pipe(
+      T.HttpLabel("MedicalTranscriptionJobName"),
+    ),
+  },
   T.all(
     T.Http({
       method: "GET",
@@ -609,7 +618,7 @@ export class GetMedicalTranscriptionJobRequest extends S.Class<GetMedicalTranscr
 export class GetMedicalVocabularyRequest extends S.Class<GetMedicalVocabularyRequest>(
   "GetMedicalVocabularyRequest",
 )(
-  { VocabularyName: S.String.pipe(T.HttpLabel()) },
+  { VocabularyName: S.String.pipe(T.HttpLabel("VocabularyName")) },
   T.all(
     T.Http({ method: "GET", uri: "/medicalvocabularies/{VocabularyName}" }),
     svc,
@@ -622,7 +631,7 @@ export class GetMedicalVocabularyRequest extends S.Class<GetMedicalVocabularyReq
 export class GetTranscriptionJobRequest extends S.Class<GetTranscriptionJobRequest>(
   "GetTranscriptionJobRequest",
 )(
-  { TranscriptionJobName: S.String.pipe(T.HttpLabel()) },
+  { TranscriptionJobName: S.String.pipe(T.HttpLabel("TranscriptionJobName")) },
   T.all(
     T.Http({ method: "GET", uri: "/transcriptionjobs/{TranscriptionJobName}" }),
     svc,
@@ -635,7 +644,7 @@ export class GetTranscriptionJobRequest extends S.Class<GetTranscriptionJobReque
 export class GetVocabularyRequest extends S.Class<GetVocabularyRequest>(
   "GetVocabularyRequest",
 )(
-  { VocabularyName: S.String.pipe(T.HttpLabel()) },
+  { VocabularyName: S.String.pipe(T.HttpLabel("VocabularyName")) },
   T.all(
     T.Http({ method: "GET", uri: "/vocabularies/{VocabularyName}" }),
     svc,
@@ -648,7 +657,7 @@ export class GetVocabularyRequest extends S.Class<GetVocabularyRequest>(
 export class GetVocabularyFilterRequest extends S.Class<GetVocabularyFilterRequest>(
   "GetVocabularyFilterRequest",
 )(
-  { VocabularyFilterName: S.String.pipe(T.HttpLabel()) },
+  { VocabularyFilterName: S.String.pipe(T.HttpLabel("VocabularyFilterName")) },
   T.all(
     T.Http({ method: "GET", uri: "/vocabularyFilters/{VocabularyFilterName}" }),
     svc,
@@ -769,7 +778,7 @@ export class ListMedicalVocabulariesRequest extends S.Class<ListMedicalVocabular
 export class ListTagsForResourceRequest extends S.Class<ListTagsForResourceRequest>(
   "ListTagsForResourceRequest",
 )(
-  { ResourceArn: S.String.pipe(T.HttpLabel()) },
+  { ResourceArn: S.String.pipe(T.HttpLabel("ResourceArn")) },
   T.all(
     T.Http({ method: "GET", uri: "/tags/{ResourceArn}" }),
     svc,
@@ -835,7 +844,7 @@ export class ListVocabularyFiltersRequest extends S.Class<ListVocabularyFiltersR
 export class TagResourceRequest extends S.Class<TagResourceRequest>(
   "TagResourceRequest",
 )(
-  { ResourceArn: S.String.pipe(T.HttpLabel()), Tags: TagList },
+  { ResourceArn: S.String.pipe(T.HttpLabel("ResourceArn")), Tags: TagList },
   T.all(
     T.Http({ method: "PUT", uri: "/tags/{ResourceArn}" }),
     svc,
@@ -852,7 +861,7 @@ export class UntagResourceRequest extends S.Class<UntagResourceRequest>(
   "UntagResourceRequest",
 )(
   {
-    ResourceArn: S.String.pipe(T.HttpLabel()),
+    ResourceArn: S.String.pipe(T.HttpLabel("ResourceArn")),
     TagKeys: TagKeyList.pipe(T.HttpQuery("tagKeys")),
   },
   T.all(
@@ -932,7 +941,7 @@ export class UpdateCallAnalyticsCategoryRequest extends S.Class<UpdateCallAnalyt
   "UpdateCallAnalyticsCategoryRequest",
 )(
   {
-    CategoryName: S.String.pipe(T.HttpLabel()),
+    CategoryName: S.String.pipe(T.HttpLabel("CategoryName")),
     Rules: RuleList,
     InputType: S.optional(S.String),
   },
@@ -949,7 +958,7 @@ export class UpdateMedicalVocabularyRequest extends S.Class<UpdateMedicalVocabul
   "UpdateMedicalVocabularyRequest",
 )(
   {
-    VocabularyName: S.String.pipe(T.HttpLabel()),
+    VocabularyName: S.String.pipe(T.HttpLabel("VocabularyName")),
     LanguageCode: S.String,
     VocabularyFileUri: S.String,
   },
@@ -966,7 +975,7 @@ export class UpdateVocabularyRequest extends S.Class<UpdateVocabularyRequest>(
   "UpdateVocabularyRequest",
 )(
   {
-    VocabularyName: S.String.pipe(T.HttpLabel()),
+    VocabularyName: S.String.pipe(T.HttpLabel("VocabularyName")),
     LanguageCode: S.String,
     Phrases: S.optional(Phrases),
     VocabularyFileUri: S.optional(S.String),
@@ -985,7 +994,7 @@ export class UpdateVocabularyFilterRequest extends S.Class<UpdateVocabularyFilte
   "UpdateVocabularyFilterRequest",
 )(
   {
-    VocabularyFilterName: S.String.pipe(T.HttpLabel()),
+    VocabularyFilterName: S.String.pipe(T.HttpLabel("VocabularyFilterName")),
     Words: S.optional(Words),
     VocabularyFilterFileUri: S.optional(S.String),
     DataAccessRoleArn: S.optional(S.String),
@@ -1100,7 +1109,7 @@ export class CreateLanguageModelRequest extends S.Class<CreateLanguageModelReque
   {
     LanguageCode: S.String,
     BaseModelName: S.String,
-    ModelName: S.String.pipe(T.HttpLabel()),
+    ModelName: S.String.pipe(T.HttpLabel("ModelName")),
     InputDataConfig: InputDataConfig,
     Tags: S.optional(TagList),
   },
@@ -1196,7 +1205,9 @@ export class StartMedicalTranscriptionJobRequest extends S.Class<StartMedicalTra
   "StartMedicalTranscriptionJobRequest",
 )(
   {
-    MedicalTranscriptionJobName: S.String.pipe(T.HttpLabel()),
+    MedicalTranscriptionJobName: S.String.pipe(
+      T.HttpLabel("MedicalTranscriptionJobName"),
+    ),
     LanguageCode: S.String,
     MediaSampleRateHertz: S.optional(S.Number),
     MediaFormat: S.optional(S.String),
@@ -1449,7 +1460,7 @@ export class StartCallAnalyticsJobRequest extends S.Class<StartCallAnalyticsJobR
   "StartCallAnalyticsJobRequest",
 )(
   {
-    CallAnalyticsJobName: S.String.pipe(T.HttpLabel()),
+    CallAnalyticsJobName: S.String.pipe(T.HttpLabel("CallAnalyticsJobName")),
     Media: Media,
     OutputLocation: S.optional(S.String),
     OutputEncryptionKMSKeyId: S.optional(S.String),
@@ -1471,7 +1482,7 @@ export class StartMedicalScribeJobRequest extends S.Class<StartMedicalScribeJobR
   "StartMedicalScribeJobRequest",
 )(
   {
-    MedicalScribeJobName: S.String.pipe(T.HttpLabel()),
+    MedicalScribeJobName: S.String.pipe(T.HttpLabel("MedicalScribeJobName")),
     Media: Media,
     OutputBucketName: S.String,
     OutputEncryptionKMSKeyId: S.optional(S.String),
@@ -1521,7 +1532,7 @@ export class StartTranscriptionJobRequest extends S.Class<StartTranscriptionJobR
   "StartTranscriptionJobRequest",
 )(
   {
-    TranscriptionJobName: S.String.pipe(T.HttpLabel()),
+    TranscriptionJobName: S.String.pipe(T.HttpLabel("TranscriptionJobName")),
     LanguageCode: S.optional(S.String),
     MediaSampleRateHertz: S.optional(S.Number),
     MediaFormat: S.optional(S.String),
@@ -1615,7 +1626,7 @@ export class CreateCallAnalyticsCategoryRequest extends S.Class<CreateCallAnalyt
   "CreateCallAnalyticsCategoryRequest",
 )(
   {
-    CategoryName: S.String.pipe(T.HttpLabel()),
+    CategoryName: S.String.pipe(T.HttpLabel("CategoryName")),
     Rules: RuleList,
     Tags: S.optional(TagList),
     InputType: S.optional(S.String),
@@ -1683,7 +1694,7 @@ export class BadRequestException extends S.TaggedError<BadRequestException>()(
 export class InternalFailureException extends S.TaggedError<InternalFailureException>()(
   "InternalFailureException",
   { Message: S.optional(S.String) },
-) {}
+).pipe(withCategory(ERROR_CATEGORIES.SERVER_ERROR)) {}
 export class ConflictException extends S.TaggedError<ConflictException>()(
   "ConflictException",
   { Message: S.optional(S.String) },
@@ -1691,7 +1702,7 @@ export class ConflictException extends S.TaggedError<ConflictException>()(
 export class LimitExceededException extends S.TaggedError<LimitExceededException>()(
   "LimitExceededException",
   { Message: S.optional(S.String) },
-) {}
+).pipe(withCategory(ERROR_CATEGORIES.THROTTLING_ERROR)) {}
 export class NotFoundException extends S.TaggedError<NotFoundException>()(
   "NotFoundException",
   { Message: S.optional(S.String) },

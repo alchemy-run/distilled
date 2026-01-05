@@ -1,5 +1,9 @@
 import * as S from "effect/Schema";
-import { ERROR_CATEGORIES, withCategory } from "../error-category.ts";
+import {
+  ERROR_CATEGORIES,
+  withCategory,
+  withRetryable,
+} from "../error-category.ts";
 
 //==== Common AWS Errors ====
 export class AccessDeniedException extends S.TaggedError<AccessDeniedException>()(
@@ -27,7 +31,12 @@ export class InternalFailure extends S.TaggedError<InternalFailure>()(
   "InternalFailure",
   {},
 ).pipe(
-  withCategory(ERROR_CATEGORIES.AWS_ERROR, ERROR_CATEGORIES.COMMON_ERROR),
+  withCategory(
+    ERROR_CATEGORIES.AWS_ERROR,
+    ERROR_CATEGORIES.COMMON_ERROR,
+    ERROR_CATEGORIES.SERVER_ERROR,
+  ),
+  withRetryable(),
 ) {}
 
 export class MalformedHttpRequestException extends S.TaggedError<MalformedHttpRequestException>()(
@@ -76,21 +85,36 @@ export class RequestTimeoutException extends S.TaggedError<RequestTimeoutExcepti
   "RequestTimeoutException",
   {},
 ).pipe(
-  withCategory(ERROR_CATEGORIES.AWS_ERROR, ERROR_CATEGORIES.COMMON_ERROR),
+  withCategory(
+    ERROR_CATEGORIES.AWS_ERROR,
+    ERROR_CATEGORIES.COMMON_ERROR,
+    ERROR_CATEGORIES.SERVER_ERROR,
+  ),
+  withRetryable(),
 ) {}
 
 export class ServiceUnavailable extends S.TaggedError<ServiceUnavailable>()(
   "ServiceUnavailable",
   {},
 ).pipe(
-  withCategory(ERROR_CATEGORIES.AWS_ERROR, ERROR_CATEGORIES.COMMON_ERROR),
+  withCategory(
+    ERROR_CATEGORIES.AWS_ERROR,
+    ERROR_CATEGORIES.COMMON_ERROR,
+    ERROR_CATEGORIES.SERVER_ERROR,
+  ),
+  withRetryable(),
 ) {}
 
 export class ThrottlingException extends S.TaggedError<ThrottlingException>()(
   "ThrottlingException",
   {},
 ).pipe(
-  withCategory(ERROR_CATEGORIES.AWS_ERROR, ERROR_CATEGORIES.COMMON_ERROR),
+  withCategory(
+    ERROR_CATEGORIES.AWS_ERROR,
+    ERROR_CATEGORIES.COMMON_ERROR,
+    ERROR_CATEGORIES.THROTTLING_ERROR,
+  ),
+  withRetryable({ throttling: true }),
 ) {}
 
 export class UnrecognizedClientException extends S.TaggedError<UnrecognizedClientException>()(
@@ -140,7 +164,12 @@ export class InternalError extends S.TaggedError<InternalError>()(
   "InternalError",
   {},
 ).pipe(
-  withCategory(ERROR_CATEGORIES.AWS_ERROR, ERROR_CATEGORIES.COMMON_ERROR),
+  withCategory(
+    ERROR_CATEGORIES.AWS_ERROR,
+    ERROR_CATEGORIES.COMMON_ERROR,
+    ERROR_CATEGORIES.SERVER_ERROR,
+  ),
+  withRetryable(),
 ) {}
 
 export const COMMON_ERRORS = [

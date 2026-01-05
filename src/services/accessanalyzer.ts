@@ -1,6 +1,7 @@
 import * as S from "effect/Schema";
 import * as API from "../api.ts";
 import * as T from "../traits.ts";
+import { ERROR_CATEGORIES, withCategory } from "../error-category.ts";
 const svc = T.AwsApiService({
   sdkId: "AccessAnalyzer",
   serviceShapeName: "AccessAnalyzer",
@@ -286,7 +287,7 @@ export class ApplyArchiveRuleResponse extends S.Class<ApplyArchiveRuleResponse>(
 export class CancelPolicyGenerationRequest extends S.Class<CancelPolicyGenerationRequest>(
   "CancelPolicyGenerationRequest",
 )(
-  { jobId: S.String.pipe(T.HttpLabel()) },
+  { jobId: S.String.pipe(T.HttpLabel("jobId")) },
   T.all(
     T.Http({ method: "PUT", uri: "/policy/generation/{jobId}" }),
     svc,
@@ -334,7 +335,7 @@ export class GenerateFindingRecommendationRequest extends S.Class<GenerateFindin
 )(
   {
     analyzerArn: S.String.pipe(T.HttpQuery("analyzerArn")),
-    id: S.String.pipe(T.HttpLabel()),
+    id: S.String.pipe(T.HttpLabel("id")),
   },
   T.all(
     T.Http({ method: "POST", uri: "/recommendation/{id}" }),
@@ -352,7 +353,7 @@ export class GetAccessPreviewRequest extends S.Class<GetAccessPreviewRequest>(
   "GetAccessPreviewRequest",
 )(
   {
-    accessPreviewId: S.String.pipe(T.HttpLabel()),
+    accessPreviewId: S.String.pipe(T.HttpLabel("accessPreviewId")),
     analyzerArn: S.String.pipe(T.HttpQuery("analyzerArn")),
   },
   T.all(
@@ -385,7 +386,7 @@ export class GetFindingRequest extends S.Class<GetFindingRequest>(
 )(
   {
     analyzerArn: S.String.pipe(T.HttpQuery("analyzerArn")),
-    id: S.String.pipe(T.HttpLabel()),
+    id: S.String.pipe(T.HttpLabel("id")),
   },
   T.all(
     T.Http({ method: "GET", uri: "/finding/{id}" }),
@@ -401,7 +402,7 @@ export class GetFindingRecommendationRequest extends S.Class<GetFindingRecommend
 )(
   {
     analyzerArn: S.String.pipe(T.HttpQuery("analyzerArn")),
-    id: S.String.pipe(T.HttpLabel()),
+    id: S.String.pipe(T.HttpLabel("id")),
     maxResults: S.optional(S.Number).pipe(T.HttpQuery("maxResults")),
     nextToken: S.optional(S.String).pipe(T.HttpQuery("nextToken")),
   },
@@ -432,7 +433,7 @@ export class GetFindingV2Request extends S.Class<GetFindingV2Request>(
 )(
   {
     analyzerArn: S.String.pipe(T.HttpQuery("analyzerArn")),
-    id: S.String.pipe(T.HttpLabel()),
+    id: S.String.pipe(T.HttpLabel("id")),
     maxResults: S.optional(S.Number).pipe(T.HttpQuery("maxResults")),
     nextToken: S.optional(S.String).pipe(T.HttpQuery("nextToken")),
   },
@@ -449,7 +450,7 @@ export class GetGeneratedPolicyRequest extends S.Class<GetGeneratedPolicyRequest
   "GetGeneratedPolicyRequest",
 )(
   {
-    jobId: S.String.pipe(T.HttpLabel()),
+    jobId: S.String.pipe(T.HttpLabel("jobId")),
     includeResourcePlaceholders: S.optional(S.Boolean).pipe(
       T.HttpQuery("includeResourcePlaceholders"),
     ),
@@ -552,7 +553,7 @@ export class ListPolicyGenerationsRequest extends S.Class<ListPolicyGenerationsR
 export class ListTagsForResourceRequest extends S.Class<ListTagsForResourceRequest>(
   "ListTagsForResourceRequest",
 )(
-  { resourceArn: S.String.pipe(T.HttpLabel()) },
+  { resourceArn: S.String.pipe(T.HttpLabel("resourceArn")) },
   T.all(
     T.Http({ method: "GET", uri: "/tags/{resourceArn}" }),
     svc,
@@ -586,7 +587,7 @@ export class UntagResourceRequest extends S.Class<UntagResourceRequest>(
   "UntagResourceRequest",
 )(
   {
-    resourceArn: S.String.pipe(T.HttpLabel()),
+    resourceArn: S.String.pipe(T.HttpLabel("resourceArn")),
     tagKeys: TagKeys.pipe(T.HttpQuery("tagKeys")),
   },
   T.all(
@@ -646,7 +647,7 @@ export class ValidatePolicyRequest extends S.Class<ValidatePolicyRequest>(
 export class GetAnalyzerRequest extends S.Class<GetAnalyzerRequest>(
   "GetAnalyzerRequest",
 )(
-  { analyzerName: S.String.pipe(T.HttpLabel()) },
+  { analyzerName: S.String.pipe(T.HttpLabel("analyzerName")) },
   T.all(
     T.Http({ method: "GET", uri: "/analyzer/{analyzerName}" }),
     svc,
@@ -701,7 +702,7 @@ export class UpdateAnalyzerRequest extends S.Class<UpdateAnalyzerRequest>(
   "UpdateAnalyzerRequest",
 )(
   {
-    analyzerName: S.String.pipe(T.HttpLabel()),
+    analyzerName: S.String.pipe(T.HttpLabel("analyzerName")),
     configuration: S.optional(AnalyzerConfiguration),
   },
   T.all(
@@ -717,7 +718,7 @@ export class DeleteAnalyzerRequest extends S.Class<DeleteAnalyzerRequest>(
   "DeleteAnalyzerRequest",
 )(
   {
-    analyzerName: S.String.pipe(T.HttpLabel()),
+    analyzerName: S.String.pipe(T.HttpLabel("analyzerName")),
     clientToken: S.optional(S.String).pipe(T.HttpQuery("clientToken")),
   },
   T.all(
@@ -753,7 +754,7 @@ export class CreateArchiveRuleRequest extends S.Class<CreateArchiveRuleRequest>(
   "CreateArchiveRuleRequest",
 )(
   {
-    analyzerName: S.String.pipe(T.HttpLabel()),
+    analyzerName: S.String.pipe(T.HttpLabel("analyzerName")),
     ruleName: S.String,
     filter: FilterCriteriaMap,
     clientToken: S.optional(S.String),
@@ -774,8 +775,8 @@ export class GetArchiveRuleRequest extends S.Class<GetArchiveRuleRequest>(
   "GetArchiveRuleRequest",
 )(
   {
-    analyzerName: S.String.pipe(T.HttpLabel()),
-    ruleName: S.String.pipe(T.HttpLabel()),
+    analyzerName: S.String.pipe(T.HttpLabel("analyzerName")),
+    ruleName: S.String.pipe(T.HttpLabel("ruleName")),
   },
   T.all(
     T.Http({
@@ -793,8 +794,8 @@ export class UpdateArchiveRuleRequest extends S.Class<UpdateArchiveRuleRequest>(
   "UpdateArchiveRuleRequest",
 )(
   {
-    analyzerName: S.String.pipe(T.HttpLabel()),
-    ruleName: S.String.pipe(T.HttpLabel()),
+    analyzerName: S.String.pipe(T.HttpLabel("analyzerName")),
+    ruleName: S.String.pipe(T.HttpLabel("ruleName")),
     filter: FilterCriteriaMap,
     clientToken: S.optional(S.String),
   },
@@ -817,8 +818,8 @@ export class DeleteArchiveRuleRequest extends S.Class<DeleteArchiveRuleRequest>(
   "DeleteArchiveRuleRequest",
 )(
   {
-    analyzerName: S.String.pipe(T.HttpLabel()),
-    ruleName: S.String.pipe(T.HttpLabel()),
+    analyzerName: S.String.pipe(T.HttpLabel("analyzerName")),
+    ruleName: S.String.pipe(T.HttpLabel("ruleName")),
     clientToken: S.optional(S.String).pipe(T.HttpQuery("clientToken")),
   },
   T.all(
@@ -840,7 +841,7 @@ export class ListArchiveRulesRequest extends S.Class<ListArchiveRulesRequest>(
   "ListArchiveRulesRequest",
 )(
   {
-    analyzerName: S.String.pipe(T.HttpLabel()),
+    analyzerName: S.String.pipe(T.HttpLabel("analyzerName")),
     nextToken: S.optional(S.String).pipe(T.HttpQuery("nextToken")),
     maxResults: S.optional(S.Number).pipe(T.HttpQuery("maxResults")),
   },
@@ -948,7 +949,7 @@ export class ListTagsForResourceResponse extends S.Class<ListTagsForResourceResp
 export class TagResourceRequest extends S.Class<TagResourceRequest>(
   "TagResourceRequest",
 )(
-  { resourceArn: S.String.pipe(T.HttpLabel()), tags: TagsMap },
+  { resourceArn: S.String.pipe(T.HttpLabel("resourceArn")), tags: TagsMap },
   T.all(
     T.Http({ method: "POST", uri: "/tags/{resourceArn}" }),
     svc,
@@ -1105,7 +1106,7 @@ export class ListAccessPreviewFindingsRequest extends S.Class<ListAccessPreviewF
   "ListAccessPreviewFindingsRequest",
 )(
   {
-    accessPreviewId: S.String.pipe(T.HttpLabel()),
+    accessPreviewId: S.String.pipe(T.HttpLabel("accessPreviewId")),
     analyzerArn: S.String,
     filter: S.optional(FilterCriteriaMap),
     nextToken: S.optional(S.String),
@@ -1705,7 +1706,8 @@ export class InternalServerException extends S.TaggedError<InternalServerExcepti
     message: S.String,
     retryAfterSeconds: S.optional(S.Number).pipe(T.HttpHeader("Retry-After")),
   },
-) {}
+  T.Retryable(),
+).pipe(withCategory(ERROR_CATEGORIES.SERVER_ERROR)) {}
 export class ConflictException extends S.TaggedError<ConflictException>()(
   "ConflictException",
   { message: S.String, resourceId: S.String, resourceType: S.String },
@@ -1724,7 +1726,8 @@ export class ThrottlingException extends S.TaggedError<ThrottlingException>()(
     message: S.String,
     retryAfterSeconds: S.optional(S.Number).pipe(T.HttpHeader("Retry-After")),
   },
-) {}
+  T.Retryable({ throttling: true }),
+).pipe(withCategory(ERROR_CATEGORIES.THROTTLING_ERROR)) {}
 export class ServiceQuotaExceededException extends S.TaggedError<ServiceQuotaExceededException>()(
   "ServiceQuotaExceededException",
   { message: S.String, resourceId: S.String, resourceType: S.String },
@@ -1732,6 +1735,7 @@ export class ServiceQuotaExceededException extends S.TaggedError<ServiceQuotaExc
 export class UnprocessableEntityException extends S.TaggedError<UnprocessableEntityException>()(
   "UnprocessableEntityException",
   { message: S.String },
+  T.Retryable(),
 ) {}
 export class ValidationException extends S.TaggedError<ValidationException>()(
   "ValidationException",

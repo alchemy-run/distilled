@@ -1,6 +1,7 @@
 import * as S from "effect/Schema";
 import * as API from "../api.ts";
 import * as T from "../traits.ts";
+import { ERROR_CATEGORIES, withCategory } from "../error-category.ts";
 const svc = T.AwsApiService({
   sdkId: "GameLiftStreams",
   serviceShapeName: "GameLiftStreams",
@@ -115,7 +116,7 @@ export class AssociateApplicationsInput extends S.Class<AssociateApplicationsInp
   "AssociateApplicationsInput",
 )(
   {
-    Identifier: S.String.pipe(T.HttpLabel()),
+    Identifier: S.String.pipe(T.HttpLabel("Identifier")),
     ApplicationIdentifiers: Identifiers,
   },
   T.all(
@@ -132,8 +133,10 @@ export class CreateStreamSessionConnectionInput extends S.Class<CreateStreamSess
 )(
   {
     ClientToken: S.optional(S.String),
-    Identifier: S.String.pipe(T.HttpLabel()),
-    StreamSessionIdentifier: S.String.pipe(T.HttpLabel()),
+    Identifier: S.String.pipe(T.HttpLabel("Identifier")),
+    StreamSessionIdentifier: S.String.pipe(
+      T.HttpLabel("StreamSessionIdentifier"),
+    ),
     SignalRequest: S.String,
   },
   T.all(
@@ -152,7 +155,7 @@ export class DisassociateApplicationsInput extends S.Class<DisassociateApplicati
   "DisassociateApplicationsInput",
 )(
   {
-    Identifier: S.String.pipe(T.HttpLabel()),
+    Identifier: S.String.pipe(T.HttpLabel("Identifier")),
     ApplicationIdentifiers: Identifiers,
   },
   T.all(
@@ -171,8 +174,10 @@ export class ExportStreamSessionFilesInput extends S.Class<ExportStreamSessionFi
   "ExportStreamSessionFilesInput",
 )(
   {
-    Identifier: S.String.pipe(T.HttpLabel()),
-    StreamSessionIdentifier: S.String.pipe(T.HttpLabel()),
+    Identifier: S.String.pipe(T.HttpLabel("Identifier")),
+    StreamSessionIdentifier: S.String.pipe(
+      T.HttpLabel("StreamSessionIdentifier"),
+    ),
     OutputUri: S.String,
   },
   T.all(
@@ -194,8 +199,10 @@ export class GetStreamSessionInput extends S.Class<GetStreamSessionInput>(
   "GetStreamSessionInput",
 )(
   {
-    Identifier: S.String.pipe(T.HttpLabel()),
-    StreamSessionIdentifier: S.String.pipe(T.HttpLabel()),
+    Identifier: S.String.pipe(T.HttpLabel("Identifier")),
+    StreamSessionIdentifier: S.String.pipe(
+      T.HttpLabel("StreamSessionIdentifier"),
+    ),
   },
   T.all(
     T.Http({
@@ -219,7 +226,7 @@ export class ListStreamSessionsInput extends S.Class<ListStreamSessionsInput>(
     ),
     NextToken: S.optional(S.String).pipe(T.HttpQuery("NextToken")),
     MaxResults: S.optional(S.Number).pipe(T.HttpQuery("MaxResults")),
-    Identifier: S.String.pipe(T.HttpLabel()),
+    Identifier: S.String.pipe(T.HttpLabel("Identifier")),
   },
   T.all(
     T.Http({ method: "GET", uri: "/streamgroups/{Identifier}/streamsessions" }),
@@ -253,7 +260,7 @@ export class ListStreamSessionsByAccountInput extends S.Class<ListStreamSessions
 export class ListTagsForResourceRequest extends S.Class<ListTagsForResourceRequest>(
   "ListTagsForResourceRequest",
 )(
-  { ResourceArn: S.String.pipe(T.HttpLabel()) },
+  { ResourceArn: S.String.pipe(T.HttpLabel("ResourceArn")) },
   T.all(
     T.Http({ method: "GET", uri: "/tags/{ResourceArn}" }),
     svc,
@@ -267,7 +274,7 @@ export class RemoveStreamGroupLocationsInput extends S.Class<RemoveStreamGroupLo
   "RemoveStreamGroupLocationsInput",
 )(
   {
-    Identifier: S.String.pipe(T.HttpLabel()),
+    Identifier: S.String.pipe(T.HttpLabel("Identifier")),
     Locations: LocationsList.pipe(T.HttpQuery("locations")),
   },
   T.all(
@@ -286,8 +293,10 @@ export class TerminateStreamSessionInput extends S.Class<TerminateStreamSessionI
   "TerminateStreamSessionInput",
 )(
   {
-    Identifier: S.String.pipe(T.HttpLabel()),
-    StreamSessionIdentifier: S.String.pipe(T.HttpLabel()),
+    Identifier: S.String.pipe(T.HttpLabel("Identifier")),
+    StreamSessionIdentifier: S.String.pipe(
+      T.HttpLabel("StreamSessionIdentifier"),
+    ),
   },
   T.all(
     T.Http({
@@ -308,7 +317,7 @@ export class UntagResourceRequest extends S.Class<UntagResourceRequest>(
   "UntagResourceRequest",
 )(
   {
-    ResourceArn: S.String.pipe(T.HttpLabel()),
+    ResourceArn: S.String.pipe(T.HttpLabel("ResourceArn")),
     TagKeys: TagKeyList.pipe(T.HttpQuery("tagKeys")),
   },
   T.all(
@@ -326,7 +335,7 @@ export class UntagResourceResponse extends S.Class<UntagResourceResponse>(
 export class GetApplicationInput extends S.Class<GetApplicationInput>(
   "GetApplicationInput",
 )(
-  { Identifier: S.String.pipe(T.HttpLabel()) },
+  { Identifier: S.String.pipe(T.HttpLabel("Identifier")) },
   T.all(
     T.Http({ method: "GET", uri: "/applications/{Identifier}" }),
     svc,
@@ -340,7 +349,7 @@ export class UpdateApplicationInput extends S.Class<UpdateApplicationInput>(
   "UpdateApplicationInput",
 )(
   {
-    Identifier: S.String.pipe(T.HttpLabel()),
+    Identifier: S.String.pipe(T.HttpLabel("Identifier")),
     Description: S.optional(S.String),
     ApplicationLogPaths: S.optional(FilePaths),
     ApplicationLogOutputUri: S.optional(S.String),
@@ -357,7 +366,7 @@ export class UpdateApplicationInput extends S.Class<UpdateApplicationInput>(
 export class DeleteApplicationInput extends S.Class<DeleteApplicationInput>(
   "DeleteApplicationInput",
 )(
-  { Identifier: S.String.pipe(T.HttpLabel()) },
+  { Identifier: S.String.pipe(T.HttpLabel("Identifier")) },
   T.all(
     T.Http({ method: "DELETE", uri: "/applications/{Identifier}" }),
     svc,
@@ -420,7 +429,7 @@ export class CreateStreamGroupInput extends S.Class<CreateStreamGroupInput>(
 export class GetStreamGroupInput extends S.Class<GetStreamGroupInput>(
   "GetStreamGroupInput",
 )(
-  { Identifier: S.String.pipe(T.HttpLabel()) },
+  { Identifier: S.String.pipe(T.HttpLabel("Identifier")) },
   T.all(
     T.Http({ method: "GET", uri: "/streamgroups/{Identifier}" }),
     svc,
@@ -434,7 +443,7 @@ export class UpdateStreamGroupInput extends S.Class<UpdateStreamGroupInput>(
   "UpdateStreamGroupInput",
 )(
   {
-    Identifier: S.String.pipe(T.HttpLabel()),
+    Identifier: S.String.pipe(T.HttpLabel("Identifier")),
     LocationConfigurations: S.optional(LocationConfigurations),
     Description: S.optional(S.String),
     DefaultApplicationIdentifier: S.optional(S.String),
@@ -451,7 +460,7 @@ export class UpdateStreamGroupInput extends S.Class<UpdateStreamGroupInput>(
 export class DeleteStreamGroupInput extends S.Class<DeleteStreamGroupInput>(
   "DeleteStreamGroupInput",
 )(
-  { Identifier: S.String.pipe(T.HttpLabel()) },
+  { Identifier: S.String.pipe(T.HttpLabel("Identifier")) },
   T.all(
     T.Http({ method: "DELETE", uri: "/streamgroups/{Identifier}" }),
     svc,
@@ -495,7 +504,7 @@ export class AddStreamGroupLocationsInput extends S.Class<AddStreamGroupLocation
   "AddStreamGroupLocationsInput",
 )(
   {
-    Identifier: S.String.pipe(T.HttpLabel()),
+    Identifier: S.String.pipe(T.HttpLabel("Identifier")),
     LocationConfigurations: LocationConfigurations,
   },
   T.all(
@@ -553,7 +562,7 @@ export class StartStreamSessionInput extends S.Class<StartStreamSessionInput>(
   {
     ClientToken: S.optional(S.String),
     Description: S.optional(S.String),
-    Identifier: S.String.pipe(T.HttpLabel()),
+    Identifier: S.String.pipe(T.HttpLabel("Identifier")),
     Protocol: S.String,
     SignalRequest: S.String,
     ApplicationIdentifier: S.String,
@@ -580,7 +589,7 @@ export class StartStreamSessionInput extends S.Class<StartStreamSessionInput>(
 export class TagResourceRequest extends S.Class<TagResourceRequest>(
   "TagResourceRequest",
 )(
-  { ResourceArn: S.String.pipe(T.HttpLabel()), Tags: Tags },
+  { ResourceArn: S.String.pipe(T.HttpLabel("ResourceArn")), Tags: Tags },
   T.all(
     T.Http({ method: "POST", uri: "/tags/{ResourceArn}" }),
     svc,
@@ -842,7 +851,8 @@ export class AccessDeniedException extends S.TaggedError<AccessDeniedException>(
 export class InternalServerException extends S.TaggedError<InternalServerException>()(
   "InternalServerException",
   { Message: S.String },
-) {}
+  T.Retryable(),
+).pipe(withCategory(ERROR_CATEGORIES.SERVER_ERROR)) {}
 export class ConflictException extends S.TaggedError<ConflictException>()(
   "ConflictException",
   { Message: S.String },
@@ -854,7 +864,8 @@ export class ResourceNotFoundException extends S.TaggedError<ResourceNotFoundExc
 export class ThrottlingException extends S.TaggedError<ThrottlingException>()(
   "ThrottlingException",
   { Message: S.String },
-) {}
+  T.Retryable({ throttling: true }),
+).pipe(withCategory(ERROR_CATEGORIES.THROTTLING_ERROR)) {}
 export class ServiceQuotaExceededException extends S.TaggedError<ServiceQuotaExceededException>()(
   "ServiceQuotaExceededException",
   { Message: S.String },

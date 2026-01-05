@@ -1,6 +1,7 @@
 import * as S from "effect/Schema";
 import * as API from "../api.ts";
 import * as T from "../traits.ts";
+import { ERROR_CATEGORIES, withCategory } from "../error-category.ts";
 const svc = T.AwsApiService({
   sdkId: "Global Accelerator",
   serviceShapeName: "GlobalAccelerator_V20180706",
@@ -1177,7 +1178,7 @@ export class AcceleratorNotFoundException extends S.TaggedError<AcceleratorNotFo
 export class InternalServiceErrorException extends S.TaggedError<InternalServiceErrorException>()(
   "InternalServiceErrorException",
   { Message: S.optional(S.String) },
-) {}
+).pipe(withCategory(ERROR_CATEGORIES.SERVER_ERROR)) {}
 export class AttachmentNotFoundException extends S.TaggedError<AttachmentNotFoundException>()(
   "AttachmentNotFoundException",
   { Message: S.optional(S.String) },

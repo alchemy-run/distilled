@@ -1,6 +1,7 @@
 import * as S from "effect/Schema";
 import * as API from "../api.ts";
 import * as T from "../traits.ts";
+import { ERROR_CATEGORIES, withCategory } from "../error-category.ts";
 const svc = T.AwsApiService({
   sdkId: "IoT Data Plane",
   serviceShapeName: "IotMoonrakerService",
@@ -414,7 +415,7 @@ export class DeleteConnectionRequest extends S.Class<DeleteConnectionRequest>(
   "DeleteConnectionRequest",
 )(
   {
-    clientId: S.String.pipe(T.HttpLabel()),
+    clientId: S.String.pipe(T.HttpLabel("clientId")),
     cleanSession: S.optional(S.Boolean).pipe(T.HttpQuery("cleanSession")),
     preventWillMessage: S.optional(S.Boolean).pipe(
       T.HttpQuery("preventWillMessage"),
@@ -436,7 +437,7 @@ export class DeleteThingShadowRequest extends S.Class<DeleteThingShadowRequest>(
   "DeleteThingShadowRequest",
 )(
   {
-    thingName: S.String.pipe(T.HttpLabel()),
+    thingName: S.String.pipe(T.HttpLabel("thingName")),
     shadowName: S.optional(S.String).pipe(T.HttpQuery("name")),
   },
   T.all(
@@ -451,7 +452,7 @@ export class DeleteThingShadowRequest extends S.Class<DeleteThingShadowRequest>(
 export class GetRetainedMessageRequest extends S.Class<GetRetainedMessageRequest>(
   "GetRetainedMessageRequest",
 )(
-  { topic: S.String.pipe(T.HttpLabel()) },
+  { topic: S.String.pipe(T.HttpLabel("topic")) },
   T.all(
     T.Http({ method: "GET", uri: "/retainedMessage/{topic}" }),
     svc,
@@ -465,7 +466,7 @@ export class GetThingShadowRequest extends S.Class<GetThingShadowRequest>(
   "GetThingShadowRequest",
 )(
   {
-    thingName: S.String.pipe(T.HttpLabel()),
+    thingName: S.String.pipe(T.HttpLabel("thingName")),
     shadowName: S.optional(S.String).pipe(T.HttpQuery("name")),
   },
   T.all(
@@ -481,7 +482,7 @@ export class ListNamedShadowsForThingRequest extends S.Class<ListNamedShadowsFor
   "ListNamedShadowsForThingRequest",
 )(
   {
-    thingName: S.String.pipe(T.HttpLabel()),
+    thingName: S.String.pipe(T.HttpLabel("thingName")),
     nextToken: S.optional(S.String).pipe(T.HttpQuery("nextToken")),
     pageSize: S.optional(S.Number).pipe(T.HttpQuery("pageSize")),
   },
@@ -515,7 +516,7 @@ export class ListRetainedMessagesRequest extends S.Class<ListRetainedMessagesReq
 ) {}
 export class PublishRequest extends S.Class<PublishRequest>("PublishRequest")(
   {
-    topic: S.String.pipe(T.HttpLabel()),
+    topic: S.String.pipe(T.HttpLabel("topic")),
     qos: S.optional(S.Number).pipe(T.HttpQuery("qos")),
     retain: S.optional(S.Boolean).pipe(T.HttpQuery("retain")),
     payload: S.optional(T.StreamingInput).pipe(T.HttpPayload()),
@@ -548,7 +549,7 @@ export class UpdateThingShadowRequest extends S.Class<UpdateThingShadowRequest>(
   "UpdateThingShadowRequest",
 )(
   {
-    thingName: S.String.pipe(T.HttpLabel()),
+    thingName: S.String.pipe(T.HttpLabel("thingName")),
     shadowName: S.optional(S.String).pipe(T.HttpQuery("name")),
     payload: T.StreamingInput.pipe(T.HttpPayload()),
   },
@@ -611,7 +612,7 @@ export class ForbiddenException extends S.TaggedError<ForbiddenException>()(
 export class InternalFailureException extends S.TaggedError<InternalFailureException>()(
   "InternalFailureException",
   { message: S.optional(S.String) },
-) {}
+).pipe(withCategory(ERROR_CATEGORIES.SERVER_ERROR)) {}
 export class InvalidRequestException extends S.TaggedError<InvalidRequestException>()(
   "InvalidRequestException",
   { message: S.optional(S.String) },
@@ -631,7 +632,7 @@ export class ResourceNotFoundException extends S.TaggedError<ResourceNotFoundExc
 export class ThrottlingException extends S.TaggedError<ThrottlingException>()(
   "ThrottlingException",
   { message: S.optional(S.String) },
-) {}
+).pipe(withCategory(ERROR_CATEGORIES.THROTTLING_ERROR)) {}
 export class RequestEntityTooLargeException extends S.TaggedError<RequestEntityTooLargeException>()(
   "RequestEntityTooLargeException",
   { message: S.optional(S.String) },
@@ -639,7 +640,7 @@ export class RequestEntityTooLargeException extends S.TaggedError<RequestEntityT
 export class ServiceUnavailableException extends S.TaggedError<ServiceUnavailableException>()(
   "ServiceUnavailableException",
   { message: S.optional(S.String) },
-) {}
+).pipe(withCategory(ERROR_CATEGORIES.SERVER_ERROR)) {}
 export class UnauthorizedException extends S.TaggedError<UnauthorizedException>()(
   "UnauthorizedException",
   { message: S.optional(S.String) },

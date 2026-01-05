@@ -1,6 +1,7 @@
 import * as S from "effect/Schema";
 import * as API from "../api.ts";
 import * as T from "../traits.ts";
+import { ERROR_CATEGORIES, withCategory } from "../error-category.ts";
 const ns = T.XmlNamespace("http://cloudtrail.amazonaws.com/doc/2013-11-01/");
 const svc = T.AwsApiService({
   sdkId: "CloudTrail",
@@ -1955,7 +1956,7 @@ export class ThrottlingException extends S.TaggedError<ThrottlingException>()(
   "ThrottlingException",
   { Message: S.optional(S.String) },
   T.AwsQueryError({ code: "ThrottlingException", httpResponseCode: 429 }),
-) {}
+).pipe(withCategory(ERROR_CATEGORIES.THROTTLING_ERROR)) {}
 export class ResourcePolicyNotFoundException extends S.TaggedError<ResourcePolicyNotFoundException>()(
   "ResourcePolicyNotFoundException",
   { Message: S.optional(S.String) },
@@ -2160,7 +2161,7 @@ export class MaxConcurrentQueriesException extends S.TaggedError<MaxConcurrentQu
   "MaxConcurrentQueriesException",
   { Message: S.optional(S.String) },
   T.AwsQueryError({ code: "MaxConcurrentQueries", httpResponseCode: 429 }),
-) {}
+).pipe(withCategory(ERROR_CATEGORIES.THROTTLING_ERROR)) {}
 export class KmsKeyNotFoundException extends S.TaggedError<KmsKeyNotFoundException>()(
   "KmsKeyNotFoundException",
   { Message: S.optional(S.String) },

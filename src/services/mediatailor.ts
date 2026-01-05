@@ -1,6 +1,7 @@
 import * as S from "effect/Schema";
 import * as API from "../api.ts";
 import * as T from "../traits.ts";
+import { ERROR_CATEGORIES, withCategory } from "../error-category.ts";
 const svc = T.AwsApiService({
   sdkId: "MediaTailor",
   serviceShapeName: "MediaTailor",
@@ -265,7 +266,7 @@ export class ListAlertsRequest extends S.Class<ListAlertsRequest>(
 export class ListTagsForResourceRequest extends S.Class<ListTagsForResourceRequest>(
   "ListTagsForResourceRequest",
 )(
-  { ResourceArn: S.String.pipe(T.HttpLabel()) },
+  { ResourceArn: S.String.pipe(T.HttpLabel("ResourceArn")) },
   T.all(
     T.Http({ method: "GET", uri: "/tags/{ResourceArn}" }),
     svc,
@@ -279,7 +280,7 @@ export class UntagResourceRequest extends S.Class<UntagResourceRequest>(
   "UntagResourceRequest",
 )(
   {
-    ResourceArn: S.String.pipe(T.HttpLabel()),
+    ResourceArn: S.String.pipe(T.HttpLabel("ResourceArn")),
     TagKeys: __listOf__string.pipe(T.HttpQuery("tagKeys")),
   },
   T.all(
@@ -297,7 +298,7 @@ export class UntagResourceResponse extends S.Class<UntagResourceResponse>(
 export class DescribeChannelRequest extends S.Class<DescribeChannelRequest>(
   "DescribeChannelRequest",
 )(
-  { ChannelName: S.String.pipe(T.HttpLabel()) },
+  { ChannelName: S.String.pipe(T.HttpLabel("ChannelName")) },
   T.all(
     T.Http({ method: "GET", uri: "/channel/{ChannelName}" }),
     svc,
@@ -342,7 +343,7 @@ export class UpdateChannelRequest extends S.Class<UpdateChannelRequest>(
   "UpdateChannelRequest",
 )(
   {
-    ChannelName: S.String.pipe(T.HttpLabel()),
+    ChannelName: S.String.pipe(T.HttpLabel("ChannelName")),
     FillerSlate: S.optional(SlateSource),
     Outputs: RequestOutputs,
     TimeShiftConfiguration: S.optional(TimeShiftConfiguration),
@@ -360,7 +361,7 @@ export class UpdateChannelRequest extends S.Class<UpdateChannelRequest>(
 export class DeleteChannelRequest extends S.Class<DeleteChannelRequest>(
   "DeleteChannelRequest",
 )(
-  { ChannelName: S.String.pipe(T.HttpLabel()) },
+  { ChannelName: S.String.pipe(T.HttpLabel("ChannelName")) },
   T.all(
     T.Http({ method: "DELETE", uri: "/channel/{ChannelName}" }),
     svc,
@@ -406,7 +407,7 @@ export class GetChannelScheduleRequest extends S.Class<GetChannelScheduleRequest
   "GetChannelScheduleRequest",
 )(
   {
-    ChannelName: S.String.pipe(T.HttpLabel()),
+    ChannelName: S.String.pipe(T.HttpLabel("ChannelName")),
     DurationMinutes: S.optional(S.String).pipe(T.HttpQuery("durationMinutes")),
     MaxResults: S.optional(S.Number).pipe(T.HttpQuery("maxResults")),
     NextToken: S.optional(S.String).pipe(T.HttpQuery("nextToken")),
@@ -424,7 +425,7 @@ export class GetChannelScheduleRequest extends S.Class<GetChannelScheduleRequest
 export class StartChannelRequest extends S.Class<StartChannelRequest>(
   "StartChannelRequest",
 )(
-  { ChannelName: S.String.pipe(T.HttpLabel()) },
+  { ChannelName: S.String.pipe(T.HttpLabel("ChannelName")) },
   T.all(
     T.Http({ method: "PUT", uri: "/channel/{ChannelName}/start" }),
     svc,
@@ -440,7 +441,7 @@ export class StartChannelResponse extends S.Class<StartChannelResponse>(
 export class StopChannelRequest extends S.Class<StopChannelRequest>(
   "StopChannelRequest",
 )(
-  { ChannelName: S.String.pipe(T.HttpLabel()) },
+  { ChannelName: S.String.pipe(T.HttpLabel("ChannelName")) },
   T.all(
     T.Http({ method: "PUT", uri: "/channel/{ChannelName}/stop" }),
     svc,
@@ -456,7 +457,7 @@ export class StopChannelResponse extends S.Class<StopChannelResponse>(
 export class PutChannelPolicyRequest extends S.Class<PutChannelPolicyRequest>(
   "PutChannelPolicyRequest",
 )(
-  { ChannelName: S.String.pipe(T.HttpLabel()), Policy: S.String },
+  { ChannelName: S.String.pipe(T.HttpLabel("ChannelName")), Policy: S.String },
   T.all(
     T.Http({ method: "PUT", uri: "/channel/{ChannelName}/policy" }),
     svc,
@@ -472,7 +473,7 @@ export class PutChannelPolicyResponse extends S.Class<PutChannelPolicyResponse>(
 export class GetChannelPolicyRequest extends S.Class<GetChannelPolicyRequest>(
   "GetChannelPolicyRequest",
 )(
-  { ChannelName: S.String.pipe(T.HttpLabel()) },
+  { ChannelName: S.String.pipe(T.HttpLabel("ChannelName")) },
   T.all(
     T.Http({ method: "GET", uri: "/channel/{ChannelName}/policy" }),
     svc,
@@ -485,7 +486,7 @@ export class GetChannelPolicyRequest extends S.Class<GetChannelPolicyRequest>(
 export class DeleteChannelPolicyRequest extends S.Class<DeleteChannelPolicyRequest>(
   "DeleteChannelPolicyRequest",
 )(
-  { ChannelName: S.String.pipe(T.HttpLabel()) },
+  { ChannelName: S.String.pipe(T.HttpLabel("ChannelName")) },
   T.all(
     T.Http({ method: "DELETE", uri: "/channel/{ChannelName}/policy" }),
     svc,
@@ -502,8 +503,8 @@ export class DescribeProgramRequest extends S.Class<DescribeProgramRequest>(
   "DescribeProgramRequest",
 )(
   {
-    ChannelName: S.String.pipe(T.HttpLabel()),
-    ProgramName: S.String.pipe(T.HttpLabel()),
+    ChannelName: S.String.pipe(T.HttpLabel("ChannelName")),
+    ProgramName: S.String.pipe(T.HttpLabel("ProgramName")),
   },
   T.all(
     T.Http({
@@ -521,8 +522,8 @@ export class DeleteProgramRequest extends S.Class<DeleteProgramRequest>(
   "DeleteProgramRequest",
 )(
   {
-    ChannelName: S.String.pipe(T.HttpLabel()),
-    ProgramName: S.String.pipe(T.HttpLabel()),
+    ChannelName: S.String.pipe(T.HttpLabel("ChannelName")),
+    ProgramName: S.String.pipe(T.HttpLabel("ProgramName")),
   },
   T.all(
     T.Http({
@@ -543,8 +544,8 @@ export class DescribeLiveSourceRequest extends S.Class<DescribeLiveSourceRequest
   "DescribeLiveSourceRequest",
 )(
   {
-    LiveSourceName: S.String.pipe(T.HttpLabel()),
-    SourceLocationName: S.String.pipe(T.HttpLabel()),
+    LiveSourceName: S.String.pipe(T.HttpLabel("LiveSourceName")),
+    SourceLocationName: S.String.pipe(T.HttpLabel("SourceLocationName")),
   },
   T.all(
     T.Http({
@@ -567,8 +568,8 @@ export class UpdateLiveSourceRequest extends S.Class<UpdateLiveSourceRequest>(
 )(
   {
     HttpPackageConfigurations: HttpPackageConfigurations,
-    LiveSourceName: S.String.pipe(T.HttpLabel()),
-    SourceLocationName: S.String.pipe(T.HttpLabel()),
+    LiveSourceName: S.String.pipe(T.HttpLabel("LiveSourceName")),
+    SourceLocationName: S.String.pipe(T.HttpLabel("SourceLocationName")),
   },
   T.all(
     T.Http({
@@ -586,8 +587,8 @@ export class DeleteLiveSourceRequest extends S.Class<DeleteLiveSourceRequest>(
   "DeleteLiveSourceRequest",
 )(
   {
-    LiveSourceName: S.String.pipe(T.HttpLabel()),
-    SourceLocationName: S.String.pipe(T.HttpLabel()),
+    LiveSourceName: S.String.pipe(T.HttpLabel("LiveSourceName")),
+    SourceLocationName: S.String.pipe(T.HttpLabel("SourceLocationName")),
   },
   T.all(
     T.Http({
@@ -610,7 +611,7 @@ export class ListLiveSourcesRequest extends S.Class<ListLiveSourcesRequest>(
   {
     MaxResults: S.optional(S.Number).pipe(T.HttpQuery("maxResults")),
     NextToken: S.optional(S.String).pipe(T.HttpQuery("nextToken")),
-    SourceLocationName: S.String.pipe(T.HttpLabel()),
+    SourceLocationName: S.String.pipe(T.HttpLabel("SourceLocationName")),
   },
   T.all(
     T.Http({
@@ -627,7 +628,7 @@ export class ListLiveSourcesRequest extends S.Class<ListLiveSourcesRequest>(
 export class GetPlaybackConfigurationRequest extends S.Class<GetPlaybackConfigurationRequest>(
   "GetPlaybackConfigurationRequest",
 )(
-  { Name: S.String.pipe(T.HttpLabel()) },
+  { Name: S.String.pipe(T.HttpLabel("Name")) },
   T.all(
     T.Http({ method: "GET", uri: "/playbackConfiguration/{Name}" }),
     svc,
@@ -640,7 +641,7 @@ export class GetPlaybackConfigurationRequest extends S.Class<GetPlaybackConfigur
 export class DeletePlaybackConfigurationRequest extends S.Class<DeletePlaybackConfigurationRequest>(
   "DeletePlaybackConfigurationRequest",
 )(
-  { Name: S.String.pipe(T.HttpLabel()) },
+  { Name: S.String.pipe(T.HttpLabel("Name")) },
   T.all(
     T.Http({ method: "DELETE", uri: "/playbackConfiguration/{Name}" }),
     svc,
@@ -673,8 +674,10 @@ export class GetPrefetchScheduleRequest extends S.Class<GetPrefetchScheduleReque
   "GetPrefetchScheduleRequest",
 )(
   {
-    Name: S.String.pipe(T.HttpLabel()),
-    PlaybackConfigurationName: S.String.pipe(T.HttpLabel()),
+    Name: S.String.pipe(T.HttpLabel("Name")),
+    PlaybackConfigurationName: S.String.pipe(
+      T.HttpLabel("PlaybackConfigurationName"),
+    ),
   },
   T.all(
     T.Http({
@@ -692,8 +695,10 @@ export class DeletePrefetchScheduleRequest extends S.Class<DeletePrefetchSchedul
   "DeletePrefetchScheduleRequest",
 )(
   {
-    Name: S.String.pipe(T.HttpLabel()),
-    PlaybackConfigurationName: S.String.pipe(T.HttpLabel()),
+    Name: S.String.pipe(T.HttpLabel("Name")),
+    PlaybackConfigurationName: S.String.pipe(
+      T.HttpLabel("PlaybackConfigurationName"),
+    ),
   },
   T.all(
     T.Http({
@@ -716,7 +721,9 @@ export class ListPrefetchSchedulesRequest extends S.Class<ListPrefetchSchedulesR
   {
     MaxResults: S.optional(S.Number),
     NextToken: S.optional(S.String),
-    PlaybackConfigurationName: S.String.pipe(T.HttpLabel()),
+    PlaybackConfigurationName: S.String.pipe(
+      T.HttpLabel("PlaybackConfigurationName"),
+    ),
     ScheduleType: S.optional(S.String),
     StreamId: S.optional(S.String),
   },
@@ -735,7 +742,7 @@ export class ListPrefetchSchedulesRequest extends S.Class<ListPrefetchSchedulesR
 export class DescribeSourceLocationRequest extends S.Class<DescribeSourceLocationRequest>(
   "DescribeSourceLocationRequest",
 )(
-  { SourceLocationName: S.String.pipe(T.HttpLabel()) },
+  { SourceLocationName: S.String.pipe(T.HttpLabel("SourceLocationName")) },
   T.all(
     T.Http({ method: "GET", uri: "/sourceLocation/{SourceLocationName}" }),
     svc,
@@ -784,7 +791,7 @@ export class UpdateSourceLocationRequest extends S.Class<UpdateSourceLocationReq
     SegmentDeliveryConfigurations: S.optional(
       __listOfSegmentDeliveryConfiguration,
     ),
-    SourceLocationName: S.String.pipe(T.HttpLabel()),
+    SourceLocationName: S.String.pipe(T.HttpLabel("SourceLocationName")),
   },
   T.all(
     T.Http({ method: "PUT", uri: "/sourceLocation/{SourceLocationName}" }),
@@ -798,7 +805,7 @@ export class UpdateSourceLocationRequest extends S.Class<UpdateSourceLocationReq
 export class DeleteSourceLocationRequest extends S.Class<DeleteSourceLocationRequest>(
   "DeleteSourceLocationRequest",
 )(
-  { SourceLocationName: S.String.pipe(T.HttpLabel()) },
+  { SourceLocationName: S.String.pipe(T.HttpLabel("SourceLocationName")) },
   T.all(
     T.Http({ method: "DELETE", uri: "/sourceLocation/{SourceLocationName}" }),
     svc,
@@ -833,9 +840,9 @@ export class CreateVodSourceRequest extends S.Class<CreateVodSourceRequest>(
 )(
   {
     HttpPackageConfigurations: HttpPackageConfigurations,
-    SourceLocationName: S.String.pipe(T.HttpLabel()),
+    SourceLocationName: S.String.pipe(T.HttpLabel("SourceLocationName")),
     Tags: S.optional(__mapOf__string).pipe(T.JsonName("tags")),
-    VodSourceName: S.String.pipe(T.HttpLabel()),
+    VodSourceName: S.String.pipe(T.HttpLabel("VodSourceName")),
   },
   T.all(
     T.Http({
@@ -853,8 +860,8 @@ export class DescribeVodSourceRequest extends S.Class<DescribeVodSourceRequest>(
   "DescribeVodSourceRequest",
 )(
   {
-    SourceLocationName: S.String.pipe(T.HttpLabel()),
-    VodSourceName: S.String.pipe(T.HttpLabel()),
+    SourceLocationName: S.String.pipe(T.HttpLabel("SourceLocationName")),
+    VodSourceName: S.String.pipe(T.HttpLabel("VodSourceName")),
   },
   T.all(
     T.Http({
@@ -873,8 +880,8 @@ export class UpdateVodSourceRequest extends S.Class<UpdateVodSourceRequest>(
 )(
   {
     HttpPackageConfigurations: HttpPackageConfigurations,
-    SourceLocationName: S.String.pipe(T.HttpLabel()),
-    VodSourceName: S.String.pipe(T.HttpLabel()),
+    SourceLocationName: S.String.pipe(T.HttpLabel("SourceLocationName")),
+    VodSourceName: S.String.pipe(T.HttpLabel("VodSourceName")),
   },
   T.all(
     T.Http({
@@ -892,8 +899,8 @@ export class DeleteVodSourceRequest extends S.Class<DeleteVodSourceRequest>(
   "DeleteVodSourceRequest",
 )(
   {
-    SourceLocationName: S.String.pipe(T.HttpLabel()),
-    VodSourceName: S.String.pipe(T.HttpLabel()),
+    SourceLocationName: S.String.pipe(T.HttpLabel("SourceLocationName")),
+    VodSourceName: S.String.pipe(T.HttpLabel("VodSourceName")),
   },
   T.all(
     T.Http({
@@ -916,7 +923,7 @@ export class ListVodSourcesRequest extends S.Class<ListVodSourcesRequest>(
   {
     MaxResults: S.optional(S.Number).pipe(T.HttpQuery("maxResults")),
     NextToken: S.optional(S.String).pipe(T.HttpQuery("nextToken")),
-    SourceLocationName: S.String.pipe(T.HttpLabel()),
+    SourceLocationName: S.String.pipe(T.HttpLabel("SourceLocationName")),
   },
   T.all(
     T.Http({
@@ -1006,7 +1013,7 @@ export class TagResourceRequest extends S.Class<TagResourceRequest>(
   "TagResourceRequest",
 )(
   {
-    ResourceArn: S.String.pipe(T.HttpLabel()),
+    ResourceArn: S.String.pipe(T.HttpLabel("ResourceArn")),
     Tags: __mapOf__string.pipe(T.JsonName("tags")),
   },
   T.all(
@@ -1133,8 +1140,8 @@ export class CreateLiveSourceRequest extends S.Class<CreateLiveSourceRequest>(
 )(
   {
     HttpPackageConfigurations: HttpPackageConfigurations,
-    LiveSourceName: S.String.pipe(T.HttpLabel()),
-    SourceLocationName: S.String.pipe(T.HttpLabel()),
+    LiveSourceName: S.String.pipe(T.HttpLabel("LiveSourceName")),
+    SourceLocationName: S.String.pipe(T.HttpLabel("SourceLocationName")),
     Tags: S.optional(__mapOf__string).pipe(T.JsonName("tags")),
   },
   T.all(
@@ -1475,7 +1482,7 @@ export class CreateChannelRequest extends S.Class<CreateChannelRequest>(
   "CreateChannelRequest",
 )(
   {
-    ChannelName: S.String.pipe(T.HttpLabel()),
+    ChannelName: S.String.pipe(T.HttpLabel("ChannelName")),
     FillerSlate: S.optional(SlateSource),
     Outputs: RequestOutputs,
     PlaybackMode: S.String,
@@ -1518,8 +1525,8 @@ export class UpdateProgramRequest extends S.Class<UpdateProgramRequest>(
 )(
   {
     AdBreaks: S.optional(__listOfAdBreak),
-    ChannelName: S.String.pipe(T.HttpLabel()),
-    ProgramName: S.String.pipe(T.HttpLabel()),
+    ChannelName: S.String.pipe(T.HttpLabel("ChannelName")),
+    ProgramName: S.String.pipe(T.HttpLabel("ProgramName")),
     ScheduleConfiguration: UpdateProgramScheduleConfiguration,
     AudienceMedia: S.optional(__listOfAudienceMedia),
   },
@@ -1586,8 +1593,10 @@ export class CreatePrefetchScheduleRequest extends S.Class<CreatePrefetchSchedul
 )(
   {
     Consumption: S.optional(PrefetchConsumption),
-    Name: S.String.pipe(T.HttpLabel()),
-    PlaybackConfigurationName: S.String.pipe(T.HttpLabel()),
+    Name: S.String.pipe(T.HttpLabel("Name")),
+    PlaybackConfigurationName: S.String.pipe(
+      T.HttpLabel("PlaybackConfigurationName"),
+    ),
     Retrieval: S.optional(PrefetchRetrieval),
     RecurringPrefetchConfiguration: S.optional(RecurringPrefetchConfiguration),
     ScheduleType: S.optional(S.String),
@@ -1623,7 +1632,7 @@ export class CreateSourceLocationRequest extends S.Class<CreateSourceLocationReq
     SegmentDeliveryConfigurations: S.optional(
       __listOfSegmentDeliveryConfiguration,
     ),
-    SourceLocationName: S.String.pipe(T.HttpLabel()),
+    SourceLocationName: S.String.pipe(T.HttpLabel("SourceLocationName")),
     Tags: S.optional(__mapOf__string).pipe(T.JsonName("tags")),
   },
   T.all(
@@ -1710,9 +1719,9 @@ export class CreateProgramRequest extends S.Class<CreateProgramRequest>(
 )(
   {
     AdBreaks: S.optional(__listOfAdBreak),
-    ChannelName: S.String.pipe(T.HttpLabel()),
+    ChannelName: S.String.pipe(T.HttpLabel("ChannelName")),
     LiveSourceName: S.optional(S.String),
-    ProgramName: S.String.pipe(T.HttpLabel()),
+    ProgramName: S.String.pipe(T.HttpLabel("ProgramName")),
     ScheduleConfiguration: ScheduleConfiguration,
     SourceLocationName: S.String,
     VodSourceName: S.optional(S.String),

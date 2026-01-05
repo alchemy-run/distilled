@@ -1,6 +1,7 @@
 import * as S from "effect/Schema";
 import * as API from "../api.ts";
 import * as T from "../traits.ts";
+import { ERROR_CATEGORIES, withCategory } from "../error-category.ts";
 const svc = T.AwsApiService({ sdkId: "App Mesh", serviceShapeName: "AppMesh" });
 const auth = T.AwsAuthSigv4({ name: "appmesh" });
 const ver = T.ServiceVersion("2019-01-25");
@@ -279,7 +280,7 @@ export class DescribeMeshInput extends S.Class<DescribeMeshInput>(
   "DescribeMeshInput",
 )(
   {
-    meshName: S.String.pipe(T.HttpLabel()),
+    meshName: S.String.pipe(T.HttpLabel("meshName")),
     meshOwner: S.optional(S.String).pipe(T.HttpQuery("meshOwner")),
   },
   T.all(
@@ -305,7 +306,7 @@ export class UpdateMeshInput extends S.Class<UpdateMeshInput>(
   "UpdateMeshInput",
 )(
   {
-    meshName: S.String.pipe(T.HttpLabel()),
+    meshName: S.String.pipe(T.HttpLabel("meshName")),
     spec: S.optional(MeshSpec),
     clientToken: S.optional(S.String),
   },
@@ -321,7 +322,7 @@ export class UpdateMeshInput extends S.Class<UpdateMeshInput>(
 export class DeleteMeshInput extends S.Class<DeleteMeshInput>(
   "DeleteMeshInput",
 )(
-  { meshName: S.String.pipe(T.HttpLabel()) },
+  { meshName: S.String.pipe(T.HttpLabel("meshName")) },
   T.all(
     T.Http({ method: "DELETE", uri: "/v20190125/meshes/{meshName}" }),
     svc,
@@ -351,8 +352,8 @@ export class DescribeVirtualGatewayInput extends S.Class<DescribeVirtualGatewayI
   "DescribeVirtualGatewayInput",
 )(
   {
-    virtualGatewayName: S.String.pipe(T.HttpLabel()),
-    meshName: S.String.pipe(T.HttpLabel()),
+    virtualGatewayName: S.String.pipe(T.HttpLabel("virtualGatewayName")),
+    meshName: S.String.pipe(T.HttpLabel("meshName")),
     meshOwner: S.optional(S.String).pipe(T.HttpQuery("meshOwner")),
   },
   T.all(
@@ -511,8 +512,8 @@ export class UpdateVirtualGatewayInput extends S.Class<UpdateVirtualGatewayInput
   "UpdateVirtualGatewayInput",
 )(
   {
-    virtualGatewayName: S.String.pipe(T.HttpLabel()),
-    meshName: S.String.pipe(T.HttpLabel()),
+    virtualGatewayName: S.String.pipe(T.HttpLabel("virtualGatewayName")),
+    meshName: S.String.pipe(T.HttpLabel("meshName")),
     spec: VirtualGatewaySpec,
     clientToken: S.optional(S.String),
     meshOwner: S.optional(S.String).pipe(T.HttpQuery("meshOwner")),
@@ -533,8 +534,8 @@ export class DeleteVirtualGatewayInput extends S.Class<DeleteVirtualGatewayInput
   "DeleteVirtualGatewayInput",
 )(
   {
-    virtualGatewayName: S.String.pipe(T.HttpLabel()),
-    meshName: S.String.pipe(T.HttpLabel()),
+    virtualGatewayName: S.String.pipe(T.HttpLabel("virtualGatewayName")),
+    meshName: S.String.pipe(T.HttpLabel("meshName")),
     meshOwner: S.optional(S.String).pipe(T.HttpQuery("meshOwner")),
   },
   T.all(
@@ -553,7 +554,7 @@ export class ListVirtualGatewaysInput extends S.Class<ListVirtualGatewaysInput>(
   "ListVirtualGatewaysInput",
 )(
   {
-    meshName: S.String.pipe(T.HttpLabel()),
+    meshName: S.String.pipe(T.HttpLabel("meshName")),
     nextToken: S.optional(S.String).pipe(T.HttpQuery("nextToken")),
     limit: S.optional(S.Number).pipe(T.HttpQuery("limit")),
     meshOwner: S.optional(S.String).pipe(T.HttpQuery("meshOwner")),
@@ -574,9 +575,9 @@ export class DescribeGatewayRouteInput extends S.Class<DescribeGatewayRouteInput
   "DescribeGatewayRouteInput",
 )(
   {
-    gatewayRouteName: S.String.pipe(T.HttpLabel()),
-    meshName: S.String.pipe(T.HttpLabel()),
-    virtualGatewayName: S.String.pipe(T.HttpLabel()),
+    gatewayRouteName: S.String.pipe(T.HttpLabel("gatewayRouteName")),
+    meshName: S.String.pipe(T.HttpLabel("meshName")),
+    virtualGatewayName: S.String.pipe(T.HttpLabel("virtualGatewayName")),
     meshOwner: S.optional(S.String).pipe(T.HttpQuery("meshOwner")),
   },
   T.all(
@@ -713,9 +714,9 @@ export class UpdateGatewayRouteInput extends S.Class<UpdateGatewayRouteInput>(
   "UpdateGatewayRouteInput",
 )(
   {
-    gatewayRouteName: S.String.pipe(T.HttpLabel()),
-    meshName: S.String.pipe(T.HttpLabel()),
-    virtualGatewayName: S.String.pipe(T.HttpLabel()),
+    gatewayRouteName: S.String.pipe(T.HttpLabel("gatewayRouteName")),
+    meshName: S.String.pipe(T.HttpLabel("meshName")),
+    virtualGatewayName: S.String.pipe(T.HttpLabel("virtualGatewayName")),
     spec: GatewayRouteSpec,
     clientToken: S.optional(S.String),
     meshOwner: S.optional(S.String).pipe(T.HttpQuery("meshOwner")),
@@ -736,9 +737,9 @@ export class DeleteGatewayRouteInput extends S.Class<DeleteGatewayRouteInput>(
   "DeleteGatewayRouteInput",
 )(
   {
-    gatewayRouteName: S.String.pipe(T.HttpLabel()),
-    meshName: S.String.pipe(T.HttpLabel()),
-    virtualGatewayName: S.String.pipe(T.HttpLabel()),
+    gatewayRouteName: S.String.pipe(T.HttpLabel("gatewayRouteName")),
+    meshName: S.String.pipe(T.HttpLabel("meshName")),
+    virtualGatewayName: S.String.pipe(T.HttpLabel("virtualGatewayName")),
     meshOwner: S.optional(S.String).pipe(T.HttpQuery("meshOwner")),
   },
   T.all(
@@ -757,8 +758,8 @@ export class ListGatewayRoutesInput extends S.Class<ListGatewayRoutesInput>(
   "ListGatewayRoutesInput",
 )(
   {
-    meshName: S.String.pipe(T.HttpLabel()),
-    virtualGatewayName: S.String.pipe(T.HttpLabel()),
+    meshName: S.String.pipe(T.HttpLabel("meshName")),
+    virtualGatewayName: S.String.pipe(T.HttpLabel("virtualGatewayName")),
     nextToken: S.optional(S.String).pipe(T.HttpQuery("nextToken")),
     limit: S.optional(S.Number).pipe(T.HttpQuery("limit")),
     meshOwner: S.optional(S.String).pipe(T.HttpQuery("meshOwner")),
@@ -779,8 +780,8 @@ export class DescribeVirtualNodeInput extends S.Class<DescribeVirtualNodeInput>(
   "DescribeVirtualNodeInput",
 )(
   {
-    virtualNodeName: S.String.pipe(T.HttpLabel()),
-    meshName: S.String.pipe(T.HttpLabel()),
+    virtualNodeName: S.String.pipe(T.HttpLabel("virtualNodeName")),
+    meshName: S.String.pipe(T.HttpLabel("meshName")),
     meshOwner: S.optional(S.String).pipe(T.HttpQuery("meshOwner")),
   },
   T.all(
@@ -987,8 +988,8 @@ export class UpdateVirtualNodeInput extends S.Class<UpdateVirtualNodeInput>(
   "UpdateVirtualNodeInput",
 )(
   {
-    virtualNodeName: S.String.pipe(T.HttpLabel()),
-    meshName: S.String.pipe(T.HttpLabel()),
+    virtualNodeName: S.String.pipe(T.HttpLabel("virtualNodeName")),
+    meshName: S.String.pipe(T.HttpLabel("meshName")),
     spec: VirtualNodeSpec,
     clientToken: S.optional(S.String),
     meshOwner: S.optional(S.String).pipe(T.HttpQuery("meshOwner")),
@@ -1009,8 +1010,8 @@ export class DeleteVirtualNodeInput extends S.Class<DeleteVirtualNodeInput>(
   "DeleteVirtualNodeInput",
 )(
   {
-    virtualNodeName: S.String.pipe(T.HttpLabel()),
-    meshName: S.String.pipe(T.HttpLabel()),
+    virtualNodeName: S.String.pipe(T.HttpLabel("virtualNodeName")),
+    meshName: S.String.pipe(T.HttpLabel("meshName")),
     meshOwner: S.optional(S.String).pipe(T.HttpQuery("meshOwner")),
   },
   T.all(
@@ -1029,7 +1030,7 @@ export class ListVirtualNodesInput extends S.Class<ListVirtualNodesInput>(
   "ListVirtualNodesInput",
 )(
   {
-    meshName: S.String.pipe(T.HttpLabel()),
+    meshName: S.String.pipe(T.HttpLabel("meshName")),
     nextToken: S.optional(S.String).pipe(T.HttpQuery("nextToken")),
     limit: S.optional(S.Number).pipe(T.HttpQuery("limit")),
     meshOwner: S.optional(S.String).pipe(T.HttpQuery("meshOwner")),
@@ -1047,8 +1048,8 @@ export class DescribeVirtualRouterInput extends S.Class<DescribeVirtualRouterInp
   "DescribeVirtualRouterInput",
 )(
   {
-    virtualRouterName: S.String.pipe(T.HttpLabel()),
-    meshName: S.String.pipe(T.HttpLabel()),
+    virtualRouterName: S.String.pipe(T.HttpLabel("virtualRouterName")),
+    meshName: S.String.pipe(T.HttpLabel("meshName")),
     meshOwner: S.optional(S.String).pipe(T.HttpQuery("meshOwner")),
   },
   T.all(
@@ -1074,8 +1075,8 @@ export class UpdateVirtualRouterInput extends S.Class<UpdateVirtualRouterInput>(
   "UpdateVirtualRouterInput",
 )(
   {
-    virtualRouterName: S.String.pipe(T.HttpLabel()),
-    meshName: S.String.pipe(T.HttpLabel()),
+    virtualRouterName: S.String.pipe(T.HttpLabel("virtualRouterName")),
+    meshName: S.String.pipe(T.HttpLabel("meshName")),
     spec: VirtualRouterSpec,
     clientToken: S.optional(S.String),
     meshOwner: S.optional(S.String).pipe(T.HttpQuery("meshOwner")),
@@ -1096,8 +1097,8 @@ export class DeleteVirtualRouterInput extends S.Class<DeleteVirtualRouterInput>(
   "DeleteVirtualRouterInput",
 )(
   {
-    virtualRouterName: S.String.pipe(T.HttpLabel()),
-    meshName: S.String.pipe(T.HttpLabel()),
+    virtualRouterName: S.String.pipe(T.HttpLabel("virtualRouterName")),
+    meshName: S.String.pipe(T.HttpLabel("meshName")),
     meshOwner: S.optional(S.String).pipe(T.HttpQuery("meshOwner")),
   },
   T.all(
@@ -1116,7 +1117,7 @@ export class ListVirtualRoutersInput extends S.Class<ListVirtualRoutersInput>(
   "ListVirtualRoutersInput",
 )(
   {
-    meshName: S.String.pipe(T.HttpLabel()),
+    meshName: S.String.pipe(T.HttpLabel("meshName")),
     nextToken: S.optional(S.String).pipe(T.HttpQuery("nextToken")),
     limit: S.optional(S.Number).pipe(T.HttpQuery("limit")),
     meshOwner: S.optional(S.String).pipe(T.HttpQuery("meshOwner")),
@@ -1137,10 +1138,10 @@ export class DescribeRouteInput extends S.Class<DescribeRouteInput>(
   "DescribeRouteInput",
 )(
   {
-    routeName: S.String.pipe(T.HttpLabel()),
-    meshName: S.String.pipe(T.HttpLabel()),
+    routeName: S.String.pipe(T.HttpLabel("routeName")),
+    meshName: S.String.pipe(T.HttpLabel("meshName")),
     meshOwner: S.optional(S.String).pipe(T.HttpQuery("meshOwner")),
-    virtualRouterName: S.String.pipe(T.HttpLabel()),
+    virtualRouterName: S.String.pipe(T.HttpLabel("virtualRouterName")),
   },
   T.all(
     T.Http({
@@ -1258,9 +1259,9 @@ export class UpdateRouteInput extends S.Class<UpdateRouteInput>(
   "UpdateRouteInput",
 )(
   {
-    routeName: S.String.pipe(T.HttpLabel()),
-    meshName: S.String.pipe(T.HttpLabel()),
-    virtualRouterName: S.String.pipe(T.HttpLabel()),
+    routeName: S.String.pipe(T.HttpLabel("routeName")),
+    meshName: S.String.pipe(T.HttpLabel("meshName")),
+    virtualRouterName: S.String.pipe(T.HttpLabel("virtualRouterName")),
     spec: RouteSpec,
     clientToken: S.optional(S.String),
     meshOwner: S.optional(S.String).pipe(T.HttpQuery("meshOwner")),
@@ -1281,9 +1282,9 @@ export class DeleteRouteInput extends S.Class<DeleteRouteInput>(
   "DeleteRouteInput",
 )(
   {
-    routeName: S.String.pipe(T.HttpLabel()),
-    meshName: S.String.pipe(T.HttpLabel()),
-    virtualRouterName: S.String.pipe(T.HttpLabel()),
+    routeName: S.String.pipe(T.HttpLabel("routeName")),
+    meshName: S.String.pipe(T.HttpLabel("meshName")),
+    virtualRouterName: S.String.pipe(T.HttpLabel("virtualRouterName")),
     meshOwner: S.optional(S.String).pipe(T.HttpQuery("meshOwner")),
   },
   T.all(
@@ -1302,8 +1303,8 @@ export class ListRoutesInput extends S.Class<ListRoutesInput>(
   "ListRoutesInput",
 )(
   {
-    meshName: S.String.pipe(T.HttpLabel()),
-    virtualRouterName: S.String.pipe(T.HttpLabel()),
+    meshName: S.String.pipe(T.HttpLabel("meshName")),
+    virtualRouterName: S.String.pipe(T.HttpLabel("virtualRouterName")),
     nextToken: S.optional(S.String).pipe(T.HttpQuery("nextToken")),
     limit: S.optional(S.Number).pipe(T.HttpQuery("limit")),
     meshOwner: S.optional(S.String).pipe(T.HttpQuery("meshOwner")),
@@ -1324,8 +1325,8 @@ export class DescribeVirtualServiceInput extends S.Class<DescribeVirtualServiceI
   "DescribeVirtualServiceInput",
 )(
   {
-    virtualServiceName: S.String.pipe(T.HttpLabel()),
-    meshName: S.String.pipe(T.HttpLabel()),
+    virtualServiceName: S.String.pipe(T.HttpLabel("virtualServiceName")),
+    meshName: S.String.pipe(T.HttpLabel("meshName")),
     meshOwner: S.optional(S.String).pipe(T.HttpQuery("meshOwner")),
   },
   T.all(
@@ -1357,8 +1358,8 @@ export class UpdateVirtualServiceInput extends S.Class<UpdateVirtualServiceInput
   "UpdateVirtualServiceInput",
 )(
   {
-    virtualServiceName: S.String.pipe(T.HttpLabel()),
-    meshName: S.String.pipe(T.HttpLabel()),
+    virtualServiceName: S.String.pipe(T.HttpLabel("virtualServiceName")),
+    meshName: S.String.pipe(T.HttpLabel("meshName")),
     spec: VirtualServiceSpec,
     clientToken: S.optional(S.String),
     meshOwner: S.optional(S.String).pipe(T.HttpQuery("meshOwner")),
@@ -1379,8 +1380,8 @@ export class DeleteVirtualServiceInput extends S.Class<DeleteVirtualServiceInput
   "DeleteVirtualServiceInput",
 )(
   {
-    virtualServiceName: S.String.pipe(T.HttpLabel()),
-    meshName: S.String.pipe(T.HttpLabel()),
+    virtualServiceName: S.String.pipe(T.HttpLabel("virtualServiceName")),
+    meshName: S.String.pipe(T.HttpLabel("meshName")),
     meshOwner: S.optional(S.String).pipe(T.HttpQuery("meshOwner")),
   },
   T.all(
@@ -1399,7 +1400,7 @@ export class ListVirtualServicesInput extends S.Class<ListVirtualServicesInput>(
   "ListVirtualServicesInput",
 )(
   {
-    meshName: S.String.pipe(T.HttpLabel()),
+    meshName: S.String.pipe(T.HttpLabel("meshName")),
     nextToken: S.optional(S.String).pipe(T.HttpQuery("nextToken")),
     limit: S.optional(S.Number).pipe(T.HttpQuery("limit")),
     meshOwner: S.optional(S.String).pipe(T.HttpQuery("meshOwner")),
@@ -1695,7 +1696,7 @@ export class CreateVirtualRouterInput extends S.Class<CreateVirtualRouterInput>(
 )(
   {
     virtualRouterName: S.String,
-    meshName: S.String.pipe(T.HttpLabel()),
+    meshName: S.String.pipe(T.HttpLabel("meshName")),
     spec: VirtualRouterSpec,
     tags: S.optional(TagList),
     clientToken: S.optional(S.String),
@@ -1751,7 +1752,7 @@ export class CreateVirtualServiceInput extends S.Class<CreateVirtualServiceInput
 )(
   {
     virtualServiceName: S.String,
-    meshName: S.String.pipe(T.HttpLabel()),
+    meshName: S.String.pipe(T.HttpLabel("meshName")),
     spec: VirtualServiceSpec,
     tags: S.optional(TagList),
     clientToken: S.optional(S.String),
@@ -1780,8 +1781,8 @@ export class CreateRouteInput extends S.Class<CreateRouteInput>(
 )(
   {
     routeName: S.String,
-    meshName: S.String.pipe(T.HttpLabel()),
-    virtualRouterName: S.String.pipe(T.HttpLabel()),
+    meshName: S.String.pipe(T.HttpLabel("meshName")),
+    virtualRouterName: S.String.pipe(T.HttpLabel("virtualRouterName")),
     spec: RouteSpec,
     tags: S.optional(TagList),
     clientToken: S.optional(S.String),
@@ -1804,8 +1805,8 @@ export class CreateGatewayRouteInput extends S.Class<CreateGatewayRouteInput>(
 )(
   {
     gatewayRouteName: S.String,
-    meshName: S.String.pipe(T.HttpLabel()),
-    virtualGatewayName: S.String.pipe(T.HttpLabel()),
+    meshName: S.String.pipe(T.HttpLabel("meshName")),
+    virtualGatewayName: S.String.pipe(T.HttpLabel("virtualGatewayName")),
     spec: GatewayRouteSpec,
     tags: S.optional(TagList),
     clientToken: S.optional(S.String),
@@ -1831,7 +1832,7 @@ export class CreateVirtualGatewayInput extends S.Class<CreateVirtualGatewayInput
 )(
   {
     virtualGatewayName: S.String,
-    meshName: S.String.pipe(T.HttpLabel()),
+    meshName: S.String.pipe(T.HttpLabel("meshName")),
     spec: VirtualGatewaySpec,
     tags: S.optional(TagList),
     clientToken: S.optional(S.String),
@@ -1857,7 +1858,7 @@ export class CreateVirtualNodeInput extends S.Class<CreateVirtualNodeInput>(
 )(
   {
     virtualNodeName: S.String,
-    meshName: S.String.pipe(T.HttpLabel()),
+    meshName: S.String.pipe(T.HttpLabel("meshName")),
     spec: VirtualNodeSpec,
     tags: S.optional(TagList),
     clientToken: S.optional(S.String),
@@ -1895,7 +1896,8 @@ export class ConflictException extends S.TaggedError<ConflictException>()(
 export class InternalServerErrorException extends S.TaggedError<InternalServerErrorException>()(
   "InternalServerErrorException",
   { message: S.optional(S.String) },
-) {}
+  T.Retryable(),
+).pipe(withCategory(ERROR_CATEGORIES.SERVER_ERROR)) {}
 export class NotFoundException extends S.TaggedError<NotFoundException>()(
   "NotFoundException",
   { message: S.optional(S.String) },
@@ -1907,7 +1909,8 @@ export class LimitExceededException extends S.TaggedError<LimitExceededException
 export class ServiceUnavailableException extends S.TaggedError<ServiceUnavailableException>()(
   "ServiceUnavailableException",
   { message: S.optional(S.String) },
-) {}
+  T.Retryable(),
+).pipe(withCategory(ERROR_CATEGORIES.SERVER_ERROR)) {}
 export class ResourceInUseException extends S.TaggedError<ResourceInUseException>()(
   "ResourceInUseException",
   { message: S.optional(S.String) },
@@ -1915,7 +1918,8 @@ export class ResourceInUseException extends S.TaggedError<ResourceInUseException
 export class TooManyRequestsException extends S.TaggedError<TooManyRequestsException>()(
   "TooManyRequestsException",
   { message: S.optional(S.String) },
-) {}
+  T.Retryable({ throttling: true }),
+).pipe(withCategory(ERROR_CATEGORIES.THROTTLING_ERROR)) {}
 export class TooManyTagsException extends S.TaggedError<TooManyTagsException>()(
   "TooManyTagsException",
   { message: S.optional(S.String) },

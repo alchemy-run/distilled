@@ -1,6 +1,7 @@
 import * as S from "effect/Schema";
 import * as API from "../api.ts";
 import * as T from "../traits.ts";
+import { ERROR_CATEGORIES, withCategory } from "../error-category.ts";
 const svc = T.AwsApiService({
   sdkId: "SageMaker Geospatial",
   serviceShapeName: "SageMakerGeospatial",
@@ -298,7 +299,7 @@ export const StringListInput = S.Array(S.String);
 export class ListTagsForResourceRequest extends S.Class<ListTagsForResourceRequest>(
   "ListTagsForResourceRequest",
 )(
-  { ResourceArn: S.String.pipe(T.HttpLabel()) },
+  { ResourceArn: S.String.pipe(T.HttpLabel("ResourceArn")) },
   T.all(
     T.Http({ method: "GET", uri: "/tags/{ResourceArn}" }),
     svc,
@@ -312,7 +313,7 @@ export class UntagResourceRequest extends S.Class<UntagResourceRequest>(
   "UntagResourceRequest",
 )(
   {
-    ResourceArn: S.String.pipe(T.HttpLabel()),
+    ResourceArn: S.String.pipe(T.HttpLabel("ResourceArn")),
     TagKeys: TagKeyList.pipe(T.HttpQuery("tagKeys")),
   },
   T.all(
@@ -330,7 +331,7 @@ export class UntagResourceResponse extends S.Class<UntagResourceResponse>(
 export class GetEarthObservationJobInput extends S.Class<GetEarthObservationJobInput>(
   "GetEarthObservationJobInput",
 )(
-  { Arn: S.String.pipe(T.HttpLabel()) },
+  { Arn: S.String.pipe(T.HttpLabel("Arn")) },
   T.all(
     T.Http({ method: "GET", uri: "/earth-observation-jobs/{Arn}" }),
     svc,
@@ -343,7 +344,7 @@ export class GetEarthObservationJobInput extends S.Class<GetEarthObservationJobI
 export class DeleteEarthObservationJobInput extends S.Class<DeleteEarthObservationJobInput>(
   "DeleteEarthObservationJobInput",
 )(
-  { Arn: S.String.pipe(T.HttpLabel()) },
+  { Arn: S.String.pipe(T.HttpLabel("Arn")) },
   T.all(
     T.Http({ method: "DELETE", uri: "/earth-observation-jobs/{Arn}" }),
     svc,
@@ -377,9 +378,9 @@ export class ListEarthObservationJobInput extends S.Class<ListEarthObservationJo
 ) {}
 export class GetTileInput extends S.Class<GetTileInput>("GetTileInput")(
   {
-    x: S.Number.pipe(T.HttpLabel()),
-    y: S.Number.pipe(T.HttpLabel()),
-    z: S.Number.pipe(T.HttpLabel()),
+    x: S.Number.pipe(T.HttpLabel("x")),
+    y: S.Number.pipe(T.HttpLabel("y")),
+    z: S.Number.pipe(T.HttpLabel("z")),
     ImageAssets: StringListInput.pipe(T.HttpQuery("ImageAssets")),
     Target: S.String.pipe(T.HttpQuery("Target")),
     Arn: S.String.pipe(T.HttpQuery("Arn")),
@@ -420,7 +421,7 @@ export class StopEarthObservationJobOutput extends S.Class<StopEarthObservationJ
 export class GetRasterDataCollectionInput extends S.Class<GetRasterDataCollectionInput>(
   "GetRasterDataCollectionInput",
 )(
-  { Arn: S.String.pipe(T.HttpLabel()) },
+  { Arn: S.String.pipe(T.HttpLabel("Arn")) },
   T.all(
     T.Http({ method: "GET", uri: "/raster-data-collection/{Arn}" }),
     svc,
@@ -449,7 +450,7 @@ export class ListRasterDataCollectionsInput extends S.Class<ListRasterDataCollec
 export class GetVectorEnrichmentJobInput extends S.Class<GetVectorEnrichmentJobInput>(
   "GetVectorEnrichmentJobInput",
 )(
-  { Arn: S.String.pipe(T.HttpLabel()) },
+  { Arn: S.String.pipe(T.HttpLabel("Arn")) },
   T.all(
     T.Http({ method: "GET", uri: "/vector-enrichment-jobs/{Arn}" }),
     svc,
@@ -462,7 +463,7 @@ export class GetVectorEnrichmentJobInput extends S.Class<GetVectorEnrichmentJobI
 export class DeleteVectorEnrichmentJobInput extends S.Class<DeleteVectorEnrichmentJobInput>(
   "DeleteVectorEnrichmentJobInput",
 )(
-  { Arn: S.String.pipe(T.HttpLabel()) },
+  { Arn: S.String.pipe(T.HttpLabel("Arn")) },
   T.all(
     T.Http({ method: "DELETE", uri: "/vector-enrichment-jobs/{Arn}" }),
     svc,
@@ -526,7 +527,7 @@ export class ListTagsForResourceResponse extends S.Class<ListTagsForResourceResp
 export class TagResourceRequest extends S.Class<TagResourceRequest>(
   "TagResourceRequest",
 )(
-  { ResourceArn: S.String.pipe(T.HttpLabel()), Tags: Tags },
+  { ResourceArn: S.String.pipe(T.HttpLabel("ResourceArn")), Tags: Tags },
   T.all(
     T.Http({ method: "PUT", uri: "/tags/{ResourceArn}" }),
     svc,
@@ -1078,7 +1079,7 @@ export class AccessDeniedException extends S.TaggedError<AccessDeniedException>(
 export class InternalServerException extends S.TaggedError<InternalServerException>()(
   "InternalServerException",
   { Message: S.String, ResourceId: S.optional(S.String) },
-) {}
+).pipe(withCategory(ERROR_CATEGORIES.SERVER_ERROR)) {}
 export class ConflictException extends S.TaggedError<ConflictException>()(
   "ConflictException",
   { Message: S.String, ResourceId: S.optional(S.String) },
@@ -1090,7 +1091,7 @@ export class ResourceNotFoundException extends S.TaggedError<ResourceNotFoundExc
 export class ThrottlingException extends S.TaggedError<ThrottlingException>()(
   "ThrottlingException",
   { Message: S.String, ResourceId: S.optional(S.String) },
-) {}
+).pipe(withCategory(ERROR_CATEGORIES.THROTTLING_ERROR)) {}
 export class ServiceQuotaExceededException extends S.TaggedError<ServiceQuotaExceededException>()(
   "ServiceQuotaExceededException",
   { Message: S.String, ResourceId: S.optional(S.String) },

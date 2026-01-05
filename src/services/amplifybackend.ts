@@ -1,6 +1,7 @@
 import * as S from "effect/Schema";
 import * as API from "../api.ts";
 import * as T from "../traits.ts";
+import { ERROR_CATEGORIES, withCategory } from "../error-category.ts";
 const svc = T.AwsApiService({
   sdkId: "AmplifyBackend",
   serviceShapeName: "AmplifyBackend",
@@ -248,8 +249,10 @@ export class CloneBackendRequest extends S.Class<CloneBackendRequest>(
   "CloneBackendRequest",
 )(
   {
-    AppId: S.String.pipe(T.HttpLabel()),
-    BackendEnvironmentName: S.String.pipe(T.HttpLabel()),
+    AppId: S.String.pipe(T.HttpLabel("AppId")),
+    BackendEnvironmentName: S.String.pipe(
+      T.HttpLabel("BackendEnvironmentName"),
+    ),
     TargetEnvironmentName: S.String.pipe(T.JsonName("targetEnvironmentName")),
   },
   T.all(
@@ -289,7 +292,7 @@ export class CreateBackendConfigRequest extends S.Class<CreateBackendConfigReque
   "CreateBackendConfigRequest",
 )(
   {
-    AppId: S.String.pipe(T.HttpLabel()),
+    AppId: S.String.pipe(T.HttpLabel("AppId")),
     BackendManagerAppId: S.optional(S.String).pipe(
       T.JsonName("backendManagerAppId"),
     ),
@@ -306,7 +309,7 @@ export class CreateBackendConfigRequest extends S.Class<CreateBackendConfigReque
 export class CreateTokenRequest extends S.Class<CreateTokenRequest>(
   "CreateTokenRequest",
 )(
-  { AppId: S.String.pipe(T.HttpLabel()) },
+  { AppId: S.String.pipe(T.HttpLabel("AppId")) },
   T.all(
     T.Http({ method: "POST", uri: "/backend/{AppId}/challenge" }),
     svc,
@@ -320,8 +323,10 @@ export class DeleteBackendRequest extends S.Class<DeleteBackendRequest>(
   "DeleteBackendRequest",
 )(
   {
-    AppId: S.String.pipe(T.HttpLabel()),
-    BackendEnvironmentName: S.String.pipe(T.HttpLabel()),
+    AppId: S.String.pipe(T.HttpLabel("AppId")),
+    BackendEnvironmentName: S.String.pipe(
+      T.HttpLabel("BackendEnvironmentName"),
+    ),
   },
   T.all(
     T.Http({
@@ -385,8 +390,10 @@ export class DeleteBackendAPIRequest extends S.Class<DeleteBackendAPIRequest>(
   "DeleteBackendAPIRequest",
 )(
   {
-    AppId: S.String.pipe(T.HttpLabel()),
-    BackendEnvironmentName: S.String.pipe(T.HttpLabel()),
+    AppId: S.String.pipe(T.HttpLabel("AppId")),
+    BackendEnvironmentName: S.String.pipe(
+      T.HttpLabel("BackendEnvironmentName"),
+    ),
     ResourceConfig: S.optional(BackendAPIResourceConfig).pipe(
       T.JsonName("resourceConfig"),
     ),
@@ -408,8 +415,10 @@ export class DeleteBackendAuthRequest extends S.Class<DeleteBackendAuthRequest>(
   "DeleteBackendAuthRequest",
 )(
   {
-    AppId: S.String.pipe(T.HttpLabel()),
-    BackendEnvironmentName: S.String.pipe(T.HttpLabel()),
+    AppId: S.String.pipe(T.HttpLabel("AppId")),
+    BackendEnvironmentName: S.String.pipe(
+      T.HttpLabel("BackendEnvironmentName"),
+    ),
     ResourceName: S.String.pipe(T.JsonName("resourceName")),
   },
   T.all(
@@ -428,8 +437,10 @@ export class DeleteBackendStorageRequest extends S.Class<DeleteBackendStorageReq
   "DeleteBackendStorageRequest",
 )(
   {
-    AppId: S.String.pipe(T.HttpLabel()),
-    BackendEnvironmentName: S.String.pipe(T.HttpLabel()),
+    AppId: S.String.pipe(T.HttpLabel("AppId")),
+    BackendEnvironmentName: S.String.pipe(
+      T.HttpLabel("BackendEnvironmentName"),
+    ),
     ResourceName: S.String.pipe(T.JsonName("resourceName")),
     ServiceName: S.String.pipe(T.JsonName("serviceName")),
   },
@@ -449,8 +460,8 @@ export class DeleteTokenRequest extends S.Class<DeleteTokenRequest>(
   "DeleteTokenRequest",
 )(
   {
-    AppId: S.String.pipe(T.HttpLabel()),
-    SessionId: S.String.pipe(T.HttpLabel()),
+    AppId: S.String.pipe(T.HttpLabel("AppId")),
+    SessionId: S.String.pipe(T.HttpLabel("SessionId")),
   },
   T.all(
     T.Http({
@@ -468,8 +479,10 @@ export class GenerateBackendAPIModelsRequest extends S.Class<GenerateBackendAPIM
   "GenerateBackendAPIModelsRequest",
 )(
   {
-    AppId: S.String.pipe(T.HttpLabel()),
-    BackendEnvironmentName: S.String.pipe(T.HttpLabel()),
+    AppId: S.String.pipe(T.HttpLabel("AppId")),
+    BackendEnvironmentName: S.String.pipe(
+      T.HttpLabel("BackendEnvironmentName"),
+    ),
     ResourceName: S.String.pipe(T.JsonName("resourceName")),
   },
   T.all(
@@ -488,7 +501,7 @@ export class GetBackendRequest extends S.Class<GetBackendRequest>(
   "GetBackendRequest",
 )(
   {
-    AppId: S.String.pipe(T.HttpLabel()),
+    AppId: S.String.pipe(T.HttpLabel("AppId")),
     BackendEnvironmentName: S.optional(S.String).pipe(
       T.JsonName("backendEnvironmentName"),
     ),
@@ -506,8 +519,10 @@ export class GetBackendAPIRequest extends S.Class<GetBackendAPIRequest>(
   "GetBackendAPIRequest",
 )(
   {
-    AppId: S.String.pipe(T.HttpLabel()),
-    BackendEnvironmentName: S.String.pipe(T.HttpLabel()),
+    AppId: S.String.pipe(T.HttpLabel("AppId")),
+    BackendEnvironmentName: S.String.pipe(
+      T.HttpLabel("BackendEnvironmentName"),
+    ),
     ResourceConfig: S.optional(BackendAPIResourceConfig).pipe(
       T.JsonName("resourceConfig"),
     ),
@@ -529,8 +544,10 @@ export class GetBackendAPIModelsRequest extends S.Class<GetBackendAPIModelsReque
   "GetBackendAPIModelsRequest",
 )(
   {
-    AppId: S.String.pipe(T.HttpLabel()),
-    BackendEnvironmentName: S.String.pipe(T.HttpLabel()),
+    AppId: S.String.pipe(T.HttpLabel("AppId")),
+    BackendEnvironmentName: S.String.pipe(
+      T.HttpLabel("BackendEnvironmentName"),
+    ),
     ResourceName: S.String.pipe(T.JsonName("resourceName")),
   },
   T.all(
@@ -549,8 +566,10 @@ export class GetBackendAuthRequest extends S.Class<GetBackendAuthRequest>(
   "GetBackendAuthRequest",
 )(
   {
-    AppId: S.String.pipe(T.HttpLabel()),
-    BackendEnvironmentName: S.String.pipe(T.HttpLabel()),
+    AppId: S.String.pipe(T.HttpLabel("AppId")),
+    BackendEnvironmentName: S.String.pipe(
+      T.HttpLabel("BackendEnvironmentName"),
+    ),
     ResourceName: S.String.pipe(T.JsonName("resourceName")),
   },
   T.all(
@@ -569,9 +588,11 @@ export class GetBackendJobRequest extends S.Class<GetBackendJobRequest>(
   "GetBackendJobRequest",
 )(
   {
-    AppId: S.String.pipe(T.HttpLabel()),
-    BackendEnvironmentName: S.String.pipe(T.HttpLabel()),
-    JobId: S.String.pipe(T.HttpLabel()),
+    AppId: S.String.pipe(T.HttpLabel("AppId")),
+    BackendEnvironmentName: S.String.pipe(
+      T.HttpLabel("BackendEnvironmentName"),
+    ),
+    JobId: S.String.pipe(T.HttpLabel("JobId")),
   },
   T.all(
     T.Http({
@@ -589,8 +610,10 @@ export class GetBackendStorageRequest extends S.Class<GetBackendStorageRequest>(
   "GetBackendStorageRequest",
 )(
   {
-    AppId: S.String.pipe(T.HttpLabel()),
-    BackendEnvironmentName: S.String.pipe(T.HttpLabel()),
+    AppId: S.String.pipe(T.HttpLabel("AppId")),
+    BackendEnvironmentName: S.String.pipe(
+      T.HttpLabel("BackendEnvironmentName"),
+    ),
     ResourceName: S.String.pipe(T.JsonName("resourceName")),
   },
   T.all(
@@ -609,8 +632,8 @@ export class GetTokenRequest extends S.Class<GetTokenRequest>(
   "GetTokenRequest",
 )(
   {
-    AppId: S.String.pipe(T.HttpLabel()),
-    SessionId: S.String.pipe(T.HttpLabel()),
+    AppId: S.String.pipe(T.HttpLabel("AppId")),
+    SessionId: S.String.pipe(T.HttpLabel("SessionId")),
   },
   T.all(
     T.Http({ method: "GET", uri: "/backend/{AppId}/challenge/{SessionId}" }),
@@ -625,8 +648,10 @@ export class ImportBackendAuthRequest extends S.Class<ImportBackendAuthRequest>(
   "ImportBackendAuthRequest",
 )(
   {
-    AppId: S.String.pipe(T.HttpLabel()),
-    BackendEnvironmentName: S.String.pipe(T.HttpLabel()),
+    AppId: S.String.pipe(T.HttpLabel("AppId")),
+    BackendEnvironmentName: S.String.pipe(
+      T.HttpLabel("BackendEnvironmentName"),
+    ),
     IdentityPoolId: S.optional(S.String).pipe(T.JsonName("identityPoolId")),
     NativeClientId: S.String.pipe(T.JsonName("nativeClientId")),
     UserPoolId: S.String.pipe(T.JsonName("userPoolId")),
@@ -648,8 +673,10 @@ export class ImportBackendStorageRequest extends S.Class<ImportBackendStorageReq
   "ImportBackendStorageRequest",
 )(
   {
-    AppId: S.String.pipe(T.HttpLabel()),
-    BackendEnvironmentName: S.String.pipe(T.HttpLabel()),
+    AppId: S.String.pipe(T.HttpLabel("AppId")),
+    BackendEnvironmentName: S.String.pipe(
+      T.HttpLabel("BackendEnvironmentName"),
+    ),
     BucketName: S.optional(S.String).pipe(T.JsonName("bucketName")),
     ServiceName: S.String.pipe(T.JsonName("serviceName")),
   },
@@ -669,8 +696,10 @@ export class ListBackendJobsRequest extends S.Class<ListBackendJobsRequest>(
   "ListBackendJobsRequest",
 )(
   {
-    AppId: S.String.pipe(T.HttpLabel()),
-    BackendEnvironmentName: S.String.pipe(T.HttpLabel()),
+    AppId: S.String.pipe(T.HttpLabel("AppId")),
+    BackendEnvironmentName: S.String.pipe(
+      T.HttpLabel("BackendEnvironmentName"),
+    ),
     JobId: S.optional(S.String).pipe(T.JsonName("jobId")),
     MaxResults: S.optional(S.Number).pipe(T.JsonName("maxResults")),
     NextToken: S.optional(S.String).pipe(T.JsonName("nextToken")),
@@ -706,7 +735,7 @@ export class RemoveAllBackendsRequest extends S.Class<RemoveAllBackendsRequest>(
   "RemoveAllBackendsRequest",
 )(
   {
-    AppId: S.String.pipe(T.HttpLabel()),
+    AppId: S.String.pipe(T.HttpLabel("AppId")),
     CleanAmplifyApp: S.optional(S.Boolean).pipe(T.JsonName("cleanAmplifyApp")),
   },
   T.all(
@@ -721,7 +750,7 @@ export class RemoveAllBackendsRequest extends S.Class<RemoveAllBackendsRequest>(
 export class RemoveBackendConfigRequest extends S.Class<RemoveBackendConfigRequest>(
   "RemoveBackendConfigRequest",
 )(
-  { AppId: S.String.pipe(T.HttpLabel()) },
+  { AppId: S.String.pipe(T.HttpLabel("AppId")) },
   T.all(
     T.Http({ method: "POST", uri: "/backend/{AppId}/config/remove" }),
     svc,
@@ -735,8 +764,10 @@ export class UpdateBackendAPIRequest extends S.Class<UpdateBackendAPIRequest>(
   "UpdateBackendAPIRequest",
 )(
   {
-    AppId: S.String.pipe(T.HttpLabel()),
-    BackendEnvironmentName: S.String.pipe(T.HttpLabel()),
+    AppId: S.String.pipe(T.HttpLabel("AppId")),
+    BackendEnvironmentName: S.String.pipe(
+      T.HttpLabel("BackendEnvironmentName"),
+    ),
     ResourceConfig: S.optional(BackendAPIResourceConfig).pipe(
       T.JsonName("resourceConfig"),
     ),
@@ -758,9 +789,11 @@ export class UpdateBackendJobRequest extends S.Class<UpdateBackendJobRequest>(
   "UpdateBackendJobRequest",
 )(
   {
-    AppId: S.String.pipe(T.HttpLabel()),
-    BackendEnvironmentName: S.String.pipe(T.HttpLabel()),
-    JobId: S.String.pipe(T.HttpLabel()),
+    AppId: S.String.pipe(T.HttpLabel("AppId")),
+    BackendEnvironmentName: S.String.pipe(
+      T.HttpLabel("BackendEnvironmentName"),
+    ),
+    JobId: S.String.pipe(T.HttpLabel("JobId")),
     Operation: S.optional(S.String).pipe(T.JsonName("operation")),
     Status: S.optional(S.String).pipe(T.JsonName("status")),
   },
@@ -1147,7 +1180,7 @@ export class UpdateBackendConfigRequest extends S.Class<UpdateBackendConfigReque
   "UpdateBackendConfigRequest",
 )(
   {
-    AppId: S.String.pipe(T.HttpLabel()),
+    AppId: S.String.pipe(T.HttpLabel("AppId")),
     LoginAuthConfig: S.optional(LoginAuthConfigReqObj).pipe(
       T.JsonName("loginAuthConfig"),
     ),
@@ -1179,8 +1212,10 @@ export class UpdateBackendStorageRequest extends S.Class<UpdateBackendStorageReq
   "UpdateBackendStorageRequest",
 )(
   {
-    AppId: S.String.pipe(T.HttpLabel()),
-    BackendEnvironmentName: S.String.pipe(T.HttpLabel()),
+    AppId: S.String.pipe(T.HttpLabel("AppId")),
+    BackendEnvironmentName: S.String.pipe(
+      T.HttpLabel("BackendEnvironmentName"),
+    ),
     ResourceConfig: UpdateBackendStorageResourceConfig.pipe(
       T.JsonName("resourceConfig"),
     ),
@@ -1290,7 +1325,7 @@ export class CreateBackendStorageRequest extends S.Class<CreateBackendStorageReq
   "CreateBackendStorageRequest",
 )(
   {
-    AppId: S.String.pipe(T.HttpLabel()),
+    AppId: S.String.pipe(T.HttpLabel("AppId")),
     BackendEnvironmentName: S.String.pipe(T.JsonName("backendEnvironmentName")),
     ResourceConfig: CreateBackendStorageResourceConfig.pipe(
       T.JsonName("resourceConfig"),
@@ -1383,7 +1418,7 @@ export class CreateBackendAPIRequest extends S.Class<CreateBackendAPIRequest>(
   "CreateBackendAPIRequest",
 )(
   {
-    AppId: S.String.pipe(T.HttpLabel()),
+    AppId: S.String.pipe(T.HttpLabel("AppId")),
     BackendEnvironmentName: S.String.pipe(T.JsonName("backendEnvironmentName")),
     ResourceConfig: BackendAPIResourceConfig.pipe(T.JsonName("resourceConfig")),
     ResourceName: S.String.pipe(T.JsonName("resourceName")),
@@ -1411,8 +1446,10 @@ export class UpdateBackendAuthRequest extends S.Class<UpdateBackendAuthRequest>(
   "UpdateBackendAuthRequest",
 )(
   {
-    AppId: S.String.pipe(T.HttpLabel()),
-    BackendEnvironmentName: S.String.pipe(T.HttpLabel()),
+    AppId: S.String.pipe(T.HttpLabel("AppId")),
+    BackendEnvironmentName: S.String.pipe(
+      T.HttpLabel("BackendEnvironmentName"),
+    ),
     ResourceConfig: UpdateBackendAuthResourceConfig.pipe(
       T.JsonName("resourceConfig"),
     ),
@@ -1458,7 +1495,7 @@ export class CreateBackendAuthRequest extends S.Class<CreateBackendAuthRequest>(
   "CreateBackendAuthRequest",
 )(
   {
-    AppId: S.String.pipe(T.HttpLabel()),
+    AppId: S.String.pipe(T.HttpLabel("AppId")),
     BackendEnvironmentName: S.String.pipe(T.JsonName("backendEnvironmentName")),
     ResourceConfig: CreateBackendAuthResourceConfig.pipe(
       T.JsonName("resourceConfig"),
@@ -1495,7 +1532,7 @@ export class BadRequestException extends S.TaggedError<BadRequestException>()(
 export class GatewayTimeoutException extends S.TaggedError<GatewayTimeoutException>()(
   "GatewayTimeoutException",
   { Message: S.optional(S.String).pipe(T.JsonName("message")) },
-) {}
+).pipe(withCategory(ERROR_CATEGORIES.SERVER_ERROR)) {}
 export class NotFoundException extends S.TaggedError<NotFoundException>()(
   "NotFoundException",
   {
@@ -1509,7 +1546,7 @@ export class TooManyRequestsException extends S.TaggedError<TooManyRequestsExcep
     LimitType: S.optional(S.String).pipe(T.JsonName("limitType")),
     Message: S.optional(S.String).pipe(T.JsonName("message")),
   },
-) {}
+).pipe(withCategory(ERROR_CATEGORIES.THROTTLING_ERROR)) {}
 
 //# Operations
 /**

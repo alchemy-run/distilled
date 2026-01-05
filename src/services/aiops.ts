@@ -1,6 +1,7 @@
 import * as S from "effect/Schema";
 import * as API from "../api.ts";
 import * as T from "../traits.ts";
+import { ERROR_CATEGORIES, withCategory } from "../error-category.ts";
 const svc = T.AwsApiService({ sdkId: "AIOps", serviceShapeName: "AIOps" });
 const auth = T.AwsAuthSigv4({ name: "aiops" });
 const ver = T.ServiceVersion("2018-05-10");
@@ -295,7 +296,7 @@ export const TagKeyBoundaries = S.Array(S.String);
 export class ListTagsForResourceRequest extends S.Class<ListTagsForResourceRequest>(
   "ListTagsForResourceRequest",
 )(
-  { resourceArn: S.String.pipe(T.HttpLabel()) },
+  { resourceArn: S.String.pipe(T.HttpLabel("resourceArn")) },
   T.all(
     T.Http({ method: "GET", uri: "/tags/{resourceArn}" }),
     svc,
@@ -309,7 +310,7 @@ export class UntagResourceRequest extends S.Class<UntagResourceRequest>(
   "UntagResourceRequest",
 )(
   {
-    resourceArn: S.String.pipe(T.HttpLabel()),
+    resourceArn: S.String.pipe(T.HttpLabel("resourceArn")),
     tagKeys: TagKeys.pipe(T.HttpQuery("tagKeys")),
   },
   T.all(
@@ -327,7 +328,7 @@ export class UntagResourceResponse extends S.Class<UntagResourceResponse>(
 export class GetInvestigationGroupRequest extends S.Class<GetInvestigationGroupRequest>(
   "GetInvestigationGroupRequest",
 )(
-  { identifier: S.String.pipe(T.HttpLabel()) },
+  { identifier: S.String.pipe(T.HttpLabel("identifier")) },
   T.all(
     T.Http({ method: "GET", uri: "/investigationGroups/{identifier}" }),
     svc,
@@ -353,7 +354,7 @@ export class UpdateInvestigationGroupRequest extends S.Class<UpdateInvestigation
   "UpdateInvestigationGroupRequest",
 )(
   {
-    identifier: S.String.pipe(T.HttpLabel()),
+    identifier: S.String.pipe(T.HttpLabel("identifier")),
     roleArn: S.optional(S.String),
     encryptionConfiguration: S.optional(EncryptionConfiguration),
     tagKeyBoundaries: S.optional(TagKeyBoundaries),
@@ -376,7 +377,7 @@ export class UpdateInvestigationGroupOutput extends S.Class<UpdateInvestigationG
 export class DeleteInvestigationGroupRequest extends S.Class<DeleteInvestigationGroupRequest>(
   "DeleteInvestigationGroupRequest",
 )(
-  { identifier: S.String.pipe(T.HttpLabel()) },
+  { identifier: S.String.pipe(T.HttpLabel("identifier")) },
   T.all(
     T.Http({ method: "DELETE", uri: "/investigationGroups/{identifier}" }),
     svc,
@@ -408,7 +409,7 @@ export class ListInvestigationGroupsInput extends S.Class<ListInvestigationGroup
 export class PutInvestigationGroupPolicyRequest extends S.Class<PutInvestigationGroupPolicyRequest>(
   "PutInvestigationGroupPolicyRequest",
 )(
-  { identifier: S.String.pipe(T.HttpLabel()), policy: S.String },
+  { identifier: S.String.pipe(T.HttpLabel("identifier")), policy: S.String },
   T.all(
     T.Http({ method: "POST", uri: "/investigationGroups/{identifier}/policy" }),
     svc,
@@ -421,7 +422,7 @@ export class PutInvestigationGroupPolicyRequest extends S.Class<PutInvestigation
 export class GetInvestigationGroupPolicyRequest extends S.Class<GetInvestigationGroupPolicyRequest>(
   "GetInvestigationGroupPolicyRequest",
 )(
-  { identifier: S.String.pipe(T.HttpLabel()) },
+  { identifier: S.String.pipe(T.HttpLabel("identifier")) },
   T.all(
     T.Http({ method: "GET", uri: "/investigationGroups/{identifier}/policy" }),
     svc,
@@ -434,7 +435,7 @@ export class GetInvestigationGroupPolicyRequest extends S.Class<GetInvestigation
 export class DeleteInvestigationGroupPolicyRequest extends S.Class<DeleteInvestigationGroupPolicyRequest>(
   "DeleteInvestigationGroupPolicyRequest",
 )(
-  { identifier: S.String.pipe(T.HttpLabel()) },
+  { identifier: S.String.pipe(T.HttpLabel("identifier")) },
   T.all(
     T.Http({
       method: "DELETE",
@@ -457,7 +458,7 @@ export class ListTagsForResourceOutput extends S.Class<ListTagsForResourceOutput
 export class TagResourceRequest extends S.Class<TagResourceRequest>(
   "TagResourceRequest",
 )(
-  { resourceArn: S.String.pipe(T.HttpLabel()), tags: Tags },
+  { resourceArn: S.String.pipe(T.HttpLabel("resourceArn")), tags: Tags },
   T.all(
     T.Http({ method: "POST", uri: "/tags/{resourceArn}" }),
     svc,
@@ -545,7 +546,7 @@ export class ConflictException extends S.TaggedError<ConflictException>()(
 export class InternalServerException extends S.TaggedError<InternalServerException>()(
   "InternalServerException",
   { message: S.optional(S.String) },
-) {}
+).pipe(withCategory(ERROR_CATEGORIES.SERVER_ERROR)) {}
 export class ResourceNotFoundException extends S.TaggedError<ResourceNotFoundException>()(
   "ResourceNotFoundException",
   { message: S.optional(S.String) },
@@ -553,7 +554,7 @@ export class ResourceNotFoundException extends S.TaggedError<ResourceNotFoundExc
 export class ThrottlingException extends S.TaggedError<ThrottlingException>()(
   "ThrottlingException",
   { message: S.optional(S.String) },
-) {}
+).pipe(withCategory(ERROR_CATEGORIES.THROTTLING_ERROR)) {}
 export class ValidationException extends S.TaggedError<ValidationException>()(
   "ValidationException",
   { message: S.optional(S.String) },

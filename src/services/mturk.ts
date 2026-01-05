@@ -1,6 +1,7 @@
 import * as S from "effect/Schema";
 import * as API from "../api.ts";
 import * as T from "../traits.ts";
+import { ERROR_CATEGORIES, withCategory } from "../error-category.ts";
 const ns = T.XmlNamespace("http://requester.mturk.com/2017-01-17/");
 const svc = T.AwsApiService({
   sdkId: "MTurk",
@@ -1002,7 +1003,7 @@ export class ServiceFault extends S.TaggedError<ServiceFault>()(
   "ServiceFault",
   { Message: S.optional(S.String), TurkErrorCode: S.optional(S.String) },
   T.AwsQueryError({ code: "ServiceFault", httpResponseCode: 500 }),
-) {}
+).pipe(withCategory(ERROR_CATEGORIES.SERVER_ERROR)) {}
 
 //# Operations
 /**

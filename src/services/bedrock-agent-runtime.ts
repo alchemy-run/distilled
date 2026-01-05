@@ -1,6 +1,7 @@
 import * as S from "effect/Schema";
 import * as API from "../api.ts";
 import * as T from "../traits.ts";
+import { ERROR_CATEGORIES, withCategory } from "../error-category.ts";
 const svc = T.AwsApiService({
   sdkId: "Bedrock Agent Runtime",
   serviceShapeName: "AmazonBedrockAgentRunTimeService",
@@ -298,9 +299,9 @@ export class GetExecutionFlowSnapshotRequest extends S.Class<GetExecutionFlowSna
   "GetExecutionFlowSnapshotRequest",
 )(
   {
-    flowIdentifier: S.String.pipe(T.HttpLabel()),
-    flowAliasIdentifier: S.String.pipe(T.HttpLabel()),
-    executionIdentifier: S.String.pipe(T.HttpLabel()),
+    flowIdentifier: S.String.pipe(T.HttpLabel("flowIdentifier")),
+    flowAliasIdentifier: S.String.pipe(T.HttpLabel("flowAliasIdentifier")),
+    executionIdentifier: S.String.pipe(T.HttpLabel("executionIdentifier")),
   },
   T.all(
     T.Http({
@@ -318,9 +319,9 @@ export class GetFlowExecutionRequest extends S.Class<GetFlowExecutionRequest>(
   "GetFlowExecutionRequest",
 )(
   {
-    flowIdentifier: S.String.pipe(T.HttpLabel()),
-    flowAliasIdentifier: S.String.pipe(T.HttpLabel()),
-    executionIdentifier: S.String.pipe(T.HttpLabel()),
+    flowIdentifier: S.String.pipe(T.HttpLabel("flowIdentifier")),
+    flowAliasIdentifier: S.String.pipe(T.HttpLabel("flowAliasIdentifier")),
+    executionIdentifier: S.String.pipe(T.HttpLabel("executionIdentifier")),
   },
   T.all(
     T.Http({
@@ -338,9 +339,9 @@ export class ListFlowExecutionEventsRequest extends S.Class<ListFlowExecutionEve
   "ListFlowExecutionEventsRequest",
 )(
   {
-    flowIdentifier: S.String.pipe(T.HttpLabel()),
-    flowAliasIdentifier: S.String.pipe(T.HttpLabel()),
-    executionIdentifier: S.String.pipe(T.HttpLabel()),
+    flowIdentifier: S.String.pipe(T.HttpLabel("flowIdentifier")),
+    flowAliasIdentifier: S.String.pipe(T.HttpLabel("flowAliasIdentifier")),
+    executionIdentifier: S.String.pipe(T.HttpLabel("executionIdentifier")),
     maxResults: S.optional(S.Number).pipe(T.HttpQuery("maxResults")),
     nextToken: S.optional(S.String).pipe(T.HttpQuery("nextToken")),
     eventType: S.String.pipe(T.HttpQuery("eventType")),
@@ -361,7 +362,7 @@ export class ListFlowExecutionsRequest extends S.Class<ListFlowExecutionsRequest
   "ListFlowExecutionsRequest",
 )(
   {
-    flowIdentifier: S.String.pipe(T.HttpLabel()),
+    flowIdentifier: S.String.pipe(T.HttpLabel("flowIdentifier")),
     flowAliasIdentifier: S.optional(S.String).pipe(
       T.HttpQuery("flowAliasIdentifier"),
     ),
@@ -381,9 +382,9 @@ export class StopFlowExecutionRequest extends S.Class<StopFlowExecutionRequest>(
   "StopFlowExecutionRequest",
 )(
   {
-    flowIdentifier: S.String.pipe(T.HttpLabel()),
-    flowAliasIdentifier: S.String.pipe(T.HttpLabel()),
-    executionIdentifier: S.String.pipe(T.HttpLabel()),
+    flowIdentifier: S.String.pipe(T.HttpLabel("flowIdentifier")),
+    flowAliasIdentifier: S.String.pipe(T.HttpLabel("flowAliasIdentifier")),
+    executionIdentifier: S.String.pipe(T.HttpLabel("executionIdentifier")),
   },
   T.all(
     T.Http({
@@ -415,8 +416,8 @@ export class InvokeFlowRequest extends S.Class<InvokeFlowRequest>(
   "InvokeFlowRequest",
 )(
   {
-    flowIdentifier: S.String.pipe(T.HttpLabel()),
-    flowAliasIdentifier: S.String.pipe(T.HttpLabel()),
+    flowIdentifier: S.String.pipe(T.HttpLabel("flowIdentifier")),
+    flowAliasIdentifier: S.String.pipe(T.HttpLabel("flowAliasIdentifier")),
     inputs: FlowInputs,
     enableTrace: S.optional(S.Boolean),
     modelPerformanceConfiguration: S.optional(ModelPerformanceConfiguration),
@@ -438,8 +439,8 @@ export class DeleteAgentMemoryRequest extends S.Class<DeleteAgentMemoryRequest>(
   "DeleteAgentMemoryRequest",
 )(
   {
-    agentId: S.String.pipe(T.HttpLabel()),
-    agentAliasId: S.String.pipe(T.HttpLabel()),
+    agentId: S.String.pipe(T.HttpLabel("agentId")),
+    agentAliasId: S.String.pipe(T.HttpLabel("agentAliasId")),
     memoryId: S.optional(S.String).pipe(T.HttpQuery("memoryId")),
     sessionId: S.optional(S.String).pipe(T.HttpQuery("sessionId")),
   },
@@ -464,8 +465,8 @@ export class GetAgentMemoryRequest extends S.Class<GetAgentMemoryRequest>(
   {
     nextToken: S.optional(S.String).pipe(T.HttpQuery("nextToken")),
     maxItems: S.optional(S.Number).pipe(T.HttpQuery("maxItems")),
-    agentId: S.String.pipe(T.HttpLabel()),
-    agentAliasId: S.String.pipe(T.HttpLabel()),
+    agentId: S.String.pipe(T.HttpLabel("agentId")),
+    agentAliasId: S.String.pipe(T.HttpLabel("agentAliasId")),
     memoryType: S.String.pipe(T.HttpQuery("memoryType")),
     memoryId: S.String.pipe(T.HttpQuery("memoryId")),
   },
@@ -693,7 +694,7 @@ export class RetrieveAndGenerateStreamRequest extends S.Class<RetrieveAndGenerat
 export class GetSessionRequest extends S.Class<GetSessionRequest>(
   "GetSessionRequest",
 )(
-  { sessionIdentifier: S.String.pipe(T.HttpLabel()) },
+  { sessionIdentifier: S.String.pipe(T.HttpLabel("sessionIdentifier")) },
   T.all(
     T.Http({ method: "GET", uri: "/sessions/{sessionIdentifier}/" }),
     svc,
@@ -709,7 +710,7 @@ export class UpdateSessionRequest extends S.Class<UpdateSessionRequest>(
 )(
   {
     sessionMetadata: S.optional(SessionMetadataMap),
-    sessionIdentifier: S.String.pipe(T.HttpLabel()),
+    sessionIdentifier: S.String.pipe(T.HttpLabel("sessionIdentifier")),
   },
   T.all(
     T.Http({ method: "PUT", uri: "/sessions/{sessionIdentifier}/" }),
@@ -723,7 +724,7 @@ export class UpdateSessionRequest extends S.Class<UpdateSessionRequest>(
 export class DeleteSessionRequest extends S.Class<DeleteSessionRequest>(
   "DeleteSessionRequest",
 )(
-  { sessionIdentifier: S.String.pipe(T.HttpLabel()) },
+  { sessionIdentifier: S.String.pipe(T.HttpLabel("sessionIdentifier")) },
   T.all(
     T.Http({ method: "DELETE", uri: "/sessions/{sessionIdentifier}/" }),
     svc,
@@ -755,7 +756,7 @@ export class ListSessionsRequest extends S.Class<ListSessionsRequest>(
 export class EndSessionRequest extends S.Class<EndSessionRequest>(
   "EndSessionRequest",
 )(
-  { sessionIdentifier: S.String.pipe(T.HttpLabel()) },
+  { sessionIdentifier: S.String.pipe(T.HttpLabel("sessionIdentifier")) },
   T.all(
     T.Http({ method: "PATCH", uri: "/sessions/{sessionIdentifier}" }),
     svc,
@@ -771,7 +772,7 @@ export class CreateInvocationRequest extends S.Class<CreateInvocationRequest>(
   {
     invocationId: S.optional(S.String),
     description: S.optional(S.String),
-    sessionIdentifier: S.String.pipe(T.HttpLabel()),
+    sessionIdentifier: S.String.pipe(T.HttpLabel("sessionIdentifier")),
   },
   T.all(
     T.Http({
@@ -791,7 +792,7 @@ export class ListInvocationsRequest extends S.Class<ListInvocationsRequest>(
   {
     nextToken: S.optional(S.String).pipe(T.HttpQuery("nextToken")),
     maxResults: S.optional(S.Number).pipe(T.HttpQuery("maxResults")),
-    sessionIdentifier: S.String.pipe(T.HttpLabel()),
+    sessionIdentifier: S.String.pipe(T.HttpLabel("sessionIdentifier")),
   },
   T.all(
     T.Http({
@@ -810,8 +811,8 @@ export class GetInvocationStepRequest extends S.Class<GetInvocationStepRequest>(
 )(
   {
     invocationIdentifier: S.String,
-    invocationStepId: S.String.pipe(T.HttpLabel()),
-    sessionIdentifier: S.String.pipe(T.HttpLabel()),
+    invocationStepId: S.String.pipe(T.HttpLabel("invocationStepId")),
+    sessionIdentifier: S.String.pipe(T.HttpLabel("sessionIdentifier")),
   },
   T.all(
     T.Http({
@@ -832,7 +833,7 @@ export class ListInvocationStepsRequest extends S.Class<ListInvocationStepsReque
     invocationIdentifier: S.optional(S.String),
     nextToken: S.optional(S.String).pipe(T.HttpQuery("nextToken")),
     maxResults: S.optional(S.Number).pipe(T.HttpQuery("maxResults")),
-    sessionIdentifier: S.String.pipe(T.HttpLabel()),
+    sessionIdentifier: S.String.pipe(T.HttpLabel("sessionIdentifier")),
   },
   T.all(
     T.Http({
@@ -849,7 +850,7 @@ export class ListInvocationStepsRequest extends S.Class<ListInvocationStepsReque
 export class ListTagsForResourceRequest extends S.Class<ListTagsForResourceRequest>(
   "ListTagsForResourceRequest",
 )(
-  { resourceArn: S.String.pipe(T.HttpLabel()) },
+  { resourceArn: S.String.pipe(T.HttpLabel("resourceArn")) },
   T.all(
     T.Http({ method: "GET", uri: "/tags/{resourceArn}" }),
     svc,
@@ -863,7 +864,7 @@ export const TagsMap = S.Record({ key: S.String, value: S.String });
 export class TagResourceRequest extends S.Class<TagResourceRequest>(
   "TagResourceRequest",
 )(
-  { resourceArn: S.String.pipe(T.HttpLabel()), tags: TagsMap },
+  { resourceArn: S.String.pipe(T.HttpLabel("resourceArn")), tags: TagsMap },
   T.all(
     T.Http({ method: "POST", uri: "/tags/{resourceArn}" }),
     svc,
@@ -880,7 +881,7 @@ export class UntagResourceRequest extends S.Class<UntagResourceRequest>(
   "UntagResourceRequest",
 )(
   {
-    resourceArn: S.String.pipe(T.HttpLabel()),
+    resourceArn: S.String.pipe(T.HttpLabel("resourceArn")),
     tagKeys: TagKeyList.pipe(T.HttpQuery("tagKeys")),
   },
   T.all(
@@ -1309,8 +1310,8 @@ export class StartFlowExecutionRequest extends S.Class<StartFlowExecutionRequest
   "StartFlowExecutionRequest",
 )(
   {
-    flowIdentifier: S.String.pipe(T.HttpLabel()),
-    flowAliasIdentifier: S.String.pipe(T.HttpLabel()),
+    flowIdentifier: S.String.pipe(T.HttpLabel("flowIdentifier")),
+    flowAliasIdentifier: S.String.pipe(T.HttpLabel("flowAliasIdentifier")),
     flowExecutionName: S.optional(S.String),
     inputs: FlowInputs,
     modelPerformanceConfiguration: S.optional(ModelPerformanceConfiguration),
@@ -2140,7 +2141,7 @@ export class InvokeInlineAgentRequest extends S.Class<InvokeInlineAgentRequest>(
     agentCollaboration: S.optional(S.String),
     collaboratorConfigurations: S.optional(CollaboratorConfigurations),
     agentName: S.optional(S.String),
-    sessionId: S.String.pipe(T.HttpLabel()),
+    sessionId: S.String.pipe(T.HttpLabel("sessionId")),
     endSession: S.optional(S.Boolean),
     enableTrace: S.optional(S.Boolean),
     inputText: S.optional(S.String),
@@ -2185,7 +2186,7 @@ export class PutInvocationStepRequest extends S.Class<PutInvocationStepRequest>(
   "PutInvocationStepRequest",
 )(
   {
-    sessionIdentifier: S.String.pipe(T.HttpLabel()),
+    sessionIdentifier: S.String.pipe(T.HttpLabel("sessionIdentifier")),
     invocationIdentifier: S.String,
     invocationStepTime: S.Date.pipe(T.TimestampFormat("date-time")),
     payload: InvocationStepPayload,
@@ -2356,9 +2357,9 @@ export class InvokeAgentRequest extends S.Class<InvokeAgentRequest>(
 )(
   {
     sessionState: S.optional(SessionState),
-    agentId: S.String.pipe(T.HttpLabel()),
-    agentAliasId: S.String.pipe(T.HttpLabel()),
-    sessionId: S.String.pipe(T.HttpLabel()),
+    agentId: S.String.pipe(T.HttpLabel("agentId")),
+    agentAliasId: S.String.pipe(T.HttpLabel("agentAliasId")),
+    sessionId: S.String.pipe(T.HttpLabel("sessionId")),
     endSession: S.optional(S.Boolean),
     enableTrace: S.optional(S.Boolean),
     inputText: S.optional(S.String),
@@ -2392,7 +2393,7 @@ export class RetrieveRequest extends S.Class<RetrieveRequest>(
   "RetrieveRequest",
 )(
   {
-    knowledgeBaseId: S.String.pipe(T.HttpLabel()),
+    knowledgeBaseId: S.String.pipe(T.HttpLabel("knowledgeBaseId")),
     retrievalQuery: KnowledgeBaseQuery,
     retrievalConfiguration: S.optional(KnowledgeBaseRetrievalConfiguration),
     guardrailConfiguration: S.optional(GuardrailConfiguration),
@@ -2576,11 +2577,11 @@ export class AccessDeniedException extends S.TaggedError<AccessDeniedException>(
 export class BadGatewayException extends S.TaggedError<BadGatewayException>()(
   "BadGatewayException",
   { message: S.optional(S.String), resourceName: S.optional(S.String) },
-) {}
+).pipe(withCategory(ERROR_CATEGORIES.SERVER_ERROR)) {}
 export class InternalServerException extends S.TaggedError<InternalServerException>()(
   "InternalServerException",
   { message: S.optional(S.String), reason: S.optional(S.String) },
-) {}
+).pipe(withCategory(ERROR_CATEGORIES.SERVER_ERROR)) {}
 export class ConflictException extends S.TaggedError<ConflictException>()(
   "ConflictException",
   { message: S.optional(S.String) },
@@ -2596,7 +2597,7 @@ export class ResourceNotFoundException extends S.TaggedError<ResourceNotFoundExc
 export class ThrottlingException extends S.TaggedError<ThrottlingException>()(
   "ThrottlingException",
   { message: S.optional(S.String) },
-) {}
+).pipe(withCategory(ERROR_CATEGORIES.THROTTLING_ERROR)) {}
 export class ValidationException extends S.TaggedError<ValidationException>()(
   "ValidationException",
   { message: S.optional(S.String) },

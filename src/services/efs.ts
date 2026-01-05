@@ -1,6 +1,7 @@
 import * as S from "effect/Schema";
 import * as API from "../api.ts";
 import * as T from "../traits.ts";
+import { ERROR_CATEGORIES, withCategory } from "../error-category.ts";
 const svc = T.AwsApiService({
   sdkId: "EFS",
   serviceShapeName: "MagnolioAPIService_v20150201",
@@ -477,7 +478,7 @@ export class CreateMountTargetRequest extends S.Class<CreateMountTargetRequest>(
 export class CreateTagsRequest extends S.Class<CreateTagsRequest>(
   "CreateTagsRequest",
 )(
-  { FileSystemId: S.String.pipe(T.HttpLabel()), Tags: Tags },
+  { FileSystemId: S.String.pipe(T.HttpLabel("FileSystemId")), Tags: Tags },
   T.all(
     T.Http({ method: "POST", uri: "/2015-02-01/create-tags/{FileSystemId}" }),
     svc,
@@ -493,7 +494,7 @@ export class CreateTagsResponse extends S.Class<CreateTagsResponse>(
 export class DeleteAccessPointRequest extends S.Class<DeleteAccessPointRequest>(
   "DeleteAccessPointRequest",
 )(
-  { AccessPointId: S.String.pipe(T.HttpLabel()) },
+  { AccessPointId: S.String.pipe(T.HttpLabel("AccessPointId")) },
   T.all(
     T.Http({
       method: "DELETE",
@@ -512,7 +513,7 @@ export class DeleteAccessPointResponse extends S.Class<DeleteAccessPointResponse
 export class DeleteFileSystemRequest extends S.Class<DeleteFileSystemRequest>(
   "DeleteFileSystemRequest",
 )(
-  { FileSystemId: S.String.pipe(T.HttpLabel()) },
+  { FileSystemId: S.String.pipe(T.HttpLabel("FileSystemId")) },
   T.all(
     T.Http({
       method: "DELETE",
@@ -531,7 +532,7 @@ export class DeleteFileSystemResponse extends S.Class<DeleteFileSystemResponse>(
 export class DeleteFileSystemPolicyRequest extends S.Class<DeleteFileSystemPolicyRequest>(
   "DeleteFileSystemPolicyRequest",
 )(
-  { FileSystemId: S.String.pipe(T.HttpLabel()) },
+  { FileSystemId: S.String.pipe(T.HttpLabel("FileSystemId")) },
   T.all(
     T.Http({
       method: "DELETE",
@@ -550,7 +551,7 @@ export class DeleteFileSystemPolicyResponse extends S.Class<DeleteFileSystemPoli
 export class DeleteMountTargetRequest extends S.Class<DeleteMountTargetRequest>(
   "DeleteMountTargetRequest",
 )(
-  { MountTargetId: S.String.pipe(T.HttpLabel()) },
+  { MountTargetId: S.String.pipe(T.HttpLabel("MountTargetId")) },
   T.all(
     T.Http({
       method: "DELETE",
@@ -570,7 +571,7 @@ export class DeleteReplicationConfigurationRequest extends S.Class<DeleteReplica
   "DeleteReplicationConfigurationRequest",
 )(
   {
-    SourceFileSystemId: S.String.pipe(T.HttpLabel()),
+    SourceFileSystemId: S.String.pipe(T.HttpLabel("SourceFileSystemId")),
     DeletionMode: S.optional(S.String).pipe(T.HttpQuery("deletionMode")),
   },
   T.all(
@@ -591,7 +592,10 @@ export class DeleteReplicationConfigurationResponse extends S.Class<DeleteReplic
 export class DeleteTagsRequest extends S.Class<DeleteTagsRequest>(
   "DeleteTagsRequest",
 )(
-  { FileSystemId: S.String.pipe(T.HttpLabel()), TagKeys: TagKeys },
+  {
+    FileSystemId: S.String.pipe(T.HttpLabel("FileSystemId")),
+    TagKeys: TagKeys,
+  },
   T.all(
     T.Http({ method: "POST", uri: "/2015-02-01/delete-tags/{FileSystemId}" }),
     svc,
@@ -638,7 +642,7 @@ export class DescribeAccountPreferencesRequest extends S.Class<DescribeAccountPr
 export class DescribeBackupPolicyRequest extends S.Class<DescribeBackupPolicyRequest>(
   "DescribeBackupPolicyRequest",
 )(
-  { FileSystemId: S.String.pipe(T.HttpLabel()) },
+  { FileSystemId: S.String.pipe(T.HttpLabel("FileSystemId")) },
   T.all(
     T.Http({
       method: "GET",
@@ -654,7 +658,7 @@ export class DescribeBackupPolicyRequest extends S.Class<DescribeBackupPolicyReq
 export class DescribeFileSystemPolicyRequest extends S.Class<DescribeFileSystemPolicyRequest>(
   "DescribeFileSystemPolicyRequest",
 )(
-  { FileSystemId: S.String.pipe(T.HttpLabel()) },
+  { FileSystemId: S.String.pipe(T.HttpLabel("FileSystemId")) },
   T.all(
     T.Http({
       method: "GET",
@@ -688,7 +692,7 @@ export class DescribeFileSystemsRequest extends S.Class<DescribeFileSystemsReque
 export class DescribeLifecycleConfigurationRequest extends S.Class<DescribeLifecycleConfigurationRequest>(
   "DescribeLifecycleConfigurationRequest",
 )(
-  { FileSystemId: S.String.pipe(T.HttpLabel()) },
+  { FileSystemId: S.String.pipe(T.HttpLabel("FileSystemId")) },
   T.all(
     T.Http({
       method: "GET",
@@ -723,7 +727,7 @@ export class DescribeMountTargetsRequest extends S.Class<DescribeMountTargetsReq
 export class DescribeMountTargetSecurityGroupsRequest extends S.Class<DescribeMountTargetSecurityGroupsRequest>(
   "DescribeMountTargetSecurityGroupsRequest",
 )(
-  { MountTargetId: S.String.pipe(T.HttpLabel()) },
+  { MountTargetId: S.String.pipe(T.HttpLabel("MountTargetId")) },
   T.all(
     T.Http({
       method: "GET",
@@ -762,7 +766,7 @@ export class DescribeTagsRequest extends S.Class<DescribeTagsRequest>(
   {
     MaxItems: S.optional(S.Number).pipe(T.HttpQuery("MaxItems")),
     Marker: S.optional(S.String).pipe(T.HttpQuery("Marker")),
-    FileSystemId: S.String.pipe(T.HttpLabel()),
+    FileSystemId: S.String.pipe(T.HttpLabel("FileSystemId")),
   },
   T.all(
     T.Http({ method: "GET", uri: "/2015-02-01/tags/{FileSystemId}" }),
@@ -777,7 +781,7 @@ export class ListTagsForResourceRequest extends S.Class<ListTagsForResourceReque
   "ListTagsForResourceRequest",
 )(
   {
-    ResourceId: S.String.pipe(T.HttpLabel()),
+    ResourceId: S.String.pipe(T.HttpLabel("ResourceId")),
     MaxResults: S.optional(S.Number).pipe(T.HttpQuery("MaxResults")),
     NextToken: S.optional(S.String).pipe(T.HttpQuery("NextToken")),
   },
@@ -794,7 +798,7 @@ export class ModifyMountTargetSecurityGroupsRequest extends S.Class<ModifyMountT
   "ModifyMountTargetSecurityGroupsRequest",
 )(
   {
-    MountTargetId: S.String.pipe(T.HttpLabel()),
+    MountTargetId: S.String.pipe(T.HttpLabel("MountTargetId")),
     SecurityGroups: S.optional(SecurityGroups),
   },
   T.all(
@@ -829,7 +833,7 @@ export class PutFileSystemPolicyRequest extends S.Class<PutFileSystemPolicyReque
   "PutFileSystemPolicyRequest",
 )(
   {
-    FileSystemId: S.String.pipe(T.HttpLabel()),
+    FileSystemId: S.String.pipe(T.HttpLabel("FileSystemId")),
     Policy: S.String,
     BypassPolicyLockoutSafetyCheck: S.optional(S.Boolean),
   },
@@ -848,7 +852,7 @@ export class PutFileSystemPolicyRequest extends S.Class<PutFileSystemPolicyReque
 export class TagResourceRequest extends S.Class<TagResourceRequest>(
   "TagResourceRequest",
 )(
-  { ResourceId: S.String.pipe(T.HttpLabel()), Tags: Tags },
+  { ResourceId: S.String.pipe(T.HttpLabel("ResourceId")), Tags: Tags },
   T.all(
     T.Http({ method: "POST", uri: "/2015-02-01/resource-tags/{ResourceId}" }),
     svc,
@@ -865,7 +869,7 @@ export class UntagResourceRequest extends S.Class<UntagResourceRequest>(
   "UntagResourceRequest",
 )(
   {
-    ResourceId: S.String.pipe(T.HttpLabel()),
+    ResourceId: S.String.pipe(T.HttpLabel("ResourceId")),
     TagKeys: TagKeys.pipe(T.HttpQuery("tagKeys")),
   },
   T.all(
@@ -884,7 +888,7 @@ export class UpdateFileSystemRequest extends S.Class<UpdateFileSystemRequest>(
   "UpdateFileSystemRequest",
 )(
   {
-    FileSystemId: S.String.pipe(T.HttpLabel()),
+    FileSystemId: S.String.pipe(T.HttpLabel("FileSystemId")),
     ThroughputMode: S.optional(S.String),
     ProvisionedThroughputInMibps: S.optional(S.Number),
   },
@@ -901,7 +905,7 @@ export class UpdateFileSystemProtectionRequest extends S.Class<UpdateFileSystemP
   "UpdateFileSystemProtectionRequest",
 )(
   {
-    FileSystemId: S.String.pipe(T.HttpLabel()),
+    FileSystemId: S.String.pipe(T.HttpLabel("FileSystemId")),
     ReplicationOverwriteProtection: S.optional(S.String),
   },
   T.all(
@@ -996,7 +1000,7 @@ export class CreateReplicationConfigurationRequest extends S.Class<CreateReplica
   "CreateReplicationConfigurationRequest",
 )(
   {
-    SourceFileSystemId: S.String.pipe(T.HttpLabel()),
+    SourceFileSystemId: S.String.pipe(T.HttpLabel("SourceFileSystemId")),
     Destinations: DestinationsToCreate,
   },
   T.all(
@@ -1057,7 +1061,10 @@ export class PutAccountPreferencesResponse extends S.Class<PutAccountPreferences
 export class PutBackupPolicyRequest extends S.Class<PutBackupPolicyRequest>(
   "PutBackupPolicyRequest",
 )(
-  { FileSystemId: S.String.pipe(T.HttpLabel()), BackupPolicy: BackupPolicy },
+  {
+    FileSystemId: S.String.pipe(T.HttpLabel("FileSystemId")),
+    BackupPolicy: BackupPolicy,
+  },
   T.all(
     T.Http({
       method: "PUT",
@@ -1074,7 +1081,7 @@ export class PutLifecycleConfigurationRequest extends S.Class<PutLifecycleConfig
   "PutLifecycleConfigurationRequest",
 )(
   {
-    FileSystemId: S.String.pipe(T.HttpLabel()),
+    FileSystemId: S.String.pipe(T.HttpLabel("FileSystemId")),
     LifecyclePolicies: LifecyclePolicies,
   },
   T.all(
@@ -1197,7 +1204,7 @@ export class FileSystemNotFound extends S.TaggedError<FileSystemNotFound>()(
 export class InternalServerError extends S.TaggedError<InternalServerError>()(
   "InternalServerError",
   { ErrorCode: S.String, Message: S.optional(S.String) },
-) {}
+).pipe(withCategory(ERROR_CATEGORIES.SERVER_ERROR)) {}
 export class IncorrectMountTargetState extends S.TaggedError<IncorrectMountTargetState>()(
   "IncorrectMountTargetState",
   { ErrorCode: S.String, Message: S.optional(S.String) },
@@ -1209,7 +1216,7 @@ export class FileSystemInUse extends S.TaggedError<FileSystemInUse>()(
 export class DependencyTimeout extends S.TaggedError<DependencyTimeout>()(
   "DependencyTimeout",
   { ErrorCode: S.String, Message: S.optional(S.String) },
-) {}
+).pipe(withCategory(ERROR_CATEGORIES.SERVER_ERROR)) {}
 export class ConflictException extends S.TaggedError<ConflictException>()(
   "ConflictException",
   { ErrorCode: S.optional(S.String), Message: S.optional(S.String) },
@@ -1265,7 +1272,7 @@ export class SecurityGroupLimitExceeded extends S.TaggedError<SecurityGroupLimit
 export class InsufficientThroughputCapacity extends S.TaggedError<InsufficientThroughputCapacity>()(
   "InsufficientThroughputCapacity",
   { ErrorCode: S.String, Message: S.optional(S.String) },
-) {}
+).pipe(withCategory(ERROR_CATEGORIES.SERVER_ERROR)) {}
 export class InvalidPolicyException extends S.TaggedError<InvalidPolicyException>()(
   "InvalidPolicyException",
   { ErrorCode: S.optional(S.String), Message: S.optional(S.String) },
@@ -1277,7 +1284,7 @@ export class IpAddressInUse extends S.TaggedError<IpAddressInUse>()(
 export class ThrottlingException extends S.TaggedError<ThrottlingException>()(
   "ThrottlingException",
   { ErrorCode: S.optional(S.String), Message: S.optional(S.String) },
-) {}
+).pipe(withCategory(ERROR_CATEGORIES.THROTTLING_ERROR)) {}
 export class SecurityGroupNotFound extends S.TaggedError<SecurityGroupNotFound>()(
   "SecurityGroupNotFound",
   { ErrorCode: S.String, Message: S.optional(S.String) },
@@ -1305,7 +1312,7 @@ export class NetworkInterfaceLimitExceeded extends S.TaggedError<NetworkInterfac
 export class TooManyRequests extends S.TaggedError<TooManyRequests>()(
   "TooManyRequests",
   { ErrorCode: S.String, Message: S.optional(S.String) },
-) {}
+).pipe(withCategory(ERROR_CATEGORIES.THROTTLING_ERROR)) {}
 export class NoFreeAddressesInSubnet extends S.TaggedError<NoFreeAddressesInSubnet>()(
   "NoFreeAddressesInSubnet",
   { ErrorCode: S.String, Message: S.optional(S.String) },

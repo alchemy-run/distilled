@@ -1,6 +1,7 @@
 import * as S from "effect/Schema";
 import * as API from "../api.ts";
 import * as T from "../traits.ts";
+import { ERROR_CATEGORIES, withCategory } from "../error-category.ts";
 const svc = T.AwsApiService({
   sdkId: "KafkaConnect",
   serviceShapeName: "KafkaConnect",
@@ -348,7 +349,7 @@ export class DeleteConnectorRequest extends S.Class<DeleteConnectorRequest>(
   "DeleteConnectorRequest",
 )(
   {
-    connectorArn: S.String.pipe(T.HttpLabel()),
+    connectorArn: S.String.pipe(T.HttpLabel("connectorArn")),
     currentVersion: S.optional(S.String).pipe(T.HttpQuery("currentVersion")),
   },
   T.all(
@@ -363,7 +364,7 @@ export class DeleteConnectorRequest extends S.Class<DeleteConnectorRequest>(
 export class DeleteCustomPluginRequest extends S.Class<DeleteCustomPluginRequest>(
   "DeleteCustomPluginRequest",
 )(
-  { customPluginArn: S.String.pipe(T.HttpLabel()) },
+  { customPluginArn: S.String.pipe(T.HttpLabel("customPluginArn")) },
   T.all(
     T.Http({ method: "DELETE", uri: "/v1/custom-plugins/{customPluginArn}" }),
     svc,
@@ -376,7 +377,11 @@ export class DeleteCustomPluginRequest extends S.Class<DeleteCustomPluginRequest
 export class DeleteWorkerConfigurationRequest extends S.Class<DeleteWorkerConfigurationRequest>(
   "DeleteWorkerConfigurationRequest",
 )(
-  { workerConfigurationArn: S.String.pipe(T.HttpLabel()) },
+  {
+    workerConfigurationArn: S.String.pipe(
+      T.HttpLabel("workerConfigurationArn"),
+    ),
+  },
   T.all(
     T.Http({
       method: "DELETE",
@@ -392,7 +397,7 @@ export class DeleteWorkerConfigurationRequest extends S.Class<DeleteWorkerConfig
 export class DescribeConnectorRequest extends S.Class<DescribeConnectorRequest>(
   "DescribeConnectorRequest",
 )(
-  { connectorArn: S.String.pipe(T.HttpLabel()) },
+  { connectorArn: S.String.pipe(T.HttpLabel("connectorArn")) },
   T.all(
     T.Http({ method: "GET", uri: "/v1/connectors/{connectorArn}" }),
     svc,
@@ -405,7 +410,9 @@ export class DescribeConnectorRequest extends S.Class<DescribeConnectorRequest>(
 export class DescribeConnectorOperationRequest extends S.Class<DescribeConnectorOperationRequest>(
   "DescribeConnectorOperationRequest",
 )(
-  { connectorOperationArn: S.String.pipe(T.HttpLabel()) },
+  {
+    connectorOperationArn: S.String.pipe(T.HttpLabel("connectorOperationArn")),
+  },
   T.all(
     T.Http({
       method: "GET",
@@ -421,7 +428,7 @@ export class DescribeConnectorOperationRequest extends S.Class<DescribeConnector
 export class DescribeCustomPluginRequest extends S.Class<DescribeCustomPluginRequest>(
   "DescribeCustomPluginRequest",
 )(
-  { customPluginArn: S.String.pipe(T.HttpLabel()) },
+  { customPluginArn: S.String.pipe(T.HttpLabel("customPluginArn")) },
   T.all(
     T.Http({ method: "GET", uri: "/v1/custom-plugins/{customPluginArn}" }),
     svc,
@@ -434,7 +441,11 @@ export class DescribeCustomPluginRequest extends S.Class<DescribeCustomPluginReq
 export class DescribeWorkerConfigurationRequest extends S.Class<DescribeWorkerConfigurationRequest>(
   "DescribeWorkerConfigurationRequest",
 )(
-  { workerConfigurationArn: S.String.pipe(T.HttpLabel()) },
+  {
+    workerConfigurationArn: S.String.pipe(
+      T.HttpLabel("workerConfigurationArn"),
+    ),
+  },
   T.all(
     T.Http({
       method: "GET",
@@ -451,7 +462,7 @@ export class ListConnectorOperationsRequest extends S.Class<ListConnectorOperati
   "ListConnectorOperationsRequest",
 )(
   {
-    connectorArn: S.String.pipe(T.HttpLabel()),
+    connectorArn: S.String.pipe(T.HttpLabel("connectorArn")),
     maxResults: S.optional(S.Number).pipe(T.HttpQuery("maxResults")),
     nextToken: S.optional(S.String).pipe(T.HttpQuery("nextToken")),
   },
@@ -503,7 +514,7 @@ export class ListCustomPluginsRequest extends S.Class<ListCustomPluginsRequest>(
 export class ListTagsForResourceRequest extends S.Class<ListTagsForResourceRequest>(
   "ListTagsForResourceRequest",
 )(
-  { resourceArn: S.String.pipe(T.HttpLabel()) },
+  { resourceArn: S.String.pipe(T.HttpLabel("resourceArn")) },
   T.all(
     T.Http({ method: "GET", uri: "/v1/tags/{resourceArn}" }),
     svc,
@@ -533,7 +544,7 @@ export class ListWorkerConfigurationsRequest extends S.Class<ListWorkerConfigura
 export class TagResourceRequest extends S.Class<TagResourceRequest>(
   "TagResourceRequest",
 )(
-  { resourceArn: S.String.pipe(T.HttpLabel()), tags: Tags },
+  { resourceArn: S.String.pipe(T.HttpLabel("resourceArn")), tags: Tags },
   T.all(
     T.Http({ method: "POST", uri: "/v1/tags/{resourceArn}" }),
     svc,
@@ -550,7 +561,7 @@ export class UntagResourceRequest extends S.Class<UntagResourceRequest>(
   "UntagResourceRequest",
 )(
   {
-    resourceArn: S.String.pipe(T.HttpLabel()),
+    resourceArn: S.String.pipe(T.HttpLabel("resourceArn")),
     tagKeys: TagKeyList.pipe(T.HttpQuery("tagKeys")),
   },
   T.all(
@@ -1001,7 +1012,7 @@ export class UpdateConnectorRequest extends S.Class<UpdateConnectorRequest>(
   {
     capacity: S.optional(CapacityUpdate),
     connectorConfiguration: S.optional(ConnectorConfigurationUpdate),
-    connectorArn: S.String.pipe(T.HttpLabel()),
+    connectorArn: S.String.pipe(T.HttpLabel("connectorArn")),
     currentVersion: S.String.pipe(T.HttpQuery("currentVersion")),
   },
   T.all(
@@ -1081,7 +1092,7 @@ export class ForbiddenException extends S.TaggedError<ForbiddenException>()(
 export class InternalServerErrorException extends S.TaggedError<InternalServerErrorException>()(
   "InternalServerErrorException",
   { message: S.optional(S.String) },
-) {}
+).pipe(withCategory(ERROR_CATEGORIES.SERVER_ERROR)) {}
 export class NotFoundException extends S.TaggedError<NotFoundException>()(
   "NotFoundException",
   { message: S.optional(S.String) },
@@ -1089,11 +1100,11 @@ export class NotFoundException extends S.TaggedError<NotFoundException>()(
 export class ServiceUnavailableException extends S.TaggedError<ServiceUnavailableException>()(
   "ServiceUnavailableException",
   { message: S.optional(S.String) },
-) {}
+).pipe(withCategory(ERROR_CATEGORIES.SERVER_ERROR)) {}
 export class TooManyRequestsException extends S.TaggedError<TooManyRequestsException>()(
   "TooManyRequestsException",
   { message: S.optional(S.String) },
-) {}
+).pipe(withCategory(ERROR_CATEGORIES.THROTTLING_ERROR)) {}
 export class UnauthorizedException extends S.TaggedError<UnauthorizedException>()(
   "UnauthorizedException",
   { message: S.optional(S.String) },

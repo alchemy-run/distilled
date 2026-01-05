@@ -505,6 +505,14 @@ export const httpErrorSymbol = Symbol.for("itty-aws/http-error");
 export const HttpError = (statusCode: number) =>
   makeAnnotation(httpErrorSymbol, statusCode);
 
+/** smithy.api#retryable - Indicates that an error MAY be retried by the client */
+export const retryableSymbol = Symbol.for("itty-aws/retryable");
+export interface RetryableTrait {
+  throttling?: boolean;
+}
+export const Retryable = (trait?: RetryableTrait) =>
+  makeAnnotation(retryableSymbol, trait ?? {});
+
 /** smithy.api#httpChecksumRequired - Indicates operation requires Content-MD5 checksum */
 export const httpChecksumRequiredSymbol = Symbol.for(
   "itty-aws/http-checksum-required",

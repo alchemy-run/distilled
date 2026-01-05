@@ -1,6 +1,7 @@
 import * as S from "effect/Schema";
 import * as API from "../api.ts";
 import * as T from "../traits.ts";
+import { ERROR_CATEGORIES, withCategory } from "../error-category.ts";
 const svc = T.AwsApiService({
   sdkId: "Pca Connector Ad",
   serviceShapeName: "PcaConnectorAd",
@@ -297,7 +298,7 @@ export const TagKeyList = S.Array(S.String);
 export class ListTagsForResourceRequest extends S.Class<ListTagsForResourceRequest>(
   "ListTagsForResourceRequest",
 )(
-  { ResourceArn: S.String.pipe(T.HttpLabel()) },
+  { ResourceArn: S.String.pipe(T.HttpLabel("ResourceArn")) },
   T.all(
     T.Http({ method: "GET", uri: "/tags/{ResourceArn}" }),
     svc,
@@ -311,7 +312,7 @@ export class UntagResourceRequest extends S.Class<UntagResourceRequest>(
   "UntagResourceRequest",
 )(
   {
-    ResourceArn: S.String.pipe(T.HttpLabel()),
+    ResourceArn: S.String.pipe(T.HttpLabel("ResourceArn")),
     TagKeys: TagKeyList.pipe(T.HttpQuery("tagKeys")),
   },
   T.all(
@@ -329,7 +330,7 @@ export class UntagResourceResponse extends S.Class<UntagResourceResponse>(
 export class GetConnectorRequest extends S.Class<GetConnectorRequest>(
   "GetConnectorRequest",
 )(
-  { ConnectorArn: S.String.pipe(T.HttpLabel()) },
+  { ConnectorArn: S.String.pipe(T.HttpLabel("ConnectorArn")) },
   T.all(
     T.Http({ method: "GET", uri: "/connectors/{ConnectorArn}" }),
     svc,
@@ -342,7 +343,7 @@ export class GetConnectorRequest extends S.Class<GetConnectorRequest>(
 export class DeleteConnectorRequest extends S.Class<DeleteConnectorRequest>(
   "DeleteConnectorRequest",
 )(
-  { ConnectorArn: S.String.pipe(T.HttpLabel()) },
+  { ConnectorArn: S.String.pipe(T.HttpLabel("ConnectorArn")) },
   T.all(
     T.Http({ method: "DELETE", uri: "/connectors/{ConnectorArn}" }),
     svc,
@@ -392,7 +393,11 @@ export class CreateDirectoryRegistrationRequest extends S.Class<CreateDirectoryR
 export class GetDirectoryRegistrationRequest extends S.Class<GetDirectoryRegistrationRequest>(
   "GetDirectoryRegistrationRequest",
 )(
-  { DirectoryRegistrationArn: S.String.pipe(T.HttpLabel()) },
+  {
+    DirectoryRegistrationArn: S.String.pipe(
+      T.HttpLabel("DirectoryRegistrationArn"),
+    ),
+  },
   T.all(
     T.Http({
       method: "GET",
@@ -408,7 +413,11 @@ export class GetDirectoryRegistrationRequest extends S.Class<GetDirectoryRegistr
 export class DeleteDirectoryRegistrationRequest extends S.Class<DeleteDirectoryRegistrationRequest>(
   "DeleteDirectoryRegistrationRequest",
 )(
-  { DirectoryRegistrationArn: S.String.pipe(T.HttpLabel()) },
+  {
+    DirectoryRegistrationArn: S.String.pipe(
+      T.HttpLabel("DirectoryRegistrationArn"),
+    ),
+  },
   T.all(
     T.Http({
       method: "DELETE",
@@ -444,8 +453,10 @@ export class CreateServicePrincipalNameRequest extends S.Class<CreateServicePrin
   "CreateServicePrincipalNameRequest",
 )(
   {
-    DirectoryRegistrationArn: S.String.pipe(T.HttpLabel()),
-    ConnectorArn: S.String.pipe(T.HttpLabel()),
+    DirectoryRegistrationArn: S.String.pipe(
+      T.HttpLabel("DirectoryRegistrationArn"),
+    ),
+    ConnectorArn: S.String.pipe(T.HttpLabel("ConnectorArn")),
     ClientToken: S.optional(S.String),
   },
   T.all(
@@ -467,8 +478,10 @@ export class GetServicePrincipalNameRequest extends S.Class<GetServicePrincipalN
   "GetServicePrincipalNameRequest",
 )(
   {
-    DirectoryRegistrationArn: S.String.pipe(T.HttpLabel()),
-    ConnectorArn: S.String.pipe(T.HttpLabel()),
+    DirectoryRegistrationArn: S.String.pipe(
+      T.HttpLabel("DirectoryRegistrationArn"),
+    ),
+    ConnectorArn: S.String.pipe(T.HttpLabel("ConnectorArn")),
   },
   T.all(
     T.Http({
@@ -486,8 +499,10 @@ export class DeleteServicePrincipalNameRequest extends S.Class<DeleteServicePrin
   "DeleteServicePrincipalNameRequest",
 )(
   {
-    DirectoryRegistrationArn: S.String.pipe(T.HttpLabel()),
-    ConnectorArn: S.String.pipe(T.HttpLabel()),
+    DirectoryRegistrationArn: S.String.pipe(
+      T.HttpLabel("DirectoryRegistrationArn"),
+    ),
+    ConnectorArn: S.String.pipe(T.HttpLabel("ConnectorArn")),
   },
   T.all(
     T.Http({
@@ -510,7 +525,9 @@ export class ListServicePrincipalNamesRequest extends S.Class<ListServicePrincip
   {
     MaxResults: S.optional(S.Number).pipe(T.HttpQuery("MaxResults")),
     NextToken: S.optional(S.String).pipe(T.HttpQuery("NextToken")),
-    DirectoryRegistrationArn: S.String.pipe(T.HttpLabel()),
+    DirectoryRegistrationArn: S.String.pipe(
+      T.HttpLabel("DirectoryRegistrationArn"),
+    ),
   },
   T.all(
     T.Http({
@@ -528,8 +545,10 @@ export class GetTemplateGroupAccessControlEntryRequest extends S.Class<GetTempla
   "GetTemplateGroupAccessControlEntryRequest",
 )(
   {
-    TemplateArn: S.String.pipe(T.HttpLabel()),
-    GroupSecurityIdentifier: S.String.pipe(T.HttpLabel()),
+    TemplateArn: S.String.pipe(T.HttpLabel("TemplateArn")),
+    GroupSecurityIdentifier: S.String.pipe(
+      T.HttpLabel("GroupSecurityIdentifier"),
+    ),
   },
   T.all(
     T.Http({
@@ -551,8 +570,10 @@ export class UpdateTemplateGroupAccessControlEntryRequest extends S.Class<Update
   "UpdateTemplateGroupAccessControlEntryRequest",
 )(
   {
-    TemplateArn: S.String.pipe(T.HttpLabel()),
-    GroupSecurityIdentifier: S.String.pipe(T.HttpLabel()),
+    TemplateArn: S.String.pipe(T.HttpLabel("TemplateArn")),
+    GroupSecurityIdentifier: S.String.pipe(
+      T.HttpLabel("GroupSecurityIdentifier"),
+    ),
     GroupDisplayName: S.optional(S.String),
     AccessRights: S.optional(AccessRights),
   },
@@ -575,8 +596,10 @@ export class DeleteTemplateGroupAccessControlEntryRequest extends S.Class<Delete
   "DeleteTemplateGroupAccessControlEntryRequest",
 )(
   {
-    TemplateArn: S.String.pipe(T.HttpLabel()),
-    GroupSecurityIdentifier: S.String.pipe(T.HttpLabel()),
+    TemplateArn: S.String.pipe(T.HttpLabel("TemplateArn")),
+    GroupSecurityIdentifier: S.String.pipe(
+      T.HttpLabel("GroupSecurityIdentifier"),
+    ),
   },
   T.all(
     T.Http({
@@ -599,7 +622,7 @@ export class ListTemplateGroupAccessControlEntriesRequest extends S.Class<ListTe
   {
     MaxResults: S.optional(S.Number).pipe(T.HttpQuery("MaxResults")),
     NextToken: S.optional(S.String).pipe(T.HttpQuery("NextToken")),
-    TemplateArn: S.String.pipe(T.HttpLabel()),
+    TemplateArn: S.String.pipe(T.HttpLabel("TemplateArn")),
   },
   T.all(
     T.Http({
@@ -616,7 +639,7 @@ export class ListTemplateGroupAccessControlEntriesRequest extends S.Class<ListTe
 export class GetTemplateRequest extends S.Class<GetTemplateRequest>(
   "GetTemplateRequest",
 )(
-  { TemplateArn: S.String.pipe(T.HttpLabel()) },
+  { TemplateArn: S.String.pipe(T.HttpLabel("TemplateArn")) },
   T.all(
     T.Http({ method: "GET", uri: "/templates/{TemplateArn}" }),
     svc,
@@ -849,7 +872,7 @@ export class UpdateTemplateRequest extends S.Class<UpdateTemplateRequest>(
   "UpdateTemplateRequest",
 )(
   {
-    TemplateArn: S.String.pipe(T.HttpLabel()),
+    TemplateArn: S.String.pipe(T.HttpLabel("TemplateArn")),
     Definition: S.optional(TemplateDefinition),
     ReenrollAllCertificateHolders: S.optional(S.Boolean),
   },
@@ -868,7 +891,7 @@ export class UpdateTemplateResponse extends S.Class<UpdateTemplateResponse>(
 export class DeleteTemplateRequest extends S.Class<DeleteTemplateRequest>(
   "DeleteTemplateRequest",
 )(
-  { TemplateArn: S.String.pipe(T.HttpLabel()) },
+  { TemplateArn: S.String.pipe(T.HttpLabel("TemplateArn")) },
   T.all(
     T.Http({ method: "DELETE", uri: "/templates/{TemplateArn}" }),
     svc,
@@ -909,7 +932,7 @@ export class ListTagsForResourceResponse extends S.Class<ListTagsForResourceResp
 export class TagResourceRequest extends S.Class<TagResourceRequest>(
   "TagResourceRequest",
 )(
-  { ResourceArn: S.String.pipe(T.HttpLabel()), Tags: Tags },
+  { ResourceArn: S.String.pipe(T.HttpLabel("ResourceArn")), Tags: Tags },
   T.all(
     T.Http({ method: "POST", uri: "/tags/{ResourceArn}" }),
     svc,
@@ -948,7 +971,7 @@ export class CreateTemplateGroupAccessControlEntryRequest extends S.Class<Create
   "CreateTemplateGroupAccessControlEntryRequest",
 )(
   {
-    TemplateArn: S.String.pipe(T.HttpLabel()),
+    TemplateArn: S.String.pipe(T.HttpLabel("TemplateArn")),
     GroupSecurityIdentifier: S.String,
     GroupDisplayName: S.String,
     AccessRights: AccessRights,
@@ -1160,7 +1183,8 @@ export class AccessDeniedException extends S.TaggedError<AccessDeniedException>(
 export class InternalServerException extends S.TaggedError<InternalServerException>()(
   "InternalServerException",
   { Message: S.String },
-) {}
+  T.Retryable(),
+).pipe(withCategory(ERROR_CATEGORIES.SERVER_ERROR)) {}
 export class ConflictException extends S.TaggedError<ConflictException>()(
   "ConflictException",
   { Message: S.String, ResourceId: S.String, ResourceType: S.String },
@@ -1176,7 +1200,8 @@ export class ThrottlingException extends S.TaggedError<ThrottlingException>()(
     ServiceCode: S.optional(S.String),
     QuotaCode: S.optional(S.String),
   },
-) {}
+  T.Retryable({ throttling: true }),
+).pipe(withCategory(ERROR_CATEGORIES.THROTTLING_ERROR)) {}
 export class ValidationException extends S.TaggedError<ValidationException>()(
   "ValidationException",
   { Message: S.String, Reason: S.optional(S.String) },

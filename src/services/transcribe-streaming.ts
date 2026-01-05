@@ -1,6 +1,7 @@
 import * as S from "effect/Schema";
 import * as API from "../api.ts";
 import * as T from "../traits.ts";
+import { ERROR_CATEGORIES, withCategory } from "../error-category.ts";
 const svc = T.AwsApiService({
   sdkId: "Transcribe Streaming",
   serviceShapeName: "Transcribe",
@@ -244,7 +245,7 @@ const rules = T.EndpointRuleSet({
 export class GetMedicalScribeStreamRequest extends S.Class<GetMedicalScribeStreamRequest>(
   "GetMedicalScribeStreamRequest",
 )(
-  { SessionId: S.String.pipe(T.HttpLabel()) },
+  { SessionId: S.String.pipe(T.HttpLabel("SessionId")) },
   T.all(
     T.Http({ method: "GET", uri: "/medical-scribe-stream/{SessionId}" }),
     svc,
@@ -1039,11 +1040,11 @@ export class BadRequestException extends S.TaggedError<BadRequestException>()(
 export class InternalFailureException extends S.TaggedError<InternalFailureException>()(
   "InternalFailureException",
   { Message: S.optional(S.String) },
-) {}
+).pipe(withCategory(ERROR_CATEGORIES.SERVER_ERROR)) {}
 export class LimitExceededException extends S.TaggedError<LimitExceededException>()(
   "LimitExceededException",
   { Message: S.optional(S.String) },
-) {}
+).pipe(withCategory(ERROR_CATEGORIES.THROTTLING_ERROR)) {}
 export class ResourceNotFoundException extends S.TaggedError<ResourceNotFoundException>()(
   "ResourceNotFoundException",
   { Message: S.optional(S.String) },
@@ -1055,7 +1056,7 @@ export class ConflictException extends S.TaggedError<ConflictException>()(
 export class ServiceUnavailableException extends S.TaggedError<ServiceUnavailableException>()(
   "ServiceUnavailableException",
   { Message: S.optional(S.String) },
-) {}
+).pipe(withCategory(ERROR_CATEGORIES.SERVER_ERROR)) {}
 
 //# Operations
 /**

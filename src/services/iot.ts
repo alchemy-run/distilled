@@ -1,6 +1,7 @@
 import * as S from "effect/Schema";
 import * as API from "../api.ts";
 import * as T from "../traits.ts";
+import { ERROR_CATEGORIES, withCategory } from "../error-category.ts";
 const svc = T.AwsApiService({
   sdkId: "IoT",
   serviceShapeName: "AWSIotService",
@@ -455,7 +456,7 @@ export class AcceptCertificateTransferRequest extends S.Class<AcceptCertificateT
   "AcceptCertificateTransferRequest",
 )(
   {
-    certificateId: S.String.pipe(T.HttpLabel()),
+    certificateId: S.String.pipe(T.HttpLabel("certificateId")),
     setAsActive: S.optional(S.Boolean).pipe(T.HttpQuery("setAsActive")),
   },
   T.all(
@@ -521,7 +522,7 @@ export class AssociateTargetsWithJobRequest extends S.Class<AssociateTargetsWith
 )(
   {
     targets: JobTargets,
-    jobId: S.String.pipe(T.HttpLabel()),
+    jobId: S.String.pipe(T.HttpLabel("jobId")),
     comment: S.optional(S.String),
     namespaceId: S.optional(S.String).pipe(T.HttpQuery("namespaceId")),
   },
@@ -537,7 +538,7 @@ export class AssociateTargetsWithJobRequest extends S.Class<AssociateTargetsWith
 export class AttachPolicyRequest extends S.Class<AttachPolicyRequest>(
   "AttachPolicyRequest",
 )(
-  { policyName: S.String.pipe(T.HttpLabel()), target: S.String },
+  { policyName: S.String.pipe(T.HttpLabel("policyName")), target: S.String },
   T.all(
     T.Http({ method: "PUT", uri: "/target-policies/{policyName}" }),
     svc,
@@ -554,7 +555,7 @@ export class AttachPrincipalPolicyRequest extends S.Class<AttachPrincipalPolicyR
   "AttachPrincipalPolicyRequest",
 )(
   {
-    policyName: S.String.pipe(T.HttpLabel()),
+    policyName: S.String.pipe(T.HttpLabel("policyName")),
     principal: S.String.pipe(T.HttpHeader("x-amzn-iot-principal")),
   },
   T.all(
@@ -573,7 +574,7 @@ export class AttachSecurityProfileRequest extends S.Class<AttachSecurityProfileR
   "AttachSecurityProfileRequest",
 )(
   {
-    securityProfileName: S.String.pipe(T.HttpLabel()),
+    securityProfileName: S.String.pipe(T.HttpLabel("securityProfileName")),
     securityProfileTargetArn: S.String.pipe(
       T.HttpQuery("securityProfileTargetArn"),
     ),
@@ -597,7 +598,7 @@ export class AttachThingPrincipalRequest extends S.Class<AttachThingPrincipalReq
   "AttachThingPrincipalRequest",
 )(
   {
-    thingName: S.String.pipe(T.HttpLabel()),
+    thingName: S.String.pipe(T.HttpLabel("thingName")),
     principal: S.String.pipe(T.HttpHeader("x-amzn-principal")),
     thingPrincipalType: S.optional(S.String).pipe(
       T.HttpQuery("thingPrincipalType"),
@@ -618,7 +619,7 @@ export class AttachThingPrincipalResponse extends S.Class<AttachThingPrincipalRe
 export class CancelAuditMitigationActionsTaskRequest extends S.Class<CancelAuditMitigationActionsTaskRequest>(
   "CancelAuditMitigationActionsTaskRequest",
 )(
-  { taskId: S.String.pipe(T.HttpLabel()) },
+  { taskId: S.String.pipe(T.HttpLabel("taskId")) },
   T.all(
     T.Http({
       method: "PUT",
@@ -637,7 +638,7 @@ export class CancelAuditMitigationActionsTaskResponse extends S.Class<CancelAudi
 export class CancelAuditTaskRequest extends S.Class<CancelAuditTaskRequest>(
   "CancelAuditTaskRequest",
 )(
-  { taskId: S.String.pipe(T.HttpLabel()) },
+  { taskId: S.String.pipe(T.HttpLabel("taskId")) },
   T.all(
     T.Http({ method: "PUT", uri: "/audit/tasks/{taskId}/cancel" }),
     svc,
@@ -653,7 +654,7 @@ export class CancelAuditTaskResponse extends S.Class<CancelAuditTaskResponse>(
 export class CancelCertificateTransferRequest extends S.Class<CancelCertificateTransferRequest>(
   "CancelCertificateTransferRequest",
 )(
-  { certificateId: S.String.pipe(T.HttpLabel()) },
+  { certificateId: S.String.pipe(T.HttpLabel("certificateId")) },
   T.all(
     T.Http({
       method: "PATCH",
@@ -672,7 +673,7 @@ export class CancelCertificateTransferResponse extends S.Class<CancelCertificate
 export class CancelDetectMitigationActionsTaskRequest extends S.Class<CancelDetectMitigationActionsTaskRequest>(
   "CancelDetectMitigationActionsTaskRequest",
 )(
-  { taskId: S.String.pipe(T.HttpLabel()) },
+  { taskId: S.String.pipe(T.HttpLabel("taskId")) },
   T.all(
     T.Http({
       method: "PUT",
@@ -692,7 +693,7 @@ export class CancelJobRequest extends S.Class<CancelJobRequest>(
   "CancelJobRequest",
 )(
   {
-    jobId: S.String.pipe(T.HttpLabel()),
+    jobId: S.String.pipe(T.HttpLabel("jobId")),
     reasonCode: S.optional(S.String),
     comment: S.optional(S.String),
     force: S.optional(S.Boolean).pipe(T.HttpQuery("force")),
@@ -709,7 +710,7 @@ export class CancelJobRequest extends S.Class<CancelJobRequest>(
 export class ConfirmTopicRuleDestinationRequest extends S.Class<ConfirmTopicRuleDestinationRequest>(
   "ConfirmTopicRuleDestinationRequest",
 )(
-  { confirmationToken: S.String.pipe(T.HttpLabel()) },
+  { confirmationToken: S.String.pipe(T.HttpLabel("confirmationToken")) },
   T.all(
     T.Http({ method: "GET", uri: "/confirmdestination/{confirmationToken+}" }),
     svc,
@@ -747,7 +748,9 @@ export class CreateCertificateProviderRequest extends S.Class<CreateCertificateP
   "CreateCertificateProviderRequest",
 )(
   {
-    certificateProviderName: S.String.pipe(T.HttpLabel()),
+    certificateProviderName: S.String.pipe(
+      T.HttpLabel("certificateProviderName"),
+    ),
     lambdaFunctionArn: S.String,
     accountDefaultForOperations: CertificateProviderAccountDefaultForOperations,
     clientToken: S.optional(S.String),
@@ -769,7 +772,7 @@ export class CreateCustomMetricRequest extends S.Class<CreateCustomMetricRequest
   "CreateCustomMetricRequest",
 )(
   {
-    metricName: S.String.pipe(T.HttpLabel()),
+    metricName: S.String.pipe(T.HttpLabel("metricName")),
     displayName: S.optional(S.String),
     metricType: S.String,
     tags: S.optional(TagList),
@@ -788,7 +791,7 @@ export class CreateDimensionRequest extends S.Class<CreateDimensionRequest>(
   "CreateDimensionRequest",
 )(
   {
-    name: S.String.pipe(T.HttpLabel()),
+    name: S.String.pipe(T.HttpLabel("name")),
     type: S.String,
     stringValues: DimensionStringValues,
     tags: S.optional(TagList),
@@ -820,7 +823,7 @@ export class CreatePolicyRequest extends S.Class<CreatePolicyRequest>(
   "CreatePolicyRequest",
 )(
   {
-    policyName: S.String.pipe(T.HttpLabel()),
+    policyName: S.String.pipe(T.HttpLabel("policyName")),
     policyDocument: S.String,
     tags: S.optional(TagList),
   },
@@ -837,7 +840,7 @@ export class CreatePolicyVersionRequest extends S.Class<CreatePolicyVersionReque
   "CreatePolicyVersionRequest",
 )(
   {
-    policyName: S.String.pipe(T.HttpLabel()),
+    policyName: S.String.pipe(T.HttpLabel("policyName")),
     policyDocument: S.String,
     setAsDefault: S.optional(S.Boolean).pipe(T.HttpQuery("setAsDefault")),
   },
@@ -853,7 +856,7 @@ export class CreatePolicyVersionRequest extends S.Class<CreatePolicyVersionReque
 export class CreateProvisioningClaimRequest extends S.Class<CreateProvisioningClaimRequest>(
   "CreateProvisioningClaimRequest",
 )(
-  { templateName: S.String.pipe(T.HttpLabel()) },
+  { templateName: S.String.pipe(T.HttpLabel("templateName")) },
   T.all(
     T.Http({
       method: "POST",
@@ -870,7 +873,7 @@ export class CreateProvisioningTemplateVersionRequest extends S.Class<CreateProv
   "CreateProvisioningTemplateVersionRequest",
 )(
   {
-    templateName: S.String.pipe(T.HttpLabel()),
+    templateName: S.String.pipe(T.HttpLabel("templateName")),
     templateBody: S.String,
     setAsDefault: S.optional(S.Boolean).pipe(T.HttpQuery("setAsDefault")),
   },
@@ -890,7 +893,7 @@ export class CreateRoleAliasRequest extends S.Class<CreateRoleAliasRequest>(
   "CreateRoleAliasRequest",
 )(
   {
-    roleAlias: S.String.pipe(T.HttpLabel()),
+    roleAlias: S.String.pipe(T.HttpLabel("roleAlias")),
     roleArn: S.String,
     credentialDurationSeconds: S.optional(S.Number),
     tags: S.optional(TagList),
@@ -912,7 +915,7 @@ export class CreateScheduledAuditRequest extends S.Class<CreateScheduledAuditReq
     dayOfMonth: S.optional(S.String),
     dayOfWeek: S.optional(S.String),
     targetCheckNames: TargetAuditCheckNames,
-    scheduledAuditName: S.String.pipe(T.HttpLabel()),
+    scheduledAuditName: S.String.pipe(T.HttpLabel("scheduledAuditName")),
     tags: S.optional(TagList),
   },
   T.all(
@@ -941,7 +944,7 @@ export class CreateThingGroupRequest extends S.Class<CreateThingGroupRequest>(
   "CreateThingGroupRequest",
 )(
   {
-    thingGroupName: S.String.pipe(T.HttpLabel()),
+    thingGroupName: S.String.pipe(T.HttpLabel("thingGroupName")),
     parentGroupName: S.optional(S.String),
     thingGroupProperties: S.optional(ThingGroupProperties),
     tags: S.optional(TagList),
@@ -1021,7 +1024,7 @@ export class DeleteAuditSuppressionResponse extends S.Class<DeleteAuditSuppressi
 export class DeleteAuthorizerRequest extends S.Class<DeleteAuthorizerRequest>(
   "DeleteAuthorizerRequest",
 )(
-  { authorizerName: S.String.pipe(T.HttpLabel()) },
+  { authorizerName: S.String.pipe(T.HttpLabel("authorizerName")) },
   T.all(
     T.Http({ method: "DELETE", uri: "/authorizer/{authorizerName}" }),
     svc,
@@ -1038,7 +1041,7 @@ export class DeleteBillingGroupRequest extends S.Class<DeleteBillingGroupRequest
   "DeleteBillingGroupRequest",
 )(
   {
-    billingGroupName: S.String.pipe(T.HttpLabel()),
+    billingGroupName: S.String.pipe(T.HttpLabel("billingGroupName")),
     expectedVersion: S.optional(S.Number).pipe(T.HttpQuery("expectedVersion")),
   },
   T.all(
@@ -1056,7 +1059,7 @@ export class DeleteBillingGroupResponse extends S.Class<DeleteBillingGroupRespon
 export class DeleteCACertificateRequest extends S.Class<DeleteCACertificateRequest>(
   "DeleteCACertificateRequest",
 )(
-  { certificateId: S.String.pipe(T.HttpLabel()) },
+  { certificateId: S.String.pipe(T.HttpLabel("certificateId")) },
   T.all(
     T.Http({ method: "DELETE", uri: "/cacertificate/{certificateId}" }),
     svc,
@@ -1073,7 +1076,7 @@ export class DeleteCertificateRequest extends S.Class<DeleteCertificateRequest>(
   "DeleteCertificateRequest",
 )(
   {
-    certificateId: S.String.pipe(T.HttpLabel()),
+    certificateId: S.String.pipe(T.HttpLabel("certificateId")),
     forceDelete: S.optional(S.Boolean).pipe(T.HttpQuery("forceDelete")),
   },
   T.all(
@@ -1091,7 +1094,11 @@ export class DeleteCertificateResponse extends S.Class<DeleteCertificateResponse
 export class DeleteCertificateProviderRequest extends S.Class<DeleteCertificateProviderRequest>(
   "DeleteCertificateProviderRequest",
 )(
-  { certificateProviderName: S.String.pipe(T.HttpLabel()) },
+  {
+    certificateProviderName: S.String.pipe(
+      T.HttpLabel("certificateProviderName"),
+    ),
+  },
   T.all(
     T.Http({
       method: "DELETE",
@@ -1110,7 +1117,7 @@ export class DeleteCertificateProviderResponse extends S.Class<DeleteCertificate
 export class DeleteCommandRequest extends S.Class<DeleteCommandRequest>(
   "DeleteCommandRequest",
 )(
-  { commandId: S.String.pipe(T.HttpLabel()) },
+  { commandId: S.String.pipe(T.HttpLabel("commandId")) },
   T.all(
     T.Http({ method: "DELETE", uri: "/commands/{commandId}" }),
     svc,
@@ -1124,7 +1131,7 @@ export class DeleteCommandExecutionRequest extends S.Class<DeleteCommandExecutio
   "DeleteCommandExecutionRequest",
 )(
   {
-    executionId: S.String.pipe(T.HttpLabel()),
+    executionId: S.String.pipe(T.HttpLabel("executionId")),
     targetArn: S.String.pipe(T.HttpQuery("targetArn")),
   },
   T.all(
@@ -1142,7 +1149,7 @@ export class DeleteCommandExecutionResponse extends S.Class<DeleteCommandExecuti
 export class DeleteCustomMetricRequest extends S.Class<DeleteCustomMetricRequest>(
   "DeleteCustomMetricRequest",
 )(
-  { metricName: S.String.pipe(T.HttpLabel()) },
+  { metricName: S.String.pipe(T.HttpLabel("metricName")) },
   T.all(
     T.Http({ method: "DELETE", uri: "/custom-metric/{metricName}" }),
     svc,
@@ -1158,7 +1165,7 @@ export class DeleteCustomMetricResponse extends S.Class<DeleteCustomMetricRespon
 export class DeleteDimensionRequest extends S.Class<DeleteDimensionRequest>(
   "DeleteDimensionRequest",
 )(
-  { name: S.String.pipe(T.HttpLabel()) },
+  { name: S.String.pipe(T.HttpLabel("name")) },
   T.all(
     T.Http({ method: "DELETE", uri: "/dimensions/{name}" }),
     svc,
@@ -1174,7 +1181,11 @@ export class DeleteDimensionResponse extends S.Class<DeleteDimensionResponse>(
 export class DeleteDomainConfigurationRequest extends S.Class<DeleteDomainConfigurationRequest>(
   "DeleteDomainConfigurationRequest",
 )(
-  { domainConfigurationName: S.String.pipe(T.HttpLabel()) },
+  {
+    domainConfigurationName: S.String.pipe(
+      T.HttpLabel("domainConfigurationName"),
+    ),
+  },
   T.all(
     T.Http({
       method: "DELETE",
@@ -1194,7 +1205,7 @@ export class DeleteDynamicThingGroupRequest extends S.Class<DeleteDynamicThingGr
   "DeleteDynamicThingGroupRequest",
 )(
   {
-    thingGroupName: S.String.pipe(T.HttpLabel()),
+    thingGroupName: S.String.pipe(T.HttpLabel("thingGroupName")),
     expectedVersion: S.optional(S.Number).pipe(T.HttpQuery("expectedVersion")),
   },
   T.all(
@@ -1213,7 +1224,7 @@ export class DeleteFleetMetricRequest extends S.Class<DeleteFleetMetricRequest>(
   "DeleteFleetMetricRequest",
 )(
   {
-    metricName: S.String.pipe(T.HttpLabel()),
+    metricName: S.String.pipe(T.HttpLabel("metricName")),
     expectedVersion: S.optional(S.Number).pipe(T.HttpQuery("expectedVersion")),
   },
   T.all(
@@ -1232,7 +1243,7 @@ export class DeleteJobRequest extends S.Class<DeleteJobRequest>(
   "DeleteJobRequest",
 )(
   {
-    jobId: S.String.pipe(T.HttpLabel()),
+    jobId: S.String.pipe(T.HttpLabel("jobId")),
     force: S.optional(S.Boolean).pipe(T.HttpQuery("force")),
     namespaceId: S.optional(S.String).pipe(T.HttpQuery("namespaceId")),
   },
@@ -1252,9 +1263,9 @@ export class DeleteJobExecutionRequest extends S.Class<DeleteJobExecutionRequest
   "DeleteJobExecutionRequest",
 )(
   {
-    jobId: S.String.pipe(T.HttpLabel()),
-    thingName: S.String.pipe(T.HttpLabel()),
-    executionNumber: S.Number.pipe(T.HttpLabel()),
+    jobId: S.String.pipe(T.HttpLabel("jobId")),
+    thingName: S.String.pipe(T.HttpLabel("thingName")),
+    executionNumber: S.Number.pipe(T.HttpLabel("executionNumber")),
     force: S.optional(S.Boolean).pipe(T.HttpQuery("force")),
     namespaceId: S.optional(S.String).pipe(T.HttpQuery("namespaceId")),
   },
@@ -1276,7 +1287,7 @@ export class DeleteJobExecutionResponse extends S.Class<DeleteJobExecutionRespon
 export class DeleteJobTemplateRequest extends S.Class<DeleteJobTemplateRequest>(
   "DeleteJobTemplateRequest",
 )(
-  { jobTemplateId: S.String.pipe(T.HttpLabel()) },
+  { jobTemplateId: S.String.pipe(T.HttpLabel("jobTemplateId")) },
   T.all(
     T.Http({ method: "DELETE", uri: "/job-templates/{jobTemplateId}" }),
     svc,
@@ -1292,7 +1303,7 @@ export class DeleteJobTemplateResponse extends S.Class<DeleteJobTemplateResponse
 export class DeleteMitigationActionRequest extends S.Class<DeleteMitigationActionRequest>(
   "DeleteMitigationActionRequest",
 )(
-  { actionName: S.String.pipe(T.HttpLabel()) },
+  { actionName: S.String.pipe(T.HttpLabel("actionName")) },
   T.all(
     T.Http({
       method: "DELETE",
@@ -1312,7 +1323,7 @@ export class DeleteOTAUpdateRequest extends S.Class<DeleteOTAUpdateRequest>(
   "DeleteOTAUpdateRequest",
 )(
   {
-    otaUpdateId: S.String.pipe(T.HttpLabel()),
+    otaUpdateId: S.String.pipe(T.HttpLabel("otaUpdateId")),
     deleteStream: S.optional(S.Boolean).pipe(T.HttpQuery("deleteStream")),
     forceDeleteAWSJob: S.optional(S.Boolean).pipe(
       T.HttpQuery("forceDeleteAWSJob"),
@@ -1334,7 +1345,7 @@ export class DeletePackageRequest extends S.Class<DeletePackageRequest>(
   "DeletePackageRequest",
 )(
   {
-    packageName: S.String.pipe(T.HttpLabel()),
+    packageName: S.String.pipe(T.HttpLabel("packageName")),
     clientToken: S.optional(S.String).pipe(T.HttpQuery("clientToken")),
   },
   T.all(
@@ -1353,8 +1364,8 @@ export class DeletePackageVersionRequest extends S.Class<DeletePackageVersionReq
   "DeletePackageVersionRequest",
 )(
   {
-    packageName: S.String.pipe(T.HttpLabel()),
-    versionName: S.String.pipe(T.HttpLabel()),
+    packageName: S.String.pipe(T.HttpLabel("packageName")),
+    versionName: S.String.pipe(T.HttpLabel("versionName")),
     clientToken: S.optional(S.String).pipe(T.HttpQuery("clientToken")),
   },
   T.all(
@@ -1375,7 +1386,7 @@ export class DeletePackageVersionResponse extends S.Class<DeletePackageVersionRe
 export class DeletePolicyRequest extends S.Class<DeletePolicyRequest>(
   "DeletePolicyRequest",
 )(
-  { policyName: S.String.pipe(T.HttpLabel()) },
+  { policyName: S.String.pipe(T.HttpLabel("policyName")) },
   T.all(
     T.Http({ method: "DELETE", uri: "/policies/{policyName}" }),
     svc,
@@ -1392,8 +1403,8 @@ export class DeletePolicyVersionRequest extends S.Class<DeletePolicyVersionReque
   "DeletePolicyVersionRequest",
 )(
   {
-    policyName: S.String.pipe(T.HttpLabel()),
-    policyVersionId: S.String.pipe(T.HttpLabel()),
+    policyName: S.String.pipe(T.HttpLabel("policyName")),
+    policyVersionId: S.String.pipe(T.HttpLabel("policyVersionId")),
   },
   T.all(
     T.Http({
@@ -1413,7 +1424,7 @@ export class DeletePolicyVersionResponse extends S.Class<DeletePolicyVersionResp
 export class DeleteProvisioningTemplateRequest extends S.Class<DeleteProvisioningTemplateRequest>(
   "DeleteProvisioningTemplateRequest",
 )(
-  { templateName: S.String.pipe(T.HttpLabel()) },
+  { templateName: S.String.pipe(T.HttpLabel("templateName")) },
   T.all(
     T.Http({ method: "DELETE", uri: "/provisioning-templates/{templateName}" }),
     svc,
@@ -1430,8 +1441,8 @@ export class DeleteProvisioningTemplateVersionRequest extends S.Class<DeleteProv
   "DeleteProvisioningTemplateVersionRequest",
 )(
   {
-    templateName: S.String.pipe(T.HttpLabel()),
-    versionId: S.Number.pipe(T.HttpLabel()),
+    templateName: S.String.pipe(T.HttpLabel("templateName")),
+    versionId: S.Number.pipe(T.HttpLabel("versionId")),
   },
   T.all(
     T.Http({
@@ -1451,7 +1462,7 @@ export class DeleteProvisioningTemplateVersionResponse extends S.Class<DeletePro
 export class DeleteRoleAliasRequest extends S.Class<DeleteRoleAliasRequest>(
   "DeleteRoleAliasRequest",
 )(
-  { roleAlias: S.String.pipe(T.HttpLabel()) },
+  { roleAlias: S.String.pipe(T.HttpLabel("roleAlias")) },
   T.all(
     T.Http({ method: "DELETE", uri: "/role-aliases/{roleAlias}" }),
     svc,
@@ -1467,7 +1478,7 @@ export class DeleteRoleAliasResponse extends S.Class<DeleteRoleAliasResponse>(
 export class DeleteScheduledAuditRequest extends S.Class<DeleteScheduledAuditRequest>(
   "DeleteScheduledAuditRequest",
 )(
-  { scheduledAuditName: S.String.pipe(T.HttpLabel()) },
+  { scheduledAuditName: S.String.pipe(T.HttpLabel("scheduledAuditName")) },
   T.all(
     T.Http({
       method: "DELETE",
@@ -1487,7 +1498,7 @@ export class DeleteSecurityProfileRequest extends S.Class<DeleteSecurityProfileR
   "DeleteSecurityProfileRequest",
 )(
   {
-    securityProfileName: S.String.pipe(T.HttpLabel()),
+    securityProfileName: S.String.pipe(T.HttpLabel("securityProfileName")),
     expectedVersion: S.optional(S.Number).pipe(T.HttpQuery("expectedVersion")),
   },
   T.all(
@@ -1508,7 +1519,7 @@ export class DeleteSecurityProfileResponse extends S.Class<DeleteSecurityProfile
 export class DeleteStreamRequest extends S.Class<DeleteStreamRequest>(
   "DeleteStreamRequest",
 )(
-  { streamId: S.String.pipe(T.HttpLabel()) },
+  { streamId: S.String.pipe(T.HttpLabel("streamId")) },
   T.all(
     T.Http({ method: "DELETE", uri: "/streams/{streamId}" }),
     svc,
@@ -1525,7 +1536,7 @@ export class DeleteThingRequest extends S.Class<DeleteThingRequest>(
   "DeleteThingRequest",
 )(
   {
-    thingName: S.String.pipe(T.HttpLabel()),
+    thingName: S.String.pipe(T.HttpLabel("thingName")),
     expectedVersion: S.optional(S.Number).pipe(T.HttpQuery("expectedVersion")),
   },
   T.all(
@@ -1544,7 +1555,7 @@ export class DeleteThingGroupRequest extends S.Class<DeleteThingGroupRequest>(
   "DeleteThingGroupRequest",
 )(
   {
-    thingGroupName: S.String.pipe(T.HttpLabel()),
+    thingGroupName: S.String.pipe(T.HttpLabel("thingGroupName")),
     expectedVersion: S.optional(S.Number).pipe(T.HttpQuery("expectedVersion")),
   },
   T.all(
@@ -1562,7 +1573,7 @@ export class DeleteThingGroupResponse extends S.Class<DeleteThingGroupResponse>(
 export class DeleteThingTypeRequest extends S.Class<DeleteThingTypeRequest>(
   "DeleteThingTypeRequest",
 )(
-  { thingTypeName: S.String.pipe(T.HttpLabel()) },
+  { thingTypeName: S.String.pipe(T.HttpLabel("thingTypeName")) },
   T.all(
     T.Http({ method: "DELETE", uri: "/thing-types/{thingTypeName}" }),
     svc,
@@ -1578,7 +1589,7 @@ export class DeleteThingTypeResponse extends S.Class<DeleteThingTypeResponse>(
 export class DeleteTopicRuleRequest extends S.Class<DeleteTopicRuleRequest>(
   "DeleteTopicRuleRequest",
 )(
-  { ruleName: S.String.pipe(T.HttpLabel()) },
+  { ruleName: S.String.pipe(T.HttpLabel("ruleName")) },
   T.all(
     T.Http({ method: "DELETE", uri: "/rules/{ruleName}" }),
     svc,
@@ -1594,7 +1605,7 @@ export class DeleteTopicRuleResponse extends S.Class<DeleteTopicRuleResponse>(
 export class DeleteTopicRuleDestinationRequest extends S.Class<DeleteTopicRuleDestinationRequest>(
   "DeleteTopicRuleDestinationRequest",
 )(
-  { arn: S.String.pipe(T.HttpLabel()) },
+  { arn: S.String.pipe(T.HttpLabel("arn")) },
   T.all(
     T.Http({ method: "DELETE", uri: "/destinations/{arn+}" }),
     svc,
@@ -1630,7 +1641,7 @@ export class DeprecateThingTypeRequest extends S.Class<DeprecateThingTypeRequest
   "DeprecateThingTypeRequest",
 )(
   {
-    thingTypeName: S.String.pipe(T.HttpLabel()),
+    thingTypeName: S.String.pipe(T.HttpLabel("thingTypeName")),
     undoDeprecate: S.optional(S.Boolean),
   },
   T.all(
@@ -1648,7 +1659,7 @@ export class DeprecateThingTypeResponse extends S.Class<DeprecateThingTypeRespon
 export class DescribeAuditFindingRequest extends S.Class<DescribeAuditFindingRequest>(
   "DescribeAuditFindingRequest",
 )(
-  { findingId: S.String.pipe(T.HttpLabel()) },
+  { findingId: S.String.pipe(T.HttpLabel("findingId")) },
   T.all(
     T.Http({ method: "GET", uri: "/audit/findings/{findingId}" }),
     svc,
@@ -1661,7 +1672,7 @@ export class DescribeAuditFindingRequest extends S.Class<DescribeAuditFindingReq
 export class DescribeAuditMitigationActionsTaskRequest extends S.Class<DescribeAuditMitigationActionsTaskRequest>(
   "DescribeAuditMitigationActionsTaskRequest",
 )(
-  { taskId: S.String.pipe(T.HttpLabel()) },
+  { taskId: S.String.pipe(T.HttpLabel("taskId")) },
   T.all(
     T.Http({ method: "GET", uri: "/audit/mitigationactions/tasks/{taskId}" }),
     svc,
@@ -1687,7 +1698,7 @@ export class DescribeAuditSuppressionRequest extends S.Class<DescribeAuditSuppre
 export class DescribeAuditTaskRequest extends S.Class<DescribeAuditTaskRequest>(
   "DescribeAuditTaskRequest",
 )(
-  { taskId: S.String.pipe(T.HttpLabel()) },
+  { taskId: S.String.pipe(T.HttpLabel("taskId")) },
   T.all(
     T.Http({ method: "GET", uri: "/audit/tasks/{taskId}" }),
     svc,
@@ -1700,7 +1711,7 @@ export class DescribeAuditTaskRequest extends S.Class<DescribeAuditTaskRequest>(
 export class DescribeAuthorizerRequest extends S.Class<DescribeAuthorizerRequest>(
   "DescribeAuthorizerRequest",
 )(
-  { authorizerName: S.String.pipe(T.HttpLabel()) },
+  { authorizerName: S.String.pipe(T.HttpLabel("authorizerName")) },
   T.all(
     T.Http({ method: "GET", uri: "/authorizer/{authorizerName}" }),
     svc,
@@ -1713,7 +1724,7 @@ export class DescribeAuthorizerRequest extends S.Class<DescribeAuthorizerRequest
 export class DescribeBillingGroupRequest extends S.Class<DescribeBillingGroupRequest>(
   "DescribeBillingGroupRequest",
 )(
-  { billingGroupName: S.String.pipe(T.HttpLabel()) },
+  { billingGroupName: S.String.pipe(T.HttpLabel("billingGroupName")) },
   T.all(
     T.Http({ method: "GET", uri: "/billing-groups/{billingGroupName}" }),
     svc,
@@ -1726,7 +1737,7 @@ export class DescribeBillingGroupRequest extends S.Class<DescribeBillingGroupReq
 export class DescribeCACertificateRequest extends S.Class<DescribeCACertificateRequest>(
   "DescribeCACertificateRequest",
 )(
-  { certificateId: S.String.pipe(T.HttpLabel()) },
+  { certificateId: S.String.pipe(T.HttpLabel("certificateId")) },
   T.all(
     T.Http({ method: "GET", uri: "/cacertificate/{certificateId}" }),
     svc,
@@ -1739,7 +1750,7 @@ export class DescribeCACertificateRequest extends S.Class<DescribeCACertificateR
 export class DescribeCertificateRequest extends S.Class<DescribeCertificateRequest>(
   "DescribeCertificateRequest",
 )(
-  { certificateId: S.String.pipe(T.HttpLabel()) },
+  { certificateId: S.String.pipe(T.HttpLabel("certificateId")) },
   T.all(
     T.Http({ method: "GET", uri: "/certificates/{certificateId}" }),
     svc,
@@ -1752,7 +1763,11 @@ export class DescribeCertificateRequest extends S.Class<DescribeCertificateReque
 export class DescribeCertificateProviderRequest extends S.Class<DescribeCertificateProviderRequest>(
   "DescribeCertificateProviderRequest",
 )(
-  { certificateProviderName: S.String.pipe(T.HttpLabel()) },
+  {
+    certificateProviderName: S.String.pipe(
+      T.HttpLabel("certificateProviderName"),
+    ),
+  },
   T.all(
     T.Http({
       method: "GET",
@@ -1768,7 +1783,7 @@ export class DescribeCertificateProviderRequest extends S.Class<DescribeCertific
 export class DescribeCustomMetricRequest extends S.Class<DescribeCustomMetricRequest>(
   "DescribeCustomMetricRequest",
 )(
-  { metricName: S.String.pipe(T.HttpLabel()) },
+  { metricName: S.String.pipe(T.HttpLabel("metricName")) },
   T.all(
     T.Http({ method: "GET", uri: "/custom-metric/{metricName}" }),
     svc,
@@ -1781,7 +1796,7 @@ export class DescribeCustomMetricRequest extends S.Class<DescribeCustomMetricReq
 export class DescribeDetectMitigationActionsTaskRequest extends S.Class<DescribeDetectMitigationActionsTaskRequest>(
   "DescribeDetectMitigationActionsTaskRequest",
 )(
-  { taskId: S.String.pipe(T.HttpLabel()) },
+  { taskId: S.String.pipe(T.HttpLabel("taskId")) },
   T.all(
     T.Http({ method: "GET", uri: "/detect/mitigationactions/tasks/{taskId}" }),
     svc,
@@ -1794,7 +1809,7 @@ export class DescribeDetectMitigationActionsTaskRequest extends S.Class<Describe
 export class DescribeDimensionRequest extends S.Class<DescribeDimensionRequest>(
   "DescribeDimensionRequest",
 )(
-  { name: S.String.pipe(T.HttpLabel()) },
+  { name: S.String.pipe(T.HttpLabel("name")) },
   T.all(
     T.Http({ method: "GET", uri: "/dimensions/{name}" }),
     svc,
@@ -1807,7 +1822,11 @@ export class DescribeDimensionRequest extends S.Class<DescribeDimensionRequest>(
 export class DescribeDomainConfigurationRequest extends S.Class<DescribeDomainConfigurationRequest>(
   "DescribeDomainConfigurationRequest",
 )(
-  { domainConfigurationName: S.String.pipe(T.HttpLabel()) },
+  {
+    domainConfigurationName: S.String.pipe(
+      T.HttpLabel("domainConfigurationName"),
+    ),
+  },
   T.all(
     T.Http({
       method: "GET",
@@ -1836,7 +1855,7 @@ export class DescribeEndpointRequest extends S.Class<DescribeEndpointRequest>(
 export class DescribeFleetMetricRequest extends S.Class<DescribeFleetMetricRequest>(
   "DescribeFleetMetricRequest",
 )(
-  { metricName: S.String.pipe(T.HttpLabel()) },
+  { metricName: S.String.pipe(T.HttpLabel("metricName")) },
   T.all(
     T.Http({ method: "GET", uri: "/fleet-metric/{metricName}" }),
     svc,
@@ -1849,7 +1868,7 @@ export class DescribeFleetMetricRequest extends S.Class<DescribeFleetMetricReque
 export class DescribeIndexRequest extends S.Class<DescribeIndexRequest>(
   "DescribeIndexRequest",
 )(
-  { indexName: S.String.pipe(T.HttpLabel()) },
+  { indexName: S.String.pipe(T.HttpLabel("indexName")) },
   T.all(
     T.Http({ method: "GET", uri: "/indices/{indexName}" }),
     svc,
@@ -1863,7 +1882,7 @@ export class DescribeJobRequest extends S.Class<DescribeJobRequest>(
   "DescribeJobRequest",
 )(
   {
-    jobId: S.String.pipe(T.HttpLabel()),
+    jobId: S.String.pipe(T.HttpLabel("jobId")),
     beforeSubstitution: S.optional(S.Boolean).pipe(
       T.HttpQuery("beforeSubstitution"),
     ),
@@ -1881,8 +1900,8 @@ export class DescribeJobExecutionRequest extends S.Class<DescribeJobExecutionReq
   "DescribeJobExecutionRequest",
 )(
   {
-    jobId: S.String.pipe(T.HttpLabel()),
-    thingName: S.String.pipe(T.HttpLabel()),
+    jobId: S.String.pipe(T.HttpLabel("jobId")),
+    thingName: S.String.pipe(T.HttpLabel("thingName")),
     executionNumber: S.optional(S.Number).pipe(T.HttpQuery("executionNumber")),
   },
   T.all(
@@ -1897,7 +1916,7 @@ export class DescribeJobExecutionRequest extends S.Class<DescribeJobExecutionReq
 export class DescribeJobTemplateRequest extends S.Class<DescribeJobTemplateRequest>(
   "DescribeJobTemplateRequest",
 )(
-  { jobTemplateId: S.String.pipe(T.HttpLabel()) },
+  { jobTemplateId: S.String.pipe(T.HttpLabel("jobTemplateId")) },
   T.all(
     T.Http({ method: "GET", uri: "/job-templates/{jobTemplateId}" }),
     svc,
@@ -1911,7 +1930,7 @@ export class DescribeManagedJobTemplateRequest extends S.Class<DescribeManagedJo
   "DescribeManagedJobTemplateRequest",
 )(
   {
-    templateName: S.String.pipe(T.HttpLabel()),
+    templateName: S.String.pipe(T.HttpLabel("templateName")),
     templateVersion: S.optional(S.String).pipe(T.HttpQuery("templateVersion")),
   },
   T.all(
@@ -1926,7 +1945,7 @@ export class DescribeManagedJobTemplateRequest extends S.Class<DescribeManagedJo
 export class DescribeMitigationActionRequest extends S.Class<DescribeMitigationActionRequest>(
   "DescribeMitigationActionRequest",
 )(
-  { actionName: S.String.pipe(T.HttpLabel()) },
+  { actionName: S.String.pipe(T.HttpLabel("actionName")) },
   T.all(
     T.Http({ method: "GET", uri: "/mitigationactions/actions/{actionName}" }),
     svc,
@@ -1939,7 +1958,7 @@ export class DescribeMitigationActionRequest extends S.Class<DescribeMitigationA
 export class DescribeProvisioningTemplateRequest extends S.Class<DescribeProvisioningTemplateRequest>(
   "DescribeProvisioningTemplateRequest",
 )(
-  { templateName: S.String.pipe(T.HttpLabel()) },
+  { templateName: S.String.pipe(T.HttpLabel("templateName")) },
   T.all(
     T.Http({ method: "GET", uri: "/provisioning-templates/{templateName}" }),
     svc,
@@ -1953,8 +1972,8 @@ export class DescribeProvisioningTemplateVersionRequest extends S.Class<Describe
   "DescribeProvisioningTemplateVersionRequest",
 )(
   {
-    templateName: S.String.pipe(T.HttpLabel()),
-    versionId: S.Number.pipe(T.HttpLabel()),
+    templateName: S.String.pipe(T.HttpLabel("templateName")),
+    versionId: S.Number.pipe(T.HttpLabel("versionId")),
   },
   T.all(
     T.Http({
@@ -1971,7 +1990,7 @@ export class DescribeProvisioningTemplateVersionRequest extends S.Class<Describe
 export class DescribeRoleAliasRequest extends S.Class<DescribeRoleAliasRequest>(
   "DescribeRoleAliasRequest",
 )(
-  { roleAlias: S.String.pipe(T.HttpLabel()) },
+  { roleAlias: S.String.pipe(T.HttpLabel("roleAlias")) },
   T.all(
     T.Http({ method: "GET", uri: "/role-aliases/{roleAlias}" }),
     svc,
@@ -1984,7 +2003,7 @@ export class DescribeRoleAliasRequest extends S.Class<DescribeRoleAliasRequest>(
 export class DescribeScheduledAuditRequest extends S.Class<DescribeScheduledAuditRequest>(
   "DescribeScheduledAuditRequest",
 )(
-  { scheduledAuditName: S.String.pipe(T.HttpLabel()) },
+  { scheduledAuditName: S.String.pipe(T.HttpLabel("scheduledAuditName")) },
   T.all(
     T.Http({
       method: "GET",
@@ -2000,7 +2019,7 @@ export class DescribeScheduledAuditRequest extends S.Class<DescribeScheduledAudi
 export class DescribeSecurityProfileRequest extends S.Class<DescribeSecurityProfileRequest>(
   "DescribeSecurityProfileRequest",
 )(
-  { securityProfileName: S.String.pipe(T.HttpLabel()) },
+  { securityProfileName: S.String.pipe(T.HttpLabel("securityProfileName")) },
   T.all(
     T.Http({ method: "GET", uri: "/security-profiles/{securityProfileName}" }),
     svc,
@@ -2013,7 +2032,7 @@ export class DescribeSecurityProfileRequest extends S.Class<DescribeSecurityProf
 export class DescribeStreamRequest extends S.Class<DescribeStreamRequest>(
   "DescribeStreamRequest",
 )(
-  { streamId: S.String.pipe(T.HttpLabel()) },
+  { streamId: S.String.pipe(T.HttpLabel("streamId")) },
   T.all(
     T.Http({ method: "GET", uri: "/streams/{streamId}" }),
     svc,
@@ -2026,7 +2045,7 @@ export class DescribeStreamRequest extends S.Class<DescribeStreamRequest>(
 export class DescribeThingRequest extends S.Class<DescribeThingRequest>(
   "DescribeThingRequest",
 )(
-  { thingName: S.String.pipe(T.HttpLabel()) },
+  { thingName: S.String.pipe(T.HttpLabel("thingName")) },
   T.all(
     T.Http({ method: "GET", uri: "/things/{thingName}" }),
     svc,
@@ -2039,7 +2058,7 @@ export class DescribeThingRequest extends S.Class<DescribeThingRequest>(
 export class DescribeThingGroupRequest extends S.Class<DescribeThingGroupRequest>(
   "DescribeThingGroupRequest",
 )(
-  { thingGroupName: S.String.pipe(T.HttpLabel()) },
+  { thingGroupName: S.String.pipe(T.HttpLabel("thingGroupName")) },
   T.all(
     T.Http({ method: "GET", uri: "/thing-groups/{thingGroupName}" }),
     svc,
@@ -2052,7 +2071,7 @@ export class DescribeThingGroupRequest extends S.Class<DescribeThingGroupRequest
 export class DescribeThingRegistrationTaskRequest extends S.Class<DescribeThingRegistrationTaskRequest>(
   "DescribeThingRegistrationTaskRequest",
 )(
-  { taskId: S.String.pipe(T.HttpLabel()) },
+  { taskId: S.String.pipe(T.HttpLabel("taskId")) },
   T.all(
     T.Http({ method: "GET", uri: "/thing-registration-tasks/{taskId}" }),
     svc,
@@ -2065,7 +2084,7 @@ export class DescribeThingRegistrationTaskRequest extends S.Class<DescribeThingR
 export class DescribeThingTypeRequest extends S.Class<DescribeThingTypeRequest>(
   "DescribeThingTypeRequest",
 )(
-  { thingTypeName: S.String.pipe(T.HttpLabel()) },
+  { thingTypeName: S.String.pipe(T.HttpLabel("thingTypeName")) },
   T.all(
     T.Http({ method: "GET", uri: "/thing-types/{thingTypeName}" }),
     svc,
@@ -2078,7 +2097,7 @@ export class DescribeThingTypeRequest extends S.Class<DescribeThingTypeRequest>(
 export class DetachPolicyRequest extends S.Class<DetachPolicyRequest>(
   "DetachPolicyRequest",
 )(
-  { policyName: S.String.pipe(T.HttpLabel()), target: S.String },
+  { policyName: S.String.pipe(T.HttpLabel("policyName")), target: S.String },
   T.all(
     T.Http({ method: "POST", uri: "/target-policies/{policyName}" }),
     svc,
@@ -2095,7 +2114,7 @@ export class DetachPrincipalPolicyRequest extends S.Class<DetachPrincipalPolicyR
   "DetachPrincipalPolicyRequest",
 )(
   {
-    policyName: S.String.pipe(T.HttpLabel()),
+    policyName: S.String.pipe(T.HttpLabel("policyName")),
     principal: S.String.pipe(T.HttpHeader("x-amzn-iot-principal")),
   },
   T.all(
@@ -2114,7 +2133,7 @@ export class DetachSecurityProfileRequest extends S.Class<DetachSecurityProfileR
   "DetachSecurityProfileRequest",
 )(
   {
-    securityProfileName: S.String.pipe(T.HttpLabel()),
+    securityProfileName: S.String.pipe(T.HttpLabel("securityProfileName")),
     securityProfileTargetArn: S.String.pipe(
       T.HttpQuery("securityProfileTargetArn"),
     ),
@@ -2138,7 +2157,7 @@ export class DetachThingPrincipalRequest extends S.Class<DetachThingPrincipalReq
   "DetachThingPrincipalRequest",
 )(
   {
-    thingName: S.String.pipe(T.HttpLabel()),
+    thingName: S.String.pipe(T.HttpLabel("thingName")),
     principal: S.String.pipe(T.HttpHeader("x-amzn-principal")),
   },
   T.all(
@@ -2156,7 +2175,7 @@ export class DetachThingPrincipalResponse extends S.Class<DetachThingPrincipalRe
 export class DisableTopicRuleRequest extends S.Class<DisableTopicRuleRequest>(
   "DisableTopicRuleRequest",
 )(
-  { ruleName: S.String.pipe(T.HttpLabel()) },
+  { ruleName: S.String.pipe(T.HttpLabel("ruleName")) },
   T.all(
     T.Http({ method: "POST", uri: "/rules/{ruleName}/disable" }),
     svc,
@@ -2173,8 +2192,8 @@ export class DisassociateSbomFromPackageVersionRequest extends S.Class<Disassoci
   "DisassociateSbomFromPackageVersionRequest",
 )(
   {
-    packageName: S.String.pipe(T.HttpLabel()),
-    versionName: S.String.pipe(T.HttpLabel()),
+    packageName: S.String.pipe(T.HttpLabel("packageName")),
+    versionName: S.String.pipe(T.HttpLabel("versionName")),
     clientToken: S.optional(S.String).pipe(T.HttpQuery("clientToken")),
   },
   T.all(
@@ -2195,7 +2214,7 @@ export class DisassociateSbomFromPackageVersionResponse extends S.Class<Disassoc
 export class EnableTopicRuleRequest extends S.Class<EnableTopicRuleRequest>(
   "EnableTopicRuleRequest",
 )(
-  { ruleName: S.String.pipe(T.HttpLabel()) },
+  { ruleName: S.String.pipe(T.HttpLabel("ruleName")) },
   T.all(
     T.Http({ method: "POST", uri: "/rules/{ruleName}/enable" }),
     svc,
@@ -2248,7 +2267,7 @@ export class GetCardinalityRequest extends S.Class<GetCardinalityRequest>(
 export class GetCommandRequest extends S.Class<GetCommandRequest>(
   "GetCommandRequest",
 )(
-  { commandId: S.String.pipe(T.HttpLabel()) },
+  { commandId: S.String.pipe(T.HttpLabel("commandId")) },
   T.all(
     T.Http({ method: "GET", uri: "/commands/{commandId}" }),
     svc,
@@ -2262,7 +2281,7 @@ export class GetCommandExecutionRequest extends S.Class<GetCommandExecutionReque
   "GetCommandExecutionRequest",
 )(
   {
-    executionId: S.String.pipe(T.HttpLabel()),
+    executionId: S.String.pipe(T.HttpLabel("executionId")),
     targetArn: S.String.pipe(T.HttpQuery("targetArn")),
     includeResult: S.optional(S.Boolean).pipe(T.HttpQuery("includeResult")),
   },
@@ -2296,7 +2315,7 @@ export class GetJobDocumentRequest extends S.Class<GetJobDocumentRequest>(
   "GetJobDocumentRequest",
 )(
   {
-    jobId: S.String.pipe(T.HttpLabel()),
+    jobId: S.String.pipe(T.HttpLabel("jobId")),
     beforeSubstitution: S.optional(S.Boolean).pipe(
       T.HttpQuery("beforeSubstitution"),
     ),
@@ -2316,7 +2335,7 @@ export class GetLoggingOptionsResponse extends S.Class<GetLoggingOptionsResponse
 export class GetOTAUpdateRequest extends S.Class<GetOTAUpdateRequest>(
   "GetOTAUpdateRequest",
 )(
-  { otaUpdateId: S.String.pipe(T.HttpLabel()) },
+  { otaUpdateId: S.String.pipe(T.HttpLabel("otaUpdateId")) },
   T.all(
     T.Http({ method: "GET", uri: "/otaUpdates/{otaUpdateId}" }),
     svc,
@@ -2329,7 +2348,7 @@ export class GetOTAUpdateRequest extends S.Class<GetOTAUpdateRequest>(
 export class GetPackageRequest extends S.Class<GetPackageRequest>(
   "GetPackageRequest",
 )(
-  { packageName: S.String.pipe(T.HttpLabel()) },
+  { packageName: S.String.pipe(T.HttpLabel("packageName")) },
   T.all(
     T.Http({ method: "GET", uri: "/packages/{packageName}" }),
     svc,
@@ -2343,8 +2362,8 @@ export class GetPackageVersionRequest extends S.Class<GetPackageVersionRequest>(
   "GetPackageVersionRequest",
 )(
   {
-    packageName: S.String.pipe(T.HttpLabel()),
-    versionName: S.String.pipe(T.HttpLabel()),
+    packageName: S.String.pipe(T.HttpLabel("packageName")),
+    versionName: S.String.pipe(T.HttpLabel("versionName")),
   },
   T.all(
     T.Http({
@@ -2380,7 +2399,7 @@ export class GetPercentilesRequest extends S.Class<GetPercentilesRequest>(
 export class GetPolicyRequest extends S.Class<GetPolicyRequest>(
   "GetPolicyRequest",
 )(
-  { policyName: S.String.pipe(T.HttpLabel()) },
+  { policyName: S.String.pipe(T.HttpLabel("policyName")) },
   T.all(
     T.Http({ method: "GET", uri: "/policies/{policyName}" }),
     svc,
@@ -2394,8 +2413,8 @@ export class GetPolicyVersionRequest extends S.Class<GetPolicyVersionRequest>(
   "GetPolicyVersionRequest",
 )(
   {
-    policyName: S.String.pipe(T.HttpLabel()),
-    policyVersionId: S.String.pipe(T.HttpLabel()),
+    policyName: S.String.pipe(T.HttpLabel("policyName")),
+    policyVersionId: S.String.pipe(T.HttpLabel("policyVersionId")),
   },
   T.all(
     T.Http({
@@ -2433,7 +2452,7 @@ export class GetStatisticsRequest extends S.Class<GetStatisticsRequest>(
 export class GetThingConnectivityDataRequest extends S.Class<GetThingConnectivityDataRequest>(
   "GetThingConnectivityDataRequest",
 )(
-  { thingName: S.String.pipe(T.HttpLabel()) },
+  { thingName: S.String.pipe(T.HttpLabel("thingName")) },
   T.all(
     T.Http({ method: "POST", uri: "/things/{thingName}/connectivity-data" }),
     svc,
@@ -2446,7 +2465,7 @@ export class GetThingConnectivityDataRequest extends S.Class<GetThingConnectivit
 export class GetTopicRuleRequest extends S.Class<GetTopicRuleRequest>(
   "GetTopicRuleRequest",
 )(
-  { ruleName: S.String.pipe(T.HttpLabel()) },
+  { ruleName: S.String.pipe(T.HttpLabel("ruleName")) },
   T.all(
     T.Http({ method: "GET", uri: "/rules/{ruleName}" }),
     svc,
@@ -2459,7 +2478,7 @@ export class GetTopicRuleRequest extends S.Class<GetTopicRuleRequest>(
 export class GetTopicRuleDestinationRequest extends S.Class<GetTopicRuleDestinationRequest>(
   "GetTopicRuleDestinationRequest",
 )(
-  { arn: S.String.pipe(T.HttpLabel()) },
+  { arn: S.String.pipe(T.HttpLabel("arn")) },
   T.all(
     T.Http({ method: "GET", uri: "/destinations/{arn+}" }),
     svc,
@@ -2515,7 +2534,7 @@ export class ListAttachedPoliciesRequest extends S.Class<ListAttachedPoliciesReq
   "ListAttachedPoliciesRequest",
 )(
   {
-    target: S.String.pipe(T.HttpLabel()),
+    target: S.String.pipe(T.HttpLabel("target")),
     recursive: S.optional(S.Boolean).pipe(T.HttpQuery("recursive")),
     marker: S.optional(S.String).pipe(T.HttpQuery("marker")),
     pageSize: S.optional(S.Number).pipe(T.HttpQuery("pageSize")),
@@ -2730,7 +2749,7 @@ export class ListCertificatesByCARequest extends S.Class<ListCertificatesByCAReq
   "ListCertificatesByCARequest",
 )(
   {
-    caCertificateId: S.String.pipe(T.HttpLabel()),
+    caCertificateId: S.String.pipe(T.HttpLabel("caCertificateId")),
     pageSize: S.optional(S.Number).pipe(T.HttpQuery("pageSize")),
     marker: S.optional(S.String).pipe(T.HttpQuery("marker")),
     ascendingOrder: S.optional(S.Boolean).pipe(T.HttpQuery("isAscendingOrder")),
@@ -2897,7 +2916,7 @@ export class ListJobExecutionsForJobRequest extends S.Class<ListJobExecutionsFor
   "ListJobExecutionsForJobRequest",
 )(
   {
-    jobId: S.String.pipe(T.HttpLabel()),
+    jobId: S.String.pipe(T.HttpLabel("jobId")),
     status: S.optional(S.String).pipe(T.HttpQuery("status")),
     maxResults: S.optional(S.Number).pipe(T.HttpQuery("maxResults")),
     nextToken: S.optional(S.String).pipe(T.HttpQuery("nextToken")),
@@ -2915,7 +2934,7 @@ export class ListJobExecutionsForThingRequest extends S.Class<ListJobExecutionsF
   "ListJobExecutionsForThingRequest",
 )(
   {
-    thingName: S.String.pipe(T.HttpLabel()),
+    thingName: S.String.pipe(T.HttpLabel("thingName")),
     status: S.optional(S.String).pipe(T.HttpQuery("status")),
     namespaceId: S.optional(S.String).pipe(T.HttpQuery("namespaceId")),
     maxResults: S.optional(S.Number).pipe(T.HttpQuery("maxResults")),
@@ -3077,7 +3096,7 @@ export class ListPackageVersionsRequest extends S.Class<ListPackageVersionsReque
   "ListPackageVersionsRequest",
 )(
   {
-    packageName: S.String.pipe(T.HttpLabel()),
+    packageName: S.String.pipe(T.HttpLabel("packageName")),
     status: S.optional(S.String).pipe(T.HttpQuery("status")),
     maxResults: S.optional(S.Number).pipe(T.HttpQuery("maxResults")),
     nextToken: S.optional(S.String).pipe(T.HttpQuery("nextToken")),
@@ -3129,7 +3148,7 @@ export class ListPolicyPrincipalsRequest extends S.Class<ListPolicyPrincipalsReq
 export class ListPolicyVersionsRequest extends S.Class<ListPolicyVersionsRequest>(
   "ListPolicyVersionsRequest",
 )(
-  { policyName: S.String.pipe(T.HttpLabel()) },
+  { policyName: S.String.pipe(T.HttpLabel("policyName")) },
   T.all(
     T.Http({ method: "GET", uri: "/policies/{policyName}/version" }),
     svc,
@@ -3214,7 +3233,7 @@ export class ListProvisioningTemplateVersionsRequest extends S.Class<ListProvisi
   "ListProvisioningTemplateVersionsRequest",
 )(
   {
-    templateName: S.String.pipe(T.HttpLabel()),
+    templateName: S.String.pipe(T.HttpLabel("templateName")),
     maxResults: S.optional(S.Number).pipe(T.HttpQuery("maxResults")),
     nextToken: S.optional(S.String).pipe(T.HttpQuery("nextToken")),
   },
@@ -3268,8 +3287,8 @@ export class ListSbomValidationResultsRequest extends S.Class<ListSbomValidation
   "ListSbomValidationResultsRequest",
 )(
   {
-    packageName: S.String.pipe(T.HttpLabel()),
-    versionName: S.String.pipe(T.HttpLabel()),
+    packageName: S.String.pipe(T.HttpLabel("packageName")),
+    versionName: S.String.pipe(T.HttpLabel("versionName")),
     validationResult: S.optional(S.String).pipe(
       T.HttpQuery("validationResult"),
     ),
@@ -3372,7 +3391,7 @@ export class ListTargetsForPolicyRequest extends S.Class<ListTargetsForPolicyReq
   "ListTargetsForPolicyRequest",
 )(
   {
-    policyName: S.String.pipe(T.HttpLabel()),
+    policyName: S.String.pipe(T.HttpLabel("policyName")),
     marker: S.optional(S.String).pipe(T.HttpQuery("marker")),
     pageSize: S.optional(S.Number).pipe(T.HttpQuery("pageSize")),
   },
@@ -3389,7 +3408,7 @@ export class ListTargetsForSecurityProfileRequest extends S.Class<ListTargetsFor
   "ListTargetsForSecurityProfileRequest",
 )(
   {
-    securityProfileName: S.String.pipe(T.HttpLabel()),
+    securityProfileName: S.String.pipe(T.HttpLabel("securityProfileName")),
     nextToken: S.optional(S.String).pipe(T.HttpQuery("nextToken")),
     maxResults: S.optional(S.Number).pipe(T.HttpQuery("maxResults")),
   },
@@ -3430,7 +3449,7 @@ export class ListThingGroupsForThingRequest extends S.Class<ListThingGroupsForTh
   "ListThingGroupsForThingRequest",
 )(
   {
-    thingName: S.String.pipe(T.HttpLabel()),
+    thingName: S.String.pipe(T.HttpLabel("thingName")),
     nextToken: S.optional(S.String).pipe(T.HttpQuery("nextToken")),
     maxResults: S.optional(S.Number).pipe(T.HttpQuery("maxResults")),
   },
@@ -3449,7 +3468,7 @@ export class ListThingPrincipalsRequest extends S.Class<ListThingPrincipalsReque
   {
     nextToken: S.optional(S.String).pipe(T.HttpQuery("nextToken")),
     maxResults: S.optional(S.Number).pipe(T.HttpQuery("maxResults")),
-    thingName: S.String.pipe(T.HttpLabel()),
+    thingName: S.String.pipe(T.HttpLabel("thingName")),
   },
   T.all(
     T.Http({ method: "GET", uri: "/things/{thingName}/principals" }),
@@ -3466,7 +3485,7 @@ export class ListThingPrincipalsV2Request extends S.Class<ListThingPrincipalsV2R
   {
     nextToken: S.optional(S.String).pipe(T.HttpQuery("nextToken")),
     maxResults: S.optional(S.Number).pipe(T.HttpQuery("maxResults")),
-    thingName: S.String.pipe(T.HttpLabel()),
+    thingName: S.String.pipe(T.HttpLabel("thingName")),
     thingPrincipalType: S.optional(S.String).pipe(
       T.HttpQuery("thingPrincipalType"),
     ),
@@ -3484,7 +3503,7 @@ export class ListThingRegistrationTaskReportsRequest extends S.Class<ListThingRe
   "ListThingRegistrationTaskReportsRequest",
 )(
   {
-    taskId: S.String.pipe(T.HttpLabel()),
+    taskId: S.String.pipe(T.HttpLabel("taskId")),
     reportType: S.String.pipe(T.HttpQuery("reportType")),
     nextToken: S.optional(S.String).pipe(T.HttpQuery("nextToken")),
     maxResults: S.optional(S.Number).pipe(T.HttpQuery("maxResults")),
@@ -3544,7 +3563,7 @@ export class ListThingsInBillingGroupRequest extends S.Class<ListThingsInBilling
   "ListThingsInBillingGroupRequest",
 )(
   {
-    billingGroupName: S.String.pipe(T.HttpLabel()),
+    billingGroupName: S.String.pipe(T.HttpLabel("billingGroupName")),
     nextToken: S.optional(S.String).pipe(T.HttpQuery("nextToken")),
     maxResults: S.optional(S.Number).pipe(T.HttpQuery("maxResults")),
   },
@@ -3561,7 +3580,7 @@ export class ListThingsInThingGroupRequest extends S.Class<ListThingsInThingGrou
   "ListThingsInThingGroupRequest",
 )(
   {
-    thingGroupName: S.String.pipe(T.HttpLabel()),
+    thingGroupName: S.String.pipe(T.HttpLabel("thingGroupName")),
     recursive: S.optional(S.Boolean).pipe(T.HttpQuery("recursive")),
     nextToken: S.optional(S.String).pipe(T.HttpQuery("nextToken")),
     maxResults: S.optional(S.Number).pipe(T.HttpQuery("maxResults")),
@@ -3675,7 +3694,7 @@ export class PutVerificationStateOnViolationRequest extends S.Class<PutVerificat
   "PutVerificationStateOnViolationRequest",
 )(
   {
-    violationId: S.String.pipe(T.HttpLabel()),
+    violationId: S.String.pipe(T.HttpLabel("violationId")),
     verificationState: S.String,
     verificationStateDescription: S.optional(S.String),
   },
@@ -3729,7 +3748,7 @@ export class RejectCertificateTransferRequest extends S.Class<RejectCertificateT
   "RejectCertificateTransferRequest",
 )(
   {
-    certificateId: S.String.pipe(T.HttpLabel()),
+    certificateId: S.String.pipe(T.HttpLabel("certificateId")),
     rejectReason: S.optional(S.String),
   },
   T.all(
@@ -4068,7 +4087,7 @@ export class ReplaceTopicRuleRequest extends S.Class<ReplaceTopicRuleRequest>(
   "ReplaceTopicRuleRequest",
 )(
   {
-    ruleName: S.String.pipe(T.HttpLabel()),
+    ruleName: S.String.pipe(T.HttpLabel("ruleName")),
     topicRulePayload: TopicRulePayload.pipe(T.HttpPayload()),
   },
   T.all(
@@ -4119,8 +4138,8 @@ export class SetDefaultPolicyVersionRequest extends S.Class<SetDefaultPolicyVers
   "SetDefaultPolicyVersionRequest",
 )(
   {
-    policyName: S.String.pipe(T.HttpLabel()),
-    policyVersionId: S.String.pipe(T.HttpLabel()),
+    policyName: S.String.pipe(T.HttpLabel("policyName")),
+    policyVersionId: S.String.pipe(T.HttpLabel("policyVersionId")),
   },
   T.all(
     T.Http({
@@ -4171,7 +4190,7 @@ export class StartThingRegistrationTaskRequest extends S.Class<StartThingRegistr
 export class StopThingRegistrationTaskRequest extends S.Class<StopThingRegistrationTaskRequest>(
   "StopThingRegistrationTaskRequest",
 )(
-  { taskId: S.String.pipe(T.HttpLabel()) },
+  { taskId: S.String.pipe(T.HttpLabel("taskId")) },
   T.all(
     T.Http({ method: "PUT", uri: "/thing-registration-tasks/{taskId}/cancel" }),
     svc,
@@ -4197,7 +4216,7 @@ export class TransferCertificateRequest extends S.Class<TransferCertificateReque
   "TransferCertificateRequest",
 )(
   {
-    certificateId: S.String.pipe(T.HttpLabel()),
+    certificateId: S.String.pipe(T.HttpLabel("certificateId")),
     targetAwsAccount: S.String.pipe(T.HttpQuery("targetAwsAccount")),
     transferMessage: S.optional(S.String),
   },
@@ -4300,7 +4319,7 @@ export class UpdateAuthorizerRequest extends S.Class<UpdateAuthorizerRequest>(
   "UpdateAuthorizerRequest",
 )(
   {
-    authorizerName: S.String.pipe(T.HttpLabel()),
+    authorizerName: S.String.pipe(T.HttpLabel("authorizerName")),
     authorizerFunctionArn: S.optional(S.String),
     tokenKeyName: S.optional(S.String),
     tokenSigningPublicKeys: S.optional(PublicKeyMap),
@@ -4323,7 +4342,7 @@ export class UpdateBillingGroupRequest extends S.Class<UpdateBillingGroupRequest
   "UpdateBillingGroupRequest",
 )(
   {
-    billingGroupName: S.String.pipe(T.HttpLabel()),
+    billingGroupName: S.String.pipe(T.HttpLabel("billingGroupName")),
     billingGroupProperties: BillingGroupProperties,
     expectedVersion: S.optional(S.Number),
   },
@@ -4347,7 +4366,7 @@ export class UpdateCACertificateRequest extends S.Class<UpdateCACertificateReque
   "UpdateCACertificateRequest",
 )(
   {
-    certificateId: S.String.pipe(T.HttpLabel()),
+    certificateId: S.String.pipe(T.HttpLabel("certificateId")),
     newStatus: S.optional(S.String).pipe(T.HttpQuery("newStatus")),
     newAutoRegistrationStatus: S.optional(S.String).pipe(
       T.HttpQuery("newAutoRegistrationStatus"),
@@ -4371,7 +4390,7 @@ export class UpdateCertificateRequest extends S.Class<UpdateCertificateRequest>(
   "UpdateCertificateRequest",
 )(
   {
-    certificateId: S.String.pipe(T.HttpLabel()),
+    certificateId: S.String.pipe(T.HttpLabel("certificateId")),
     newStatus: S.String.pipe(T.HttpQuery("newStatus")),
   },
   T.all(
@@ -4390,7 +4409,9 @@ export class UpdateCertificateProviderRequest extends S.Class<UpdateCertificateP
   "UpdateCertificateProviderRequest",
 )(
   {
-    certificateProviderName: S.String.pipe(T.HttpLabel()),
+    certificateProviderName: S.String.pipe(
+      T.HttpLabel("certificateProviderName"),
+    ),
     lambdaFunctionArn: S.optional(S.String),
     accountDefaultForOperations: S.optional(
       CertificateProviderAccountDefaultForOperations,
@@ -4412,7 +4433,7 @@ export class UpdateCommandRequest extends S.Class<UpdateCommandRequest>(
   "UpdateCommandRequest",
 )(
   {
-    commandId: S.String.pipe(T.HttpLabel()),
+    commandId: S.String.pipe(T.HttpLabel("commandId")),
     displayName: S.optional(S.String),
     description: S.optional(S.String),
     deprecated: S.optional(S.Boolean),
@@ -4429,7 +4450,10 @@ export class UpdateCommandRequest extends S.Class<UpdateCommandRequest>(
 export class UpdateCustomMetricRequest extends S.Class<UpdateCustomMetricRequest>(
   "UpdateCustomMetricRequest",
 )(
-  { metricName: S.String.pipe(T.HttpLabel()), displayName: S.String },
+  {
+    metricName: S.String.pipe(T.HttpLabel("metricName")),
+    displayName: S.String,
+  },
   T.all(
     T.Http({ method: "PATCH", uri: "/custom-metric/{metricName}" }),
     svc,
@@ -4442,7 +4466,10 @@ export class UpdateCustomMetricRequest extends S.Class<UpdateCustomMetricRequest
 export class UpdateDimensionRequest extends S.Class<UpdateDimensionRequest>(
   "UpdateDimensionRequest",
 )(
-  { name: S.String.pipe(T.HttpLabel()), stringValues: DimensionStringValues },
+  {
+    name: S.String.pipe(T.HttpLabel("name")),
+    stringValues: DimensionStringValues,
+  },
   T.all(
     T.Http({ method: "PATCH", uri: "/dimensions/{name}" }),
     svc,
@@ -4475,7 +4502,9 @@ export class UpdateDomainConfigurationRequest extends S.Class<UpdateDomainConfig
   "UpdateDomainConfigurationRequest",
 )(
   {
-    domainConfigurationName: S.String.pipe(T.HttpLabel()),
+    domainConfigurationName: S.String.pipe(
+      T.HttpLabel("domainConfigurationName"),
+    ),
     authorizerConfig: S.optional(AuthorizerConfig),
     domainConfigurationStatus: S.optional(S.String),
     removeAuthorizerConfig: S.optional(S.Boolean),
@@ -4501,7 +4530,7 @@ export class UpdateDynamicThingGroupRequest extends S.Class<UpdateDynamicThingGr
   "UpdateDynamicThingGroupRequest",
 )(
   {
-    thingGroupName: S.String.pipe(T.HttpLabel()),
+    thingGroupName: S.String.pipe(T.HttpLabel("thingGroupName")),
     thingGroupProperties: ThingGroupProperties,
     expectedVersion: S.optional(S.Number),
     indexName: S.optional(S.String),
@@ -4568,7 +4597,7 @@ export class UpdateFleetMetricRequest extends S.Class<UpdateFleetMetricRequest>(
   "UpdateFleetMetricRequest",
 )(
   {
-    metricName: S.String.pipe(T.HttpLabel()),
+    metricName: S.String.pipe(T.HttpLabel("metricName")),
     queryString: S.optional(S.String),
     aggregationType: S.optional(AggregationType),
     period: S.optional(S.Number),
@@ -4691,7 +4720,7 @@ export class UpdateJobRequest extends S.Class<UpdateJobRequest>(
   "UpdateJobRequest",
 )(
   {
-    jobId: S.String.pipe(T.HttpLabel()),
+    jobId: S.String.pipe(T.HttpLabel("jobId")),
     description: S.optional(S.String),
     presignedUrlConfig: S.optional(PresignedUrlConfig),
     jobExecutionsRolloutConfig: S.optional(JobExecutionsRolloutConfig),
@@ -4750,7 +4779,7 @@ export class UpdateMitigationActionRequest extends S.Class<UpdateMitigationActio
   "UpdateMitigationActionRequest",
 )(
   {
-    actionName: S.String.pipe(T.HttpLabel()),
+    actionName: S.String.pipe(T.HttpLabel("actionName")),
     roleArn: S.optional(S.String),
     actionParams: S.optional(MitigationActionParams),
   },
@@ -4767,7 +4796,7 @@ export class UpdatePackageRequest extends S.Class<UpdatePackageRequest>(
   "UpdatePackageRequest",
 )(
   {
-    packageName: S.String.pipe(T.HttpLabel()),
+    packageName: S.String.pipe(T.HttpLabel("packageName")),
     description: S.optional(S.String),
     defaultVersionName: S.optional(S.String),
     unsetDefaultVersion: S.optional(S.Boolean),
@@ -4820,8 +4849,8 @@ export class UpdatePackageVersionRequest extends S.Class<UpdatePackageVersionReq
   "UpdatePackageVersionRequest",
 )(
   {
-    packageName: S.String.pipe(T.HttpLabel()),
-    versionName: S.String.pipe(T.HttpLabel()),
+    packageName: S.String.pipe(T.HttpLabel("packageName")),
+    versionName: S.String.pipe(T.HttpLabel("versionName")),
     description: S.optional(S.String),
     attributes: S.optional(ResourceAttributes),
     artifact: S.optional(PackageVersionArtifact),
@@ -4851,7 +4880,7 @@ export class UpdateProvisioningTemplateRequest extends S.Class<UpdateProvisionin
   "UpdateProvisioningTemplateRequest",
 )(
   {
-    templateName: S.String.pipe(T.HttpLabel()),
+    templateName: S.String.pipe(T.HttpLabel("templateName")),
     description: S.optional(S.String),
     enabled: S.optional(S.Boolean),
     defaultVersionId: S.optional(S.Number),
@@ -4875,7 +4904,7 @@ export class UpdateRoleAliasRequest extends S.Class<UpdateRoleAliasRequest>(
   "UpdateRoleAliasRequest",
 )(
   {
-    roleAlias: S.String.pipe(T.HttpLabel()),
+    roleAlias: S.String.pipe(T.HttpLabel("roleAlias")),
     roleArn: S.optional(S.String),
     credentialDurationSeconds: S.optional(S.Number),
   },
@@ -4896,7 +4925,7 @@ export class UpdateScheduledAuditRequest extends S.Class<UpdateScheduledAuditReq
     dayOfMonth: S.optional(S.String),
     dayOfWeek: S.optional(S.String),
     targetCheckNames: S.optional(TargetAuditCheckNames),
-    scheduledAuditName: S.String.pipe(T.HttpLabel()),
+    scheduledAuditName: S.String.pipe(T.HttpLabel("scheduledAuditName")),
   },
   T.all(
     T.Http({
@@ -4969,7 +4998,7 @@ export class UpdateSecurityProfileRequest extends S.Class<UpdateSecurityProfileR
   "UpdateSecurityProfileRequest",
 )(
   {
-    securityProfileName: S.String.pipe(T.HttpLabel()),
+    securityProfileName: S.String.pipe(T.HttpLabel("securityProfileName")),
     securityProfileDescription: S.optional(S.String),
     behaviors: S.optional(Behaviors),
     alertTargets: S.optional(AlertTargets),
@@ -5003,7 +5032,7 @@ export class UpdateStreamRequest extends S.Class<UpdateStreamRequest>(
   "UpdateStreamRequest",
 )(
   {
-    streamId: S.String.pipe(T.HttpLabel()),
+    streamId: S.String.pipe(T.HttpLabel("streamId")),
     description: S.optional(S.String),
     files: S.optional(StreamFiles),
     roleArn: S.optional(S.String),
@@ -5021,7 +5050,7 @@ export class UpdateThingRequest extends S.Class<UpdateThingRequest>(
   "UpdateThingRequest",
 )(
   {
-    thingName: S.String.pipe(T.HttpLabel()),
+    thingName: S.String.pipe(T.HttpLabel("thingName")),
     thingTypeName: S.optional(S.String),
     attributePayload: S.optional(AttributePayload),
     expectedVersion: S.optional(S.Number),
@@ -5043,7 +5072,7 @@ export class UpdateThingGroupRequest extends S.Class<UpdateThingGroupRequest>(
   "UpdateThingGroupRequest",
 )(
   {
-    thingGroupName: S.String.pipe(T.HttpLabel()),
+    thingGroupName: S.String.pipe(T.HttpLabel("thingGroupName")),
     thingGroupProperties: ThingGroupProperties,
     expectedVersion: S.optional(S.Number),
   },
@@ -5100,7 +5129,7 @@ export class UpdateThingTypeRequest extends S.Class<UpdateThingTypeRequest>(
   "UpdateThingTypeRequest",
 )(
   {
-    thingTypeName: S.String.pipe(T.HttpLabel()),
+    thingTypeName: S.String.pipe(T.HttpLabel("thingTypeName")),
     thingTypeProperties: S.optional(ThingTypeProperties),
   },
   T.all(
@@ -5346,8 +5375,8 @@ export class CancelJobExecutionRequest extends S.Class<CancelJobExecutionRequest
   "CancelJobExecutionRequest",
 )(
   {
-    jobId: S.String.pipe(T.HttpLabel()),
-    thingName: S.String.pipe(T.HttpLabel()),
+    jobId: S.String.pipe(T.HttpLabel("jobId")),
+    thingName: S.String.pipe(T.HttpLabel("thingName")),
     force: S.optional(S.Boolean).pipe(T.HttpQuery("force")),
     expectedVersion: S.optional(S.Number),
     statusDetails: S.optional(DetailsMap),
@@ -5368,7 +5397,7 @@ export class CreateAuthorizerRequest extends S.Class<CreateAuthorizerRequest>(
   "CreateAuthorizerRequest",
 )(
   {
-    authorizerName: S.String.pipe(T.HttpLabel()),
+    authorizerName: S.String.pipe(T.HttpLabel("authorizerName")),
     authorizerFunctionArn: S.String,
     tokenKeyName: S.optional(S.String),
     tokenSigningPublicKeys: S.optional(PublicKeyMap),
@@ -5390,7 +5419,7 @@ export class CreateBillingGroupRequest extends S.Class<CreateBillingGroupRequest
   "CreateBillingGroupRequest",
 )(
   {
-    billingGroupName: S.String.pipe(T.HttpLabel()),
+    billingGroupName: S.String.pipe(T.HttpLabel("billingGroupName")),
     billingGroupProperties: S.optional(BillingGroupProperties),
     tags: S.optional(TagList),
   },
@@ -5426,7 +5455,9 @@ export class CreateDomainConfigurationRequest extends S.Class<CreateDomainConfig
   "CreateDomainConfigurationRequest",
 )(
   {
-    domainConfigurationName: S.String.pipe(T.HttpLabel()),
+    domainConfigurationName: S.String.pipe(
+      T.HttpLabel("domainConfigurationName"),
+    ),
     domainName: S.optional(S.String),
     serverCertificateArns: S.optional(ServerCertificateArns),
     validationCertificateArn: S.optional(S.String),
@@ -5455,7 +5486,7 @@ export class CreateDynamicThingGroupRequest extends S.Class<CreateDynamicThingGr
   "CreateDynamicThingGroupRequest",
 )(
   {
-    thingGroupName: S.String.pipe(T.HttpLabel()),
+    thingGroupName: S.String.pipe(T.HttpLabel("thingGroupName")),
     thingGroupProperties: S.optional(ThingGroupProperties),
     indexName: S.optional(S.String),
     queryString: S.String,
@@ -5475,7 +5506,7 @@ export class CreateFleetMetricRequest extends S.Class<CreateFleetMetricRequest>(
   "CreateFleetMetricRequest",
 )(
   {
-    metricName: S.String.pipe(T.HttpLabel()),
+    metricName: S.String.pipe(T.HttpLabel("metricName")),
     queryString: S.String,
     aggregationType: AggregationType,
     period: S.Number,
@@ -5499,7 +5530,7 @@ export class CreateJobTemplateRequest extends S.Class<CreateJobTemplateRequest>(
   "CreateJobTemplateRequest",
 )(
   {
-    jobTemplateId: S.String.pipe(T.HttpLabel()),
+    jobTemplateId: S.String.pipe(T.HttpLabel("jobTemplateId")),
     jobArn: S.optional(S.String),
     documentSource: S.optional(S.String),
     document: S.optional(S.String),
@@ -5526,7 +5557,7 @@ export class CreatePackageRequest extends S.Class<CreatePackageRequest>(
   "CreatePackageRequest",
 )(
   {
-    packageName: S.String.pipe(T.HttpLabel()),
+    packageName: S.String.pipe(T.HttpLabel("packageName")),
     description: S.optional(S.String),
     tags: S.optional(TagMap),
     clientToken: S.optional(S.String).pipe(T.HttpQuery("clientToken")),
@@ -5544,8 +5575,8 @@ export class CreatePackageVersionRequest extends S.Class<CreatePackageVersionReq
   "CreatePackageVersionRequest",
 )(
   {
-    packageName: S.String.pipe(T.HttpLabel()),
-    versionName: S.String.pipe(T.HttpLabel()),
+    packageName: S.String.pipe(T.HttpLabel("packageName")),
+    versionName: S.String.pipe(T.HttpLabel("versionName")),
     description: S.optional(S.String),
     attributes: S.optional(ResourceAttributes),
     artifact: S.optional(PackageVersionArtifact),
@@ -5633,7 +5664,7 @@ export class CreateStreamRequest extends S.Class<CreateStreamRequest>(
   "CreateStreamRequest",
 )(
   {
-    streamId: S.String.pipe(T.HttpLabel()),
+    streamId: S.String.pipe(T.HttpLabel("streamId")),
     description: S.optional(S.String),
     files: StreamFiles,
     roleArn: S.String,
@@ -6223,7 +6254,7 @@ export class StartDetectMitigationActionsTaskRequest extends S.Class<StartDetect
   "StartDetectMitigationActionsTaskRequest",
 )(
   {
-    taskId: S.String.pipe(T.HttpLabel()),
+    taskId: S.String.pipe(T.HttpLabel("taskId")),
     target: DetectMitigationActionsTaskTarget,
     actions: DetectMitigationActionsToExecuteList,
     violationEventOccurrenceRange: S.optional(ViolationEventOccurrenceRange),
@@ -6903,8 +6934,8 @@ export class AssociateSbomWithPackageVersionRequest extends S.Class<AssociateSbo
   "AssociateSbomWithPackageVersionRequest",
 )(
   {
-    packageName: S.String.pipe(T.HttpLabel()),
-    versionName: S.String.pipe(T.HttpLabel()),
+    packageName: S.String.pipe(T.HttpLabel("packageName")),
+    versionName: S.String.pipe(T.HttpLabel("versionName")),
     sbom: Sbom,
     clientToken: S.optional(S.String).pipe(T.HttpQuery("clientToken")),
   },
@@ -6993,7 +7024,7 @@ export class CreateMitigationActionRequest extends S.Class<CreateMitigationActio
   "CreateMitigationActionRequest",
 )(
   {
-    actionName: S.String.pipe(T.HttpLabel()),
+    actionName: S.String.pipe(T.HttpLabel("actionName")),
     roleArn: S.String,
     actionParams: MitigationActionParams,
     tags: S.optional(TagList),
@@ -7044,7 +7075,7 @@ export class CreateThingRequest extends S.Class<CreateThingRequest>(
   "CreateThingRequest",
 )(
   {
-    thingName: S.String.pipe(T.HttpLabel()),
+    thingName: S.String.pipe(T.HttpLabel("thingName")),
     thingTypeName: S.optional(S.String),
     attributePayload: S.optional(AttributePayload),
     billingGroupName: S.optional(S.String),
@@ -7414,7 +7445,7 @@ export class StartAuditMitigationActionsTaskRequest extends S.Class<StartAuditMi
   "StartAuditMitigationActionsTaskRequest",
 )(
   {
-    taskId: S.String.pipe(T.HttpLabel()),
+    taskId: S.String.pipe(T.HttpLabel("taskId")),
     target: AuditMitigationActionsTaskTarget,
     auditCheckToActionsMapping: AuditCheckToActionsMapping,
     clientRequestToken: S.String,
@@ -7435,7 +7466,7 @@ export class TestInvokeAuthorizerRequest extends S.Class<TestInvokeAuthorizerReq
   "TestInvokeAuthorizerRequest",
 )(
   {
-    authorizerName: S.String.pipe(T.HttpLabel()),
+    authorizerName: S.String.pipe(T.HttpLabel("authorizerName")),
     token: S.optional(S.String),
     tokenSignature: S.optional(S.String),
     httpContext: S.optional(HttpContext),
@@ -7812,7 +7843,7 @@ export class CreateJobRequest extends S.Class<CreateJobRequest>(
   "CreateJobRequest",
 )(
   {
-    jobId: S.String.pipe(T.HttpLabel()),
+    jobId: S.String.pipe(T.HttpLabel("jobId")),
     targets: JobTargets,
     documentSource: S.optional(S.String),
     document: S.optional(S.String),
@@ -7846,7 +7877,7 @@ export class CreateSecurityProfileRequest extends S.Class<CreateSecurityProfileR
   "CreateSecurityProfileRequest",
 )(
   {
-    securityProfileName: S.String.pipe(T.HttpLabel()),
+    securityProfileName: S.String.pipe(T.HttpLabel("securityProfileName")),
     securityProfileDescription: S.optional(S.String),
     behaviors: S.optional(Behaviors),
     alertTargets: S.optional(AlertTargets),
@@ -7875,7 +7906,7 @@ export class CreateThingTypeRequest extends S.Class<CreateThingTypeRequest>(
   "CreateThingTypeRequest",
 )(
   {
-    thingTypeName: S.String.pipe(T.HttpLabel()),
+    thingTypeName: S.String.pipe(T.HttpLabel("thingTypeName")),
     thingTypeProperties: S.optional(ThingTypeProperties),
     tags: S.optional(TagList),
   },
@@ -8044,7 +8075,7 @@ export class CreateCommandRequest extends S.Class<CreateCommandRequest>(
   "CreateCommandRequest",
 )(
   {
-    commandId: S.String.pipe(T.HttpLabel()),
+    commandId: S.String.pipe(T.HttpLabel("commandId")),
     namespace: S.optional(S.String),
     displayName: S.optional(S.String),
     description: S.optional(S.String),
@@ -8106,7 +8137,7 @@ export class CreateOTAUpdateRequest extends S.Class<CreateOTAUpdateRequest>(
   "CreateOTAUpdateRequest",
 )(
   {
-    otaUpdateId: S.String.pipe(T.HttpLabel()),
+    otaUpdateId: S.String.pipe(T.HttpLabel("otaUpdateId")),
     description: S.optional(S.String),
     targets: Targets,
     protocols: S.optional(Protocols),
@@ -8145,7 +8176,7 @@ export class CreateTopicRuleRequest extends S.Class<CreateTopicRuleRequest>(
   "CreateTopicRuleRequest",
 )(
   {
-    ruleName: S.String.pipe(T.HttpLabel()),
+    ruleName: S.String.pipe(T.HttpLabel("ruleName")),
     topicRulePayload: TopicRulePayload.pipe(T.HttpPayload()),
     tags: S.optional(S.String).pipe(T.HttpHeader("x-amz-tagging")),
   },
@@ -8166,7 +8197,7 @@ export class CreateTopicRuleResponse extends S.Class<CreateTopicRuleResponse>(
 export class InternalFailureException extends S.TaggedError<InternalFailureException>()(
   "InternalFailureException",
   { message: S.optional(S.String) },
-) {}
+).pipe(withCategory(ERROR_CATEGORIES.SERVER_ERROR)) {}
 export class InvalidRequestException extends S.TaggedError<InvalidRequestException>()(
   "InvalidRequestException",
   { message: S.optional(S.String) },
@@ -8190,11 +8221,11 @@ export class ConflictException extends S.TaggedError<ConflictException>()(
 export class InternalServerException extends S.TaggedError<InternalServerException>()(
   "InternalServerException",
   { message: S.optional(S.String) },
-) {}
+).pipe(withCategory(ERROR_CATEGORIES.SERVER_ERROR)) {}
 export class InternalException extends S.TaggedError<InternalException>()(
   "InternalException",
   { message: S.optional(S.String) },
-) {}
+).pipe(withCategory(ERROR_CATEGORIES.SERVER_ERROR)) {}
 export class IndexNotReadyException extends S.TaggedError<IndexNotReadyException>()(
   "IndexNotReadyException",
   { message: S.optional(S.String) },
@@ -8206,7 +8237,7 @@ export class ResourceNotFoundException extends S.TaggedError<ResourceNotFoundExc
 export class ServiceUnavailableException extends S.TaggedError<ServiceUnavailableException>()(
   "ServiceUnavailableException",
   { message: S.optional(S.String) },
-) {}
+).pipe(withCategory(ERROR_CATEGORIES.SERVER_ERROR)) {}
 export class LimitExceededException extends S.TaggedError<LimitExceededException>()(
   "LimitExceededException",
   { message: S.optional(S.String) },

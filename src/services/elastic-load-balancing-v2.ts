@@ -1,6 +1,7 @@
 import * as S from "effect/Schema";
 import * as API from "../api.ts";
 import * as T from "../traits.ts";
+import { ERROR_CATEGORIES, withCategory } from "../error-category.ts";
 const ns = T.XmlNamespace(
   "http://elasticloadbalancing.amazonaws.com/doc/2015-12-01/",
 );
@@ -1566,7 +1567,7 @@ export class HealthUnavailableException extends S.TaggedError<HealthUnavailableE
   "HealthUnavailableException",
   { Message: S.optional(S.String) },
   T.AwsQueryError({ code: "HealthUnavailable", httpResponseCode: 500 }),
-) {}
+).pipe(withCategory(ERROR_CATEGORIES.SERVER_ERROR)) {}
 export class CapacityReservationPendingException extends S.TaggedError<CapacityReservationPendingException>()(
   "CapacityReservationPendingException",
   { Message: S.optional(S.String) },
@@ -1648,7 +1649,7 @@ export class InsufficientCapacityException extends S.TaggedError<InsufficientCap
   "InsufficientCapacityException",
   { Message: S.optional(S.String) },
   T.AwsQueryError({ code: "InsufficientCapacity", httpResponseCode: 500 }),
-) {}
+).pipe(withCategory(ERROR_CATEGORIES.SERVER_ERROR)) {}
 export class TooManyUniqueTargetGroupsPerLoadBalancerException extends S.TaggedError<TooManyUniqueTargetGroupsPerLoadBalancerException>()(
   "TooManyUniqueTargetGroupsPerLoadBalancerException",
   { Message: S.optional(S.String) },
@@ -1676,7 +1677,7 @@ export class PriorRequestNotCompleteException extends S.TaggedError<PriorRequest
   "PriorRequestNotCompleteException",
   { Message: S.optional(S.String) },
   T.AwsQueryError({ code: "PriorRequestNotComplete", httpResponseCode: 429 }),
-) {}
+).pipe(withCategory(ERROR_CATEGORIES.THROTTLING_ERROR)) {}
 export class TrustStoreNotReadyException extends S.TaggedError<TrustStoreNotReadyException>()(
   "TrustStoreNotReadyException",
   { Message: S.optional(S.String) },

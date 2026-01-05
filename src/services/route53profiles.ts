@@ -1,6 +1,7 @@
 import * as S from "effect/Schema";
 import * as API from "../api.ts";
 import * as T from "../traits.ts";
+import { ERROR_CATEGORIES, withCategory } from "../error-category.ts";
 const svc = T.AwsApiService({
   sdkId: "Route53Profiles",
   serviceShapeName: "Route53Profiles",
@@ -333,7 +334,7 @@ export class CreateProfileRequest extends S.Class<CreateProfileRequest>(
 export class DeleteProfileRequest extends S.Class<DeleteProfileRequest>(
   "DeleteProfileRequest",
 )(
-  { ProfileId: S.String.pipe(T.HttpLabel()) },
+  { ProfileId: S.String.pipe(T.HttpLabel("ProfileId")) },
   T.all(
     T.Http({ method: "DELETE", uri: "/profile/{ProfileId}" }),
     svc,
@@ -347,8 +348,8 @@ export class DisassociateProfileRequest extends S.Class<DisassociateProfileReque
   "DisassociateProfileRequest",
 )(
   {
-    ProfileId: S.String.pipe(T.HttpLabel()),
-    ResourceId: S.String.pipe(T.HttpLabel()),
+    ProfileId: S.String.pipe(T.HttpLabel("ProfileId")),
+    ResourceId: S.String.pipe(T.HttpLabel("ResourceId")),
   },
   T.all(
     T.Http({
@@ -366,8 +367,8 @@ export class DisassociateResourceFromProfileRequest extends S.Class<Disassociate
   "DisassociateResourceFromProfileRequest",
 )(
   {
-    ProfileId: S.String.pipe(T.HttpLabel()),
-    ResourceArn: S.String.pipe(T.HttpLabel()),
+    ProfileId: S.String.pipe(T.HttpLabel("ProfileId")),
+    ResourceArn: S.String.pipe(T.HttpLabel("ResourceArn")),
   },
   T.all(
     T.Http({
@@ -384,7 +385,7 @@ export class DisassociateResourceFromProfileRequest extends S.Class<Disassociate
 export class GetProfileRequest extends S.Class<GetProfileRequest>(
   "GetProfileRequest",
 )(
-  { ProfileId: S.String.pipe(T.HttpLabel()) },
+  { ProfileId: S.String.pipe(T.HttpLabel("ProfileId")) },
   T.all(
     T.Http({ method: "GET", uri: "/profile/{ProfileId}" }),
     svc,
@@ -397,7 +398,7 @@ export class GetProfileRequest extends S.Class<GetProfileRequest>(
 export class GetProfileAssociationRequest extends S.Class<GetProfileAssociationRequest>(
   "GetProfileAssociationRequest",
 )(
-  { ProfileAssociationId: S.String.pipe(T.HttpLabel()) },
+  { ProfileAssociationId: S.String.pipe(T.HttpLabel("ProfileAssociationId")) },
   T.all(
     T.Http({
       method: "GET",
@@ -413,7 +414,11 @@ export class GetProfileAssociationRequest extends S.Class<GetProfileAssociationR
 export class GetProfileResourceAssociationRequest extends S.Class<GetProfileResourceAssociationRequest>(
   "GetProfileResourceAssociationRequest",
 )(
-  { ProfileResourceAssociationId: S.String.pipe(T.HttpLabel()) },
+  {
+    ProfileResourceAssociationId: S.String.pipe(
+      T.HttpLabel("ProfileResourceAssociationId"),
+    ),
+  },
   T.all(
     T.Http({
       method: "GET",
@@ -448,7 +453,7 @@ export class ListProfileResourceAssociationsRequest extends S.Class<ListProfileR
   "ListProfileResourceAssociationsRequest",
 )(
   {
-    ProfileId: S.String.pipe(T.HttpLabel()),
+    ProfileId: S.String.pipe(T.HttpLabel("ProfileId")),
     ResourceType: S.optional(S.String).pipe(T.HttpQuery("resourceType")),
     MaxResults: S.optional(S.Number).pipe(T.HttpQuery("maxResults")),
     NextToken: S.optional(S.String).pipe(T.HttpQuery("nextToken")),
@@ -484,7 +489,7 @@ export class ListProfilesRequest extends S.Class<ListProfilesRequest>(
 export class ListTagsForResourceRequest extends S.Class<ListTagsForResourceRequest>(
   "ListTagsForResourceRequest",
 )(
-  { ResourceArn: S.String.pipe(T.HttpLabel()) },
+  { ResourceArn: S.String.pipe(T.HttpLabel("ResourceArn")) },
   T.all(
     T.Http({ method: "GET", uri: "/tags/{ResourceArn}" }),
     svc,
@@ -498,7 +503,7 @@ export class UntagResourceRequest extends S.Class<UntagResourceRequest>(
   "UntagResourceRequest",
 )(
   {
-    ResourceArn: S.String.pipe(T.HttpLabel()),
+    ResourceArn: S.String.pipe(T.HttpLabel("ResourceArn")),
     TagKeys: TagKeyList.pipe(T.HttpQuery("tagKeys")),
   },
   T.all(
@@ -517,7 +522,9 @@ export class UpdateProfileResourceAssociationRequest extends S.Class<UpdateProfi
   "UpdateProfileResourceAssociationRequest",
 )(
   {
-    ProfileResourceAssociationId: S.String.pipe(T.HttpLabel()),
+    ProfileResourceAssociationId: S.String.pipe(
+      T.HttpLabel("ProfileResourceAssociationId"),
+    ),
     Name: S.optional(S.String),
     ResourceProperties: S.optional(S.String),
   },
@@ -627,7 +634,7 @@ export class ListTagsForResourceResponse extends S.Class<ListTagsForResourceResp
 export class TagResourceRequest extends S.Class<TagResourceRequest>(
   "TagResourceRequest",
 )(
-  { ResourceArn: S.String.pipe(T.HttpLabel()), Tags: TagMap },
+  { ResourceArn: S.String.pipe(T.HttpLabel("ResourceArn")), Tags: TagMap },
   T.all(
     T.Http({ method: "POST", uri: "/tags/{ResourceArn}" }),
     svc,

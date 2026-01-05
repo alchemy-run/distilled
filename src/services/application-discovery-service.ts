@@ -1,6 +1,7 @@
 import * as S from "effect/Schema";
 import * as API from "../api.ts";
 import * as T from "../traits.ts";
+import { ERROR_CATEGORIES, withCategory } from "../error-category.ts";
 const ns = T.XmlNamespace("http://ec2.amazon.com/awsposiedon/V2015_11_01/");
 const svc = T.AwsApiService({
   sdkId: "Application Discovery Service",
@@ -919,11 +920,11 @@ export class InvalidParameterValueException extends S.TaggedError<InvalidParamet
 export class ServerInternalErrorException extends S.TaggedError<ServerInternalErrorException>()(
   "ServerInternalErrorException",
   { message: S.optional(S.String) },
-) {}
+).pipe(withCategory(ERROR_CATEGORIES.SERVER_ERROR)) {}
 export class OperationNotPermittedException extends S.TaggedError<OperationNotPermittedException>()(
   "OperationNotPermittedException",
   { message: S.optional(S.String) },
-) {}
+).pipe(withCategory(ERROR_CATEGORIES.THROTTLING_ERROR)) {}
 export class ResourceNotFoundException extends S.TaggedError<ResourceNotFoundException>()(
   "ResourceNotFoundException",
   { message: S.optional(S.String) },

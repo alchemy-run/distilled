@@ -1,6 +1,7 @@
 import * as S from "effect/Schema";
 import * as API from "../api.ts";
 import * as T from "../traits.ts";
+import { ERROR_CATEGORIES, withCategory } from "../error-category.ts";
 const svc = T.AwsApiService({
   sdkId: "Bedrock",
   serviceShapeName: "AmazonBedrockControlPlaneService",
@@ -360,7 +361,7 @@ export class PutUseCaseForModelAccessResponse extends S.Class<PutUseCaseForModel
 export class GetAutomatedReasoningPolicyRequest extends S.Class<GetAutomatedReasoningPolicyRequest>(
   "GetAutomatedReasoningPolicyRequest",
 )(
-  { policyArn: S.String.pipe(T.HttpLabel()) },
+  { policyArn: S.String.pipe(T.HttpLabel("policyArn")) },
   T.all(
     T.Http({ method: "GET", uri: "/automated-reasoning-policies/{policyArn}" }),
     svc,
@@ -414,7 +415,7 @@ export class UpdateAutomatedReasoningPolicyRequest extends S.Class<UpdateAutomat
   "UpdateAutomatedReasoningPolicyRequest",
 )(
   {
-    policyArn: S.String.pipe(T.HttpLabel()),
+    policyArn: S.String.pipe(T.HttpLabel("policyArn")),
     policyDefinition: AutomatedReasoningPolicyDefinition,
     name: S.optional(S.String),
     description: S.optional(S.String),
@@ -435,7 +436,7 @@ export class DeleteAutomatedReasoningPolicyRequest extends S.Class<DeleteAutomat
   "DeleteAutomatedReasoningPolicyRequest",
 )(
   {
-    policyArn: S.String.pipe(T.HttpLabel()),
+    policyArn: S.String.pipe(T.HttpLabel("policyArn")),
     force: S.optional(S.Boolean).pipe(T.HttpQuery("force")),
   },
   T.all(
@@ -474,8 +475,8 @@ export class CancelAutomatedReasoningPolicyBuildWorkflowRequest extends S.Class<
   "CancelAutomatedReasoningPolicyBuildWorkflowRequest",
 )(
   {
-    policyArn: S.String.pipe(T.HttpLabel()),
-    buildWorkflowId: S.String.pipe(T.HttpLabel()),
+    policyArn: S.String.pipe(T.HttpLabel("policyArn")),
+    buildWorkflowId: S.String.pipe(T.HttpLabel("buildWorkflowId")),
   },
   T.all(
     T.Http({
@@ -496,7 +497,7 @@ export class CreateAutomatedReasoningPolicyTestCaseRequest extends S.Class<Creat
   "CreateAutomatedReasoningPolicyTestCaseRequest",
 )(
   {
-    policyArn: S.String.pipe(T.HttpLabel()),
+    policyArn: S.String.pipe(T.HttpLabel("policyArn")),
     guardContent: S.String,
     queryContent: S.optional(S.String),
     expectedAggregatedFindingsResult: S.String,
@@ -524,7 +525,7 @@ export class CreateAutomatedReasoningPolicyVersionRequest extends S.Class<Create
   "CreateAutomatedReasoningPolicyVersionRequest",
 )(
   {
-    policyArn: S.String.pipe(T.HttpLabel()),
+    policyArn: S.String.pipe(T.HttpLabel("policyArn")),
     clientRequestToken: S.optional(S.String),
     lastUpdatedDefinitionHash: S.String,
     tags: S.optional(TagList),
@@ -545,8 +546,8 @@ export class DeleteAutomatedReasoningPolicyBuildWorkflowRequest extends S.Class<
   "DeleteAutomatedReasoningPolicyBuildWorkflowRequest",
 )(
   {
-    policyArn: S.String.pipe(T.HttpLabel()),
-    buildWorkflowId: S.String.pipe(T.HttpLabel()),
+    policyArn: S.String.pipe(T.HttpLabel("policyArn")),
+    buildWorkflowId: S.String.pipe(T.HttpLabel("buildWorkflowId")),
     lastUpdatedAt: S.Date.pipe(T.TimestampFormat("date-time")).pipe(
       T.HttpQuery("updatedAt"),
     ),
@@ -570,8 +571,8 @@ export class DeleteAutomatedReasoningPolicyTestCaseRequest extends S.Class<Delet
   "DeleteAutomatedReasoningPolicyTestCaseRequest",
 )(
   {
-    policyArn: S.String.pipe(T.HttpLabel()),
-    testCaseId: S.String.pipe(T.HttpLabel()),
+    policyArn: S.String.pipe(T.HttpLabel("policyArn")),
+    testCaseId: S.String.pipe(T.HttpLabel("testCaseId")),
     lastUpdatedAt: S.Date.pipe(T.TimestampFormat("date-time")).pipe(
       T.HttpQuery("updatedAt"),
     ),
@@ -594,7 +595,7 @@ export class DeleteAutomatedReasoningPolicyTestCaseResponse extends S.Class<Dele
 export class ExportAutomatedReasoningPolicyVersionRequest extends S.Class<ExportAutomatedReasoningPolicyVersionRequest>(
   "ExportAutomatedReasoningPolicyVersionRequest",
 )(
-  { policyArn: S.String.pipe(T.HttpLabel()) },
+  { policyArn: S.String.pipe(T.HttpLabel("policyArn")) },
   T.all(
     T.Http({
       method: "GET",
@@ -611,8 +612,8 @@ export class GetAutomatedReasoningPolicyAnnotationsRequest extends S.Class<GetAu
   "GetAutomatedReasoningPolicyAnnotationsRequest",
 )(
   {
-    policyArn: S.String.pipe(T.HttpLabel()),
-    buildWorkflowId: S.String.pipe(T.HttpLabel()),
+    policyArn: S.String.pipe(T.HttpLabel("policyArn")),
+    buildWorkflowId: S.String.pipe(T.HttpLabel("buildWorkflowId")),
   },
   T.all(
     T.Http({
@@ -630,8 +631,8 @@ export class GetAutomatedReasoningPolicyBuildWorkflowRequest extends S.Class<Get
   "GetAutomatedReasoningPolicyBuildWorkflowRequest",
 )(
   {
-    policyArn: S.String.pipe(T.HttpLabel()),
-    buildWorkflowId: S.String.pipe(T.HttpLabel()),
+    policyArn: S.String.pipe(T.HttpLabel("policyArn")),
+    buildWorkflowId: S.String.pipe(T.HttpLabel("buildWorkflowId")),
   },
   T.all(
     T.Http({
@@ -649,8 +650,8 @@ export class GetAutomatedReasoningPolicyBuildWorkflowResultAssetsRequest extends
   "GetAutomatedReasoningPolicyBuildWorkflowResultAssetsRequest",
 )(
   {
-    policyArn: S.String.pipe(T.HttpLabel()),
-    buildWorkflowId: S.String.pipe(T.HttpLabel()),
+    policyArn: S.String.pipe(T.HttpLabel("policyArn")),
+    buildWorkflowId: S.String.pipe(T.HttpLabel("buildWorkflowId")),
     assetType: S.String.pipe(T.HttpQuery("assetType")),
   },
   T.all(
@@ -669,8 +670,8 @@ export class GetAutomatedReasoningPolicyNextScenarioRequest extends S.Class<GetA
   "GetAutomatedReasoningPolicyNextScenarioRequest",
 )(
   {
-    policyArn: S.String.pipe(T.HttpLabel()),
-    buildWorkflowId: S.String.pipe(T.HttpLabel()),
+    policyArn: S.String.pipe(T.HttpLabel("policyArn")),
+    buildWorkflowId: S.String.pipe(T.HttpLabel("buildWorkflowId")),
   },
   T.all(
     T.Http({
@@ -688,8 +689,8 @@ export class GetAutomatedReasoningPolicyTestCaseRequest extends S.Class<GetAutom
   "GetAutomatedReasoningPolicyTestCaseRequest",
 )(
   {
-    policyArn: S.String.pipe(T.HttpLabel()),
-    testCaseId: S.String.pipe(T.HttpLabel()),
+    policyArn: S.String.pipe(T.HttpLabel("policyArn")),
+    testCaseId: S.String.pipe(T.HttpLabel("testCaseId")),
   },
   T.all(
     T.Http({
@@ -707,9 +708,9 @@ export class GetAutomatedReasoningPolicyTestResultRequest extends S.Class<GetAut
   "GetAutomatedReasoningPolicyTestResultRequest",
 )(
   {
-    policyArn: S.String.pipe(T.HttpLabel()),
-    buildWorkflowId: S.String.pipe(T.HttpLabel()),
-    testCaseId: S.String.pipe(T.HttpLabel()),
+    policyArn: S.String.pipe(T.HttpLabel("policyArn")),
+    buildWorkflowId: S.String.pipe(T.HttpLabel("buildWorkflowId")),
+    testCaseId: S.String.pipe(T.HttpLabel("testCaseId")),
   },
   T.all(
     T.Http({
@@ -727,7 +728,7 @@ export class ListAutomatedReasoningPolicyBuildWorkflowsRequest extends S.Class<L
   "ListAutomatedReasoningPolicyBuildWorkflowsRequest",
 )(
   {
-    policyArn: S.String.pipe(T.HttpLabel()),
+    policyArn: S.String.pipe(T.HttpLabel("policyArn")),
     nextToken: S.optional(S.String).pipe(T.HttpQuery("nextToken")),
     maxResults: S.optional(S.Number).pipe(T.HttpQuery("maxResults")),
   },
@@ -747,7 +748,7 @@ export class ListAutomatedReasoningPolicyTestCasesRequest extends S.Class<ListAu
   "ListAutomatedReasoningPolicyTestCasesRequest",
 )(
   {
-    policyArn: S.String.pipe(T.HttpLabel()),
+    policyArn: S.String.pipe(T.HttpLabel("policyArn")),
     nextToken: S.optional(S.String).pipe(T.HttpQuery("nextToken")),
     maxResults: S.optional(S.Number).pipe(T.HttpQuery("maxResults")),
   },
@@ -767,8 +768,8 @@ export class ListAutomatedReasoningPolicyTestResultsRequest extends S.Class<List
   "ListAutomatedReasoningPolicyTestResultsRequest",
 )(
   {
-    policyArn: S.String.pipe(T.HttpLabel()),
-    buildWorkflowId: S.String.pipe(T.HttpLabel()),
+    policyArn: S.String.pipe(T.HttpLabel("policyArn")),
+    buildWorkflowId: S.String.pipe(T.HttpLabel("buildWorkflowId")),
     nextToken: S.optional(S.String).pipe(T.HttpQuery("nextToken")),
     maxResults: S.optional(S.Number).pipe(T.HttpQuery("maxResults")),
   },
@@ -788,8 +789,8 @@ export class StartAutomatedReasoningPolicyTestWorkflowRequest extends S.Class<St
   "StartAutomatedReasoningPolicyTestWorkflowRequest",
 )(
   {
-    policyArn: S.String.pipe(T.HttpLabel()),
-    buildWorkflowId: S.String.pipe(T.HttpLabel()),
+    policyArn: S.String.pipe(T.HttpLabel("policyArn")),
+    buildWorkflowId: S.String.pipe(T.HttpLabel("buildWorkflowId")),
     testCaseIds: S.optional(AutomatedReasoningPolicyTestCaseIdList),
     clientRequestToken: S.optional(S.String),
   },
@@ -809,8 +810,8 @@ export class UpdateAutomatedReasoningPolicyTestCaseRequest extends S.Class<Updat
   "UpdateAutomatedReasoningPolicyTestCaseRequest",
 )(
   {
-    policyArn: S.String.pipe(T.HttpLabel()),
-    testCaseId: S.String.pipe(T.HttpLabel()),
+    policyArn: S.String.pipe(T.HttpLabel("policyArn")),
+    testCaseId: S.String.pipe(T.HttpLabel("testCaseId")),
     guardContent: S.String,
     queryContent: S.optional(S.String),
     lastUpdatedAt: S.Date.pipe(T.TimestampFormat("date-time")),
@@ -833,7 +834,7 @@ export class UpdateAutomatedReasoningPolicyTestCaseRequest extends S.Class<Updat
 export class DeleteMarketplaceModelEndpointRequest extends S.Class<DeleteMarketplaceModelEndpointRequest>(
   "DeleteMarketplaceModelEndpointRequest",
 )(
-  { endpointArn: S.String.pipe(T.HttpLabel()) },
+  { endpointArn: S.String.pipe(T.HttpLabel("endpointArn")) },
   T.all(
     T.Http({
       method: "DELETE",
@@ -852,7 +853,7 @@ export class DeleteMarketplaceModelEndpointResponse extends S.Class<DeleteMarket
 export class DeregisterMarketplaceModelEndpointRequest extends S.Class<DeregisterMarketplaceModelEndpointRequest>(
   "DeregisterMarketplaceModelEndpointRequest",
 )(
-  { endpointArn: S.String.pipe(T.HttpLabel()) },
+  { endpointArn: S.String.pipe(T.HttpLabel("endpointArn")) },
   T.all(
     T.Http({
       method: "DELETE",
@@ -871,7 +872,7 @@ export class DeregisterMarketplaceModelEndpointResponse extends S.Class<Deregist
 export class GetMarketplaceModelEndpointRequest extends S.Class<GetMarketplaceModelEndpointRequest>(
   "GetMarketplaceModelEndpointRequest",
 )(
-  { endpointArn: S.String.pipe(T.HttpLabel()) },
+  { endpointArn: S.String.pipe(T.HttpLabel("endpointArn")) },
   T.all(
     T.Http({
       method: "GET",
@@ -907,7 +908,7 @@ export class RegisterMarketplaceModelEndpointRequest extends S.Class<RegisterMar
   "RegisterMarketplaceModelEndpointRequest",
 )(
   {
-    endpointIdentifier: S.String.pipe(T.HttpLabel()),
+    endpointIdentifier: S.String.pipe(T.HttpLabel("endpointIdentifier")),
     modelSourceIdentifier: S.String,
   },
   T.all(
@@ -944,7 +945,7 @@ export class UpdateMarketplaceModelEndpointRequest extends S.Class<UpdateMarketp
   "UpdateMarketplaceModelEndpointRequest",
 )(
   {
-    endpointArn: S.String.pipe(T.HttpLabel()),
+    endpointArn: S.String.pipe(T.HttpLabel("endpointArn")),
     endpointConfig: EndpointConfig,
     clientRequestToken: S.optional(S.String),
   },
@@ -985,7 +986,11 @@ export class CreateCustomModelDeploymentRequest extends S.Class<CreateCustomMode
 export class DeleteCustomModelDeploymentRequest extends S.Class<DeleteCustomModelDeploymentRequest>(
   "DeleteCustomModelDeploymentRequest",
 )(
-  { customModelDeploymentIdentifier: S.String.pipe(T.HttpLabel()) },
+  {
+    customModelDeploymentIdentifier: S.String.pipe(
+      T.HttpLabel("customModelDeploymentIdentifier"),
+    ),
+  },
   T.all(
     T.Http({
       method: "DELETE",
@@ -1004,7 +1009,11 @@ export class DeleteCustomModelDeploymentResponse extends S.Class<DeleteCustomMod
 export class GetCustomModelDeploymentRequest extends S.Class<GetCustomModelDeploymentRequest>(
   "GetCustomModelDeploymentRequest",
 )(
-  { customModelDeploymentIdentifier: S.String.pipe(T.HttpLabel()) },
+  {
+    customModelDeploymentIdentifier: S.String.pipe(
+      T.HttpLabel("customModelDeploymentIdentifier"),
+    ),
+  },
   T.all(
     T.Http({
       method: "GET",
@@ -1052,7 +1061,9 @@ export class UpdateCustomModelDeploymentRequest extends S.Class<UpdateCustomMode
 )(
   {
     modelArn: S.String,
-    customModelDeploymentIdentifier: S.String.pipe(T.HttpLabel()),
+    customModelDeploymentIdentifier: S.String.pipe(
+      T.HttpLabel("customModelDeploymentIdentifier"),
+    ),
   },
   T.all(
     T.Http({
@@ -1069,7 +1080,7 @@ export class UpdateCustomModelDeploymentRequest extends S.Class<UpdateCustomMode
 export class DeleteCustomModelRequest extends S.Class<DeleteCustomModelRequest>(
   "DeleteCustomModelRequest",
 )(
-  { modelIdentifier: S.String.pipe(T.HttpLabel()) },
+  { modelIdentifier: S.String.pipe(T.HttpLabel("modelIdentifier")) },
   T.all(
     T.Http({ method: "DELETE", uri: "/custom-models/{modelIdentifier}" }),
     svc,
@@ -1085,7 +1096,7 @@ export class DeleteCustomModelResponse extends S.Class<DeleteCustomModelResponse
 export class GetCustomModelRequest extends S.Class<GetCustomModelRequest>(
   "GetCustomModelRequest",
 )(
-  { modelIdentifier: S.String.pipe(T.HttpLabel()) },
+  { modelIdentifier: S.String.pipe(T.HttpLabel("modelIdentifier")) },
   T.all(
     T.Http({ method: "GET", uri: "/custom-models/{modelIdentifier}" }),
     svc,
@@ -1131,7 +1142,7 @@ export class ListCustomModelsRequest extends S.Class<ListCustomModelsRequest>(
 export class DeleteEnforcedGuardrailConfigurationRequest extends S.Class<DeleteEnforcedGuardrailConfigurationRequest>(
   "DeleteEnforcedGuardrailConfigurationRequest",
 )(
-  { configId: S.String.pipe(T.HttpLabel()) },
+  { configId: S.String.pipe(T.HttpLabel("configId")) },
   T.all(
     T.Http({
       method: "DELETE",
@@ -1176,7 +1187,7 @@ export class BatchDeleteEvaluationJobRequest extends S.Class<BatchDeleteEvaluati
 export class GetEvaluationJobRequest extends S.Class<GetEvaluationJobRequest>(
   "GetEvaluationJobRequest",
 )(
-  { jobIdentifier: S.String.pipe(T.HttpLabel()) },
+  { jobIdentifier: S.String.pipe(T.HttpLabel("jobIdentifier")) },
   T.all(
     T.Http({ method: "GET", uri: "/evaluation-jobs/{jobIdentifier}" }),
     svc,
@@ -1218,7 +1229,7 @@ export class ListEvaluationJobsRequest extends S.Class<ListEvaluationJobsRequest
 export class StopEvaluationJobRequest extends S.Class<StopEvaluationJobRequest>(
   "StopEvaluationJobRequest",
 )(
-  { jobIdentifier: S.String.pipe(T.HttpLabel()) },
+  { jobIdentifier: S.String.pipe(T.HttpLabel("jobIdentifier")) },
   T.all(
     T.Http({ method: "POST", uri: "/evaluation-job/{jobIdentifier}/stop" }),
     svc,
@@ -1235,7 +1246,7 @@ export class GetGuardrailRequest extends S.Class<GetGuardrailRequest>(
   "GetGuardrailRequest",
 )(
   {
-    guardrailIdentifier: S.String.pipe(T.HttpLabel()),
+    guardrailIdentifier: S.String.pipe(T.HttpLabel("guardrailIdentifier")),
     guardrailVersion: S.optional(S.String).pipe(
       T.HttpQuery("guardrailVersion"),
     ),
@@ -1384,7 +1395,7 @@ export class UpdateGuardrailRequest extends S.Class<UpdateGuardrailRequest>(
   "UpdateGuardrailRequest",
 )(
   {
-    guardrailIdentifier: S.String.pipe(T.HttpLabel()),
+    guardrailIdentifier: S.String.pipe(T.HttpLabel("guardrailIdentifier")),
     name: S.String,
     description: S.optional(S.String),
     topicPolicyConfig: S.optional(GuardrailTopicPolicyConfig),
@@ -1417,7 +1428,7 @@ export class DeleteGuardrailRequest extends S.Class<DeleteGuardrailRequest>(
   "DeleteGuardrailRequest",
 )(
   {
-    guardrailIdentifier: S.String.pipe(T.HttpLabel()),
+    guardrailIdentifier: S.String.pipe(T.HttpLabel("guardrailIdentifier")),
     guardrailVersion: S.optional(S.String).pipe(
       T.HttpQuery("guardrailVersion"),
     ),
@@ -1457,7 +1468,7 @@ export class CreateGuardrailVersionRequest extends S.Class<CreateGuardrailVersio
   "CreateGuardrailVersionRequest",
 )(
   {
-    guardrailIdentifier: S.String.pipe(T.HttpLabel()),
+    guardrailIdentifier: S.String.pipe(T.HttpLabel("guardrailIdentifier")),
     description: S.optional(S.String),
     clientRequestToken: S.optional(S.String),
   },
@@ -1473,7 +1484,11 @@ export class CreateGuardrailVersionRequest extends S.Class<CreateGuardrailVersio
 export class GetInferenceProfileRequest extends S.Class<GetInferenceProfileRequest>(
   "GetInferenceProfileRequest",
 )(
-  { inferenceProfileIdentifier: S.String.pipe(T.HttpLabel()) },
+  {
+    inferenceProfileIdentifier: S.String.pipe(
+      T.HttpLabel("inferenceProfileIdentifier"),
+    ),
+  },
   T.all(
     T.Http({
       method: "GET",
@@ -1489,7 +1504,11 @@ export class GetInferenceProfileRequest extends S.Class<GetInferenceProfileReque
 export class DeleteInferenceProfileRequest extends S.Class<DeleteInferenceProfileRequest>(
   "DeleteInferenceProfileRequest",
 )(
-  { inferenceProfileIdentifier: S.String.pipe(T.HttpLabel()) },
+  {
+    inferenceProfileIdentifier: S.String.pipe(
+      T.HttpLabel("inferenceProfileIdentifier"),
+    ),
+  },
   T.all(
     T.Http({
       method: "DELETE",
@@ -1580,7 +1599,7 @@ export class CreateModelCopyJobRequest extends S.Class<CreateModelCopyJobRequest
 export class GetModelCopyJobRequest extends S.Class<GetModelCopyJobRequest>(
   "GetModelCopyJobRequest",
 )(
-  { jobArn: S.String.pipe(T.HttpLabel()) },
+  { jobArn: S.String.pipe(T.HttpLabel("jobArn")) },
   T.all(
     T.Http({ method: "GET", uri: "/model-copy-jobs/{jobArn}" }),
     svc,
@@ -1627,7 +1646,7 @@ export class ListModelCopyJobsRequest extends S.Class<ListModelCopyJobsRequest>(
 export class DeleteImportedModelRequest extends S.Class<DeleteImportedModelRequest>(
   "DeleteImportedModelRequest",
 )(
-  { modelIdentifier: S.String.pipe(T.HttpLabel()) },
+  { modelIdentifier: S.String.pipe(T.HttpLabel("modelIdentifier")) },
   T.all(
     T.Http({ method: "DELETE", uri: "/imported-models/{modelIdentifier}" }),
     svc,
@@ -1643,7 +1662,7 @@ export class DeleteImportedModelResponse extends S.Class<DeleteImportedModelResp
 export class GetImportedModelRequest extends S.Class<GetImportedModelRequest>(
   "GetImportedModelRequest",
 )(
-  { modelIdentifier: S.String.pipe(T.HttpLabel()) },
+  { modelIdentifier: S.String.pipe(T.HttpLabel("modelIdentifier")) },
   T.all(
     T.Http({ method: "GET", uri: "/imported-models/{modelIdentifier}" }),
     svc,
@@ -1656,7 +1675,7 @@ export class GetImportedModelRequest extends S.Class<GetImportedModelRequest>(
 export class GetModelImportJobRequest extends S.Class<GetModelImportJobRequest>(
   "GetModelImportJobRequest",
 )(
-  { jobIdentifier: S.String.pipe(T.HttpLabel()) },
+  { jobIdentifier: S.String.pipe(T.HttpLabel("jobIdentifier")) },
   T.all(
     T.Http({ method: "GET", uri: "/model-import-jobs/{jobIdentifier}" }),
     svc,
@@ -1720,7 +1739,7 @@ export class ListModelImportJobsRequest extends S.Class<ListModelImportJobsReque
 export class GetModelInvocationJobRequest extends S.Class<GetModelInvocationJobRequest>(
   "GetModelInvocationJobRequest",
 )(
-  { jobIdentifier: S.String.pipe(T.HttpLabel()) },
+  { jobIdentifier: S.String.pipe(T.HttpLabel("jobIdentifier")) },
   T.all(
     T.Http({ method: "GET", uri: "/model-invocation-job/{jobIdentifier}" }),
     svc,
@@ -1759,7 +1778,7 @@ export class ListModelInvocationJobsRequest extends S.Class<ListModelInvocationJ
 export class StopModelInvocationJobRequest extends S.Class<StopModelInvocationJobRequest>(
   "StopModelInvocationJobRequest",
 )(
-  { jobIdentifier: S.String.pipe(T.HttpLabel()) },
+  { jobIdentifier: S.String.pipe(T.HttpLabel("jobIdentifier")) },
   T.all(
     T.Http({
       method: "POST",
@@ -1778,7 +1797,7 @@ export class StopModelInvocationJobResponse extends S.Class<StopModelInvocationJ
 export class GetFoundationModelRequest extends S.Class<GetFoundationModelRequest>(
   "GetFoundationModelRequest",
 )(
-  { modelIdentifier: S.String.pipe(T.HttpLabel()) },
+  { modelIdentifier: S.String.pipe(T.HttpLabel("modelIdentifier")) },
   T.all(
     T.Http({ method: "GET", uri: "/foundation-models/{modelIdentifier}" }),
     svc,
@@ -1813,7 +1832,7 @@ export class ListFoundationModelsRequest extends S.Class<ListFoundationModelsReq
 export class GetPromptRouterRequest extends S.Class<GetPromptRouterRequest>(
   "GetPromptRouterRequest",
 )(
-  { promptRouterArn: S.String.pipe(T.HttpLabel()) },
+  { promptRouterArn: S.String.pipe(T.HttpLabel("promptRouterArn")) },
   T.all(
     T.Http({ method: "GET", uri: "/prompt-routers/{promptRouterArn}" }),
     svc,
@@ -1826,7 +1845,7 @@ export class GetPromptRouterRequest extends S.Class<GetPromptRouterRequest>(
 export class DeletePromptRouterRequest extends S.Class<DeletePromptRouterRequest>(
   "DeletePromptRouterRequest",
 )(
-  { promptRouterArn: S.String.pipe(T.HttpLabel()) },
+  { promptRouterArn: S.String.pipe(T.HttpLabel("promptRouterArn")) },
   T.all(
     T.Http({ method: "DELETE", uri: "/prompt-routers/{promptRouterArn}" }),
     svc,
@@ -1879,7 +1898,7 @@ export class CreateProvisionedModelThroughputRequest extends S.Class<CreateProvi
 export class DeleteProvisionedModelThroughputRequest extends S.Class<DeleteProvisionedModelThroughputRequest>(
   "DeleteProvisionedModelThroughputRequest",
 )(
-  { provisionedModelId: S.String.pipe(T.HttpLabel()) },
+  { provisionedModelId: S.String.pipe(T.HttpLabel("provisionedModelId")) },
   T.all(
     T.Http({
       method: "DELETE",
@@ -1898,7 +1917,7 @@ export class DeleteProvisionedModelThroughputResponse extends S.Class<DeleteProv
 export class GetProvisionedModelThroughputRequest extends S.Class<GetProvisionedModelThroughputRequest>(
   "GetProvisionedModelThroughputRequest",
 )(
-  { provisionedModelId: S.String.pipe(T.HttpLabel()) },
+  { provisionedModelId: S.String.pipe(T.HttpLabel("provisionedModelId")) },
   T.all(
     T.Http({
       method: "GET",
@@ -1942,7 +1961,7 @@ export class UpdateProvisionedModelThroughputRequest extends S.Class<UpdateProvi
   "UpdateProvisionedModelThroughputRequest",
 )(
   {
-    provisionedModelId: S.String.pipe(T.HttpLabel()),
+    provisionedModelId: S.String.pipe(T.HttpLabel("provisionedModelId")),
     desiredProvisionedModelName: S.optional(S.String),
     desiredModelId: S.optional(S.String),
   },
@@ -1993,7 +2012,7 @@ export class DeleteFoundationModelAgreementResponse extends S.Class<DeleteFounda
 export class GetFoundationModelAvailabilityRequest extends S.Class<GetFoundationModelAvailabilityRequest>(
   "GetFoundationModelAvailabilityRequest",
 )(
-  { modelId: S.String.pipe(T.HttpLabel()) },
+  { modelId: S.String.pipe(T.HttpLabel("modelId")) },
   T.all(
     T.Http({ method: "GET", uri: "/foundation-model-availability/{modelId}" }),
     svc,
@@ -2007,7 +2026,7 @@ export class ListFoundationModelAgreementOffersRequest extends S.Class<ListFound
   "ListFoundationModelAgreementOffersRequest",
 )(
   {
-    modelId: S.String.pipe(T.HttpLabel()),
+    modelId: S.String.pipe(T.HttpLabel("modelId")),
     offerType: S.optional(S.String).pipe(T.HttpQuery("offerType")),
   },
   T.all(
@@ -2070,7 +2089,7 @@ export class UntagResourceResponse extends S.Class<UntagResourceResponse>(
 export class GetModelCustomizationJobRequest extends S.Class<GetModelCustomizationJobRequest>(
   "GetModelCustomizationJobRequest",
 )(
-  { jobIdentifier: S.String.pipe(T.HttpLabel()) },
+  { jobIdentifier: S.String.pipe(T.HttpLabel("jobIdentifier")) },
   T.all(
     T.Http({ method: "GET", uri: "/model-customization-jobs/{jobIdentifier}" }),
     svc,
@@ -2109,7 +2128,7 @@ export class ListModelCustomizationJobsRequest extends S.Class<ListModelCustomiz
 export class StopModelCustomizationJobRequest extends S.Class<StopModelCustomizationJobRequest>(
   "StopModelCustomizationJobRequest",
 )(
-  { jobIdentifier: S.String.pipe(T.HttpLabel()) },
+  { jobIdentifier: S.String.pipe(T.HttpLabel("jobIdentifier")) },
   T.all(
     T.Http({
       method: "POST",
@@ -3986,8 +4005,8 @@ export class StartAutomatedReasoningPolicyBuildWorkflowRequest extends S.Class<S
   "StartAutomatedReasoningPolicyBuildWorkflowRequest",
 )(
   {
-    policyArn: S.String.pipe(T.HttpLabel()),
-    buildWorkflowType: S.String.pipe(T.HttpLabel()),
+    policyArn: S.String.pipe(T.HttpLabel("policyArn")),
+    buildWorkflowType: S.String.pipe(T.HttpLabel("buildWorkflowType")),
     clientRequestToken: S.optional(S.String).pipe(
       T.HttpHeader("x-amz-client-token"),
     ),
@@ -4166,8 +4185,8 @@ export class UpdateAutomatedReasoningPolicyAnnotationsRequest extends S.Class<Up
   "UpdateAutomatedReasoningPolicyAnnotationsRequest",
 )(
   {
-    policyArn: S.String.pipe(T.HttpLabel()),
-    buildWorkflowId: S.String.pipe(T.HttpLabel()),
+    policyArn: S.String.pipe(T.HttpLabel("policyArn")),
+    buildWorkflowId: S.String.pipe(T.HttpLabel("buildWorkflowId")),
     annotations: AutomatedReasoningPolicyAnnotationList,
     lastUpdatedAnnotationSetHash: S.String,
   },
@@ -4362,7 +4381,7 @@ export class AccessDeniedException extends S.TaggedError<AccessDeniedException>(
 export class InternalServerException extends S.TaggedError<InternalServerException>()(
   "InternalServerException",
   { message: S.optional(S.String) },
-) {}
+).pipe(withCategory(ERROR_CATEGORIES.SERVER_ERROR)) {}
 export class ConflictException extends S.TaggedError<ConflictException>()(
   "ConflictException",
   { message: S.optional(S.String) },
@@ -4378,7 +4397,7 @@ export class ResourceInUseException extends S.TaggedError<ResourceInUseException
 export class ThrottlingException extends S.TaggedError<ThrottlingException>()(
   "ThrottlingException",
   { message: S.optional(S.String) },
-) {}
+).pipe(withCategory(ERROR_CATEGORIES.THROTTLING_ERROR)) {}
 export class ServiceQuotaExceededException extends S.TaggedError<ServiceQuotaExceededException>()(
   "ServiceQuotaExceededException",
   { message: S.optional(S.String) },
@@ -4390,7 +4409,7 @@ export class ValidationException extends S.TaggedError<ValidationException>()(
 export class ServiceUnavailableException extends S.TaggedError<ServiceUnavailableException>()(
   "ServiceUnavailableException",
   { message: S.optional(S.String) },
-) {}
+).pipe(withCategory(ERROR_CATEGORIES.SERVER_ERROR)) {}
 export class TooManyTagsException extends S.TaggedError<TooManyTagsException>()(
   "TooManyTagsException",
   { message: S.optional(S.String), resourceName: S.optional(S.String) },

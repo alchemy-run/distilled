@@ -1,6 +1,7 @@
 import * as S from "effect/Schema";
 import * as API from "../api.ts";
 import * as T from "../traits.ts";
+import { ERROR_CATEGORIES, withCategory } from "../error-category.ts";
 const svc = T.AwsApiService({ sdkId: "DSQL", serviceShapeName: "DSQL" });
 const auth = T.AwsAuthSigv4({ name: "dsql" });
 const ver = T.ServiceVersion("2018-05-10");
@@ -106,7 +107,7 @@ export const TagKeyList = S.Array(S.String);
 export class ListTagsForResourceInput extends S.Class<ListTagsForResourceInput>(
   "ListTagsForResourceInput",
 )(
-  { resourceArn: S.String.pipe(T.HttpLabel()) },
+  { resourceArn: S.String.pipe(T.HttpLabel("resourceArn")) },
   T.all(
     T.Http({ method: "GET", uri: "/tags/{resourceArn}" }),
     svc,
@@ -120,7 +121,7 @@ export class UntagResourceInput extends S.Class<UntagResourceInput>(
   "UntagResourceInput",
 )(
   {
-    resourceArn: S.String.pipe(T.HttpLabel()),
+    resourceArn: S.String.pipe(T.HttpLabel("resourceArn")),
     tagKeys: TagKeyList.pipe(T.HttpQuery("tagKeys")),
   },
   T.all(
@@ -138,7 +139,7 @@ export class UntagResourceResponse extends S.Class<UntagResourceResponse>(
 export class GetClusterInput extends S.Class<GetClusterInput>(
   "GetClusterInput",
 )(
-  { identifier: S.String.pipe(T.HttpLabel()) },
+  { identifier: S.String.pipe(T.HttpLabel("identifier")) },
   T.all(
     T.Http({ method: "GET", uri: "/cluster/{identifier}" }),
     svc,
@@ -159,7 +160,7 @@ export class UpdateClusterInput extends S.Class<UpdateClusterInput>(
   "UpdateClusterInput",
 )(
   {
-    identifier: S.String.pipe(T.HttpLabel()),
+    identifier: S.String.pipe(T.HttpLabel("identifier")),
     deletionProtectionEnabled: S.optional(S.Boolean),
     kmsEncryptionKey: S.optional(S.String),
     clientToken: S.optional(S.String),
@@ -178,7 +179,7 @@ export class DeleteClusterInput extends S.Class<DeleteClusterInput>(
   "DeleteClusterInput",
 )(
   {
-    identifier: S.String.pipe(T.HttpLabel()),
+    identifier: S.String.pipe(T.HttpLabel("identifier")),
     clientToken: S.optional(S.String).pipe(T.HttpQuery("client-token")),
   },
   T.all(
@@ -210,7 +211,7 @@ export class DeleteClusterPolicyInput extends S.Class<DeleteClusterPolicyInput>(
   "DeleteClusterPolicyInput",
 )(
   {
-    identifier: S.String.pipe(T.HttpLabel()),
+    identifier: S.String.pipe(T.HttpLabel("identifier")),
     expectedPolicyVersion: S.optional(S.String).pipe(
       T.HttpQuery("expected-policy-version"),
     ),
@@ -228,7 +229,7 @@ export class DeleteClusterPolicyInput extends S.Class<DeleteClusterPolicyInput>(
 export class GetClusterPolicyInput extends S.Class<GetClusterPolicyInput>(
   "GetClusterPolicyInput",
 )(
-  { identifier: S.String.pipe(T.HttpLabel()) },
+  { identifier: S.String.pipe(T.HttpLabel("identifier")) },
   T.all(
     T.Http({ method: "GET", uri: "/cluster/{identifier}/policy" }),
     svc,
@@ -241,7 +242,7 @@ export class GetClusterPolicyInput extends S.Class<GetClusterPolicyInput>(
 export class GetVpcEndpointServiceNameInput extends S.Class<GetVpcEndpointServiceNameInput>(
   "GetVpcEndpointServiceNameInput",
 )(
-  { identifier: S.String.pipe(T.HttpLabel()) },
+  { identifier: S.String.pipe(T.HttpLabel("identifier")) },
   T.all(
     T.Http({
       method: "GET",
@@ -258,7 +259,7 @@ export class PutClusterPolicyInput extends S.Class<PutClusterPolicyInput>(
   "PutClusterPolicyInput",
 )(
   {
-    identifier: S.String.pipe(T.HttpLabel()),
+    identifier: S.String.pipe(T.HttpLabel("identifier")),
     policy: S.String,
     bypassPolicyLockoutSafetyCheck: S.optional(S.Boolean),
     expectedPolicyVersion: S.optional(S.String),
@@ -280,7 +281,7 @@ export class ListTagsForResourceOutput extends S.Class<ListTagsForResourceOutput
 export class TagResourceInput extends S.Class<TagResourceInput>(
   "TagResourceInput",
 )(
-  { resourceArn: S.String.pipe(T.HttpLabel()), tags: TagMap },
+  { resourceArn: S.String.pipe(T.HttpLabel("resourceArn")), tags: TagMap },
   T.all(
     T.Http({ method: "POST", uri: "/tags/{resourceArn}" }),
     svc,
@@ -406,7 +407,8 @@ export class InternalServerException extends S.TaggedError<InternalServerExcepti
     message: S.String,
     retryAfterSeconds: S.optional(S.Number).pipe(T.HttpHeader("Retry-After")),
   },
-) {}
+  T.Retryable(),
+).pipe(withCategory(ERROR_CATEGORIES.SERVER_ERROR)) {}
 export class ServiceQuotaExceededException extends S.TaggedError<ServiceQuotaExceededException>()(
   "ServiceQuotaExceededException",
   {
@@ -433,7 +435,8 @@ export class ThrottlingException extends S.TaggedError<ThrottlingException>()(
     quotaCode: S.optional(S.String),
     retryAfterSeconds: S.optional(S.Number).pipe(T.HttpHeader("Retry-After")),
   },
-) {}
+  T.Retryable({ throttling: true }),
+).pipe(withCategory(ERROR_CATEGORIES.THROTTLING_ERROR)) {}
 
 //# Operations
 /**

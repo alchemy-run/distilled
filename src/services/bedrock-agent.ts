@@ -1,6 +1,7 @@
 import * as S from "effect/Schema";
 import * as API from "../api.ts";
 import * as T from "../traits.ts";
+import { ERROR_CATEGORIES, withCategory } from "../error-category.ts";
 const svc = T.AwsApiService({
   sdkId: "Bedrock Agent",
   serviceShapeName: "AmazonBedrockAgentBuildTimeLambda",
@@ -298,9 +299,9 @@ export class DeleteAgentActionGroupRequest extends S.Class<DeleteAgentActionGrou
   "DeleteAgentActionGroupRequest",
 )(
   {
-    agentId: S.String.pipe(T.HttpLabel()),
-    agentVersion: S.String.pipe(T.HttpLabel()),
-    actionGroupId: S.String.pipe(T.HttpLabel()),
+    agentId: S.String.pipe(T.HttpLabel("agentId")),
+    agentVersion: S.String.pipe(T.HttpLabel("agentVersion")),
+    actionGroupId: S.String.pipe(T.HttpLabel("actionGroupId")),
     skipResourceInUseCheck: S.optional(S.Boolean).pipe(
       T.HttpQuery("skipResourceInUseCheck"),
     ),
@@ -324,9 +325,9 @@ export class GetAgentActionGroupRequest extends S.Class<GetAgentActionGroupReque
   "GetAgentActionGroupRequest",
 )(
   {
-    agentId: S.String.pipe(T.HttpLabel()),
-    agentVersion: S.String.pipe(T.HttpLabel()),
-    actionGroupId: S.String.pipe(T.HttpLabel()),
+    agentId: S.String.pipe(T.HttpLabel("agentId")),
+    agentVersion: S.String.pipe(T.HttpLabel("agentVersion")),
+    actionGroupId: S.String.pipe(T.HttpLabel("actionGroupId")),
   },
   T.all(
     T.Http({
@@ -344,8 +345,8 @@ export class ListAgentActionGroupsRequest extends S.Class<ListAgentActionGroupsR
   "ListAgentActionGroupsRequest",
 )(
   {
-    agentId: S.String.pipe(T.HttpLabel()),
-    agentVersion: S.String.pipe(T.HttpLabel()),
+    agentId: S.String.pipe(T.HttpLabel("agentId")),
+    agentVersion: S.String.pipe(T.HttpLabel("agentVersion")),
     maxResults: S.optional(S.Number),
     nextToken: S.optional(S.String),
   },
@@ -397,9 +398,9 @@ export class UpdateAgentActionGroupRequest extends S.Class<UpdateAgentActionGrou
   "UpdateAgentActionGroupRequest",
 )(
   {
-    agentId: S.String.pipe(T.HttpLabel()),
-    agentVersion: S.String.pipe(T.HttpLabel()),
-    actionGroupId: S.String.pipe(T.HttpLabel()),
+    agentId: S.String.pipe(T.HttpLabel("agentId")),
+    agentVersion: S.String.pipe(T.HttpLabel("agentVersion")),
+    actionGroupId: S.String.pipe(T.HttpLabel("actionGroupId")),
     actionGroupName: S.String,
     description: S.optional(S.String),
     parentActionGroupSignature: S.optional(S.String),
@@ -425,9 +426,9 @@ export class DisassociateAgentCollaboratorRequest extends S.Class<DisassociateAg
   "DisassociateAgentCollaboratorRequest",
 )(
   {
-    agentId: S.String.pipe(T.HttpLabel()),
-    agentVersion: S.String.pipe(T.HttpLabel()),
-    collaboratorId: S.String.pipe(T.HttpLabel()),
+    agentId: S.String.pipe(T.HttpLabel("agentId")),
+    agentVersion: S.String.pipe(T.HttpLabel("agentVersion")),
+    collaboratorId: S.String.pipe(T.HttpLabel("collaboratorId")),
   },
   T.all(
     T.Http({
@@ -448,9 +449,9 @@ export class GetAgentCollaboratorRequest extends S.Class<GetAgentCollaboratorReq
   "GetAgentCollaboratorRequest",
 )(
   {
-    agentId: S.String.pipe(T.HttpLabel()),
-    agentVersion: S.String.pipe(T.HttpLabel()),
-    collaboratorId: S.String.pipe(T.HttpLabel()),
+    agentId: S.String.pipe(T.HttpLabel("agentId")),
+    agentVersion: S.String.pipe(T.HttpLabel("agentVersion")),
+    collaboratorId: S.String.pipe(T.HttpLabel("collaboratorId")),
   },
   T.all(
     T.Http({
@@ -468,8 +469,8 @@ export class ListAgentCollaboratorsRequest extends S.Class<ListAgentCollaborator
   "ListAgentCollaboratorsRequest",
 )(
   {
-    agentId: S.String.pipe(T.HttpLabel()),
-    agentVersion: S.String.pipe(T.HttpLabel()),
+    agentId: S.String.pipe(T.HttpLabel("agentId")),
+    agentVersion: S.String.pipe(T.HttpLabel("agentVersion")),
     maxResults: S.optional(S.Number),
     nextToken: S.optional(S.String),
   },
@@ -492,9 +493,9 @@ export class UpdateAgentCollaboratorRequest extends S.Class<UpdateAgentCollabora
   "UpdateAgentCollaboratorRequest",
 )(
   {
-    agentId: S.String.pipe(T.HttpLabel()),
-    agentVersion: S.String.pipe(T.HttpLabel()),
-    collaboratorId: S.String.pipe(T.HttpLabel()),
+    agentId: S.String.pipe(T.HttpLabel("agentId")),
+    agentVersion: S.String.pipe(T.HttpLabel("agentVersion")),
+    collaboratorId: S.String.pipe(T.HttpLabel("collaboratorId")),
     agentDescriptor: AgentDescriptor,
     collaboratorName: S.String,
     collaborationInstruction: S.String,
@@ -516,7 +517,7 @@ export class DeleteAgentRequest extends S.Class<DeleteAgentRequest>(
   "DeleteAgentRequest",
 )(
   {
-    agentId: S.String.pipe(T.HttpLabel()),
+    agentId: S.String.pipe(T.HttpLabel("agentId")),
     skipResourceInUseCheck: S.optional(S.Boolean).pipe(
       T.HttpQuery("skipResourceInUseCheck"),
     ),
@@ -533,7 +534,7 @@ export class DeleteAgentRequest extends S.Class<DeleteAgentRequest>(
 export class GetAgentRequest extends S.Class<GetAgentRequest>(
   "GetAgentRequest",
 )(
-  { agentId: S.String.pipe(T.HttpLabel()) },
+  { agentId: S.String.pipe(T.HttpLabel("agentId")) },
   T.all(
     T.Http({ method: "GET", uri: "/agents/{agentId}/" }),
     svc,
@@ -559,7 +560,7 @@ export class ListAgentsRequest extends S.Class<ListAgentsRequest>(
 export class PrepareAgentRequest extends S.Class<PrepareAgentRequest>(
   "PrepareAgentRequest",
 )(
-  { agentId: S.String.pipe(T.HttpLabel()) },
+  { agentId: S.String.pipe(T.HttpLabel("agentId")) },
   T.all(
     T.Http({ method: "POST", uri: "/agents/{agentId}/" }),
     svc,
@@ -623,7 +624,7 @@ export class UpdateAgentRequest extends S.Class<UpdateAgentRequest>(
   "UpdateAgentRequest",
 )(
   {
-    agentId: S.String.pipe(T.HttpLabel()),
+    agentId: S.String.pipe(T.HttpLabel("agentId")),
     agentName: S.String,
     instruction: S.optional(S.String),
     foundationModel: S.String,
@@ -651,8 +652,8 @@ export class DeleteAgentAliasRequest extends S.Class<DeleteAgentAliasRequest>(
   "DeleteAgentAliasRequest",
 )(
   {
-    agentId: S.String.pipe(T.HttpLabel()),
-    agentAliasId: S.String.pipe(T.HttpLabel()),
+    agentId: S.String.pipe(T.HttpLabel("agentId")),
+    agentAliasId: S.String.pipe(T.HttpLabel("agentAliasId")),
   },
   T.all(
     T.Http({
@@ -670,8 +671,8 @@ export class GetAgentAliasRequest extends S.Class<GetAgentAliasRequest>(
   "GetAgentAliasRequest",
 )(
   {
-    agentId: S.String.pipe(T.HttpLabel()),
-    agentAliasId: S.String.pipe(T.HttpLabel()),
+    agentId: S.String.pipe(T.HttpLabel("agentId")),
+    agentAliasId: S.String.pipe(T.HttpLabel("agentAliasId")),
   },
   T.all(
     T.Http({
@@ -689,7 +690,7 @@ export class ListAgentAliasesRequest extends S.Class<ListAgentAliasesRequest>(
   "ListAgentAliasesRequest",
 )(
   {
-    agentId: S.String.pipe(T.HttpLabel()),
+    agentId: S.String.pipe(T.HttpLabel("agentId")),
     maxResults: S.optional(S.Number),
     nextToken: S.optional(S.String),
   },
@@ -715,8 +716,8 @@ export class UpdateAgentAliasRequest extends S.Class<UpdateAgentAliasRequest>(
   "UpdateAgentAliasRequest",
 )(
   {
-    agentId: S.String.pipe(T.HttpLabel()),
-    agentAliasId: S.String.pipe(T.HttpLabel()),
+    agentId: S.String.pipe(T.HttpLabel("agentId")),
+    agentAliasId: S.String.pipe(T.HttpLabel("agentAliasId")),
     agentAliasName: S.String,
     description: S.optional(S.String),
     routingConfiguration: S.optional(AgentAliasRoutingConfiguration),
@@ -738,8 +739,8 @@ export class DeleteDataSourceRequest extends S.Class<DeleteDataSourceRequest>(
   "DeleteDataSourceRequest",
 )(
   {
-    knowledgeBaseId: S.String.pipe(T.HttpLabel()),
-    dataSourceId: S.String.pipe(T.HttpLabel()),
+    knowledgeBaseId: S.String.pipe(T.HttpLabel("knowledgeBaseId")),
+    dataSourceId: S.String.pipe(T.HttpLabel("dataSourceId")),
   },
   T.all(
     T.Http({
@@ -757,8 +758,8 @@ export class GetDataSourceRequest extends S.Class<GetDataSourceRequest>(
   "GetDataSourceRequest",
 )(
   {
-    knowledgeBaseId: S.String.pipe(T.HttpLabel()),
-    dataSourceId: S.String.pipe(T.HttpLabel()),
+    knowledgeBaseId: S.String.pipe(T.HttpLabel("knowledgeBaseId")),
+    dataSourceId: S.String.pipe(T.HttpLabel("dataSourceId")),
   },
   T.all(
     T.Http({
@@ -776,7 +777,7 @@ export class ListDataSourcesRequest extends S.Class<ListDataSourcesRequest>(
   "ListDataSourcesRequest",
 )(
   {
-    knowledgeBaseId: S.String.pipe(T.HttpLabel()),
+    knowledgeBaseId: S.String.pipe(T.HttpLabel("knowledgeBaseId")),
     maxResults: S.optional(S.Number),
     nextToken: S.optional(S.String),
   },
@@ -1019,8 +1020,8 @@ export class UpdateDataSourceRequest extends S.Class<UpdateDataSourceRequest>(
   "UpdateDataSourceRequest",
 )(
   {
-    knowledgeBaseId: S.String.pipe(T.HttpLabel()),
-    dataSourceId: S.String.pipe(T.HttpLabel()),
+    knowledgeBaseId: S.String.pipe(T.HttpLabel("knowledgeBaseId")),
+    dataSourceId: S.String.pipe(T.HttpLabel("dataSourceId")),
     name: S.String,
     description: S.optional(S.String),
     dataSourceConfiguration: DataSourceConfiguration,
@@ -1087,7 +1088,7 @@ export class CreateFlowRequest extends S.Class<CreateFlowRequest>(
   ),
 ) {}
 export class GetFlowRequest extends S.Class<GetFlowRequest>("GetFlowRequest")(
-  { flowIdentifier: S.String.pipe(T.HttpLabel()) },
+  { flowIdentifier: S.String.pipe(T.HttpLabel("flowIdentifier")) },
   T.all(
     T.Http({ method: "GET", uri: "/flows/{flowIdentifier}/" }),
     svc,
@@ -1106,7 +1107,7 @@ export class UpdateFlowRequest extends S.Class<UpdateFlowRequest>(
     executionRoleArn: S.String,
     customerEncryptionKeyArn: S.optional(S.String),
     definition: S.optional(FlowDefinition),
-    flowIdentifier: S.String.pipe(T.HttpLabel()),
+    flowIdentifier: S.String.pipe(T.HttpLabel("flowIdentifier")),
   },
   T.all(
     T.Http({ method: "PUT", uri: "/flows/{flowIdentifier}/" }),
@@ -1121,7 +1122,7 @@ export class DeleteFlowRequest extends S.Class<DeleteFlowRequest>(
   "DeleteFlowRequest",
 )(
   {
-    flowIdentifier: S.String.pipe(T.HttpLabel()),
+    flowIdentifier: S.String.pipe(T.HttpLabel("flowIdentifier")),
     skipResourceInUseCheck: S.optional(S.Boolean).pipe(
       T.HttpQuery("skipResourceInUseCheck"),
     ),
@@ -1154,7 +1155,7 @@ export class ListFlowsRequest extends S.Class<ListFlowsRequest>(
 export class PrepareFlowRequest extends S.Class<PrepareFlowRequest>(
   "PrepareFlowRequest",
 )(
-  { flowIdentifier: S.String.pipe(T.HttpLabel()) },
+  { flowIdentifier: S.String.pipe(T.HttpLabel("flowIdentifier")) },
   T.all(
     T.Http({ method: "POST", uri: "/flows/{flowIdentifier}/" }),
     svc,
@@ -1168,8 +1169,8 @@ export class GetFlowAliasRequest extends S.Class<GetFlowAliasRequest>(
   "GetFlowAliasRequest",
 )(
   {
-    flowIdentifier: S.String.pipe(T.HttpLabel()),
-    aliasIdentifier: S.String.pipe(T.HttpLabel()),
+    flowIdentifier: S.String.pipe(T.HttpLabel("flowIdentifier")),
+    aliasIdentifier: S.String.pipe(T.HttpLabel("aliasIdentifier")),
   },
   T.all(
     T.Http({
@@ -1200,8 +1201,8 @@ export class UpdateFlowAliasRequest extends S.Class<UpdateFlowAliasRequest>(
     description: S.optional(S.String),
     routingConfiguration: FlowAliasRoutingConfiguration,
     concurrencyConfiguration: S.optional(FlowAliasConcurrencyConfiguration),
-    flowIdentifier: S.String.pipe(T.HttpLabel()),
-    aliasIdentifier: S.String.pipe(T.HttpLabel()),
+    flowIdentifier: S.String.pipe(T.HttpLabel("flowIdentifier")),
+    aliasIdentifier: S.String.pipe(T.HttpLabel("aliasIdentifier")),
   },
   T.all(
     T.Http({
@@ -1219,8 +1220,8 @@ export class DeleteFlowAliasRequest extends S.Class<DeleteFlowAliasRequest>(
   "DeleteFlowAliasRequest",
 )(
   {
-    flowIdentifier: S.String.pipe(T.HttpLabel()),
-    aliasIdentifier: S.String.pipe(T.HttpLabel()),
+    flowIdentifier: S.String.pipe(T.HttpLabel("flowIdentifier")),
+    aliasIdentifier: S.String.pipe(T.HttpLabel("aliasIdentifier")),
   },
   T.all(
     T.Http({
@@ -1238,7 +1239,7 @@ export class ListFlowAliasesRequest extends S.Class<ListFlowAliasesRequest>(
   "ListFlowAliasesRequest",
 )(
   {
-    flowIdentifier: S.String.pipe(T.HttpLabel()),
+    flowIdentifier: S.String.pipe(T.HttpLabel("flowIdentifier")),
     maxResults: S.optional(S.Number).pipe(T.HttpQuery("maxResults")),
     nextToken: S.optional(S.String).pipe(T.HttpQuery("nextToken")),
   },
@@ -1255,7 +1256,7 @@ export class CreateFlowVersionRequest extends S.Class<CreateFlowVersionRequest>(
   "CreateFlowVersionRequest",
 )(
   {
-    flowIdentifier: S.String.pipe(T.HttpLabel()),
+    flowIdentifier: S.String.pipe(T.HttpLabel("flowIdentifier")),
     description: S.optional(S.String),
     clientToken: S.optional(S.String),
   },
@@ -1272,8 +1273,8 @@ export class GetFlowVersionRequest extends S.Class<GetFlowVersionRequest>(
   "GetFlowVersionRequest",
 )(
   {
-    flowIdentifier: S.String.pipe(T.HttpLabel()),
-    flowVersion: S.String.pipe(T.HttpLabel()),
+    flowIdentifier: S.String.pipe(T.HttpLabel("flowIdentifier")),
+    flowVersion: S.String.pipe(T.HttpLabel("flowVersion")),
   },
   T.all(
     T.Http({
@@ -1291,8 +1292,8 @@ export class DeleteFlowVersionRequest extends S.Class<DeleteFlowVersionRequest>(
   "DeleteFlowVersionRequest",
 )(
   {
-    flowIdentifier: S.String.pipe(T.HttpLabel()),
-    flowVersion: S.String.pipe(T.HttpLabel()),
+    flowIdentifier: S.String.pipe(T.HttpLabel("flowIdentifier")),
+    flowVersion: S.String.pipe(T.HttpLabel("flowVersion")),
     skipResourceInUseCheck: S.optional(S.Boolean).pipe(
       T.HttpQuery("skipResourceInUseCheck"),
     ),
@@ -1313,7 +1314,7 @@ export class ListFlowVersionsRequest extends S.Class<ListFlowVersionsRequest>(
   "ListFlowVersionsRequest",
 )(
   {
-    flowIdentifier: S.String.pipe(T.HttpLabel()),
+    flowIdentifier: S.String.pipe(T.HttpLabel("flowIdentifier")),
     maxResults: S.optional(S.Number).pipe(T.HttpQuery("maxResults")),
     nextToken: S.optional(S.String).pipe(T.HttpQuery("nextToken")),
   },
@@ -1330,9 +1331,9 @@ export class GetIngestionJobRequest extends S.Class<GetIngestionJobRequest>(
   "GetIngestionJobRequest",
 )(
   {
-    knowledgeBaseId: S.String.pipe(T.HttpLabel()),
-    dataSourceId: S.String.pipe(T.HttpLabel()),
-    ingestionJobId: S.String.pipe(T.HttpLabel()),
+    knowledgeBaseId: S.String.pipe(T.HttpLabel("knowledgeBaseId")),
+    dataSourceId: S.String.pipe(T.HttpLabel("dataSourceId")),
+    ingestionJobId: S.String.pipe(T.HttpLabel("ingestionJobId")),
   },
   T.all(
     T.Http({
@@ -1350,8 +1351,8 @@ export class StartIngestionJobRequest extends S.Class<StartIngestionJobRequest>(
   "StartIngestionJobRequest",
 )(
   {
-    knowledgeBaseId: S.String.pipe(T.HttpLabel()),
-    dataSourceId: S.String.pipe(T.HttpLabel()),
+    knowledgeBaseId: S.String.pipe(T.HttpLabel("knowledgeBaseId")),
+    dataSourceId: S.String.pipe(T.HttpLabel("dataSourceId")),
     clientToken: S.optional(S.String),
     description: S.optional(S.String),
   },
@@ -1371,9 +1372,9 @@ export class StopIngestionJobRequest extends S.Class<StopIngestionJobRequest>(
   "StopIngestionJobRequest",
 )(
   {
-    knowledgeBaseId: S.String.pipe(T.HttpLabel()),
-    dataSourceId: S.String.pipe(T.HttpLabel()),
-    ingestionJobId: S.String.pipe(T.HttpLabel()),
+    knowledgeBaseId: S.String.pipe(T.HttpLabel("knowledgeBaseId")),
+    dataSourceId: S.String.pipe(T.HttpLabel("dataSourceId")),
+    ingestionJobId: S.String.pipe(T.HttpLabel("ingestionJobId")),
   },
   T.all(
     T.Http({
@@ -1402,8 +1403,8 @@ export class GetKnowledgeBaseDocumentsRequest extends S.Class<GetKnowledgeBaseDo
   "GetKnowledgeBaseDocumentsRequest",
 )(
   {
-    knowledgeBaseId: S.String.pipe(T.HttpLabel()),
-    dataSourceId: S.String.pipe(T.HttpLabel()),
+    knowledgeBaseId: S.String.pipe(T.HttpLabel("knowledgeBaseId")),
+    dataSourceId: S.String.pipe(T.HttpLabel("dataSourceId")),
     documentIdentifiers: DocumentIdentifiers,
   },
   T.all(
@@ -1422,8 +1423,8 @@ export class ListKnowledgeBaseDocumentsRequest extends S.Class<ListKnowledgeBase
   "ListKnowledgeBaseDocumentsRequest",
 )(
   {
-    knowledgeBaseId: S.String.pipe(T.HttpLabel()),
-    dataSourceId: S.String.pipe(T.HttpLabel()),
+    knowledgeBaseId: S.String.pipe(T.HttpLabel("knowledgeBaseId")),
+    dataSourceId: S.String.pipe(T.HttpLabel("dataSourceId")),
     maxResults: S.optional(S.Number),
     nextToken: S.optional(S.String),
   },
@@ -1443,8 +1444,8 @@ export class AssociateAgentKnowledgeBaseRequest extends S.Class<AssociateAgentKn
   "AssociateAgentKnowledgeBaseRequest",
 )(
   {
-    agentId: S.String.pipe(T.HttpLabel()),
-    agentVersion: S.String.pipe(T.HttpLabel()),
+    agentId: S.String.pipe(T.HttpLabel("agentId")),
+    agentVersion: S.String.pipe(T.HttpLabel("agentVersion")),
     knowledgeBaseId: S.String,
     description: S.String,
     knowledgeBaseState: S.optional(S.String),
@@ -1464,7 +1465,7 @@ export class AssociateAgentKnowledgeBaseRequest extends S.Class<AssociateAgentKn
 export class DeleteKnowledgeBaseRequest extends S.Class<DeleteKnowledgeBaseRequest>(
   "DeleteKnowledgeBaseRequest",
 )(
-  { knowledgeBaseId: S.String.pipe(T.HttpLabel()) },
+  { knowledgeBaseId: S.String.pipe(T.HttpLabel("knowledgeBaseId")) },
   T.all(
     T.Http({ method: "DELETE", uri: "/knowledgebases/{knowledgeBaseId}" }),
     svc,
@@ -1478,9 +1479,9 @@ export class DisassociateAgentKnowledgeBaseRequest extends S.Class<DisassociateA
   "DisassociateAgentKnowledgeBaseRequest",
 )(
   {
-    agentId: S.String.pipe(T.HttpLabel()),
-    agentVersion: S.String.pipe(T.HttpLabel()),
-    knowledgeBaseId: S.String.pipe(T.HttpLabel()),
+    agentId: S.String.pipe(T.HttpLabel("agentId")),
+    agentVersion: S.String.pipe(T.HttpLabel("agentVersion")),
+    knowledgeBaseId: S.String.pipe(T.HttpLabel("knowledgeBaseId")),
   },
   T.all(
     T.Http({
@@ -1501,9 +1502,9 @@ export class GetAgentKnowledgeBaseRequest extends S.Class<GetAgentKnowledgeBaseR
   "GetAgentKnowledgeBaseRequest",
 )(
   {
-    agentId: S.String.pipe(T.HttpLabel()),
-    agentVersion: S.String.pipe(T.HttpLabel()),
-    knowledgeBaseId: S.String.pipe(T.HttpLabel()),
+    agentId: S.String.pipe(T.HttpLabel("agentId")),
+    agentVersion: S.String.pipe(T.HttpLabel("agentVersion")),
+    knowledgeBaseId: S.String.pipe(T.HttpLabel("knowledgeBaseId")),
   },
   T.all(
     T.Http({
@@ -1520,7 +1521,7 @@ export class GetAgentKnowledgeBaseRequest extends S.Class<GetAgentKnowledgeBaseR
 export class GetKnowledgeBaseRequest extends S.Class<GetKnowledgeBaseRequest>(
   "GetKnowledgeBaseRequest",
 )(
-  { knowledgeBaseId: S.String.pipe(T.HttpLabel()) },
+  { knowledgeBaseId: S.String.pipe(T.HttpLabel("knowledgeBaseId")) },
   T.all(
     T.Http({ method: "GET", uri: "/knowledgebases/{knowledgeBaseId}" }),
     svc,
@@ -1534,8 +1535,8 @@ export class ListAgentKnowledgeBasesRequest extends S.Class<ListAgentKnowledgeBa
   "ListAgentKnowledgeBasesRequest",
 )(
   {
-    agentId: S.String.pipe(T.HttpLabel()),
-    agentVersion: S.String.pipe(T.HttpLabel()),
+    agentId: S.String.pipe(T.HttpLabel("agentId")),
+    agentVersion: S.String.pipe(T.HttpLabel("agentVersion")),
     maxResults: S.optional(S.Number),
     nextToken: S.optional(S.String),
   },
@@ -1568,9 +1569,9 @@ export class UpdateAgentKnowledgeBaseRequest extends S.Class<UpdateAgentKnowledg
   "UpdateAgentKnowledgeBaseRequest",
 )(
   {
-    agentId: S.String.pipe(T.HttpLabel()),
-    agentVersion: S.String.pipe(T.HttpLabel()),
-    knowledgeBaseId: S.String.pipe(T.HttpLabel()),
+    agentId: S.String.pipe(T.HttpLabel("agentId")),
+    agentVersion: S.String.pipe(T.HttpLabel("agentVersion")),
+    knowledgeBaseId: S.String.pipe(T.HttpLabel("knowledgeBaseId")),
     description: S.optional(S.String),
     knowledgeBaseState: S.optional(S.String),
   },
@@ -1857,7 +1858,7 @@ export class UpdateKnowledgeBaseRequest extends S.Class<UpdateKnowledgeBaseReque
   "UpdateKnowledgeBaseRequest",
 )(
   {
-    knowledgeBaseId: S.String.pipe(T.HttpLabel()),
+    knowledgeBaseId: S.String.pipe(T.HttpLabel("knowledgeBaseId")),
     name: S.String,
     description: S.optional(S.String),
     roleArn: S.String,
@@ -1877,7 +1878,7 @@ export class GetPromptRequest extends S.Class<GetPromptRequest>(
   "GetPromptRequest",
 )(
   {
-    promptIdentifier: S.String.pipe(T.HttpLabel()),
+    promptIdentifier: S.String.pipe(T.HttpLabel("promptIdentifier")),
     promptVersion: S.optional(S.String).pipe(T.HttpQuery("promptVersion")),
   },
   T.all(
@@ -2001,7 +2002,7 @@ export class UpdatePromptRequest extends S.Class<UpdatePromptRequest>(
     customerEncryptionKeyArn: S.optional(S.String),
     defaultVariant: S.optional(S.String),
     variants: S.optional(PromptVariantList),
-    promptIdentifier: S.String.pipe(T.HttpLabel()),
+    promptIdentifier: S.String.pipe(T.HttpLabel("promptIdentifier")),
   },
   T.all(
     T.Http({ method: "PUT", uri: "/prompts/{promptIdentifier}/" }),
@@ -2016,7 +2017,7 @@ export class DeletePromptRequest extends S.Class<DeletePromptRequest>(
   "DeletePromptRequest",
 )(
   {
-    promptIdentifier: S.String.pipe(T.HttpLabel()),
+    promptIdentifier: S.String.pipe(T.HttpLabel("promptIdentifier")),
     promptVersion: S.optional(S.String).pipe(T.HttpQuery("promptVersion")),
   },
   T.all(
@@ -2051,7 +2052,7 @@ export class CreatePromptVersionRequest extends S.Class<CreatePromptVersionReque
   "CreatePromptVersionRequest",
 )(
   {
-    promptIdentifier: S.String.pipe(T.HttpLabel()),
+    promptIdentifier: S.String.pipe(T.HttpLabel("promptIdentifier")),
     description: S.optional(S.String),
     clientToken: S.optional(S.String),
     tags: S.optional(TagsMap),
@@ -2068,7 +2069,7 @@ export class CreatePromptVersionRequest extends S.Class<CreatePromptVersionReque
 export class ListTagsForResourceRequest extends S.Class<ListTagsForResourceRequest>(
   "ListTagsForResourceRequest",
 )(
-  { resourceArn: S.String.pipe(T.HttpLabel()) },
+  { resourceArn: S.String.pipe(T.HttpLabel("resourceArn")) },
   T.all(
     T.Http({ method: "GET", uri: "/tags/{resourceArn}" }),
     svc,
@@ -2081,7 +2082,7 @@ export class ListTagsForResourceRequest extends S.Class<ListTagsForResourceReque
 export class TagResourceRequest extends S.Class<TagResourceRequest>(
   "TagResourceRequest",
 )(
-  { resourceArn: S.String.pipe(T.HttpLabel()), tags: TagsMap },
+  { resourceArn: S.String.pipe(T.HttpLabel("resourceArn")), tags: TagsMap },
   T.all(
     T.Http({ method: "POST", uri: "/tags/{resourceArn}" }),
     svc,
@@ -2098,7 +2099,7 @@ export class UntagResourceRequest extends S.Class<UntagResourceRequest>(
   "UntagResourceRequest",
 )(
   {
-    resourceArn: S.String.pipe(T.HttpLabel()),
+    resourceArn: S.String.pipe(T.HttpLabel("resourceArn")),
     tagKeys: TagKeyList.pipe(T.HttpQuery("tagKeys")),
   },
   T.all(
@@ -2117,8 +2118,8 @@ export class DeleteAgentVersionRequest extends S.Class<DeleteAgentVersionRequest
   "DeleteAgentVersionRequest",
 )(
   {
-    agentId: S.String.pipe(T.HttpLabel()),
-    agentVersion: S.String.pipe(T.HttpLabel()),
+    agentId: S.String.pipe(T.HttpLabel("agentId")),
+    agentVersion: S.String.pipe(T.HttpLabel("agentVersion")),
     skipResourceInUseCheck: S.optional(S.Boolean).pipe(
       T.HttpQuery("skipResourceInUseCheck"),
     ),
@@ -2139,8 +2140,8 @@ export class GetAgentVersionRequest extends S.Class<GetAgentVersionRequest>(
   "GetAgentVersionRequest",
 )(
   {
-    agentId: S.String.pipe(T.HttpLabel()),
-    agentVersion: S.String.pipe(T.HttpLabel()),
+    agentId: S.String.pipe(T.HttpLabel("agentId")),
+    agentVersion: S.String.pipe(T.HttpLabel("agentVersion")),
   },
   T.all(
     T.Http({
@@ -2158,7 +2159,7 @@ export class ListAgentVersionsRequest extends S.Class<ListAgentVersionsRequest>(
   "ListAgentVersionsRequest",
 )(
   {
-    agentId: S.String.pipe(T.HttpLabel()),
+    agentId: S.String.pipe(T.HttpLabel("agentId")),
     maxResults: S.optional(S.Number),
     nextToken: S.optional(S.String),
   },
@@ -2208,8 +2209,8 @@ export class AssociateAgentCollaboratorRequest extends S.Class<AssociateAgentCol
   "AssociateAgentCollaboratorRequest",
 )(
   {
-    agentId: S.String.pipe(T.HttpLabel()),
-    agentVersion: S.String.pipe(T.HttpLabel()),
+    agentId: S.String.pipe(T.HttpLabel("agentId")),
+    agentVersion: S.String.pipe(T.HttpLabel("agentVersion")),
     agentDescriptor: AgentDescriptor,
     collaboratorName: S.String,
     collaborationInstruction: S.String,
@@ -2290,7 +2291,7 @@ export class CreateAgentAliasRequest extends S.Class<CreateAgentAliasRequest>(
   "CreateAgentAliasRequest",
 )(
   {
-    agentId: S.String.pipe(T.HttpLabel()),
+    agentId: S.String.pipe(T.HttpLabel("agentId")),
     agentAliasName: S.String,
     clientToken: S.optional(S.String),
     description: S.optional(S.String),
@@ -2401,7 +2402,7 @@ export class CreateFlowAliasRequest extends S.Class<CreateFlowAliasRequest>(
     description: S.optional(S.String),
     routingConfiguration: FlowAliasRoutingConfiguration,
     concurrencyConfiguration: S.optional(FlowAliasConcurrencyConfiguration),
-    flowIdentifier: S.String.pipe(T.HttpLabel()),
+    flowIdentifier: S.String.pipe(T.HttpLabel("flowIdentifier")),
     clientToken: S.optional(S.String),
     tags: S.optional(TagsMap),
   },
@@ -2478,8 +2479,8 @@ export class ListIngestionJobsRequest extends S.Class<ListIngestionJobsRequest>(
   "ListIngestionJobsRequest",
 )(
   {
-    knowledgeBaseId: S.String.pipe(T.HttpLabel()),
-    dataSourceId: S.String.pipe(T.HttpLabel()),
+    knowledgeBaseId: S.String.pipe(T.HttpLabel("knowledgeBaseId")),
+    dataSourceId: S.String.pipe(T.HttpLabel("dataSourceId")),
     filters: S.optional(IngestionJobFilters),
     sortBy: S.optional(IngestionJobSortBy),
     maxResults: S.optional(S.Number),
@@ -2905,8 +2906,8 @@ export class DeleteKnowledgeBaseDocumentsRequest extends S.Class<DeleteKnowledge
   "DeleteKnowledgeBaseDocumentsRequest",
 )(
   {
-    knowledgeBaseId: S.String.pipe(T.HttpLabel()),
-    dataSourceId: S.String.pipe(T.HttpLabel()),
+    knowledgeBaseId: S.String.pipe(T.HttpLabel("knowledgeBaseId")),
+    dataSourceId: S.String.pipe(T.HttpLabel("dataSourceId")),
     clientToken: S.optional(S.String),
     documentIdentifiers: DocumentIdentifiers,
   },
@@ -3315,8 +3316,8 @@ export class CreateAgentActionGroupRequest extends S.Class<CreateAgentActionGrou
   "CreateAgentActionGroupRequest",
 )(
   {
-    agentId: S.String.pipe(T.HttpLabel()),
-    agentVersion: S.String.pipe(T.HttpLabel()),
+    agentId: S.String.pipe(T.HttpLabel("agentId")),
+    agentVersion: S.String.pipe(T.HttpLabel("agentVersion")),
     actionGroupName: S.String,
     clientToken: S.optional(S.String),
     description: S.optional(S.String),
@@ -3398,8 +3399,8 @@ export class IngestKnowledgeBaseDocumentsRequest extends S.Class<IngestKnowledge
   "IngestKnowledgeBaseDocumentsRequest",
 )(
   {
-    knowledgeBaseId: S.String.pipe(T.HttpLabel()),
-    dataSourceId: S.String.pipe(T.HttpLabel()),
+    knowledgeBaseId: S.String.pipe(T.HttpLabel("knowledgeBaseId")),
+    dataSourceId: S.String.pipe(T.HttpLabel("dataSourceId")),
     clientToken: S.optional(S.String),
     documents: KnowledgeBaseDocuments,
   },
@@ -3427,7 +3428,7 @@ export class CreateDataSourceRequest extends S.Class<CreateDataSourceRequest>(
   "CreateDataSourceRequest",
 )(
   {
-    knowledgeBaseId: S.String.pipe(T.HttpLabel()),
+    knowledgeBaseId: S.String.pipe(T.HttpLabel("knowledgeBaseId")),
     clientToken: S.optional(S.String),
     name: S.String,
     description: S.optional(S.String),
@@ -3631,7 +3632,7 @@ export class ConflictException extends S.TaggedError<ConflictException>()(
 export class InternalServerException extends S.TaggedError<InternalServerException>()(
   "InternalServerException",
   { message: S.optional(S.String) },
-) {}
+).pipe(withCategory(ERROR_CATEGORIES.SERVER_ERROR)) {}
 export class ResourceNotFoundException extends S.TaggedError<ResourceNotFoundException>()(
   "ResourceNotFoundException",
   { message: S.optional(S.String) },
@@ -3639,7 +3640,7 @@ export class ResourceNotFoundException extends S.TaggedError<ResourceNotFoundExc
 export class ThrottlingException extends S.TaggedError<ThrottlingException>()(
   "ThrottlingException",
   { message: S.optional(S.String) },
-) {}
+).pipe(withCategory(ERROR_CATEGORIES.THROTTLING_ERROR)) {}
 export class ServiceQuotaExceededException extends S.TaggedError<ServiceQuotaExceededException>()(
   "ServiceQuotaExceededException",
   { message: S.optional(S.String) },

@@ -1,6 +1,7 @@
 import * as S from "effect/Schema";
 import * as API from "../api.ts";
 import * as T from "../traits.ts";
+import { ERROR_CATEGORIES, withCategory } from "../error-category.ts";
 const svc = T.AwsApiService({
   sdkId: "MediaPackage Vod",
   serviceShapeName: "MediaPackageVod",
@@ -245,7 +246,7 @@ export const __listOf__string = S.Array(S.String);
 export class DeleteAssetRequest extends S.Class<DeleteAssetRequest>(
   "DeleteAssetRequest",
 )(
-  { Id: S.String.pipe(T.HttpLabel()) },
+  { Id: S.String.pipe(T.HttpLabel("Id")) },
   T.all(
     T.Http({ method: "DELETE", uri: "/assets/{Id}" }),
     svc,
@@ -261,7 +262,7 @@ export class DeleteAssetResponse extends S.Class<DeleteAssetResponse>(
 export class DeletePackagingConfigurationRequest extends S.Class<DeletePackagingConfigurationRequest>(
   "DeletePackagingConfigurationRequest",
 )(
-  { Id: S.String.pipe(T.HttpLabel()) },
+  { Id: S.String.pipe(T.HttpLabel("Id")) },
   T.all(
     T.Http({ method: "DELETE", uri: "/packaging_configurations/{Id}" }),
     svc,
@@ -277,7 +278,7 @@ export class DeletePackagingConfigurationResponse extends S.Class<DeletePackagin
 export class DeletePackagingGroupRequest extends S.Class<DeletePackagingGroupRequest>(
   "DeletePackagingGroupRequest",
 )(
-  { Id: S.String.pipe(T.HttpLabel()) },
+  { Id: S.String.pipe(T.HttpLabel("Id")) },
   T.all(
     T.Http({ method: "DELETE", uri: "/packaging_groups/{Id}" }),
     svc,
@@ -293,7 +294,7 @@ export class DeletePackagingGroupResponse extends S.Class<DeletePackagingGroupRe
 export class DescribeAssetRequest extends S.Class<DescribeAssetRequest>(
   "DescribeAssetRequest",
 )(
-  { Id: S.String.pipe(T.HttpLabel()) },
+  { Id: S.String.pipe(T.HttpLabel("Id")) },
   T.all(
     T.Http({ method: "GET", uri: "/assets/{Id}" }),
     svc,
@@ -306,7 +307,7 @@ export class DescribeAssetRequest extends S.Class<DescribeAssetRequest>(
 export class DescribePackagingConfigurationRequest extends S.Class<DescribePackagingConfigurationRequest>(
   "DescribePackagingConfigurationRequest",
 )(
-  { Id: S.String.pipe(T.HttpLabel()) },
+  { Id: S.String.pipe(T.HttpLabel("Id")) },
   T.all(
     T.Http({ method: "GET", uri: "/packaging_configurations/{Id}" }),
     svc,
@@ -319,7 +320,7 @@ export class DescribePackagingConfigurationRequest extends S.Class<DescribePacka
 export class DescribePackagingGroupRequest extends S.Class<DescribePackagingGroupRequest>(
   "DescribePackagingGroupRequest",
 )(
-  { Id: S.String.pipe(T.HttpLabel()) },
+  { Id: S.String.pipe(T.HttpLabel("Id")) },
   T.all(
     T.Http({ method: "GET", uri: "/packaging_groups/{Id}" }),
     svc,
@@ -386,7 +387,7 @@ export class ListPackagingGroupsRequest extends S.Class<ListPackagingGroupsReque
 export class ListTagsForResourceRequest extends S.Class<ListTagsForResourceRequest>(
   "ListTagsForResourceRequest",
 )(
-  { ResourceArn: S.String.pipe(T.HttpLabel()) },
+  { ResourceArn: S.String.pipe(T.HttpLabel("ResourceArn")) },
   T.all(
     T.Http({ method: "GET", uri: "/tags/{ResourceArn}" }),
     svc,
@@ -400,7 +401,7 @@ export class UntagResourceRequest extends S.Class<UntagResourceRequest>(
   "UntagResourceRequest",
 )(
   {
-    ResourceArn: S.String.pipe(T.HttpLabel()),
+    ResourceArn: S.String.pipe(T.HttpLabel("ResourceArn")),
     TagKeys: __listOf__string.pipe(T.HttpQuery("tagKeys")),
   },
   T.all(
@@ -424,7 +425,7 @@ export class UpdatePackagingGroupRequest extends S.Class<UpdatePackagingGroupReq
 )(
   {
     Authorization: S.optional(Authorization).pipe(T.JsonName("authorization")),
-    Id: S.String.pipe(T.HttpLabel()),
+    Id: S.String.pipe(T.HttpLabel("Id")),
   },
   T.all(
     T.Http({ method: "PUT", uri: "/packaging_groups/{Id}" }),
@@ -448,7 +449,7 @@ export class ConfigureLogsRequest extends S.Class<ConfigureLogsRequest>(
     EgressAccessLogs: S.optional(EgressAccessLogs).pipe(
       T.JsonName("egressAccessLogs"),
     ),
-    Id: S.String.pipe(T.HttpLabel()),
+    Id: S.String.pipe(T.HttpLabel("Id")),
   },
   T.all(
     T.Http({ method: "PUT", uri: "/packaging_groups/{Id}/configure_logs" }),
@@ -665,7 +666,7 @@ export class TagResourceRequest extends S.Class<TagResourceRequest>(
   "TagResourceRequest",
 )(
   {
-    ResourceArn: S.String.pipe(T.HttpLabel()),
+    ResourceArn: S.String.pipe(T.HttpLabel("ResourceArn")),
     Tags: __mapOf__string.pipe(T.JsonName("tags")),
   },
   T.all(
@@ -865,7 +866,7 @@ export class ForbiddenException extends S.TaggedError<ForbiddenException>()(
 export class InternalServerErrorException extends S.TaggedError<InternalServerErrorException>()(
   "InternalServerErrorException",
   { Message: S.optional(S.String).pipe(T.JsonName("message")) },
-) {}
+).pipe(withCategory(ERROR_CATEGORIES.SERVER_ERROR)) {}
 export class NotFoundException extends S.TaggedError<NotFoundException>()(
   "NotFoundException",
   { Message: S.optional(S.String).pipe(T.JsonName("message")) },
@@ -873,11 +874,11 @@ export class NotFoundException extends S.TaggedError<NotFoundException>()(
 export class ServiceUnavailableException extends S.TaggedError<ServiceUnavailableException>()(
   "ServiceUnavailableException",
   { Message: S.optional(S.String).pipe(T.JsonName("message")) },
-) {}
+).pipe(withCategory(ERROR_CATEGORIES.SERVER_ERROR)) {}
 export class TooManyRequestsException extends S.TaggedError<TooManyRequestsException>()(
   "TooManyRequestsException",
   { Message: S.optional(S.String).pipe(T.JsonName("message")) },
-) {}
+).pipe(withCategory(ERROR_CATEGORIES.THROTTLING_ERROR)) {}
 export class UnprocessableEntityException extends S.TaggedError<UnprocessableEntityException>()(
   "UnprocessableEntityException",
   { Message: S.optional(S.String).pipe(T.JsonName("message")) },

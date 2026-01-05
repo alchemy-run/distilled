@@ -1,6 +1,7 @@
 import * as S from "effect/Schema";
 import * as API from "../api.ts";
 import * as T from "../traits.ts";
+import { ERROR_CATEGORIES, withCategory } from "../error-category.ts";
 const svc = T.AwsApiService({
   sdkId: "Pinpoint Email",
   serviceShapeName: "AmazonPinpointEmailService",
@@ -307,7 +308,7 @@ export class CreateEmailIdentityRequest extends S.Class<CreateEmailIdentityReque
 export class DeleteConfigurationSetRequest extends S.Class<DeleteConfigurationSetRequest>(
   "DeleteConfigurationSetRequest",
 )(
-  { ConfigurationSetName: S.String.pipe(T.HttpLabel()) },
+  { ConfigurationSetName: S.String.pipe(T.HttpLabel("ConfigurationSetName")) },
   T.all(
     T.Http({
       method: "DELETE",
@@ -327,8 +328,8 @@ export class DeleteConfigurationSetEventDestinationRequest extends S.Class<Delet
   "DeleteConfigurationSetEventDestinationRequest",
 )(
   {
-    ConfigurationSetName: S.String.pipe(T.HttpLabel()),
-    EventDestinationName: S.String.pipe(T.HttpLabel()),
+    ConfigurationSetName: S.String.pipe(T.HttpLabel("ConfigurationSetName")),
+    EventDestinationName: S.String.pipe(T.HttpLabel("EventDestinationName")),
   },
   T.all(
     T.Http({
@@ -348,7 +349,7 @@ export class DeleteConfigurationSetEventDestinationResponse extends S.Class<Dele
 export class DeleteDedicatedIpPoolRequest extends S.Class<DeleteDedicatedIpPoolRequest>(
   "DeleteDedicatedIpPoolRequest",
 )(
-  { PoolName: S.String.pipe(T.HttpLabel()) },
+  { PoolName: S.String.pipe(T.HttpLabel("PoolName")) },
   T.all(
     T.Http({
       method: "DELETE",
@@ -367,7 +368,7 @@ export class DeleteDedicatedIpPoolResponse extends S.Class<DeleteDedicatedIpPool
 export class DeleteEmailIdentityRequest extends S.Class<DeleteEmailIdentityRequest>(
   "DeleteEmailIdentityRequest",
 )(
-  { EmailIdentity: S.String.pipe(T.HttpLabel()) },
+  { EmailIdentity: S.String.pipe(T.HttpLabel("EmailIdentity")) },
   T.all(
     T.Http({ method: "DELETE", uri: "/v1/email/identities/{EmailIdentity}" }),
     svc,
@@ -403,7 +404,7 @@ export class GetBlacklistReportsRequest extends S.Class<GetBlacklistReportsReque
 export class GetConfigurationSetRequest extends S.Class<GetConfigurationSetRequest>(
   "GetConfigurationSetRequest",
 )(
-  { ConfigurationSetName: S.String.pipe(T.HttpLabel()) },
+  { ConfigurationSetName: S.String.pipe(T.HttpLabel("ConfigurationSetName")) },
   T.all(
     T.Http({
       method: "GET",
@@ -419,7 +420,7 @@ export class GetConfigurationSetRequest extends S.Class<GetConfigurationSetReque
 export class GetConfigurationSetEventDestinationsRequest extends S.Class<GetConfigurationSetEventDestinationsRequest>(
   "GetConfigurationSetEventDestinationsRequest",
 )(
-  { ConfigurationSetName: S.String.pipe(T.HttpLabel()) },
+  { ConfigurationSetName: S.String.pipe(T.HttpLabel("ConfigurationSetName")) },
   T.all(
     T.Http({
       method: "GET",
@@ -435,7 +436,7 @@ export class GetConfigurationSetEventDestinationsRequest extends S.Class<GetConf
 export class GetDedicatedIpRequest extends S.Class<GetDedicatedIpRequest>(
   "GetDedicatedIpRequest",
 )(
-  { Ip: S.String.pipe(T.HttpLabel()) },
+  { Ip: S.String.pipe(T.HttpLabel("Ip")) },
   T.all(
     T.Http({ method: "GET", uri: "/v1/email/dedicated-ips/{Ip}" }),
     svc,
@@ -465,7 +466,7 @@ export class GetDedicatedIpsRequest extends S.Class<GetDedicatedIpsRequest>(
 export class GetDeliverabilityTestReportRequest extends S.Class<GetDeliverabilityTestReportRequest>(
   "GetDeliverabilityTestReportRequest",
 )(
-  { ReportId: S.String.pipe(T.HttpLabel()) },
+  { ReportId: S.String.pipe(T.HttpLabel("ReportId")) },
   T.all(
     T.Http({
       method: "GET",
@@ -481,7 +482,7 @@ export class GetDeliverabilityTestReportRequest extends S.Class<GetDeliverabilit
 export class GetDomainDeliverabilityCampaignRequest extends S.Class<GetDomainDeliverabilityCampaignRequest>(
   "GetDomainDeliverabilityCampaignRequest",
 )(
-  { CampaignId: S.String.pipe(T.HttpLabel()) },
+  { CampaignId: S.String.pipe(T.HttpLabel("CampaignId")) },
   T.all(
     T.Http({
       method: "GET",
@@ -498,7 +499,7 @@ export class GetDomainStatisticsReportRequest extends S.Class<GetDomainStatistic
   "GetDomainStatisticsReportRequest",
 )(
   {
-    Domain: S.String.pipe(T.HttpLabel()),
+    Domain: S.String.pipe(T.HttpLabel("Domain")),
     StartDate: S.Date.pipe(T.TimestampFormat("epoch-seconds")).pipe(
       T.HttpQuery("StartDate"),
     ),
@@ -521,7 +522,7 @@ export class GetDomainStatisticsReportRequest extends S.Class<GetDomainStatistic
 export class GetEmailIdentityRequest extends S.Class<GetEmailIdentityRequest>(
   "GetEmailIdentityRequest",
 )(
-  { EmailIdentity: S.String.pipe(T.HttpLabel()) },
+  { EmailIdentity: S.String.pipe(T.HttpLabel("EmailIdentity")) },
   T.all(
     T.Http({ method: "GET", uri: "/v1/email/identities/{EmailIdentity}" }),
     svc,
@@ -592,7 +593,7 @@ export class ListDomainDeliverabilityCampaignsRequest extends S.Class<ListDomain
     EndDate: S.Date.pipe(T.TimestampFormat("epoch-seconds")).pipe(
       T.HttpQuery("EndDate"),
     ),
-    SubscribedDomain: S.String.pipe(T.HttpLabel()),
+    SubscribedDomain: S.String.pipe(T.HttpLabel("SubscribedDomain")),
     NextToken: S.optional(S.String).pipe(T.HttpQuery("NextToken")),
     PageSize: S.optional(S.Number).pipe(T.HttpQuery("PageSize")),
   },
@@ -673,7 +674,7 @@ export class PutConfigurationSetDeliveryOptionsRequest extends S.Class<PutConfig
   "PutConfigurationSetDeliveryOptionsRequest",
 )(
   {
-    ConfigurationSetName: S.String.pipe(T.HttpLabel()),
+    ConfigurationSetName: S.String.pipe(T.HttpLabel("ConfigurationSetName")),
     TlsPolicy: S.optional(S.String),
     SendingPoolName: S.optional(S.String),
   },
@@ -696,7 +697,7 @@ export class PutConfigurationSetReputationOptionsRequest extends S.Class<PutConf
   "PutConfigurationSetReputationOptionsRequest",
 )(
   {
-    ConfigurationSetName: S.String.pipe(T.HttpLabel()),
+    ConfigurationSetName: S.String.pipe(T.HttpLabel("ConfigurationSetName")),
     ReputationMetricsEnabled: S.optional(S.Boolean),
   },
   T.all(
@@ -718,7 +719,7 @@ export class PutConfigurationSetSendingOptionsRequest extends S.Class<PutConfigu
   "PutConfigurationSetSendingOptionsRequest",
 )(
   {
-    ConfigurationSetName: S.String.pipe(T.HttpLabel()),
+    ConfigurationSetName: S.String.pipe(T.HttpLabel("ConfigurationSetName")),
     SendingEnabled: S.optional(S.Boolean),
   },
   T.all(
@@ -740,7 +741,7 @@ export class PutConfigurationSetTrackingOptionsRequest extends S.Class<PutConfig
   "PutConfigurationSetTrackingOptionsRequest",
 )(
   {
-    ConfigurationSetName: S.String.pipe(T.HttpLabel()),
+    ConfigurationSetName: S.String.pipe(T.HttpLabel("ConfigurationSetName")),
     CustomRedirectDomain: S.optional(S.String),
   },
   T.all(
@@ -761,7 +762,7 @@ export class PutConfigurationSetTrackingOptionsResponse extends S.Class<PutConfi
 export class PutDedicatedIpInPoolRequest extends S.Class<PutDedicatedIpInPoolRequest>(
   "PutDedicatedIpInPoolRequest",
 )(
-  { Ip: S.String.pipe(T.HttpLabel()), DestinationPoolName: S.String },
+  { Ip: S.String.pipe(T.HttpLabel("Ip")), DestinationPoolName: S.String },
   T.all(
     T.Http({ method: "PUT", uri: "/v1/email/dedicated-ips/{Ip}/pool" }),
     svc,
@@ -777,7 +778,7 @@ export class PutDedicatedIpInPoolResponse extends S.Class<PutDedicatedIpInPoolRe
 export class PutDedicatedIpWarmupAttributesRequest extends S.Class<PutDedicatedIpWarmupAttributesRequest>(
   "PutDedicatedIpWarmupAttributesRequest",
 )(
-  { Ip: S.String.pipe(T.HttpLabel()), WarmupPercentage: S.Number },
+  { Ip: S.String.pipe(T.HttpLabel("Ip")), WarmupPercentage: S.Number },
   T.all(
     T.Http({ method: "PUT", uri: "/v1/email/dedicated-ips/{Ip}/warmup" }),
     svc,
@@ -829,7 +830,7 @@ export class PutEmailIdentityDkimAttributesRequest extends S.Class<PutEmailIdent
   "PutEmailIdentityDkimAttributesRequest",
 )(
   {
-    EmailIdentity: S.String.pipe(T.HttpLabel()),
+    EmailIdentity: S.String.pipe(T.HttpLabel("EmailIdentity")),
     SigningEnabled: S.optional(S.Boolean),
   },
   T.all(
@@ -848,7 +849,7 @@ export class PutEmailIdentityFeedbackAttributesRequest extends S.Class<PutEmailI
   "PutEmailIdentityFeedbackAttributesRequest",
 )(
   {
-    EmailIdentity: S.String.pipe(T.HttpLabel()),
+    EmailIdentity: S.String.pipe(T.HttpLabel("EmailIdentity")),
     EmailForwardingEnabled: S.optional(S.Boolean),
   },
   T.all(
@@ -870,7 +871,7 @@ export class PutEmailIdentityMailFromAttributesRequest extends S.Class<PutEmailI
   "PutEmailIdentityMailFromAttributesRequest",
 )(
   {
-    EmailIdentity: S.String.pipe(T.HttpLabel()),
+    EmailIdentity: S.String.pipe(T.HttpLabel("EmailIdentity")),
     MailFromDomain: S.optional(S.String),
     BehaviorOnMxFailure: S.optional(S.String),
   },
@@ -961,8 +962,8 @@ export class UpdateConfigurationSetEventDestinationRequest extends S.Class<Updat
   "UpdateConfigurationSetEventDestinationRequest",
 )(
   {
-    ConfigurationSetName: S.String.pipe(T.HttpLabel()),
-    EventDestinationName: S.String.pipe(T.HttpLabel()),
+    ConfigurationSetName: S.String.pipe(T.HttpLabel("ConfigurationSetName")),
+    EventDestinationName: S.String.pipe(T.HttpLabel("EventDestinationName")),
     EventDestination: EventDestinationDefinition,
   },
   T.all(
@@ -1320,7 +1321,7 @@ export class CreateConfigurationSetEventDestinationRequest extends S.Class<Creat
   "CreateConfigurationSetEventDestinationRequest",
 )(
   {
-    ConfigurationSetName: S.String.pipe(T.HttpLabel()),
+    ConfigurationSetName: S.String.pipe(T.HttpLabel("ConfigurationSetName")),
     EventDestinationName: S.String,
     EventDestination: EventDestinationDefinition,
   },
@@ -1379,11 +1380,11 @@ export class BadRequestException extends S.TaggedError<BadRequestException>()(
 export class ConcurrentModificationException extends S.TaggedError<ConcurrentModificationException>()(
   "ConcurrentModificationException",
   { message: S.optional(S.String) },
-) {}
+).pipe(withCategory(ERROR_CATEGORIES.SERVER_ERROR)) {}
 export class TooManyRequestsException extends S.TaggedError<TooManyRequestsException>()(
   "TooManyRequestsException",
   { message: S.optional(S.String) },
-) {}
+).pipe(withCategory(ERROR_CATEGORIES.THROTTLING_ERROR)) {}
 export class NotFoundException extends S.TaggedError<NotFoundException>()(
   "NotFoundException",
   { message: S.optional(S.String) },

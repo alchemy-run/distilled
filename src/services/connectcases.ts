@@ -1,6 +1,7 @@
 import * as S from "effect/Schema";
 import * as API from "../api.ts";
 import * as T from "../traits.ts";
+import { ERROR_CATEGORIES, withCategory } from "../error-category.ts";
 const svc = T.AwsApiService({
   sdkId: "ConnectCases",
   serviceShapeName: "AmazonConnectCases",
@@ -303,7 +304,7 @@ export const TemplateStatusFilters = S.Array(S.String);
 export class ListTagsForResourceRequest extends S.Class<ListTagsForResourceRequest>(
   "ListTagsForResourceRequest",
 )(
-  { arn: S.String.pipe(T.HttpLabel()) },
+  { arn: S.String.pipe(T.HttpLabel("arn")) },
   T.all(
     T.Http({ method: "GET", uri: "/tags/{arn}" }),
     svc,
@@ -317,7 +318,7 @@ export class UntagResourceRequest extends S.Class<UntagResourceRequest>(
   "UntagResourceRequest",
 )(
   {
-    arn: S.String.pipe(T.HttpLabel()),
+    arn: S.String.pipe(T.HttpLabel("arn")),
     tagKeys: TagKeyList.pipe(T.HttpQuery("tagKeys")),
   },
   T.all(
@@ -355,8 +356,8 @@ export class UpdateCaseRequest extends S.Class<UpdateCaseRequest>(
   "UpdateCaseRequest",
 )(
   {
-    domainId: S.String.pipe(T.HttpLabel()),
-    caseId: S.String.pipe(T.HttpLabel()),
+    domainId: S.String.pipe(T.HttpLabel("domainId")),
+    caseId: S.String.pipe(T.HttpLabel("caseId")),
     fields: FieldValueList,
     performedBy: S.optional(UserUnion),
   },
@@ -376,8 +377,8 @@ export class DeleteCaseRequest extends S.Class<DeleteCaseRequest>(
   "DeleteCaseRequest",
 )(
   {
-    domainId: S.String.pipe(T.HttpLabel()),
-    caseId: S.String.pipe(T.HttpLabel()),
+    domainId: S.String.pipe(T.HttpLabel("domainId")),
+    caseId: S.String.pipe(T.HttpLabel("caseId")),
   },
   T.all(
     T.Http({ method: "DELETE", uri: "/domains/{domainId}/cases/{caseId}" }),
@@ -395,8 +396,8 @@ export class GetCaseAuditEventsRequest extends S.Class<GetCaseAuditEventsRequest
   "GetCaseAuditEventsRequest",
 )(
   {
-    caseId: S.String.pipe(T.HttpLabel()),
-    domainId: S.String.pipe(T.HttpLabel()),
+    caseId: S.String.pipe(T.HttpLabel("caseId")),
+    domainId: S.String.pipe(T.HttpLabel("domainId")),
     maxResults: S.optional(S.Number),
     nextToken: S.optional(S.String),
   },
@@ -416,7 +417,7 @@ export class ListCasesForContactRequest extends S.Class<ListCasesForContactReque
   "ListCasesForContactRequest",
 )(
   {
-    domainId: S.String.pipe(T.HttpLabel()),
+    domainId: S.String.pipe(T.HttpLabel("domainId")),
     contactArn: S.String,
     maxResults: S.optional(S.Number),
     nextToken: S.optional(S.String),
@@ -437,9 +438,9 @@ export class DeleteRelatedItemRequest extends S.Class<DeleteRelatedItemRequest>(
   "DeleteRelatedItemRequest",
 )(
   {
-    domainId: S.String.pipe(T.HttpLabel()),
-    caseId: S.String.pipe(T.HttpLabel()),
-    relatedItemId: S.String.pipe(T.HttpLabel()),
+    domainId: S.String.pipe(T.HttpLabel("domainId")),
+    caseId: S.String.pipe(T.HttpLabel("caseId")),
+    relatedItemId: S.String.pipe(T.HttpLabel("relatedItemId")),
   },
   T.all(
     T.Http({
@@ -507,8 +508,8 @@ export class UpdateCaseRuleRequest extends S.Class<UpdateCaseRuleRequest>(
   "UpdateCaseRuleRequest",
 )(
   {
-    domainId: S.String.pipe(T.HttpLabel()),
-    caseRuleId: S.String.pipe(T.HttpLabel()),
+    domainId: S.String.pipe(T.HttpLabel("domainId")),
+    caseRuleId: S.String.pipe(T.HttpLabel("caseRuleId")),
     name: S.optional(S.String),
     description: S.optional(S.String),
     rule: S.optional(CaseRuleDetails),
@@ -532,8 +533,8 @@ export class DeleteCaseRuleRequest extends S.Class<DeleteCaseRuleRequest>(
   "DeleteCaseRuleRequest",
 )(
   {
-    domainId: S.String.pipe(T.HttpLabel()),
-    caseRuleId: S.String.pipe(T.HttpLabel()),
+    domainId: S.String.pipe(T.HttpLabel("domainId")),
+    caseRuleId: S.String.pipe(T.HttpLabel("caseRuleId")),
   },
   T.all(
     T.Http({
@@ -554,7 +555,7 @@ export class ListCaseRulesRequest extends S.Class<ListCaseRulesRequest>(
   "ListCaseRulesRequest",
 )(
   {
-    domainId: S.String.pipe(T.HttpLabel()),
+    domainId: S.String.pipe(T.HttpLabel("domainId")),
     maxResults: S.optional(S.Number).pipe(T.HttpQuery("maxResults")),
     nextToken: S.optional(S.String).pipe(T.HttpQuery("nextToken")),
   },
@@ -583,7 +584,7 @@ export class CreateDomainRequest extends S.Class<CreateDomainRequest>(
 export class GetDomainRequest extends S.Class<GetDomainRequest>(
   "GetDomainRequest",
 )(
-  { domainId: S.String.pipe(T.HttpLabel()) },
+  { domainId: S.String.pipe(T.HttpLabel("domainId")) },
   T.all(
     T.Http({ method: "POST", uri: "/domains/{domainId}" }),
     svc,
@@ -596,7 +597,7 @@ export class GetDomainRequest extends S.Class<GetDomainRequest>(
 export class DeleteDomainRequest extends S.Class<DeleteDomainRequest>(
   "DeleteDomainRequest",
 )(
-  { domainId: S.String.pipe(T.HttpLabel()) },
+  { domainId: S.String.pipe(T.HttpLabel("domainId")) },
   T.all(
     T.Http({ method: "DELETE", uri: "/domains/{domainId}" }),
     svc,
@@ -628,7 +629,7 @@ export class ListDomainsRequest extends S.Class<ListDomainsRequest>(
 export class GetCaseEventConfigurationRequest extends S.Class<GetCaseEventConfigurationRequest>(
   "GetCaseEventConfigurationRequest",
 )(
-  { domainId: S.String.pipe(T.HttpLabel()) },
+  { domainId: S.String.pipe(T.HttpLabel("domainId")) },
   T.all(
     T.Http({
       method: "POST",
@@ -645,7 +646,7 @@ export class CreateFieldRequest extends S.Class<CreateFieldRequest>(
   "CreateFieldRequest",
 )(
   {
-    domainId: S.String.pipe(T.HttpLabel()),
+    domainId: S.String.pipe(T.HttpLabel("domainId")),
     name: S.String,
     type: S.String,
     description: S.optional(S.String),
@@ -663,8 +664,8 @@ export class UpdateFieldRequest extends S.Class<UpdateFieldRequest>(
   "UpdateFieldRequest",
 )(
   {
-    domainId: S.String.pipe(T.HttpLabel()),
-    fieldId: S.String.pipe(T.HttpLabel()),
+    domainId: S.String.pipe(T.HttpLabel("domainId")),
+    fieldId: S.String.pipe(T.HttpLabel("fieldId")),
     name: S.optional(S.String),
     description: S.optional(S.String),
   },
@@ -684,8 +685,8 @@ export class DeleteFieldRequest extends S.Class<DeleteFieldRequest>(
   "DeleteFieldRequest",
 )(
   {
-    domainId: S.String.pipe(T.HttpLabel()),
-    fieldId: S.String.pipe(T.HttpLabel()),
+    domainId: S.String.pipe(T.HttpLabel("domainId")),
+    fieldId: S.String.pipe(T.HttpLabel("fieldId")),
   },
   T.all(
     T.Http({ method: "DELETE", uri: "/domains/{domainId}/fields/{fieldId}" }),
@@ -703,7 +704,7 @@ export class ListFieldsRequest extends S.Class<ListFieldsRequest>(
   "ListFieldsRequest",
 )(
   {
-    domainId: S.String.pipe(T.HttpLabel()),
+    domainId: S.String.pipe(T.HttpLabel("domainId")),
     maxResults: S.optional(S.Number).pipe(T.HttpQuery("maxResults")),
     nextToken: S.optional(S.String).pipe(T.HttpQuery("nextToken")),
   },
@@ -720,8 +721,8 @@ export class ListFieldOptionsRequest extends S.Class<ListFieldOptionsRequest>(
   "ListFieldOptionsRequest",
 )(
   {
-    domainId: S.String.pipe(T.HttpLabel()),
-    fieldId: S.String.pipe(T.HttpLabel()),
+    domainId: S.String.pipe(T.HttpLabel("domainId")),
+    fieldId: S.String.pipe(T.HttpLabel("fieldId")),
     maxResults: S.optional(S.Number).pipe(T.HttpQuery("maxResults")),
     nextToken: S.optional(S.String).pipe(T.HttpQuery("nextToken")),
     values: S.optional(ValuesList).pipe(T.HttpQuery("values")),
@@ -742,7 +743,7 @@ export class BatchGetFieldRequest extends S.Class<BatchGetFieldRequest>(
   "BatchGetFieldRequest",
 )(
   {
-    domainId: S.String.pipe(T.HttpLabel()),
+    domainId: S.String.pipe(T.HttpLabel("domainId")),
     fields: BatchGetFieldIdentifierList,
   },
   T.all(
@@ -758,8 +759,8 @@ export class GetLayoutRequest extends S.Class<GetLayoutRequest>(
   "GetLayoutRequest",
 )(
   {
-    domainId: S.String.pipe(T.HttpLabel()),
-    layoutId: S.String.pipe(T.HttpLabel()),
+    domainId: S.String.pipe(T.HttpLabel("domainId")),
+    layoutId: S.String.pipe(T.HttpLabel("layoutId")),
   },
   T.all(
     T.Http({ method: "POST", uri: "/domains/{domainId}/layouts/{layoutId}" }),
@@ -792,8 +793,8 @@ export class UpdateLayoutRequest extends S.Class<UpdateLayoutRequest>(
   "UpdateLayoutRequest",
 )(
   {
-    domainId: S.String.pipe(T.HttpLabel()),
-    layoutId: S.String.pipe(T.HttpLabel()),
+    domainId: S.String.pipe(T.HttpLabel("domainId")),
+    layoutId: S.String.pipe(T.HttpLabel("layoutId")),
     name: S.optional(S.String),
     content: S.optional(LayoutContent),
   },
@@ -813,8 +814,8 @@ export class DeleteLayoutRequest extends S.Class<DeleteLayoutRequest>(
   "DeleteLayoutRequest",
 )(
   {
-    domainId: S.String.pipe(T.HttpLabel()),
-    layoutId: S.String.pipe(T.HttpLabel()),
+    domainId: S.String.pipe(T.HttpLabel("domainId")),
+    layoutId: S.String.pipe(T.HttpLabel("layoutId")),
   },
   T.all(
     T.Http({ method: "DELETE", uri: "/domains/{domainId}/layouts/{layoutId}" }),
@@ -832,7 +833,7 @@ export class ListLayoutsRequest extends S.Class<ListLayoutsRequest>(
   "ListLayoutsRequest",
 )(
   {
-    domainId: S.String.pipe(T.HttpLabel()),
+    domainId: S.String.pipe(T.HttpLabel("domainId")),
     maxResults: S.optional(S.Number).pipe(T.HttpQuery("maxResults")),
     nextToken: S.optional(S.String).pipe(T.HttpQuery("nextToken")),
   },
@@ -849,8 +850,8 @@ export class GetTemplateRequest extends S.Class<GetTemplateRequest>(
   "GetTemplateRequest",
 )(
   {
-    domainId: S.String.pipe(T.HttpLabel()),
-    templateId: S.String.pipe(T.HttpLabel()),
+    domainId: S.String.pipe(T.HttpLabel("domainId")),
+    templateId: S.String.pipe(T.HttpLabel("templateId")),
   },
   T.all(
     T.Http({
@@ -880,8 +881,8 @@ export class UpdateTemplateRequest extends S.Class<UpdateTemplateRequest>(
   "UpdateTemplateRequest",
 )(
   {
-    domainId: S.String.pipe(T.HttpLabel()),
-    templateId: S.String.pipe(T.HttpLabel()),
+    domainId: S.String.pipe(T.HttpLabel("domainId")),
+    templateId: S.String.pipe(T.HttpLabel("templateId")),
     name: S.optional(S.String),
     description: S.optional(S.String),
     layoutConfiguration: S.optional(LayoutConfiguration),
@@ -908,8 +909,8 @@ export class DeleteTemplateRequest extends S.Class<DeleteTemplateRequest>(
   "DeleteTemplateRequest",
 )(
   {
-    domainId: S.String.pipe(T.HttpLabel()),
-    templateId: S.String.pipe(T.HttpLabel()),
+    domainId: S.String.pipe(T.HttpLabel("domainId")),
+    templateId: S.String.pipe(T.HttpLabel("templateId")),
   },
   T.all(
     T.Http({
@@ -930,7 +931,7 @@ export class ListTemplatesRequest extends S.Class<ListTemplatesRequest>(
   "ListTemplatesRequest",
 )(
   {
-    domainId: S.String.pipe(T.HttpLabel()),
+    domainId: S.String.pipe(T.HttpLabel("domainId")),
     maxResults: S.optional(S.Number).pipe(T.HttpQuery("maxResults")),
     nextToken: S.optional(S.String).pipe(T.HttpQuery("nextToken")),
     status: S.optional(TemplateStatusFilters).pipe(T.HttpQuery("status")),
@@ -981,7 +982,7 @@ export class ListTagsForResourceResponse extends S.Class<ListTagsForResourceResp
 export class TagResourceRequest extends S.Class<TagResourceRequest>(
   "TagResourceRequest",
 )(
-  { arn: S.String.pipe(T.HttpLabel()), tags: Tags },
+  { arn: S.String.pipe(T.HttpLabel("arn")), tags: Tags },
   T.all(
     T.Http({ method: "POST", uri: "/tags/{arn}" }),
     svc,
@@ -996,8 +997,8 @@ export class TagResourceResponse extends S.Class<TagResourceResponse>(
 )({}) {}
 export class GetCaseRequest extends S.Class<GetCaseRequest>("GetCaseRequest")(
   {
-    caseId: S.String.pipe(T.HttpLabel()),
-    domainId: S.String.pipe(T.HttpLabel()),
+    caseId: S.String.pipe(T.HttpLabel("caseId")),
+    domainId: S.String.pipe(T.HttpLabel("domainId")),
     fields: FieldIdentifierList,
     nextToken: S.optional(S.String),
   },
@@ -1013,7 +1014,10 @@ export class GetCaseRequest extends S.Class<GetCaseRequest>("GetCaseRequest")(
 export class BatchGetCaseRuleRequest extends S.Class<BatchGetCaseRuleRequest>(
   "BatchGetCaseRuleRequest",
 )(
-  { domainId: S.String.pipe(T.HttpLabel()), caseRules: CaseRuleIdentifierList },
+  {
+    domainId: S.String.pipe(T.HttpLabel("domainId")),
+    caseRules: CaseRuleIdentifierList,
+  },
   T.all(
     T.Http({ method: "POST", uri: "/domains/{domainId}/rules-batch" }),
     svc,
@@ -1103,7 +1107,7 @@ export class SearchAllRelatedItemsRequest extends S.Class<SearchAllRelatedItemsR
   "SearchAllRelatedItemsRequest",
 )(
   {
-    domainId: S.String.pipe(T.HttpLabel()),
+    domainId: S.String.pipe(T.HttpLabel("domainId")),
     maxResults: S.optional(S.Number),
     nextToken: S.optional(S.String),
     filters: S.optional(RelatedItemFilterList),
@@ -1125,8 +1129,8 @@ export class BatchPutFieldOptionsRequest extends S.Class<BatchPutFieldOptionsReq
   "BatchPutFieldOptionsRequest",
 )(
   {
-    domainId: S.String.pipe(T.HttpLabel()),
-    fieldId: S.String.pipe(T.HttpLabel()),
+    domainId: S.String.pipe(T.HttpLabel("domainId")),
+    fieldId: S.String.pipe(T.HttpLabel("fieldId")),
     options: FieldOptionsList,
   },
   T.all(
@@ -1160,7 +1164,7 @@ export class CreateTemplateRequest extends S.Class<CreateTemplateRequest>(
   "CreateTemplateRequest",
 )(
   {
-    domainId: S.String.pipe(T.HttpLabel()),
+    domainId: S.String.pipe(T.HttpLabel("domainId")),
     name: S.String,
     description: S.optional(S.String),
     layoutConfiguration: S.optional(LayoutConfiguration),
@@ -1304,7 +1308,7 @@ export class CreateCaseRequest extends S.Class<CreateCaseRequest>(
   "CreateCaseRequest",
 )(
   {
-    domainId: S.String.pipe(T.HttpLabel()),
+    domainId: S.String.pipe(T.HttpLabel("domainId")),
     templateId: S.String,
     fields: FieldValueList,
     clientToken: S.optional(S.String),
@@ -1334,7 +1338,7 @@ export class SearchCasesRequest extends S.Class<SearchCasesRequest>(
   "SearchCasesRequest",
 )(
   {
-    domainId: S.String.pipe(T.HttpLabel()),
+    domainId: S.String.pipe(T.HttpLabel("domainId")),
     maxResults: S.optional(S.Number),
     nextToken: S.optional(S.String),
     searchTerm: S.optional(S.String),
@@ -1424,8 +1428,8 @@ export class CreateRelatedItemRequest extends S.Class<CreateRelatedItemRequest>(
   "CreateRelatedItemRequest",
 )(
   {
-    domainId: S.String.pipe(T.HttpLabel()),
-    caseId: S.String.pipe(T.HttpLabel()),
+    domainId: S.String.pipe(T.HttpLabel("domainId")),
+    caseId: S.String.pipe(T.HttpLabel("caseId")),
     type: S.String,
     content: RelatedItemInputContent,
     performedBy: S.optional(UserUnion),
@@ -1446,8 +1450,8 @@ export class SearchRelatedItemsRequest extends S.Class<SearchRelatedItemsRequest
   "SearchRelatedItemsRequest",
 )(
   {
-    domainId: S.String.pipe(T.HttpLabel()),
-    caseId: S.String.pipe(T.HttpLabel()),
+    domainId: S.String.pipe(T.HttpLabel("domainId")),
+    caseId: S.String.pipe(T.HttpLabel("caseId")),
     maxResults: S.optional(S.Number),
     nextToken: S.optional(S.String),
     filters: S.optional(RelatedItemFilterList),
@@ -1475,7 +1479,7 @@ export class PutCaseEventConfigurationRequest extends S.Class<PutCaseEventConfig
   "PutCaseEventConfigurationRequest",
 )(
   {
-    domainId: S.String.pipe(T.HttpLabel()),
+    domainId: S.String.pipe(T.HttpLabel("domainId")),
     eventBridge: EventBridgeConfiguration,
   },
   T.all(
@@ -1589,7 +1593,7 @@ export class CreateCaseRuleRequest extends S.Class<CreateCaseRuleRequest>(
   "CreateCaseRuleRequest",
 )(
   {
-    domainId: S.String.pipe(T.HttpLabel()),
+    domainId: S.String.pipe(T.HttpLabel("domainId")),
     name: S.String,
     description: S.optional(S.String),
     rule: CaseRuleDetails,
@@ -1630,7 +1634,7 @@ export class CreateLayoutRequest extends S.Class<CreateLayoutRequest>(
   "CreateLayoutRequest",
 )(
   {
-    domainId: S.String.pipe(T.HttpLabel()),
+    domainId: S.String.pipe(T.HttpLabel("domainId")),
     name: S.String,
     content: LayoutContent,
   },
@@ -1658,7 +1662,8 @@ export class InternalServerException extends S.TaggedError<InternalServerExcepti
     message: S.String,
     retryAfterSeconds: S.optional(S.Number).pipe(T.HttpHeader("Retry-After")),
   },
-) {}
+  T.Retryable(),
+).pipe(withCategory(ERROR_CATEGORIES.SERVER_ERROR)) {}
 export class ConflictException extends S.TaggedError<ConflictException>()(
   "ConflictException",
   { message: S.String },
@@ -1674,7 +1679,8 @@ export class ServiceQuotaExceededException extends S.TaggedError<ServiceQuotaExc
 export class ThrottlingException extends S.TaggedError<ThrottlingException>()(
   "ThrottlingException",
   { message: S.String },
-) {}
+  T.Retryable(),
+).pipe(withCategory(ERROR_CATEGORIES.THROTTLING_ERROR)) {}
 export class ValidationException extends S.TaggedError<ValidationException>()(
   "ValidationException",
   { message: S.String },

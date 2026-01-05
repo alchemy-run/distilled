@@ -1,6 +1,7 @@
 import * as S from "effect/Schema";
 import * as API from "../api.ts";
 import * as T from "../traits.ts";
+import { ERROR_CATEGORIES, withCategory } from "../error-category.ts";
 const svc = T.AwsApiService({
   sdkId: "Kendra Ranking",
   serviceShapeName: "AWSKendraRerankingFrontendService",
@@ -201,7 +202,7 @@ export const TagKeyList = S.Array(S.String);
 export class DeleteRescoreExecutionPlanRequest extends S.Class<DeleteRescoreExecutionPlanRequest>(
   "DeleteRescoreExecutionPlanRequest",
 )(
-  { Id: S.String.pipe(T.HttpLabel()) },
+  { Id: S.String.pipe(T.HttpLabel("Id")) },
   T.all(
     T.Http({ method: "DELETE", uri: "/rescore-execution-plans/{Id}" }),
     svc,
@@ -217,7 +218,7 @@ export class DeleteRescoreExecutionPlanResponse extends S.Class<DeleteRescoreExe
 export class DescribeRescoreExecutionPlanRequest extends S.Class<DescribeRescoreExecutionPlanRequest>(
   "DescribeRescoreExecutionPlanRequest",
 )(
-  { Id: S.String.pipe(T.HttpLabel()) },
+  { Id: S.String.pipe(T.HttpLabel("Id")) },
   T.all(
     T.Http({ method: "GET", uri: "/rescore-execution-plans/{Id}" }),
     svc,
@@ -279,7 +280,7 @@ export class UpdateRescoreExecutionPlanRequest extends S.Class<UpdateRescoreExec
   "UpdateRescoreExecutionPlanRequest",
 )(
   {
-    Id: S.String.pipe(T.HttpLabel()),
+    Id: S.String.pipe(T.HttpLabel("Id")),
     Name: S.optional(S.String),
     Description: S.optional(S.String),
     CapacityUnits: S.optional(CapacityUnitsConfiguration),
@@ -345,7 +346,9 @@ export class ListTagsForResourceResponse extends S.Class<ListTagsForResourceResp
 )({ Tags: S.optional(TagList) }) {}
 export class RescoreRequest extends S.Class<RescoreRequest>("RescoreRequest")(
   {
-    RescoreExecutionPlanId: S.String.pipe(T.HttpLabel()),
+    RescoreExecutionPlanId: S.String.pipe(
+      T.HttpLabel("RescoreExecutionPlanId"),
+    ),
     SearchQuery: S.String,
     Documents: DocumentList,
   },
@@ -403,7 +406,7 @@ export class ConflictException extends S.TaggedError<ConflictException>()(
 export class InternalServerException extends S.TaggedError<InternalServerException>()(
   "InternalServerException",
   { Message: S.optional(S.String) },
-) {}
+).pipe(withCategory(ERROR_CATEGORIES.SERVER_ERROR)) {}
 export class ResourceNotFoundException extends S.TaggedError<ResourceNotFoundException>()(
   "ResourceNotFoundException",
   { Message: S.optional(S.String) },
@@ -411,7 +414,7 @@ export class ResourceNotFoundException extends S.TaggedError<ResourceNotFoundExc
 export class ThrottlingException extends S.TaggedError<ThrottlingException>()(
   "ThrottlingException",
   { Message: S.optional(S.String) },
-) {}
+).pipe(withCategory(ERROR_CATEGORIES.THROTTLING_ERROR)) {}
 export class ServiceQuotaExceededException extends S.TaggedError<ServiceQuotaExceededException>()(
   "ServiceQuotaExceededException",
   { Message: S.optional(S.String) },

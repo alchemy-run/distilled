@@ -1,6 +1,7 @@
 import * as S from "effect/Schema";
 import * as API from "../api.ts";
 import * as T from "../traits.ts";
+import { ERROR_CATEGORIES, withCategory } from "../error-category.ts";
 const svc = T.AwsApiService({
   sdkId: "EMR containers",
   serviceShapeName: "AwsChicagoWebService",
@@ -278,8 +279,8 @@ export class CancelJobRunRequest extends S.Class<CancelJobRunRequest>(
   "CancelJobRunRequest",
 )(
   {
-    id: S.String.pipe(T.HttpLabel()),
-    virtualClusterId: S.String.pipe(T.HttpLabel()),
+    id: S.String.pipe(T.HttpLabel("id")),
+    virtualClusterId: S.String.pipe(T.HttpLabel("virtualClusterId")),
   },
   T.all(
     T.Http({
@@ -324,7 +325,7 @@ export class CreateVirtualClusterRequest extends S.Class<CreateVirtualClusterReq
 export class DeleteJobTemplateRequest extends S.Class<DeleteJobTemplateRequest>(
   "DeleteJobTemplateRequest",
 )(
-  { id: S.String.pipe(T.HttpLabel()) },
+  { id: S.String.pipe(T.HttpLabel("id")) },
   T.all(
     T.Http({ method: "DELETE", uri: "/jobtemplates/{id}" }),
     svc,
@@ -338,8 +339,8 @@ export class DeleteManagedEndpointRequest extends S.Class<DeleteManagedEndpointR
   "DeleteManagedEndpointRequest",
 )(
   {
-    id: S.String.pipe(T.HttpLabel()),
-    virtualClusterId: S.String.pipe(T.HttpLabel()),
+    id: S.String.pipe(T.HttpLabel("id")),
+    virtualClusterId: S.String.pipe(T.HttpLabel("virtualClusterId")),
   },
   T.all(
     T.Http({
@@ -356,7 +357,7 @@ export class DeleteManagedEndpointRequest extends S.Class<DeleteManagedEndpointR
 export class DeleteVirtualClusterRequest extends S.Class<DeleteVirtualClusterRequest>(
   "DeleteVirtualClusterRequest",
 )(
-  { id: S.String.pipe(T.HttpLabel()) },
+  { id: S.String.pipe(T.HttpLabel("id")) },
   T.all(
     T.Http({ method: "DELETE", uri: "/virtualclusters/{id}" }),
     svc,
@@ -370,8 +371,8 @@ export class DescribeJobRunRequest extends S.Class<DescribeJobRunRequest>(
   "DescribeJobRunRequest",
 )(
   {
-    id: S.String.pipe(T.HttpLabel()),
-    virtualClusterId: S.String.pipe(T.HttpLabel()),
+    id: S.String.pipe(T.HttpLabel("id")),
+    virtualClusterId: S.String.pipe(T.HttpLabel("virtualClusterId")),
   },
   T.all(
     T.Http({
@@ -388,7 +389,7 @@ export class DescribeJobRunRequest extends S.Class<DescribeJobRunRequest>(
 export class DescribeJobTemplateRequest extends S.Class<DescribeJobTemplateRequest>(
   "DescribeJobTemplateRequest",
 )(
-  { id: S.String.pipe(T.HttpLabel()) },
+  { id: S.String.pipe(T.HttpLabel("id")) },
   T.all(
     T.Http({ method: "GET", uri: "/jobtemplates/{id}" }),
     svc,
@@ -402,8 +403,8 @@ export class DescribeManagedEndpointRequest extends S.Class<DescribeManagedEndpo
   "DescribeManagedEndpointRequest",
 )(
   {
-    id: S.String.pipe(T.HttpLabel()),
-    virtualClusterId: S.String.pipe(T.HttpLabel()),
+    id: S.String.pipe(T.HttpLabel("id")),
+    virtualClusterId: S.String.pipe(T.HttpLabel("virtualClusterId")),
   },
   T.all(
     T.Http({
@@ -420,7 +421,7 @@ export class DescribeManagedEndpointRequest extends S.Class<DescribeManagedEndpo
 export class DescribeSecurityConfigurationRequest extends S.Class<DescribeSecurityConfigurationRequest>(
   "DescribeSecurityConfigurationRequest",
 )(
-  { id: S.String.pipe(T.HttpLabel()) },
+  { id: S.String.pipe(T.HttpLabel("id")) },
   T.all(
     T.Http({ method: "GET", uri: "/securityconfigurations/{id}" }),
     svc,
@@ -433,7 +434,7 @@ export class DescribeSecurityConfigurationRequest extends S.Class<DescribeSecuri
 export class DescribeVirtualClusterRequest extends S.Class<DescribeVirtualClusterRequest>(
   "DescribeVirtualClusterRequest",
 )(
-  { id: S.String.pipe(T.HttpLabel()) },
+  { id: S.String.pipe(T.HttpLabel("id")) },
   T.all(
     T.Http({ method: "GET", uri: "/virtualclusters/{id}" }),
     svc,
@@ -447,8 +448,10 @@ export class GetManagedEndpointSessionCredentialsRequest extends S.Class<GetMana
   "GetManagedEndpointSessionCredentialsRequest",
 )(
   {
-    endpointIdentifier: S.String.pipe(T.HttpLabel()),
-    virtualClusterIdentifier: S.String.pipe(T.HttpLabel()),
+    endpointIdentifier: S.String.pipe(T.HttpLabel("endpointIdentifier")),
+    virtualClusterIdentifier: S.String.pipe(
+      T.HttpLabel("virtualClusterIdentifier"),
+    ),
     executionRoleArn: S.String,
     credentialType: S.String,
     durationInSeconds: S.optional(S.Number),
@@ -471,7 +474,7 @@ export class ListJobRunsRequest extends S.Class<ListJobRunsRequest>(
   "ListJobRunsRequest",
 )(
   {
-    virtualClusterId: S.String.pipe(T.HttpLabel()),
+    virtualClusterId: S.String.pipe(T.HttpLabel("virtualClusterId")),
     createdBefore: S.optional(S.Date.pipe(T.TimestampFormat("date-time"))).pipe(
       T.HttpQuery("createdBefore"),
     ),
@@ -521,7 +524,7 @@ export class ListManagedEndpointsRequest extends S.Class<ListManagedEndpointsReq
   "ListManagedEndpointsRequest",
 )(
   {
-    virtualClusterId: S.String.pipe(T.HttpLabel()),
+    virtualClusterId: S.String.pipe(T.HttpLabel("virtualClusterId")),
     createdBefore: S.optional(S.Date.pipe(T.TimestampFormat("date-time"))).pipe(
       T.HttpQuery("createdBefore"),
     ),
@@ -570,7 +573,7 @@ export class ListSecurityConfigurationsRequest extends S.Class<ListSecurityConfi
 export class ListTagsForResourceRequest extends S.Class<ListTagsForResourceRequest>(
   "ListTagsForResourceRequest",
 )(
-  { resourceArn: S.String.pipe(T.HttpLabel()) },
+  { resourceArn: S.String.pipe(T.HttpLabel("resourceArn")) },
   T.all(
     T.Http({ method: "GET", uri: "/tags/{resourceArn}" }),
     svc,
@@ -615,7 +618,7 @@ export class ListVirtualClustersRequest extends S.Class<ListVirtualClustersReque
 export class TagResourceRequest extends S.Class<TagResourceRequest>(
   "TagResourceRequest",
 )(
-  { resourceArn: S.String.pipe(T.HttpLabel()), tags: TagMap },
+  { resourceArn: S.String.pipe(T.HttpLabel("resourceArn")), tags: TagMap },
   T.all(
     T.Http({ method: "POST", uri: "/tags/{resourceArn}" }),
     svc,
@@ -632,7 +635,7 @@ export class UntagResourceRequest extends S.Class<UntagResourceRequest>(
   "UntagResourceRequest",
 )(
   {
-    resourceArn: S.String.pipe(T.HttpLabel()),
+    resourceArn: S.String.pipe(T.HttpLabel("resourceArn")),
     tagKeys: TagKeyList.pipe(T.HttpQuery("tagKeys")),
   },
   T.all(
@@ -939,7 +942,7 @@ export class StartJobRunRequest extends S.Class<StartJobRunRequest>(
 )(
   {
     name: S.optional(S.String),
-    virtualClusterId: S.String.pipe(T.HttpLabel()),
+    virtualClusterId: S.String.pipe(T.HttpLabel("virtualClusterId")),
     clientToken: S.String,
     executionRoleArn: S.optional(S.String),
     releaseLabel: S.optional(S.String),
@@ -972,7 +975,7 @@ export class CreateManagedEndpointRequest extends S.Class<CreateManagedEndpointR
 )(
   {
     name: S.String,
-    virtualClusterId: S.String.pipe(T.HttpLabel()),
+    virtualClusterId: S.String.pipe(T.HttpLabel("virtualClusterId")),
     type: S.String,
     releaseLabel: S.String,
     executionRoleArn: S.String,
@@ -1073,11 +1076,11 @@ export class CreateSecurityConfigurationResponse extends S.Class<CreateSecurityC
 export class InternalServerException extends S.TaggedError<InternalServerException>()(
   "InternalServerException",
   { message: S.optional(S.String) },
-) {}
+).pipe(withCategory(ERROR_CATEGORIES.SERVER_ERROR)) {}
 export class EKSRequestThrottledException extends S.TaggedError<EKSRequestThrottledException>()(
   "EKSRequestThrottledException",
   { message: S.optional(S.String) },
-) {}
+).pipe(withCategory(ERROR_CATEGORIES.THROTTLING_ERROR)) {}
 export class ResourceNotFoundException extends S.TaggedError<ResourceNotFoundException>()(
   "ResourceNotFoundException",
   { message: S.optional(S.String) },

@@ -1,6 +1,7 @@
 import * as S from "effect/Schema";
 import * as API from "../api.ts";
 import * as T from "../traits.ts";
+import { ERROR_CATEGORIES, withCategory } from "../error-category.ts";
 const svc = T.AwsApiService({
   sdkId: "Notifications",
   serviceShapeName: "Notifications",
@@ -201,7 +202,7 @@ export class ListMemberAccountsRequest extends S.Class<ListMemberAccountsRequest
 export class ListTagsForResourceRequest extends S.Class<ListTagsForResourceRequest>(
   "ListTagsForResourceRequest",
 )(
-  { arn: S.String.pipe(T.HttpLabel()) },
+  { arn: S.String.pipe(T.HttpLabel("arn")) },
   T.all(
     T.Http({ method: "GET", uri: "/tags/{arn}" }),
     svc,
@@ -215,7 +216,7 @@ export class UntagResourceRequest extends S.Class<UntagResourceRequest>(
   "UntagResourceRequest",
 )(
   {
-    arn: S.String.pipe(T.HttpLabel()),
+    arn: S.String.pipe(T.HttpLabel("arn")),
     tagKeys: TagKeys.pipe(T.HttpQuery("tagKeys")),
   },
   T.all(
@@ -233,7 +234,10 @@ export class UntagResourceResponse extends S.Class<UntagResourceResponse>(
 export class AssociateChannelRequest extends S.Class<AssociateChannelRequest>(
   "AssociateChannelRequest",
 )(
-  { arn: S.String.pipe(T.HttpLabel()), notificationConfigurationArn: S.String },
+  {
+    arn: S.String.pipe(T.HttpLabel("arn")),
+    notificationConfigurationArn: S.String,
+  },
   T.all(
     T.Http({ method: "POST", uri: "/channels/associate/{arn}" }),
     svc,
@@ -249,7 +253,10 @@ export class AssociateChannelResponse extends S.Class<AssociateChannelResponse>(
 export class DisassociateChannelRequest extends S.Class<DisassociateChannelRequest>(
   "DisassociateChannelRequest",
 )(
-  { arn: S.String.pipe(T.HttpLabel()), notificationConfigurationArn: S.String },
+  {
+    arn: S.String.pipe(T.HttpLabel("arn")),
+    notificationConfigurationArn: S.String,
+  },
   T.all(
     T.Http({ method: "POST", uri: "/channels/disassociate/{arn}" }),
     svc,
@@ -304,7 +311,7 @@ export class UpdateEventRuleRequest extends S.Class<UpdateEventRuleRequest>(
   "UpdateEventRuleRequest",
 )(
   {
-    arn: S.String.pipe(T.HttpLabel()),
+    arn: S.String.pipe(T.HttpLabel("arn")),
     eventPattern: S.optional(S.String),
     regions: S.optional(Regions),
   },
@@ -320,7 +327,7 @@ export class UpdateEventRuleRequest extends S.Class<UpdateEventRuleRequest>(
 export class GetEventRuleRequest extends S.Class<GetEventRuleRequest>(
   "GetEventRuleRequest",
 )(
-  { arn: S.String.pipe(T.HttpLabel()) },
+  { arn: S.String.pipe(T.HttpLabel("arn")) },
   T.all(
     T.Http({ method: "GET", uri: "/event-rules/{arn}" }),
     svc,
@@ -333,7 +340,7 @@ export class GetEventRuleRequest extends S.Class<GetEventRuleRequest>(
 export class DeleteEventRuleRequest extends S.Class<DeleteEventRuleRequest>(
   "DeleteEventRuleRequest",
 )(
-  { arn: S.String.pipe(T.HttpLabel()) },
+  { arn: S.String.pipe(T.HttpLabel("arn")) },
   T.all(
     T.Http({ method: "DELETE", uri: "/event-rules/{arn}" }),
     svc,
@@ -369,7 +376,7 @@ export class AssociateManagedNotificationAccountContactRequest extends S.Class<A
   "AssociateManagedNotificationAccountContactRequest",
 )(
   {
-    contactIdentifier: S.String.pipe(T.HttpLabel()),
+    contactIdentifier: S.String.pipe(T.HttpLabel("contactIdentifier")),
     managedNotificationConfigurationArn: S.String,
   },
   T.all(
@@ -391,7 +398,7 @@ export class DisassociateManagedNotificationAccountContactRequest extends S.Clas
   "DisassociateManagedNotificationAccountContactRequest",
 )(
   {
-    contactIdentifier: S.String.pipe(T.HttpLabel()),
+    contactIdentifier: S.String.pipe(T.HttpLabel("contactIdentifier")),
     managedNotificationConfigurationArn: S.String,
   },
   T.all(
@@ -413,7 +420,7 @@ export class AssociateManagedNotificationAdditionalChannelRequest extends S.Clas
   "AssociateManagedNotificationAdditionalChannelRequest",
 )(
   {
-    channelArn: S.String.pipe(T.HttpLabel()),
+    channelArn: S.String.pipe(T.HttpLabel("channelArn")),
     managedNotificationConfigurationArn: S.String,
   },
   T.all(
@@ -435,7 +442,7 @@ export class DisassociateManagedNotificationAdditionalChannelRequest extends S.C
   "DisassociateManagedNotificationAdditionalChannelRequest",
 )(
   {
-    channelArn: S.String.pipe(T.HttpLabel()),
+    channelArn: S.String.pipe(T.HttpLabel("channelArn")),
     managedNotificationConfigurationArn: S.String,
   },
   T.all(
@@ -457,7 +464,7 @@ export class GetManagedNotificationChildEventRequest extends S.Class<GetManagedN
   "GetManagedNotificationChildEventRequest",
 )(
   {
-    arn: S.String.pipe(T.HttpLabel()),
+    arn: S.String.pipe(T.HttpLabel("arn")),
     locale: S.optional(S.String).pipe(T.HttpQuery("locale")),
   },
   T.all(
@@ -473,7 +480,9 @@ export class ListManagedNotificationChildEventsRequest extends S.Class<ListManag
   "ListManagedNotificationChildEventsRequest",
 )(
   {
-    aggregateManagedNotificationEventArn: S.String.pipe(T.HttpLabel()),
+    aggregateManagedNotificationEventArn: S.String.pipe(
+      T.HttpLabel("aggregateManagedNotificationEventArn"),
+    ),
     startTime: S.optional(S.Date.pipe(T.TimestampFormat("date-time"))).pipe(
       T.HttpQuery("startTime"),
     ),
@@ -503,7 +512,7 @@ export class ListManagedNotificationChildEventsRequest extends S.Class<ListManag
 export class GetManagedNotificationConfigurationRequest extends S.Class<GetManagedNotificationConfigurationRequest>(
   "GetManagedNotificationConfigurationRequest",
 )(
-  { arn: S.String.pipe(T.HttpLabel()) },
+  { arn: S.String.pipe(T.HttpLabel("arn")) },
   T.all(
     T.Http({
       method: "GET",
@@ -539,7 +548,7 @@ export class GetManagedNotificationEventRequest extends S.Class<GetManagedNotifi
   "GetManagedNotificationEventRequest",
 )(
   {
-    arn: S.String.pipe(T.HttpLabel()),
+    arn: S.String.pipe(T.HttpLabel("arn")),
     locale: S.optional(S.String).pipe(T.HttpQuery("locale")),
   },
   T.all(
@@ -602,7 +611,7 @@ export class UpdateNotificationConfigurationRequest extends S.Class<UpdateNotifi
   "UpdateNotificationConfigurationRequest",
 )(
   {
-    arn: S.String.pipe(T.HttpLabel()),
+    arn: S.String.pipe(T.HttpLabel("arn")),
     name: S.optional(S.String),
     description: S.optional(S.String),
     aggregationDuration: S.optional(S.String),
@@ -619,7 +628,7 @@ export class UpdateNotificationConfigurationRequest extends S.Class<UpdateNotifi
 export class GetNotificationConfigurationRequest extends S.Class<GetNotificationConfigurationRequest>(
   "GetNotificationConfigurationRequest",
 )(
-  { arn: S.String.pipe(T.HttpLabel()) },
+  { arn: S.String.pipe(T.HttpLabel("arn")) },
   T.all(
     T.Http({ method: "GET", uri: "/notification-configurations/{arn}" }),
     svc,
@@ -632,7 +641,7 @@ export class GetNotificationConfigurationRequest extends S.Class<GetNotification
 export class DeleteNotificationConfigurationRequest extends S.Class<DeleteNotificationConfigurationRequest>(
   "DeleteNotificationConfigurationRequest",
 )(
-  { arn: S.String.pipe(T.HttpLabel()) },
+  { arn: S.String.pipe(T.HttpLabel("arn")) },
   T.all(
     T.Http({ method: "DELETE", uri: "/notification-configurations/{arn}" }),
     svc,
@@ -669,7 +678,7 @@ export class GetNotificationEventRequest extends S.Class<GetNotificationEventReq
   "GetNotificationEventRequest",
 )(
   {
-    arn: S.String.pipe(T.HttpLabel()),
+    arn: S.String.pipe(T.HttpLabel("arn")),
     locale: S.optional(S.String).pipe(T.HttpQuery("locale")),
   },
   T.all(
@@ -730,7 +739,9 @@ export class RegisterNotificationHubRequest extends S.Class<RegisterNotification
 export class DeregisterNotificationHubRequest extends S.Class<DeregisterNotificationHubRequest>(
   "DeregisterNotificationHubRequest",
 )(
-  { notificationHubRegion: S.String.pipe(T.HttpLabel()) },
+  {
+    notificationHubRegion: S.String.pipe(T.HttpLabel("notificationHubRegion")),
+  },
   T.all(
     T.Http({
       method: "DELETE",
@@ -763,7 +774,7 @@ export class AssociateOrganizationalUnitRequest extends S.Class<AssociateOrganiz
   "AssociateOrganizationalUnitRequest",
 )(
   {
-    organizationalUnitId: S.String.pipe(T.HttpLabel()),
+    organizationalUnitId: S.String.pipe(T.HttpLabel("organizationalUnitId")),
     notificationConfigurationArn: S.String,
   },
   T.all(
@@ -785,7 +796,7 @@ export class DisassociateOrganizationalUnitRequest extends S.Class<DisassociateO
   "DisassociateOrganizationalUnitRequest",
 )(
   {
-    organizationalUnitId: S.String.pipe(T.HttpLabel()),
+    organizationalUnitId: S.String.pipe(T.HttpLabel("organizationalUnitId")),
     notificationConfigurationArn: S.String,
   },
   T.all(
@@ -834,7 +845,7 @@ export class ListTagsForResourceResponse extends S.Class<ListTagsForResourceResp
 export class TagResourceRequest extends S.Class<TagResourceRequest>(
   "TagResourceRequest",
 )(
-  { arn: S.String.pipe(T.HttpLabel()), tags: TagMap },
+  { arn: S.String.pipe(T.HttpLabel("arn")), tags: TagMap },
   T.all(
     T.Http({ method: "POST", uri: "/tags/{arn}" }),
     svc,
@@ -1312,7 +1323,8 @@ export class ConflictException extends S.TaggedError<ConflictException>()(
 export class InternalServerException extends S.TaggedError<InternalServerException>()(
   "InternalServerException",
   { message: S.String },
-) {}
+  T.Retryable(),
+).pipe(withCategory(ERROR_CATEGORIES.SERVER_ERROR)) {}
 export class ResourceNotFoundException extends S.TaggedError<ResourceNotFoundException>()(
   "ResourceNotFoundException",
   { message: S.String, resourceId: S.String },
@@ -1335,7 +1347,8 @@ export class ThrottlingException extends S.TaggedError<ThrottlingException>()(
     quotaCode: S.optional(S.String),
     retryAfterSeconds: S.optional(S.Number).pipe(T.HttpHeader("Retry-After")),
   },
-) {}
+  T.Retryable({ throttling: true }),
+).pipe(withCategory(ERROR_CATEGORIES.THROTTLING_ERROR)) {}
 export class ValidationException extends S.TaggedError<ValidationException>()(
   "ValidationException",
   {

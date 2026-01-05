@@ -1,6 +1,7 @@
 import * as S from "effect/Schema";
 import * as API from "../api.ts";
 import * as T from "../traits.ts";
+import { ERROR_CATEGORIES, withCategory } from "../error-category.ts";
 const ns = T.XmlNamespace("http://glacier.amazonaws.com/doc/2012-06-01/");
 const svc = T.AwsApiService({ sdkId: "Glacier", serviceShapeName: "Glacier" });
 const auth = T.AwsAuthSigv4({ name: "glacier" });
@@ -264,9 +265,9 @@ export class AbortMultipartUploadInput extends S.Class<AbortMultipartUploadInput
   "AbortMultipartUploadInput",
 )(
   {
-    accountId: S.String.pipe(T.HttpLabel()),
-    vaultName: S.String.pipe(T.HttpLabel()),
-    uploadId: S.String.pipe(T.HttpLabel()),
+    accountId: S.String.pipe(T.HttpLabel("accountId")),
+    vaultName: S.String.pipe(T.HttpLabel("vaultName")),
+    uploadId: S.String.pipe(T.HttpLabel("uploadId")),
   },
   T.all(
     ns,
@@ -288,8 +289,8 @@ export class AbortVaultLockInput extends S.Class<AbortVaultLockInput>(
   "AbortVaultLockInput",
 )(
   {
-    accountId: S.String.pipe(T.HttpLabel()),
-    vaultName: S.String.pipe(T.HttpLabel()),
+    accountId: S.String.pipe(T.HttpLabel("accountId")),
+    vaultName: S.String.pipe(T.HttpLabel("vaultName")),
   },
   T.all(
     ns,
@@ -311,9 +312,9 @@ export class CompleteMultipartUploadInput extends S.Class<CompleteMultipartUploa
   "CompleteMultipartUploadInput",
 )(
   {
-    accountId: S.String.pipe(T.HttpLabel()),
-    vaultName: S.String.pipe(T.HttpLabel()),
-    uploadId: S.String.pipe(T.HttpLabel()),
+    accountId: S.String.pipe(T.HttpLabel("accountId")),
+    vaultName: S.String.pipe(T.HttpLabel("vaultName")),
+    uploadId: S.String.pipe(T.HttpLabel("uploadId")),
     archiveSize: S.optional(S.String).pipe(T.HttpHeader("x-amz-archive-size")),
     checksum: S.optional(S.String).pipe(T.HttpHeader("x-amz-sha256-tree-hash")),
   },
@@ -334,9 +335,9 @@ export class CompleteVaultLockInput extends S.Class<CompleteVaultLockInput>(
   "CompleteVaultLockInput",
 )(
   {
-    accountId: S.String.pipe(T.HttpLabel()),
-    vaultName: S.String.pipe(T.HttpLabel()),
-    lockId: S.String.pipe(T.HttpLabel()),
+    accountId: S.String.pipe(T.HttpLabel("accountId")),
+    vaultName: S.String.pipe(T.HttpLabel("vaultName")),
+    lockId: S.String.pipe(T.HttpLabel("lockId")),
   },
   T.all(
     ns,
@@ -358,8 +359,8 @@ export class CreateVaultInput extends S.Class<CreateVaultInput>(
   "CreateVaultInput",
 )(
   {
-    accountId: S.String.pipe(T.HttpLabel()),
-    vaultName: S.String.pipe(T.HttpLabel()),
+    accountId: S.String.pipe(T.HttpLabel("accountId")),
+    vaultName: S.String.pipe(T.HttpLabel("vaultName")),
   },
   T.all(
     ns,
@@ -375,9 +376,9 @@ export class DeleteArchiveInput extends S.Class<DeleteArchiveInput>(
   "DeleteArchiveInput",
 )(
   {
-    accountId: S.String.pipe(T.HttpLabel()),
-    vaultName: S.String.pipe(T.HttpLabel()),
-    archiveId: S.String.pipe(T.HttpLabel()),
+    accountId: S.String.pipe(T.HttpLabel("accountId")),
+    vaultName: S.String.pipe(T.HttpLabel("vaultName")),
+    archiveId: S.String.pipe(T.HttpLabel("archiveId")),
   },
   T.all(
     ns,
@@ -399,8 +400,8 @@ export class DeleteVaultInput extends S.Class<DeleteVaultInput>(
   "DeleteVaultInput",
 )(
   {
-    accountId: S.String.pipe(T.HttpLabel()),
-    vaultName: S.String.pipe(T.HttpLabel()),
+    accountId: S.String.pipe(T.HttpLabel("accountId")),
+    vaultName: S.String.pipe(T.HttpLabel("vaultName")),
   },
   T.all(
     ns,
@@ -419,8 +420,8 @@ export class DeleteVaultAccessPolicyInput extends S.Class<DeleteVaultAccessPolic
   "DeleteVaultAccessPolicyInput",
 )(
   {
-    accountId: S.String.pipe(T.HttpLabel()),
-    vaultName: S.String.pipe(T.HttpLabel()),
+    accountId: S.String.pipe(T.HttpLabel("accountId")),
+    vaultName: S.String.pipe(T.HttpLabel("vaultName")),
   },
   T.all(
     ns,
@@ -442,8 +443,8 @@ export class DeleteVaultNotificationsInput extends S.Class<DeleteVaultNotificati
   "DeleteVaultNotificationsInput",
 )(
   {
-    accountId: S.String.pipe(T.HttpLabel()),
-    vaultName: S.String.pipe(T.HttpLabel()),
+    accountId: S.String.pipe(T.HttpLabel("accountId")),
+    vaultName: S.String.pipe(T.HttpLabel("vaultName")),
   },
   T.all(
     ns,
@@ -465,9 +466,9 @@ export class DescribeJobInput extends S.Class<DescribeJobInput>(
   "DescribeJobInput",
 )(
   {
-    accountId: S.String.pipe(T.HttpLabel()),
-    vaultName: S.String.pipe(T.HttpLabel()),
-    jobId: S.String.pipe(T.HttpLabel()),
+    accountId: S.String.pipe(T.HttpLabel("accountId")),
+    vaultName: S.String.pipe(T.HttpLabel("vaultName")),
+    jobId: S.String.pipe(T.HttpLabel("jobId")),
   },
   T.all(
     ns,
@@ -486,8 +487,8 @@ export class DescribeVaultInput extends S.Class<DescribeVaultInput>(
   "DescribeVaultInput",
 )(
   {
-    accountId: S.String.pipe(T.HttpLabel()),
-    vaultName: S.String.pipe(T.HttpLabel()),
+    accountId: S.String.pipe(T.HttpLabel("accountId")),
+    vaultName: S.String.pipe(T.HttpLabel("vaultName")),
   },
   T.all(
     ns,
@@ -502,7 +503,7 @@ export class DescribeVaultInput extends S.Class<DescribeVaultInput>(
 export class GetDataRetrievalPolicyInput extends S.Class<GetDataRetrievalPolicyInput>(
   "GetDataRetrievalPolicyInput",
 )(
-  { accountId: S.String.pipe(T.HttpLabel()) },
+  { accountId: S.String.pipe(T.HttpLabel("accountId")) },
   T.all(
     ns,
     T.Http({ method: "GET", uri: "/{accountId}/policies/data-retrieval" }),
@@ -517,9 +518,9 @@ export class GetJobOutputInput extends S.Class<GetJobOutputInput>(
   "GetJobOutputInput",
 )(
   {
-    accountId: S.String.pipe(T.HttpLabel()),
-    vaultName: S.String.pipe(T.HttpLabel()),
-    jobId: S.String.pipe(T.HttpLabel()),
+    accountId: S.String.pipe(T.HttpLabel("accountId")),
+    vaultName: S.String.pipe(T.HttpLabel("vaultName")),
+    jobId: S.String.pipe(T.HttpLabel("jobId")),
     range: S.optional(S.String).pipe(T.HttpHeader("Range")),
   },
   T.all(
@@ -539,8 +540,8 @@ export class GetVaultAccessPolicyInput extends S.Class<GetVaultAccessPolicyInput
   "GetVaultAccessPolicyInput",
 )(
   {
-    accountId: S.String.pipe(T.HttpLabel()),
-    vaultName: S.String.pipe(T.HttpLabel()),
+    accountId: S.String.pipe(T.HttpLabel("accountId")),
+    vaultName: S.String.pipe(T.HttpLabel("vaultName")),
   },
   T.all(
     ns,
@@ -559,8 +560,8 @@ export class GetVaultLockInput extends S.Class<GetVaultLockInput>(
   "GetVaultLockInput",
 )(
   {
-    accountId: S.String.pipe(T.HttpLabel()),
-    vaultName: S.String.pipe(T.HttpLabel()),
+    accountId: S.String.pipe(T.HttpLabel("accountId")),
+    vaultName: S.String.pipe(T.HttpLabel("vaultName")),
   },
   T.all(
     ns,
@@ -579,8 +580,8 @@ export class GetVaultNotificationsInput extends S.Class<GetVaultNotificationsInp
   "GetVaultNotificationsInput",
 )(
   {
-    accountId: S.String.pipe(T.HttpLabel()),
-    vaultName: S.String.pipe(T.HttpLabel()),
+    accountId: S.String.pipe(T.HttpLabel("accountId")),
+    vaultName: S.String.pipe(T.HttpLabel("vaultName")),
   },
   T.all(
     ns,
@@ -599,8 +600,8 @@ export class InitiateMultipartUploadInput extends S.Class<InitiateMultipartUploa
   "InitiateMultipartUploadInput",
 )(
   {
-    accountId: S.String.pipe(T.HttpLabel()),
-    vaultName: S.String.pipe(T.HttpLabel()),
+    accountId: S.String.pipe(T.HttpLabel("accountId")),
+    vaultName: S.String.pipe(T.HttpLabel("vaultName")),
     archiveDescription: S.optional(S.String).pipe(
       T.HttpHeader("x-amz-archive-description"),
     ),
@@ -621,8 +622,8 @@ export class InitiateMultipartUploadInput extends S.Class<InitiateMultipartUploa
 ) {}
 export class ListJobsInput extends S.Class<ListJobsInput>("ListJobsInput")(
   {
-    accountId: S.String.pipe(T.HttpLabel()),
-    vaultName: S.String.pipe(T.HttpLabel()),
+    accountId: S.String.pipe(T.HttpLabel("accountId")),
+    vaultName: S.String.pipe(T.HttpLabel("vaultName")),
     limit: S.optional(S.Number).pipe(T.HttpQuery("limit")),
     marker: S.optional(S.String).pipe(T.HttpQuery("marker")),
     statuscode: S.optional(S.String).pipe(T.HttpQuery("statuscode")),
@@ -642,8 +643,8 @@ export class ListMultipartUploadsInput extends S.Class<ListMultipartUploadsInput
   "ListMultipartUploadsInput",
 )(
   {
-    accountId: S.String.pipe(T.HttpLabel()),
-    vaultName: S.String.pipe(T.HttpLabel()),
+    accountId: S.String.pipe(T.HttpLabel("accountId")),
+    vaultName: S.String.pipe(T.HttpLabel("vaultName")),
     limit: S.optional(S.Number).pipe(T.HttpQuery("limit")),
     marker: S.optional(S.String).pipe(T.HttpQuery("marker")),
   },
@@ -662,9 +663,9 @@ export class ListMultipartUploadsInput extends S.Class<ListMultipartUploadsInput
 ) {}
 export class ListPartsInput extends S.Class<ListPartsInput>("ListPartsInput")(
   {
-    accountId: S.String.pipe(T.HttpLabel()),
-    vaultName: S.String.pipe(T.HttpLabel()),
-    uploadId: S.String.pipe(T.HttpLabel()),
+    accountId: S.String.pipe(T.HttpLabel("accountId")),
+    vaultName: S.String.pipe(T.HttpLabel("vaultName")),
+    uploadId: S.String.pipe(T.HttpLabel("uploadId")),
     marker: S.optional(S.String).pipe(T.HttpQuery("marker")),
     limit: S.optional(S.Number).pipe(T.HttpQuery("limit")),
   },
@@ -684,7 +685,7 @@ export class ListPartsInput extends S.Class<ListPartsInput>("ListPartsInput")(
 export class ListProvisionedCapacityInput extends S.Class<ListProvisionedCapacityInput>(
   "ListProvisionedCapacityInput",
 )(
-  { accountId: S.String.pipe(T.HttpLabel()) },
+  { accountId: S.String.pipe(T.HttpLabel("accountId")) },
   T.all(
     ns,
     T.Http({ method: "GET", uri: "/{accountId}/provisioned-capacity" }),
@@ -699,8 +700,8 @@ export class ListTagsForVaultInput extends S.Class<ListTagsForVaultInput>(
   "ListTagsForVaultInput",
 )(
   {
-    accountId: S.String.pipe(T.HttpLabel()),
-    vaultName: S.String.pipe(T.HttpLabel()),
+    accountId: S.String.pipe(T.HttpLabel("accountId")),
+    vaultName: S.String.pipe(T.HttpLabel("vaultName")),
   },
   T.all(
     ns,
@@ -716,7 +717,7 @@ export class ListVaultsInput extends S.Class<ListVaultsInput>(
   "ListVaultsInput",
 )(
   {
-    accountId: S.String.pipe(T.HttpLabel()),
+    accountId: S.String.pipe(T.HttpLabel("accountId")),
     marker: S.optional(S.String).pipe(T.HttpQuery("marker")),
     limit: S.optional(S.Number).pipe(T.HttpQuery("limit")),
   },
@@ -733,7 +734,7 @@ export class ListVaultsInput extends S.Class<ListVaultsInput>(
 export class PurchaseProvisionedCapacityInput extends S.Class<PurchaseProvisionedCapacityInput>(
   "PurchaseProvisionedCapacityInput",
 )(
-  { accountId: S.String.pipe(T.HttpLabel()) },
+  { accountId: S.String.pipe(T.HttpLabel("accountId")) },
   T.all(
     ns,
     T.Http({ method: "POST", uri: "/{accountId}/provisioned-capacity" }),
@@ -748,8 +749,8 @@ export class RemoveTagsFromVaultInput extends S.Class<RemoveTagsFromVaultInput>(
   "RemoveTagsFromVaultInput",
 )(
   {
-    accountId: S.String.pipe(T.HttpLabel()),
-    vaultName: S.String.pipe(T.HttpLabel()),
+    accountId: S.String.pipe(T.HttpLabel("accountId")),
+    vaultName: S.String.pipe(T.HttpLabel("vaultName")),
     TagKeys: S.optional(TagKeyList),
   },
   T.all(
@@ -772,8 +773,8 @@ export class UploadArchiveInput extends S.Class<UploadArchiveInput>(
   "UploadArchiveInput",
 )(
   {
-    vaultName: S.String.pipe(T.HttpLabel()),
-    accountId: S.String.pipe(T.HttpLabel()),
+    vaultName: S.String.pipe(T.HttpLabel("vaultName")),
+    accountId: S.String.pipe(T.HttpLabel("accountId")),
     archiveDescription: S.optional(S.String).pipe(
       T.HttpHeader("x-amz-archive-description"),
     ),
@@ -794,9 +795,9 @@ export class UploadMultipartPartInput extends S.Class<UploadMultipartPartInput>(
   "UploadMultipartPartInput",
 )(
   {
-    accountId: S.String.pipe(T.HttpLabel()),
-    vaultName: S.String.pipe(T.HttpLabel()),
-    uploadId: S.String.pipe(T.HttpLabel()),
+    accountId: S.String.pipe(T.HttpLabel("accountId")),
+    vaultName: S.String.pipe(T.HttpLabel("vaultName")),
+    uploadId: S.String.pipe(T.HttpLabel("uploadId")),
     checksum: S.optional(S.String).pipe(T.HttpHeader("x-amz-sha256-tree-hash")),
     range: S.optional(S.String).pipe(T.HttpHeader("Content-Range")),
     body: S.optional(T.StreamingInput).pipe(T.HttpPayload()),
@@ -944,8 +945,8 @@ export class AddTagsToVaultInput extends S.Class<AddTagsToVaultInput>(
   "AddTagsToVaultInput",
 )(
   {
-    accountId: S.String.pipe(T.HttpLabel()),
-    vaultName: S.String.pipe(T.HttpLabel()),
+    accountId: S.String.pipe(T.HttpLabel("accountId")),
+    vaultName: S.String.pipe(T.HttpLabel("vaultName")),
     Tags: S.optional(TagMap),
   },
   T.all(
@@ -1042,8 +1043,8 @@ export class InitiateVaultLockInput extends S.Class<InitiateVaultLockInput>(
   "InitiateVaultLockInput",
 )(
   {
-    accountId: S.String.pipe(T.HttpLabel()),
-    vaultName: S.String.pipe(T.HttpLabel()),
+    accountId: S.String.pipe(T.HttpLabel("accountId")),
+    vaultName: S.String.pipe(T.HttpLabel("vaultName")),
     policy: S.optional(VaultLockPolicy).pipe(T.HttpPayload()),
   },
   T.all(
@@ -1079,8 +1080,8 @@ export class SetVaultAccessPolicyInput extends S.Class<SetVaultAccessPolicyInput
   "SetVaultAccessPolicyInput",
 )(
   {
-    accountId: S.String.pipe(T.HttpLabel()),
-    vaultName: S.String.pipe(T.HttpLabel()),
+    accountId: S.String.pipe(T.HttpLabel("accountId")),
+    vaultName: S.String.pipe(T.HttpLabel("vaultName")),
     policy: S.optional(VaultAccessPolicy).pipe(T.HttpPayload()),
   },
   T.all(
@@ -1103,8 +1104,8 @@ export class SetVaultNotificationsInput extends S.Class<SetVaultNotificationsInp
   "SetVaultNotificationsInput",
 )(
   {
-    accountId: S.String.pipe(T.HttpLabel()),
-    vaultName: S.String.pipe(T.HttpLabel()),
+    accountId: S.String.pipe(T.HttpLabel("accountId")),
+    vaultName: S.String.pipe(T.HttpLabel("vaultName")),
     vaultNotificationConfig: S.optional(VaultNotificationConfig).pipe(
       T.HttpPayload(),
     ),
@@ -1193,7 +1194,7 @@ export class SetDataRetrievalPolicyInput extends S.Class<SetDataRetrievalPolicyI
   "SetDataRetrievalPolicyInput",
 )(
   {
-    accountId: S.String.pipe(T.HttpLabel()),
+    accountId: S.String.pipe(T.HttpLabel("accountId")),
     Policy: S.optional(DataRetrievalPolicy),
   },
   T.all(
@@ -1225,8 +1226,8 @@ export class InitiateJobInput extends S.Class<InitiateJobInput>(
   "InitiateJobInput",
 )(
   {
-    accountId: S.String.pipe(T.HttpLabel()),
-    vaultName: S.String.pipe(T.HttpLabel()),
+    accountId: S.String.pipe(T.HttpLabel("accountId")),
+    vaultName: S.String.pipe(T.HttpLabel("vaultName")),
     jobParameters: S.optional(JobParameters).pipe(T.HttpPayload()),
   },
   T.all(
@@ -1300,7 +1301,7 @@ export class ServiceUnavailableException extends S.TaggedError<ServiceUnavailabl
     code: S.optional(S.String),
     message: S.optional(S.String),
   },
-) {}
+).pipe(withCategory(ERROR_CATEGORIES.SERVER_ERROR)) {}
 export class RequestTimeoutException extends S.TaggedError<RequestTimeoutException>()(
   "RequestTimeoutException",
   {

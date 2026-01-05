@@ -1,6 +1,7 @@
 import * as S from "effect/Schema";
 import * as API from "../api.ts";
 import * as T from "../traits.ts";
+import { ERROR_CATEGORIES, withCategory } from "../error-category.ts";
 const ns = T.XmlNamespace("http://cognito-idp.amazonaws.com/doc/2016-04-18/");
 const svc = T.AwsApiService({
   sdkId: "Cognito Identity Provider",
@@ -2713,7 +2714,7 @@ export class ResourceNotFoundException extends S.TaggedError<ResourceNotFoundExc
 export class TooManyRequestsException extends S.TaggedError<TooManyRequestsException>()(
   "TooManyRequestsException",
   { message: S.optional(S.String) },
-) {}
+).pipe(withCategory(ERROR_CATEGORIES.THROTTLING_ERROR)) {}
 export class EnableSoftwareTokenMFAException extends S.TaggedError<EnableSoftwareTokenMFAException>()(
   "EnableSoftwareTokenMFAException",
   { message: S.optional(S.String) },

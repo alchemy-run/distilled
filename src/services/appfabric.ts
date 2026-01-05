@@ -1,6 +1,7 @@
 import * as S from "effect/Schema";
 import * as API from "../api.ts";
 import * as T from "../traits.ts";
+import { ERROR_CATEGORIES, withCategory } from "../error-category.ts";
 const svc = T.AwsApiService({
   sdkId: "AppFabric",
   serviceShapeName: "FabricFrontEndService",
@@ -334,7 +335,7 @@ export class CreateIngestionRequest extends S.Class<CreateIngestionRequest>(
   "CreateIngestionRequest",
 )(
   {
-    appBundleIdentifier: S.String.pipe(T.HttpLabel()),
+    appBundleIdentifier: S.String.pipe(T.HttpLabel("appBundleIdentifier")),
     app: S.String,
     tenantId: S.String,
     ingestionType: S.String,
@@ -357,8 +358,10 @@ export class DeleteAppAuthorizationRequest extends S.Class<DeleteAppAuthorizatio
   "DeleteAppAuthorizationRequest",
 )(
   {
-    appBundleIdentifier: S.String.pipe(T.HttpLabel()),
-    appAuthorizationIdentifier: S.String.pipe(T.HttpLabel()),
+    appBundleIdentifier: S.String.pipe(T.HttpLabel("appBundleIdentifier")),
+    appAuthorizationIdentifier: S.String.pipe(
+      T.HttpLabel("appAuthorizationIdentifier"),
+    ),
   },
   T.all(
     T.Http({
@@ -378,7 +381,7 @@ export class DeleteAppAuthorizationResponse extends S.Class<DeleteAppAuthorizati
 export class DeleteAppBundleRequest extends S.Class<DeleteAppBundleRequest>(
   "DeleteAppBundleRequest",
 )(
-  { appBundleIdentifier: S.String.pipe(T.HttpLabel()) },
+  { appBundleIdentifier: S.String.pipe(T.HttpLabel("appBundleIdentifier")) },
   T.all(
     T.Http({ method: "DELETE", uri: "/appbundles/{appBundleIdentifier}" }),
     svc,
@@ -395,8 +398,8 @@ export class DeleteIngestionRequest extends S.Class<DeleteIngestionRequest>(
   "DeleteIngestionRequest",
 )(
   {
-    appBundleIdentifier: S.String.pipe(T.HttpLabel()),
-    ingestionIdentifier: S.String.pipe(T.HttpLabel()),
+    appBundleIdentifier: S.String.pipe(T.HttpLabel("appBundleIdentifier")),
+    ingestionIdentifier: S.String.pipe(T.HttpLabel("ingestionIdentifier")),
   },
   T.all(
     T.Http({
@@ -417,9 +420,11 @@ export class DeleteIngestionDestinationRequest extends S.Class<DeleteIngestionDe
   "DeleteIngestionDestinationRequest",
 )(
   {
-    appBundleIdentifier: S.String.pipe(T.HttpLabel()),
-    ingestionIdentifier: S.String.pipe(T.HttpLabel()),
-    ingestionDestinationIdentifier: S.String.pipe(T.HttpLabel()),
+    appBundleIdentifier: S.String.pipe(T.HttpLabel("appBundleIdentifier")),
+    ingestionIdentifier: S.String.pipe(T.HttpLabel("ingestionIdentifier")),
+    ingestionDestinationIdentifier: S.String.pipe(
+      T.HttpLabel("ingestionDestinationIdentifier"),
+    ),
   },
   T.all(
     T.Http({
@@ -440,8 +445,10 @@ export class GetAppAuthorizationRequest extends S.Class<GetAppAuthorizationReque
   "GetAppAuthorizationRequest",
 )(
   {
-    appBundleIdentifier: S.String.pipe(T.HttpLabel()),
-    appAuthorizationIdentifier: S.String.pipe(T.HttpLabel()),
+    appBundleIdentifier: S.String.pipe(T.HttpLabel("appBundleIdentifier")),
+    appAuthorizationIdentifier: S.String.pipe(
+      T.HttpLabel("appAuthorizationIdentifier"),
+    ),
   },
   T.all(
     T.Http({
@@ -458,7 +465,7 @@ export class GetAppAuthorizationRequest extends S.Class<GetAppAuthorizationReque
 export class GetAppBundleRequest extends S.Class<GetAppBundleRequest>(
   "GetAppBundleRequest",
 )(
-  { appBundleIdentifier: S.String.pipe(T.HttpLabel()) },
+  { appBundleIdentifier: S.String.pipe(T.HttpLabel("appBundleIdentifier")) },
   T.all(
     T.Http({ method: "GET", uri: "/appbundles/{appBundleIdentifier}" }),
     svc,
@@ -472,8 +479,8 @@ export class GetIngestionRequest extends S.Class<GetIngestionRequest>(
   "GetIngestionRequest",
 )(
   {
-    appBundleIdentifier: S.String.pipe(T.HttpLabel()),
-    ingestionIdentifier: S.String.pipe(T.HttpLabel()),
+    appBundleIdentifier: S.String.pipe(T.HttpLabel("appBundleIdentifier")),
+    ingestionIdentifier: S.String.pipe(T.HttpLabel("ingestionIdentifier")),
   },
   T.all(
     T.Http({
@@ -491,9 +498,11 @@ export class GetIngestionDestinationRequest extends S.Class<GetIngestionDestinat
   "GetIngestionDestinationRequest",
 )(
   {
-    appBundleIdentifier: S.String.pipe(T.HttpLabel()),
-    ingestionIdentifier: S.String.pipe(T.HttpLabel()),
-    ingestionDestinationIdentifier: S.String.pipe(T.HttpLabel()),
+    appBundleIdentifier: S.String.pipe(T.HttpLabel("appBundleIdentifier")),
+    ingestionIdentifier: S.String.pipe(T.HttpLabel("ingestionIdentifier")),
+    ingestionDestinationIdentifier: S.String.pipe(
+      T.HttpLabel("ingestionDestinationIdentifier"),
+    ),
   },
   T.all(
     T.Http({
@@ -511,7 +520,7 @@ export class ListAppAuthorizationsRequest extends S.Class<ListAppAuthorizationsR
   "ListAppAuthorizationsRequest",
 )(
   {
-    appBundleIdentifier: S.String.pipe(T.HttpLabel()),
+    appBundleIdentifier: S.String.pipe(T.HttpLabel("appBundleIdentifier")),
     maxResults: S.optional(S.Number).pipe(T.HttpQuery("maxResults")),
     nextToken: S.optional(S.String).pipe(T.HttpQuery("nextToken")),
   },
@@ -547,8 +556,8 @@ export class ListIngestionDestinationsRequest extends S.Class<ListIngestionDesti
   "ListIngestionDestinationsRequest",
 )(
   {
-    appBundleIdentifier: S.String.pipe(T.HttpLabel()),
-    ingestionIdentifier: S.String.pipe(T.HttpLabel()),
+    appBundleIdentifier: S.String.pipe(T.HttpLabel("appBundleIdentifier")),
+    ingestionIdentifier: S.String.pipe(T.HttpLabel("ingestionIdentifier")),
     maxResults: S.optional(S.Number).pipe(T.HttpQuery("maxResults")),
     nextToken: S.optional(S.String).pipe(T.HttpQuery("nextToken")),
   },
@@ -568,7 +577,7 @@ export class ListIngestionsRequest extends S.Class<ListIngestionsRequest>(
   "ListIngestionsRequest",
 )(
   {
-    appBundleIdentifier: S.String.pipe(T.HttpLabel()),
+    appBundleIdentifier: S.String.pipe(T.HttpLabel("appBundleIdentifier")),
     maxResults: S.optional(S.Number).pipe(T.HttpQuery("maxResults")),
     nextToken: S.optional(S.String).pipe(T.HttpQuery("nextToken")),
   },
@@ -587,7 +596,7 @@ export class ListIngestionsRequest extends S.Class<ListIngestionsRequest>(
 export class ListTagsForResourceRequest extends S.Class<ListTagsForResourceRequest>(
   "ListTagsForResourceRequest",
 )(
-  { resourceArn: S.String.pipe(T.HttpLabel()) },
+  { resourceArn: S.String.pipe(T.HttpLabel("resourceArn")) },
   T.all(
     T.Http({ method: "GET", uri: "/tags/{resourceArn}" }),
     svc,
@@ -601,8 +610,8 @@ export class StartIngestionRequest extends S.Class<StartIngestionRequest>(
   "StartIngestionRequest",
 )(
   {
-    ingestionIdentifier: S.String.pipe(T.HttpLabel()),
-    appBundleIdentifier: S.String.pipe(T.HttpLabel()),
+    ingestionIdentifier: S.String.pipe(T.HttpLabel("ingestionIdentifier")),
+    appBundleIdentifier: S.String.pipe(T.HttpLabel("appBundleIdentifier")),
   },
   T.all(
     T.Http({
@@ -636,8 +645,8 @@ export class StopIngestionRequest extends S.Class<StopIngestionRequest>(
   "StopIngestionRequest",
 )(
   {
-    ingestionIdentifier: S.String.pipe(T.HttpLabel()),
-    appBundleIdentifier: S.String.pipe(T.HttpLabel()),
+    ingestionIdentifier: S.String.pipe(T.HttpLabel("ingestionIdentifier")),
+    appBundleIdentifier: S.String.pipe(T.HttpLabel("appBundleIdentifier")),
   },
   T.all(
     T.Http({
@@ -657,7 +666,7 @@ export class StopIngestionResponse extends S.Class<StopIngestionResponse>(
 export class TagResourceRequest extends S.Class<TagResourceRequest>(
   "TagResourceRequest",
 )(
-  { resourceArn: S.String.pipe(T.HttpLabel()), tags: TagList },
+  { resourceArn: S.String.pipe(T.HttpLabel("resourceArn")), tags: TagList },
   T.all(
     T.Http({ method: "POST", uri: "/tags/{resourceArn}" }),
     svc,
@@ -674,7 +683,7 @@ export class UntagResourceRequest extends S.Class<UntagResourceRequest>(
   "UntagResourceRequest",
 )(
   {
-    resourceArn: S.String.pipe(T.HttpLabel()),
+    resourceArn: S.String.pipe(T.HttpLabel("resourceArn")),
     tagKeys: TagKeyList.pipe(T.HttpQuery("tagKeys")),
   },
   T.all(
@@ -707,8 +716,10 @@ export class UpdateAppAuthorizationRequest extends S.Class<UpdateAppAuthorizatio
   "UpdateAppAuthorizationRequest",
 )(
   {
-    appBundleIdentifier: S.String.pipe(T.HttpLabel()),
-    appAuthorizationIdentifier: S.String.pipe(T.HttpLabel()),
+    appBundleIdentifier: S.String.pipe(T.HttpLabel("appBundleIdentifier")),
+    appAuthorizationIdentifier: S.String.pipe(
+      T.HttpLabel("appAuthorizationIdentifier"),
+    ),
     credential: S.optional(Credential),
     tenant: S.optional(Tenant),
   },
@@ -745,9 +756,11 @@ export class UpdateIngestionDestinationRequest extends S.Class<UpdateIngestionDe
   "UpdateIngestionDestinationRequest",
 )(
   {
-    appBundleIdentifier: S.String.pipe(T.HttpLabel()),
-    ingestionIdentifier: S.String.pipe(T.HttpLabel()),
-    ingestionDestinationIdentifier: S.String.pipe(T.HttpLabel()),
+    appBundleIdentifier: S.String.pipe(T.HttpLabel("appBundleIdentifier")),
+    ingestionIdentifier: S.String.pipe(T.HttpLabel("ingestionIdentifier")),
+    ingestionDestinationIdentifier: S.String.pipe(
+      T.HttpLabel("ingestionDestinationIdentifier"),
+    ),
     destinationConfiguration: DestinationConfiguration,
   },
   T.all(
@@ -770,8 +783,10 @@ export class ConnectAppAuthorizationRequest extends S.Class<ConnectAppAuthorizat
   "ConnectAppAuthorizationRequest",
 )(
   {
-    appBundleIdentifier: S.String.pipe(T.HttpLabel()),
-    appAuthorizationIdentifier: S.String.pipe(T.HttpLabel()),
+    appBundleIdentifier: S.String.pipe(T.HttpLabel("appBundleIdentifier")),
+    appAuthorizationIdentifier: S.String.pipe(
+      T.HttpLabel("appAuthorizationIdentifier"),
+    ),
     authRequest: S.optional(AuthRequest),
   },
   T.all(
@@ -890,7 +905,7 @@ export class CreateAppAuthorizationRequest extends S.Class<CreateAppAuthorizatio
   "CreateAppAuthorizationRequest",
 )(
   {
-    appBundleIdentifier: S.String.pipe(T.HttpLabel()),
+    appBundleIdentifier: S.String.pipe(T.HttpLabel("appBundleIdentifier")),
     app: S.String,
     credential: Credential,
     tenant: Tenant,
@@ -973,8 +988,8 @@ export class CreateIngestionDestinationRequest extends S.Class<CreateIngestionDe
   "CreateIngestionDestinationRequest",
 )(
   {
-    appBundleIdentifier: S.String.pipe(T.HttpLabel()),
-    ingestionIdentifier: S.String.pipe(T.HttpLabel()),
+    appBundleIdentifier: S.String.pipe(T.HttpLabel("appBundleIdentifier")),
+    ingestionIdentifier: S.String.pipe(T.HttpLabel("ingestionIdentifier")),
     processingConfiguration: ProcessingConfiguration,
     destinationConfiguration: DestinationConfiguration,
     clientToken: S.optional(S.String),
@@ -1011,7 +1026,8 @@ export class InternalServerException extends S.TaggedError<InternalServerExcepti
     message: S.String,
     retryAfterSeconds: S.optional(S.Number).pipe(T.HttpHeader("Retry-After")),
   },
-) {}
+  T.Retryable(),
+).pipe(withCategory(ERROR_CATEGORIES.SERVER_ERROR)) {}
 export class ConflictException extends S.TaggedError<ConflictException>()(
   "ConflictException",
   { message: S.String, resourceId: S.String, resourceType: S.String },
@@ -1028,7 +1044,8 @@ export class ThrottlingException extends S.TaggedError<ThrottlingException>()(
     quotaCode: S.optional(S.String),
     retryAfterSeconds: S.optional(S.Number).pipe(T.HttpHeader("Retry-After")),
   },
-) {}
+  T.Retryable({ throttling: true }),
+).pipe(withCategory(ERROR_CATEGORIES.THROTTLING_ERROR)) {}
 export class ServiceQuotaExceededException extends S.TaggedError<ServiceQuotaExceededException>()(
   "ServiceQuotaExceededException",
   {

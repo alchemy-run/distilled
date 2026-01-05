@@ -1,6 +1,7 @@
 import * as S from "effect/Schema";
 import * as API from "../api.ts";
 import * as T from "../traits.ts";
+import { ERROR_CATEGORIES, withCategory } from "../error-category.ts";
 const svc = T.AwsApiService({ sdkId: "Braket", serviceShapeName: "Braket" });
 const auth = T.AwsAuthSigv4({ name: "braket" });
 const ver = T.ServiceVersion("2019-09-01");
@@ -244,7 +245,7 @@ export const QuantumTaskAdditionalAttributeNamesList = S.Array(S.String);
 export class ListTagsForResourceRequest extends S.Class<ListTagsForResourceRequest>(
   "ListTagsForResourceRequest",
 )(
-  { resourceArn: S.String.pipe(T.HttpLabel()) },
+  { resourceArn: S.String.pipe(T.HttpLabel("resourceArn")) },
   T.all(
     T.Http({ method: "GET", uri: "/tags/{resourceArn}" }),
     svc,
@@ -258,7 +259,7 @@ export class UntagResourceRequest extends S.Class<UntagResourceRequest>(
   "UntagResourceRequest",
 )(
   {
-    resourceArn: S.String.pipe(T.HttpLabel()),
+    resourceArn: S.String.pipe(T.HttpLabel("resourceArn")),
     tagKeys: TagKeys.pipe(T.HttpQuery("tagKeys")),
   },
   T.all(
@@ -276,7 +277,7 @@ export class UntagResourceResponse extends S.Class<UntagResourceResponse>(
 export class GetDeviceRequest extends S.Class<GetDeviceRequest>(
   "GetDeviceRequest",
 )(
-  { deviceArn: S.String.pipe(T.HttpLabel()) },
+  { deviceArn: S.String.pipe(T.HttpLabel("deviceArn")) },
   T.all(
     T.Http({ method: "GET", uri: "/device/{deviceArn}" }),
     svc,
@@ -288,7 +289,7 @@ export class GetDeviceRequest extends S.Class<GetDeviceRequest>(
 ) {}
 export class GetJobRequest extends S.Class<GetJobRequest>("GetJobRequest")(
   {
-    jobArn: S.String.pipe(T.HttpLabel()),
+    jobArn: S.String.pipe(T.HttpLabel("jobArn")),
     additionalAttributeNames: S.optional(
       HybridJobAdditionalAttributeNamesList,
     ).pipe(T.HttpQuery("additionalAttributeNames")),
@@ -305,7 +306,7 @@ export class GetJobRequest extends S.Class<GetJobRequest>("GetJobRequest")(
 export class CancelJobRequest extends S.Class<CancelJobRequest>(
   "CancelJobRequest",
 )(
-  { jobArn: S.String.pipe(T.HttpLabel()) },
+  { jobArn: S.String.pipe(T.HttpLabel("jobArn")) },
   T.all(
     T.Http({ method: "PUT", uri: "/job/{jobArn}/cancel" }),
     svc,
@@ -319,7 +320,7 @@ export class GetQuantumTaskRequest extends S.Class<GetQuantumTaskRequest>(
   "GetQuantumTaskRequest",
 )(
   {
-    quantumTaskArn: S.String.pipe(T.HttpLabel()),
+    quantumTaskArn: S.String.pipe(T.HttpLabel("quantumTaskArn")),
     additionalAttributeNames: S.optional(
       QuantumTaskAdditionalAttributeNamesList,
     ).pipe(T.HttpQuery("additionalAttributeNames")),
@@ -336,7 +337,10 @@ export class GetQuantumTaskRequest extends S.Class<GetQuantumTaskRequest>(
 export class CancelQuantumTaskRequest extends S.Class<CancelQuantumTaskRequest>(
   "CancelQuantumTaskRequest",
 )(
-  { quantumTaskArn: S.String.pipe(T.HttpLabel()), clientToken: S.String },
+  {
+    quantumTaskArn: S.String.pipe(T.HttpLabel("quantumTaskArn")),
+    clientToken: S.String,
+  },
   T.all(
     T.Http({ method: "PUT", uri: "/quantum-task/{quantumTaskArn}/cancel" }),
     svc,
@@ -354,7 +358,7 @@ export class UpdateSpendingLimitRequest extends S.Class<UpdateSpendingLimitReque
   "UpdateSpendingLimitRequest",
 )(
   {
-    spendingLimitArn: S.String.pipe(T.HttpLabel()),
+    spendingLimitArn: S.String.pipe(T.HttpLabel("spendingLimitArn")),
     clientToken: S.String,
     spendingLimit: S.optional(S.String),
     timePeriod: S.optional(TimePeriod),
@@ -377,7 +381,7 @@ export class UpdateSpendingLimitResponse extends S.Class<UpdateSpendingLimitResp
 export class DeleteSpendingLimitRequest extends S.Class<DeleteSpendingLimitRequest>(
   "DeleteSpendingLimitRequest",
 )(
-  { spendingLimitArn: S.String.pipe(T.HttpLabel()) },
+  { spendingLimitArn: S.String.pipe(T.HttpLabel("spendingLimitArn")) },
   T.all(
     T.Http({
       method: "DELETE",
@@ -445,7 +449,7 @@ export class ListTagsForResourceResponse extends S.Class<ListTagsForResourceResp
 export class TagResourceRequest extends S.Class<TagResourceRequest>(
   "TagResourceRequest",
 )(
-  { resourceArn: S.String.pipe(T.HttpLabel()), tags: TagsMap },
+  { resourceArn: S.String.pipe(T.HttpLabel("resourceArn")), tags: TagsMap },
   T.all(
     T.Http({ method: "POST", uri: "/tags/{resourceArn}" }),
     svc,
@@ -793,7 +797,7 @@ export class CreateJobResponse extends S.Class<CreateJobResponse>(
 export class InternalServiceException extends S.TaggedError<InternalServiceException>()(
   "InternalServiceException",
   { message: S.optional(S.String) },
-) {}
+).pipe(withCategory(ERROR_CATEGORIES.SERVER_ERROR)) {}
 export class AccessDeniedException extends S.TaggedError<AccessDeniedException>()(
   "AccessDeniedException",
   { message: S.optional(S.String) },
@@ -809,7 +813,7 @@ export class ConflictException extends S.TaggedError<ConflictException>()(
 export class ThrottlingException extends S.TaggedError<ThrottlingException>()(
   "ThrottlingException",
   { message: S.optional(S.String) },
-) {}
+).pipe(withCategory(ERROR_CATEGORIES.THROTTLING_ERROR)) {}
 export class DeviceOfflineException extends S.TaggedError<DeviceOfflineException>()(
   "DeviceOfflineException",
   { message: S.optional(S.String) },

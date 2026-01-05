@@ -1,6 +1,7 @@
 import * as S from "effect/Schema";
 import * as API from "../api.ts";
 import * as T from "../traits.ts";
+import { ERROR_CATEGORIES, withCategory } from "../error-category.ts";
 const svc = T.AwsApiService({
   sdkId: "SupplyChain",
   serviceShapeName: "GalaxyPublicAPIGateway",
@@ -300,8 +301,8 @@ export class GetDataIntegrationEventRequest extends S.Class<GetDataIntegrationEv
   "GetDataIntegrationEventRequest",
 )(
   {
-    instanceId: S.String.pipe(T.HttpLabel()),
-    eventId: S.String.pipe(T.HttpLabel()),
+    instanceId: S.String.pipe(T.HttpLabel("instanceId")),
+    eventId: S.String.pipe(T.HttpLabel("eventId")),
   },
   T.all(
     T.Http({
@@ -319,9 +320,9 @@ export class GetDataIntegrationFlowExecutionRequest extends S.Class<GetDataInteg
   "GetDataIntegrationFlowExecutionRequest",
 )(
   {
-    instanceId: S.String.pipe(T.HttpLabel()),
-    flowName: S.String.pipe(T.HttpLabel()),
-    executionId: S.String.pipe(T.HttpLabel()),
+    instanceId: S.String.pipe(T.HttpLabel("instanceId")),
+    flowName: S.String.pipe(T.HttpLabel("flowName")),
+    executionId: S.String.pipe(T.HttpLabel("executionId")),
   },
   T.all(
     T.Http({
@@ -339,7 +340,7 @@ export class ListDataIntegrationEventsRequest extends S.Class<ListDataIntegratio
   "ListDataIntegrationEventsRequest",
 )(
   {
-    instanceId: S.String.pipe(T.HttpLabel()),
+    instanceId: S.String.pipe(T.HttpLabel("instanceId")),
     eventType: S.optional(S.String).pipe(T.HttpQuery("eventType")),
     nextToken: S.optional(S.String).pipe(T.HttpQuery("nextToken")),
     maxResults: S.optional(S.Number).pipe(T.HttpQuery("maxResults")),
@@ -360,8 +361,8 @@ export class ListDataIntegrationFlowExecutionsRequest extends S.Class<ListDataIn
   "ListDataIntegrationFlowExecutionsRequest",
 )(
   {
-    instanceId: S.String.pipe(T.HttpLabel()),
-    flowName: S.String.pipe(T.HttpLabel()),
+    instanceId: S.String.pipe(T.HttpLabel("instanceId")),
+    flowName: S.String.pipe(T.HttpLabel("flowName")),
     nextToken: S.optional(S.String).pipe(T.HttpQuery("nextToken")),
     maxResults: S.optional(S.Number).pipe(T.HttpQuery("maxResults")),
   },
@@ -380,7 +381,7 @@ export class ListDataIntegrationFlowExecutionsRequest extends S.Class<ListDataIn
 export class ListTagsForResourceRequest extends S.Class<ListTagsForResourceRequest>(
   "ListTagsForResourceRequest",
 )(
-  { resourceArn: S.String.pipe(T.HttpLabel()) },
+  { resourceArn: S.String.pipe(T.HttpLabel("resourceArn")) },
   T.all(
     T.Http({ method: "GET", uri: "/api/tags/{resourceArn}" }),
     svc,
@@ -394,7 +395,7 @@ export class UntagResourceRequest extends S.Class<UntagResourceRequest>(
   "UntagResourceRequest",
 )(
   {
-    resourceArn: S.String.pipe(T.HttpLabel()),
+    resourceArn: S.String.pipe(T.HttpLabel("resourceArn")),
     tagKeys: TagKeyList.pipe(T.HttpQuery("tagKeys")),
   },
   T.all(
@@ -413,7 +414,7 @@ export class CreateBillOfMaterialsImportJobRequest extends S.Class<CreateBillOfM
   "CreateBillOfMaterialsImportJobRequest",
 )(
   {
-    instanceId: S.String.pipe(T.HttpLabel()),
+    instanceId: S.String.pipe(T.HttpLabel("instanceId")),
     s3uri: S.String,
     clientToken: S.optional(S.String),
   },
@@ -433,8 +434,8 @@ export class GetBillOfMaterialsImportJobRequest extends S.Class<GetBillOfMateria
   "GetBillOfMaterialsImportJobRequest",
 )(
   {
-    instanceId: S.String.pipe(T.HttpLabel()),
-    jobId: S.String.pipe(T.HttpLabel()),
+    instanceId: S.String.pipe(T.HttpLabel("instanceId")),
+    jobId: S.String.pipe(T.HttpLabel("jobId")),
   },
   T.all(
     T.Http({
@@ -452,8 +453,8 @@ export class GetDataIntegrationFlowRequest extends S.Class<GetDataIntegrationFlo
   "GetDataIntegrationFlowRequest",
 )(
   {
-    instanceId: S.String.pipe(T.HttpLabel()),
-    name: S.String.pipe(T.HttpLabel()),
+    instanceId: S.String.pipe(T.HttpLabel("instanceId")),
+    name: S.String.pipe(T.HttpLabel("name")),
   },
   T.all(
     T.Http({
@@ -551,8 +552,8 @@ export class UpdateDataIntegrationFlowRequest extends S.Class<UpdateDataIntegrat
   "UpdateDataIntegrationFlowRequest",
 )(
   {
-    instanceId: S.String.pipe(T.HttpLabel()),
-    name: S.String.pipe(T.HttpLabel()),
+    instanceId: S.String.pipe(T.HttpLabel("instanceId")),
+    name: S.String.pipe(T.HttpLabel("name")),
     sources: S.optional(DataIntegrationFlowSourceList),
     transformation: S.optional(DataIntegrationFlowTransformation),
     target: S.optional(DataIntegrationFlowTarget),
@@ -573,8 +574,8 @@ export class DeleteDataIntegrationFlowRequest extends S.Class<DeleteDataIntegrat
   "DeleteDataIntegrationFlowRequest",
 )(
   {
-    instanceId: S.String.pipe(T.HttpLabel()),
-    name: S.String.pipe(T.HttpLabel()),
+    instanceId: S.String.pipe(T.HttpLabel("instanceId")),
+    name: S.String.pipe(T.HttpLabel("name")),
   },
   T.all(
     T.Http({
@@ -592,7 +593,7 @@ export class ListDataIntegrationFlowsRequest extends S.Class<ListDataIntegration
   "ListDataIntegrationFlowsRequest",
 )(
   {
-    instanceId: S.String.pipe(T.HttpLabel()),
+    instanceId: S.String.pipe(T.HttpLabel("instanceId")),
     nextToken: S.optional(S.String).pipe(T.HttpQuery("nextToken")),
     maxResults: S.optional(S.Number).pipe(T.HttpQuery("maxResults")),
   },
@@ -612,9 +613,9 @@ export class GetDataLakeDatasetRequest extends S.Class<GetDataLakeDatasetRequest
   "GetDataLakeDatasetRequest",
 )(
   {
-    instanceId: S.String.pipe(T.HttpLabel()),
-    namespace: S.String.pipe(T.HttpLabel()),
-    name: S.String.pipe(T.HttpLabel()),
+    instanceId: S.String.pipe(T.HttpLabel("instanceId")),
+    namespace: S.String.pipe(T.HttpLabel("namespace")),
+    name: S.String.pipe(T.HttpLabel("name")),
   },
   T.all(
     T.Http({
@@ -632,9 +633,9 @@ export class UpdateDataLakeDatasetRequest extends S.Class<UpdateDataLakeDatasetR
   "UpdateDataLakeDatasetRequest",
 )(
   {
-    instanceId: S.String.pipe(T.HttpLabel()),
-    namespace: S.String.pipe(T.HttpLabel()),
-    name: S.String.pipe(T.HttpLabel()),
+    instanceId: S.String.pipe(T.HttpLabel("instanceId")),
+    namespace: S.String.pipe(T.HttpLabel("namespace")),
+    name: S.String.pipe(T.HttpLabel("name")),
     description: S.optional(S.String),
   },
   T.all(
@@ -653,9 +654,9 @@ export class DeleteDataLakeDatasetRequest extends S.Class<DeleteDataLakeDatasetR
   "DeleteDataLakeDatasetRequest",
 )(
   {
-    instanceId: S.String.pipe(T.HttpLabel()),
-    namespace: S.String.pipe(T.HttpLabel()),
-    name: S.String.pipe(T.HttpLabel()),
+    instanceId: S.String.pipe(T.HttpLabel("instanceId")),
+    namespace: S.String.pipe(T.HttpLabel("namespace")),
+    name: S.String.pipe(T.HttpLabel("name")),
   },
   T.all(
     T.Http({
@@ -673,8 +674,8 @@ export class ListDataLakeDatasetsRequest extends S.Class<ListDataLakeDatasetsReq
   "ListDataLakeDatasetsRequest",
 )(
   {
-    instanceId: S.String.pipe(T.HttpLabel()),
-    namespace: S.String.pipe(T.HttpLabel()),
+    instanceId: S.String.pipe(T.HttpLabel("instanceId")),
+    namespace: S.String.pipe(T.HttpLabel("namespace")),
     nextToken: S.optional(S.String).pipe(T.HttpQuery("nextToken")),
     maxResults: S.optional(S.Number).pipe(T.HttpQuery("maxResults")),
   },
@@ -695,8 +696,8 @@ export class CreateDataLakeNamespaceRequest extends S.Class<CreateDataLakeNamesp
   "CreateDataLakeNamespaceRequest",
 )(
   {
-    instanceId: S.String.pipe(T.HttpLabel()),
-    name: S.String.pipe(T.HttpLabel()),
+    instanceId: S.String.pipe(T.HttpLabel("instanceId")),
+    name: S.String.pipe(T.HttpLabel("name")),
     description: S.optional(S.String),
     tags: S.optional(TagMap),
   },
@@ -716,8 +717,8 @@ export class GetDataLakeNamespaceRequest extends S.Class<GetDataLakeNamespaceReq
   "GetDataLakeNamespaceRequest",
 )(
   {
-    instanceId: S.String.pipe(T.HttpLabel()),
-    name: S.String.pipe(T.HttpLabel()),
+    instanceId: S.String.pipe(T.HttpLabel("instanceId")),
+    name: S.String.pipe(T.HttpLabel("name")),
   },
   T.all(
     T.Http({
@@ -735,8 +736,8 @@ export class UpdateDataLakeNamespaceRequest extends S.Class<UpdateDataLakeNamesp
   "UpdateDataLakeNamespaceRequest",
 )(
   {
-    instanceId: S.String.pipe(T.HttpLabel()),
-    name: S.String.pipe(T.HttpLabel()),
+    instanceId: S.String.pipe(T.HttpLabel("instanceId")),
+    name: S.String.pipe(T.HttpLabel("name")),
     description: S.optional(S.String),
   },
   T.all(
@@ -755,8 +756,8 @@ export class DeleteDataLakeNamespaceRequest extends S.Class<DeleteDataLakeNamesp
   "DeleteDataLakeNamespaceRequest",
 )(
   {
-    instanceId: S.String.pipe(T.HttpLabel()),
-    name: S.String.pipe(T.HttpLabel()),
+    instanceId: S.String.pipe(T.HttpLabel("instanceId")),
+    name: S.String.pipe(T.HttpLabel("name")),
   },
   T.all(
     T.Http({
@@ -774,7 +775,7 @@ export class ListDataLakeNamespacesRequest extends S.Class<ListDataLakeNamespace
   "ListDataLakeNamespacesRequest",
 )(
   {
-    instanceId: S.String.pipe(T.HttpLabel()),
+    instanceId: S.String.pipe(T.HttpLabel("instanceId")),
     nextToken: S.optional(S.String).pipe(T.HttpQuery("nextToken")),
     maxResults: S.optional(S.Number).pipe(T.HttpQuery("maxResults")),
   },
@@ -813,7 +814,7 @@ export class CreateInstanceRequest extends S.Class<CreateInstanceRequest>(
 export class GetInstanceRequest extends S.Class<GetInstanceRequest>(
   "GetInstanceRequest",
 )(
-  { instanceId: S.String.pipe(T.HttpLabel()) },
+  { instanceId: S.String.pipe(T.HttpLabel("instanceId")) },
   T.all(
     T.Http({ method: "GET", uri: "/api/instance/{instanceId}" }),
     svc,
@@ -827,7 +828,7 @@ export class UpdateInstanceRequest extends S.Class<UpdateInstanceRequest>(
   "UpdateInstanceRequest",
 )(
   {
-    instanceId: S.String.pipe(T.HttpLabel()),
+    instanceId: S.String.pipe(T.HttpLabel("instanceId")),
     instanceName: S.optional(S.String),
     instanceDescription: S.optional(S.String),
   },
@@ -843,7 +844,7 @@ export class UpdateInstanceRequest extends S.Class<UpdateInstanceRequest>(
 export class DeleteInstanceRequest extends S.Class<DeleteInstanceRequest>(
   "DeleteInstanceRequest",
 )(
-  { instanceId: S.String.pipe(T.HttpLabel()) },
+  { instanceId: S.String.pipe(T.HttpLabel("instanceId")) },
   T.all(
     T.Http({ method: "DELETE", uri: "/api/instance/{instanceId}" }),
     svc,
@@ -1029,7 +1030,7 @@ export class SendDataIntegrationEventRequest extends S.Class<SendDataIntegration
   "SendDataIntegrationEventRequest",
 )(
   {
-    instanceId: S.String.pipe(T.HttpLabel()),
+    instanceId: S.String.pipe(T.HttpLabel("instanceId")),
     eventType: S.String,
     data: S.String,
     eventGroupId: S.String,
@@ -1052,7 +1053,7 @@ export class SendDataIntegrationEventRequest extends S.Class<SendDataIntegration
 export class TagResourceRequest extends S.Class<TagResourceRequest>(
   "TagResourceRequest",
 )(
-  { resourceArn: S.String.pipe(T.HttpLabel()), tags: TagMap },
+  { resourceArn: S.String.pipe(T.HttpLabel("resourceArn")), tags: TagMap },
   T.all(
     T.Http({ method: "POST", uri: "/api/tags/{resourceArn}" }),
     svc,
@@ -1141,9 +1142,9 @@ export class CreateDataLakeDatasetRequest extends S.Class<CreateDataLakeDatasetR
   "CreateDataLakeDatasetRequest",
 )(
   {
-    instanceId: S.String.pipe(T.HttpLabel()),
-    namespace: S.String.pipe(T.HttpLabel()),
-    name: S.String.pipe(T.HttpLabel()),
+    instanceId: S.String.pipe(T.HttpLabel("instanceId")),
+    namespace: S.String.pipe(T.HttpLabel("namespace")),
+    name: S.String.pipe(T.HttpLabel("name")),
     schema: S.optional(DataLakeDatasetSchema),
     description: S.optional(S.String),
     partitionSpec: S.optional(DataLakeDatasetPartitionSpec),
@@ -1174,8 +1175,8 @@ export class CreateDataIntegrationFlowRequest extends S.Class<CreateDataIntegrat
   "CreateDataIntegrationFlowRequest",
 )(
   {
-    instanceId: S.String.pipe(T.HttpLabel()),
-    name: S.String.pipe(T.HttpLabel()),
+    instanceId: S.String.pipe(T.HttpLabel("instanceId")),
+    name: S.String.pipe(T.HttpLabel("name")),
     sources: DataIntegrationFlowSourceList,
     transformation: DataIntegrationFlowTransformation,
     target: DataIntegrationFlowTarget,
@@ -1205,7 +1206,8 @@ export class AccessDeniedException extends S.TaggedError<AccessDeniedException>(
 export class InternalServerException extends S.TaggedError<InternalServerException>()(
   "InternalServerException",
   { message: S.optional(S.String) },
-) {}
+  T.Retryable(),
+).pipe(withCategory(ERROR_CATEGORIES.SERVER_ERROR)) {}
 export class ConflictException extends S.TaggedError<ConflictException>()(
   "ConflictException",
   { message: S.optional(S.String) },
@@ -1221,7 +1223,8 @@ export class ServiceQuotaExceededException extends S.TaggedError<ServiceQuotaExc
 export class ThrottlingException extends S.TaggedError<ThrottlingException>()(
   "ThrottlingException",
   { message: S.optional(S.String) },
-) {}
+  T.Retryable({ throttling: true }),
+).pipe(withCategory(ERROR_CATEGORIES.THROTTLING_ERROR)) {}
 export class ValidationException extends S.TaggedError<ValidationException>()(
   "ValidationException",
   { message: S.optional(S.String) },

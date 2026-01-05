@@ -1,6 +1,7 @@
 import * as S from "effect/Schema";
 import * as API from "../api.ts";
 import * as T from "../traits.ts";
+import { ERROR_CATEGORIES, withCategory } from "../error-category.ts";
 const ns = T.XmlNamespace("http://batch.amazonaws.com/doc/2016-08-10/");
 const svc = T.AwsApiService({
   sdkId: "Batch",
@@ -652,7 +653,7 @@ export class ListServiceJobsRequest extends S.Class<ListServiceJobsRequest>(
 export class ListTagsForResourceRequest extends S.Class<ListTagsForResourceRequest>(
   "ListTagsForResourceRequest",
 )(
-  { resourceArn: S.String.pipe(T.HttpLabel()) },
+  { resourceArn: S.String.pipe(T.HttpLabel("resourceArn")) },
   T.all(
     ns,
     T.Http({ method: "GET", uri: "/v1/tags/{resourceArn}" }),
@@ -666,7 +667,10 @@ export class ListTagsForResourceRequest extends S.Class<ListTagsForResourceReque
 export class TagResourceRequest extends S.Class<TagResourceRequest>(
   "TagResourceRequest",
 )(
-  { resourceArn: S.String.pipe(T.HttpLabel()), tags: TagrisTagsMap },
+  {
+    resourceArn: S.String.pipe(T.HttpLabel("resourceArn")),
+    tags: TagrisTagsMap,
+  },
   T.all(
     ns,
     T.Http({ method: "POST", uri: "/v1/tags/{resourceArn}" }),
@@ -718,7 +722,7 @@ export class UntagResourceRequest extends S.Class<UntagResourceRequest>(
   "UntagResourceRequest",
 )(
   {
-    resourceArn: S.String.pipe(T.HttpLabel()),
+    resourceArn: S.String.pipe(T.HttpLabel("resourceArn")),
     tagKeys: TagKeysList.pipe(T.HttpQuery("tagKeys")),
   },
   T.all(
@@ -2146,7 +2150,7 @@ export class ClientException extends S.TaggedError<ClientException>()(
 export class ServerException extends S.TaggedError<ServerException>()(
   "ServerException",
   { message: S.optional(S.String) },
-) {}
+).pipe(withCategory(ERROR_CATEGORIES.SERVER_ERROR)) {}
 
 //# Operations
 /**

@@ -1,6 +1,7 @@
 import * as S from "effect/Schema";
 import * as API from "../api.ts";
 import * as T from "../traits.ts";
+import { ERROR_CATEGORIES, withCategory } from "../error-category.ts";
 const svc = T.AwsApiService({
   sdkId: "Pca Connector Scep",
   serviceShapeName: "PcaConnectorScep",
@@ -297,7 +298,7 @@ export const TagKeyList = S.Array(S.String);
 export class ListTagsForResourceRequest extends S.Class<ListTagsForResourceRequest>(
   "ListTagsForResourceRequest",
 )(
-  { ResourceArn: S.String.pipe(T.HttpLabel()) },
+  { ResourceArn: S.String.pipe(T.HttpLabel("ResourceArn")) },
   T.all(
     T.Http({ method: "GET", uri: "/tags/{ResourceArn}" }),
     svc,
@@ -311,7 +312,7 @@ export class UntagResourceRequest extends S.Class<UntagResourceRequest>(
   "UntagResourceRequest",
 )(
   {
-    ResourceArn: S.String.pipe(T.HttpLabel()),
+    ResourceArn: S.String.pipe(T.HttpLabel("ResourceArn")),
     TagKeys: TagKeyList.pipe(T.HttpQuery("tagKeys")),
   },
   T.all(
@@ -347,7 +348,7 @@ export class CreateChallengeRequest extends S.Class<CreateChallengeRequest>(
 export class GetChallengeMetadataRequest extends S.Class<GetChallengeMetadataRequest>(
   "GetChallengeMetadataRequest",
 )(
-  { ChallengeArn: S.String.pipe(T.HttpLabel()) },
+  { ChallengeArn: S.String.pipe(T.HttpLabel("ChallengeArn")) },
   T.all(
     T.Http({ method: "GET", uri: "/challengeMetadata/{ChallengeArn}" }),
     svc,
@@ -360,7 +361,7 @@ export class GetChallengeMetadataRequest extends S.Class<GetChallengeMetadataReq
 export class DeleteChallengeRequest extends S.Class<DeleteChallengeRequest>(
   "DeleteChallengeRequest",
 )(
-  { ChallengeArn: S.String.pipe(T.HttpLabel()) },
+  { ChallengeArn: S.String.pipe(T.HttpLabel("ChallengeArn")) },
   T.all(
     T.Http({ method: "DELETE", uri: "/challenges/{ChallengeArn}" }),
     svc,
@@ -393,7 +394,7 @@ export class ListChallengeMetadataRequest extends S.Class<ListChallengeMetadataR
 export class GetChallengePasswordRequest extends S.Class<GetChallengePasswordRequest>(
   "GetChallengePasswordRequest",
 )(
-  { ChallengeArn: S.String.pipe(T.HttpLabel()) },
+  { ChallengeArn: S.String.pipe(T.HttpLabel("ChallengeArn")) },
   T.all(
     T.Http({ method: "GET", uri: "/challengePasswords/{ChallengeArn}" }),
     svc,
@@ -406,7 +407,7 @@ export class GetChallengePasswordRequest extends S.Class<GetChallengePasswordReq
 export class GetConnectorRequest extends S.Class<GetConnectorRequest>(
   "GetConnectorRequest",
 )(
-  { ConnectorArn: S.String.pipe(T.HttpLabel()) },
+  { ConnectorArn: S.String.pipe(T.HttpLabel("ConnectorArn")) },
   T.all(
     T.Http({ method: "GET", uri: "/connectors/{ConnectorArn}" }),
     svc,
@@ -419,7 +420,7 @@ export class GetConnectorRequest extends S.Class<GetConnectorRequest>(
 export class DeleteConnectorRequest extends S.Class<DeleteConnectorRequest>(
   "DeleteConnectorRequest",
 )(
-  { ConnectorArn: S.String.pipe(T.HttpLabel()) },
+  { ConnectorArn: S.String.pipe(T.HttpLabel("ConnectorArn")) },
   T.all(
     T.Http({ method: "DELETE", uri: "/connectors/{ConnectorArn}" }),
     svc,
@@ -454,7 +455,7 @@ export class ListTagsForResourceResponse extends S.Class<ListTagsForResourceResp
 export class TagResourceRequest extends S.Class<TagResourceRequest>(
   "TagResourceRequest",
 )(
-  { ResourceArn: S.String.pipe(T.HttpLabel()), Tags: Tags },
+  { ResourceArn: S.String.pipe(T.HttpLabel("ResourceArn")), Tags: Tags },
   T.all(
     T.Http({ method: "POST", uri: "/tags/{ResourceArn}" }),
     svc,
@@ -582,7 +583,8 @@ export class AccessDeniedException extends S.TaggedError<AccessDeniedException>(
 export class InternalServerException extends S.TaggedError<InternalServerException>()(
   "InternalServerException",
   { Message: S.String },
-) {}
+  T.Retryable(),
+).pipe(withCategory(ERROR_CATEGORIES.SERVER_ERROR)) {}
 export class ConflictException extends S.TaggedError<ConflictException>()(
   "ConflictException",
   { Message: S.String, ResourceId: S.String, ResourceType: S.String },
@@ -598,7 +600,8 @@ export class BadRequestException extends S.TaggedError<BadRequestException>()(
 export class ThrottlingException extends S.TaggedError<ThrottlingException>()(
   "ThrottlingException",
   { Message: S.String },
-) {}
+  T.Retryable({ throttling: true }),
+).pipe(withCategory(ERROR_CATEGORIES.THROTTLING_ERROR)) {}
 export class ServiceQuotaExceededException extends S.TaggedError<ServiceQuotaExceededException>()(
   "ServiceQuotaExceededException",
   {

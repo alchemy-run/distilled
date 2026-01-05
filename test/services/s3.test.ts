@@ -657,9 +657,9 @@ test(
 
       // Verify update
       const updatedPab = yield* getPublicAccessBlock({ Bucket: bucket });
-      expect(
-        updatedPab.PublicAccessBlockConfiguration?.IgnorePublicAcls,
-      ).toBe(false);
+      expect(updatedPab.PublicAccessBlockConfiguration?.IgnorePublicAcls).toBe(
+        false,
+      );
 
       // Delete public access block
       yield* deletePublicAccessBlock({ Bucket: bucket });

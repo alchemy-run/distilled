@@ -1,6 +1,7 @@
 import * as S from "effect/Schema";
 import * as API from "../api.ts";
 import * as T from "../traits.ts";
+import { ERROR_CATEGORIES, withCategory } from "../error-category.ts";
 const svc = T.AwsApiService({
   sdkId: "TrustedAdvisor",
   serviceShapeName: "TrustedAdvisor",
@@ -296,7 +297,11 @@ const rules = T.EndpointRuleSet({
 export class GetOrganizationRecommendationRequest extends S.Class<GetOrganizationRecommendationRequest>(
   "GetOrganizationRecommendationRequest",
 )(
-  { organizationRecommendationIdentifier: S.String.pipe(T.HttpLabel()) },
+  {
+    organizationRecommendationIdentifier: S.String.pipe(
+      T.HttpLabel("organizationRecommendationIdentifier"),
+    ),
+  },
   T.all(
     T.Http({
       method: "GET",
@@ -312,7 +317,11 @@ export class GetOrganizationRecommendationRequest extends S.Class<GetOrganizatio
 export class GetRecommendationRequest extends S.Class<GetRecommendationRequest>(
   "GetRecommendationRequest",
 )(
-  { recommendationIdentifier: S.String.pipe(T.HttpLabel()) },
+  {
+    recommendationIdentifier: S.String.pipe(
+      T.HttpLabel("recommendationIdentifier"),
+    ),
+  },
   T.all(
     T.Http({
       method: "GET",
@@ -351,7 +360,9 @@ export class ListOrganizationRecommendationAccountsRequest extends S.Class<ListO
   {
     nextToken: S.optional(S.String).pipe(T.HttpQuery("nextToken")),
     maxResults: S.optional(S.Number).pipe(T.HttpQuery("maxResults")),
-    organizationRecommendationIdentifier: S.String.pipe(T.HttpLabel()),
+    organizationRecommendationIdentifier: S.String.pipe(
+      T.HttpLabel("organizationRecommendationIdentifier"),
+    ),
     affectedAccountId: S.optional(S.String).pipe(
       T.HttpQuery("affectedAccountId"),
     ),
@@ -377,7 +388,9 @@ export class ListOrganizationRecommendationResourcesRequest extends S.Class<List
     status: S.optional(S.String).pipe(T.HttpQuery("status")),
     exclusionStatus: S.optional(S.String).pipe(T.HttpQuery("exclusionStatus")),
     regionCode: S.optional(S.String).pipe(T.HttpQuery("regionCode")),
-    organizationRecommendationIdentifier: S.String.pipe(T.HttpLabel()),
+    organizationRecommendationIdentifier: S.String.pipe(
+      T.HttpLabel("organizationRecommendationIdentifier"),
+    ),
     affectedAccountId: S.optional(S.String).pipe(
       T.HttpQuery("affectedAccountId"),
     ),
@@ -431,7 +444,9 @@ export class ListRecommendationResourcesRequest extends S.Class<ListRecommendati
     status: S.optional(S.String).pipe(T.HttpQuery("status")),
     exclusionStatus: S.optional(S.String).pipe(T.HttpQuery("exclusionStatus")),
     regionCode: S.optional(S.String).pipe(T.HttpQuery("regionCode")),
-    recommendationIdentifier: S.String.pipe(T.HttpLabel()),
+    recommendationIdentifier: S.String.pipe(
+      T.HttpLabel("recommendationIdentifier"),
+    ),
   },
   T.all(
     T.Http({
@@ -480,7 +495,9 @@ export class UpdateOrganizationRecommendationLifecycleRequest extends S.Class<Up
     lifecycleStage: S.String,
     updateReason: S.optional(S.String),
     updateReasonCode: S.optional(S.String),
-    organizationRecommendationIdentifier: S.String.pipe(T.HttpLabel()),
+    organizationRecommendationIdentifier: S.String.pipe(
+      T.HttpLabel("organizationRecommendationIdentifier"),
+    ),
   },
   T.all(
     T.Http({
@@ -504,7 +521,9 @@ export class UpdateRecommendationLifecycleRequest extends S.Class<UpdateRecommen
     lifecycleStage: S.String,
     updateReason: S.optional(S.String),
     updateReasonCode: S.optional(S.String),
-    recommendationIdentifier: S.String.pipe(T.HttpLabel()),
+    recommendationIdentifier: S.String.pipe(
+      T.HttpLabel("recommendationIdentifier"),
+    ),
   },
   T.all(
     T.Http({
@@ -775,7 +794,8 @@ export class ConflictException extends S.TaggedError<ConflictException>()(
 export class InternalServerException extends S.TaggedError<InternalServerException>()(
   "InternalServerException",
   { message: S.String },
-) {}
+  T.Retryable(),
+).pipe(withCategory(ERROR_CATEGORIES.SERVER_ERROR)) {}
 export class ResourceNotFoundException extends S.TaggedError<ResourceNotFoundException>()(
   "ResourceNotFoundException",
   { message: S.String },
@@ -783,7 +803,8 @@ export class ResourceNotFoundException extends S.TaggedError<ResourceNotFoundExc
 export class ThrottlingException extends S.TaggedError<ThrottlingException>()(
   "ThrottlingException",
   { message: S.String },
-) {}
+  T.Retryable({ throttling: true }),
+).pipe(withCategory(ERROR_CATEGORIES.THROTTLING_ERROR)) {}
 export class ValidationException extends S.TaggedError<ValidationException>()(
   "ValidationException",
   { message: S.String },

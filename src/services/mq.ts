@@ -1,6 +1,7 @@
 import * as S from "effect/Schema";
 import * as API from "../api.ts";
 import * as T from "../traits.ts";
+import { ERROR_CATEGORIES, withCategory } from "../error-category.ts";
 const svc = T.AwsApiService({ sdkId: "mq", serviceShapeName: "mq" });
 const auth = T.AwsAuthSigv4({ name: "mq" });
 const ver = T.ServiceVersion("2017-11-27");
@@ -265,7 +266,7 @@ export class CreateTagsRequest extends S.Class<CreateTagsRequest>(
   "CreateTagsRequest",
 )(
   {
-    ResourceArn: S.String.pipe(T.HttpLabel()),
+    ResourceArn: S.String.pipe(T.HttpLabel("ResourceArn")),
     Tags: S.optional(__mapOf__string).pipe(T.JsonName("tags")),
   },
   T.all(
@@ -284,11 +285,11 @@ export class CreateUserRequest extends S.Class<CreateUserRequest>(
   "CreateUserRequest",
 )(
   {
-    BrokerId: S.String.pipe(T.HttpLabel()),
+    BrokerId: S.String.pipe(T.HttpLabel("BrokerId")),
     ConsoleAccess: S.optional(S.Boolean).pipe(T.JsonName("consoleAccess")),
     Groups: S.optional(__listOf__string).pipe(T.JsonName("groups")),
     Password: S.String.pipe(T.JsonName("password")),
-    Username: S.String.pipe(T.HttpLabel()),
+    Username: S.String.pipe(T.HttpLabel("Username")),
     ReplicationUser: S.optional(S.Boolean).pipe(T.JsonName("replicationUser")),
   },
   T.all(
@@ -306,7 +307,7 @@ export class CreateUserResponse extends S.Class<CreateUserResponse>(
 export class DeleteBrokerRequest extends S.Class<DeleteBrokerRequest>(
   "DeleteBrokerRequest",
 )(
-  { BrokerId: S.String.pipe(T.HttpLabel()) },
+  { BrokerId: S.String.pipe(T.HttpLabel("BrokerId")) },
   T.all(
     T.Http({ method: "DELETE", uri: "/v1/brokers/{BrokerId}" }),
     svc,
@@ -319,7 +320,7 @@ export class DeleteBrokerRequest extends S.Class<DeleteBrokerRequest>(
 export class DeleteConfigurationRequest extends S.Class<DeleteConfigurationRequest>(
   "DeleteConfigurationRequest",
 )(
-  { ConfigurationId: S.String.pipe(T.HttpLabel()) },
+  { ConfigurationId: S.String.pipe(T.HttpLabel("ConfigurationId")) },
   T.all(
     T.Http({ method: "DELETE", uri: "/v1/configurations/{ConfigurationId}" }),
     svc,
@@ -333,7 +334,7 @@ export class DeleteTagsRequest extends S.Class<DeleteTagsRequest>(
   "DeleteTagsRequest",
 )(
   {
-    ResourceArn: S.String.pipe(T.HttpLabel()),
+    ResourceArn: S.String.pipe(T.HttpLabel("ResourceArn")),
     TagKeys: __listOf__string.pipe(T.HttpQuery("tagKeys")),
   },
   T.all(
@@ -352,8 +353,8 @@ export class DeleteUserRequest extends S.Class<DeleteUserRequest>(
   "DeleteUserRequest",
 )(
   {
-    BrokerId: S.String.pipe(T.HttpLabel()),
-    Username: S.String.pipe(T.HttpLabel()),
+    BrokerId: S.String.pipe(T.HttpLabel("BrokerId")),
+    Username: S.String.pipe(T.HttpLabel("Username")),
   },
   T.all(
     T.Http({
@@ -373,7 +374,7 @@ export class DeleteUserResponse extends S.Class<DeleteUserResponse>(
 export class DescribeBrokerRequest extends S.Class<DescribeBrokerRequest>(
   "DescribeBrokerRequest",
 )(
-  { BrokerId: S.String.pipe(T.HttpLabel()) },
+  { BrokerId: S.String.pipe(T.HttpLabel("BrokerId")) },
   T.all(
     T.Http({ method: "GET", uri: "/v1/brokers/{BrokerId}" }),
     svc,
@@ -424,7 +425,7 @@ export class DescribeBrokerInstanceOptionsRequest extends S.Class<DescribeBroker
 export class DescribeConfigurationRequest extends S.Class<DescribeConfigurationRequest>(
   "DescribeConfigurationRequest",
 )(
-  { ConfigurationId: S.String.pipe(T.HttpLabel()) },
+  { ConfigurationId: S.String.pipe(T.HttpLabel("ConfigurationId")) },
   T.all(
     T.Http({ method: "GET", uri: "/v1/configurations/{ConfigurationId}" }),
     svc,
@@ -438,8 +439,8 @@ export class DescribeConfigurationRevisionRequest extends S.Class<DescribeConfig
   "DescribeConfigurationRevisionRequest",
 )(
   {
-    ConfigurationId: S.String.pipe(T.HttpLabel()),
-    ConfigurationRevision: S.String.pipe(T.HttpLabel()),
+    ConfigurationId: S.String.pipe(T.HttpLabel("ConfigurationId")),
+    ConfigurationRevision: S.String.pipe(T.HttpLabel("ConfigurationRevision")),
   },
   T.all(
     T.Http({
@@ -457,8 +458,8 @@ export class DescribeUserRequest extends S.Class<DescribeUserRequest>(
   "DescribeUserRequest",
 )(
   {
-    BrokerId: S.String.pipe(T.HttpLabel()),
-    Username: S.String.pipe(T.HttpLabel()),
+    BrokerId: S.String.pipe(T.HttpLabel("BrokerId")),
+    Username: S.String.pipe(T.HttpLabel("Username")),
   },
   T.all(
     T.Http({ method: "GET", uri: "/v1/brokers/{BrokerId}/users/{Username}" }),
@@ -489,7 +490,7 @@ export class ListConfigurationRevisionsRequest extends S.Class<ListConfiguration
   "ListConfigurationRevisionsRequest",
 )(
   {
-    ConfigurationId: S.String.pipe(T.HttpLabel()),
+    ConfigurationId: S.String.pipe(T.HttpLabel("ConfigurationId")),
     MaxResults: S.optional(S.Number).pipe(T.HttpQuery("maxResults")),
     NextToken: S.optional(S.String).pipe(T.HttpQuery("nextToken")),
   },
@@ -524,7 +525,7 @@ export class ListConfigurationsRequest extends S.Class<ListConfigurationsRequest
 export class ListTagsRequest extends S.Class<ListTagsRequest>(
   "ListTagsRequest",
 )(
-  { ResourceArn: S.String.pipe(T.HttpLabel()) },
+  { ResourceArn: S.String.pipe(T.HttpLabel("ResourceArn")) },
   T.all(
     T.Http({ method: "GET", uri: "/v1/tags/{ResourceArn}" }),
     svc,
@@ -538,7 +539,7 @@ export class ListUsersRequest extends S.Class<ListUsersRequest>(
   "ListUsersRequest",
 )(
   {
-    BrokerId: S.String.pipe(T.HttpLabel()),
+    BrokerId: S.String.pipe(T.HttpLabel("BrokerId")),
     MaxResults: S.optional(S.Number).pipe(T.HttpQuery("maxResults")),
     NextToken: S.optional(S.String).pipe(T.HttpQuery("nextToken")),
   },
@@ -553,7 +554,7 @@ export class ListUsersRequest extends S.Class<ListUsersRequest>(
 ) {}
 export class PromoteRequest extends S.Class<PromoteRequest>("PromoteRequest")(
   {
-    BrokerId: S.String.pipe(T.HttpLabel()),
+    BrokerId: S.String.pipe(T.HttpLabel("BrokerId")),
     Mode: S.String.pipe(T.JsonName("mode")),
   },
   T.all(
@@ -568,7 +569,7 @@ export class PromoteRequest extends S.Class<PromoteRequest>("PromoteRequest")(
 export class RebootBrokerRequest extends S.Class<RebootBrokerRequest>(
   "RebootBrokerRequest",
 )(
-  { BrokerId: S.String.pipe(T.HttpLabel()) },
+  { BrokerId: S.String.pipe(T.HttpLabel("BrokerId")) },
   T.all(
     T.Http({ method: "POST", uri: "/v1/brokers/{BrokerId}/reboot" }),
     svc,
@@ -627,7 +628,7 @@ export class UpdateBrokerRequest extends S.Class<UpdateBrokerRequest>(
     AutoMinorVersionUpgrade: S.optional(S.Boolean).pipe(
       T.JsonName("autoMinorVersionUpgrade"),
     ),
-    BrokerId: S.String.pipe(T.HttpLabel()),
+    BrokerId: S.String.pipe(T.HttpLabel("BrokerId")),
     Configuration: S.optional(ConfigurationId).pipe(
       T.JsonName("configuration"),
     ),
@@ -660,7 +661,7 @@ export class UpdateConfigurationRequest extends S.Class<UpdateConfigurationReque
   "UpdateConfigurationRequest",
 )(
   {
-    ConfigurationId: S.String.pipe(T.HttpLabel()),
+    ConfigurationId: S.String.pipe(T.HttpLabel("ConfigurationId")),
     Data: S.String.pipe(T.JsonName("data")),
     Description: S.optional(S.String).pipe(T.JsonName("description")),
   },
@@ -677,11 +678,11 @@ export class UpdateUserRequest extends S.Class<UpdateUserRequest>(
   "UpdateUserRequest",
 )(
   {
-    BrokerId: S.String.pipe(T.HttpLabel()),
+    BrokerId: S.String.pipe(T.HttpLabel("BrokerId")),
     ConsoleAccess: S.optional(S.Boolean).pipe(T.JsonName("consoleAccess")),
     Groups: S.optional(__listOf__string).pipe(T.JsonName("groups")),
     Password: S.optional(S.String).pipe(T.JsonName("password")),
-    Username: S.String.pipe(T.HttpLabel()),
+    Username: S.String.pipe(T.HttpLabel("Username")),
     ReplicationUser: S.optional(S.Boolean).pipe(T.JsonName("replicationUser")),
   },
   T.all(
@@ -1205,7 +1206,7 @@ export class InternalServerErrorException extends S.TaggedError<InternalServerEr
     ErrorAttribute: S.optional(S.String).pipe(T.JsonName("errorAttribute")),
     Message: S.optional(S.String).pipe(T.JsonName("message")),
   },
-) {}
+).pipe(withCategory(ERROR_CATEGORIES.SERVER_ERROR)) {}
 export class NotFoundException extends S.TaggedError<NotFoundException>()(
   "NotFoundException",
   {
