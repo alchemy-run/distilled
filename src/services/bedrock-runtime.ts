@@ -1,5 +1,6 @@
 import { HttpClient } from "@effect/platform";
 import * as Effect from "effect/Effect";
+import * as Redacted from "effect/Redacted";
 import * as S from "effect/Schema";
 import * as Stream from "effect/Stream";
 import * as API from "../api.ts";
@@ -10,6 +11,7 @@ import {
   ErrorCategory,
   Errors,
 } from "../index.ts";
+import { SensitiveString, SensitiveBlob } from "../sensitive.ts";
 const svc = T.AwsApiService({
   sdkId: "Bedrock Runtime",
   serviceShapeName: "AmazonBedrockFrontendService",
@@ -317,7 +319,7 @@ export type TagKey = string;
 export type TagValue = string;
 export type NonEmptyString = string;
 export type AsyncInvokeArn = string;
-export type AsyncInvokeMessage = string;
+export type AsyncInvokeMessage = string | Redacted.Redacted<string>;
 export type S3Uri = string;
 export type KmsKeyId = string;
 export type AccountId = string;
@@ -347,8 +349,12 @@ export type ImagesTotal = number;
 export type GuardrailAutomatedReasoningTranslationConfidence = number;
 export type AutomatedReasoningRuleIdentifier = string;
 export type GuardrailAutomatedReasoningPolicyVersionArn = string;
-export type GuardrailAutomatedReasoningStatementLogicContent = string;
-export type GuardrailAutomatedReasoningStatementNaturalLanguageContent = string;
+export type GuardrailAutomatedReasoningStatementLogicContent =
+  | string
+  | Redacted.Redacted<string>;
+export type GuardrailAutomatedReasoningStatementNaturalLanguageContent =
+  | string
+  | Redacted.Redacted<string>;
 
 //# Schemas
 export type AdditionalModelResponseFieldPaths = string[];
@@ -602,7 +608,7 @@ export interface GetAsyncInvokeResponse {
   modelArn: string;
   clientRequestToken?: string;
   status: string;
-  failureMessage?: string;
+  failureMessage?: string | Redacted.Redacted<string>;
   submitTime: Date;
   lastModifiedTime?: Date;
   endTime?: Date;
@@ -614,7 +620,7 @@ export const GetAsyncInvokeResponse = S.suspend(() =>
     modelArn: S.String,
     clientRequestToken: S.optional(S.String),
     status: S.String,
-    failureMessage: S.optional(S.String),
+    failureMessage: S.optional(SensitiveString),
     submitTime: S.Date.pipe(T.TimestampFormat("date-time")),
     lastModifiedTime: S.optional(S.Date.pipe(T.TimestampFormat("date-time"))),
     endTime: S.optional(S.Date.pipe(T.TimestampFormat("date-time"))),
@@ -1161,18 +1167,18 @@ export const GuardrailTextBlock = S.suspend(() =>
   identifier: "GuardrailTextBlock",
 }) as any as S.Schema<GuardrailTextBlock>;
 export interface BidirectionalInputPayloadPart {
-  bytes?: Uint8Array;
+  bytes?: Uint8Array | Redacted.Redacted<Uint8Array>;
 }
 export const BidirectionalInputPayloadPart = S.suspend(() =>
-  S.Struct({ bytes: S.optional(T.Blob) }),
+  S.Struct({ bytes: S.optional(SensitiveBlob) }),
 ).annotations({
   identifier: "BidirectionalInputPayloadPart",
 }) as any as S.Schema<BidirectionalInputPayloadPart>;
 export interface InvokeModelTokensRequest {
-  body: Uint8Array;
+  body: Uint8Array | Redacted.Redacted<Uint8Array>;
 }
 export const InvokeModelTokensRequest = S.suspend(() =>
-  S.Struct({ body: T.Blob }),
+  S.Struct({ body: SensitiveBlob }),
 ).annotations({
   identifier: "InvokeModelTokensRequest",
 }) as any as S.Schema<InvokeModelTokensRequest>;
@@ -1197,7 +1203,7 @@ export interface AsyncInvokeSummary {
   modelArn: string;
   clientRequestToken?: string;
   status?: string;
-  failureMessage?: string;
+  failureMessage?: string | Redacted.Redacted<string>;
   submitTime: Date;
   lastModifiedTime?: Date;
   endTime?: Date;
@@ -1209,7 +1215,7 @@ export const AsyncInvokeSummary = S.suspend(() =>
     modelArn: S.String,
     clientRequestToken: S.optional(S.String),
     status: S.optional(S.String),
-    failureMessage: S.optional(S.String),
+    failureMessage: S.optional(SensitiveString),
     submitTime: S.Date.pipe(T.TimestampFormat("date-time")),
     lastModifiedTime: S.optional(S.Date.pipe(T.TimestampFormat("date-time"))),
     endTime: S.optional(S.Date.pipe(T.TimestampFormat("date-time"))),
@@ -1326,10 +1332,10 @@ export const GuardrailImageBlock = S.suspend(() =>
   identifier: "GuardrailImageBlock",
 }) as any as S.Schema<GuardrailImageBlock>;
 export interface PayloadPart {
-  bytes?: Uint8Array;
+  bytes?: Uint8Array | Redacted.Redacted<Uint8Array>;
 }
 export const PayloadPart = S.suspend(() =>
-  S.Struct({ bytes: S.optional(T.Blob) }),
+  S.Struct({ bytes: S.optional(SensitiveBlob) }),
 ).annotations({ identifier: "PayloadPart" }) as any as S.Schema<PayloadPart>;
 export type GuardrailContentBlock =
   | { text: GuardrailTextBlock }
@@ -1497,10 +1503,10 @@ export const ConverseStreamMetrics = S.suspend(() =>
 export type ModelOutputs = string[];
 export const ModelOutputs = S.Array(S.String);
 export interface BidirectionalOutputPayloadPart {
-  bytes?: Uint8Array;
+  bytes?: Uint8Array | Redacted.Redacted<Uint8Array>;
 }
 export const BidirectionalOutputPayloadPart = S.suspend(() =>
-  S.Struct({ bytes: S.optional(T.Blob) }),
+  S.Struct({ bytes: S.optional(SensitiveBlob) }),
 ).annotations({
   identifier: "BidirectionalOutputPayloadPart",
 }) as any as S.Schema<BidirectionalOutputPayloadPart>;
@@ -1853,13 +1859,13 @@ export const GuardrailContextualGroundingPolicyAssessment = S.suspend(() =>
   identifier: "GuardrailContextualGroundingPolicyAssessment",
 }) as any as S.Schema<GuardrailContextualGroundingPolicyAssessment>;
 export interface GuardrailAutomatedReasoningStatement {
-  logic?: string;
-  naturalLanguage?: string;
+  logic?: string | Redacted.Redacted<string>;
+  naturalLanguage?: string | Redacted.Redacted<string>;
 }
 export const GuardrailAutomatedReasoningStatement = S.suspend(() =>
   S.Struct({
-    logic: S.optional(S.String),
-    naturalLanguage: S.optional(S.String),
+    logic: S.optional(SensitiveString),
+    naturalLanguage: S.optional(SensitiveString),
   }),
 ).annotations({
   identifier: "GuardrailAutomatedReasoningStatement",
@@ -1870,10 +1876,10 @@ export const GuardrailAutomatedReasoningStatementList = S.Array(
   GuardrailAutomatedReasoningStatement,
 );
 export interface GuardrailAutomatedReasoningInputTextReference {
-  text?: string;
+  text?: string | Redacted.Redacted<string>;
 }
 export const GuardrailAutomatedReasoningInputTextReference = S.suspend(() =>
-  S.Struct({ text: S.optional(S.String) }),
+  S.Struct({ text: S.optional(SensitiveString) }),
 ).annotations({
   identifier: "GuardrailAutomatedReasoningInputTextReference",
 }) as any as S.Schema<GuardrailAutomatedReasoningInputTextReference>;

@@ -1,5 +1,6 @@
 import { HttpClient } from "@effect/platform";
 import * as Effect from "effect/Effect";
+import * as Redacted from "effect/Redacted";
 import * as S from "effect/Schema";
 import * as Stream from "effect/Stream";
 import * as API from "../api.ts";
@@ -10,6 +11,7 @@ import {
   ErrorCategory,
   Errors,
 } from "../index.ts";
+import { SensitiveString, SensitiveBlob } from "../sensitive.ts";
 const svc = T.AwsApiService({
   sdkId: "LakeFormation",
   serviceShapeName: "AWSLakeFormation",
@@ -272,11 +274,15 @@ export type TokenString = string;
 export type PathString = string;
 export type GetWorkUnitResultsRequestQueryIdString = string;
 export type GetWorkUnitResultsRequestWorkUnitIdLong = number;
-export type SyntheticGetWorkUnitResultsRequestWorkUnitTokenString = string;
+export type SyntheticGetWorkUnitResultsRequestWorkUnitTokenString =
+  | string
+  | Redacted.Redacted<string>;
 export type GetWorkUnitsRequestQueryIdString = string;
 export type TrueFalseString = string;
 export type SearchPageSize = number;
-export type SyntheticStartQueryPlanningRequestQueryString = string;
+export type SyntheticStartQueryPlanningRequestQueryString =
+  | string
+  | Redacted.Redacted<string>;
 export type Identifier = string;
 export type VersionString = string;
 export type ScopeTarget = string;
@@ -1086,13 +1092,13 @@ export const GetTableObjectsRequest = S.suspend(() =>
 export interface GetWorkUnitResultsRequest {
   QueryId: string;
   WorkUnitId: number;
-  WorkUnitToken: string;
+  WorkUnitToken: string | Redacted.Redacted<string>;
 }
 export const GetWorkUnitResultsRequest = S.suspend(() =>
   S.Struct({
     QueryId: S.String,
     WorkUnitId: S.Number,
-    WorkUnitToken: S.String,
+    WorkUnitToken: SensitiveString,
   }).pipe(
     T.all(
       T.Http({ method: "POST", uri: "/GetWorkUnitResults" }),
@@ -2792,12 +2798,12 @@ export const SearchTablesByLFTagsResponse = S.suspend(() =>
 }) as any as S.Schema<SearchTablesByLFTagsResponse>;
 export interface StartQueryPlanningRequest {
   QueryPlanningContext: QueryPlanningContext;
-  QueryString: string;
+  QueryString: string | Redacted.Redacted<string>;
 }
 export const StartQueryPlanningRequest = S.suspend(() =>
   S.Struct({
     QueryPlanningContext: QueryPlanningContext,
-    QueryString: S.String,
+    QueryString: SensitiveString,
   }).pipe(
     T.all(
       T.Http({ method: "POST", uri: "/StartQueryPlanning" }),

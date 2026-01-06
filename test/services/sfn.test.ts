@@ -1,5 +1,5 @@
 import { expect } from "@effect/vitest";
-import { Effect, Schedule, Stream } from "effect";
+import { Effect, Redacted, Schedule, Stream } from "effect";
 import {
   attachRolePolicy,
   createRole,
@@ -281,8 +281,11 @@ test(
         expect(describeResult.name).toEqual("itty-sfn-sm-lifecycle");
         expect(describeResult.status).toEqual("ACTIVE");
 
-        // Verify definition matches
-        const returnedDef = JSON.parse(describeResult.definition || "{}");
+        // Verify definition matches (definition is a sensitive field)
+        const definitionStr = Redacted.isRedacted(describeResult.definition)
+          ? Redacted.value(describeResult.definition)
+          : describeResult.definition;
+        const returnedDef = JSON.parse(definitionStr || "{}");
         const expectedDef = JSON.parse(PASS_STATE_MACHINE_DEFINITION);
         expect(returnedDef.StartAt).toEqual(expectedDef.StartAt);
 
@@ -333,7 +336,11 @@ test(
         // Describe execution
         const describeResult = yield* describeExecution({ executionArn });
         expect(describeResult.name).toBeDefined();
-        expect(describeResult.input).toEqual(inputData);
+        // input is a sensitive field
+        const inputStr = Redacted.isRedacted(describeResult.input)
+          ? Redacted.value(describeResult.input)
+          : describeResult.input;
+        expect(inputStr).toEqual(inputData);
 
         // Status should be RUNNING or SUCCEEDED (pass state is fast)
         const status = describeResult.status;
@@ -353,8 +360,11 @@ test(
         const finalDescribe = yield* describeExecution({ executionArn });
         expect(finalDescribe.status).toEqual("SUCCEEDED");
 
-        // Output should match input for pass state
-        expect(finalDescribe.output).toEqual(inputData);
+        // Output should match input for pass state (output is a sensitive field)
+        const outputStr = Redacted.isRedacted(finalDescribe.output)
+          ? Redacted.value(finalDescribe.output)
+          : finalDescribe.output;
+        expect(outputStr).toEqual(inputData);
       }),
   ),
 );

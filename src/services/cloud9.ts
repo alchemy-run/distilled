@@ -1,5 +1,6 @@
 import { HttpClient } from "@effect/platform";
 import * as Effect from "effect/Effect";
+import * as Redacted from "effect/Redacted";
 import * as S from "effect/Schema";
 import * as Stream from "effect/Stream";
 import * as API from "../api.ts";
@@ -10,6 +11,7 @@ import {
   ErrorCategory,
   Errors,
 } from "../index.ts";
+import { SensitiveString, SensitiveBlob } from "../sensitive.ts";
 const svc = T.AwsApiService({
   sdkId: "Cloud9",
   serviceShapeName: "AWSCloud9WorkspaceManagementService",
@@ -251,7 +253,7 @@ const rules = T.EndpointRuleSet({
 
 //# Newtypes
 export type EnvironmentName = string;
-export type EnvironmentDescription = string;
+export type EnvironmentDescription = string | Redacted.Redacted<string>;
 export type ClientRequestToken = string;
 export type InstanceType = string;
 export type SubnetId = string;
@@ -261,8 +263,8 @@ export type UserArn = string;
 export type EnvironmentId = string;
 export type MaxResults = number;
 export type EnvironmentArn = string;
-export type TagKey = string;
-export type TagValue = string;
+export type TagKey = string | Redacted.Redacted<string>;
+export type TagValue = string | Redacted.Redacted<string>;
 export type Integer = number;
 
 //# Schemas
@@ -270,8 +272,8 @@ export type PermissionsList = string[];
 export const PermissionsList = S.Array(S.String);
 export type BoundedEnvironmentIdList = string[];
 export const BoundedEnvironmentIdList = S.Array(S.String);
-export type TagKeyList = string[];
-export const TagKeyList = S.Array(S.String);
+export type TagKeyList = string | Redacted.Redacted<string>[];
+export const TagKeyList = S.Array(SensitiveString);
 export interface CreateEnvironmentMembershipRequest {
   environmentId: string;
   userArn: string;
@@ -386,11 +388,11 @@ export const ListTagsForResourceRequest = S.suspend(() =>
   identifier: "ListTagsForResourceRequest",
 }) as any as S.Schema<ListTagsForResourceRequest>;
 export interface Tag {
-  Key: string;
-  Value: string;
+  Key: string | Redacted.Redacted<string>;
+  Value: string | Redacted.Redacted<string>;
 }
 export const Tag = S.suspend(() =>
-  S.Struct({ Key: S.String, Value: S.String }),
+  S.Struct({ Key: SensitiveString, Value: SensitiveString }),
 ).annotations({ identifier: "Tag" }) as any as S.Schema<Tag>;
 export type TagList = Tag[];
 export const TagList = S.Array(Tag);
@@ -427,14 +429,14 @@ export const UntagResourceResponse = S.suspend(() => S.Struct({})).annotations({
 export interface UpdateEnvironmentRequest {
   environmentId: string;
   name?: string;
-  description?: string;
+  description?: string | Redacted.Redacted<string>;
   managedCredentialsAction?: string;
 }
 export const UpdateEnvironmentRequest = S.suspend(() =>
   S.Struct({
     environmentId: S.String,
     name: S.optional(S.String),
-    description: S.optional(S.String),
+    description: S.optional(SensitiveString),
     managedCredentialsAction: S.optional(S.String),
   }).pipe(
     T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
@@ -488,7 +490,7 @@ export type EnvironmentIdList = string[];
 export const EnvironmentIdList = S.Array(S.String);
 export interface CreateEnvironmentEC2Request {
   name: string;
-  description?: string;
+  description?: string | Redacted.Redacted<string>;
   clientRequestToken?: string;
   instanceType: string;
   subnetId?: string;
@@ -502,7 +504,7 @@ export interface CreateEnvironmentEC2Request {
 export const CreateEnvironmentEC2Request = S.suspend(() =>
   S.Struct({
     name: S.String,
-    description: S.optional(S.String),
+    description: S.optional(SensitiveString),
     clientRequestToken: S.optional(S.String),
     instanceType: S.String,
     subnetId: S.optional(S.String),
@@ -600,7 +602,7 @@ export const EnvironmentLifecycle = S.suspend(() =>
 export interface Environment {
   id?: string;
   name?: string;
-  description?: string;
+  description?: string | Redacted.Redacted<string>;
   type: string;
   connectionType?: string;
   arn: string;
@@ -612,7 +614,7 @@ export const Environment = S.suspend(() =>
   S.Struct({
     id: S.optional(S.String),
     name: S.optional(S.String),
-    description: S.optional(S.String),
+    description: S.optional(SensitiveString),
     type: S.String,
     connectionType: S.optional(S.String),
     arn: S.String,

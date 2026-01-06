@@ -1,5 +1,6 @@
 import { HttpClient } from "@effect/platform";
 import * as Effect from "effect/Effect";
+import * as Redacted from "effect/Redacted";
 import * as S from "effect/Schema";
 import * as Stream from "effect/Stream";
 import * as API from "../api.ts";
@@ -10,6 +11,7 @@ import {
   ErrorCategory,
   Errors,
 } from "../index.ts";
+import { SensitiveString, SensitiveBlob } from "../sensitive.ts";
 const ns = T.XmlNamespace("https://kinesisvideo.amazonaws.com/doc/2017-09-30/");
 const svc = T.AwsApiService({
   sdkId: "Kinesis Video",
@@ -279,7 +281,7 @@ export type DestinationUri = string;
 export type DestinationRegion = string;
 export type FormatConfigValue = string;
 export type Type = string;
-export type MediaUriSecretArn = string;
+export type MediaUriSecretArn = string | Redacted.Redacted<string>;
 export type ScheduleExpression = string;
 export type DurationInSeconds = number;
 export type MaxLocalMediaSizeInMB = number;
@@ -1319,11 +1321,11 @@ export const StreamInfo = S.suspend(() =>
   }),
 ).annotations({ identifier: "StreamInfo" }) as any as S.Schema<StreamInfo>;
 export interface MediaSourceConfig {
-  MediaUriSecretArn: string;
+  MediaUriSecretArn: string | Redacted.Redacted<string>;
   MediaUriType: string;
 }
 export const MediaSourceConfig = S.suspend(() =>
-  S.Struct({ MediaUriSecretArn: S.String, MediaUriType: S.String }),
+  S.Struct({ MediaUriSecretArn: SensitiveString, MediaUriType: S.String }),
 ).annotations({
   identifier: "MediaSourceConfig",
 }) as any as S.Schema<MediaSourceConfig>;

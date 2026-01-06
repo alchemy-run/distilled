@@ -1,5 +1,6 @@
 import { HttpClient } from "@effect/platform";
 import * as Effect from "effect/Effect";
+import * as Redacted from "effect/Redacted";
 import * as S from "effect/Schema";
 import * as Stream from "effect/Stream";
 import * as API from "../api.ts";
@@ -10,6 +11,7 @@ import {
   ErrorCategory,
   Errors,
 } from "../index.ts";
+import { SensitiveString, SensitiveBlob } from "../sensitive.ts";
 const svc = T.AwsApiService({
   sdkId: "Payment Cryptography Data",
   serviceShapeName: "PaymentCryptographyDataPlane",
@@ -303,67 +305,69 @@ const rules = T.EndpointRuleSet({
 
 //# Newtypes
 export type KeyArnOrKeyAliasType = string;
-export type CipherTextType = string;
-export type PlainTextType = string;
-export type PrimaryAccountNumberType = string;
+export type CipherTextType = string | Redacted.Redacted<string>;
+export type PlainTextType = string | Redacted.Redacted<string>;
+export type PrimaryAccountNumberType = string | Redacted.Redacted<string>;
 export type IntegerRangeBetween3And5Type = number;
-export type MessageDataType = string;
+export type MessageDataType = string | Redacted.Redacted<string>;
 export type IntegerRangeBetween4And16 = number;
-export type PinBlockLengthEquals16 = string;
-export type CommandMessageDataType = string;
+export type PinBlockLengthEquals16 = string | Redacted.Redacted<string>;
+export type CommandMessageDataType = string | Redacted.Redacted<string>;
 export type IntegerRangeBetween4And12 = number;
 export type KeyCheckValueAlgorithm = string;
-export type HexEvenLengthBetween16And32 = string;
-export type TransactionDataType = string;
-export type AuthRequestCryptogramType = string;
-export type ValidationDataType = string;
-export type MacType = string;
-export type EncryptedPinBlockType = string;
+export type HexEvenLengthBetween16And32 = string | Redacted.Redacted<string>;
+export type TransactionDataType = string | Redacted.Redacted<string>;
+export type AuthRequestCryptogramType = string | Redacted.Redacted<string>;
+export type ValidationDataType = string | Redacted.Redacted<string>;
+export type MacType = string | Redacted.Redacted<string>;
+export type EncryptedPinBlockType = string | Redacted.Redacted<string>;
 export type HexLength16Or20Or24 = string;
 export type SystemTraceAuditNumberType = string;
 export type TransactionAmountType = string;
 export type KeyArn = string;
 export type KeyCheckValue = string;
-export type InitializationVectorType = string;
+export type InitializationVectorType = string | Redacted.Redacted<string>;
 export type NumberLengthEquals2 = string;
-export type SessionDerivationDataType = string;
-export type Tr31WrappedKeyBlock = string;
-export type As2805RandomKeyMaterial = string;
-export type CardExpiryDateType = string;
-export type ServiceCodeType = string;
+export type SessionDerivationDataType = string | Redacted.Redacted<string>;
+export type Tr31WrappedKeyBlock = string | Redacted.Redacted<string>;
+export type As2805RandomKeyMaterial = string | Redacted.Redacted<string>;
+export type CardExpiryDateType = string | Redacted.Redacted<string>;
+export type ServiceCodeType = string | Redacted.Redacted<string>;
 export type HexLengthBetween2And8 = string;
 export type HexLengthBetween2And4 = string;
-export type TrackDataType = string;
-export type ApplicationCryptogramType = string;
+export type TrackDataType = string | Redacted.Redacted<string>;
+export type ApplicationCryptogramType = string | Redacted.Redacted<string>;
 export type HexLengthEquals4 = string;
 export type IntegerRangeBetween0And6 = number;
-export type DecimalizationTableType = string;
+export type DecimalizationTableType = string | Redacted.Redacted<string>;
 export type HexLengthEquals1 = string;
-export type PinValidationDataType = string;
-export type PinOffsetType = string;
+export type PinValidationDataType = string | Redacted.Redacted<string>;
+export type PinOffsetType = string | Redacted.Redacted<string>;
 export type CertificateType = string;
 export type HexLengthEquals8 = string;
-export type ProprietaryAuthenticationDataType = string;
-export type VerificationValueType = string;
+export type ProprietaryAuthenticationDataType =
+  | string
+  | Redacted.Redacted<string>;
+export type VerificationValueType = string | Redacted.Redacted<string>;
 export type SharedInformation = string;
-export type AuthResponseValueType = string;
-export type PlainTextOutputType = string;
-export type MacOutputType = string;
-export type PinChangeMacOutputType = string;
-export type KeyMaterial = string;
+export type AuthResponseValueType = string | Redacted.Redacted<string>;
+export type PlainTextOutputType = string | Redacted.Redacted<string>;
+export type MacOutputType = string | Redacted.Redacted<string>;
+export type PinChangeMacOutputType = string | Redacted.Redacted<string>;
+export type KeyMaterial = string | Redacted.Redacted<string>;
 export type WrappedKeyMaterialFormat = string;
 export type VerificationFailedReason = string;
 
 //# Schemas
 export interface SymmetricEncryptionAttributes {
   Mode: string;
-  InitializationVector?: string;
+  InitializationVector?: string | Redacted.Redacted<string>;
   PaddingType?: string;
 }
 export const SymmetricEncryptionAttributes = S.suspend(() =>
   S.Struct({
     Mode: S.String,
-    InitializationVector: S.optional(S.String),
+    InitializationVector: S.optional(SensitiveString),
     PaddingType: S.optional(S.String),
   }),
 ).annotations({
@@ -382,7 +386,7 @@ export interface DukptEncryptionAttributes {
   Mode?: string;
   DukptKeyDerivationType?: string;
   DukptKeyVariant?: string;
-  InitializationVector?: string;
+  InitializationVector?: string | Redacted.Redacted<string>;
 }
 export const DukptEncryptionAttributes = S.suspend(() =>
   S.Struct({
@@ -390,27 +394,27 @@ export const DukptEncryptionAttributes = S.suspend(() =>
     Mode: S.optional(S.String),
     DukptKeyDerivationType: S.optional(S.String),
     DukptKeyVariant: S.optional(S.String),
-    InitializationVector: S.optional(S.String),
+    InitializationVector: S.optional(SensitiveString),
   }),
 ).annotations({
   identifier: "DukptEncryptionAttributes",
 }) as any as S.Schema<DukptEncryptionAttributes>;
 export interface EmvEncryptionAttributes {
   MajorKeyDerivationMode: string;
-  PrimaryAccountNumber: string;
+  PrimaryAccountNumber: string | Redacted.Redacted<string>;
   PanSequenceNumber: string;
-  SessionDerivationData: string;
+  SessionDerivationData: string | Redacted.Redacted<string>;
   Mode?: string;
-  InitializationVector?: string;
+  InitializationVector?: string | Redacted.Redacted<string>;
 }
 export const EmvEncryptionAttributes = S.suspend(() =>
   S.Struct({
     MajorKeyDerivationMode: S.String,
-    PrimaryAccountNumber: S.String,
+    PrimaryAccountNumber: SensitiveString,
     PanSequenceNumber: S.String,
-    SessionDerivationData: S.String,
+    SessionDerivationData: SensitiveString,
     Mode: S.optional(S.String),
-    InitializationVector: S.optional(S.String),
+    InitializationVector: S.optional(SensitiveString),
   }),
 ).annotations({
   identifier: "EmvEncryptionAttributes",
@@ -447,10 +451,10 @@ export const EcdhDerivationAttributes = S.suspend(() =>
   identifier: "EcdhDerivationAttributes",
 }) as any as S.Schema<EcdhDerivationAttributes>;
 export type WrappedKeyMaterial =
-  | { Tr31KeyBlock: string }
+  | { Tr31KeyBlock: string | Redacted.Redacted<string> }
   | { DiffieHellmanSymmetricKey: EcdhDerivationAttributes };
 export const WrappedKeyMaterial = S.Union(
-  S.Struct({ Tr31KeyBlock: S.String }),
+  S.Struct({ Tr31KeyBlock: SensitiveString }),
   S.Struct({ DiffieHellmanSymmetricKey: EcdhDerivationAttributes }),
 );
 export interface WrappedKey {
@@ -465,14 +469,14 @@ export const WrappedKey = S.suspend(() =>
 ).annotations({ identifier: "WrappedKey" }) as any as S.Schema<WrappedKey>;
 export interface EncryptDataInput {
   KeyIdentifier: string;
-  PlainText: string;
+  PlainText: string | Redacted.Redacted<string>;
   EncryptionAttributes: (typeof EncryptionDecryptionAttributes)["Type"];
   WrappedKey?: WrappedKey;
 }
 export const EncryptDataInput = S.suspend(() =>
   S.Struct({
     KeyIdentifier: S.String.pipe(T.HttpLabel("KeyIdentifier")),
-    PlainText: S.String,
+    PlainText: SensitiveString,
     EncryptionAttributes: EncryptionDecryptionAttributes,
     WrappedKey: S.optional(WrappedKey),
   }).pipe(
@@ -489,15 +493,15 @@ export const EncryptDataInput = S.suspend(() =>
   identifier: "EncryptDataInput",
 }) as any as S.Schema<EncryptDataInput>;
 export type SessionKeyDerivationValue =
-  | { ApplicationCryptogram: string }
+  | { ApplicationCryptogram: string | Redacted.Redacted<string> }
   | { ApplicationTransactionCounter: string };
 export const SessionKeyDerivationValue = S.Union(
-  S.Struct({ ApplicationCryptogram: S.String }),
+  S.Struct({ ApplicationCryptogram: SensitiveString }),
   S.Struct({ ApplicationTransactionCounter: S.String }),
 );
 export interface MacAlgorithmEmv {
   MajorKeyDerivationMode: string;
-  PrimaryAccountNumber: string;
+  PrimaryAccountNumber: string | Redacted.Redacted<string>;
   PanSequenceNumber: string;
   SessionKeyDerivationMode: string;
   SessionKeyDerivationValue: (typeof SessionKeyDerivationValue)["Type"];
@@ -505,7 +509,7 @@ export interface MacAlgorithmEmv {
 export const MacAlgorithmEmv = S.suspend(() =>
   S.Struct({
     MajorKeyDerivationMode: S.String,
-    PrimaryAccountNumber: S.String,
+    PrimaryAccountNumber: SensitiveString,
     PanSequenceNumber: S.String,
     SessionKeyDerivationMode: S.String,
     SessionKeyDerivationValue: SessionKeyDerivationValue,
@@ -542,16 +546,16 @@ export const MacAttributes = S.Union(
 );
 export interface VerifyMacInput {
   KeyIdentifier: string;
-  MessageData: string;
-  Mac: string;
+  MessageData: string | Redacted.Redacted<string>;
+  Mac: string | Redacted.Redacted<string>;
   VerificationAttributes: (typeof MacAttributes)["Type"];
   MacLength?: number;
 }
 export const VerifyMacInput = S.suspend(() =>
   S.Struct({
     KeyIdentifier: S.String,
-    MessageData: S.String,
-    Mac: S.String,
+    MessageData: SensitiveString,
+    Mac: SensitiveString,
     VerificationAttributes: MacAttributes,
     MacLength: S.optional(S.Number),
   }).pipe(
@@ -615,13 +619,13 @@ export const DukptAttributes = S.suspend(() =>
 export interface EncryptDataOutput {
   KeyArn: string;
   KeyCheckValue?: string;
-  CipherText: string;
+  CipherText: string | Redacted.Redacted<string>;
 }
 export const EncryptDataOutput = S.suspend(() =>
   S.Struct({
     KeyArn: S.String,
     KeyCheckValue: S.optional(S.String),
-    CipherText: S.String,
+    CipherText: SensitiveString,
   }),
 ).annotations({
   identifier: "EncryptDataOutput",
@@ -629,7 +633,7 @@ export const EncryptDataOutput = S.suspend(() =>
 export interface ReEncryptDataInput {
   IncomingKeyIdentifier: string;
   OutgoingKeyIdentifier: string;
-  CipherText: string;
+  CipherText: string | Redacted.Redacted<string>;
   IncomingEncryptionAttributes: (typeof ReEncryptionAttributes)["Type"];
   OutgoingEncryptionAttributes: (typeof ReEncryptionAttributes)["Type"];
   IncomingWrappedKey?: WrappedKey;
@@ -639,7 +643,7 @@ export const ReEncryptDataInput = S.suspend(() =>
   S.Struct({
     IncomingKeyIdentifier: S.String.pipe(T.HttpLabel("IncomingKeyIdentifier")),
     OutgoingKeyIdentifier: S.String,
-    CipherText: S.String,
+    CipherText: SensitiveString,
     IncomingEncryptionAttributes: ReEncryptionAttributes,
     OutgoingEncryptionAttributes: ReEncryptionAttributes,
     IncomingWrappedKey: S.optional(WrappedKey),
@@ -678,44 +682,44 @@ export const KekValidationRequest = S.suspend(() =>
   identifier: "KekValidationRequest",
 }) as any as S.Schema<KekValidationRequest>;
 export interface KekValidationResponse {
-  RandomKeySend: string;
+  RandomKeySend: string | Redacted.Redacted<string>;
 }
 export const KekValidationResponse = S.suspend(() =>
-  S.Struct({ RandomKeySend: S.String }),
+  S.Struct({ RandomKeySend: SensitiveString }),
 ).annotations({
   identifier: "KekValidationResponse",
 }) as any as S.Schema<KekValidationResponse>;
 export interface AmexCardSecurityCodeVersion1 {
-  CardExpiryDate: string;
+  CardExpiryDate: string | Redacted.Redacted<string>;
 }
 export const AmexCardSecurityCodeVersion1 = S.suspend(() =>
-  S.Struct({ CardExpiryDate: S.String }),
+  S.Struct({ CardExpiryDate: SensitiveString }),
 ).annotations({
   identifier: "AmexCardSecurityCodeVersion1",
 }) as any as S.Schema<AmexCardSecurityCodeVersion1>;
 export interface AmexCardSecurityCodeVersion2 {
-  CardExpiryDate: string;
-  ServiceCode: string;
+  CardExpiryDate: string | Redacted.Redacted<string>;
+  ServiceCode: string | Redacted.Redacted<string>;
 }
 export const AmexCardSecurityCodeVersion2 = S.suspend(() =>
-  S.Struct({ CardExpiryDate: S.String, ServiceCode: S.String }),
+  S.Struct({ CardExpiryDate: SensitiveString, ServiceCode: SensitiveString }),
 ).annotations({
   identifier: "AmexCardSecurityCodeVersion2",
 }) as any as S.Schema<AmexCardSecurityCodeVersion2>;
 export interface CardVerificationValue1 {
-  CardExpiryDate: string;
-  ServiceCode: string;
+  CardExpiryDate: string | Redacted.Redacted<string>;
+  ServiceCode: string | Redacted.Redacted<string>;
 }
 export const CardVerificationValue1 = S.suspend(() =>
-  S.Struct({ CardExpiryDate: S.String, ServiceCode: S.String }),
+  S.Struct({ CardExpiryDate: SensitiveString, ServiceCode: SensitiveString }),
 ).annotations({
   identifier: "CardVerificationValue1",
 }) as any as S.Schema<CardVerificationValue1>;
 export interface CardVerificationValue2 {
-  CardExpiryDate: string;
+  CardExpiryDate: string | Redacted.Redacted<string>;
 }
 export const CardVerificationValue2 = S.suspend(() =>
-  S.Struct({ CardExpiryDate: S.String }),
+  S.Struct({ CardExpiryDate: SensitiveString }),
 ).annotations({
   identifier: "CardVerificationValue2",
 }) as any as S.Schema<CardVerificationValue2>;
@@ -737,29 +741,29 @@ export interface DynamicCardVerificationCode {
   UnpredictableNumber: string;
   PanSequenceNumber: string;
   ApplicationTransactionCounter: string;
-  TrackData: string;
+  TrackData: string | Redacted.Redacted<string>;
 }
 export const DynamicCardVerificationCode = S.suspend(() =>
   S.Struct({
     UnpredictableNumber: S.String,
     PanSequenceNumber: S.String,
     ApplicationTransactionCounter: S.String,
-    TrackData: S.String,
+    TrackData: SensitiveString,
   }),
 ).annotations({
   identifier: "DynamicCardVerificationCode",
 }) as any as S.Schema<DynamicCardVerificationCode>;
 export interface DynamicCardVerificationValue {
   PanSequenceNumber: string;
-  CardExpiryDate: string;
-  ServiceCode: string;
+  CardExpiryDate: string | Redacted.Redacted<string>;
+  ServiceCode: string | Redacted.Redacted<string>;
   ApplicationTransactionCounter: string;
 }
 export const DynamicCardVerificationValue = S.suspend(() =>
   S.Struct({
     PanSequenceNumber: S.String,
-    CardExpiryDate: S.String,
-    ServiceCode: S.String,
+    CardExpiryDate: SensitiveString,
+    ServiceCode: SensitiveString,
     ApplicationTransactionCounter: S.String,
   }),
 ).annotations({
@@ -767,9 +771,9 @@ export const DynamicCardVerificationValue = S.suspend(() =>
 }) as any as S.Schema<DynamicCardVerificationValue>;
 export interface EmvCommonAttributes {
   MajorKeyDerivationMode: string;
-  PrimaryAccountNumber: string;
+  PrimaryAccountNumber: string | Redacted.Redacted<string>;
   PanSequenceNumber: string;
-  ApplicationCryptogram: string;
+  ApplicationCryptogram: string | Redacted.Redacted<string>;
   Mode: string;
   PinBlockPaddingType: string;
   PinBlockLengthPosition: string;
@@ -777,9 +781,9 @@ export interface EmvCommonAttributes {
 export const EmvCommonAttributes = S.suspend(() =>
   S.Struct({
     MajorKeyDerivationMode: S.String,
-    PrimaryAccountNumber: S.String,
+    PrimaryAccountNumber: SensitiveString,
     PanSequenceNumber: S.String,
-    ApplicationCryptogram: S.String,
+    ApplicationCryptogram: SensitiveString,
     Mode: S.String,
     PinBlockPaddingType: S.String,
     PinBlockLengthPosition: S.String,
@@ -789,19 +793,19 @@ export const EmvCommonAttributes = S.suspend(() =>
 }) as any as S.Schema<EmvCommonAttributes>;
 export interface CurrentPinAttributes {
   CurrentPinPekIdentifier: string;
-  CurrentEncryptedPinBlock: string;
+  CurrentEncryptedPinBlock: string | Redacted.Redacted<string>;
 }
 export const CurrentPinAttributes = S.suspend(() =>
   S.Struct({
     CurrentPinPekIdentifier: S.String,
-    CurrentEncryptedPinBlock: S.String,
+    CurrentEncryptedPinBlock: SensitiveString,
   }),
 ).annotations({
   identifier: "CurrentPinAttributes",
 }) as any as S.Schema<CurrentPinAttributes>;
 export interface VisaAttributes {
   MajorKeyDerivationMode: string;
-  PrimaryAccountNumber: string;
+  PrimaryAccountNumber: string | Redacted.Redacted<string>;
   PanSequenceNumber: string;
   ApplicationTransactionCounter: string;
   AuthorizationRequestKeyIdentifier: string;
@@ -810,7 +814,7 @@ export interface VisaAttributes {
 export const VisaAttributes = S.suspend(() =>
   S.Struct({
     MajorKeyDerivationMode: S.String,
-    PrimaryAccountNumber: S.String,
+    PrimaryAccountNumber: SensitiveString,
     PanSequenceNumber: S.String,
     ApplicationTransactionCounter: S.String,
     AuthorizationRequestKeyIdentifier: S.String,
@@ -821,14 +825,14 @@ export const VisaAttributes = S.suspend(() =>
 }) as any as S.Schema<VisaAttributes>;
 export interface Emv2000Attributes {
   MajorKeyDerivationMode: string;
-  PrimaryAccountNumber: string;
+  PrimaryAccountNumber: string | Redacted.Redacted<string>;
   PanSequenceNumber: string;
   ApplicationTransactionCounter: string;
 }
 export const Emv2000Attributes = S.suspend(() =>
   S.Struct({
     MajorKeyDerivationMode: S.String,
-    PrimaryAccountNumber: S.String,
+    PrimaryAccountNumber: SensitiveString,
     PanSequenceNumber: S.String,
     ApplicationTransactionCounter: S.String,
   }),
@@ -837,16 +841,16 @@ export const Emv2000Attributes = S.suspend(() =>
 }) as any as S.Schema<Emv2000Attributes>;
 export interface MasterCardAttributes {
   MajorKeyDerivationMode: string;
-  PrimaryAccountNumber: string;
+  PrimaryAccountNumber: string | Redacted.Redacted<string>;
   PanSequenceNumber: string;
-  ApplicationCryptogram: string;
+  ApplicationCryptogram: string | Redacted.Redacted<string>;
 }
 export const MasterCardAttributes = S.suspend(() =>
   S.Struct({
     MajorKeyDerivationMode: S.String,
-    PrimaryAccountNumber: S.String,
+    PrimaryAccountNumber: SensitiveString,
     PanSequenceNumber: S.String,
-    ApplicationCryptogram: S.String,
+    ApplicationCryptogram: SensitiveString,
   }),
 ).annotations({
   identifier: "MasterCardAttributes",
@@ -858,70 +862,73 @@ export const VisaPin = S.suspend(() =>
   S.Struct({ PinVerificationKeyIndex: S.Number }),
 ).annotations({ identifier: "VisaPin" }) as any as S.Schema<VisaPin>;
 export interface VisaPinVerificationValue {
-  EncryptedPinBlock: string;
+  EncryptedPinBlock: string | Redacted.Redacted<string>;
   PinVerificationKeyIndex: number;
 }
 export const VisaPinVerificationValue = S.suspend(() =>
-  S.Struct({ EncryptedPinBlock: S.String, PinVerificationKeyIndex: S.Number }),
+  S.Struct({
+    EncryptedPinBlock: SensitiveString,
+    PinVerificationKeyIndex: S.Number,
+  }),
 ).annotations({
   identifier: "VisaPinVerificationValue",
 }) as any as S.Schema<VisaPinVerificationValue>;
 export interface Ibm3624PinOffset {
-  EncryptedPinBlock: string;
-  DecimalizationTable: string;
+  EncryptedPinBlock: string | Redacted.Redacted<string>;
+  DecimalizationTable: string | Redacted.Redacted<string>;
   PinValidationDataPadCharacter: string;
-  PinValidationData: string;
+  PinValidationData: string | Redacted.Redacted<string>;
 }
 export const Ibm3624PinOffset = S.suspend(() =>
   S.Struct({
-    EncryptedPinBlock: S.String,
-    DecimalizationTable: S.String,
+    EncryptedPinBlock: SensitiveString,
+    DecimalizationTable: SensitiveString,
     PinValidationDataPadCharacter: S.String,
-    PinValidationData: S.String,
+    PinValidationData: SensitiveString,
   }),
 ).annotations({
   identifier: "Ibm3624PinOffset",
 }) as any as S.Schema<Ibm3624PinOffset>;
 export interface Ibm3624NaturalPin {
-  DecimalizationTable: string;
+  DecimalizationTable: string | Redacted.Redacted<string>;
   PinValidationDataPadCharacter: string;
-  PinValidationData: string;
+  PinValidationData: string | Redacted.Redacted<string>;
 }
 export const Ibm3624NaturalPin = S.suspend(() =>
   S.Struct({
-    DecimalizationTable: S.String,
+    DecimalizationTable: SensitiveString,
     PinValidationDataPadCharacter: S.String,
-    PinValidationData: S.String,
+    PinValidationData: SensitiveString,
   }),
 ).annotations({
   identifier: "Ibm3624NaturalPin",
 }) as any as S.Schema<Ibm3624NaturalPin>;
 export interface Ibm3624RandomPin {
-  DecimalizationTable: string;
+  DecimalizationTable: string | Redacted.Redacted<string>;
   PinValidationDataPadCharacter: string;
-  PinValidationData: string;
+  PinValidationData: string | Redacted.Redacted<string>;
 }
 export const Ibm3624RandomPin = S.suspend(() =>
   S.Struct({
-    DecimalizationTable: S.String,
+    DecimalizationTable: SensitiveString,
     PinValidationDataPadCharacter: S.String,
-    PinValidationData: S.String,
+    PinValidationData: SensitiveString,
   }),
 ).annotations({
   identifier: "Ibm3624RandomPin",
 }) as any as S.Schema<Ibm3624RandomPin>;
 export interface Ibm3624PinFromOffset {
-  DecimalizationTable: string;
+  DecimalizationTable: string | Redacted.Redacted<string>;
   PinValidationDataPadCharacter: string;
-  PinValidationData: string;
-  PinOffset: string;
+  PinValidationData: string | Redacted.Redacted<string>;
+  PinOffset: string | Redacted.Redacted<string>;
 }
 export const Ibm3624PinFromOffset = S.suspend(() =>
   S.Struct({
-    DecimalizationTable: S.String,
+    DecimalizationTable: SensitiveString,
     PinValidationDataPadCharacter: S.String,
-    PinValidationData: S.String,
-    PinOffset: S.String,
+    PinValidationData: SensitiveString,
+    PinOffset: SensitiveString,
   }),
 ).annotations({
   identifier: "Ibm3624PinFromOffset",
@@ -935,29 +942,29 @@ export const OutgoingTr31KeyBlock = S.suspend(() =>
   identifier: "OutgoingTr31KeyBlock",
 }) as any as S.Schema<OutgoingTr31KeyBlock>;
 export interface TranslationPinDataIsoFormat034 {
-  PrimaryAccountNumber: string;
+  PrimaryAccountNumber: string | Redacted.Redacted<string>;
 }
 export const TranslationPinDataIsoFormat034 = S.suspend(() =>
-  S.Struct({ PrimaryAccountNumber: S.String }),
+  S.Struct({ PrimaryAccountNumber: SensitiveString }),
 ).annotations({
   identifier: "TranslationPinDataIsoFormat034",
 }) as any as S.Schema<TranslationPinDataIsoFormat034>;
 export interface TranslationPinDataAs2805Format0 {
-  PrimaryAccountNumber: string;
+  PrimaryAccountNumber: string | Redacted.Redacted<string>;
 }
 export const TranslationPinDataAs2805Format0 = S.suspend(() =>
-  S.Struct({ PrimaryAccountNumber: S.String }),
+  S.Struct({ PrimaryAccountNumber: SensitiveString }),
 ).annotations({
   identifier: "TranslationPinDataAs2805Format0",
 }) as any as S.Schema<TranslationPinDataAs2805Format0>;
 export interface SessionKeyEmvCommon {
-  PrimaryAccountNumber: string;
+  PrimaryAccountNumber: string | Redacted.Redacted<string>;
   PanSequenceNumber: string;
   ApplicationTransactionCounter: string;
 }
 export const SessionKeyEmvCommon = S.suspend(() =>
   S.Struct({
-    PrimaryAccountNumber: S.String,
+    PrimaryAccountNumber: SensitiveString,
     PanSequenceNumber: S.String,
     ApplicationTransactionCounter: S.String,
   }),
@@ -965,14 +972,14 @@ export const SessionKeyEmvCommon = S.suspend(() =>
   identifier: "SessionKeyEmvCommon",
 }) as any as S.Schema<SessionKeyEmvCommon>;
 export interface SessionKeyMastercard {
-  PrimaryAccountNumber: string;
+  PrimaryAccountNumber: string | Redacted.Redacted<string>;
   PanSequenceNumber: string;
   ApplicationTransactionCounter: string;
   UnpredictableNumber: string;
 }
 export const SessionKeyMastercard = S.suspend(() =>
   S.Struct({
-    PrimaryAccountNumber: S.String,
+    PrimaryAccountNumber: SensitiveString,
     PanSequenceNumber: S.String,
     ApplicationTransactionCounter: S.String,
     UnpredictableNumber: S.String,
@@ -981,13 +988,13 @@ export const SessionKeyMastercard = S.suspend(() =>
   identifier: "SessionKeyMastercard",
 }) as any as S.Schema<SessionKeyMastercard>;
 export interface SessionKeyEmv2000 {
-  PrimaryAccountNumber: string;
+  PrimaryAccountNumber: string | Redacted.Redacted<string>;
   PanSequenceNumber: string;
   ApplicationTransactionCounter: string;
 }
 export const SessionKeyEmv2000 = S.suspend(() =>
   S.Struct({
-    PrimaryAccountNumber: S.String,
+    PrimaryAccountNumber: SensitiveString,
     PanSequenceNumber: S.String,
     ApplicationTransactionCounter: S.String,
   }),
@@ -995,20 +1002,26 @@ export const SessionKeyEmv2000 = S.suspend(() =>
   identifier: "SessionKeyEmv2000",
 }) as any as S.Schema<SessionKeyEmv2000>;
 export interface SessionKeyAmex {
-  PrimaryAccountNumber: string;
+  PrimaryAccountNumber: string | Redacted.Redacted<string>;
   PanSequenceNumber: string;
 }
 export const SessionKeyAmex = S.suspend(() =>
-  S.Struct({ PrimaryAccountNumber: S.String, PanSequenceNumber: S.String }),
+  S.Struct({
+    PrimaryAccountNumber: SensitiveString,
+    PanSequenceNumber: S.String,
+  }),
 ).annotations({
   identifier: "SessionKeyAmex",
 }) as any as S.Schema<SessionKeyAmex>;
 export interface SessionKeyVisa {
-  PrimaryAccountNumber: string;
+  PrimaryAccountNumber: string | Redacted.Redacted<string>;
   PanSequenceNumber: string;
 }
 export const SessionKeyVisa = S.suspend(() =>
-  S.Struct({ PrimaryAccountNumber: S.String, PanSequenceNumber: S.String }),
+  S.Struct({
+    PrimaryAccountNumber: SensitiveString,
+    PanSequenceNumber: S.String,
+  }),
 ).annotations({
   identifier: "SessionKeyVisa",
 }) as any as S.Schema<SessionKeyVisa>;
@@ -1022,24 +1035,24 @@ export const CryptogramVerificationArpcMethod1 = S.suspend(() =>
 }) as any as S.Schema<CryptogramVerificationArpcMethod1>;
 export interface CryptogramVerificationArpcMethod2 {
   CardStatusUpdate: string;
-  ProprietaryAuthenticationData?: string;
+  ProprietaryAuthenticationData?: string | Redacted.Redacted<string>;
 }
 export const CryptogramVerificationArpcMethod2 = S.suspend(() =>
   S.Struct({
     CardStatusUpdate: S.String,
-    ProprietaryAuthenticationData: S.optional(S.String),
+    ProprietaryAuthenticationData: S.optional(SensitiveString),
   }),
 ).annotations({
   identifier: "CryptogramVerificationArpcMethod2",
 }) as any as S.Schema<CryptogramVerificationArpcMethod2>;
 export interface DiscoverDynamicCardVerificationCode {
-  CardExpiryDate: string;
+  CardExpiryDate: string | Redacted.Redacted<string>;
   UnpredictableNumber: string;
   ApplicationTransactionCounter: string;
 }
 export const DiscoverDynamicCardVerificationCode = S.suspend(() =>
   S.Struct({
-    CardExpiryDate: S.String,
+    CardExpiryDate: SensitiveString,
     UnpredictableNumber: S.String,
     ApplicationTransactionCounter: S.String,
   }),
@@ -1048,25 +1061,28 @@ export const DiscoverDynamicCardVerificationCode = S.suspend(() =>
 }) as any as S.Schema<DiscoverDynamicCardVerificationCode>;
 export interface VisaPinVerification {
   PinVerificationKeyIndex: number;
-  VerificationValue: string;
+  VerificationValue: string | Redacted.Redacted<string>;
 }
 export const VisaPinVerification = S.suspend(() =>
-  S.Struct({ PinVerificationKeyIndex: S.Number, VerificationValue: S.String }),
+  S.Struct({
+    PinVerificationKeyIndex: S.Number,
+    VerificationValue: SensitiveString,
+  }),
 ).annotations({
   identifier: "VisaPinVerification",
 }) as any as S.Schema<VisaPinVerification>;
 export interface Ibm3624PinVerification {
-  DecimalizationTable: string;
+  DecimalizationTable: string | Redacted.Redacted<string>;
   PinValidationDataPadCharacter: string;
-  PinValidationData: string;
-  PinOffset: string;
+  PinValidationData: string | Redacted.Redacted<string>;
+  PinOffset: string | Redacted.Redacted<string>;
 }
 export const Ibm3624PinVerification = S.suspend(() =>
   S.Struct({
-    DecimalizationTable: S.String,
+    DecimalizationTable: SensitiveString,
     PinValidationDataPadCharacter: S.String,
-    PinValidationData: S.String,
-    PinOffset: S.String,
+    PinValidationData: SensitiveString,
+    PinOffset: SensitiveString,
   }),
 ).annotations({
   identifier: "Ibm3624PinVerification",
@@ -1206,14 +1222,14 @@ export const GenerateAs2805KekValidationInput = S.suspend(() =>
 }) as any as S.Schema<GenerateAs2805KekValidationInput>;
 export interface GenerateCardValidationDataInput {
   KeyIdentifier: string;
-  PrimaryAccountNumber: string;
+  PrimaryAccountNumber: string | Redacted.Redacted<string>;
   GenerationAttributes: (typeof CardGenerationAttributes)["Type"];
   ValidationDataLength?: number;
 }
 export const GenerateCardValidationDataInput = S.suspend(() =>
   S.Struct({
     KeyIdentifier: S.String,
-    PrimaryAccountNumber: S.String,
+    PrimaryAccountNumber: SensitiveString,
     GenerationAttributes: CardGenerationAttributes,
     ValidationDataLength: S.optional(S.Number),
   }).pipe(
@@ -1234,7 +1250,7 @@ export interface GeneratePinDataInput {
   EncryptionKeyIdentifier: string;
   GenerationAttributes: (typeof PinGenerationAttributes)["Type"];
   PinDataLength?: number;
-  PrimaryAccountNumber?: string;
+  PrimaryAccountNumber?: string | Redacted.Redacted<string>;
   PinBlockFormat: string;
   EncryptionWrappedKey?: WrappedKey;
 }
@@ -1244,7 +1260,7 @@ export const GeneratePinDataInput = S.suspend(() =>
     EncryptionKeyIdentifier: S.String,
     GenerationAttributes: PinGenerationAttributes,
     PinDataLength: S.optional(S.Number),
-    PrimaryAccountNumber: S.optional(S.String),
+    PrimaryAccountNumber: S.optional(SensitiveString),
     PinBlockFormat: S.String,
     EncryptionWrappedKey: S.optional(WrappedKey),
   }).pipe(
@@ -1263,10 +1279,14 @@ export const GeneratePinDataInput = S.suspend(() =>
 export interface ReEncryptDataOutput {
   KeyArn: string;
   KeyCheckValue: string;
-  CipherText: string;
+  CipherText: string | Redacted.Redacted<string>;
 }
 export const ReEncryptDataOutput = S.suspend(() =>
-  S.Struct({ KeyArn: S.String, KeyCheckValue: S.String, CipherText: S.String }),
+  S.Struct({
+    KeyArn: S.String,
+    KeyCheckValue: S.String,
+    CipherText: SensitiveString,
+  }),
 ).annotations({
   identifier: "ReEncryptDataOutput",
 }) as any as S.Schema<ReEncryptDataOutput>;
@@ -1275,7 +1295,7 @@ export interface TranslatePinDataInput {
   OutgoingKeyIdentifier: string;
   IncomingTranslationAttributes: (typeof TranslationIsoFormats)["Type"];
   OutgoingTranslationAttributes: (typeof TranslationIsoFormats)["Type"];
-  EncryptedPinBlock: string;
+  EncryptedPinBlock: string | Redacted.Redacted<string>;
   IncomingDukptAttributes?: DukptDerivationAttributes;
   OutgoingDukptAttributes?: DukptDerivationAttributes;
   IncomingWrappedKey?: WrappedKey;
@@ -1288,7 +1308,7 @@ export const TranslatePinDataInput = S.suspend(() =>
     OutgoingKeyIdentifier: S.String,
     IncomingTranslationAttributes: TranslationIsoFormats,
     OutgoingTranslationAttributes: TranslationIsoFormats,
-    EncryptedPinBlock: S.String,
+    EncryptedPinBlock: SensitiveString,
     IncomingDukptAttributes: S.optional(DukptDerivationAttributes),
     OutgoingDukptAttributes: S.optional(DukptDerivationAttributes),
     IncomingWrappedKey: S.optional(WrappedKey),
@@ -1309,8 +1329,8 @@ export const TranslatePinDataInput = S.suspend(() =>
 }) as any as S.Schema<TranslatePinDataInput>;
 export interface VerifyAuthRequestCryptogramInput {
   KeyIdentifier: string;
-  TransactionData: string;
-  AuthRequestCryptogram: string;
+  TransactionData: string | Redacted.Redacted<string>;
+  AuthRequestCryptogram: string | Redacted.Redacted<string>;
   MajorKeyDerivationMode: string;
   SessionKeyDerivationAttributes: (typeof SessionKeyDerivation)["Type"];
   AuthResponseAttributes?: (typeof CryptogramAuthResponse)["Type"];
@@ -1318,8 +1338,8 @@ export interface VerifyAuthRequestCryptogramInput {
 export const VerifyAuthRequestCryptogramInput = S.suspend(() =>
   S.Struct({
     KeyIdentifier: S.String,
-    TransactionData: S.String,
-    AuthRequestCryptogram: S.String,
+    TransactionData: SensitiveString,
+    AuthRequestCryptogram: SensitiveString,
     MajorKeyDerivationMode: S.String,
     SessionKeyDerivationAttributes: SessionKeyDerivation,
     AuthResponseAttributes: S.optional(CryptogramAuthResponse),
@@ -1338,16 +1358,16 @@ export const VerifyAuthRequestCryptogramInput = S.suspend(() =>
 }) as any as S.Schema<VerifyAuthRequestCryptogramInput>;
 export interface VerifyCardValidationDataInput {
   KeyIdentifier: string;
-  PrimaryAccountNumber: string;
+  PrimaryAccountNumber: string | Redacted.Redacted<string>;
   VerificationAttributes: (typeof CardVerificationAttributes)["Type"];
-  ValidationData: string;
+  ValidationData: string | Redacted.Redacted<string>;
 }
 export const VerifyCardValidationDataInput = S.suspend(() =>
   S.Struct({
     KeyIdentifier: S.String,
-    PrimaryAccountNumber: S.String,
+    PrimaryAccountNumber: SensitiveString,
     VerificationAttributes: CardVerificationAttributes,
-    ValidationData: S.String,
+    ValidationData: SensitiveString,
   }).pipe(
     T.all(
       T.Http({ method: "POST", uri: "/cardvalidationdata/verify" }),
@@ -1365,8 +1385,8 @@ export interface VerifyPinDataInput {
   VerificationKeyIdentifier: string;
   EncryptionKeyIdentifier: string;
   VerificationAttributes: (typeof PinVerificationAttributes)["Type"];
-  EncryptedPinBlock: string;
-  PrimaryAccountNumber?: string;
+  EncryptedPinBlock: string | Redacted.Redacted<string>;
+  PrimaryAccountNumber?: string | Redacted.Redacted<string>;
   PinBlockFormat: string;
   PinDataLength?: number;
   DukptAttributes?: DukptAttributes;
@@ -1377,8 +1397,8 @@ export const VerifyPinDataInput = S.suspend(() =>
     VerificationKeyIdentifier: S.String,
     EncryptionKeyIdentifier: S.String,
     VerificationAttributes: PinVerificationAttributes,
-    EncryptedPinBlock: S.String,
-    PrimaryAccountNumber: S.optional(S.String),
+    EncryptedPinBlock: SensitiveString,
+    PrimaryAccountNumber: S.optional(SensitiveString),
     PinBlockFormat: S.String,
     PinDataLength: S.optional(S.Number),
     DukptAttributes: S.optional(DukptAttributes),
@@ -1398,7 +1418,7 @@ export const VerifyPinDataInput = S.suspend(() =>
 }) as any as S.Schema<VerifyPinDataInput>;
 export interface AmexAttributes {
   MajorKeyDerivationMode: string;
-  PrimaryAccountNumber: string;
+  PrimaryAccountNumber: string | Redacted.Redacted<string>;
   PanSequenceNumber: string;
   ApplicationTransactionCounter: string;
   AuthorizationRequestKeyIdentifier: string;
@@ -1407,7 +1427,7 @@ export interface AmexAttributes {
 export const AmexAttributes = S.suspend(() =>
   S.Struct({
     MajorKeyDerivationMode: S.String,
-    PrimaryAccountNumber: S.String,
+    PrimaryAccountNumber: SensitiveString,
     PanSequenceNumber: S.String,
     ApplicationTransactionCounter: S.String,
     AuthorizationRequestKeyIdentifier: S.String,
@@ -1424,7 +1444,7 @@ export interface IncomingDiffieHellmanTr31KeyBlock {
   KeyDerivationFunction: string;
   KeyDerivationHashAlgorithm: string;
   DerivationData: (typeof DiffieHellmanDerivationData)["Type"];
-  WrappedKeyBlock: string;
+  WrappedKeyBlock: string | Redacted.Redacted<string>;
 }
 export const IncomingDiffieHellmanTr31KeyBlock = S.suspend(() =>
   S.Struct({
@@ -1435,7 +1455,7 @@ export const IncomingDiffieHellmanTr31KeyBlock = S.suspend(() =>
     KeyDerivationFunction: S.String,
     KeyDerivationHashAlgorithm: S.String,
     DerivationData: DiffieHellmanDerivationData,
-    WrappedKeyBlock: S.String,
+    WrappedKeyBlock: SensitiveString,
   }),
 ).annotations({
   identifier: "IncomingDiffieHellmanTr31KeyBlock",
@@ -1461,14 +1481,14 @@ export const IncomingKeyMaterial = S.Union(
 );
 export interface DecryptDataInput {
   KeyIdentifier: string;
-  CipherText: string;
+  CipherText: string | Redacted.Redacted<string>;
   DecryptionAttributes: (typeof EncryptionDecryptionAttributes)["Type"];
   WrappedKey?: WrappedKey;
 }
 export const DecryptDataInput = S.suspend(() =>
   S.Struct({
     KeyIdentifier: S.String.pipe(T.HttpLabel("KeyIdentifier")),
-    CipherText: S.String,
+    CipherText: SensitiveString,
     DecryptionAttributes: EncryptionDecryptionAttributes,
     WrappedKey: S.optional(WrappedKey),
   }).pipe(
@@ -1487,15 +1507,15 @@ export const DecryptDataInput = S.suspend(() =>
 export interface GenerateAs2805KekValidationOutput {
   KeyArn: string;
   KeyCheckValue: string;
-  RandomKeySend: string;
-  RandomKeyReceive: string;
+  RandomKeySend: string | Redacted.Redacted<string>;
+  RandomKeyReceive: string | Redacted.Redacted<string>;
 }
 export const GenerateAs2805KekValidationOutput = S.suspend(() =>
   S.Struct({
     KeyArn: S.String,
     KeyCheckValue: S.String,
-    RandomKeySend: S.String,
-    RandomKeyReceive: S.String,
+    RandomKeySend: SensitiveString,
+    RandomKeyReceive: SensitiveString,
   }),
 ).annotations({
   identifier: "GenerateAs2805KekValidationOutput",
@@ -1503,27 +1523,27 @@ export const GenerateAs2805KekValidationOutput = S.suspend(() =>
 export interface GenerateCardValidationDataOutput {
   KeyArn: string;
   KeyCheckValue: string;
-  ValidationData: string;
+  ValidationData: string | Redacted.Redacted<string>;
 }
 export const GenerateCardValidationDataOutput = S.suspend(() =>
   S.Struct({
     KeyArn: S.String,
     KeyCheckValue: S.String,
-    ValidationData: S.String,
+    ValidationData: SensitiveString,
   }),
 ).annotations({
   identifier: "GenerateCardValidationDataOutput",
 }) as any as S.Schema<GenerateCardValidationDataOutput>;
 export interface GenerateMacInput {
   KeyIdentifier: string;
-  MessageData: string;
+  MessageData: string | Redacted.Redacted<string>;
   GenerationAttributes: (typeof MacAttributes)["Type"];
   MacLength?: number;
 }
 export const GenerateMacInput = S.suspend(() =>
   S.Struct({
     KeyIdentifier: S.String,
-    MessageData: S.String,
+    MessageData: SensitiveString,
     GenerationAttributes: MacAttributes,
     MacLength: S.optional(S.Number),
   }).pipe(
@@ -1541,21 +1561,21 @@ export const GenerateMacInput = S.suspend(() =>
 }) as any as S.Schema<GenerateMacInput>;
 export interface GenerateMacEmvPinChangeInput {
   NewPinPekIdentifier: string;
-  NewEncryptedPinBlock: string;
+  NewEncryptedPinBlock: string | Redacted.Redacted<string>;
   PinBlockFormat: string;
   SecureMessagingIntegrityKeyIdentifier: string;
   SecureMessagingConfidentialityKeyIdentifier: string;
-  MessageData: string;
+  MessageData: string | Redacted.Redacted<string>;
   DerivationMethodAttributes: (typeof DerivationMethodAttributes)["Type"];
 }
 export const GenerateMacEmvPinChangeInput = S.suspend(() =>
   S.Struct({
     NewPinPekIdentifier: S.String,
-    NewEncryptedPinBlock: S.String,
+    NewEncryptedPinBlock: SensitiveString,
     PinBlockFormat: S.String,
     SecureMessagingIntegrityKeyIdentifier: S.String,
     SecureMessagingConfidentialityKeyIdentifier: S.String,
-    MessageData: S.String,
+    MessageData: SensitiveString,
     DerivationMethodAttributes: DerivationMethodAttributes,
   }).pipe(
     T.all(
@@ -1594,25 +1614,29 @@ export const TranslateKeyMaterialInput = S.suspend(() =>
   identifier: "TranslateKeyMaterialInput",
 }) as any as S.Schema<TranslateKeyMaterialInput>;
 export interface TranslatePinDataOutput {
-  PinBlock: string;
+  PinBlock: string | Redacted.Redacted<string>;
   KeyArn: string;
   KeyCheckValue: string;
 }
 export const TranslatePinDataOutput = S.suspend(() =>
-  S.Struct({ PinBlock: S.String, KeyArn: S.String, KeyCheckValue: S.String }),
+  S.Struct({
+    PinBlock: SensitiveString,
+    KeyArn: S.String,
+    KeyCheckValue: S.String,
+  }),
 ).annotations({
   identifier: "TranslatePinDataOutput",
 }) as any as S.Schema<TranslatePinDataOutput>;
 export interface VerifyAuthRequestCryptogramOutput {
   KeyArn: string;
   KeyCheckValue: string;
-  AuthResponseValue?: string;
+  AuthResponseValue?: string | Redacted.Redacted<string>;
 }
 export const VerifyAuthRequestCryptogramOutput = S.suspend(() =>
   S.Struct({
     KeyArn: S.String,
     KeyCheckValue: S.String,
-    AuthResponseValue: S.optional(S.String),
+    AuthResponseValue: S.optional(SensitiveString),
   }),
 ).annotations({
   identifier: "VerifyAuthRequestCryptogramOutput",
@@ -1642,28 +1666,34 @@ export const VerifyPinDataOutput = S.suspend(() =>
 ).annotations({
   identifier: "VerifyPinDataOutput",
 }) as any as S.Schema<VerifyPinDataOutput>;
-export type PinData = { PinOffset: string } | { VerificationValue: string };
+export type PinData =
+  | { PinOffset: string | Redacted.Redacted<string> }
+  | { VerificationValue: string | Redacted.Redacted<string> };
 export const PinData = S.Union(
-  S.Struct({ PinOffset: S.String }),
-  S.Struct({ VerificationValue: S.String }),
+  S.Struct({ PinOffset: SensitiveString }),
+  S.Struct({ VerificationValue: SensitiveString }),
 );
 export interface DecryptDataOutput {
   KeyArn: string;
   KeyCheckValue: string;
-  PlainText: string;
+  PlainText: string | Redacted.Redacted<string>;
 }
 export const DecryptDataOutput = S.suspend(() =>
-  S.Struct({ KeyArn: S.String, KeyCheckValue: S.String, PlainText: S.String }),
+  S.Struct({
+    KeyArn: S.String,
+    KeyCheckValue: S.String,
+    PlainText: SensitiveString,
+  }),
 ).annotations({
   identifier: "DecryptDataOutput",
 }) as any as S.Schema<DecryptDataOutput>;
 export interface GenerateMacOutput {
   KeyArn: string;
   KeyCheckValue: string;
-  Mac: string;
+  Mac: string | Redacted.Redacted<string>;
 }
 export const GenerateMacOutput = S.suspend(() =>
-  S.Struct({ KeyArn: S.String, KeyCheckValue: S.String, Mac: S.String }),
+  S.Struct({ KeyArn: S.String, KeyCheckValue: S.String, Mac: SensitiveString }),
 ).annotations({
   identifier: "GenerateMacOutput",
 }) as any as S.Schema<GenerateMacOutput>;
@@ -1672,7 +1702,7 @@ export interface GeneratePinDataOutput {
   GenerationKeyCheckValue: string;
   EncryptionKeyArn: string;
   EncryptionKeyCheckValue: string;
-  EncryptedPinBlock: string;
+  EncryptedPinBlock: string | Redacted.Redacted<string>;
   PinData: (typeof PinData)["Type"];
 }
 export const GeneratePinDataOutput = S.suspend(() =>
@@ -1681,7 +1711,7 @@ export const GeneratePinDataOutput = S.suspend(() =>
     GenerationKeyCheckValue: S.String,
     EncryptionKeyArn: S.String,
     EncryptionKeyCheckValue: S.String,
-    EncryptedPinBlock: S.String,
+    EncryptedPinBlock: SensitiveString,
     PinData: PinData,
   }),
 ).annotations({
@@ -1704,13 +1734,13 @@ export const VisaAmexDerivationOutputs = S.suspend(() =>
   identifier: "VisaAmexDerivationOutputs",
 }) as any as S.Schema<VisaAmexDerivationOutputs>;
 export interface WrappedWorkingKey {
-  WrappedKeyMaterial: string;
+  WrappedKeyMaterial: string | Redacted.Redacted<string>;
   KeyCheckValue: string;
   WrappedKeyMaterialFormat: string;
 }
 export const WrappedWorkingKey = S.suspend(() =>
   S.Struct({
-    WrappedKeyMaterial: S.String,
+    WrappedKeyMaterial: SensitiveString,
     KeyCheckValue: S.String,
     WrappedKeyMaterialFormat: S.String,
   }),
@@ -1721,8 +1751,8 @@ export interface GenerateMacEmvPinChangeOutput {
   NewPinPekArn: string;
   SecureMessagingIntegrityKeyArn: string;
   SecureMessagingConfidentialityKeyArn: string;
-  Mac: string;
-  EncryptedPinBlock: string;
+  Mac: string | Redacted.Redacted<string>;
+  EncryptedPinBlock: string | Redacted.Redacted<string>;
   NewPinPekKeyCheckValue: string;
   SecureMessagingIntegrityKeyCheckValue: string;
   SecureMessagingConfidentialityKeyCheckValue: string;
@@ -1733,8 +1763,8 @@ export const GenerateMacEmvPinChangeOutput = S.suspend(() =>
     NewPinPekArn: S.String,
     SecureMessagingIntegrityKeyArn: S.String,
     SecureMessagingConfidentialityKeyArn: S.String,
-    Mac: S.String,
-    EncryptedPinBlock: S.String,
+    Mac: SensitiveString,
+    EncryptedPinBlock: SensitiveString,
     NewPinPekKeyCheckValue: S.String,
     SecureMessagingIntegrityKeyCheckValue: S.String,
     SecureMessagingConfidentialityKeyCheckValue: S.String,

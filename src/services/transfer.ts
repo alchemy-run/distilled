@@ -1,5 +1,6 @@
 import { HttpClient } from "@effect/platform";
 import * as Effect from "effect/Effect";
+import * as Redacted from "effect/Redacted";
 import * as S from "effect/Schema";
 import * as Stream from "effect/Stream";
 import * as API from "../api.ts";
@@ -10,6 +11,7 @@ import {
   ErrorCategory,
   Errors,
 } from "../index.ts";
+import { SensitiveString, SensitiveBlob } from "../sensitive.ts";
 const svc = T.AwsApiService({
   sdkId: "Transfer",
   serviceShapeName: "TransferService",
@@ -261,7 +263,7 @@ export type UserName = string;
 export type ExecutionId = string;
 export type WorkflowId = string;
 export type SecurityPolicyName = string;
-export type HostKey = string;
+export type HostKey = string | Redacted.Redacted<string>;
 export type HostKeyDescription = string;
 export type SshPublicKeyBody = string;
 export type MaxResults = number;
@@ -273,14 +275,14 @@ export type CallbackToken = string;
 export type FilePath = string;
 export type MaxItems = number;
 export type SourceIp = string;
-export type UserPassword = string;
+export type UserPassword = string | Redacted.Redacted<string>;
 export type TagKey = string;
 export type Description = string;
 export type ProfileId = string;
 export type AgreementId = string;
-export type CertificateBodyType = string;
-export type CertificateChainType = string;
-export type PrivateKeyType = string;
+export type CertificateBodyType = string | Redacted.Redacted<string>;
+export type CertificateChainType = string | Redacted.Redacted<string>;
+export type PrivateKeyType = string | Redacted.Redacted<string>;
 export type CertificateId = string;
 export type Url = string;
 export type ConnectorSecurityPolicyName = string;
@@ -749,7 +751,7 @@ export interface TestIdentityProviderRequest {
   ServerProtocol?: string;
   SourceIp?: string;
   UserName: string;
-  UserPassword?: string;
+  UserPassword?: string | Redacted.Redacted<string>;
 }
 export const TestIdentityProviderRequest = S.suspend(() =>
   S.Struct({
@@ -757,7 +759,7 @@ export const TestIdentityProviderRequest = S.suspend(() =>
     ServerProtocol: S.optional(S.String),
     SourceIp: S.optional(S.String),
     UserName: S.String,
-    UserPassword: S.optional(S.String),
+    UserPassword: S.optional(SensitiveString),
   }).pipe(
     T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
   ),
@@ -943,9 +945,9 @@ export const ListAgreementsRequest = S.suspend(() =>
 }) as any as S.Schema<ListAgreementsRequest>;
 export interface ImportCertificateRequest {
   Usage: string;
-  Certificate: string;
-  CertificateChain?: string;
-  PrivateKey?: string;
+  Certificate: string | Redacted.Redacted<string>;
+  CertificateChain?: string | Redacted.Redacted<string>;
+  PrivateKey?: string | Redacted.Redacted<string>;
   ActiveDate?: Date;
   InactiveDate?: Date;
   Description?: string;
@@ -954,9 +956,9 @@ export interface ImportCertificateRequest {
 export const ImportCertificateRequest = S.suspend(() =>
   S.Struct({
     Usage: S.String,
-    Certificate: S.String,
-    CertificateChain: S.optional(S.String),
-    PrivateKey: S.optional(S.String),
+    Certificate: SensitiveString,
+    CertificateChain: S.optional(SensitiveString),
+    PrivateKey: S.optional(SensitiveString),
     ActiveDate: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
     InactiveDate: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
     Description: S.optional(S.String),
@@ -1245,7 +1247,7 @@ export interface UpdateServerRequest {
   ProtocolDetails?: ProtocolDetails;
   EndpointDetails?: EndpointDetails;
   EndpointType?: string;
-  HostKey?: string;
+  HostKey?: string | Redacted.Redacted<string>;
   IdentityProviderDetails?: IdentityProviderDetails;
   LoggingRole?: string;
   PostAuthenticationLoginBanner?: string;
@@ -1265,7 +1267,7 @@ export const UpdateServerRequest = S.suspend(() =>
     ProtocolDetails: S.optional(ProtocolDetails),
     EndpointDetails: S.optional(EndpointDetails),
     EndpointType: S.optional(S.String),
-    HostKey: S.optional(S.String),
+    HostKey: S.optional(SensitiveString),
     IdentityProviderDetails: S.optional(IdentityProviderDetails),
     LoggingRole: S.optional(S.String),
     PostAuthenticationLoginBanner: S.optional(S.String),
@@ -1430,15 +1432,15 @@ export const DescribeWebAppCustomizationRequest = S.suspend(() =>
 export interface UpdateWebAppCustomizationRequest {
   WebAppId: string;
   Title?: string;
-  LogoFile?: Uint8Array;
-  FaviconFile?: Uint8Array;
+  LogoFile?: Uint8Array | Redacted.Redacted<Uint8Array>;
+  FaviconFile?: Uint8Array | Redacted.Redacted<Uint8Array>;
 }
 export const UpdateWebAppCustomizationRequest = S.suspend(() =>
   S.Struct({
     WebAppId: S.String,
     Title: S.optional(S.String),
-    LogoFile: S.optional(T.Blob),
-    FaviconFile: S.optional(T.Blob),
+    LogoFile: S.optional(SensitiveBlob),
+    FaviconFile: S.optional(SensitiveBlob),
   }).pipe(
     T.all(
       T.Http({ method: "POST", uri: "/updateWebAppCustomization" }),
@@ -1648,14 +1650,14 @@ export const CreateAccessRequest = S.suspend(() =>
 }) as any as S.Schema<CreateAccessRequest>;
 export interface ImportHostKeyRequest {
   ServerId: string;
-  HostKeyBody: string;
+  HostKeyBody: string | Redacted.Redacted<string>;
   Description?: string;
   Tags?: Tags;
 }
 export const ImportHostKeyRequest = S.suspend(() =>
   S.Struct({
     ServerId: S.String,
-    HostKeyBody: S.String,
+    HostKeyBody: SensitiveString,
     Description: S.optional(S.String),
     Tags: S.optional(Tags),
   }).pipe(
@@ -2285,8 +2287,8 @@ export interface DescribedCertificate {
   CertificateId?: string;
   Usage?: string;
   Status?: string;
-  Certificate?: string;
-  CertificateChain?: string;
+  Certificate?: string | Redacted.Redacted<string>;
+  CertificateChain?: string | Redacted.Redacted<string>;
   ActiveDate?: Date;
   InactiveDate?: Date;
   Serial?: string;
@@ -2302,8 +2304,8 @@ export const DescribedCertificate = S.suspend(() =>
     CertificateId: S.optional(S.String),
     Usage: S.optional(S.String),
     Status: S.optional(S.String),
-    Certificate: S.optional(S.String),
-    CertificateChain: S.optional(S.String),
+    Certificate: S.optional(SensitiveString),
+    CertificateChain: S.optional(SensitiveString),
     ActiveDate: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
     InactiveDate: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
     Serial: S.optional(S.String),
@@ -2512,16 +2514,16 @@ export interface DescribedWebAppCustomization {
   Arn: string;
   WebAppId: string;
   Title?: string;
-  LogoFile?: Uint8Array;
-  FaviconFile?: Uint8Array;
+  LogoFile?: Uint8Array | Redacted.Redacted<Uint8Array>;
+  FaviconFile?: Uint8Array | Redacted.Redacted<Uint8Array>;
 }
 export const DescribedWebAppCustomization = S.suspend(() =>
   S.Struct({
     Arn: S.String,
     WebAppId: S.String,
     Title: S.optional(S.String),
-    LogoFile: S.optional(T.Blob),
-    FaviconFile: S.optional(T.Blob),
+    LogoFile: S.optional(SensitiveBlob),
+    FaviconFile: S.optional(SensitiveBlob),
   }),
 ).annotations({
   identifier: "DescribedWebAppCustomization",
@@ -2900,7 +2902,7 @@ export interface CreateServerRequest {
   Domain?: string;
   EndpointDetails?: EndpointDetails;
   EndpointType?: string;
-  HostKey?: string;
+  HostKey?: string | Redacted.Redacted<string>;
   IdentityProviderDetails?: IdentityProviderDetails;
   IdentityProviderType?: string;
   LoggingRole?: string;
@@ -2921,7 +2923,7 @@ export const CreateServerRequest = S.suspend(() =>
     Domain: S.optional(S.String),
     EndpointDetails: S.optional(EndpointDetails),
     EndpointType: S.optional(S.String),
-    HostKey: S.optional(S.String),
+    HostKey: S.optional(SensitiveString),
     IdentityProviderDetails: S.optional(IdentityProviderDetails),
     IdentityProviderType: S.optional(S.String),
     LoggingRole: S.optional(S.String),

@@ -1,5 +1,6 @@
 import { HttpClient } from "@effect/platform";
 import * as Effect from "effect/Effect";
+import * as Redacted from "effect/Redacted";
 import * as S from "effect/Schema";
 import * as Stream from "effect/Stream";
 import * as API from "../api.ts";
@@ -10,6 +11,7 @@ import {
   ErrorCategory,
   Errors,
 } from "../index.ts";
+import { SensitiveString, SensitiveBlob } from "../sensitive.ts";
 const svc = T.AwsApiService({
   sdkId: "Pca Connector Scep",
   serviceShapeName: "PcaConnectorScep",
@@ -308,7 +310,7 @@ export type ChallengeArn = string;
 export type MaxResults = number;
 export type NextToken = string;
 export type CertificateAuthorityArn = string;
-export type SensitiveString = string;
+export type SensitiveString = string | Redacted.Redacted<string>;
 export type AzureApplicationId = string;
 export type AzureDomain = string;
 
@@ -557,10 +559,10 @@ export const TagResourceResponse = S.suspend(() => S.Struct({})).annotations({
   identifier: "TagResourceResponse",
 }) as any as S.Schema<TagResourceResponse>;
 export interface GetChallengePasswordResponse {
-  Password?: string;
+  Password?: string | Redacted.Redacted<string>;
 }
 export const GetChallengePasswordResponse = S.suspend(() =>
-  S.Struct({ Password: S.optional(S.String) }),
+  S.Struct({ Password: S.optional(SensitiveString) }),
 ).annotations({
   identifier: "GetChallengePasswordResponse",
 }) as any as S.Schema<GetChallengePasswordResponse>;
@@ -578,7 +580,7 @@ export interface Challenge {
   ConnectorArn?: string;
   CreatedAt?: Date;
   UpdatedAt?: Date;
-  Password?: string;
+  Password?: string | Redacted.Redacted<string>;
 }
 export const Challenge = S.suspend(() =>
   S.Struct({
@@ -586,7 +588,7 @@ export const Challenge = S.suspend(() =>
     ConnectorArn: S.optional(S.String),
     CreatedAt: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
     UpdatedAt: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
-    Password: S.optional(S.String),
+    Password: S.optional(SensitiveString),
   }),
 ).annotations({ identifier: "Challenge" }) as any as S.Schema<Challenge>;
 export interface ChallengeMetadata {

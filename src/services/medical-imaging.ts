@@ -1,5 +1,6 @@
 import { HttpClient } from "@effect/platform";
 import * as Effect from "effect/Effect";
+import * as Redacted from "effect/Redacted";
 import * as S from "effect/Schema";
 import * as Stream from "effect/Stream";
 import * as API from "../api.ts";
@@ -10,6 +11,7 @@ import {
   ErrorCategory,
   Errors,
 } from "../index.ts";
+import { SensitiveString, SensitiveBlob } from "../sensitive.ts";
 const svc = T.AwsApiService({
   sdkId: "Medical Imaging",
   serviceShapeName: "AHIGatewayService",
@@ -320,22 +322,22 @@ export type LambdaArn = string;
 export type ImageFrameId = string;
 export type TagValue = string;
 export type Message = string;
-export type CopiableAttributes = string;
-export type DICOMPatientId = string;
-export type DICOMAccessionNumber = string;
-export type DICOMStudyId = string;
-export type DICOMStudyInstanceUID = string;
-export type DICOMSeriesInstanceUID = string;
-export type DICOMStudyDate = string;
-export type DICOMStudyTime = string;
-export type DICOMPatientName = string;
-export type DICOMPatientBirthDate = string;
-export type DICOMPatientSex = string;
-export type DICOMStudyDescription = string;
+export type CopiableAttributes = string | Redacted.Redacted<string>;
+export type DICOMPatientId = string | Redacted.Redacted<string>;
+export type DICOMAccessionNumber = string | Redacted.Redacted<string>;
+export type DICOMStudyId = string | Redacted.Redacted<string>;
+export type DICOMStudyInstanceUID = string | Redacted.Redacted<string>;
+export type DICOMSeriesInstanceUID = string | Redacted.Redacted<string>;
+export type DICOMStudyDate = string | Redacted.Redacted<string>;
+export type DICOMStudyTime = string | Redacted.Redacted<string>;
+export type DICOMPatientName = string | Redacted.Redacted<string>;
+export type DICOMPatientBirthDate = string | Redacted.Redacted<string>;
+export type DICOMPatientSex = string | Redacted.Redacted<string>;
+export type DICOMStudyDescription = string | Redacted.Redacted<string>;
 export type DICOMNumberOfStudyRelatedSeries = number;
 export type DICOMNumberOfStudyRelatedInstances = number;
-export type DICOMSeriesModality = string;
-export type DICOMSeriesBodyPart = string;
+export type DICOMSeriesModality = string | Redacted.Redacted<string>;
+export type DICOMSeriesBodyPart = string | Redacted.Redacted<string>;
 export type DICOMSeriesNumber = number;
 
 //# Schemas
@@ -813,13 +815,13 @@ export const Sort = S.suspend(() =>
   S.Struct({ sortOrder: S.String, sortField: S.String }),
 ).annotations({ identifier: "Sort" }) as any as S.Schema<Sort>;
 export interface DICOMUpdates {
-  removableAttributes?: Uint8Array;
-  updatableAttributes?: Uint8Array;
+  removableAttributes?: Uint8Array | Redacted.Redacted<Uint8Array>;
+  updatableAttributes?: Uint8Array | Redacted.Redacted<Uint8Array>;
 }
 export const DICOMUpdates = S.suspend(() =>
   S.Struct({
-    removableAttributes: S.optional(T.Blob),
-    updatableAttributes: S.optional(T.Blob),
+    removableAttributes: S.optional(SensitiveBlob),
+    updatableAttributes: S.optional(SensitiveBlob),
   }),
 ).annotations({ identifier: "DICOMUpdates" }) as any as S.Schema<DICOMUpdates>;
 export interface DICOMImportJobProperties {
@@ -968,10 +970,10 @@ export const DatastoreSummary = S.suspend(() =>
 export type DatastoreSummaries = DatastoreSummary[];
 export const DatastoreSummaries = S.Array(DatastoreSummary);
 export interface MetadataCopies {
-  copiableAttributes: string;
+  copiableAttributes: string | Redacted.Redacted<string>;
 }
 export const MetadataCopies = S.suspend(() =>
-  S.Struct({ copiableAttributes: S.String }),
+  S.Struct({ copiableAttributes: SensitiveString }),
 ).annotations({
   identifier: "MetadataCopies",
 }) as any as S.Schema<MetadataCopies>;
@@ -1118,11 +1120,14 @@ export const CopySourceImageSetInformation = S.suspend(() =>
   identifier: "CopySourceImageSetInformation",
 }) as any as S.Schema<CopySourceImageSetInformation>;
 export interface DICOMStudyDateAndTime {
-  DICOMStudyDate: string;
-  DICOMStudyTime?: string;
+  DICOMStudyDate: string | Redacted.Redacted<string>;
+  DICOMStudyTime?: string | Redacted.Redacted<string>;
 }
 export const DICOMStudyDateAndTime = S.suspend(() =>
-  S.Struct({ DICOMStudyDate: S.String, DICOMStudyTime: S.optional(S.String) }),
+  S.Struct({
+    DICOMStudyDate: SensitiveString,
+    DICOMStudyTime: S.optional(SensitiveString),
+  }),
 ).annotations({
   identifier: "DICOMStudyDateAndTime",
 }) as any as S.Schema<DICOMStudyDateAndTime>;
@@ -1139,21 +1144,21 @@ export const CopyImageSetInformation = S.suspend(() =>
   identifier: "CopyImageSetInformation",
 }) as any as S.Schema<CopyImageSetInformation>;
 export type SearchByAttributeValue =
-  | { DICOMPatientId: string }
-  | { DICOMAccessionNumber: string }
-  | { DICOMStudyId: string }
-  | { DICOMStudyInstanceUID: string }
-  | { DICOMSeriesInstanceUID: string }
+  | { DICOMPatientId: string | Redacted.Redacted<string> }
+  | { DICOMAccessionNumber: string | Redacted.Redacted<string> }
+  | { DICOMStudyId: string | Redacted.Redacted<string> }
+  | { DICOMStudyInstanceUID: string | Redacted.Redacted<string> }
+  | { DICOMSeriesInstanceUID: string | Redacted.Redacted<string> }
   | { createdAt: Date }
   | { updatedAt: Date }
   | { DICOMStudyDateAndTime: DICOMStudyDateAndTime }
   | { isPrimary: boolean };
 export const SearchByAttributeValue = S.Union(
-  S.Struct({ DICOMPatientId: S.String }),
-  S.Struct({ DICOMAccessionNumber: S.String }),
-  S.Struct({ DICOMStudyId: S.String }),
-  S.Struct({ DICOMStudyInstanceUID: S.String }),
-  S.Struct({ DICOMSeriesInstanceUID: S.String }),
+  S.Struct({ DICOMPatientId: SensitiveString }),
+  S.Struct({ DICOMAccessionNumber: SensitiveString }),
+  S.Struct({ DICOMStudyId: SensitiveString }),
+  S.Struct({ DICOMStudyInstanceUID: SensitiveString }),
+  S.Struct({ DICOMSeriesInstanceUID: SensitiveString }),
   S.Struct({ createdAt: S.Date.pipe(T.TimestampFormat("epoch-seconds")) }),
   S.Struct({ updatedAt: S.Date.pipe(T.TimestampFormat("epoch-seconds")) }),
   S.Struct({ DICOMStudyDateAndTime: DICOMStudyDateAndTime }),
@@ -1326,41 +1331,41 @@ export const CopyImageSetResponse = S.suspend(() =>
   identifier: "CopyImageSetResponse",
 }) as any as S.Schema<CopyImageSetResponse>;
 export interface DICOMTags {
-  DICOMPatientId?: string;
-  DICOMPatientName?: string;
-  DICOMPatientBirthDate?: string;
-  DICOMPatientSex?: string;
-  DICOMStudyInstanceUID?: string;
-  DICOMStudyId?: string;
-  DICOMStudyDescription?: string;
+  DICOMPatientId?: string | Redacted.Redacted<string>;
+  DICOMPatientName?: string | Redacted.Redacted<string>;
+  DICOMPatientBirthDate?: string | Redacted.Redacted<string>;
+  DICOMPatientSex?: string | Redacted.Redacted<string>;
+  DICOMStudyInstanceUID?: string | Redacted.Redacted<string>;
+  DICOMStudyId?: string | Redacted.Redacted<string>;
+  DICOMStudyDescription?: string | Redacted.Redacted<string>;
   DICOMNumberOfStudyRelatedSeries?: number;
   DICOMNumberOfStudyRelatedInstances?: number;
-  DICOMAccessionNumber?: string;
-  DICOMSeriesInstanceUID?: string;
-  DICOMSeriesModality?: string;
-  DICOMSeriesBodyPart?: string;
+  DICOMAccessionNumber?: string | Redacted.Redacted<string>;
+  DICOMSeriesInstanceUID?: string | Redacted.Redacted<string>;
+  DICOMSeriesModality?: string | Redacted.Redacted<string>;
+  DICOMSeriesBodyPart?: string | Redacted.Redacted<string>;
   DICOMSeriesNumber?: number;
-  DICOMStudyDate?: string;
-  DICOMStudyTime?: string;
+  DICOMStudyDate?: string | Redacted.Redacted<string>;
+  DICOMStudyTime?: string | Redacted.Redacted<string>;
 }
 export const DICOMTags = S.suspend(() =>
   S.Struct({
-    DICOMPatientId: S.optional(S.String),
-    DICOMPatientName: S.optional(S.String),
-    DICOMPatientBirthDate: S.optional(S.String),
-    DICOMPatientSex: S.optional(S.String),
-    DICOMStudyInstanceUID: S.optional(S.String),
-    DICOMStudyId: S.optional(S.String),
-    DICOMStudyDescription: S.optional(S.String),
+    DICOMPatientId: S.optional(SensitiveString),
+    DICOMPatientName: S.optional(SensitiveString),
+    DICOMPatientBirthDate: S.optional(SensitiveString),
+    DICOMPatientSex: S.optional(SensitiveString),
+    DICOMStudyInstanceUID: S.optional(SensitiveString),
+    DICOMStudyId: S.optional(SensitiveString),
+    DICOMStudyDescription: S.optional(SensitiveString),
     DICOMNumberOfStudyRelatedSeries: S.optional(S.Number),
     DICOMNumberOfStudyRelatedInstances: S.optional(S.Number),
-    DICOMAccessionNumber: S.optional(S.String),
-    DICOMSeriesInstanceUID: S.optional(S.String),
-    DICOMSeriesModality: S.optional(S.String),
-    DICOMSeriesBodyPart: S.optional(S.String),
+    DICOMAccessionNumber: S.optional(SensitiveString),
+    DICOMSeriesInstanceUID: S.optional(SensitiveString),
+    DICOMSeriesModality: S.optional(SensitiveString),
+    DICOMSeriesBodyPart: S.optional(SensitiveString),
     DICOMSeriesNumber: S.optional(S.Number),
-    DICOMStudyDate: S.optional(S.String),
-    DICOMStudyTime: S.optional(S.String),
+    DICOMStudyDate: S.optional(SensitiveString),
+    DICOMStudyTime: S.optional(SensitiveString),
   }),
 ).annotations({ identifier: "DICOMTags" }) as any as S.Schema<DICOMTags>;
 export interface ImageSetsMetadataSummary {

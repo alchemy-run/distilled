@@ -1,5 +1,6 @@
 import { HttpClient } from "@effect/platform";
 import * as Effect from "effect/Effect";
+import * as Redacted from "effect/Redacted";
 import * as S from "effect/Schema";
 import * as Strm from "effect/Stream";
 import * as API from "../api.ts";
@@ -10,6 +11,7 @@ import {
   ErrorCategory,
   Errors,
 } from "../index.ts";
+import { SensitiveString, SensitiveBlob } from "../sensitive.ts";
 const svc = T.AwsApiService({
   sdkId: "IoT",
   serviceShapeName: "AWSIotService",
@@ -374,8 +376,8 @@ export type MitigationActionName = string;
 export type OTAUpdateId = string;
 export type OTAUpdateDescription = string;
 export type Target = string;
-export type ResourceDescription = string;
-export type PackageVersionRecipe = string;
+export type ResourceDescription = string | Redacted.Redacted<string>;
+export type PackageVersionRecipe = string | Redacted.Redacted<string>;
 export type PolicyDocument = string;
 export type TemplateName = string;
 export type TemplateDescription = string;
@@ -410,7 +412,7 @@ export type NextToken = string;
 export type CognitoIdentityPoolId = string;
 export type Percent = number;
 export type RegistrationCode = string;
-export type ConnectivityApiThingName = string;
+export type ConnectivityApiThingName = string | Redacted.Redacted<string>;
 export type DeviceDefenderThingName = string;
 export type MaxResults = number;
 export type Marker = string;
@@ -563,7 +565,7 @@ export type ReasonForNonComplianceCode = string;
 export type HttpHeaderName = string;
 export type HttpHeaderValue = string;
 export type PublicKey = string;
-export type PrivateKey = string;
+export type PrivateKey = string | Redacted.Redacted<string>;
 export type ReasonForNonCompliance = string;
 export type TotalChecksCount = number;
 export type InProgressChecksCount = number;
@@ -3708,10 +3710,10 @@ export const GetStatisticsRequest = S.suspend(() =>
   identifier: "GetStatisticsRequest",
 }) as any as S.Schema<GetStatisticsRequest>;
 export interface GetThingConnectivityDataRequest {
-  thingName: string;
+  thingName: string | Redacted.Redacted<string>;
 }
 export const GetThingConnectivityDataRequest = S.suspend(() =>
-  S.Struct({ thingName: S.String.pipe(T.HttpLabel("thingName")) }).pipe(
+  S.Struct({ thingName: SensitiveString.pipe(T.HttpLabel("thingName")) }).pipe(
     T.all(
       T.Http({ method: "POST", uri: "/things/{thingName}/connectivity-data" }),
       svc,
@@ -7359,7 +7361,7 @@ export const UpdateMitigationActionRequest = S.suspend(() =>
 }) as any as S.Schema<UpdateMitigationActionRequest>;
 export interface UpdatePackageRequest {
   packageName: string;
-  description?: string;
+  description?: string | Redacted.Redacted<string>;
   defaultVersionName?: string;
   unsetDefaultVersion?: boolean;
   clientToken?: string;
@@ -7367,7 +7369,7 @@ export interface UpdatePackageRequest {
 export const UpdatePackageRequest = S.suspend(() =>
   S.Struct({
     packageName: S.String.pipe(T.HttpLabel("packageName")),
-    description: S.optional(S.String),
+    description: S.optional(SensitiveString),
     defaultVersionName: S.optional(S.String),
     unsetDefaultVersion: S.optional(S.Boolean),
     clientToken: S.optional(S.String).pipe(T.HttpQuery("clientToken")),
@@ -7449,22 +7451,22 @@ export const PackageVersionArtifact = S.suspend(() =>
 export interface UpdatePackageVersionRequest {
   packageName: string;
   versionName: string;
-  description?: string;
+  description?: string | Redacted.Redacted<string>;
   attributes?: ResourceAttributes;
   artifact?: PackageVersionArtifact;
   action?: string;
-  recipe?: string;
+  recipe?: string | Redacted.Redacted<string>;
   clientToken?: string;
 }
 export const UpdatePackageVersionRequest = S.suspend(() =>
   S.Struct({
     packageName: S.String.pipe(T.HttpLabel("packageName")),
     versionName: S.String.pipe(T.HttpLabel("versionName")),
-    description: S.optional(S.String),
+    description: S.optional(SensitiveString),
     attributes: S.optional(ResourceAttributes),
     artifact: S.optional(PackageVersionArtifact),
     action: S.optional(S.String),
-    recipe: S.optional(S.String),
+    recipe: S.optional(SensitiveString),
     clientToken: S.optional(S.String).pipe(T.HttpQuery("clientToken")),
   }).pipe(
     T.all(
@@ -8692,14 +8694,14 @@ export const CreateJobTemplateRequest = S.suspend(() =>
 }) as any as S.Schema<CreateJobTemplateRequest>;
 export interface CreatePackageRequest {
   packageName: string;
-  description?: string;
+  description?: string | Redacted.Redacted<string>;
   tags?: TagMap;
   clientToken?: string;
 }
 export const CreatePackageRequest = S.suspend(() =>
   S.Struct({
     packageName: S.String.pipe(T.HttpLabel("packageName")),
-    description: S.optional(S.String),
+    description: S.optional(SensitiveString),
     tags: S.optional(TagMap),
     clientToken: S.optional(S.String).pipe(T.HttpQuery("clientToken")),
   }).pipe(
@@ -8718,10 +8720,10 @@ export const CreatePackageRequest = S.suspend(() =>
 export interface CreatePackageVersionRequest {
   packageName: string;
   versionName: string;
-  description?: string;
+  description?: string | Redacted.Redacted<string>;
   attributes?: ResourceAttributes;
   artifact?: PackageVersionArtifact;
-  recipe?: string;
+  recipe?: string | Redacted.Redacted<string>;
   tags?: TagMap;
   clientToken?: string;
 }
@@ -8729,10 +8731,10 @@ export const CreatePackageVersionRequest = S.suspend(() =>
   S.Struct({
     packageName: S.String.pipe(T.HttpLabel("packageName")),
     versionName: S.String.pipe(T.HttpLabel("versionName")),
-    description: S.optional(S.String),
+    description: S.optional(SensitiveString),
     attributes: S.optional(ResourceAttributes),
     artifact: S.optional(PackageVersionArtifact),
-    recipe: S.optional(S.String),
+    recipe: S.optional(SensitiveString),
     tags: S.optional(TagMap),
     clientToken: S.optional(S.String).pipe(T.HttpQuery("clientToken")),
   }).pipe(
@@ -8785,12 +8787,12 @@ export const CreatePolicyVersionResponse = S.suspend(() =>
 }) as any as S.Schema<CreatePolicyVersionResponse>;
 export interface KeyPair {
   PublicKey?: string;
-  PrivateKey?: string;
+  PrivateKey?: string | Redacted.Redacted<string>;
 }
 export const KeyPair = S.suspend(() =>
   S.Struct({
     PublicKey: S.optional(S.String),
-    PrivateKey: S.optional(S.String),
+    PrivateKey: S.optional(SensitiveString),
   }),
 ).annotations({ identifier: "KeyPair" }) as any as S.Schema<KeyPair>;
 export interface CreateProvisioningClaimResponse {
@@ -9490,7 +9492,7 @@ export const GetJobDocumentResponse = S.suspend(() =>
 export interface GetPackageResponse {
   packageName?: string;
   packageArn?: string;
-  description?: string;
+  description?: string | Redacted.Redacted<string>;
   defaultVersionName?: string;
   creationDate?: Date;
   lastModifiedDate?: Date;
@@ -9499,7 +9501,7 @@ export const GetPackageResponse = S.suspend(() =>
   S.Struct({
     packageName: S.optional(S.String),
     packageArn: S.optional(S.String),
-    description: S.optional(S.String),
+    description: S.optional(SensitiveString),
     defaultVersionName: S.optional(S.String),
     creationDate: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
     lastModifiedDate: S.optional(
@@ -9529,7 +9531,7 @@ export interface GetPackageVersionResponse {
   packageVersionArn?: string;
   packageName?: string;
   versionName?: string;
-  description?: string;
+  description?: string | Redacted.Redacted<string>;
   attributes?: ResourceAttributes;
   artifact?: PackageVersionArtifact;
   status?: string;
@@ -9538,14 +9540,14 @@ export interface GetPackageVersionResponse {
   lastModifiedDate?: Date;
   sbom?: Sbom;
   sbomValidationStatus?: string;
-  recipe?: string;
+  recipe?: string | Redacted.Redacted<string>;
 }
 export const GetPackageVersionResponse = S.suspend(() =>
   S.Struct({
     packageVersionArn: S.optional(S.String),
     packageName: S.optional(S.String),
     versionName: S.optional(S.String),
-    description: S.optional(S.String),
+    description: S.optional(SensitiveString),
     attributes: S.optional(ResourceAttributes),
     artifact: S.optional(PackageVersionArtifact),
     status: S.optional(S.String),
@@ -9556,7 +9558,7 @@ export const GetPackageVersionResponse = S.suspend(() =>
     ),
     sbom: S.optional(Sbom),
     sbomValidationStatus: S.optional(S.String),
-    recipe: S.optional(S.String),
+    recipe: S.optional(SensitiveString),
   }),
 ).annotations({
   identifier: "GetPackageVersionResponse",
@@ -9612,14 +9614,14 @@ export const GetPolicyVersionResponse = S.suspend(() =>
   identifier: "GetPolicyVersionResponse",
 }) as any as S.Schema<GetPolicyVersionResponse>;
 export interface GetThingConnectivityDataResponse {
-  thingName?: string;
+  thingName?: string | Redacted.Redacted<string>;
   connected?: boolean;
   timestamp?: Date;
   disconnectReason?: string;
 }
 export const GetThingConnectivityDataResponse = S.suspend(() =>
   S.Struct({
-    thingName: S.optional(S.String),
+    thingName: S.optional(SensitiveString),
     connected: S.optional(S.Boolean),
     timestamp: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
     disconnectReason: S.optional(S.String),
@@ -11740,13 +11742,13 @@ export const CreateMitigationActionRequest = S.suspend(() =>
 export interface CreatePackageResponse {
   packageName?: string;
   packageArn?: string;
-  description?: string;
+  description?: string | Redacted.Redacted<string>;
 }
 export const CreatePackageResponse = S.suspend(() =>
   S.Struct({
     packageName: S.optional(S.String),
     packageArn: S.optional(S.String),
-    description: S.optional(S.String),
+    description: S.optional(SensitiveString),
   }),
 ).annotations({
   identifier: "CreatePackageResponse",
@@ -11755,7 +11757,7 @@ export interface CreatePackageVersionResponse {
   packageVersionArn?: string;
   packageName?: string;
   versionName?: string;
-  description?: string;
+  description?: string | Redacted.Redacted<string>;
   attributes?: ResourceAttributes;
   status?: string;
   errorReason?: string;
@@ -11765,7 +11767,7 @@ export const CreatePackageVersionResponse = S.suspend(() =>
     packageVersionArn: S.optional(S.String),
     packageName: S.optional(S.String),
     versionName: S.optional(S.String),
-    description: S.optional(S.String),
+    description: S.optional(SensitiveString),
     attributes: S.optional(ResourceAttributes),
     status: S.optional(S.String),
     errorReason: S.optional(S.String),

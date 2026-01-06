@@ -1,5 +1,6 @@
 import { HttpClient } from "@effect/platform";
 import * as Effect from "effect/Effect";
+import * as Redacted from "effect/Redacted";
 import * as S from "effect/Schema";
 import * as Stream from "effect/Stream";
 import * as API from "../api.ts";
@@ -10,6 +11,7 @@ import {
   ErrorCategory,
   Errors,
 } from "../index.ts";
+import { SensitiveString, SensitiveBlob } from "../sensitive.ts";
 const svc = T.AwsApiService({
   sdkId: "Wickr",
   serviceShapeName: "WickrAdminApi",
@@ -306,7 +308,7 @@ export type NetworkId = string;
 export type ClientToken = string;
 export type UserId = string;
 export type GenericString = string;
-export type SensitiveString = string;
+export type SensitiveString = string | Redacted.Redacted<string>;
 export type BotId = string;
 export type SecurityGroupId = string;
 export type Uname = string;
@@ -454,7 +456,7 @@ export interface CreateBotRequest {
   username: string;
   displayName?: string;
   groupId: string;
-  challenge: string;
+  challenge: string | Redacted.Redacted<string>;
 }
 export const CreateBotRequest = S.suspend(() =>
   S.Struct({
@@ -462,7 +464,7 @@ export const CreateBotRequest = S.suspend(() =>
     username: S.String,
     displayName: S.optional(S.String),
     groupId: S.String,
-    challenge: S.String,
+    challenge: SensitiveString,
   }).pipe(
     T.all(
       T.Http({ method: "POST", uri: "/networks/{networkId}/bots" }),
@@ -743,7 +745,7 @@ export interface GetOidcInfoRequest {
   grantType?: string;
   redirectUri?: string;
   url?: string;
-  clientSecret?: string;
+  clientSecret?: string | Redacted.Redacted<string>;
   codeVerifier?: string;
   certificate?: string;
 }
@@ -755,7 +757,7 @@ export const GetOidcInfoRequest = S.suspend(() =>
     grantType: S.optional(S.String).pipe(T.HttpQuery("grantType")),
     redirectUri: S.optional(S.String).pipe(T.HttpQuery("redirectUri")),
     url: S.optional(S.String).pipe(T.HttpQuery("url")),
-    clientSecret: S.optional(S.String).pipe(T.HttpQuery("clientSecret")),
+    clientSecret: S.optional(SensitiveString).pipe(T.HttpQuery("clientSecret")),
     codeVerifier: S.optional(S.String).pipe(T.HttpQuery("codeVerifier")),
     certificate: S.optional(S.String).pipe(T.HttpQuery("certificate")),
   }).pipe(
@@ -1063,8 +1065,8 @@ export interface ListUsersRequest {
   maxResults?: number;
   sortFields?: string;
   sortDirection?: string;
-  firstName?: string;
-  lastName?: string;
+  firstName?: string | Redacted.Redacted<string>;
+  lastName?: string | Redacted.Redacted<string>;
   username?: string;
   status?: number;
   groupId?: string;
@@ -1076,8 +1078,8 @@ export const ListUsersRequest = S.suspend(() =>
     maxResults: S.optional(S.Number).pipe(T.HttpQuery("maxResults")),
     sortFields: S.optional(S.String).pipe(T.HttpQuery("sortFields")),
     sortDirection: S.optional(S.String).pipe(T.HttpQuery("sortDirection")),
-    firstName: S.optional(S.String).pipe(T.HttpQuery("firstName")),
-    lastName: S.optional(S.String).pipe(T.HttpQuery("lastName")),
+    firstName: S.optional(SensitiveString).pipe(T.HttpQuery("firstName")),
+    lastName: S.optional(SensitiveString).pipe(T.HttpQuery("lastName")),
     username: S.optional(S.String).pipe(T.HttpQuery("username")),
     status: S.optional(S.Number).pipe(T.HttpQuery("status")),
     groupId: S.optional(S.String).pipe(T.HttpQuery("groupId")),
@@ -1101,7 +1103,7 @@ export interface RegisterOidcConfigRequest {
   extraAuthParams?: string;
   issuer: string;
   scopes: string;
-  secret?: string;
+  secret?: string | Redacted.Redacted<string>;
   ssoTokenBufferMinutes?: number;
   userId?: string;
 }
@@ -1113,7 +1115,7 @@ export const RegisterOidcConfigRequest = S.suspend(() =>
     extraAuthParams: S.optional(S.String),
     issuer: S.String,
     scopes: S.String,
-    secret: S.optional(S.String),
+    secret: S.optional(SensitiveString),
     ssoTokenBufferMinutes: S.optional(S.Number),
     userId: S.optional(S.String),
   }).pipe(
@@ -1161,7 +1163,7 @@ export interface UpdateBotRequest {
   botId: string;
   displayName?: string;
   groupId?: string;
-  challenge?: string;
+  challenge?: string | Redacted.Redacted<string>;
   suspend?: boolean;
 }
 export const UpdateBotRequest = S.suspend(() =>
@@ -1170,7 +1172,7 @@ export const UpdateBotRequest = S.suspend(() =>
     botId: S.String.pipe(T.HttpLabel("botId")),
     displayName: S.optional(S.String),
     groupId: S.optional(S.String),
-    challenge: S.optional(S.String),
+    challenge: S.optional(SensitiveString),
     suspend: S.optional(S.Boolean),
   }).pipe(
     T.all(
@@ -1267,8 +1269,8 @@ export const PermittedNetworksList = S.Array(S.String);
 export type SecurityGroupStringList = string[];
 export const SecurityGroupStringList = S.Array(S.String);
 export interface BatchCreateUserRequestItem {
-  firstName?: string;
-  lastName?: string;
+  firstName?: string | Redacted.Redacted<string>;
+  lastName?: string | Redacted.Redacted<string>;
   securityGroupIds: SecurityGroupIdList;
   username: string;
   inviteCode?: string;
@@ -1277,8 +1279,8 @@ export interface BatchCreateUserRequestItem {
 }
 export const BatchCreateUserRequestItem = S.suspend(() =>
   S.Struct({
-    firstName: S.optional(S.String),
-    lastName: S.optional(S.String),
+    firstName: S.optional(SensitiveString),
+    lastName: S.optional(SensitiveString),
     securityGroupIds: SecurityGroupIdList,
     username: S.String,
     inviteCode: S.optional(S.String),
@@ -1468,8 +1470,8 @@ export const SecurityGroupList = S.Array(SecurityGroup);
 export type StringList = string[];
 export const StringList = S.Array(S.String);
 export interface UpdateUserDetails {
-  firstName?: string;
-  lastName?: string;
+  firstName?: string | Redacted.Redacted<string>;
+  lastName?: string | Redacted.Redacted<string>;
   username?: string;
   securityGroupIds?: SecurityGroupIdList;
   inviteCode?: string;
@@ -1478,8 +1480,8 @@ export interface UpdateUserDetails {
 }
 export const UpdateUserDetails = S.suspend(() =>
   S.Struct({
-    firstName: S.optional(S.String),
-    lastName: S.optional(S.String),
+    firstName: S.optional(SensitiveString),
+    lastName: S.optional(SensitiveString),
     username: S.optional(S.String),
     securityGroupIds: S.optional(SecurityGroupIdList),
     inviteCode: S.optional(S.String),
@@ -1597,10 +1599,10 @@ export const CreateDataRetentionBotResponse = S.suspend(() =>
   identifier: "CreateDataRetentionBotResponse",
 }) as any as S.Schema<CreateDataRetentionBotResponse>;
 export interface CreateDataRetentionBotChallengeResponse {
-  challenge: string;
+  challenge: string | Redacted.Redacted<string>;
 }
 export const CreateDataRetentionBotChallengeResponse = S.suspend(() =>
-  S.Struct({ challenge: S.String }),
+  S.Struct({ challenge: SensitiveString }),
 ).annotations({
   identifier: "CreateDataRetentionBotChallengeResponse",
 }) as any as S.Schema<CreateDataRetentionBotChallengeResponse>;
@@ -1742,8 +1744,8 @@ export const GetNetworkResponse = S.suspend(() =>
 }) as any as S.Schema<GetNetworkResponse>;
 export interface GetUserResponse {
   userId: string;
-  firstName?: string;
-  lastName?: string;
+  firstName?: string | Redacted.Redacted<string>;
+  lastName?: string | Redacted.Redacted<string>;
   username?: string;
   isAdmin?: boolean;
   suspended?: boolean;
@@ -1755,8 +1757,8 @@ export interface GetUserResponse {
 export const GetUserResponse = S.suspend(() =>
   S.Struct({
     userId: S.String,
-    firstName: S.optional(S.String),
-    lastName: S.optional(S.String),
+    firstName: S.optional(SensitiveString),
+    lastName: S.optional(SensitiveString),
     username: S.optional(S.String),
     isAdmin: S.optional(S.Boolean),
     suspended: S.optional(S.Boolean),
@@ -1800,8 +1802,8 @@ export const ListSecurityGroupsResponse = S.suspend(() =>
 }) as any as S.Schema<ListSecurityGroupsResponse>;
 export interface User {
   userId?: string;
-  firstName?: string;
-  lastName?: string;
+  firstName?: string | Redacted.Redacted<string>;
+  lastName?: string | Redacted.Redacted<string>;
   username?: string;
   securityGroups?: SecurityGroupIdList;
   isAdmin?: boolean;
@@ -1822,8 +1824,8 @@ export interface User {
 export const User = S.suspend(() =>
   S.Struct({
     userId: S.optional(S.String),
-    firstName: S.optional(S.String),
-    lastName: S.optional(S.String),
+    firstName: S.optional(SensitiveString),
+    lastName: S.optional(SensitiveString),
     username: S.optional(S.String),
     securityGroups: S.optional(SecurityGroupIdList),
     isAdmin: S.optional(S.Boolean),
@@ -1859,8 +1861,8 @@ export interface RegisterOidcConfigResponse {
   companyId: string;
   scopes: string;
   issuer: string;
-  clientSecret?: string;
-  secret?: string;
+  clientSecret?: string | Redacted.Redacted<string>;
+  secret?: string | Redacted.Redacted<string>;
   redirectUrl?: string;
   userId?: string;
   customUsername?: string;
@@ -1876,8 +1878,8 @@ export const RegisterOidcConfigResponse = S.suspend(() =>
     companyId: S.String,
     scopes: S.String,
     issuer: S.String,
-    clientSecret: S.optional(S.String),
-    secret: S.optional(S.String),
+    clientSecret: S.optional(SensitiveString),
+    secret: S.optional(SensitiveString),
     redirectUrl: S.optional(S.String),
     userId: S.optional(S.String),
     customUsername: S.optional(S.String),
@@ -2098,8 +2100,8 @@ export interface OidcConfigInfo {
   companyId: string;
   scopes: string;
   issuer: string;
-  clientSecret?: string;
-  secret?: string;
+  clientSecret?: string | Redacted.Redacted<string>;
+  secret?: string | Redacted.Redacted<string>;
   redirectUrl?: string;
   userId?: string;
   customUsername?: string;
@@ -2115,8 +2117,8 @@ export const OidcConfigInfo = S.suspend(() =>
     companyId: S.String,
     scopes: S.String,
     issuer: S.String,
-    clientSecret: S.optional(S.String),
-    secret: S.optional(S.String),
+    clientSecret: S.optional(SensitiveString),
+    secret: S.optional(SensitiveString),
     redirectUrl: S.optional(S.String),
     userId: S.optional(S.String),
     customUsername: S.optional(S.String),
@@ -2499,8 +2501,8 @@ export interface UpdateUserResponse {
   userId: string;
   networkId: string;
   securityGroupIds?: SecurityGroupIdList;
-  firstName?: string;
-  lastName?: string;
+  firstName?: string | Redacted.Redacted<string>;
+  lastName?: string | Redacted.Redacted<string>;
   middleName?: string;
   suspended: boolean;
   modified?: number;
@@ -2514,8 +2516,8 @@ export const UpdateUserResponse = S.suspend(() =>
     userId: S.String,
     networkId: S.String,
     securityGroupIds: S.optional(SecurityGroupIdList),
-    firstName: S.optional(S.String),
-    lastName: S.optional(S.String),
+    firstName: S.optional(SensitiveString),
+    lastName: S.optional(SensitiveString),
     middleName: S.optional(S.String),
     suspended: S.Boolean,
     modified: S.optional(S.Number),

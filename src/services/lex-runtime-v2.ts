@@ -1,5 +1,6 @@
 import { HttpClient } from "@effect/platform";
 import * as Effect from "effect/Effect";
+import * as Redacted from "effect/Redacted";
 import * as S from "effect/Schema";
 import * as Stream from "effect/Stream";
 import * as API from "../api.ts";
@@ -10,6 +11,7 @@ import {
   ErrorCategory,
   Errors,
 } from "../index.ts";
+import { SensitiveString, SensitiveBlob } from "../sensitive.ts";
 const svc = T.AwsApiService({
   sdkId: "Lex Runtime V2",
   serviceShapeName: "AWSDeepSenseRunTimeServiceApi2_0",
@@ -255,14 +257,14 @@ export type BotAliasIdentifier = string;
 export type LocaleId = string;
 export type SessionId = string;
 export type NonEmptyString = string;
-export type Text = string;
-export type SensitiveNonEmptyString = string;
+export type Text = string | Redacted.Redacted<string>;
+export type SensitiveNonEmptyString = string | Redacted.Redacted<string>;
 export type AttachmentTitle = string;
 export type AttachmentUrl = string;
 export type ActiveContextName = string;
 export type EventId = string;
 export type EpochMillis = number;
-export type DTMFRegex = string;
+export type DTMFRegex = string | Redacted.Redacted<string>;
 export type Name = string;
 export type ButtonText = string;
 export type ButtonValue = string;
@@ -389,10 +391,12 @@ export const ActiveContextTimeToLive = S.suspend(() =>
 ).annotations({
   identifier: "ActiveContextTimeToLive",
 }) as any as S.Schema<ActiveContextTimeToLive>;
-export type ActiveContextParametersMap = { [key: string]: string };
+export type ActiveContextParametersMap = {
+  [key: string]: string | Redacted.Redacted<string>;
+};
 export const ActiveContextParametersMap = S.Record({
   key: S.String,
-  value: S.String,
+  value: SensitiveString,
 });
 export interface ActiveContext {
   name: string;
@@ -455,7 +459,7 @@ export interface RecognizeTextRequest {
   botAliasId: string;
   localeId: string;
   sessionId: string;
-  text: string;
+  text: string | Redacted.Redacted<string>;
   sessionState?: SessionState;
   requestAttributes?: StringMap;
 }
@@ -465,7 +469,7 @@ export const RecognizeTextRequest = S.suspend(() =>
     botAliasId: S.String.pipe(T.HttpLabel("botAliasId")),
     localeId: S.String.pipe(T.HttpLabel("localeId")),
     sessionId: S.String.pipe(T.HttpLabel("sessionId")),
-    text: S.String,
+    text: SensitiveString,
     sessionState: S.optional(SessionState),
     requestAttributes: S.optional(StringMap),
   }).pipe(
@@ -489,8 +493,8 @@ export interface RecognizeUtteranceRequest {
   botAliasId: string;
   localeId: string;
   sessionId: string;
-  sessionState?: string;
-  requestAttributes?: string;
+  sessionState?: string | Redacted.Redacted<string>;
+  requestAttributes?: string | Redacted.Redacted<string>;
   requestContentType: string;
   responseContentType?: string;
   inputStream?: T.StreamingInputBody;
@@ -501,10 +505,10 @@ export const RecognizeUtteranceRequest = S.suspend(() =>
     botAliasId: S.String.pipe(T.HttpLabel("botAliasId")),
     localeId: S.String.pipe(T.HttpLabel("localeId")),
     sessionId: S.String.pipe(T.HttpLabel("sessionId")),
-    sessionState: S.optional(S.String).pipe(
+    sessionState: S.optional(SensitiveString).pipe(
       T.HttpHeader("x-amz-lex-session-state"),
     ),
-    requestAttributes: S.optional(S.String).pipe(
+    requestAttributes: S.optional(SensitiveString).pipe(
       T.HttpHeader("x-amz-lex-request-attributes"),
     ),
     requestContentType: S.String.pipe(T.HttpHeader("Content-Type")),
@@ -608,13 +612,13 @@ export const ImageResponseCard = S.suspend(() =>
   identifier: "ImageResponseCard",
 }) as any as S.Schema<ImageResponseCard>;
 export interface Message {
-  content?: string;
+  content?: string | Redacted.Redacted<string>;
   contentType: string;
   imageResponseCard?: ImageResponseCard;
 }
 export const Message = S.suspend(() =>
   S.Struct({
-    content: S.optional(S.String),
+    content: S.optional(SensitiveString),
     contentType: S.String,
     imageResponseCard: S.optional(ImageResponseCard),
   }),
@@ -660,13 +664,13 @@ export const AudioInputEvent = S.suspend(() =>
   identifier: "AudioInputEvent",
 }) as any as S.Schema<AudioInputEvent>;
 export interface DTMFInputEvent {
-  inputCharacter: string;
+  inputCharacter: string | Redacted.Redacted<string>;
   eventId?: string;
   clientTimestampMillis?: number;
 }
 export const DTMFInputEvent = S.suspend(() =>
   S.Struct({
-    inputCharacter: S.String,
+    inputCharacter: SensitiveString,
     eventId: S.optional(S.String),
     clientTimestampMillis: S.optional(S.Number),
   }),
@@ -674,13 +678,13 @@ export const DTMFInputEvent = S.suspend(() =>
   identifier: "DTMFInputEvent",
 }) as any as S.Schema<DTMFInputEvent>;
 export interface TextInputEvent {
-  text: string;
+  text: string | Redacted.Redacted<string>;
   eventId?: string;
   clientTimestampMillis?: number;
 }
 export const TextInputEvent = S.suspend(() =>
   S.Struct({
-    text: S.String,
+    text: SensitiveString,
     eventId: S.optional(S.String),
     clientTimestampMillis: S.optional(S.Number),
   }),

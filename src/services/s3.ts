@@ -1,5 +1,6 @@
 import { HttpClient } from "@effect/platform";
 import * as Effect from "effect/Effect";
+import * as Redacted from "effect/Redacted";
 import * as S from "effect/Schema";
 import * as Stream from "effect/Stream";
 import * as API from "../api.ts";
@@ -10,6 +11,7 @@ import {
   ErrorCategory,
   Errors as Err,
 } from "../index.ts";
+import { SensitiveString, SensitiveBlob } from "../sensitive.ts";
 const ns = T.XmlNamespace("http://s3.amazonaws.com/doc/2006-03-01/");
 const svc = T.AwsApiService({ sdkId: "S3", serviceShapeName: "AmazonS3" });
 const auth = T.AwsAuthSigv4({ name: "s3" });
@@ -8802,7 +8804,7 @@ export type MpuObjectSize = number;
 export type IfMatch = string;
 export type IfNoneMatch = string;
 export type SSECustomerAlgorithm = string;
-export type SSECustomerKey = string;
+export type SSECustomerKey = string | Redacted.Redacted<string>;
 export type SSECustomerKeyMD5 = string;
 export type CacheControl = string;
 export type ContentDisposition = string;
@@ -8818,10 +8820,10 @@ export type GrantRead = string;
 export type GrantReadACP = string;
 export type GrantWriteACP = string;
 export type WebsiteRedirectLocation = string;
-export type SSEKMSKeyId = string;
-export type SSEKMSEncryptionContext = string;
+export type SSEKMSKeyId = string | Redacted.Redacted<string>;
+export type SSEKMSEncryptionContext = string | Redacted.Redacted<string>;
 export type CopySourceSSECustomerAlgorithm = string;
-export type CopySourceSSECustomerKey = string;
+export type CopySourceSSECustomerKey = string | Redacted.Redacted<string>;
 export type CopySourceSSECustomerKeyMD5 = string;
 export type TaggingHeader = string;
 export type GrantWrite = string;
@@ -8930,7 +8932,7 @@ export type QuoteCharacter = string;
 export type KmsKeyArn = string;
 export type RecordExpirationDays = number;
 export type AccessKeyIdValue = string;
-export type SessionCredentialValue = string;
+export type SessionCredentialValue = string | Redacted.Redacted<string>;
 export type MetadataTableStatus = string;
 export type EmailAddress = string;
 export type URI = string;
@@ -9025,10 +9027,10 @@ export interface CreateMultipartUploadRequest {
   StorageClass?: string;
   WebsiteRedirectLocation?: string;
   SSECustomerAlgorithm?: string;
-  SSECustomerKey?: string;
+  SSECustomerKey?: string | Redacted.Redacted<string>;
   SSECustomerKeyMD5?: string;
-  SSEKMSKeyId?: string;
-  SSEKMSEncryptionContext?: string;
+  SSEKMSKeyId?: string | Redacted.Redacted<string>;
+  SSEKMSEncryptionContext?: string | Redacted.Redacted<string>;
   BucketKeyEnabled?: boolean;
   RequestPayer?: string;
   Tagging?: string;
@@ -9079,16 +9081,16 @@ export const CreateMultipartUploadRequest = S.suspend(() =>
     SSECustomerAlgorithm: S.optional(S.String).pipe(
       T.HttpHeader("x-amz-server-side-encryption-customer-algorithm"),
     ),
-    SSECustomerKey: S.optional(S.String).pipe(
+    SSECustomerKey: S.optional(SensitiveString).pipe(
       T.HttpHeader("x-amz-server-side-encryption-customer-key"),
     ),
     SSECustomerKeyMD5: S.optional(S.String).pipe(
       T.HttpHeader("x-amz-server-side-encryption-customer-key-MD5"),
     ),
-    SSEKMSKeyId: S.optional(S.String).pipe(
+    SSEKMSKeyId: S.optional(SensitiveString).pipe(
       T.HttpHeader("x-amz-server-side-encryption-aws-kms-key-id"),
     ),
-    SSEKMSEncryptionContext: S.optional(S.String).pipe(
+    SSEKMSEncryptionContext: S.optional(SensitiveString).pipe(
       T.HttpHeader("x-amz-server-side-encryption-context"),
     ),
     BucketKeyEnabled: S.optional(S.Boolean).pipe(
@@ -9134,8 +9136,8 @@ export interface CreateSessionRequest {
   SessionMode?: string;
   Bucket: string;
   ServerSideEncryption?: string;
-  SSEKMSKeyId?: string;
-  SSEKMSEncryptionContext?: string;
+  SSEKMSKeyId?: string | Redacted.Redacted<string>;
+  SSEKMSEncryptionContext?: string | Redacted.Redacted<string>;
   BucketKeyEnabled?: boolean;
 }
 export const CreateSessionRequest = S.suspend(() =>
@@ -9147,10 +9149,10 @@ export const CreateSessionRequest = S.suspend(() =>
     ServerSideEncryption: S.optional(S.String).pipe(
       T.HttpHeader("x-amz-server-side-encryption"),
     ),
-    SSEKMSKeyId: S.optional(S.String).pipe(
+    SSEKMSKeyId: S.optional(SensitiveString).pipe(
       T.HttpHeader("x-amz-server-side-encryption-aws-kms-key-id"),
     ),
-    SSEKMSEncryptionContext: S.optional(S.String).pipe(
+    SSEKMSEncryptionContext: S.optional(SensitiveString).pipe(
       T.HttpHeader("x-amz-server-side-encryption-context"),
     ),
     BucketKeyEnabled: S.optional(S.Boolean).pipe(
@@ -10364,7 +10366,7 @@ export interface GetObjectRequest {
   ResponseExpires?: Date;
   VersionId?: string;
   SSECustomerAlgorithm?: string;
-  SSECustomerKey?: string;
+  SSECustomerKey?: string | Redacted.Redacted<string>;
   SSECustomerKeyMD5?: string;
   RequestPayer?: string;
   PartNumber?: number;
@@ -10406,7 +10408,7 @@ export const GetObjectRequest = S.suspend(() =>
     SSECustomerAlgorithm: S.optional(S.String).pipe(
       T.HttpHeader("x-amz-server-side-encryption-customer-algorithm"),
     ),
-    SSECustomerKey: S.optional(S.String).pipe(
+    SSECustomerKey: S.optional(SensitiveString).pipe(
       T.HttpHeader("x-amz-server-side-encryption-customer-key"),
     ),
     SSECustomerKeyMD5: S.optional(S.String).pipe(
@@ -10478,7 +10480,7 @@ export interface GetObjectAttributesRequest {
   MaxParts?: number;
   PartNumberMarker?: string;
   SSECustomerAlgorithm?: string;
-  SSECustomerKey?: string;
+  SSECustomerKey?: string | Redacted.Redacted<string>;
   SSECustomerKeyMD5?: string;
   RequestPayer?: string;
   ExpectedBucketOwner?: string;
@@ -10496,7 +10498,7 @@ export const GetObjectAttributesRequest = S.suspend(() =>
     SSECustomerAlgorithm: S.optional(S.String).pipe(
       T.HttpHeader("x-amz-server-side-encryption-customer-algorithm"),
     ),
-    SSECustomerKey: S.optional(S.String).pipe(
+    SSECustomerKey: S.optional(SensitiveString).pipe(
       T.HttpHeader("x-amz-server-side-encryption-customer-key"),
     ),
     SSECustomerKeyMD5: S.optional(S.String).pipe(
@@ -10740,7 +10742,7 @@ export interface HeadObjectRequest {
   ResponseExpires?: Date;
   VersionId?: string;
   SSECustomerAlgorithm?: string;
-  SSECustomerKey?: string;
+  SSECustomerKey?: string | Redacted.Redacted<string>;
   SSECustomerKeyMD5?: string;
   RequestPayer?: string;
   PartNumber?: number;
@@ -10782,7 +10784,7 @@ export const HeadObjectRequest = S.suspend(() =>
     SSECustomerAlgorithm: S.optional(S.String).pipe(
       T.HttpHeader("x-amz-server-side-encryption-customer-algorithm"),
     ),
-    SSECustomerKey: S.optional(S.String).pipe(
+    SSECustomerKey: S.optional(SensitiveString).pipe(
       T.HttpHeader("x-amz-server-side-encryption-customer-key"),
     ),
     SSECustomerKeyMD5: S.optional(S.String).pipe(
@@ -11191,7 +11193,7 @@ export interface ListPartsRequest {
   RequestPayer?: string;
   ExpectedBucketOwner?: string;
   SSECustomerAlgorithm?: string;
-  SSECustomerKey?: string;
+  SSECustomerKey?: string | Redacted.Redacted<string>;
   SSECustomerKeyMD5?: string;
 }
 export const ListPartsRequest = S.suspend(() =>
@@ -11212,7 +11214,7 @@ export const ListPartsRequest = S.suspend(() =>
     SSECustomerAlgorithm: S.optional(S.String).pipe(
       T.HttpHeader("x-amz-server-side-encryption-customer-algorithm"),
     ),
-    SSECustomerKey: S.optional(S.String).pipe(
+    SSECustomerKey: S.optional(SensitiveString).pipe(
       T.HttpHeader("x-amz-server-side-encryption-customer-key"),
     ),
     SSECustomerKeyMD5: S.optional(S.String).pipe(
@@ -11310,10 +11312,10 @@ export interface PutObjectRequest {
   StorageClass?: string;
   WebsiteRedirectLocation?: string;
   SSECustomerAlgorithm?: string;
-  SSECustomerKey?: string;
+  SSECustomerKey?: string | Redacted.Redacted<string>;
   SSECustomerKeyMD5?: string;
-  SSEKMSKeyId?: string;
-  SSEKMSEncryptionContext?: string;
+  SSEKMSKeyId?: string | Redacted.Redacted<string>;
+  SSEKMSEncryptionContext?: string | Redacted.Redacted<string>;
   BucketKeyEnabled?: boolean;
   RequestPayer?: string;
   Tagging?: string;
@@ -11388,16 +11390,16 @@ export const PutObjectRequest = S.suspend(() =>
     SSECustomerAlgorithm: S.optional(S.String).pipe(
       T.HttpHeader("x-amz-server-side-encryption-customer-algorithm"),
     ),
-    SSECustomerKey: S.optional(S.String).pipe(
+    SSECustomerKey: S.optional(SensitiveString).pipe(
       T.HttpHeader("x-amz-server-side-encryption-customer-key"),
     ),
     SSECustomerKeyMD5: S.optional(S.String).pipe(
       T.HttpHeader("x-amz-server-side-encryption-customer-key-MD5"),
     ),
-    SSEKMSKeyId: S.optional(S.String).pipe(
+    SSEKMSKeyId: S.optional(SensitiveString).pipe(
       T.HttpHeader("x-amz-server-side-encryption-aws-kms-key-id"),
     ),
-    SSEKMSEncryptionContext: S.optional(S.String).pipe(
+    SSEKMSEncryptionContext: S.optional(SensitiveString).pipe(
       T.HttpHeader("x-amz-server-side-encryption-context"),
     ),
     BucketKeyEnabled: S.optional(S.Boolean).pipe(
@@ -11686,7 +11688,7 @@ export interface UploadPartRequest {
   PartNumber: number;
   UploadId: string;
   SSECustomerAlgorithm?: string;
-  SSECustomerKey?: string;
+  SSECustomerKey?: string | Redacted.Redacted<string>;
   SSECustomerKeyMD5?: string;
   RequestPayer?: string;
   ExpectedBucketOwner?: string;
@@ -11721,7 +11723,7 @@ export const UploadPartRequest = S.suspend(() =>
     SSECustomerAlgorithm: S.optional(S.String).pipe(
       T.HttpHeader("x-amz-server-side-encryption-customer-algorithm"),
     ),
-    SSECustomerKey: S.optional(S.String).pipe(
+    SSECustomerKey: S.optional(SensitiveString).pipe(
       T.HttpHeader("x-amz-server-side-encryption-customer-key"),
     ),
     SSECustomerKeyMD5: S.optional(S.String).pipe(
@@ -11762,10 +11764,10 @@ export interface UploadPartCopyRequest {
   PartNumber: number;
   UploadId: string;
   SSECustomerAlgorithm?: string;
-  SSECustomerKey?: string;
+  SSECustomerKey?: string | Redacted.Redacted<string>;
   SSECustomerKeyMD5?: string;
   CopySourceSSECustomerAlgorithm?: string;
-  CopySourceSSECustomerKey?: string;
+  CopySourceSSECustomerKey?: string | Redacted.Redacted<string>;
   CopySourceSSECustomerKeyMD5?: string;
   RequestPayer?: string;
   ExpectedBucketOwner?: string;
@@ -11796,7 +11798,7 @@ export const UploadPartCopyRequest = S.suspend(() =>
     SSECustomerAlgorithm: S.optional(S.String).pipe(
       T.HttpHeader("x-amz-server-side-encryption-customer-algorithm"),
     ),
-    SSECustomerKey: S.optional(S.String).pipe(
+    SSECustomerKey: S.optional(SensitiveString).pipe(
       T.HttpHeader("x-amz-server-side-encryption-customer-key"),
     ),
     SSECustomerKeyMD5: S.optional(S.String).pipe(
@@ -11807,7 +11809,7 @@ export const UploadPartCopyRequest = S.suspend(() =>
         "x-amz-copy-source-server-side-encryption-customer-algorithm",
       ),
     ),
-    CopySourceSSECustomerKey: S.optional(S.String).pipe(
+    CopySourceSSECustomerKey: S.optional(SensitiveString).pipe(
       T.HttpHeader("x-amz-copy-source-server-side-encryption-customer-key"),
     ),
     CopySourceSSECustomerKeyMD5: S.optional(S.String).pipe(
@@ -11873,7 +11875,7 @@ export interface WriteGetObjectResponseRequest {
   Restore?: string;
   ServerSideEncryption?: string;
   SSECustomerAlgorithm?: string;
-  SSEKMSKeyId?: string;
+  SSEKMSKeyId?: string | Redacted.Redacted<string>;
   SSECustomerKeyMD5?: string;
   StorageClass?: string;
   TagCount?: number;
@@ -11978,7 +11980,7 @@ export const WriteGetObjectResponseRequest = S.suspend(() =>
         "x-amz-fwd-header-x-amz-server-side-encryption-customer-algorithm",
       ),
     ),
-    SSEKMSKeyId: S.optional(S.String).pipe(
+    SSEKMSKeyId: S.optional(SensitiveString).pipe(
       T.HttpHeader(
         "x-amz-fwd-header-x-amz-server-side-encryption-aws-kms-key-id",
       ),
@@ -12179,10 +12181,10 @@ export const SSES3 = S.suspend(() =>
   S.Struct({}).pipe(T.XmlName("SSE-S3")),
 ).annotations({ identifier: "SSES3" }) as any as S.Schema<SSES3>;
 export interface SSEKMS {
-  KeyId: string;
+  KeyId: string | Redacted.Redacted<string>;
 }
 export const SSEKMS = S.suspend(() =>
-  S.Struct({ KeyId: S.String }).pipe(T.XmlName("SSE-KMS")),
+  S.Struct({ KeyId: SensitiveString }).pipe(T.XmlName("SSE-KMS")),
 ).annotations({ identifier: "SSEKMS" }) as any as S.Schema<SSEKMS>;
 export interface InventoryEncryption {
   SSES3?: SSES3;
@@ -12442,13 +12444,13 @@ export interface CopyObjectRequest {
   StorageClass?: string;
   WebsiteRedirectLocation?: string;
   SSECustomerAlgorithm?: string;
-  SSECustomerKey?: string;
+  SSECustomerKey?: string | Redacted.Redacted<string>;
   SSECustomerKeyMD5?: string;
-  SSEKMSKeyId?: string;
-  SSEKMSEncryptionContext?: string;
+  SSEKMSKeyId?: string | Redacted.Redacted<string>;
+  SSEKMSEncryptionContext?: string | Redacted.Redacted<string>;
   BucketKeyEnabled?: boolean;
   CopySourceSSECustomerAlgorithm?: string;
-  CopySourceSSECustomerKey?: string;
+  CopySourceSSECustomerKey?: string | Redacted.Redacted<string>;
   CopySourceSSECustomerKeyMD5?: string;
   RequestPayer?: string;
   Tagging?: string;
@@ -12525,16 +12527,16 @@ export const CopyObjectRequest = S.suspend(() =>
     SSECustomerAlgorithm: S.optional(S.String).pipe(
       T.HttpHeader("x-amz-server-side-encryption-customer-algorithm"),
     ),
-    SSECustomerKey: S.optional(S.String).pipe(
+    SSECustomerKey: S.optional(SensitiveString).pipe(
       T.HttpHeader("x-amz-server-side-encryption-customer-key"),
     ),
     SSECustomerKeyMD5: S.optional(S.String).pipe(
       T.HttpHeader("x-amz-server-side-encryption-customer-key-MD5"),
     ),
-    SSEKMSKeyId: S.optional(S.String).pipe(
+    SSEKMSKeyId: S.optional(SensitiveString).pipe(
       T.HttpHeader("x-amz-server-side-encryption-aws-kms-key-id"),
     ),
-    SSEKMSEncryptionContext: S.optional(S.String).pipe(
+    SSEKMSEncryptionContext: S.optional(SensitiveString).pipe(
       T.HttpHeader("x-amz-server-side-encryption-context"),
     ),
     BucketKeyEnabled: S.optional(S.Boolean).pipe(
@@ -12545,7 +12547,7 @@ export const CopyObjectRequest = S.suspend(() =>
         "x-amz-copy-source-server-side-encryption-customer-algorithm",
       ),
     ),
-    CopySourceSSECustomerKey: S.optional(S.String).pipe(
+    CopySourceSSECustomerKey: S.optional(SensitiveString).pipe(
       T.HttpHeader("x-amz-copy-source-server-side-encryption-customer-key"),
     ),
     CopySourceSSECustomerKeyMD5: S.optional(S.String).pipe(
@@ -12594,8 +12596,8 @@ export interface CreateMultipartUploadOutput {
   ServerSideEncryption?: string;
   SSECustomerAlgorithm?: string;
   SSECustomerKeyMD5?: string;
-  SSEKMSKeyId?: string;
-  SSEKMSEncryptionContext?: string;
+  SSEKMSKeyId?: string | Redacted.Redacted<string>;
+  SSEKMSEncryptionContext?: string | Redacted.Redacted<string>;
   BucketKeyEnabled?: boolean;
   RequestCharged?: string;
   ChecksumAlgorithm?: string;
@@ -12619,10 +12621,10 @@ export const CreateMultipartUploadOutput = S.suspend(() =>
     SSECustomerKeyMD5: S.optional(S.String).pipe(
       T.HttpHeader("x-amz-server-side-encryption-customer-key-MD5"),
     ),
-    SSEKMSKeyId: S.optional(S.String).pipe(
+    SSEKMSKeyId: S.optional(SensitiveString).pipe(
       T.HttpHeader("x-amz-server-side-encryption-aws-kms-key-id"),
     ),
-    SSEKMSEncryptionContext: S.optional(S.String).pipe(
+    SSEKMSEncryptionContext: S.optional(SensitiveString).pipe(
       T.HttpHeader("x-amz-server-side-encryption-context"),
     ),
     BucketKeyEnabled: S.optional(S.Boolean).pipe(
@@ -12766,10 +12768,13 @@ export const GetBucketCorsOutput = S.suspend(() =>
 }) as any as S.Schema<GetBucketCorsOutput>;
 export interface ServerSideEncryptionByDefault {
   SSEAlgorithm: string;
-  KMSMasterKeyID?: string;
+  KMSMasterKeyID?: string | Redacted.Redacted<string>;
 }
 export const ServerSideEncryptionByDefault = S.suspend(() =>
-  S.Struct({ SSEAlgorithm: S.String, KMSMasterKeyID: S.optional(S.String) }),
+  S.Struct({
+    SSEAlgorithm: S.String,
+    KMSMasterKeyID: S.optional(SensitiveString),
+  }),
 ).annotations({
   identifier: "ServerSideEncryptionByDefault",
 }) as any as S.Schema<ServerSideEncryptionByDefault>;
@@ -13455,7 +13460,7 @@ export interface GetObjectOutput {
   Metadata?: Metadata;
   SSECustomerAlgorithm?: string;
   SSECustomerKeyMD5?: string;
-  SSEKMSKeyId?: string;
+  SSEKMSKeyId?: string | Redacted.Redacted<string>;
   BucketKeyEnabled?: boolean;
   StorageClass?: string;
   RequestCharged?: string;
@@ -13526,7 +13531,7 @@ export const GetObjectOutput = S.suspend(() =>
     SSECustomerKeyMD5: S.optional(S.String).pipe(
       T.HttpHeader("x-amz-server-side-encryption-customer-key-MD5"),
     ),
-    SSEKMSKeyId: S.optional(S.String).pipe(
+    SSEKMSKeyId: S.optional(SensitiveString).pipe(
       T.HttpHeader("x-amz-server-side-encryption-aws-kms-key-id"),
     ),
     BucketKeyEnabled: S.optional(S.Boolean).pipe(
@@ -13735,7 +13740,7 @@ export interface HeadObjectOutput {
   Metadata?: Metadata;
   SSECustomerAlgorithm?: string;
   SSECustomerKeyMD5?: string;
-  SSEKMSKeyId?: string;
+  SSEKMSKeyId?: string | Redacted.Redacted<string>;
   BucketKeyEnabled?: boolean;
   StorageClass?: string;
   RequestCharged?: string;
@@ -13808,7 +13813,7 @@ export const HeadObjectOutput = S.suspend(() =>
     SSECustomerKeyMD5: S.optional(S.String).pipe(
       T.HttpHeader("x-amz-server-side-encryption-customer-key-MD5"),
     ),
-    SSEKMSKeyId: S.optional(S.String).pipe(
+    SSEKMSKeyId: S.optional(SensitiveString).pipe(
       T.HttpHeader("x-amz-server-side-encryption-aws-kms-key-id"),
     ),
     BucketKeyEnabled: S.optional(S.Boolean).pipe(
@@ -14266,8 +14271,8 @@ export interface PutObjectOutput {
   VersionId?: string;
   SSECustomerAlgorithm?: string;
   SSECustomerKeyMD5?: string;
-  SSEKMSKeyId?: string;
-  SSEKMSEncryptionContext?: string;
+  SSEKMSKeyId?: string | Redacted.Redacted<string>;
+  SSEKMSEncryptionContext?: string | Redacted.Redacted<string>;
   BucketKeyEnabled?: boolean;
   Size?: number;
   RequestCharged?: string;
@@ -14304,10 +14309,10 @@ export const PutObjectOutput = S.suspend(() =>
     SSECustomerKeyMD5: S.optional(S.String).pipe(
       T.HttpHeader("x-amz-server-side-encryption-customer-key-MD5"),
     ),
-    SSEKMSKeyId: S.optional(S.String).pipe(
+    SSEKMSKeyId: S.optional(SensitiveString).pipe(
       T.HttpHeader("x-amz-server-side-encryption-aws-kms-key-id"),
     ),
-    SSEKMSEncryptionContext: S.optional(S.String).pipe(
+    SSEKMSEncryptionContext: S.optional(SensitiveString).pipe(
       T.HttpHeader("x-amz-server-side-encryption-context"),
     ),
     BucketKeyEnabled: S.optional(S.Boolean).pipe(
@@ -14495,7 +14500,7 @@ export interface UploadPartOutput {
   ChecksumSHA256?: string;
   SSECustomerAlgorithm?: string;
   SSECustomerKeyMD5?: string;
-  SSEKMSKeyId?: string;
+  SSEKMSKeyId?: string | Redacted.Redacted<string>;
   BucketKeyEnabled?: boolean;
   RequestCharged?: string;
 }
@@ -14526,7 +14531,7 @@ export const UploadPartOutput = S.suspend(() =>
     SSECustomerKeyMD5: S.optional(S.String).pipe(
       T.HttpHeader("x-amz-server-side-encryption-customer-key-MD5"),
     ),
-    SSEKMSKeyId: S.optional(S.String).pipe(
+    SSEKMSKeyId: S.optional(SensitiveString).pipe(
       T.HttpHeader("x-amz-server-side-encryption-aws-kms-key-id"),
     ),
     BucketKeyEnabled: S.optional(S.Boolean).pipe(
@@ -14869,15 +14874,15 @@ export const MetadataTableConfiguration = S.suspend(() =>
 }) as any as S.Schema<MetadataTableConfiguration>;
 export interface SessionCredentials {
   AccessKeyId: string;
-  SecretAccessKey: string;
-  SessionToken: string;
+  SecretAccessKey: string | Redacted.Redacted<string>;
+  SessionToken: string | Redacted.Redacted<string>;
   Expiration: Date;
 }
 export const SessionCredentials = S.suspend(() =>
   S.Struct({
     AccessKeyId: S.String.pipe(T.XmlName("AccessKeyId")),
-    SecretAccessKey: S.String.pipe(T.XmlName("SecretAccessKey")),
-    SessionToken: S.String.pipe(T.XmlName("SessionToken")),
+    SecretAccessKey: SensitiveString.pipe(T.XmlName("SecretAccessKey")),
+    SessionToken: SensitiveString.pipe(T.XmlName("SessionToken")),
     Expiration: S.Date.pipe(T.XmlName("Expiration")),
   }),
 ).annotations({
@@ -15097,7 +15102,7 @@ export interface CompleteMultipartUploadRequest {
   IfMatch?: string;
   IfNoneMatch?: string;
   SSECustomerAlgorithm?: string;
-  SSECustomerKey?: string;
+  SSECustomerKey?: string | Redacted.Redacted<string>;
   SSECustomerKeyMD5?: string;
 }
 export const CompleteMultipartUploadRequest = S.suspend(() =>
@@ -15140,7 +15145,7 @@ export const CompleteMultipartUploadRequest = S.suspend(() =>
     SSECustomerAlgorithm: S.optional(S.String).pipe(
       T.HttpHeader("x-amz-server-side-encryption-customer-algorithm"),
     ),
-    SSECustomerKey: S.optional(S.String).pipe(
+    SSECustomerKey: S.optional(SensitiveString).pipe(
       T.HttpHeader("x-amz-server-side-encryption-customer-key"),
     ),
     SSECustomerKeyMD5: S.optional(S.String).pipe(
@@ -15308,8 +15313,8 @@ export const CreateBucketMetadataTableConfigurationResponse = S.suspend(() =>
 }) as any as S.Schema<CreateBucketMetadataTableConfigurationResponse>;
 export interface CreateSessionOutput {
   ServerSideEncryption?: string;
-  SSEKMSKeyId?: string;
-  SSEKMSEncryptionContext?: string;
+  SSEKMSKeyId?: string | Redacted.Redacted<string>;
+  SSEKMSEncryptionContext?: string | Redacted.Redacted<string>;
   BucketKeyEnabled?: boolean;
   Credentials: SessionCredentials;
 }
@@ -15318,10 +15323,10 @@ export const CreateSessionOutput = S.suspend(() =>
     ServerSideEncryption: S.optional(S.String).pipe(
       T.HttpHeader("x-amz-server-side-encryption"),
     ),
-    SSEKMSKeyId: S.optional(S.String).pipe(
+    SSEKMSKeyId: S.optional(SensitiveString).pipe(
       T.HttpHeader("x-amz-server-side-encryption-aws-kms-key-id"),
     ),
-    SSEKMSEncryptionContext: S.optional(S.String).pipe(
+    SSEKMSEncryptionContext: S.optional(SensitiveString).pipe(
       T.HttpHeader("x-amz-server-side-encryption-context"),
     ),
     BucketKeyEnabled: S.optional(S.Boolean).pipe(
@@ -15655,7 +15660,7 @@ export interface SelectObjectContentRequest {
   Bucket: string;
   Key: string;
   SSECustomerAlgorithm?: string;
-  SSECustomerKey?: string;
+  SSECustomerKey?: string | Redacted.Redacted<string>;
   SSECustomerKeyMD5?: string;
   Expression: string;
   ExpressionType: string;
@@ -15672,7 +15677,7 @@ export const SelectObjectContentRequest = S.suspend(() =>
     SSECustomerAlgorithm: S.optional(S.String).pipe(
       T.HttpHeader("x-amz-server-side-encryption-customer-algorithm"),
     ),
-    SSECustomerKey: S.optional(S.String).pipe(
+    SSECustomerKey: S.optional(SensitiveString).pipe(
       T.HttpHeader("x-amz-server-side-encryption-customer-key"),
     ),
     SSECustomerKeyMD5: S.optional(S.String).pipe(
@@ -15800,7 +15805,7 @@ export interface UploadPartCopyOutput {
   ServerSideEncryption?: string;
   SSECustomerAlgorithm?: string;
   SSECustomerKeyMD5?: string;
-  SSEKMSKeyId?: string;
+  SSEKMSKeyId?: string | Redacted.Redacted<string>;
   BucketKeyEnabled?: boolean;
   RequestCharged?: string;
 }
@@ -15821,7 +15826,7 @@ export const UploadPartCopyOutput = S.suspend(() =>
     SSECustomerKeyMD5: S.optional(S.String).pipe(
       T.HttpHeader("x-amz-server-side-encryption-customer-key-MD5"),
     ),
-    SSEKMSKeyId: S.optional(S.String).pipe(
+    SSEKMSKeyId: S.optional(SensitiveString).pipe(
       T.HttpHeader("x-amz-server-side-encryption-aws-kms-key-id"),
     ),
     BucketKeyEnabled: S.optional(S.Boolean).pipe(
@@ -15868,13 +15873,13 @@ export type PartsList = ObjectPart[];
 export const PartsList = S.Array(ObjectPart);
 export interface Encryption {
   EncryptionType: string;
-  KMSKeyId?: string;
+  KMSKeyId?: string | Redacted.Redacted<string>;
   KMSContext?: string;
 }
 export const Encryption = S.suspend(() =>
   S.Struct({
     EncryptionType: S.String,
-    KMSKeyId: S.optional(S.String),
+    KMSKeyId: S.optional(SensitiveString),
     KMSContext: S.optional(S.String),
   }),
 ).annotations({ identifier: "Encryption" }) as any as S.Schema<Encryption>;
@@ -16055,7 +16060,7 @@ export interface CompleteMultipartUploadOutput {
   ChecksumType?: string;
   ServerSideEncryption?: string;
   VersionId?: string;
-  SSEKMSKeyId?: string;
+  SSEKMSKeyId?: string | Redacted.Redacted<string>;
   BucketKeyEnabled?: boolean;
   RequestCharged?: string;
 }
@@ -16076,7 +16081,7 @@ export const CompleteMultipartUploadOutput = S.suspend(() =>
       T.HttpHeader("x-amz-server-side-encryption"),
     ),
     VersionId: S.optional(S.String).pipe(T.HttpHeader("x-amz-version-id")),
-    SSEKMSKeyId: S.optional(S.String).pipe(
+    SSEKMSKeyId: S.optional(SensitiveString).pipe(
       T.HttpHeader("x-amz-server-side-encryption-aws-kms-key-id"),
     ),
     BucketKeyEnabled: S.optional(S.Boolean).pipe(
@@ -16097,8 +16102,8 @@ export interface CopyObjectOutput {
   ServerSideEncryption?: string;
   SSECustomerAlgorithm?: string;
   SSECustomerKeyMD5?: string;
-  SSEKMSKeyId?: string;
-  SSEKMSEncryptionContext?: string;
+  SSEKMSKeyId?: string | Redacted.Redacted<string>;
+  SSEKMSEncryptionContext?: string | Redacted.Redacted<string>;
   BucketKeyEnabled?: boolean;
   RequestCharged?: string;
 }
@@ -16121,10 +16126,10 @@ export const CopyObjectOutput = S.suspend(() =>
     SSECustomerKeyMD5: S.optional(S.String).pipe(
       T.HttpHeader("x-amz-server-side-encryption-customer-key-MD5"),
     ),
-    SSEKMSKeyId: S.optional(S.String).pipe(
+    SSEKMSKeyId: S.optional(SensitiveString).pipe(
       T.HttpHeader("x-amz-server-side-encryption-aws-kms-key-id"),
     ),
-    SSEKMSEncryptionContext: S.optional(S.String).pipe(
+    SSEKMSEncryptionContext: S.optional(SensitiveString).pipe(
       T.HttpHeader("x-amz-server-side-encryption-context"),
     ),
     BucketKeyEnabled: S.optional(S.Boolean).pipe(

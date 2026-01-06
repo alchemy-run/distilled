@@ -1,5 +1,6 @@
 import { HttpClient } from "@effect/platform";
 import * as Effect from "effect/Effect";
+import * as Redacted from "effect/Redacted";
 import * as S from "effect/Schema";
 import * as Stream from "effect/Stream";
 import * as API from "../api.ts";
@@ -10,6 +11,7 @@ import {
   ErrorCategory,
   Errors,
 } from "../index.ts";
+import { SensitiveString, SensitiveBlob } from "../sensitive.ts";
 const svc = T.AwsApiService({
   sdkId: "ConnectCampaignsV2",
   serviceShapeName: "AmazonConnectCampaignServiceV2",
@@ -337,12 +339,12 @@ export type InstanceOnboardingJobFailureCode = string;
 export type ContactFlowId = string;
 export type SourcePhoneNumber = string;
 export type RingTimeout = number;
-export type EmailAddress = string;
-export type EmailDisplayName = string;
+export type EmailAddress = string | Redacted.Redacted<string>;
+export type EmailDisplayName = string | Redacted.Redacted<string>;
 export type CommunicationLimitTimeUnit = string;
 export type EventType = string;
 export type ObjectTypeName = string;
-export type DestinationPhoneNumber = string;
+export type DestinationPhoneNumber = string | Redacted.Redacted<string>;
 export type BandwidthAllocation = number;
 export type AgentAction = string;
 export type DayOfWeek = string;
@@ -960,14 +962,14 @@ export const EmailOutboundMode = S.Union(
   S.Struct({ agentless: AgentlessConfig }),
 );
 export interface EmailOutboundConfig {
-  connectSourceEmailAddress: string;
-  sourceEmailAddressDisplayName?: string;
+  connectSourceEmailAddress: string | Redacted.Redacted<string>;
+  sourceEmailAddressDisplayName?: string | Redacted.Redacted<string>;
   wisdomTemplateArn: string;
 }
 export const EmailOutboundConfig = S.suspend(() =>
   S.Struct({
-    connectSourceEmailAddress: S.String,
-    sourceEmailAddressDisplayName: S.optional(S.String),
+    connectSourceEmailAddress: SensitiveString,
+    sourceEmailAddressDisplayName: S.optional(SensitiveString),
     wisdomTemplateArn: S.String,
   }),
 ).annotations({
@@ -1654,14 +1656,14 @@ export const ObjectTypeNamesMap = S.Record({ key: S.String, value: S.String });
 export type Attributes = { [key: string]: string };
 export const Attributes = S.Record({ key: S.String, value: S.String });
 export interface SmsChannelSubtypeParameters {
-  destinationPhoneNumber: string;
+  destinationPhoneNumber: string | Redacted.Redacted<string>;
   connectSourcePhoneNumberArn?: string;
   templateArn?: string;
   templateParameters: Attributes;
 }
 export const SmsChannelSubtypeParameters = S.suspend(() =>
   S.Struct({
-    destinationPhoneNumber: S.String,
+    destinationPhoneNumber: SensitiveString,
     connectSourcePhoneNumberArn: S.optional(S.String),
     templateArn: S.optional(S.String),
     templateParameters: Attributes,
@@ -1670,15 +1672,15 @@ export const SmsChannelSubtypeParameters = S.suspend(() =>
   identifier: "SmsChannelSubtypeParameters",
 }) as any as S.Schema<SmsChannelSubtypeParameters>;
 export interface EmailChannelSubtypeParameters {
-  destinationEmailAddress: string;
-  connectSourceEmailAddress?: string;
+  destinationEmailAddress: string | Redacted.Redacted<string>;
+  connectSourceEmailAddress?: string | Redacted.Redacted<string>;
   templateArn?: string;
   templateParameters: Attributes;
 }
 export const EmailChannelSubtypeParameters = S.suspend(() =>
   S.Struct({
-    destinationEmailAddress: S.String,
-    connectSourceEmailAddress: S.optional(S.String),
+    destinationEmailAddress: SensitiveString,
+    connectSourceEmailAddress: S.optional(SensitiveString),
     templateArn: S.optional(S.String),
     templateParameters: Attributes,
   }),
@@ -1686,14 +1688,14 @@ export const EmailChannelSubtypeParameters = S.suspend(() =>
   identifier: "EmailChannelSubtypeParameters",
 }) as any as S.Schema<EmailChannelSubtypeParameters>;
 export interface WhatsAppChannelSubtypeParameters {
-  destinationPhoneNumber: string;
+  destinationPhoneNumber: string | Redacted.Redacted<string>;
   connectSourcePhoneNumberArn?: string;
   templateArn?: string;
   templateParameters: Attributes;
 }
 export const WhatsAppChannelSubtypeParameters = S.suspend(() =>
   S.Struct({
-    destinationPhoneNumber: S.String,
+    destinationPhoneNumber: SensitiveString,
     connectSourcePhoneNumberArn: S.optional(S.String),
     templateArn: S.optional(S.String),
     templateParameters: Attributes,
@@ -1889,7 +1891,7 @@ export const FailedProfileOutboundRequestList = S.Array(
   FailedProfileOutboundRequest,
 );
 export interface TelephonyChannelSubtypeParameters {
-  destinationPhoneNumber: string;
+  destinationPhoneNumber: string | Redacted.Redacted<string>;
   attributes: Attributes;
   connectSourcePhoneNumber?: string;
   answerMachineDetectionConfig?: AnswerMachineDetectionConfig;
@@ -1897,7 +1899,7 @@ export interface TelephonyChannelSubtypeParameters {
 }
 export const TelephonyChannelSubtypeParameters = S.suspend(() =>
   S.Struct({
-    destinationPhoneNumber: S.String,
+    destinationPhoneNumber: SensitiveString,
     attributes: Attributes,
     connectSourcePhoneNumber: S.optional(S.String),
     answerMachineDetectionConfig: S.optional(AnswerMachineDetectionConfig),

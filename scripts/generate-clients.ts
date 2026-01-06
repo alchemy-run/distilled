@@ -81,6 +81,8 @@ class SdkFile extends Context.Tag("SdkFile")<
     };
     // Set of shape IDs that are input event streams (vs output event streams)
     inputEventStreamShapeIds: Set<string>;
+    // Set of shape IDs that have @sensitive trait
+    sensitiveShapeIds: Set<string>;
     // Endpoint rule set for dynamic endpoint resolution
     endpointRuleSet: unknown | undefined;
     // Client context parameters for endpoint resolution
@@ -387,6 +389,10 @@ function schemaExprToTsType(
       return "T.StreamingOutputBody";
     case "T.Blob":
       return "Uint8Array";
+    case "SensitiveString":
+      return "string | Redacted.Redacted<string>";
+    case "SensitiveBlob":
+      return "Uint8Array | Redacted.Redacted<Uint8Array>";
     case "S.Struct({})":
       return "Record<string, never>";
   }
@@ -777,6 +783,17 @@ function collectInputEventStreamShapeIds(model: SmithyModel): Set<string> {
   return inputEventStreams;
 }
 
+// Collect shape IDs that have the @sensitive trait
+function collectSensitiveShapeIds(model: SmithyModel): Set<string> {
+  const sensitiveShapeIds = new Set<string>();
+  for (const [shapeId, shape] of Object.entries(model.shapes)) {
+    if (shape.traits?.["smithy.api#sensitive"]) {
+      sensitiveShapeIds.add(shapeId);
+    }
+  }
+  return sensitiveShapeIds;
+}
+
 const convertShapeToSchema: (
   args_0: string,
 ) => Effect.Effect<
@@ -911,32 +928,49 @@ const convertShapeToSchema: (
                 if (!targetShapeId.startsWith("smithy.api#")) {
                   const sdkFile = yield* SdkFile;
                   const name = formatName(targetShapeId);
+                  // Check if this shape has @sensitive trait
+                  const isSensitive =
+                    sdkFile.sensitiveShapeIds.has(targetShapeId);
                   yield* Ref.update(sdkFile.newtypes, (m) =>
-                    new Map(m).set(name, "string"),
+                    new Map(m).set(
+                      name,
+                      isSensitive
+                        ? "string | Redacted.Redacted<string>"
+                        : "string",
+                    ),
                   );
+                  if (isSensitive) {
+                    return "SensitiveString";
+                  }
                 }
                 return "S.String";
               }),
           ),
           Match.when(
             (s) => s.type === "blob",
-            (s) => {
-              // Check for @streaming trait
-              if (s.traits?.["smithy.api#streaming"] != null) {
-                // Streaming blob - used for large payloads like S3 objects
-                // NOTE: Context-specific types (StreamingInput/StreamingOutput) are
-                // handled at the member level. This fallback is for direct references.
-                // Check for @requiresLength trait - indicates Content-Length is required
-                if (s.traits?.["smithy.api#requiresLength"] != null) {
-                  return Effect.succeed(
-                    "T.StreamBody().pipe(T.RequiresLength())",
-                  );
+            (s) =>
+              Effect.gen(function* () {
+                // Check for @streaming trait
+                if (s.traits?.["smithy.api#streaming"] != null) {
+                  // Streaming blob - used for large payloads like S3 objects
+                  // NOTE: Context-specific types (StreamingInput/StreamingOutput) are
+                  // handled at the member level. This fallback is for direct references.
+                  // Check for @requiresLength trait - indicates Content-Length is required
+                  if (s.traits?.["smithy.api#requiresLength"] != null) {
+                    return "T.StreamBody().pipe(T.RequiresLength())";
+                  }
+                  return "T.StreamBody()";
                 }
-                return Effect.succeed("T.StreamBody()");
-              }
-              // Non-streaming blob - base64 encoded in body
-              return Effect.succeed("T.Blob");
-            },
+                // Non-streaming blob - base64 encoded in body
+                // Check if this shape has @sensitive trait
+                const sdkFile = yield* SdkFile;
+                const isSensitive =
+                  sdkFile.sensitiveShapeIds.has(targetShapeId);
+                if (isSensitive) {
+                  return "SensitiveBlob";
+                }
+                return "T.Blob";
+              }),
           ),
           Match.when(
             (s) => s.type === "boolean",
@@ -1529,8 +1563,14 @@ const convertShapeToSchema: (
                   { concurrency: "unbounded" },
                 ).pipe(
                   Effect.map(([keySchema, valueSchema]) => {
-                    // Wrap error shape or cyclic references in S.suspend with identifier for JSONSchema
-                    let wrappedKey = keySchema;
+                    // S.Record keys cannot be transformation schemas, so strip sensitive wrappers
+                    // Map keys with @sensitive will use plain string (sensitive trait is for logging, not type safety on keys)
+                    let wrappedKey =
+                      keySchema === "SensitiveString"
+                        ? "S.String"
+                        : keySchema === "SensitiveBlob"
+                          ? "T.Blob"
+                          : keySchema;
                     let wrappedValue = valueSchema;
 
                     if (isKeyErrorShape) {
@@ -2112,13 +2152,17 @@ const generateClient = Effect.fn(function* (
         ? 'import * as Strm from "effect/Stream";'
         : 'import * as Stream from "effect/Stream";';
 
+    // Import sensitive schemas directly to avoid circular import issues
+    // (traits.ts has circular deps with protocols, but sensitive.ts doesn't)
     const imports = dedent`
       import { HttpClient } from "@effect/platform";
       import * as Effect from "effect/Effect";
+      import * as Redacted from "effect/Redacted";
       import * as S from "effect/Schema";
       ${streamImport}
       import * as API from "../api.ts";
-      import { ${credentialsImport}, ${regionImport}, Traits as T, ErrorCategory, ${errorsImport} } from "../index.ts";`;
+      import { ${credentialsImport}, ${regionImport}, Traits as T, ErrorCategory, ${errorsImport} } from "../index.ts";
+      import { SensitiveString, SensitiveBlob } from "../sensitive.ts";`;
 
     // Define service-level constants
     const serviceConstants: string[] = [];
@@ -2219,6 +2263,7 @@ const generateClient = Effect.fn(function* (
   const operationInputTraits = collectOperationInputTraits(model);
   const operationOutputTraits = collectOperationOutputTraits(model);
   const inputEventStreamShapeIds = collectInputEventStreamShapeIds(model);
+  const sensitiveShapeIds = collectSensitiveShapeIds(model);
 
   // Extract service-level information
   const serviceShape = Object.values(model.shapes).find(
@@ -2294,6 +2339,7 @@ const generateClient = Effect.fn(function* (
       clientContextParams,
       serviceSpec,
       inputEventStreamShapeIds,
+      sensitiveShapeIds,
     }),
     Effect.provideService(ModelService, model),
   );

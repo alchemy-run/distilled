@@ -1,5 +1,6 @@
 import { HttpClient } from "@effect/platform";
 import * as Effect from "effect/Effect";
+import * as Redacted from "effect/Redacted";
 import * as S from "effect/Schema";
 import * as Stream from "effect/Stream";
 import * as API from "../api.ts";
@@ -10,6 +11,7 @@ import {
   ErrorCategory,
   Errors,
 } from "../index.ts";
+import { SensitiveString, SensitiveBlob } from "../sensitive.ts";
 const svc = T.AwsApiService({
   sdkId: "Nova Act",
   serviceShapeName: "AmazonNovaAgentsDataPlane",
@@ -285,17 +287,17 @@ const rules = T.EndpointRuleSet({
 //# Newtypes
 export type WorkflowDefinitionName = string;
 export type UuidString = string;
-export type Task = string;
+export type Task = string | Redacted.Redacted<string>;
 export type ClientToken = string;
 export type MaxResults = number;
 export type NextToken = string;
-export type WorkflowDescription = string;
+export type WorkflowDescription = string | Redacted.Redacted<string>;
 export type ModelId = string;
 export type CloudWatchLogGroupName = string;
 export type ToolName = string;
-export type ToolDescription = string;
+export type ToolDescription = string | Redacted.Redacted<string>;
 export type CallId = string;
-export type SensitiveString = string;
+export type SensitiveString = string | Redacted.Redacted<string>;
 export type S3BucketName = string;
 export type S3KeyPrefix = string;
 export type NonBlankString = string;
@@ -606,11 +608,11 @@ export const ListWorkflowRunsRequest = S.suspend(() =>
   identifier: "ListWorkflowRunsRequest",
 }) as any as S.Schema<ListWorkflowRunsRequest>;
 export interface ActError {
-  message: string;
+  message: string | Redacted.Redacted<string>;
   type?: string;
 }
 export const ActError = S.suspend(() =>
-  S.Struct({ message: S.String, type: S.optional(S.String) }),
+  S.Struct({ message: SensitiveString, type: S.optional(S.String) }),
 ).annotations({ identifier: "ActError" }) as any as S.Schema<ActError>;
 export interface WorkflowExportConfig {
   s3BucketName: string;
@@ -679,14 +681,14 @@ export const CreateSessionResponse = S.suspend(() =>
 }) as any as S.Schema<CreateSessionResponse>;
 export interface CreateWorkflowDefinitionRequest {
   name: string;
-  description?: string;
+  description?: string | Redacted.Redacted<string>;
   exportConfig?: WorkflowExportConfig;
   clientToken?: string;
 }
 export const CreateWorkflowDefinitionRequest = S.suspend(() =>
   S.Struct({
     name: S.String,
-    description: S.optional(S.String),
+    description: S.optional(SensitiveString),
     exportConfig: S.optional(WorkflowExportConfig),
     clientToken: S.optional(S.String),
   }).pipe(
@@ -706,7 +708,7 @@ export interface GetWorkflowDefinitionResponse {
   name: string;
   arn: string;
   createdAt: Date;
-  description?: string;
+  description?: string | Redacted.Redacted<string>;
   exportConfig?: WorkflowExportConfig;
   status: string;
 }
@@ -715,7 +717,7 @@ export const GetWorkflowDefinitionResponse = S.suspend(() =>
     name: S.String,
     arn: S.String,
     createdAt: S.Date.pipe(T.TimestampFormat("date-time")),
-    description: S.optional(S.String),
+    description: S.optional(SensitiveString),
     exportConfig: S.optional(WorkflowExportConfig),
     status: S.String,
   }),
@@ -802,13 +804,13 @@ export type ModelIdList = string[];
 export const ModelIdList = S.Array(S.String);
 export interface ToolSpec {
   name: string;
-  description: string;
+  description: string | Redacted.Redacted<string>;
   inputSchema: (typeof ToolInputSchema)["Type"];
 }
 export const ToolSpec = S.suspend(() =>
   S.Struct({
     name: S.String,
-    description: S.String,
+    description: SensitiveString,
     inputSchema: ToolInputSchema,
   }),
 ).annotations({ identifier: "ToolSpec" }) as any as S.Schema<ToolSpec>;
@@ -914,7 +916,7 @@ export interface CreateActRequest {
   workflowDefinitionName: string;
   workflowRunId: string;
   sessionId: string;
-  task: string;
+  task: string | Redacted.Redacted<string>;
   toolSpecs?: ToolSpecs;
   clientToken?: string;
 }
@@ -925,7 +927,7 @@ export const CreateActRequest = S.suspend(() =>
     ),
     workflowRunId: S.String.pipe(T.HttpLabel("workflowRunId")),
     sessionId: S.String.pipe(T.HttpLabel("sessionId")),
-    task: S.String,
+    task: SensitiveString,
     toolSpecs: S.optional(ToolSpecs),
     clientToken: S.optional(S.String),
   }).pipe(

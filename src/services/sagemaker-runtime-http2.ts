@@ -1,5 +1,6 @@
 import { HttpClient } from "@effect/platform";
 import * as Effect from "effect/Effect";
+import * as Redacted from "effect/Redacted";
 import * as S from "effect/Schema";
 import * as Stream from "effect/Stream";
 import * as API from "../api.ts";
@@ -10,6 +11,7 @@ import {
   ErrorCategory,
   Errors,
 } from "../index.ts";
+import { SensitiveString, SensitiveBlob } from "../sensitive.ts";
 const svc = T.AwsApiService({
   sdkId: "SageMaker Runtime HTTP2",
   serviceShapeName: "AmazonSageMakerRuntimeHttp2",
@@ -984,14 +986,14 @@ const rules = T.EndpointRuleSet({
 
 //# Schemas
 export interface RequestPayloadPart {
-  Bytes?: Uint8Array;
+  Bytes?: Uint8Array | Redacted.Redacted<Uint8Array>;
   DataType?: string;
   CompletionState?: string;
   P?: string;
 }
 export const RequestPayloadPart = S.suspend(() =>
   S.Struct({
-    Bytes: S.optional(T.Blob).pipe(T.EventPayload()),
+    Bytes: S.optional(SensitiveBlob).pipe(T.EventPayload()),
     DataType: S.optional(S.String).pipe(T.EventHeader()),
     CompletionState: S.optional(S.String).pipe(T.EventHeader()),
     P: S.optional(S.String).pipe(T.EventHeader()),
@@ -1039,14 +1041,14 @@ export const InvokeEndpointWithBidirectionalStreamInput = S.suspend(() =>
   identifier: "InvokeEndpointWithBidirectionalStreamInput",
 }) as any as S.Schema<InvokeEndpointWithBidirectionalStreamInput>;
 export interface ResponsePayloadPart {
-  Bytes?: Uint8Array;
+  Bytes?: Uint8Array | Redacted.Redacted<Uint8Array>;
   DataType?: string;
   CompletionState?: string;
   P?: string;
 }
 export const ResponsePayloadPart = S.suspend(() =>
   S.Struct({
-    Bytes: S.optional(T.Blob).pipe(T.EventPayload()),
+    Bytes: S.optional(SensitiveBlob).pipe(T.EventPayload()),
     DataType: S.optional(S.String).pipe(T.EventHeader()),
     CompletionState: S.optional(S.String).pipe(T.EventHeader()),
     P: S.optional(S.String).pipe(T.EventHeader()),

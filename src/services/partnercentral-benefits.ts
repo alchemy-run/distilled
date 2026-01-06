@@ -1,5 +1,6 @@
 import { HttpClient } from "@effect/platform";
 import * as Effect from "effect/Effect";
+import * as Redacted from "effect/Redacted";
 import * as S from "effect/Schema";
 import * as Stream from "effect/Stream";
 import * as API from "../api.ts";
@@ -10,6 +11,7 @@ import {
   ErrorCategory,
   Errors,
 } from "../index.ts";
+import { SensitiveString, SensitiveBlob } from "../sensitive.ts";
 const svc = T.AwsApiService({
   sdkId: "PartnerCentral Benefits",
   serviceShapeName: "PartnerCentralBenefitsService",
@@ -126,10 +128,10 @@ export type BenefitApplicationStage = string;
 export type TaggableResourceArn = string;
 export type TagKey = string;
 export type TagValue = string;
-export type ContactEmail = string;
-export type ContactFirstName = string;
-export type ContactLastName = string;
-export type ContactPhone = string;
+export type ContactEmail = string | Redacted.Redacted<string>;
+export type ContactFirstName = string | Redacted.Redacted<string>;
+export type ContactLastName = string | Redacted.Redacted<string>;
+export type ContactPhone = string | Redacted.Redacted<string>;
 export type FileURI = string;
 export type BenefitApplicationId = string;
 export type BenefitAllocationId = string;
@@ -478,19 +480,19 @@ export const UntagResourceResponse = S.suspend(() => S.Struct({})).annotations({
   identifier: "UntagResourceResponse",
 }) as any as S.Schema<UntagResourceResponse>;
 export interface Contact {
-  Email?: string;
-  FirstName?: string;
-  LastName?: string;
+  Email?: string | Redacted.Redacted<string>;
+  FirstName?: string | Redacted.Redacted<string>;
+  LastName?: string | Redacted.Redacted<string>;
   BusinessTitle?: string;
-  Phone?: string;
+  Phone?: string | Redacted.Redacted<string>;
 }
 export const Contact = S.suspend(() =>
   S.Struct({
-    Email: S.optional(S.String),
-    FirstName: S.optional(S.String),
-    LastName: S.optional(S.String),
+    Email: S.optional(SensitiveString),
+    FirstName: S.optional(SensitiveString),
+    LastName: S.optional(SensitiveString),
     BusinessTitle: S.optional(S.String),
-    Phone: S.optional(S.String),
+    Phone: S.optional(SensitiveString),
   }),
 ).annotations({ identifier: "Contact" }) as any as S.Schema<Contact>;
 export type Contacts = Contact[];

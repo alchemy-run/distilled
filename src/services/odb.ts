@@ -1,5 +1,6 @@
 import { HttpClient } from "@effect/platform";
 import * as Effect from "effect/Effect";
+import * as Redacted from "effect/Redacted";
 import * as S from "effect/Schema";
 import * as Stream from "effect/Stream";
 import * as API from "../api.ts";
@@ -10,6 +11,7 @@ import {
   ErrorCategory,
   Errors,
 } from "../index.ts";
+import { SensitiveString, SensitiveBlob } from "../sensitive.ts";
 const svc = T.AwsApiService({ sdkId: "odb", serviceShapeName: "Odb" });
 const auth = T.AwsAuthSigv4({ name: "odb" });
 const ver = T.ServiceVersion("2024-08-20");
@@ -310,7 +312,7 @@ export type ResourceId = string;
 export type PolicyDocument = string;
 export type PeeredCidr = string;
 export type TagValue = string;
-export type SensitiveString = string;
+export type SensitiveString = string | Redacted.Redacted<string>;
 
 //# Schemas
 export interface GetOciOnboardingStatusInput {}
@@ -1069,10 +1071,10 @@ export const OciIdentityDomain = S.suspend(() =>
   identifier: "OciIdentityDomain",
 }) as any as S.Schema<OciIdentityDomain>;
 export interface CustomerContact {
-  email?: string;
+  email?: string | Redacted.Redacted<string>;
 }
 export const CustomerContact = S.suspend(() =>
-  S.Struct({ email: S.optional(S.String) }),
+  S.Struct({ email: S.optional(SensitiveString) }),
 ).annotations({
   identifier: "CustomerContact",
 }) as any as S.Schema<CustomerContact>;
@@ -1331,8 +1333,8 @@ export const UpdateOdbPeeringConnectionOutput = S.suspend(() =>
 ).annotations({
   identifier: "UpdateOdbPeeringConnectionOutput",
 }) as any as S.Schema<UpdateOdbPeeringConnectionOutput>;
-export type SensitiveStringList = string[];
-export const SensitiveStringList = S.Array(S.String);
+export type SensitiveStringList = string | Redacted.Redacted<string>[];
+export const SensitiveStringList = S.Array(SensitiveString);
 export interface DbSystemShapeSummary {
   availableCoreCount?: number;
   availableCoreCountPerNode?: number;

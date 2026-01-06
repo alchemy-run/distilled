@@ -1,5 +1,6 @@
 import { HttpClient } from "@effect/platform";
 import * as Effect from "effect/Effect";
+import * as Redacted from "effect/Redacted";
 import * as S from "effect/Schema";
 import * as Stream from "effect/Stream";
 import * as API from "../api.ts";
@@ -10,6 +11,7 @@ import {
   ErrorCategory,
   Errors,
 } from "../index.ts";
+import { SensitiveString, SensitiveBlob } from "../sensitive.ts";
 const ns = T.XmlNamespace(
   "http://machinelearning.amazonaws.com/doc/2014-12-12/",
 );
@@ -283,11 +285,11 @@ export type MLModelName = string;
 export type RDSInstanceIdentifier = string;
 export type RDSDatabaseName = string;
 export type RDSDatabaseUsername = string;
-export type RDSDatabasePassword = string;
+export type RDSDatabasePassword = string | Redacted.Redacted<string>;
 export type RedshiftDatabaseName = string;
 export type RedshiftClusterIdentifier = string;
 export type RedshiftDatabaseUsername = string;
-export type RedshiftDatabasePassword = string;
+export type RedshiftDatabasePassword = string | Redacted.Redacted<string>;
 export type IntegerType = number;
 export type EDPPipelineId = string;
 export type ErrorMessage = string;
@@ -1190,10 +1192,10 @@ export const RDSDatabase = S.suspend(() =>
 ).annotations({ identifier: "RDSDatabase" }) as any as S.Schema<RDSDatabase>;
 export interface RDSDatabaseCredentials {
   Username: string;
-  Password: string;
+  Password: string | Redacted.Redacted<string>;
 }
 export const RDSDatabaseCredentials = S.suspend(() =>
-  S.Struct({ Username: S.String, Password: S.String }),
+  S.Struct({ Username: S.String, Password: SensitiveString }),
 ).annotations({
   identifier: "RDSDatabaseCredentials",
 }) as any as S.Schema<RDSDatabaseCredentials>;
@@ -1208,10 +1210,10 @@ export const RedshiftDatabase = S.suspend(() =>
 }) as any as S.Schema<RedshiftDatabase>;
 export interface RedshiftDatabaseCredentials {
   Username: string;
-  Password: string;
+  Password: string | Redacted.Redacted<string>;
 }
 export const RedshiftDatabaseCredentials = S.suspend(() =>
-  S.Struct({ Username: S.String, Password: S.String }),
+  S.Struct({ Username: S.String, Password: SensitiveString }),
 ).annotations({
   identifier: "RedshiftDatabaseCredentials",
 }) as any as S.Schema<RedshiftDatabaseCredentials>;

@@ -1,5 +1,6 @@
 import { HttpClient } from "@effect/platform";
 import * as Effect from "effect/Effect";
+import * as Redacted from "effect/Redacted";
 import * as S from "effect/Schema";
 import * as Stream from "effect/Stream";
 import * as API from "../api.ts";
@@ -10,6 +11,7 @@ import {
   ErrorCategory,
   Errors,
 } from "../index.ts";
+import { SensitiveString, SensitiveBlob } from "../sensitive.ts";
 const svc = T.AwsApiService({
   sdkId: "Location",
   serviceShapeName: "LocationService",
@@ -260,25 +262,25 @@ export type Id = string;
 export type DistanceUnit = string;
 export type SpeedUnit = string;
 export type LargeToken = string;
-export type ApiKey = string;
-export type SensitiveString = string;
-export type PlaceId = string;
+export type ApiKey = string | Redacted.Redacted<string>;
+export type SensitiveString = string | Redacted.Redacted<string>;
+export type PlaceId = string | Redacted.Redacted<string>;
 export type LanguageTag = string;
 export type PlaceIndexSearchResultLimit = number;
-export type CountryCode3 = string;
-export type PlaceCategory = string;
+export type CountryCode3 = string | Redacted.Redacted<string>;
+export type PlaceCategory = string | Redacted.Redacted<string>;
 export type TravelMode = string;
 export type OptimizationMode = string;
 export type PositionFiltering = string;
 export type ApiKeyAction = string;
 export type GeoArnV2 = string;
-export type RefererPattern = string;
+export type RefererPattern = string | Redacted.Redacted<string>;
 export type TagKey = string;
 export type TagValue = string;
 export type Status = string;
 export type MapStyle = string;
 export type CustomLayer = string;
-export type CountryCode3OrEmpty = string;
+export type CountryCode3OrEmpty = string | Redacted.Redacted<string>;
 export type IntendedUse = string;
 export type GeoArn = string;
 export type AndroidPackageName = string;
@@ -287,7 +289,7 @@ export type AppleBundleId = string;
 export type SensitiveDouble = number;
 export type DimensionUnit = string;
 export type VehicleWeightUnit = string;
-export type PlaceSupplementalCategory = string;
+export type PlaceSupplementalCategory = string | Redacted.Redacted<string>;
 export type EutranCellId = number;
 export type Rsrp = number;
 export type Rsrq = number;
@@ -310,10 +312,10 @@ export type Position = number[];
 export const Position = S.Array(S.Number);
 export type BoundingBox = number[];
 export const BoundingBox = S.Array(S.Number);
-export type CountryCodeList = string[];
-export const CountryCodeList = S.Array(S.String);
-export type FilterPlaceCategoryList = string[];
-export const FilterPlaceCategoryList = S.Array(S.String);
+export type CountryCodeList = string | Redacted.Redacted<string>[];
+export const CountryCodeList = S.Array(SensitiveString);
+export type FilterPlaceCategoryList = string | Redacted.Redacted<string>[];
+export const FilterPlaceCategoryList = S.Array(SensitiveString);
 export type WaypointPositionList = Position[];
 export const WaypointPositionList = S.Array(Position);
 export type PositionList = Position[];
@@ -341,8 +343,8 @@ export type ApiKeyActionList = string[];
 export const ApiKeyActionList = S.Array(S.String);
 export type GeoArnList = string[];
 export const GeoArnList = S.Array(S.String);
-export type RefererPatternList = string[];
-export const RefererPatternList = S.Array(S.String);
+export type RefererPatternList = string | Redacted.Redacted<string>[];
+export const RefererPatternList = S.Array(SensitiveString);
 export interface AndroidApp {
   Package: string;
   CertificateFingerprint: string;
@@ -766,14 +768,14 @@ export interface GetMapGlyphsRequest {
   MapName: string;
   FontStack: string;
   FontUnicodeRange: string;
-  Key?: string;
+  Key?: string | Redacted.Redacted<string>;
 }
 export const GetMapGlyphsRequest = S.suspend(() =>
   S.Struct({
     MapName: S.String.pipe(T.HttpLabel("MapName")),
     FontStack: S.String.pipe(T.HttpLabel("FontStack")),
     FontUnicodeRange: S.String.pipe(T.HttpLabel("FontUnicodeRange")),
-    Key: S.optional(S.String).pipe(T.HttpQuery("key")),
+    Key: S.optional(SensitiveString).pipe(T.HttpQuery("key")),
   }).pipe(
     T.all(
       T.Http({
@@ -793,13 +795,13 @@ export const GetMapGlyphsRequest = S.suspend(() =>
 export interface GetMapSpritesRequest {
   MapName: string;
   FileName: string;
-  Key?: string;
+  Key?: string | Redacted.Redacted<string>;
 }
 export const GetMapSpritesRequest = S.suspend(() =>
   S.Struct({
     MapName: S.String.pipe(T.HttpLabel("MapName")),
     FileName: S.String.pipe(T.HttpLabel("FileName")),
-    Key: S.optional(S.String).pipe(T.HttpQuery("key")),
+    Key: S.optional(SensitiveString).pipe(T.HttpQuery("key")),
   }).pipe(
     T.all(
       T.Http({
@@ -818,12 +820,12 @@ export const GetMapSpritesRequest = S.suspend(() =>
 }) as any as S.Schema<GetMapSpritesRequest>;
 export interface GetMapStyleDescriptorRequest {
   MapName: string;
-  Key?: string;
+  Key?: string | Redacted.Redacted<string>;
 }
 export const GetMapStyleDescriptorRequest = S.suspend(() =>
   S.Struct({
     MapName: S.String.pipe(T.HttpLabel("MapName")),
-    Key: S.optional(S.String).pipe(T.HttpQuery("key")),
+    Key: S.optional(SensitiveString).pipe(T.HttpQuery("key")),
   }).pipe(
     T.all(
       T.Http({
@@ -842,18 +844,18 @@ export const GetMapStyleDescriptorRequest = S.suspend(() =>
 }) as any as S.Schema<GetMapStyleDescriptorRequest>;
 export interface GetMapTileRequest {
   MapName: string;
-  Z: string;
-  X: string;
-  Y: string;
-  Key?: string;
+  Z: string | Redacted.Redacted<string>;
+  X: string | Redacted.Redacted<string>;
+  Y: string | Redacted.Redacted<string>;
+  Key?: string | Redacted.Redacted<string>;
 }
 export const GetMapTileRequest = S.suspend(() =>
   S.Struct({
     MapName: S.String.pipe(T.HttpLabel("MapName")),
-    Z: S.String.pipe(T.HttpLabel("Z")),
-    X: S.String.pipe(T.HttpLabel("X")),
-    Y: S.String.pipe(T.HttpLabel("Y")),
-    Key: S.optional(S.String).pipe(T.HttpQuery("key")),
+    Z: SensitiveString.pipe(T.HttpLabel("Z")),
+    X: SensitiveString.pipe(T.HttpLabel("X")),
+    Y: SensitiveString.pipe(T.HttpLabel("Y")),
+    Key: S.optional(SensitiveString).pipe(T.HttpQuery("key")),
   }).pipe(
     T.all(
       T.Http({
@@ -966,16 +968,16 @@ export const ListPlaceIndexesRequest = S.suspend(() =>
 }) as any as S.Schema<ListPlaceIndexesRequest>;
 export interface GetPlaceRequest {
   IndexName: string;
-  PlaceId: string;
+  PlaceId: string | Redacted.Redacted<string>;
   Language?: string;
-  Key?: string;
+  Key?: string | Redacted.Redacted<string>;
 }
 export const GetPlaceRequest = S.suspend(() =>
   S.Struct({
     IndexName: S.String.pipe(T.HttpLabel("IndexName")),
-    PlaceId: S.String.pipe(T.HttpLabel("PlaceId")),
+    PlaceId: SensitiveString.pipe(T.HttpLabel("PlaceId")),
     Language: S.optional(S.String).pipe(T.HttpQuery("language")),
-    Key: S.optional(S.String).pipe(T.HttpQuery("key")),
+    Key: S.optional(SensitiveString).pipe(T.HttpQuery("key")),
   }).pipe(
     T.all(
       T.Http({
@@ -997,7 +999,7 @@ export interface SearchPlaceIndexForPositionRequest {
   Position: Position;
   MaxResults?: number;
   Language?: string;
-  Key?: string;
+  Key?: string | Redacted.Redacted<string>;
 }
 export const SearchPlaceIndexForPositionRequest = S.suspend(() =>
   S.Struct({
@@ -1005,7 +1007,7 @@ export const SearchPlaceIndexForPositionRequest = S.suspend(() =>
     Position: Position,
     MaxResults: S.optional(S.Number),
     Language: S.optional(S.String),
-    Key: S.optional(S.String).pipe(T.HttpQuery("key")),
+    Key: S.optional(SensitiveString).pipe(T.HttpQuery("key")),
   }).pipe(
     T.all(
       T.Http({
@@ -1024,26 +1026,26 @@ export const SearchPlaceIndexForPositionRequest = S.suspend(() =>
 }) as any as S.Schema<SearchPlaceIndexForPositionRequest>;
 export interface SearchPlaceIndexForSuggestionsRequest {
   IndexName: string;
-  Text: string;
+  Text: string | Redacted.Redacted<string>;
   BiasPosition?: Position;
   FilterBBox?: BoundingBox;
   FilterCountries?: CountryCodeList;
   MaxResults?: number;
   Language?: string;
   FilterCategories?: FilterPlaceCategoryList;
-  Key?: string;
+  Key?: string | Redacted.Redacted<string>;
 }
 export const SearchPlaceIndexForSuggestionsRequest = S.suspend(() =>
   S.Struct({
     IndexName: S.String.pipe(T.HttpLabel("IndexName")),
-    Text: S.String,
+    Text: SensitiveString,
     BiasPosition: S.optional(Position),
     FilterBBox: S.optional(BoundingBox),
     FilterCountries: S.optional(CountryCodeList),
     MaxResults: S.optional(S.Number),
     Language: S.optional(S.String),
     FilterCategories: S.optional(FilterPlaceCategoryList),
-    Key: S.optional(S.String).pipe(T.HttpQuery("key")),
+    Key: S.optional(SensitiveString).pipe(T.HttpQuery("key")),
   }).pipe(
     T.all(
       T.Http({
@@ -1062,26 +1064,26 @@ export const SearchPlaceIndexForSuggestionsRequest = S.suspend(() =>
 }) as any as S.Schema<SearchPlaceIndexForSuggestionsRequest>;
 export interface SearchPlaceIndexForTextRequest {
   IndexName: string;
-  Text: string;
+  Text: string | Redacted.Redacted<string>;
   BiasPosition?: Position;
   FilterBBox?: BoundingBox;
   FilterCountries?: CountryCodeList;
   MaxResults?: number;
   Language?: string;
   FilterCategories?: FilterPlaceCategoryList;
-  Key?: string;
+  Key?: string | Redacted.Redacted<string>;
 }
 export const SearchPlaceIndexForTextRequest = S.suspend(() =>
   S.Struct({
     IndexName: S.String.pipe(T.HttpLabel("IndexName")),
-    Text: S.String,
+    Text: SensitiveString,
     BiasPosition: S.optional(Position),
     FilterBBox: S.optional(BoundingBox),
     FilterCountries: S.optional(CountryCodeList),
     MaxResults: S.optional(S.Number),
     Language: S.optional(S.String),
     FilterCategories: S.optional(FilterPlaceCategoryList),
-    Key: S.optional(S.String).pipe(T.HttpQuery("key")),
+    Key: S.optional(SensitiveString).pipe(T.HttpQuery("key")),
   }).pipe(
     T.all(
       T.Http({
@@ -1280,7 +1282,7 @@ export interface CalculateRouteMatrixRequest {
   DistanceUnit?: string;
   CarModeOptions?: CalculateRouteCarModeOptions;
   TruckModeOptions?: CalculateRouteTruckModeOptions;
-  Key?: string;
+  Key?: string | Redacted.Redacted<string>;
 }
 export const CalculateRouteMatrixRequest = S.suspend(() =>
   S.Struct({
@@ -1293,7 +1295,7 @@ export const CalculateRouteMatrixRequest = S.suspend(() =>
     DistanceUnit: S.optional(S.String),
     CarModeOptions: S.optional(CalculateRouteCarModeOptions),
     TruckModeOptions: S.optional(CalculateRouteTruckModeOptions),
-    Key: S.optional(S.String).pipe(T.HttpQuery("key")),
+    Key: S.optional(SensitiveString).pipe(T.HttpQuery("key")),
   }).pipe(
     T.all(
       T.Http({
@@ -1703,14 +1705,14 @@ export const Circle = S.suspend(() =>
 export interface GeofenceGeometry {
   Polygon?: LinearRings;
   Circle?: Circle;
-  Geobuf?: Uint8Array;
+  Geobuf?: Uint8Array | Redacted.Redacted<Uint8Array>;
   MultiPolygon?: MultiLinearRings;
 }
 export const GeofenceGeometry = S.suspend(() =>
   S.Struct({
     Polygon: S.optional(LinearRings),
     Circle: S.optional(Circle),
-    Geobuf: S.optional(T.Blob),
+    Geobuf: S.optional(SensitiveBlob),
     MultiPolygon: S.optional(MultiLinearRings),
   }),
 ).annotations({
@@ -1747,25 +1749,25 @@ export const ForecastGeofenceEventsDeviceState = S.suspend(() =>
 }) as any as S.Schema<ForecastGeofenceEventsDeviceState>;
 export interface MapConfiguration {
   Style: string;
-  PoliticalView?: string;
+  PoliticalView?: string | Redacted.Redacted<string>;
   CustomLayers?: CustomLayerList;
 }
 export const MapConfiguration = S.suspend(() =>
   S.Struct({
     Style: S.String,
-    PoliticalView: S.optional(S.String),
+    PoliticalView: S.optional(SensitiveString),
     CustomLayers: S.optional(CustomLayerList),
   }),
 ).annotations({
   identifier: "MapConfiguration",
 }) as any as S.Schema<MapConfiguration>;
 export interface MapConfigurationUpdate {
-  PoliticalView?: string;
+  PoliticalView?: string | Redacted.Redacted<string>;
   CustomLayers?: CustomLayerList;
 }
 export const MapConfigurationUpdate = S.suspend(() =>
   S.Struct({
-    PoliticalView: S.optional(S.String),
+    PoliticalView: S.optional(SensitiveString),
     CustomLayers: S.optional(CustomLayerList),
   }),
 ).annotations({
@@ -1782,7 +1784,7 @@ export const TrackingFilterGeometry = S.suspend(() =>
 export type ArnList = string[];
 export const ArnList = S.Array(S.String);
 export interface DescribeKeyResponse {
-  Key: string;
+  Key: string | Redacted.Redacted<string>;
   KeyArn: string;
   KeyName: string;
   Restrictions: ApiKeyRestrictions;
@@ -1794,7 +1796,7 @@ export interface DescribeKeyResponse {
 }
 export const DescribeKeyResponse = S.suspend(() =>
   S.Struct({
-    Key: S.String,
+    Key: SensitiveString,
     KeyArn: S.String,
     KeyName: S.String,
     Restrictions: ApiKeyRestrictions,
@@ -2392,10 +2394,12 @@ export const ListTrackerConsumersResponse = S.suspend(() =>
 ).annotations({
   identifier: "ListTrackerConsumersResponse",
 }) as any as S.Schema<ListTrackerConsumersResponse>;
-export type PlaceCategoryList = string[];
-export const PlaceCategoryList = S.Array(S.String);
-export type PlaceSupplementalCategoryList = string[];
-export const PlaceSupplementalCategoryList = S.Array(S.String);
+export type PlaceCategoryList = string | Redacted.Redacted<string>[];
+export const PlaceCategoryList = S.Array(SensitiveString);
+export type PlaceSupplementalCategoryList =
+  | string
+  | Redacted.Redacted<string>[];
+export const PlaceSupplementalCategoryList = S.Array(SensitiveString);
 export interface WiFiAccessPoint {
   MacAddress: string;
   Rss: number;
@@ -2525,66 +2529,70 @@ export const PlaceGeometry = S.suspend(() =>
   identifier: "PlaceGeometry",
 }) as any as S.Schema<PlaceGeometry>;
 export interface TimeZone {
-  Name: string;
+  Name: string | Redacted.Redacted<string>;
   Offset?: number;
 }
 export const TimeZone = S.suspend(() =>
-  S.Struct({ Name: S.String, Offset: S.optional(S.Number) }),
+  S.Struct({ Name: SensitiveString, Offset: S.optional(S.Number) }),
 ).annotations({ identifier: "TimeZone" }) as any as S.Schema<TimeZone>;
 export interface Place {
-  Label?: string;
+  Label?: string | Redacted.Redacted<string>;
   Geometry: PlaceGeometry;
-  AddressNumber?: string;
-  Street?: string;
-  Neighborhood?: string;
-  Municipality?: string;
-  SubRegion?: string;
-  Region?: string;
-  Country?: string;
-  PostalCode?: string;
+  AddressNumber?: string | Redacted.Redacted<string>;
+  Street?: string | Redacted.Redacted<string>;
+  Neighborhood?: string | Redacted.Redacted<string>;
+  Municipality?: string | Redacted.Redacted<string>;
+  SubRegion?: string | Redacted.Redacted<string>;
+  Region?: string | Redacted.Redacted<string>;
+  Country?: string | Redacted.Redacted<string>;
+  PostalCode?: string | Redacted.Redacted<string>;
   Interpolated?: boolean;
   TimeZone?: TimeZone;
-  UnitType?: string;
-  UnitNumber?: string;
+  UnitType?: string | Redacted.Redacted<string>;
+  UnitNumber?: string | Redacted.Redacted<string>;
   Categories?: PlaceCategoryList;
   SupplementalCategories?: PlaceSupplementalCategoryList;
-  SubMunicipality?: string;
+  SubMunicipality?: string | Redacted.Redacted<string>;
 }
 export const Place = S.suspend(() =>
   S.Struct({
-    Label: S.optional(S.String),
+    Label: S.optional(SensitiveString),
     Geometry: PlaceGeometry,
-    AddressNumber: S.optional(S.String),
-    Street: S.optional(S.String),
-    Neighborhood: S.optional(S.String),
-    Municipality: S.optional(S.String),
-    SubRegion: S.optional(S.String),
-    Region: S.optional(S.String),
-    Country: S.optional(S.String),
-    PostalCode: S.optional(S.String),
+    AddressNumber: S.optional(SensitiveString),
+    Street: S.optional(SensitiveString),
+    Neighborhood: S.optional(SensitiveString),
+    Municipality: S.optional(SensitiveString),
+    SubRegion: S.optional(SensitiveString),
+    Region: S.optional(SensitiveString),
+    Country: S.optional(SensitiveString),
+    PostalCode: S.optional(SensitiveString),
     Interpolated: S.optional(S.Boolean),
     TimeZone: S.optional(TimeZone),
-    UnitType: S.optional(S.String),
-    UnitNumber: S.optional(S.String),
+    UnitType: S.optional(SensitiveString),
+    UnitNumber: S.optional(SensitiveString),
     Categories: S.optional(PlaceCategoryList),
     SupplementalCategories: S.optional(PlaceSupplementalCategoryList),
-    SubMunicipality: S.optional(S.String),
+    SubMunicipality: S.optional(SensitiveString),
   }),
 ).annotations({ identifier: "Place" }) as any as S.Schema<Place>;
 export interface SearchForPositionResult {
   Place: Place;
   Distance: number;
-  PlaceId?: string;
+  PlaceId?: string | Redacted.Redacted<string>;
 }
 export const SearchForPositionResult = S.suspend(() =>
-  S.Struct({ Place: Place, Distance: S.Number, PlaceId: S.optional(S.String) }),
+  S.Struct({
+    Place: Place,
+    Distance: S.Number,
+    PlaceId: S.optional(SensitiveString),
+  }),
 ).annotations({
   identifier: "SearchForPositionResult",
 }) as any as S.Schema<SearchForPositionResult>;
 export type SearchForPositionResultList = SearchForPositionResult[];
 export const SearchForPositionResultList = S.Array(SearchForPositionResult);
 export interface SearchPlaceIndexForSuggestionsSummary {
-  Text: string;
+  Text: string | Redacted.Redacted<string>;
   BiasPosition?: Position;
   FilterBBox?: BoundingBox;
   FilterCountries?: CountryCodeList;
@@ -2595,7 +2603,7 @@ export interface SearchPlaceIndexForSuggestionsSummary {
 }
 export const SearchPlaceIndexForSuggestionsSummary = S.suspend(() =>
   S.Struct({
-    Text: S.String,
+    Text: SensitiveString,
     BiasPosition: S.optional(Position),
     FilterBBox: S.optional(BoundingBox),
     FilterCountries: S.optional(CountryCodeList),
@@ -2608,15 +2616,15 @@ export const SearchPlaceIndexForSuggestionsSummary = S.suspend(() =>
   identifier: "SearchPlaceIndexForSuggestionsSummary",
 }) as any as S.Schema<SearchPlaceIndexForSuggestionsSummary>;
 export interface SearchForSuggestionsResult {
-  Text: string;
-  PlaceId?: string;
+  Text: string | Redacted.Redacted<string>;
+  PlaceId?: string | Redacted.Redacted<string>;
   Categories?: PlaceCategoryList;
   SupplementalCategories?: PlaceSupplementalCategoryList;
 }
 export const SearchForSuggestionsResult = S.suspend(() =>
   S.Struct({
-    Text: S.String,
-    PlaceId: S.optional(S.String),
+    Text: SensitiveString,
+    PlaceId: S.optional(SensitiveString),
     Categories: S.optional(PlaceCategoryList),
     SupplementalCategories: S.optional(PlaceSupplementalCategoryList),
   }),
@@ -2628,7 +2636,7 @@ export const SearchForSuggestionsResultList = S.Array(
   SearchForSuggestionsResult,
 );
 export interface SearchPlaceIndexForTextSummary {
-  Text: string;
+  Text: string | Redacted.Redacted<string>;
   BiasPosition?: Position;
   FilterBBox?: BoundingBox;
   FilterCountries?: CountryCodeList;
@@ -2640,7 +2648,7 @@ export interface SearchPlaceIndexForTextSummary {
 }
 export const SearchPlaceIndexForTextSummary = S.suspend(() =>
   S.Struct({
-    Text: S.String,
+    Text: SensitiveString,
     BiasPosition: S.optional(Position),
     FilterBBox: S.optional(BoundingBox),
     FilterCountries: S.optional(CountryCodeList),
@@ -2657,14 +2665,14 @@ export interface SearchForTextResult {
   Place: Place;
   Distance?: number;
   Relevance?: number;
-  PlaceId?: string;
+  PlaceId?: string | Redacted.Redacted<string>;
 }
 export const SearchForTextResult = S.suspend(() =>
   S.Struct({
     Place: Place,
     Distance: S.optional(S.Number),
     Relevance: S.optional(S.Number),
-    PlaceId: S.optional(S.String),
+    PlaceId: S.optional(SensitiveString),
   }),
 ).annotations({
   identifier: "SearchForTextResult",
@@ -3022,7 +3030,7 @@ export interface CalculateRouteRequest {
   TruckModeOptions?: CalculateRouteTruckModeOptions;
   ArrivalTime?: Date;
   OptimizeFor?: string;
-  Key?: string;
+  Key?: string | Redacted.Redacted<string>;
 }
 export const CalculateRouteRequest = S.suspend(() =>
   S.Struct({
@@ -3039,7 +3047,7 @@ export const CalculateRouteRequest = S.suspend(() =>
     TruckModeOptions: S.optional(CalculateRouteTruckModeOptions),
     ArrivalTime: S.optional(S.Date.pipe(T.TimestampFormat("date-time"))),
     OptimizeFor: S.optional(S.String),
-    Key: S.optional(S.String).pipe(T.HttpQuery("key")),
+    Key: S.optional(SensitiveString).pipe(T.HttpQuery("key")),
   }).pipe(
     T.all(
       T.Http({
@@ -3290,14 +3298,14 @@ export const LteCellDetails = S.suspend(() =>
 export type LteCellDetailsList = LteCellDetails[];
 export const LteCellDetailsList = S.Array(LteCellDetails);
 export interface CreateKeyResponse {
-  Key: string;
+  Key: string | Redacted.Redacted<string>;
   KeyArn: string;
   KeyName: string;
   CreateTime: Date;
 }
 export const CreateKeyResponse = S.suspend(() =>
   S.Struct({
-    Key: S.String,
+    Key: SensitiveString,
     KeyArn: S.String,
     KeyName: S.String,
     CreateTime: S.Date.pipe(T.TimestampFormat("date-time")),

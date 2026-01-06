@@ -1,5 +1,6 @@
 import { HttpClient } from "@effect/platform";
 import * as Effect from "effect/Effect";
+import * as Redacted from "effect/Redacted";
 import * as S from "effect/Schema";
 import * as Stream from "effect/Stream";
 import * as API from "../api.ts";
@@ -10,6 +11,7 @@ import {
   ErrorCategory,
   Errors,
 } from "../index.ts";
+import { SensitiveString, SensitiveBlob } from "../sensitive.ts";
 const ns = T.XmlNamespace("http://organizations.amazonaws.com/doc/2016-11-28/");
 const svc = T.AwsApiService({
   sdkId: "Organizations",
@@ -495,8 +497,8 @@ export type HandshakeId = string;
 export type PolicyId = string;
 export type PolicyTargetId = string;
 export type AccountId = string;
-export type Email = string;
-export type CreateAccountName = string;
+export type Email = string | Redacted.Redacted<string>;
+export type CreateAccountName = string | Redacted.Redacted<string>;
 export type RoleName = string;
 export type ParentId = string;
 export type OrganizationalUnitName = string;
@@ -509,8 +511,8 @@ export type ServicePrincipal = string;
 export type CreateAccountRequestId = string;
 export type ResponsibilityTransferId = string;
 export type RootId = string;
-export type HandshakeNotes = string;
-export type ResponsibilityTransferName = string;
+export type HandshakeNotes = string | Redacted.Redacted<string>;
+export type ResponsibilityTransferName = string | Redacted.Redacted<string>;
 export type NextToken = string;
 export type MaxResults = number;
 export type ChildId = string;
@@ -522,13 +524,13 @@ export type OrganizationId = string;
 export type OrganizationArn = string;
 export type AccountArn = string;
 export type HandshakeArn = string;
-export type HandshakePartyId = string;
+export type HandshakePartyId = string | Redacted.Redacted<string>;
 export type Path = string;
 export type ResourcePolicyId = string;
 export type ResourcePolicyArn = string;
-export type HandshakeResourceValue = string;
+export type HandshakeResourceValue = string | Redacted.Redacted<string>;
 export type OrganizationalUnitArn = string;
-export type AccountName = string;
+export type AccountName = string | Redacted.Redacted<string>;
 export type ResponsibilityTransferArn = string;
 export type RootArn = string;
 export type RootName = string;
@@ -754,16 +756,16 @@ export const Tag = S.suspend(() =>
 export type Tags = Tag[];
 export const Tags = S.Array(Tag);
 export interface CreateGovCloudAccountRequest {
-  Email: string;
-  AccountName: string;
+  Email: string | Redacted.Redacted<string>;
+  AccountName: string | Redacted.Redacted<string>;
   RoleName?: string;
   IamUserAccessToBilling?: string;
   Tags?: Tags;
 }
 export const CreateGovCloudAccountRequest = S.suspend(() =>
   S.Struct({
-    Email: S.String,
-    AccountName: S.String,
+    Email: SensitiveString,
+    AccountName: SensitiveString,
     RoleName: S.optional(S.String),
     IamUserAccessToBilling: S.optional(S.String),
     Tags: S.optional(Tags),
@@ -1177,29 +1179,29 @@ export const EnablePolicyTypeRequest = S.suspend(() =>
   identifier: "EnablePolicyTypeRequest",
 }) as any as S.Schema<EnablePolicyTypeRequest>;
 export interface HandshakeParty {
-  Id: string;
+  Id: string | Redacted.Redacted<string>;
   Type: string;
 }
 export const HandshakeParty = S.suspend(() =>
-  S.Struct({ Id: S.String, Type: S.String }),
+  S.Struct({ Id: SensitiveString, Type: S.String }),
 ).annotations({
   identifier: "HandshakeParty",
 }) as any as S.Schema<HandshakeParty>;
 export interface InviteOrganizationToTransferResponsibilityRequest {
   Type: string;
   Target: HandshakeParty;
-  Notes?: string;
+  Notes?: string | Redacted.Redacted<string>;
   StartTimestamp: Date;
-  SourceName: string;
+  SourceName: string | Redacted.Redacted<string>;
   Tags?: Tags;
 }
 export const InviteOrganizationToTransferResponsibilityRequest = S.suspend(() =>
   S.Struct({
     Type: S.String,
     Target: HandshakeParty,
-    Notes: S.optional(S.String),
+    Notes: S.optional(SensitiveString),
     StartTimestamp: S.Date.pipe(T.TimestampFormat("epoch-seconds")),
-    SourceName: S.String,
+    SourceName: SensitiveString,
     Tags: S.optional(Tags),
   }).pipe(
     T.all(
@@ -1897,10 +1899,10 @@ export const UpdatePolicyRequest = S.suspend(() =>
 }) as any as S.Schema<UpdatePolicyRequest>;
 export interface UpdateResponsibilityTransferRequest {
   Id: string;
-  Name: string;
+  Name: string | Redacted.Redacted<string>;
 }
 export const UpdateResponsibilityTransferRequest = S.suspend(() =>
-  S.Struct({ Id: S.String, Name: S.String }).pipe(
+  S.Struct({ Id: S.String, Name: SensitiveString }).pipe(
     T.all(
       ns,
       T.Http({ method: "POST", uri: "/" }),
@@ -1919,8 +1921,8 @@ export const HandshakeParties = S.Array(HandshakeParty);
 export interface Account {
   Id?: string;
   Arn?: string;
-  Email?: string;
-  Name?: string;
+  Email?: string | Redacted.Redacted<string>;
+  Name?: string | Redacted.Redacted<string>;
   Status?: string;
   State?: string;
   JoinedMethod?: string;
@@ -1930,8 +1932,8 @@ export const Account = S.suspend(() =>
   S.Struct({
     Id: S.optional(S.String),
     Arn: S.optional(S.String),
-    Email: S.optional(S.String),
-    Name: S.optional(S.String),
+    Email: S.optional(SensitiveString),
+    Name: S.optional(SensitiveString),
     Status: S.optional(S.String),
     State: S.optional(S.String),
     JoinedMethod: S.optional(S.String),
@@ -1944,7 +1946,7 @@ export type Accounts = Account[];
 export const Accounts = S.Array(Account);
 export interface CreateAccountStatus {
   Id?: string;
-  AccountName?: string;
+  AccountName?: string | Redacted.Redacted<string>;
   State?: string;
   RequestedTimestamp?: Date;
   CompletedTimestamp?: Date;
@@ -1955,7 +1957,7 @@ export interface CreateAccountStatus {
 export const CreateAccountStatus = S.suspend(() =>
   S.Struct({
     Id: S.optional(S.String),
-    AccountName: S.optional(S.String),
+    AccountName: S.optional(SensitiveString),
     State: S.optional(S.String),
     RequestedTimestamp: S.optional(
       S.Date.pipe(T.TimestampFormat("epoch-seconds")),
@@ -2008,19 +2010,19 @@ export type Handshakes = Handshake[];
 export const Handshakes = S.Array(Handshake);
 export interface TransferParticipant {
   ManagementAccountId?: string;
-  ManagementAccountEmail?: string;
+  ManagementAccountEmail?: string | Redacted.Redacted<string>;
 }
 export const TransferParticipant = S.suspend(() =>
   S.Struct({
     ManagementAccountId: S.optional(S.String),
-    ManagementAccountEmail: S.optional(S.String),
+    ManagementAccountEmail: S.optional(SensitiveString),
   }),
 ).annotations({
   identifier: "TransferParticipant",
 }) as any as S.Schema<TransferParticipant>;
 export interface ResponsibilityTransfer {
   Arn?: string;
-  Name?: string;
+  Name?: string | Redacted.Redacted<string>;
   Id?: string;
   Type?: string;
   Status?: string;
@@ -2033,7 +2035,7 @@ export interface ResponsibilityTransfer {
 export const ResponsibilityTransfer = S.suspend(() =>
   S.Struct({
     Arn: S.optional(S.String),
-    Name: S.optional(S.String),
+    Name: S.optional(SensitiveString),
     Id: S.optional(S.String),
     Type: S.optional(S.String),
     Status: S.optional(S.String),
@@ -2108,16 +2110,16 @@ export const CancelHandshakeResponse = S.suspend(() =>
   identifier: "CancelHandshakeResponse",
 }) as any as S.Schema<CancelHandshakeResponse>;
 export interface CreateAccountRequest {
-  Email: string;
-  AccountName: string;
+  Email: string | Redacted.Redacted<string>;
+  AccountName: string | Redacted.Redacted<string>;
   RoleName?: string;
   IamUserAccessToBilling?: string;
   Tags?: Tags;
 }
 export const CreateAccountRequest = S.suspend(() =>
   S.Struct({
-    Email: S.String,
-    AccountName: S.String,
+    Email: SensitiveString,
+    AccountName: SensitiveString,
     RoleName: S.optional(S.String),
     IamUserAccessToBilling: S.optional(S.String),
     Tags: S.optional(Tags),
@@ -2141,7 +2143,7 @@ export interface Organization {
   FeatureSet?: string;
   MasterAccountArn?: string;
   MasterAccountId?: string;
-  MasterAccountEmail?: string;
+  MasterAccountEmail?: string | Redacted.Redacted<string>;
   AvailablePolicyTypes?: PolicyTypes;
 }
 export const Organization = S.suspend(() =>
@@ -2151,7 +2153,7 @@ export const Organization = S.suspend(() =>
     FeatureSet: S.optional(S.String),
     MasterAccountArn: S.optional(S.String),
     MasterAccountId: S.optional(S.String),
-    MasterAccountEmail: S.optional(S.String),
+    MasterAccountEmail: S.optional(SensitiveString),
     AvailablePolicyTypes: S.optional(PolicyTypes),
   }),
 ).annotations({ identifier: "Organization" }) as any as S.Schema<Organization>;
@@ -2243,13 +2245,13 @@ export const EnablePolicyTypeResponse = S.suspend(() =>
 }) as any as S.Schema<EnablePolicyTypeResponse>;
 export interface InviteAccountToOrganizationRequest {
   Target: HandshakeParty;
-  Notes?: string;
+  Notes?: string | Redacted.Redacted<string>;
   Tags?: Tags;
 }
 export const InviteAccountToOrganizationRequest = S.suspend(() =>
   S.Struct({
     Target: HandshakeParty,
-    Notes: S.optional(S.String),
+    Notes: S.optional(SensitiveString),
     Tags: S.optional(Tags),
   }).pipe(
     T.all(
@@ -2497,13 +2499,13 @@ export const UpdateResponsibilityTransferResponse = S.suspend(() =>
   identifier: "UpdateResponsibilityTransferResponse",
 }) as any as S.Schema<UpdateResponsibilityTransferResponse>;
 export interface HandshakeResource {
-  Value?: string;
+  Value?: string | Redacted.Redacted<string>;
   Type?: string;
   Resources?: HandshakeResources;
 }
 export const HandshakeResource = S.suspend(() =>
   S.Struct({
-    Value: S.optional(S.String),
+    Value: S.optional(SensitiveString),
     Type: S.optional(S.String),
     Resources: S.optional(
       S.suspend(() => HandshakeResources).annotations({
@@ -2560,8 +2562,8 @@ export const Children = S.Array(Child);
 export interface DelegatedAdministrator {
   Id?: string;
   Arn?: string;
-  Email?: string;
-  Name?: string;
+  Email?: string | Redacted.Redacted<string>;
+  Name?: string | Redacted.Redacted<string>;
   Status?: string;
   State?: string;
   JoinedMethod?: string;
@@ -2572,8 +2574,8 @@ export const DelegatedAdministrator = S.suspend(() =>
   S.Struct({
     Id: S.optional(S.String),
     Arn: S.optional(S.String),
-    Email: S.optional(S.String),
-    Name: S.optional(S.String),
+    Email: S.optional(SensitiveString),
+    Name: S.optional(SensitiveString),
     Status: S.optional(S.String),
     State: S.optional(S.String),
     JoinedMethod: S.optional(S.String),

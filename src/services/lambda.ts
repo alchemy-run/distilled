@@ -1,5 +1,6 @@
 import { HttpClient } from "@effect/platform";
 import * as Effect from "effect/Effect";
+import * as Redacted from "effect/Redacted";
 import * as S from "effect/Schema";
 import * as Stream from "effect/Stream";
 import * as API from "../api.ts";
@@ -10,6 +11,7 @@ import {
   ErrorCategory,
   Errors,
 } from "../index.ts";
+import { SensitiveString, SensitiveBlob } from "../sensitive.ts";
 const svc = T.AwsApiService({
   sdkId: "Lambda",
   serviceShapeName: "AWSGirApiService",
@@ -318,14 +320,14 @@ export type PositiveInteger = number;
 export type OperationId = string;
 export type OperationName = string;
 export type OperationSubType = string;
-export type OperationPayload = string;
+export type OperationPayload = string | Redacted.Redacted<string>;
 export type Long = number;
 export type Integer = number;
 export type UnreservedConcurrentExecutions = number;
-export type ErrorMessage = string;
-export type ErrorType = string;
-export type ErrorData = string;
-export type StackTraceEntry = string;
+export type ErrorMessage = string | Redacted.Redacted<string>;
+export type ErrorType = string | Redacted.Redacted<string>;
+export type ErrorData = string | Redacted.Redacted<string>;
+export type StackTraceEntry = string | Redacted.Redacted<string>;
 export type TagValue = string;
 export type SubnetId = string;
 export type SecurityGroupId = string;
@@ -352,8 +354,8 @@ export type Origin = string;
 export type MaxAge = number;
 export type FunctionScalingConfigExecutionEnvironments = number;
 export type NameSpacedFunctionArn = string;
-export type InputPayload = string;
-export type OutputPayload = string;
+export type InputPayload = string | Redacted.Redacted<string>;
+export type OutputPayload = string | Redacted.Redacted<string>;
 export type FunctionArn = string;
 export type CapacityProviderArn = string;
 export type EventSourceMappingArn = string;
@@ -371,8 +373,8 @@ export type MetricTargetValue = number;
 export type Pattern = string;
 export type Endpoint = string;
 export type SchemaRegistryUri = string;
-export type EnvironmentVariableName = string;
-export type EnvironmentVariableValue = string;
+export type EnvironmentVariableName = string | Redacted.Redacted<string>;
+export type EnvironmentVariableValue = string | Redacted.Redacted<string>;
 export type PerExecutionEnvironmentMaxConcurrency = number;
 export type ExecutionEnvironmentMemoryGiBPerVCpu = number;
 export type AdditionalVersion = string;
@@ -386,7 +388,7 @@ export type VpcId = string;
 export type TagsErrorCode = string;
 export type TagsErrorMessage = string;
 export type AttemptCount = number;
-export type SensitiveString = string;
+export type SensitiveString = string | Redacted.Redacted<string>;
 
 //# Schemas
 export interface GetAccountSettingsRequest {}
@@ -722,19 +724,19 @@ export const SendDurableExecutionCallbackSuccessResponse = S.suspend(() =>
 ).annotations({
   identifier: "SendDurableExecutionCallbackSuccessResponse",
 }) as any as S.Schema<SendDurableExecutionCallbackSuccessResponse>;
-export type StackTraceEntries = string[];
-export const StackTraceEntries = S.Array(S.String);
+export type StackTraceEntries = string | Redacted.Redacted<string>[];
+export const StackTraceEntries = S.Array(SensitiveString);
 export interface ErrorObject {
-  ErrorMessage?: string;
-  ErrorType?: string;
-  ErrorData?: string;
+  ErrorMessage?: string | Redacted.Redacted<string>;
+  ErrorType?: string | Redacted.Redacted<string>;
+  ErrorData?: string | Redacted.Redacted<string>;
   StackTrace?: StackTraceEntries;
 }
 export const ErrorObject = S.suspend(() =>
   S.Struct({
-    ErrorMessage: S.optional(S.String),
-    ErrorType: S.optional(S.String),
-    ErrorData: S.optional(S.String),
+    ErrorMessage: S.optional(SensitiveString),
+    ErrorType: S.optional(SensitiveString),
+    ErrorData: S.optional(SensitiveString),
     StackTrace: S.optional(StackTraceEntries),
   }),
 ).annotations({ identifier: "ErrorObject" }) as any as S.Schema<ErrorObject>;
@@ -1603,7 +1605,7 @@ export const PutFunctionConcurrencyRequest = S.suspend(() =>
 }) as any as S.Schema<PutFunctionConcurrencyRequest>;
 export interface UpdateFunctionCodeRequest {
   FunctionName: string;
-  ZipFile?: Uint8Array;
+  ZipFile?: Uint8Array | Redacted.Redacted<Uint8Array>;
   S3Bucket?: string;
   S3Key?: string;
   S3ObjectVersion?: string;
@@ -1618,7 +1620,7 @@ export interface UpdateFunctionCodeRequest {
 export const UpdateFunctionCodeRequest = S.suspend(() =>
   S.Struct({
     FunctionName: S.String.pipe(T.HttpLabel("FunctionName")),
-    ZipFile: S.optional(T.Blob),
+    ZipFile: S.optional(SensitiveBlob),
     S3Bucket: S.optional(S.String),
     S3Key: S.optional(S.String),
     S3ObjectVersion: S.optional(S.String),
@@ -1661,10 +1663,12 @@ export const VpcConfig = S.suspend(() =>
     Ipv6AllowedForDualStack: S.optional(S.Boolean),
   }),
 ).annotations({ identifier: "VpcConfig" }) as any as S.Schema<VpcConfig>;
-export type EnvironmentVariables = { [key: string]: string };
+export type EnvironmentVariables = {
+  [key: string]: string | Redacted.Redacted<string>;
+};
 export const EnvironmentVariables = S.Record({
   key: S.String,
-  value: S.String,
+  value: SensitiveString,
 });
 export interface Environment {
   Variables?: EnvironmentVariables;
@@ -3039,7 +3043,7 @@ export const EventSourceMappingConfiguration = S.suspend(() =>
 export type EventSourceMappingsList = EventSourceMappingConfiguration[];
 export const EventSourceMappingsList = S.Array(EventSourceMappingConfiguration);
 export interface FunctionCode {
-  ZipFile?: Uint8Array;
+  ZipFile?: Uint8Array | Redacted.Redacted<Uint8Array>;
   S3Bucket?: string;
   S3Key?: string;
   S3ObjectVersion?: string;
@@ -3048,7 +3052,7 @@ export interface FunctionCode {
 }
 export const FunctionCode = S.suspend(() =>
   S.Struct({
-    ZipFile: S.optional(T.Blob),
+    ZipFile: S.optional(SensitiveBlob),
     S3Bucket: S.optional(S.String),
     S3Key: S.optional(S.String),
     S3ObjectVersion: S.optional(S.String),
@@ -3082,10 +3086,13 @@ export const VpcConfigResponse = S.suspend(() =>
 }) as any as S.Schema<VpcConfigResponse>;
 export interface EnvironmentError {
   ErrorCode?: string;
-  Message?: string;
+  Message?: string | Redacted.Redacted<string>;
 }
 export const EnvironmentError = S.suspend(() =>
-  S.Struct({ ErrorCode: S.optional(S.String), Message: S.optional(S.String) }),
+  S.Struct({
+    ErrorCode: S.optional(S.String),
+    Message: S.optional(SensitiveString),
+  }),
 ).annotations({
   identifier: "EnvironmentError",
 }) as any as S.Schema<EnvironmentError>;
@@ -3127,10 +3134,13 @@ export type LayersReferenceList = Layer[];
 export const LayersReferenceList = S.Array(Layer);
 export interface ImageConfigError {
   ErrorCode?: string;
-  Message?: string;
+  Message?: string | Redacted.Redacted<string>;
 }
 export const ImageConfigError = S.suspend(() =>
-  S.Struct({ ErrorCode: S.optional(S.String), Message: S.optional(S.String) }),
+  S.Struct({
+    ErrorCode: S.optional(S.String),
+    Message: S.optional(SensitiveString),
+  }),
 ).annotations({
   identifier: "ImageConfigError",
 }) as any as S.Schema<ImageConfigError>;
@@ -3160,10 +3170,13 @@ export const SnapStartResponse = S.suspend(() =>
 }) as any as S.Schema<SnapStartResponse>;
 export interface RuntimeVersionError {
   ErrorCode?: string;
-  Message?: string;
+  Message?: string | Redacted.Redacted<string>;
 }
 export const RuntimeVersionError = S.suspend(() =>
-  S.Struct({ ErrorCode: S.optional(S.String), Message: S.optional(S.String) }),
+  S.Struct({
+    ErrorCode: S.optional(S.String),
+    Message: S.optional(SensitiveString),
+  }),
 ).annotations({
   identifier: "RuntimeVersionError",
 }) as any as S.Schema<RuntimeVersionError>;
@@ -3307,14 +3320,14 @@ export interface LayerVersionContentInput {
   S3Bucket?: string;
   S3Key?: string;
   S3ObjectVersion?: string;
-  ZipFile?: Uint8Array;
+  ZipFile?: Uint8Array | Redacted.Redacted<Uint8Array>;
 }
 export const LayerVersionContentInput = S.suspend(() =>
   S.Struct({
     S3Bucket: S.optional(S.String),
     S3Key: S.optional(S.String),
     S3ObjectVersion: S.optional(S.String),
-    ZipFile: S.optional(T.Blob),
+    ZipFile: S.optional(SensitiveBlob),
   }),
 ).annotations({
   identifier: "LayerVersionContentInput",
@@ -3963,7 +3976,7 @@ export interface OperationUpdate {
   Type: string;
   SubType?: string;
   Action: string;
-  Payload?: string;
+  Payload?: string | Redacted.Redacted<string>;
   Error?: ErrorObject;
   ContextOptions?: ContextOptions;
   StepOptions?: StepOptions;
@@ -3979,7 +3992,7 @@ export const OperationUpdate = S.suspend(() =>
     Type: S.String,
     SubType: S.optional(S.String),
     Action: S.String,
-    Payload: S.optional(S.String),
+    Payload: S.optional(SensitiveString),
     Error: S.optional(ErrorObject),
     ContextOptions: S.optional(ContextOptions),
     StepOptions: S.optional(StepOptions),
@@ -4200,8 +4213,8 @@ export interface GetDurableExecutionResponse {
   DurableExecutionArn: string;
   DurableExecutionName: string;
   FunctionArn: string;
-  InputPayload?: string;
-  Result?: string;
+  InputPayload?: string | Redacted.Redacted<string>;
+  Result?: string | Redacted.Redacted<string>;
   Error?: ErrorObject;
   StartTimestamp: Date;
   Status: string;
@@ -4214,8 +4227,8 @@ export const GetDurableExecutionResponse = S.suspend(() =>
     DurableExecutionArn: S.String,
     DurableExecutionName: S.String,
     FunctionArn: S.String,
-    InputPayload: S.optional(S.String),
-    Result: S.optional(S.String),
+    InputPayload: S.optional(SensitiveString),
+    Result: S.optional(SensitiveString),
     Error: S.optional(ErrorObject),
     StartTimestamp: S.Date.pipe(T.TimestampFormat("epoch-seconds")),
     Status: S.String,
@@ -4617,11 +4630,14 @@ export const ExecutionStoppedDetails = S.suspend(() =>
   identifier: "ExecutionStoppedDetails",
 }) as any as S.Schema<ExecutionStoppedDetails>;
 export interface EventResult {
-  Payload?: string;
+  Payload?: string | Redacted.Redacted<string>;
   Truncated?: boolean;
 }
 export const EventResult = S.suspend(() =>
-  S.Struct({ Payload: S.optional(S.String), Truncated: S.optional(S.Boolean) }),
+  S.Struct({
+    Payload: S.optional(SensitiveString),
+    Truncated: S.optional(S.Boolean),
+  }),
 ).annotations({ identifier: "EventResult" }) as any as S.Schema<EventResult>;
 export interface ContextSucceededDetails {
   Result: EventResult;
@@ -4687,11 +4703,14 @@ export const StepFailedDetails = S.suspend(() =>
   identifier: "StepFailedDetails",
 }) as any as S.Schema<StepFailedDetails>;
 export interface EventInput {
-  Payload?: string;
+  Payload?: string | Redacted.Redacted<string>;
   Truncated?: boolean;
 }
 export const EventInput = S.suspend(() =>
-  S.Struct({ Payload: S.optional(S.String), Truncated: S.optional(S.Boolean) }),
+  S.Struct({
+    Payload: S.optional(SensitiveString),
+    Truncated: S.optional(S.Boolean),
+  }),
 ).annotations({ identifier: "EventInput" }) as any as S.Schema<EventInput>;
 export interface ChainedInvokeStartedDetails {
   FunctionName: string;
@@ -4798,22 +4817,22 @@ export const InvocationCompletedDetails = S.suspend(() =>
   identifier: "InvocationCompletedDetails",
 }) as any as S.Schema<InvocationCompletedDetails>;
 export interface ExecutionDetails {
-  InputPayload?: string;
+  InputPayload?: string | Redacted.Redacted<string>;
 }
 export const ExecutionDetails = S.suspend(() =>
-  S.Struct({ InputPayload: S.optional(S.String) }),
+  S.Struct({ InputPayload: S.optional(SensitiveString) }),
 ).annotations({
   identifier: "ExecutionDetails",
 }) as any as S.Schema<ExecutionDetails>;
 export interface ContextDetails {
   ReplayChildren?: boolean;
-  Result?: string;
+  Result?: string | Redacted.Redacted<string>;
   Error?: ErrorObject;
 }
 export const ContextDetails = S.suspend(() =>
   S.Struct({
     ReplayChildren: S.optional(S.Boolean),
-    Result: S.optional(S.String),
+    Result: S.optional(SensitiveString),
     Error: S.optional(ErrorObject),
   }),
 ).annotations({
@@ -4822,7 +4841,7 @@ export const ContextDetails = S.suspend(() =>
 export interface StepDetails {
   Attempt?: number;
   NextAttemptTimestamp?: Date;
-  Result?: string;
+  Result?: string | Redacted.Redacted<string>;
   Error?: ErrorObject;
 }
 export const StepDetails = S.suspend(() =>
@@ -4831,7 +4850,7 @@ export const StepDetails = S.suspend(() =>
     NextAttemptTimestamp: S.optional(
       S.Date.pipe(T.TimestampFormat("epoch-seconds")),
     ),
-    Result: S.optional(S.String),
+    Result: S.optional(SensitiveString),
     Error: S.optional(ErrorObject),
   }),
 ).annotations({ identifier: "StepDetails" }) as any as S.Schema<StepDetails>;
@@ -4847,32 +4866,35 @@ export const WaitDetails = S.suspend(() =>
 ).annotations({ identifier: "WaitDetails" }) as any as S.Schema<WaitDetails>;
 export interface CallbackDetails {
   CallbackId?: string;
-  Result?: string;
+  Result?: string | Redacted.Redacted<string>;
   Error?: ErrorObject;
 }
 export const CallbackDetails = S.suspend(() =>
   S.Struct({
     CallbackId: S.optional(S.String),
-    Result: S.optional(S.String),
+    Result: S.optional(SensitiveString),
     Error: S.optional(ErrorObject),
   }),
 ).annotations({
   identifier: "CallbackDetails",
 }) as any as S.Schema<CallbackDetails>;
 export interface ChainedInvokeDetails {
-  Result?: string;
+  Result?: string | Redacted.Redacted<string>;
   Error?: ErrorObject;
 }
 export const ChainedInvokeDetails = S.suspend(() =>
-  S.Struct({ Result: S.optional(S.String), Error: S.optional(ErrorObject) }),
+  S.Struct({
+    Result: S.optional(SensitiveString),
+    Error: S.optional(ErrorObject),
+  }),
 ).annotations({
   identifier: "ChainedInvokeDetails",
 }) as any as S.Schema<ChainedInvokeDetails>;
 export interface InvokeResponseStreamUpdate {
-  Payload?: Uint8Array;
+  Payload?: Uint8Array | Redacted.Redacted<Uint8Array>;
 }
 export const InvokeResponseStreamUpdate = S.suspend(() =>
-  S.Struct({ Payload: S.optional(T.Blob).pipe(T.EventPayload()) }),
+  S.Struct({ Payload: S.optional(SensitiveBlob).pipe(T.EventPayload()) }),
 ).annotations({
   identifier: "InvokeResponseStreamUpdate",
 }) as any as S.Schema<InvokeResponseStreamUpdate>;

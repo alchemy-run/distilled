@@ -1,5 +1,6 @@
 import { HttpClient } from "@effect/platform";
 import * as Effect from "effect/Effect";
+import * as Redacted from "effect/Redacted";
 import * as S from "effect/Schema";
 import * as Stream from "effect/Stream";
 import * as API from "../api.ts";
@@ -10,6 +11,7 @@ import {
   ErrorCategory,
   Errors,
 } from "../index.ts";
+import { SensitiveString, SensitiveBlob } from "../sensitive.ts";
 const svc = T.AwsApiService({ sdkId: "b2bi", serviceShapeName: "B2BI" });
 const auth = T.AwsAuthSigv4({ name: "b2bi" });
 const ver = T.ServiceVersion("2022-06-23");
@@ -313,8 +315,8 @@ export type PageToken = string;
 export type MaxResults = number;
 export type ProfileId = string;
 export type PartnerName = string;
-export type Email = string;
-export type Phone = string;
+export type Email = string | Redacted.Redacted<string>;
+export type Phone = string | Redacted.Redacted<string>;
 export type PartnershipId = string;
 export type ProfileName = string;
 export type BusinessName = string;
@@ -861,8 +863,8 @@ export type TagList = Tag[];
 export const TagList = S.Array(Tag);
 export interface CreateProfileRequest {
   name: string;
-  email?: string;
-  phone: string;
+  email?: string | Redacted.Redacted<string>;
+  phone: string | Redacted.Redacted<string>;
   businessName: string;
   logging: string;
   clientToken?: string;
@@ -871,8 +873,8 @@ export interface CreateProfileRequest {
 export const CreateProfileRequest = S.suspend(() =>
   S.Struct({
     name: S.String,
-    email: S.optional(S.String),
-    phone: S.String,
+    email: S.optional(SensitiveString),
+    phone: SensitiveString,
     businessName: S.String,
     logging: S.String,
     clientToken: S.optional(S.String),
@@ -910,16 +912,16 @@ export const GetProfileRequest = S.suspend(() =>
 export interface UpdateProfileRequest {
   profileId: string;
   name?: string;
-  email?: string;
-  phone?: string;
+  email?: string | Redacted.Redacted<string>;
+  phone?: string | Redacted.Redacted<string>;
   businessName?: string;
 }
 export const UpdateProfileRequest = S.suspend(() =>
   S.Struct({
     profileId: S.String.pipe(T.HttpLabel("profileId")),
     name: S.optional(S.String),
-    email: S.optional(S.String),
-    phone: S.optional(S.String),
+    email: S.optional(SensitiveString),
+    phone: S.optional(SensitiveString),
     businessName: S.optional(S.String),
   }).pipe(
     T.all(
@@ -1347,8 +1349,8 @@ export interface GetPartnershipResponse {
   partnershipId: string;
   partnershipArn: string;
   name?: string;
-  email?: string;
-  phone?: string;
+  email?: string | Redacted.Redacted<string>;
+  phone?: string | Redacted.Redacted<string>;
   capabilities?: PartnershipCapabilities;
   capabilityOptions?: CapabilityOptions;
   tradingPartnerId?: string;
@@ -1361,8 +1363,8 @@ export const GetPartnershipResponse = S.suspend(() =>
     partnershipId: S.String,
     partnershipArn: S.String,
     name: S.optional(S.String),
-    email: S.optional(S.String),
-    phone: S.optional(S.String),
+    email: S.optional(SensitiveString),
+    phone: S.optional(SensitiveString),
     capabilities: S.optional(PartnershipCapabilities),
     capabilityOptions: S.optional(CapabilityOptions),
     tradingPartnerId: S.optional(S.String),
@@ -1377,8 +1379,8 @@ export interface UpdatePartnershipResponse {
   partnershipId: string;
   partnershipArn: string;
   name?: string;
-  email?: string;
-  phone?: string;
+  email?: string | Redacted.Redacted<string>;
+  phone?: string | Redacted.Redacted<string>;
   capabilities?: PartnershipCapabilities;
   capabilityOptions?: CapabilityOptions;
   tradingPartnerId?: string;
@@ -1391,8 +1393,8 @@ export const UpdatePartnershipResponse = S.suspend(() =>
     partnershipId: S.String,
     partnershipArn: S.String,
     name: S.optional(S.String),
-    email: S.optional(S.String),
-    phone: S.optional(S.String),
+    email: S.optional(SensitiveString),
+    phone: S.optional(SensitiveString),
     capabilities: S.optional(PartnershipCapabilities),
     capabilityOptions: S.optional(CapabilityOptions),
     tradingPartnerId: S.optional(S.String),
@@ -1407,8 +1409,8 @@ export interface CreateProfileResponse {
   profileArn: string;
   name: string;
   businessName: string;
-  phone: string;
-  email?: string;
+  phone: string | Redacted.Redacted<string>;
+  email?: string | Redacted.Redacted<string>;
   logging?: string;
   logGroupName?: string;
   createdAt: Date;
@@ -1419,8 +1421,8 @@ export const CreateProfileResponse = S.suspend(() =>
     profileArn: S.String,
     name: S.String,
     businessName: S.String,
-    phone: S.String,
-    email: S.optional(S.String),
+    phone: SensitiveString,
+    email: S.optional(SensitiveString),
     logging: S.optional(S.String),
     logGroupName: S.optional(S.String),
     createdAt: S.Date.pipe(T.TimestampFormat("date-time")),
@@ -1432,8 +1434,8 @@ export interface GetProfileResponse {
   profileId: string;
   profileArn: string;
   name: string;
-  email?: string;
-  phone: string;
+  email?: string | Redacted.Redacted<string>;
+  phone: string | Redacted.Redacted<string>;
   businessName: string;
   logging?: string;
   logGroupName?: string;
@@ -1445,8 +1447,8 @@ export const GetProfileResponse = S.suspend(() =>
     profileId: S.String,
     profileArn: S.String,
     name: S.String,
-    email: S.optional(S.String),
-    phone: S.String,
+    email: S.optional(SensitiveString),
+    phone: SensitiveString,
     businessName: S.String,
     logging: S.optional(S.String),
     logGroupName: S.optional(S.String),
@@ -1460,8 +1462,8 @@ export interface UpdateProfileResponse {
   profileId: string;
   profileArn: string;
   name: string;
-  email?: string;
-  phone: string;
+  email?: string | Redacted.Redacted<string>;
+  phone: string | Redacted.Redacted<string>;
   businessName: string;
   logging?: string;
   logGroupName?: string;
@@ -1473,8 +1475,8 @@ export const UpdateProfileResponse = S.suspend(() =>
     profileId: S.String,
     profileArn: S.String,
     name: S.String,
-    email: S.optional(S.String),
-    phone: S.String,
+    email: S.optional(SensitiveString),
+    phone: SensitiveString,
     businessName: S.String,
     logging: S.optional(S.String),
     logGroupName: S.optional(S.String),
@@ -1950,8 +1952,8 @@ export const TestParsingRequest = S.suspend(() =>
 export interface CreatePartnershipRequest {
   profileId: string;
   name: string;
-  email: string;
-  phone?: string;
+  email: string | Redacted.Redacted<string>;
+  phone?: string | Redacted.Redacted<string>;
   capabilities: PartnershipCapabilities;
   capabilityOptions?: CapabilityOptions;
   clientToken?: string;
@@ -1961,8 +1963,8 @@ export const CreatePartnershipRequest = S.suspend(() =>
   S.Struct({
     profileId: S.String,
     name: S.String,
-    email: S.String,
-    phone: S.optional(S.String),
+    email: SensitiveString,
+    phone: S.optional(SensitiveString),
     capabilities: PartnershipCapabilities,
     capabilityOptions: S.optional(CapabilityOptions),
     clientToken: S.optional(S.String),
@@ -2001,8 +2003,8 @@ export interface CreatePartnershipResponse {
   partnershipId: string;
   partnershipArn: string;
   name?: string;
-  email?: string;
-  phone?: string;
+  email?: string | Redacted.Redacted<string>;
+  phone?: string | Redacted.Redacted<string>;
   capabilities?: PartnershipCapabilities;
   capabilityOptions?: CapabilityOptions;
   tradingPartnerId?: string;
@@ -2014,8 +2016,8 @@ export const CreatePartnershipResponse = S.suspend(() =>
     partnershipId: S.String,
     partnershipArn: S.String,
     name: S.optional(S.String),
-    email: S.optional(S.String),
-    phone: S.optional(S.String),
+    email: S.optional(SensitiveString),
+    phone: S.optional(SensitiveString),
     capabilities: S.optional(PartnershipCapabilities),
     capabilityOptions: S.optional(CapabilityOptions),
     tradingPartnerId: S.optional(S.String),

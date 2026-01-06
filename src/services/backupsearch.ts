@@ -1,5 +1,6 @@
 import { HttpClient } from "@effect/platform";
 import * as Effect from "effect/Effect";
+import * as Redacted from "effect/Redacted";
 import * as S from "effect/Schema";
 import * as Stream from "effect/Stream";
 import * as API from "../api.ts";
@@ -10,6 +11,7 @@ import {
   ErrorCategory,
   Errors,
 } from "../index.ts";
+import { SensitiveString, SensitiveBlob } from "../sensitive.ts";
 const svc = T.AwsApiService({
   sdkId: "BackupSearch",
   serviceShapeName: "CryoBackupSearchService",
@@ -120,8 +122,8 @@ export type IamRoleArn = string;
 export type RecoveryPoint = string;
 export type SearchJobArn = string;
 export type ExportJobArn = string;
-export type ObjectKey = string;
-export type FilePath = string;
+export type ObjectKey = string | Redacted.Redacted<string>;
+export type FilePath = string | Redacted.Redacted<string>;
 
 //# Schemas
 export type TagKeys = string[];
@@ -729,7 +731,7 @@ export interface S3ResultItem {
   BackupResourceArn?: string;
   SourceResourceArn?: string;
   BackupVaultName?: string;
-  ObjectKey?: string;
+  ObjectKey?: string | Redacted.Redacted<string>;
   ObjectSize?: number;
   CreationTime?: Date;
   ETag?: string;
@@ -740,7 +742,7 @@ export const S3ResultItem = S.suspend(() =>
     BackupResourceArn: S.optional(S.String),
     SourceResourceArn: S.optional(S.String),
     BackupVaultName: S.optional(S.String),
-    ObjectKey: S.optional(S.String),
+    ObjectKey: S.optional(SensitiveString),
     ObjectSize: S.optional(S.Number),
     CreationTime: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
     ETag: S.optional(S.String),
@@ -752,7 +754,7 @@ export interface EBSResultItem {
   SourceResourceArn?: string;
   BackupVaultName?: string;
   FileSystemIdentifier?: string;
-  FilePath?: string;
+  FilePath?: string | Redacted.Redacted<string>;
   FileSize?: number;
   CreationTime?: Date;
   LastModifiedTime?: Date;
@@ -763,7 +765,7 @@ export const EBSResultItem = S.suspend(() =>
     SourceResourceArn: S.optional(S.String),
     BackupVaultName: S.optional(S.String),
     FileSystemIdentifier: S.optional(S.String),
-    FilePath: S.optional(S.String),
+    FilePath: S.optional(SensitiveString),
     FileSize: S.optional(S.Number),
     CreationTime: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
     LastModifiedTime: S.optional(

@@ -1,5 +1,6 @@
 import { HttpClient } from "@effect/platform";
 import * as Effect from "effect/Effect";
+import * as Redacted from "effect/Redacted";
 import * as S from "effect/Schema";
 import * as Stream from "effect/Stream";
 import * as API from "../api.ts";
@@ -10,6 +11,7 @@ import {
   ErrorCategory,
   Errors,
 } from "../index.ts";
+import { SensitiveString, SensitiveBlob } from "../sensitive.ts";
 const svc = T.AwsApiService({
   sdkId: "ConnectParticipant",
   serviceShapeName: "AmazonConnectParticipantServiceLambda",
@@ -296,16 +298,16 @@ export type AuthenticationUrl = string;
 export type PreSignedConnectionUrl = string;
 export type ViewId = string;
 export type ARN = string;
-export type ViewName = string;
+export type ViewName = string | Redacted.Redacted<string>;
 export type ViewVersion = number;
 export type UploadMetadataUrl = string;
 export type Reason = string;
 export type AttendeeId = string;
-export type JoinToken = string;
+export type JoinToken = string | Redacted.Redacted<string>;
 export type GuidString = string;
-export type ViewInputSchema = string;
-export type ViewTemplate = string;
-export type ViewAction = string;
+export type ViewInputSchema = string | Redacted.Redacted<string>;
+export type ViewTemplate = string | Redacted.Redacted<string>;
+export type ViewAction = string | Redacted.Redacted<string>;
 export type UploadMetadataSignedHeadersKey = string;
 export type UploadMetadataSignedHeadersValue = string;
 export type ParticipantId = string;
@@ -677,8 +679,8 @@ export const MessageProcessingMetadata = S.suspend(() =>
 ).annotations({
   identifier: "MessageProcessingMetadata",
 }) as any as S.Schema<MessageProcessingMetadata>;
-export type ViewActions = string[];
-export const ViewActions = S.Array(S.String);
+export type ViewActions = string | Redacted.Redacted<string>[];
+export const ViewActions = S.Array(SensitiveString);
 export interface SendMessageResponse {
   Id?: string;
   AbsoluteTime?: string;
@@ -695,23 +697,23 @@ export const SendMessageResponse = S.suspend(() =>
 }) as any as S.Schema<SendMessageResponse>;
 export interface Attendee {
   AttendeeId?: string;
-  JoinToken?: string;
+  JoinToken?: string | Redacted.Redacted<string>;
 }
 export const Attendee = S.suspend(() =>
   S.Struct({
     AttendeeId: S.optional(S.String),
-    JoinToken: S.optional(S.String),
+    JoinToken: S.optional(SensitiveString),
   }),
 ).annotations({ identifier: "Attendee" }) as any as S.Schema<Attendee>;
 export interface ViewContent {
-  InputSchema?: string;
-  Template?: string;
+  InputSchema?: string | Redacted.Redacted<string>;
+  Template?: string | Redacted.Redacted<string>;
   Actions?: ViewActions;
 }
 export const ViewContent = S.suspend(() =>
   S.Struct({
-    InputSchema: S.optional(S.String),
-    Template: S.optional(S.String),
+    InputSchema: S.optional(SensitiveString),
+    Template: S.optional(SensitiveString),
     Actions: S.optional(ViewActions),
   }),
 ).annotations({ identifier: "ViewContent" }) as any as S.Schema<ViewContent>;
@@ -723,7 +725,7 @@ export const UploadMetadataSignedHeaders = S.Record({
 export interface View {
   Id?: string;
   Arn?: string;
-  Name?: string;
+  Name?: string | Redacted.Redacted<string>;
   Version?: number;
   Content?: ViewContent;
 }
@@ -731,7 +733,7 @@ export const View = S.suspend(() =>
   S.Struct({
     Id: S.optional(S.String),
     Arn: S.optional(S.String),
-    Name: S.optional(S.String),
+    Name: S.optional(SensitiveString),
     Version: S.optional(S.Number),
     Content: S.optional(ViewContent),
   }),

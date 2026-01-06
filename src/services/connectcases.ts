@@ -1,5 +1,6 @@
 import { HttpClient } from "@effect/platform";
 import * as Effect from "effect/Effect";
+import * as Redacted from "effect/Redacted";
 import * as S from "effect/Schema";
 import * as Stream from "effect/Stream";
 import * as API from "../api.ts";
@@ -10,6 +11,7 @@ import {
   ErrorCategory,
   Errors,
 } from "../index.ts";
+import { SensitiveString, SensitiveBlob } from "../sensitive.ts";
 const svc = T.AwsApiService({
   sdkId: "ConnectCases",
   serviceShapeName: "AmazonConnectCases",
@@ -327,7 +329,7 @@ export type TemplateName = string;
 export type TemplateDescription = string;
 export type TemplateStatus = string;
 export type UserArn = string;
-export type CustomEntity = string;
+export type CustomEntity = string | Redacted.Redacted<string>;
 export type Order = string;
 export type SearchAllRelatedItemsSortProperty = string;
 export type FieldOptionName = string;
@@ -341,7 +343,7 @@ export type CommentBody = string;
 export type CommentBodyTextType = string;
 export type FileArn = string;
 export type Channel = string;
-export type SlaName = string;
+export type SlaName = string | Redacted.Redacted<string>;
 export type SlaStatus = string;
 export type AuditEventId = string;
 export type AuditEventType = string;
@@ -441,10 +443,12 @@ export const FieldValue = S.suspend(() =>
 ).annotations({ identifier: "FieldValue" }) as any as S.Schema<FieldValue>;
 export type FieldValueList = FieldValue[];
 export const FieldValueList = S.Array(FieldValue);
-export type UserUnion = { userArn: string } | { customEntity: string };
+export type UserUnion =
+  | { userArn: string }
+  | { customEntity: string | Redacted.Redacted<string> };
 export const UserUnion = S.Union(
   S.Struct({ userArn: S.String }),
-  S.Struct({ customEntity: S.String }),
+  S.Struct({ customEntity: SensitiveString }),
 );
 export interface UpdateCaseRequest {
   domainId: string;
@@ -1532,11 +1536,11 @@ export const FileFilter = S.suspend(() =>
   S.Struct({ fileArn: S.optional(S.String) }),
 ).annotations({ identifier: "FileFilter" }) as any as S.Schema<FileFilter>;
 export interface SlaFilter {
-  name?: string;
+  name?: string | Redacted.Redacted<string>;
   status?: string;
 }
 export const SlaFilter = S.suspend(() =>
-  S.Struct({ name: S.optional(S.String), status: S.optional(S.String) }),
+  S.Struct({ name: S.optional(SensitiveString), status: S.optional(S.String) }),
 ).annotations({ identifier: "SlaFilter" }) as any as S.Schema<SlaFilter>;
 export interface ConnectCaseFilter {
   caseId?: string;
@@ -1970,7 +1974,7 @@ export const TemplateSummary = S.suspend(() =>
 export type TemplateSummaryList = TemplateSummary[];
 export const TemplateSummaryList = S.Array(TemplateSummary);
 export interface SlaInputConfiguration {
-  name: string;
+  name: string | Redacted.Redacted<string>;
   type: string;
   fieldId?: string;
   targetFieldValues?: SlaFieldValueUnionList;
@@ -1978,7 +1982,7 @@ export interface SlaInputConfiguration {
 }
 export const SlaInputConfiguration = S.suspend(() =>
   S.Struct({
-    name: S.String,
+    name: SensitiveString,
     type: S.String,
     fieldId: S.optional(S.String),
     targetFieldValues: S.optional(SlaFieldValueUnionList),
@@ -2468,7 +2472,7 @@ export const CreateRelatedItemResponse = S.suspend(() =>
   identifier: "CreateRelatedItemResponse",
 }) as any as S.Schema<CreateRelatedItemResponse>;
 export interface SlaConfiguration {
-  name: string;
+  name: string | Redacted.Redacted<string>;
   type: string;
   status: string;
   fieldId?: string;
@@ -2478,7 +2482,7 @@ export interface SlaConfiguration {
 }
 export const SlaConfiguration = S.suspend(() =>
   S.Struct({
-    name: S.String,
+    name: SensitiveString,
     type: S.String,
     status: S.String,
     fieldId: S.optional(S.String),

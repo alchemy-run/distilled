@@ -1,5 +1,6 @@
 import { HttpClient } from "@effect/platform";
 import * as Effect from "effect/Effect";
+import * as Redacted from "effect/Redacted";
 import * as S from "effect/Schema";
 import * as Stream from "effect/Stream";
 import * as API from "../api.ts";
@@ -10,6 +11,7 @@ import {
   ErrorCategory,
   Errors,
 } from "../index.ts";
+import { SensitiveString, SensitiveBlob } from "../sensitive.ts";
 const svc = T.AwsApiService({
   sdkId: "SageMaker Runtime",
   serviceShapeName: "AmazonSageMakerRuntime",
@@ -292,7 +294,7 @@ const rules = T.EndpointRuleSet({
 //# Newtypes
 export type EndpointName = string;
 export type Header = string;
-export type CustomAttributesHeader = string;
+export type CustomAttributesHeader = string | Redacted.Redacted<string>;
 export type TargetModelHeader = string;
 export type TargetVariantHeader = string;
 export type TargetContainerHostnameHeader = string;
@@ -316,7 +318,7 @@ export interface InvokeEndpointInput {
   Body: T.StreamingInputBody;
   ContentType?: string;
   Accept?: string;
-  CustomAttributes?: string;
+  CustomAttributes?: string | Redacted.Redacted<string>;
   TargetModel?: string;
   TargetVariant?: string;
   TargetContainerHostname?: string;
@@ -331,7 +333,7 @@ export const InvokeEndpointInput = S.suspend(() =>
     Body: T.StreamingInput.pipe(T.HttpPayload()),
     ContentType: S.optional(S.String).pipe(T.HttpHeader("Content-Type")),
     Accept: S.optional(S.String).pipe(T.HttpHeader("Accept")),
-    CustomAttributes: S.optional(S.String).pipe(
+    CustomAttributes: S.optional(SensitiveString).pipe(
       T.HttpHeader("X-Amzn-SageMaker-Custom-Attributes"),
     ),
     TargetModel: S.optional(S.String).pipe(
@@ -372,7 +374,7 @@ export interface InvokeEndpointAsyncInput {
   EndpointName: string;
   ContentType?: string;
   Accept?: string;
-  CustomAttributes?: string;
+  CustomAttributes?: string | Redacted.Redacted<string>;
   InferenceId?: string;
   InputLocation: string;
   RequestTTLSeconds?: number;
@@ -385,7 +387,7 @@ export const InvokeEndpointAsyncInput = S.suspend(() =>
       T.HttpHeader("X-Amzn-SageMaker-Content-Type"),
     ),
     Accept: S.optional(S.String).pipe(T.HttpHeader("X-Amzn-SageMaker-Accept")),
-    CustomAttributes: S.optional(S.String).pipe(
+    CustomAttributes: S.optional(SensitiveString).pipe(
       T.HttpHeader("X-Amzn-SageMaker-Custom-Attributes"),
     ),
     InferenceId: S.optional(S.String).pipe(
@@ -421,7 +423,7 @@ export interface InvokeEndpointWithResponseStreamInput {
   Body: T.StreamingInputBody;
   ContentType?: string;
   Accept?: string;
-  CustomAttributes?: string;
+  CustomAttributes?: string | Redacted.Redacted<string>;
   TargetVariant?: string;
   TargetContainerHostname?: string;
   InferenceId?: string;
@@ -434,7 +436,7 @@ export const InvokeEndpointWithResponseStreamInput = S.suspend(() =>
     Body: T.StreamingInput.pipe(T.HttpPayload()),
     ContentType: S.optional(S.String).pipe(T.HttpHeader("Content-Type")),
     Accept: S.optional(S.String).pipe(T.HttpHeader("X-Amzn-SageMaker-Accept")),
-    CustomAttributes: S.optional(S.String).pipe(
+    CustomAttributes: S.optional(SensitiveString).pipe(
       T.HttpHeader("X-Amzn-SageMaker-Custom-Attributes"),
     ),
     TargetVariant: S.optional(S.String).pipe(
@@ -472,7 +474,7 @@ export interface InvokeEndpointOutput {
   Body: T.StreamingOutputBody;
   ContentType?: string;
   InvokedProductionVariant?: string;
-  CustomAttributes?: string;
+  CustomAttributes?: string | Redacted.Redacted<string>;
   NewSessionId?: string;
   ClosedSessionId?: string;
 }
@@ -483,7 +485,7 @@ export const InvokeEndpointOutput = S.suspend(() =>
     InvokedProductionVariant: S.optional(S.String).pipe(
       T.HttpHeader("x-Amzn-Invoked-Production-Variant"),
     ),
-    CustomAttributes: S.optional(S.String).pipe(
+    CustomAttributes: S.optional(SensitiveString).pipe(
       T.HttpHeader("X-Amzn-SageMaker-Custom-Attributes"),
     ),
     NewSessionId: S.optional(S.String).pipe(
@@ -515,10 +517,10 @@ export const InvokeEndpointAsyncOutput = S.suspend(() =>
   identifier: "InvokeEndpointAsyncOutput",
 }) as any as S.Schema<InvokeEndpointAsyncOutput>;
 export interface PayloadPart {
-  Bytes?: Uint8Array;
+  Bytes?: Uint8Array | Redacted.Redacted<Uint8Array>;
 }
 export const PayloadPart = S.suspend(() =>
-  S.Struct({ Bytes: S.optional(T.Blob).pipe(T.EventPayload()) }),
+  S.Struct({ Bytes: S.optional(SensitiveBlob).pipe(T.EventPayload()) }),
 ).annotations({ identifier: "PayloadPart" }) as any as S.Schema<PayloadPart>;
 export const ResponseStream = T.EventStream(
   S.Union(
@@ -539,7 +541,7 @@ export interface InvokeEndpointWithResponseStreamOutput {
   Body: (typeof ResponseStream)["Type"];
   ContentType?: string;
   InvokedProductionVariant?: string;
-  CustomAttributes?: string;
+  CustomAttributes?: string | Redacted.Redacted<string>;
 }
 export const InvokeEndpointWithResponseStreamOutput = S.suspend(() =>
   S.Struct({
@@ -550,7 +552,7 @@ export const InvokeEndpointWithResponseStreamOutput = S.suspend(() =>
     InvokedProductionVariant: S.optional(S.String).pipe(
       T.HttpHeader("x-Amzn-Invoked-Production-Variant"),
     ),
-    CustomAttributes: S.optional(S.String).pipe(
+    CustomAttributes: S.optional(SensitiveString).pipe(
       T.HttpHeader("X-Amzn-SageMaker-Custom-Attributes"),
     ),
   }),

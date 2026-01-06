@@ -1,5 +1,6 @@
 import { HttpClient } from "@effect/platform";
 import * as Effect from "effect/Effect";
+import * as Redacted from "effect/Redacted";
 import * as S from "effect/Schema";
 import * as Stream from "effect/Stream";
 import * as API from "../api.ts";
@@ -10,6 +11,7 @@ import {
   ErrorCategory,
   Errors,
 } from "../index.ts";
+import { SensitiveString, SensitiveBlob } from "../sensitive.ts";
 const svc = T.AwsApiService({
   sdkId: "IVS RealTime",
   serviceShapeName: "AmazonInteractiveVideoServiceRealTime",
@@ -360,7 +362,7 @@ export type PipWidth = number;
 export type PipHeight = number;
 export type ChannelArn = string;
 export type CompositionState = string;
-export type StreamKey = string;
+export type StreamKey = string | Redacted.Redacted<string>;
 export type ParticipantClientAttribute = string;
 export type ParticipantRecordingS3BucketName = string;
 export type ParticipantRecordingS3Prefix = string;
@@ -373,7 +375,7 @@ export type RecordingConfigurationFormat = string;
 export type DestinationState = string;
 export type StageEndpoint = string;
 export type CompositionRecordingTargetSegmentDurationSeconds = number;
-export type ParticipantTokenString = string;
+export type ParticipantTokenString = string | Redacted.Redacted<string>;
 
 //# Schemas
 export type ParticipantTokenCapabilities = string[];
@@ -1420,7 +1422,7 @@ export interface IngestConfiguration {
   name?: string;
   arn: string;
   ingestProtocol: string;
-  streamKey: string;
+  streamKey: string | Redacted.Redacted<string>;
   stageArn: string;
   participantId: string;
   state: string;
@@ -1433,7 +1435,7 @@ export const IngestConfiguration = S.suspend(() =>
     name: S.optional(S.String),
     arn: S.String,
     ingestProtocol: S.String,
-    streamKey: S.String,
+    streamKey: SensitiveString,
     stageArn: S.String,
     participantId: S.String,
     state: S.String,
@@ -2069,7 +2071,7 @@ export const CompositionRecordingHlsConfiguration = S.suspend(() =>
 }) as any as S.Schema<CompositionRecordingHlsConfiguration>;
 export interface ParticipantToken {
   participantId?: string;
-  token?: string;
+  token?: string | Redacted.Redacted<string>;
   userId?: string;
   attributes?: ParticipantTokenAttributes;
   duration?: number;
@@ -2079,7 +2081,7 @@ export interface ParticipantToken {
 export const ParticipantToken = S.suspend(() =>
   S.Struct({
     participantId: S.optional(S.String),
-    token: S.optional(S.String),
+    token: S.optional(SensitiveString),
     userId: S.optional(S.String),
     attributes: S.optional(ParticipantTokenAttributes),
     duration: S.optional(S.Number),

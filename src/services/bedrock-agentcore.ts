@@ -1,5 +1,6 @@
 import { HttpClient } from "@effect/platform";
 import * as Effect from "effect/Effect";
+import * as Redacted from "effect/Redacted";
 import * as S from "effect/Schema";
 import * as Stream from "effect/Stream";
 import * as API from "../api.ts";
@@ -10,6 +11,7 @@ import {
   ErrorCategory,
   Errors,
 } from "../index.ts";
+import { SensitiveString, SensitiveBlob } from "../sensitive.ts";
 const svc = T.AwsApiService({
   sdkId: "Bedrock AgentCore",
   serviceShapeName: "AmazonBedrockAgentCore",
@@ -303,13 +305,13 @@ const rules = T.EndpointRuleSet({
 
 //# Newtypes
 export type RequestUri = string;
-export type WorkloadIdentityTokenType = string;
+export type WorkloadIdentityTokenType = string | Redacted.Redacted<string>;
 export type CredentialProviderName = string;
 export type ScopeType = string;
 export type ResourceOauth2ReturnUrlType = string;
-export type State = string;
+export type State = string | Redacted.Redacted<string>;
 export type WorkloadIdentityNameType = string;
-export type UserTokenType = string;
+export type UserTokenType = string | Redacted.Redacted<string>;
 export type UserIdType = string;
 export type CodeInterpreterSessionId = string;
 export type SessionType = string;
@@ -332,7 +334,7 @@ export type PaginationToken = string;
 export type Namespace = string;
 export type MemoryStrategyId = string;
 export type CustomRequestKeyType = string;
-export type CustomRequestValueType = string;
+export type CustomRequestValueType = string | Redacted.Redacted<string>;
 export type MaxLenString = string;
 export type ViewPortWidth = number;
 export type ViewPortHeight = number;
@@ -341,16 +343,16 @@ export type TraceId = string;
 export type RequestIdentifier = string;
 export type BranchName = string;
 export type MetadataKey = string;
-export type SensitiveString = string;
-export type ApiKeyType = string;
+export type SensitiveString = string | Redacted.Redacted<string>;
+export type ApiKeyType = string | Redacted.Redacted<string>;
 export type HttpResponseCode = number;
 export type NonBlankString = string;
-export type AuthorizationUrlType = string;
-export type AccessTokenType = string;
+export type AuthorizationUrlType = string | Redacted.Redacted<string>;
+export type AccessTokenType = string | Redacted.Redacted<string>;
 export type BrowserStreamEndpoint = string;
 export type EvaluatorArn = string;
 export type EvaluatorName = string;
-export type EvaluationExplanation = string;
+export type EvaluationExplanation = string | Redacted.Redacted<string>;
 export type EvaluationErrorMessage = string;
 export type EvaluationErrorCode = string;
 
@@ -358,12 +360,12 @@ export type EvaluationErrorCode = string;
 export type ScopesListType = string[];
 export const ScopesListType = S.Array(S.String);
 export interface GetResourceApiKeyRequest {
-  workloadIdentityToken: string;
+  workloadIdentityToken: string | Redacted.Redacted<string>;
   resourceCredentialProviderName: string;
 }
 export const GetResourceApiKeyRequest = S.suspend(() =>
   S.Struct({
-    workloadIdentityToken: S.String,
+    workloadIdentityToken: SensitiveString,
     resourceCredentialProviderName: S.String,
   }).pipe(
     T.all(
@@ -397,10 +399,10 @@ export const GetWorkloadAccessTokenRequest = S.suspend(() =>
 }) as any as S.Schema<GetWorkloadAccessTokenRequest>;
 export interface GetWorkloadAccessTokenForJWTRequest {
   workloadName: string;
-  userToken: string;
+  userToken: string | Redacted.Redacted<string>;
 }
 export const GetWorkloadAccessTokenForJWTRequest = S.suspend(() =>
-  S.Struct({ workloadName: S.String, userToken: S.String }).pipe(
+  S.Struct({ workloadName: S.String, userToken: SensitiveString }).pipe(
     T.all(
       T.Http({
         method: "POST",
@@ -945,15 +947,19 @@ export type TraceIds = string[];
 export const TraceIds = S.Array(S.String);
 export type NamespacesList = string[];
 export const NamespacesList = S.Array(S.String);
-export type UserIdentifier = { userToken: string } | { userId: string };
+export type UserIdentifier =
+  | { userToken: string | Redacted.Redacted<string> }
+  | { userId: string };
 export const UserIdentifier = S.Union(
-  S.Struct({ userToken: S.String }),
+  S.Struct({ userToken: SensitiveString }),
   S.Struct({ userId: S.String }),
 );
-export type CustomRequestParametersType = { [key: string]: string };
+export type CustomRequestParametersType = {
+  [key: string]: string | Redacted.Redacted<string>;
+};
 export const CustomRequestParametersType = S.Record({
   key: S.String,
-  value: S.String,
+  value: SensitiveString,
 });
 export interface ViewPort {
   width: number;
@@ -979,8 +985,8 @@ export const MemoryRecordDeleteInput = S.suspend(() =>
 }) as any as S.Schema<MemoryRecordDeleteInput>;
 export type MemoryRecordsDeleteInputList = MemoryRecordDeleteInput[];
 export const MemoryRecordsDeleteInputList = S.Array(MemoryRecordDeleteInput);
-export type MemoryContent = { text: string };
-export const MemoryContent = S.Union(S.Struct({ text: S.String }));
+export type MemoryContent = { text: string | Redacted.Redacted<string> };
+export const MemoryContent = S.Union(S.Struct({ text: SensitiveString }));
 export interface MemoryRecordUpdateInput {
   memoryRecordId: string;
   timestamp: Date;
@@ -1057,15 +1063,15 @@ export const CompleteResourceTokenAuthResponse = S.suspend(() =>
   identifier: "CompleteResourceTokenAuthResponse",
 }) as any as S.Schema<CompleteResourceTokenAuthResponse>;
 export interface GetResourceApiKeyResponse {
-  apiKey: string;
+  apiKey: string | Redacted.Redacted<string>;
 }
 export const GetResourceApiKeyResponse = S.suspend(() =>
-  S.Struct({ apiKey: S.String }),
+  S.Struct({ apiKey: SensitiveString }),
 ).annotations({
   identifier: "GetResourceApiKeyResponse",
 }) as any as S.Schema<GetResourceApiKeyResponse>;
 export interface GetResourceOauth2TokenRequest {
-  workloadIdentityToken: string;
+  workloadIdentityToken: string | Redacted.Redacted<string>;
   resourceCredentialProviderName: string;
   scopes: ScopesListType;
   oauth2Flow: string;
@@ -1073,11 +1079,11 @@ export interface GetResourceOauth2TokenRequest {
   resourceOauth2ReturnUrl?: string;
   forceAuthentication?: boolean;
   customParameters?: CustomRequestParametersType;
-  customState?: string;
+  customState?: string | Redacted.Redacted<string>;
 }
 export const GetResourceOauth2TokenRequest = S.suspend(() =>
   S.Struct({
-    workloadIdentityToken: S.String,
+    workloadIdentityToken: SensitiveString,
     resourceCredentialProviderName: S.String,
     scopes: ScopesListType,
     oauth2Flow: S.String,
@@ -1085,7 +1091,7 @@ export const GetResourceOauth2TokenRequest = S.suspend(() =>
     resourceOauth2ReturnUrl: S.optional(S.String),
     forceAuthentication: S.optional(S.Boolean),
     customParameters: S.optional(CustomRequestParametersType),
-    customState: S.optional(S.String),
+    customState: S.optional(SensitiveString),
   }).pipe(
     T.all(
       T.Http({ method: "POST", uri: "/identities/oauth2/token" }),
@@ -1100,26 +1106,26 @@ export const GetResourceOauth2TokenRequest = S.suspend(() =>
   identifier: "GetResourceOauth2TokenRequest",
 }) as any as S.Schema<GetResourceOauth2TokenRequest>;
 export interface GetWorkloadAccessTokenResponse {
-  workloadAccessToken: string;
+  workloadAccessToken: string | Redacted.Redacted<string>;
 }
 export const GetWorkloadAccessTokenResponse = S.suspend(() =>
-  S.Struct({ workloadAccessToken: S.String }),
+  S.Struct({ workloadAccessToken: SensitiveString }),
 ).annotations({
   identifier: "GetWorkloadAccessTokenResponse",
 }) as any as S.Schema<GetWorkloadAccessTokenResponse>;
 export interface GetWorkloadAccessTokenForJWTResponse {
-  workloadAccessToken: string;
+  workloadAccessToken: string | Redacted.Redacted<string>;
 }
 export const GetWorkloadAccessTokenForJWTResponse = S.suspend(() =>
-  S.Struct({ workloadAccessToken: S.String }),
+  S.Struct({ workloadAccessToken: SensitiveString }),
 ).annotations({
   identifier: "GetWorkloadAccessTokenForJWTResponse",
 }) as any as S.Schema<GetWorkloadAccessTokenForJWTResponse>;
 export interface GetWorkloadAccessTokenForUserIdResponse {
-  workloadAccessToken: string;
+  workloadAccessToken: string | Redacted.Redacted<string>;
 }
 export const GetWorkloadAccessTokenForUserIdResponse = S.suspend(() =>
-  S.Struct({ workloadAccessToken: S.String }),
+  S.Struct({ workloadAccessToken: SensitiveString }),
 ).annotations({
   identifier: "GetWorkloadAccessTokenForUserIdResponse",
 }) as any as S.Schema<GetWorkloadAccessTokenForUserIdResponse>;
@@ -1422,13 +1428,13 @@ export const StartMemoryExtractionJobInput = S.suspend(() =>
 export interface InputContentBlock {
   path: string;
   text?: string;
-  blob?: Uint8Array;
+  blob?: Uint8Array | Redacted.Redacted<Uint8Array>;
 }
 export const InputContentBlock = S.suspend(() =>
   S.Struct({
     path: S.String,
     text: S.optional(S.String),
-    blob: S.optional(T.Blob),
+    blob: S.optional(SensitiveBlob),
   }),
 ).annotations({
   identifier: "InputContentBlock",
@@ -1572,8 +1578,8 @@ export type MemoryRecordsCreateInputList = MemoryRecordCreateInput[];
 export const MemoryRecordsCreateInputList = S.Array(MemoryRecordCreateInput);
 export type MetadataMap = { [key: string]: (typeof MetadataValue)["Type"] };
 export const MetadataMap = S.Record({ key: S.String, value: MetadataValue });
-export type Content = { text: string };
-export const Content = S.Union(S.Struct({ text: S.String }));
+export type Content = { text: string | Redacted.Redacted<string> };
+export const Content = S.Union(S.Struct({ text: SensitiveString }));
 export interface Conversational {
   content: (typeof Content)["Type"];
   role: string;
@@ -1679,14 +1685,14 @@ export const SessionSummary = S.suspend(() =>
 export type SessionSummaryList = SessionSummary[];
 export const SessionSummaryList = S.Array(SessionSummary);
 export interface SearchCriteria {
-  searchQuery: string;
+  searchQuery: string | Redacted.Redacted<string>;
   memoryStrategyId?: string;
   topK?: number;
   metadataFilters?: MemoryMetadataFilterList;
 }
 export const SearchCriteria = S.suspend(() =>
   S.Struct({
-    searchQuery: S.String,
+    searchQuery: SensitiveString,
     memoryStrategyId: S.optional(S.String),
     topK: S.optional(S.Number),
     metadataFilters: S.optional(MemoryMetadataFilterList),
@@ -1695,15 +1701,15 @@ export const SearchCriteria = S.suspend(() =>
   identifier: "SearchCriteria",
 }) as any as S.Schema<SearchCriteria>;
 export interface GetResourceOauth2TokenResponse {
-  authorizationUrl?: string;
-  accessToken?: string;
+  authorizationUrl?: string | Redacted.Redacted<string>;
+  accessToken?: string | Redacted.Redacted<string>;
   sessionUri?: string;
   sessionStatus?: string;
 }
 export const GetResourceOauth2TokenResponse = S.suspend(() =>
   S.Struct({
-    authorizationUrl: S.optional(S.String),
-    accessToken: S.optional(S.String),
+    authorizationUrl: S.optional(SensitiveString),
+    accessToken: S.optional(SensitiveString),
     sessionUri: S.optional(S.String),
     sessionStatus: S.optional(S.String),
   }),
@@ -2222,7 +2228,7 @@ export interface EvaluationResultContent {
   evaluatorArn: string;
   evaluatorId: string;
   evaluatorName: string;
-  explanation?: string;
+  explanation?: string | Redacted.Redacted<string>;
   context: (typeof Context)["Type"];
   value?: number;
   label?: string;
@@ -2235,7 +2241,7 @@ export const EvaluationResultContent = S.suspend(() =>
     evaluatorArn: S.String,
     evaluatorId: S.String,
     evaluatorName: S.String,
-    explanation: S.optional(S.String),
+    explanation: S.optional(SensitiveString),
     context: Context,
     value: S.optional(S.Number),
     label: S.optional(S.String),

@@ -1,5 +1,6 @@
 import { HttpClient } from "@effect/platform";
 import * as Effect from "effect/Effect";
+import * as Redacted from "effect/Redacted";
 import * as S from "effect/Schema";
 import * as Stream from "effect/Stream";
 import * as API from "../api.ts";
@@ -10,6 +11,7 @@ import {
   ErrorCategory,
   Errors,
 } from "../index.ts";
+import { SensitiveString, SensitiveBlob } from "../sensitive.ts";
 const ns = T.XmlNamespace("http://rds.amazonaws.com/doc/2014-10-31/");
 const svc = T.AwsApiService({ sdkId: "RDS", serviceShapeName: "AmazonRDSv19" });
 const auth = T.AwsAuthSigv4({ name: "rds" });
@@ -268,7 +270,7 @@ const rules = T.EndpointRuleSet({
 });
 
 //# Newtypes
-export type SensitiveString = string;
+export type SensitiveString = string | Redacted.Redacted<string>;
 export type BlueGreenDeploymentName = string;
 export type DatabaseArn = string;
 export type TargetEngineVersion = string;
@@ -311,7 +313,9 @@ export type AuthUserName = string;
 export type PotentiallySensitiveParameterValue = string;
 export type ExceptionMessage = string;
 export type IntegrationArn = string;
-export type PotentiallySensitiveOptionSettingValue = string;
+export type PotentiallySensitiveOptionSettingValue =
+  | string
+  | Redacted.Redacted<string>;
 export type BlueGreenDeploymentStatus = string;
 export type BlueGreenDeploymentStatusDetails = string;
 export type Double = number;
@@ -586,7 +590,7 @@ export interface CopyDBClusterSnapshotMessage {
   SourceDBClusterSnapshotIdentifier: string;
   TargetDBClusterSnapshotIdentifier: string;
   KmsKeyId?: string;
-  PreSignedUrl?: string;
+  PreSignedUrl?: string | Redacted.Redacted<string>;
   CopyTags?: boolean;
   Tags?: TagList;
 }
@@ -595,7 +599,7 @@ export const CopyDBClusterSnapshotMessage = S.suspend(() =>
     SourceDBClusterSnapshotIdentifier: S.String,
     TargetDBClusterSnapshotIdentifier: S.String,
     KmsKeyId: S.optional(S.String),
-    PreSignedUrl: S.optional(S.String),
+    PreSignedUrl: S.optional(SensitiveString),
     CopyTags: S.optional(S.Boolean),
     Tags: S.optional(TagList),
   }).pipe(
@@ -644,7 +648,7 @@ export interface CopyDBSnapshotMessage {
   KmsKeyId?: string;
   Tags?: TagList;
   CopyTags?: boolean;
-  PreSignedUrl?: string;
+  PreSignedUrl?: string | Redacted.Redacted<string>;
   OptionGroupName?: string;
   TargetCustomAvailabilityZone?: string;
   SnapshotTarget?: string;
@@ -658,7 +662,7 @@ export const CopyDBSnapshotMessage = S.suspend(() =>
     KmsKeyId: S.optional(S.String),
     Tags: S.optional(TagList),
     CopyTags: S.optional(S.Boolean),
-    PreSignedUrl: S.optional(S.String),
+    PreSignedUrl: S.optional(SensitiveString),
     OptionGroupName: S.optional(S.String),
     TargetCustomAvailabilityZone: S.optional(S.String),
     SnapshotTarget: S.optional(S.String),
@@ -941,7 +945,7 @@ export interface CreateDBInstanceReadReplicaMessage {
   MonitoringInterval?: number;
   MonitoringRoleArn?: string;
   KmsKeyId?: string;
-  PreSignedUrl?: string;
+  PreSignedUrl?: string | Redacted.Redacted<string>;
   EnableIAMDatabaseAuthentication?: boolean;
   DatabaseInsightsMode?: string;
   EnablePerformanceInsights?: boolean;
@@ -993,7 +997,7 @@ export const CreateDBInstanceReadReplicaMessage = S.suspend(() =>
     MonitoringInterval: S.optional(S.Number),
     MonitoringRoleArn: S.optional(S.String),
     KmsKeyId: S.optional(S.String),
-    PreSignedUrl: S.optional(S.String),
+    PreSignedUrl: S.optional(SensitiveString),
     EnableIAMDatabaseAuthentication: S.optional(S.Boolean),
     DatabaseInsightsMode: S.optional(S.String),
     EnablePerformanceInsights: S.optional(S.Boolean),
@@ -1300,7 +1304,7 @@ export interface CreateTenantDatabaseMessage {
   DBInstanceIdentifier: string;
   TenantDBName: string;
   MasterUsername: string;
-  MasterUserPassword?: string;
+  MasterUserPassword?: string | Redacted.Redacted<string>;
   CharacterSetName?: string;
   NcharCharacterSetName?: string;
   ManageMasterUserPassword?: boolean;
@@ -1312,7 +1316,7 @@ export const CreateTenantDatabaseMessage = S.suspend(() =>
     DBInstanceIdentifier: S.String,
     TenantDBName: S.String,
     MasterUsername: S.String,
-    MasterUserPassword: S.optional(S.String),
+    MasterUserPassword: S.optional(SensitiveString),
     CharacterSetName: S.optional(S.String),
     NcharCharacterSetName: S.optional(S.String),
     ManageMasterUserPassword: S.optional(S.Boolean),
@@ -3659,7 +3663,7 @@ export const ModifyIntegrationMessage = S.suspend(() =>
 export interface ModifyTenantDatabaseMessage {
   DBInstanceIdentifier: string;
   TenantDBName: string;
-  MasterUserPassword?: string;
+  MasterUserPassword?: string | Redacted.Redacted<string>;
   NewTenantDBName?: string;
   ManageMasterUserPassword?: boolean;
   RotateMasterUserPassword?: boolean;
@@ -3669,7 +3673,7 @@ export const ModifyTenantDatabaseMessage = S.suspend(() =>
   S.Struct({
     DBInstanceIdentifier: S.String,
     TenantDBName: S.String,
-    MasterUserPassword: S.optional(S.String),
+    MasterUserPassword: S.optional(SensitiveString),
     NewTenantDBName: S.optional(S.String),
     ManageMasterUserPassword: S.optional(S.Boolean),
     RotateMasterUserPassword: S.optional(S.Boolean),
@@ -4043,7 +4047,7 @@ export interface RestoreDBClusterFromS3Message {
   EngineVersion?: string;
   Port?: number;
   MasterUsername: string;
-  MasterUserPassword?: string;
+  MasterUserPassword?: string | Redacted.Redacted<string>;
   OptionGroupName?: string;
   PreferredBackupWindow?: string;
   PreferredMaintenanceWindow?: string;
@@ -4084,7 +4088,7 @@ export const RestoreDBClusterFromS3Message = S.suspend(() =>
     EngineVersion: S.optional(S.String),
     Port: S.optional(S.Number),
     MasterUsername: S.String,
-    MasterUserPassword: S.optional(S.String),
+    MasterUserPassword: S.optional(SensitiveString),
     OptionGroupName: S.optional(S.String),
     PreferredBackupWindow: S.optional(S.String),
     PreferredMaintenanceWindow: S.optional(S.String),
@@ -4363,7 +4367,7 @@ export interface RestoreDBInstanceFromDBSnapshotMessage {
   Tags?: TagList;
   StorageType?: string;
   TdeCredentialArn?: string;
-  TdeCredentialPassword?: string;
+  TdeCredentialPassword?: string | Redacted.Redacted<string>;
   VpcSecurityGroupIds?: VpcSecurityGroupIdList;
   Domain?: string;
   DomainFqdn?: string;
@@ -4412,7 +4416,7 @@ export const RestoreDBInstanceFromDBSnapshotMessage = S.suspend(() =>
     Tags: S.optional(TagList),
     StorageType: S.optional(S.String),
     TdeCredentialArn: S.optional(S.String),
-    TdeCredentialPassword: S.optional(S.String),
+    TdeCredentialPassword: S.optional(SensitiveString),
     VpcSecurityGroupIds: S.optional(VpcSecurityGroupIdList),
     Domain: S.optional(S.String),
     DomainFqdn: S.optional(S.String),
@@ -4461,7 +4465,7 @@ export interface RestoreDBInstanceFromS3Message {
   DBInstanceClass: string;
   Engine: string;
   MasterUsername?: string;
-  MasterUserPassword?: string;
+  MasterUserPassword?: string | Redacted.Redacted<string>;
   DBSecurityGroups?: DBSecurityGroupNameList;
   VpcSecurityGroupIds?: VpcSecurityGroupIdList;
   AvailabilityZone?: string;
@@ -4518,7 +4522,7 @@ export const RestoreDBInstanceFromS3Message = S.suspend(() =>
     DBInstanceClass: S.String,
     Engine: S.String,
     MasterUsername: S.optional(S.String),
-    MasterUserPassword: S.optional(S.String),
+    MasterUserPassword: S.optional(SensitiveString),
     DBSecurityGroups: S.optional(DBSecurityGroupNameList),
     VpcSecurityGroupIds: S.optional(VpcSecurityGroupIdList),
     AvailabilityZone: S.optional(S.String),
@@ -4602,7 +4606,7 @@ export interface RestoreDBInstanceToPointInTimeMessage {
   Tags?: TagList;
   StorageType?: string;
   TdeCredentialArn?: string;
-  TdeCredentialPassword?: string;
+  TdeCredentialPassword?: string | Redacted.Redacted<string>;
   VpcSecurityGroupIds?: VpcSecurityGroupIdList;
   Domain?: string;
   DomainIAMRoleName?: string;
@@ -4655,7 +4659,7 @@ export const RestoreDBInstanceToPointInTimeMessage = S.suspend(() =>
     Tags: S.optional(TagList),
     StorageType: S.optional(S.String),
     TdeCredentialArn: S.optional(S.String),
-    TdeCredentialPassword: S.optional(S.String),
+    TdeCredentialPassword: S.optional(SensitiveString),
     VpcSecurityGroupIds: S.optional(VpcSecurityGroupIdList),
     Domain: S.optional(S.String),
     DomainIAMRoleName: S.optional(S.String),
@@ -4794,7 +4798,7 @@ export interface StartDBInstanceAutomatedBackupsReplicationMessage {
   SourceDBInstanceArn: string;
   BackupRetentionPeriod?: number;
   KmsKeyId?: string;
-  PreSignedUrl?: string;
+  PreSignedUrl?: string | Redacted.Redacted<string>;
   Tags?: TagList;
 }
 export const StartDBInstanceAutomatedBackupsReplicationMessage = S.suspend(() =>
@@ -4802,7 +4806,7 @@ export const StartDBInstanceAutomatedBackupsReplicationMessage = S.suspend(() =>
     SourceDBInstanceArn: S.String,
     BackupRetentionPeriod: S.optional(S.Number),
     KmsKeyId: S.optional(S.String),
-    PreSignedUrl: S.optional(S.String),
+    PreSignedUrl: S.optional(SensitiveString),
     Tags: S.optional(TagList),
   }).pipe(
     T.all(
@@ -5328,7 +5332,7 @@ export const CertificateDetails = S.suspend(() =>
 export interface ClusterPendingModifiedValues {
   PendingCloudwatchLogsExports?: PendingCloudwatchLogsExports;
   DBClusterIdentifier?: string;
-  MasterUserPassword?: string;
+  MasterUserPassword?: string | Redacted.Redacted<string>;
   IAMDatabaseAuthenticationEnabled?: boolean;
   EngineVersion?: string;
   BackupRetentionPeriod?: number;
@@ -5342,7 +5346,7 @@ export const ClusterPendingModifiedValues = S.suspend(() =>
   S.Struct({
     PendingCloudwatchLogsExports: S.optional(PendingCloudwatchLogsExports),
     DBClusterIdentifier: S.optional(S.String),
-    MasterUserPassword: S.optional(S.String),
+    MasterUserPassword: S.optional(SensitiveString),
     IAMDatabaseAuthenticationEnabled: S.optional(S.Boolean),
     EngineVersion: S.optional(S.String),
     BackupRetentionPeriod: S.optional(S.Number),
@@ -6064,7 +6068,7 @@ export const DBSubnetGroup = S.suspend(() =>
 export interface PendingModifiedValues {
   DBInstanceClass?: string;
   AllocatedStorage?: number;
-  MasterUserPassword?: string;
+  MasterUserPassword?: string | Redacted.Redacted<string>;
   Port?: number;
   BackupRetentionPeriod?: number;
   MultiAZ?: boolean;
@@ -6090,7 +6094,7 @@ export const PendingModifiedValues = S.suspend(() =>
   S.Struct({
     DBInstanceClass: S.optional(S.String),
     AllocatedStorage: S.optional(S.Number),
-    MasterUserPassword: S.optional(S.String),
+    MasterUserPassword: S.optional(SensitiveString),
     Port: S.optional(S.Number),
     BackupRetentionPeriod: S.optional(S.Number),
     MultiAZ: S.optional(S.Boolean),
@@ -6946,7 +6950,7 @@ export const IntegrationList = S.Array(
 );
 export interface OptionSetting {
   Name?: string;
-  Value?: string;
+  Value?: string | Redacted.Redacted<string>;
   DefaultValue?: string;
   Description?: string;
   ApplyType?: string;
@@ -6958,7 +6962,7 @@ export interface OptionSetting {
 export const OptionSetting = S.suspend(() =>
   S.Struct({
     Name: S.optional(S.String),
-    Value: S.optional(S.String),
+    Value: S.optional(SensitiveString),
     DefaultValue: S.optional(S.String),
     Description: S.optional(S.String),
     ApplyType: S.optional(S.String),
@@ -7087,12 +7091,12 @@ export const PendingMaintenanceActions = S.Array(
   ).annotations({ identifier: "ResourcePendingMaintenanceActions" }),
 );
 export interface TenantDatabasePendingModifiedValues {
-  MasterUserPassword?: string;
+  MasterUserPassword?: string | Redacted.Redacted<string>;
   TenantDBName?: string;
 }
 export const TenantDatabasePendingModifiedValues = S.suspend(() =>
   S.Struct({
-    MasterUserPassword: S.optional(S.String),
+    MasterUserPassword: S.optional(SensitiveString),
     TenantDBName: S.optional(S.String),
   }),
 ).annotations({
@@ -7248,7 +7252,7 @@ export interface CreateDBClusterMessage {
   EngineVersion?: string;
   Port?: number;
   MasterUsername?: string;
-  MasterUserPassword?: string;
+  MasterUserPassword?: string | Redacted.Redacted<string>;
   OptionGroupName?: string;
   PreferredBackupWindow?: string;
   PreferredMaintenanceWindow?: string;
@@ -7256,7 +7260,7 @@ export interface CreateDBClusterMessage {
   Tags?: TagList;
   StorageEncrypted?: boolean;
   KmsKeyId?: string;
-  PreSignedUrl?: string;
+  PreSignedUrl?: string | Redacted.Redacted<string>;
   EnableIAMDatabaseAuthentication?: boolean;
   BacktrackWindow?: number;
   EnableCloudwatchLogsExports?: LogTypeList;
@@ -7309,7 +7313,7 @@ export const CreateDBClusterMessage = S.suspend(() =>
     EngineVersion: S.optional(S.String),
     Port: S.optional(S.Number),
     MasterUsername: S.optional(S.String),
-    MasterUserPassword: S.optional(S.String),
+    MasterUserPassword: S.optional(SensitiveString),
     OptionGroupName: S.optional(S.String),
     PreferredBackupWindow: S.optional(S.String),
     PreferredMaintenanceWindow: S.optional(S.String),
@@ -7317,7 +7321,7 @@ export const CreateDBClusterMessage = S.suspend(() =>
     Tags: S.optional(TagList),
     StorageEncrypted: S.optional(S.Boolean),
     KmsKeyId: S.optional(S.String),
-    PreSignedUrl: S.optional(S.String),
+    PreSignedUrl: S.optional(SensitiveString),
     EnableIAMDatabaseAuthentication: S.optional(S.Boolean),
     BacktrackWindow: S.optional(S.Number),
     EnableCloudwatchLogsExports: S.optional(LogTypeList),
@@ -7396,7 +7400,7 @@ export interface CreateDBInstanceMessage {
   DBInstanceClass: string;
   Engine: string;
   MasterUsername?: string;
-  MasterUserPassword?: string;
+  MasterUserPassword?: string | Redacted.Redacted<string>;
   DBSecurityGroups?: DBSecurityGroupNameList;
   VpcSecurityGroupIds?: VpcSecurityGroupIdList;
   AvailabilityZone?: string;
@@ -7420,7 +7424,7 @@ export interface CreateDBInstanceMessage {
   DBClusterIdentifier?: string;
   StorageType?: string;
   TdeCredentialArn?: string;
-  TdeCredentialPassword?: string;
+  TdeCredentialPassword?: string | Redacted.Redacted<string>;
   StorageEncrypted?: boolean;
   KmsKeyId?: string;
   Domain?: string;
@@ -7466,7 +7470,7 @@ export const CreateDBInstanceMessage = S.suspend(() =>
     DBInstanceClass: S.String,
     Engine: S.String,
     MasterUsername: S.optional(S.String),
-    MasterUserPassword: S.optional(S.String),
+    MasterUserPassword: S.optional(SensitiveString),
     DBSecurityGroups: S.optional(DBSecurityGroupNameList),
     VpcSecurityGroupIds: S.optional(VpcSecurityGroupIdList),
     AvailabilityZone: S.optional(S.String),
@@ -7490,7 +7494,7 @@ export const CreateDBInstanceMessage = S.suspend(() =>
     DBClusterIdentifier: S.optional(S.String),
     StorageType: S.optional(S.String),
     TdeCredentialArn: S.optional(S.String),
-    TdeCredentialPassword: S.optional(S.String),
+    TdeCredentialPassword: S.optional(SensitiveString),
     StorageEncrypted: S.optional(S.Boolean),
     KmsKeyId: S.optional(S.String),
     Domain: S.optional(S.String),
@@ -8147,13 +8151,13 @@ export const DisableHttpEndpointResponse = S.suspend(() =>
   identifier: "DisableHttpEndpointResponse",
 }) as any as S.Schema<DisableHttpEndpointResponse>;
 export interface DownloadDBLogFilePortionDetails {
-  LogFileData?: string;
+  LogFileData?: string | Redacted.Redacted<string>;
   Marker?: string;
   AdditionalDataPending?: boolean;
 }
 export const DownloadDBLogFilePortionDetails = S.suspend(() =>
   S.Struct({
-    LogFileData: S.optional(S.String),
+    LogFileData: S.optional(SensitiveString),
     Marker: S.optional(S.String),
     AdditionalDataPending: S.optional(S.Boolean),
   }).pipe(ns),
@@ -8274,7 +8278,7 @@ export interface ModifyDBClusterMessage {
   DBClusterParameterGroupName?: string;
   VpcSecurityGroupIds?: VpcSecurityGroupIdList;
   Port?: number;
-  MasterUserPassword?: string;
+  MasterUserPassword?: string | Redacted.Redacted<string>;
   OptionGroupName?: string;
   PreferredBackupWindow?: string;
   PreferredMaintenanceWindow?: string;
@@ -8324,7 +8328,7 @@ export const ModifyDBClusterMessage = S.suspend(() =>
     DBClusterParameterGroupName: S.optional(S.String),
     VpcSecurityGroupIds: S.optional(VpcSecurityGroupIdList),
     Port: S.optional(S.Number),
-    MasterUserPassword: S.optional(S.String),
+    MasterUserPassword: S.optional(SensitiveString),
     OptionGroupName: S.optional(S.String),
     PreferredBackupWindow: S.optional(S.String),
     PreferredMaintenanceWindow: S.optional(S.String),
@@ -8454,7 +8458,7 @@ export interface ModifyDBInstanceMessage {
   DBSecurityGroups?: DBSecurityGroupNameList;
   VpcSecurityGroupIds?: VpcSecurityGroupIdList;
   ApplyImmediately?: boolean;
-  MasterUserPassword?: string;
+  MasterUserPassword?: string | Redacted.Redacted<string>;
   DBParameterGroupName?: string;
   BackupRetentionPeriod?: number;
   PreferredBackupWindow?: string;
@@ -8470,7 +8474,7 @@ export interface ModifyDBInstanceMessage {
   NewDBInstanceIdentifier?: string;
   StorageType?: string;
   TdeCredentialArn?: string;
-  TdeCredentialPassword?: string;
+  TdeCredentialPassword?: string | Redacted.Redacted<string>;
   CACertificateIdentifier?: string;
   Domain?: string;
   DomainFqdn?: string;
@@ -8521,7 +8525,7 @@ export const ModifyDBInstanceMessage = S.suspend(() =>
     DBSecurityGroups: S.optional(DBSecurityGroupNameList),
     VpcSecurityGroupIds: S.optional(VpcSecurityGroupIdList),
     ApplyImmediately: S.optional(S.Boolean),
-    MasterUserPassword: S.optional(S.String),
+    MasterUserPassword: S.optional(SensitiveString),
     DBParameterGroupName: S.optional(S.String),
     BackupRetentionPeriod: S.optional(S.Number),
     PreferredBackupWindow: S.optional(S.String),
@@ -8537,7 +8541,7 @@ export const ModifyDBInstanceMessage = S.suspend(() =>
     NewDBInstanceIdentifier: S.optional(S.String),
     StorageType: S.optional(S.String),
     TdeCredentialArn: S.optional(S.String),
-    TdeCredentialPassword: S.optional(S.String),
+    TdeCredentialPassword: S.optional(SensitiveString),
     CACertificateIdentifier: S.optional(S.String),
     Domain: S.optional(S.String),
     DomainFqdn: S.optional(S.String),

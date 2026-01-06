@@ -1,5 +1,6 @@
 import { HttpClient } from "@effect/platform";
 import * as Effect from "effect/Effect";
+import * as Redacted from "effect/Redacted";
 import * as S from "effect/Schema";
 import * as Stream from "effect/Stream";
 import * as API from "../api.ts";
@@ -10,6 +11,7 @@ import {
   ErrorCategory,
   Errors,
 } from "../index.ts";
+import { SensitiveString, SensitiveBlob } from "../sensitive.ts";
 const svc = T.AwsApiService({
   sdkId: "AuditManager",
   serviceShapeName: "BedrockAssessmentManagerLambda",
@@ -252,23 +254,23 @@ const rules = T.EndpointRuleSet({
 //# Newtypes
 export type UUID = string;
 export type ControlSetId = string;
-export type AssessmentName = string;
-export type AssessmentDescription = string;
+export type AssessmentName = string | Redacted.Redacted<string>;
+export type AssessmentDescription = string | Redacted.Redacted<string>;
 export type FrameworkName = string;
 export type FrameworkDescription = string;
-export type ComplianceType = string;
+export type ComplianceType = string | Redacted.Redacted<string>;
 export type AssessmentReportName = string;
-export type AssessmentReportDescription = string;
+export type AssessmentReportDescription = string | Redacted.Redacted<string>;
 export type QueryStatement = string;
 export type ControlName = string;
-export type ControlDescription = string;
-export type TestingInformation = string;
-export type ActionPlanTitle = string;
-export type ActionPlanInstructions = string;
+export type ControlDescription = string | Redacted.Redacted<string>;
+export type TestingInformation = string | Redacted.Redacted<string>;
+export type ActionPlanTitle = string | Redacted.Redacted<string>;
+export type ActionPlanInstructions = string | Redacted.Redacted<string>;
 export type AccountId = string;
 export type Token = string;
 export type MaxResults = number;
-export type ManualEvidenceLocalFileName = string;
+export type ManualEvidenceLocalFileName = string | Redacted.Redacted<string>;
 export type organizationId = string;
 export type ControlDomainId = string;
 export type ControlCatalogId = string;
@@ -277,36 +279,36 @@ export type KmsKey = string;
 export type Region = string;
 export type ShareRequestComment = string;
 export type TagKey = string;
-export type ControlCommentBody = string;
-export type DelegationComment = string;
+export type ControlCommentBody = string | Redacted.Redacted<string>;
+export type DelegationComment = string | Redacted.Redacted<string>;
 export type SnsArn = string;
 export type S3Url = string;
 export type IamArn = string;
-export type ManualEvidenceTextResponse = string;
+export type ManualEvidenceTextResponse = string | Redacted.Redacted<string>;
 export type TagValue = string;
 export type ControlSetName = string;
 export type SourceName = string;
 export type SourceDescription = string;
-export type TroubleshootingText = string;
+export type TroubleshootingText = string | Redacted.Redacted<string>;
 export type NullableInteger = number;
 export type AWSServiceName = string;
 export type NonEmptyString = string;
 export type KeywordValue = string;
-export type EmailAddress = string;
+export type EmailAddress = string | Redacted.Redacted<string>;
 export type AccountName = string;
 export type ErrorCode = string;
 export type ErrorMessage = string;
-export type Username = string;
+export type Username = string | Redacted.Redacted<string>;
 export type Filename = string;
 export type ControlSources = string;
-export type CreatedBy = string;
-export type LastUpdatedBy = string;
+export type CreatedBy = string | Redacted.Redacted<string>;
+export type LastUpdatedBy = string | Redacted.Redacted<string>;
 export type HyperlinkName = string;
 export type UrlLink = string;
 export type EventName = string;
 export type AssessmentEvidenceFolderName = string;
 export type Integer = number;
-export type SNSTopic = string;
+export type SNSTopic = string | Redacted.Redacted<string>;
 export type ControlsCount = number;
 export type ControlSetsCount = number;
 export type TimestampUUID = string;
@@ -503,14 +505,14 @@ export const BatchDisassociateAssessmentReportEvidenceRequest = S.suspend(() =>
 }) as any as S.Schema<BatchDisassociateAssessmentReportEvidenceRequest>;
 export interface CreateAssessmentReportRequest {
   name: string;
-  description?: string;
+  description?: string | Redacted.Redacted<string>;
   assessmentId: string;
   queryStatement?: string;
 }
 export const CreateAssessmentReportRequest = S.suspend(() =>
   S.Struct({
     name: S.String,
-    description: S.optional(S.String),
+    description: S.optional(SensitiveString),
     assessmentId: S.String.pipe(T.HttpLabel("assessmentId")),
     queryStatement: S.optional(S.String),
   }).pipe(
@@ -907,10 +909,10 @@ export const GetEvidenceByEvidenceFolderRequest = S.suspend(() =>
   identifier: "GetEvidenceByEvidenceFolderRequest",
 }) as any as S.Schema<GetEvidenceByEvidenceFolderRequest>;
 export interface GetEvidenceFileUploadUrlRequest {
-  fileName: string;
+  fileName: string | Redacted.Redacted<string>;
 }
 export const GetEvidenceFileUploadUrlRequest = S.suspend(() =>
-  S.Struct({ fileName: S.String.pipe(T.HttpQuery("fileName")) }).pipe(
+  S.Struct({ fileName: SensitiveString.pipe(T.HttpQuery("fileName")) }).pipe(
     T.all(
       T.Http({ method: "GET", uri: "/evidenceFileUploadUrl" }),
       svc,
@@ -1445,13 +1447,13 @@ export const UntagResourceResponse = S.suspend(() => S.Struct({})).annotations({
 }) as any as S.Schema<UntagResourceResponse>;
 export interface AWSAccount {
   id?: string;
-  emailAddress?: string;
+  emailAddress?: string | Redacted.Redacted<string>;
   name?: string;
 }
 export const AWSAccount = S.suspend(() =>
   S.Struct({
     id: S.optional(S.String),
-    emailAddress: S.optional(S.String),
+    emailAddress: S.optional(SensitiveString),
     name: S.optional(S.String),
   }),
 ).annotations({ identifier: "AWSAccount" }) as any as S.Schema<AWSAccount>;
@@ -1498,8 +1500,8 @@ export type Roles = Role[];
 export const Roles = S.Array(Role);
 export interface UpdateAssessmentRequest {
   assessmentId: string;
-  assessmentName?: string;
-  assessmentDescription?: string;
+  assessmentName?: string | Redacted.Redacted<string>;
+  assessmentDescription?: string | Redacted.Redacted<string>;
   scope: Scope;
   assessmentReportsDestination?: AssessmentReportsDestination;
   roles?: Roles;
@@ -1507,8 +1509,8 @@ export interface UpdateAssessmentRequest {
 export const UpdateAssessmentRequest = S.suspend(() =>
   S.Struct({
     assessmentId: S.String.pipe(T.HttpLabel("assessmentId")),
-    assessmentName: S.optional(S.String),
-    assessmentDescription: S.optional(S.String),
+    assessmentName: S.optional(SensitiveString),
+    assessmentDescription: S.optional(SensitiveString),
     scope: Scope,
     assessmentReportsDestination: S.optional(AssessmentReportsDestination),
     roles: S.optional(Roles),
@@ -1530,7 +1532,7 @@ export interface UpdateAssessmentControlRequest {
   controlSetId: string;
   controlId: string;
   controlStatus?: string;
-  commentBody?: string;
+  commentBody?: string | Redacted.Redacted<string>;
 }
 export const UpdateAssessmentControlRequest = S.suspend(() =>
   S.Struct({
@@ -1538,7 +1540,7 @@ export const UpdateAssessmentControlRequest = S.suspend(() =>
     controlSetId: S.String.pipe(T.HttpLabel("controlSetId")),
     controlId: S.String.pipe(T.HttpLabel("controlId")),
     controlStatus: S.optional(S.String),
-    commentBody: S.optional(S.String),
+    commentBody: S.optional(SensitiveString),
   }).pipe(
     T.all(
       T.Http({
@@ -1559,14 +1561,14 @@ export interface UpdateAssessmentControlSetStatusRequest {
   assessmentId: string;
   controlSetId: string;
   status: string;
-  comment: string;
+  comment: string | Redacted.Redacted<string>;
 }
 export const UpdateAssessmentControlSetStatusRequest = S.suspend(() =>
   S.Struct({
     assessmentId: S.String.pipe(T.HttpLabel("assessmentId")),
     controlSetId: S.String.pipe(T.HttpLabel("controlSetId")),
     status: S.String,
-    comment: S.String,
+    comment: SensitiveString,
   }).pipe(
     T.all(
       T.Http({
@@ -1648,14 +1650,14 @@ export const ValidateAssessmentReportIntegrityRequest = S.suspend(() =>
   identifier: "ValidateAssessmentReportIntegrityRequest",
 }) as any as S.Schema<ValidateAssessmentReportIntegrityRequest>;
 export interface CreateDelegationRequest {
-  comment?: string;
+  comment?: string | Redacted.Redacted<string>;
   controlSetId?: string;
   roleArn?: string;
   roleType?: string;
 }
 export const CreateDelegationRequest = S.suspend(() =>
   S.Struct({
-    comment: S.optional(S.String),
+    comment: S.optional(SensitiveString),
     controlSetId: S.optional(S.String),
     roleArn: S.optional(S.String),
     roleType: S.optional(S.String),
@@ -1667,14 +1669,14 @@ export type CreateDelegationRequests = CreateDelegationRequest[];
 export const CreateDelegationRequests = S.Array(CreateDelegationRequest);
 export interface ManualEvidence {
   s3ResourcePath?: string;
-  textResponse?: string;
-  evidenceFileName?: string;
+  textResponse?: string | Redacted.Redacted<string>;
+  evidenceFileName?: string | Redacted.Redacted<string>;
 }
 export const ManualEvidence = S.suspend(() =>
   S.Struct({
     s3ResourcePath: S.optional(S.String),
-    textResponse: S.optional(S.String),
-    evidenceFileName: S.optional(S.String),
+    textResponse: S.optional(SensitiveString),
+    evidenceFileName: S.optional(SensitiveString),
   }),
 ).annotations({
   identifier: "ManualEvidence",
@@ -1873,7 +1875,7 @@ export interface ControlMappingSource {
   sourceType?: string;
   sourceKeyword?: SourceKeyword;
   sourceFrequency?: string;
-  troubleshootingText?: string;
+  troubleshootingText?: string | Redacted.Redacted<string>;
 }
 export const ControlMappingSource = S.suspend(() =>
   S.Struct({
@@ -1884,7 +1886,7 @@ export const ControlMappingSource = S.suspend(() =>
     sourceType: S.optional(S.String),
     sourceKeyword: S.optional(SourceKeyword),
     sourceFrequency: S.optional(S.String),
-    troubleshootingText: S.optional(S.String),
+    troubleshootingText: S.optional(SensitiveString),
   }),
 ).annotations({
   identifier: "ControlMappingSource",
@@ -2159,7 +2161,7 @@ export interface AssessmentFrameworkShareRequest {
   comment?: string;
   standardControlsCount?: number;
   customControlsCount?: number;
-  complianceType?: string;
+  complianceType?: string | Redacted.Redacted<string>;
 }
 export const AssessmentFrameworkShareRequest = S.suspend(() =>
   S.Struct({
@@ -2177,7 +2179,7 @@ export const AssessmentFrameworkShareRequest = S.suspend(() =>
     comment: S.optional(S.String),
     standardControlsCount: S.optional(S.Number),
     customControlsCount: S.optional(S.Number),
-    complianceType: S.optional(S.String),
+    complianceType: S.optional(SensitiveString),
   }),
 ).annotations({
   identifier: "AssessmentFrameworkShareRequest",
@@ -2196,7 +2198,7 @@ export const StartAssessmentFrameworkShareResponse = S.suspend(() =>
 }) as any as S.Schema<StartAssessmentFrameworkShareResponse>;
 export interface Delegation {
   id?: string;
-  assessmentName?: string;
+  assessmentName?: string | Redacted.Redacted<string>;
   assessmentId?: string;
   status?: string;
   roleArn?: string;
@@ -2204,13 +2206,13 @@ export interface Delegation {
   creationTime?: Date;
   lastUpdated?: Date;
   controlSetId?: string;
-  comment?: string;
-  createdBy?: string;
+  comment?: string | Redacted.Redacted<string>;
+  createdBy?: string | Redacted.Redacted<string>;
 }
 export const Delegation = S.suspend(() =>
   S.Struct({
     id: S.optional(S.String),
-    assessmentName: S.optional(S.String),
+    assessmentName: S.optional(SensitiveString),
     assessmentId: S.optional(S.String),
     status: S.optional(S.String),
     roleArn: S.optional(S.String),
@@ -2218,17 +2220,17 @@ export const Delegation = S.suspend(() =>
     creationTime: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
     lastUpdated: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
     controlSetId: S.optional(S.String),
-    comment: S.optional(S.String),
-    createdBy: S.optional(S.String),
+    comment: S.optional(SensitiveString),
+    createdBy: S.optional(SensitiveString),
   }),
 ).annotations({ identifier: "Delegation" }) as any as S.Schema<Delegation>;
 export type Delegations = Delegation[];
 export const Delegations = S.Array(Delegation);
 export interface AssessmentMetadata {
-  name?: string;
+  name?: string | Redacted.Redacted<string>;
   id?: string;
-  description?: string;
-  complianceType?: string;
+  description?: string | Redacted.Redacted<string>;
+  complianceType?: string | Redacted.Redacted<string>;
   status?: string;
   assessmentReportsDestination?: AssessmentReportsDestination;
   scope?: Scope;
@@ -2239,10 +2241,10 @@ export interface AssessmentMetadata {
 }
 export const AssessmentMetadata = S.suspend(() =>
   S.Struct({
-    name: S.optional(S.String),
+    name: S.optional(SensitiveString),
     id: S.optional(S.String),
-    description: S.optional(S.String),
-    complianceType: S.optional(S.String),
+    description: S.optional(SensitiveString),
+    complianceType: S.optional(SensitiveString),
     status: S.optional(S.String),
     assessmentReportsDestination: S.optional(AssessmentReportsDestination),
     scope: S.optional(Scope),
@@ -2255,30 +2257,30 @@ export const AssessmentMetadata = S.suspend(() =>
   identifier: "AssessmentMetadata",
 }) as any as S.Schema<AssessmentMetadata>;
 export interface FrameworkMetadata {
-  name?: string;
+  name?: string | Redacted.Redacted<string>;
   description?: string;
   logo?: string;
-  complianceType?: string;
+  complianceType?: string | Redacted.Redacted<string>;
 }
 export const FrameworkMetadata = S.suspend(() =>
   S.Struct({
-    name: S.optional(S.String),
+    name: S.optional(SensitiveString),
     description: S.optional(S.String),
     logo: S.optional(S.String),
-    complianceType: S.optional(S.String),
+    complianceType: S.optional(SensitiveString),
   }),
 ).annotations({
   identifier: "FrameworkMetadata",
 }) as any as S.Schema<FrameworkMetadata>;
 export interface ControlComment {
-  authorName?: string;
-  commentBody?: string;
+  authorName?: string | Redacted.Redacted<string>;
+  commentBody?: string | Redacted.Redacted<string>;
   postedDate?: Date;
 }
 export const ControlComment = S.suspend(() =>
   S.Struct({
-    authorName: S.optional(S.String),
-    commentBody: S.optional(S.String),
+    authorName: S.optional(SensitiveString),
+    commentBody: S.optional(SensitiveString),
     postedDate: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
   }),
 ).annotations({
@@ -2291,7 +2293,7 @@ export const EvidenceSources = S.Array(S.String);
 export interface AssessmentControl {
   id?: string;
   name?: string;
-  description?: string;
+  description?: string | Redacted.Redacted<string>;
   status?: string;
   response?: string;
   comments?: ControlComments;
@@ -2303,7 +2305,7 @@ export const AssessmentControl = S.suspend(() =>
   S.Struct({
     id: S.optional(S.String),
     name: S.optional(S.String),
-    description: S.optional(S.String),
+    description: S.optional(SensitiveString),
     status: S.optional(S.String),
     response: S.optional(S.String),
     comments: S.optional(ControlComments),
@@ -2386,7 +2388,7 @@ export interface UpdateAssessmentFrameworkRequest {
   frameworkId: string;
   name: string;
   description?: string;
-  complianceType?: string;
+  complianceType?: string | Redacted.Redacted<string>;
   controlSets: UpdateAssessmentFrameworkControlSets;
 }
 export const UpdateAssessmentFrameworkRequest = S.suspend(() =>
@@ -2394,7 +2396,7 @@ export const UpdateAssessmentFrameworkRequest = S.suspend(() =>
     frameworkId: S.String.pipe(T.HttpLabel("frameworkId")),
     name: S.String,
     description: S.optional(S.String),
-    complianceType: S.optional(S.String),
+    complianceType: S.optional(SensitiveString),
     controlSets: UpdateAssessmentFrameworkControlSets,
   }).pipe(
     T.all(
@@ -2432,20 +2434,20 @@ export const UpdateAssessmentStatusResponse = S.suspend(() =>
 export interface UpdateControlRequest {
   controlId: string;
   name: string;
-  description?: string;
-  testingInformation?: string;
-  actionPlanTitle?: string;
-  actionPlanInstructions?: string;
+  description?: string | Redacted.Redacted<string>;
+  testingInformation?: string | Redacted.Redacted<string>;
+  actionPlanTitle?: string | Redacted.Redacted<string>;
+  actionPlanInstructions?: string | Redacted.Redacted<string>;
   controlMappingSources: ControlMappingSources;
 }
 export const UpdateControlRequest = S.suspend(() =>
   S.Struct({
     controlId: S.String.pipe(T.HttpLabel("controlId")),
     name: S.String,
-    description: S.optional(S.String),
-    testingInformation: S.optional(S.String),
-    actionPlanTitle: S.optional(S.String),
-    actionPlanInstructions: S.optional(S.String),
+    description: S.optional(SensitiveString),
+    testingInformation: S.optional(SensitiveString),
+    actionPlanTitle: S.optional(SensitiveString),
+    actionPlanInstructions: S.optional(SensitiveString),
     controlMappingSources: ControlMappingSources,
   }).pipe(
     T.all(
@@ -2550,11 +2552,11 @@ export const CreateAssessmentFrameworkControlSets = S.Array(
 export interface AssessmentReport {
   id?: string;
   name?: string;
-  description?: string;
+  description?: string | Redacted.Redacted<string>;
   awsAccountId?: string;
   assessmentId?: string;
-  assessmentName?: string;
-  author?: string;
+  assessmentName?: string | Redacted.Redacted<string>;
+  author?: string | Redacted.Redacted<string>;
   status?: string;
   creationTime?: Date;
 }
@@ -2562,11 +2564,11 @@ export const AssessmentReport = S.suspend(() =>
   S.Struct({
     id: S.optional(S.String),
     name: S.optional(S.String),
-    description: S.optional(S.String),
+    description: S.optional(SensitiveString),
     awsAccountId: S.optional(S.String),
     assessmentId: S.optional(S.String),
-    assessmentName: S.optional(S.String),
-    author: S.optional(S.String),
+    assessmentName: S.optional(SensitiveString),
+    author: S.optional(SensitiveString),
     status: S.optional(S.String),
     creationTime: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
   }),
@@ -2580,7 +2582,7 @@ export interface CreateControlMappingSource {
   sourceType?: string;
   sourceKeyword?: SourceKeyword;
   sourceFrequency?: string;
-  troubleshootingText?: string;
+  troubleshootingText?: string | Redacted.Redacted<string>;
 }
 export const CreateControlMappingSource = S.suspend(() =>
   S.Struct({
@@ -2590,7 +2592,7 @@ export const CreateControlMappingSource = S.suspend(() =>
     sourceType: S.optional(S.String),
     sourceKeyword: S.optional(SourceKeyword),
     sourceFrequency: S.optional(S.String),
-    troubleshootingText: S.optional(S.String),
+    troubleshootingText: S.optional(SensitiveString),
   }),
 ).annotations({
   identifier: "CreateControlMappingSource",
@@ -2627,16 +2629,16 @@ export interface Control {
   id?: string;
   type?: string;
   name?: string;
-  description?: string;
-  testingInformation?: string;
-  actionPlanTitle?: string;
-  actionPlanInstructions?: string;
+  description?: string | Redacted.Redacted<string>;
+  testingInformation?: string | Redacted.Redacted<string>;
+  actionPlanTitle?: string | Redacted.Redacted<string>;
+  actionPlanInstructions?: string | Redacted.Redacted<string>;
   controlSources?: string;
   controlMappingSources?: ControlMappingSources;
   createdAt?: Date;
   lastUpdatedAt?: Date;
-  createdBy?: string;
-  lastUpdatedBy?: string;
+  createdBy?: string | Redacted.Redacted<string>;
+  lastUpdatedBy?: string | Redacted.Redacted<string>;
   tags?: TagMap;
   state?: string;
 }
@@ -2646,23 +2648,23 @@ export const Control = S.suspend(() =>
     id: S.optional(S.String),
     type: S.optional(S.String),
     name: S.optional(S.String),
-    description: S.optional(S.String),
-    testingInformation: S.optional(S.String),
-    actionPlanTitle: S.optional(S.String),
-    actionPlanInstructions: S.optional(S.String),
+    description: S.optional(SensitiveString),
+    testingInformation: S.optional(SensitiveString),
+    actionPlanTitle: S.optional(SensitiveString),
+    actionPlanInstructions: S.optional(SensitiveString),
     controlSources: S.optional(S.String),
     controlMappingSources: S.optional(ControlMappingSources),
     createdAt: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
     lastUpdatedAt: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
-    createdBy: S.optional(S.String),
-    lastUpdatedBy: S.optional(S.String),
+    createdBy: S.optional(SensitiveString),
+    lastUpdatedBy: S.optional(SensitiveString),
     tags: S.optional(TagMap),
     state: S.optional(S.String),
   }),
 ).annotations({ identifier: "Control" }) as any as S.Schema<Control>;
 export interface DelegationMetadata {
   id?: string;
-  assessmentName?: string;
+  assessmentName?: string | Redacted.Redacted<string>;
   assessmentId?: string;
   status?: string;
   roleArn?: string;
@@ -2672,7 +2674,7 @@ export interface DelegationMetadata {
 export const DelegationMetadata = S.suspend(() =>
   S.Struct({
     id: S.optional(S.String),
-    assessmentName: S.optional(S.String),
+    assessmentName: S.optional(SensitiveString),
     assessmentId: S.optional(S.String),
     status: S.optional(S.String),
     roleArn: S.optional(S.String),
@@ -2711,7 +2713,7 @@ export interface AssessmentFrameworkMetadata {
   name?: string;
   description?: string;
   logo?: string;
-  complianceType?: string;
+  complianceType?: string | Redacted.Redacted<string>;
   controlsCount?: number;
   controlSetsCount?: number;
   createdAt?: Date;
@@ -2725,7 +2727,7 @@ export const AssessmentFrameworkMetadata = S.suspend(() =>
     name: S.optional(S.String),
     description: S.optional(S.String),
     logo: S.optional(S.String),
-    complianceType: S.optional(S.String),
+    complianceType: S.optional(SensitiveString),
     controlsCount: S.optional(S.Number),
     controlSetsCount: S.optional(S.Number),
     createdAt: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
@@ -2744,10 +2746,10 @@ export const AssessmentFrameworkShareRequestList = S.Array(
 export interface AssessmentReportMetadata {
   id?: string;
   name?: string;
-  description?: string;
+  description?: string | Redacted.Redacted<string>;
   assessmentId?: string;
-  assessmentName?: string;
-  author?: string;
+  assessmentName?: string | Redacted.Redacted<string>;
+  author?: string | Redacted.Redacted<string>;
   status?: string;
   creationTime?: Date;
 }
@@ -2755,10 +2757,10 @@ export const AssessmentReportMetadata = S.suspend(() =>
   S.Struct({
     id: S.optional(S.String),
     name: S.optional(S.String),
-    description: S.optional(S.String),
+    description: S.optional(SensitiveString),
     assessmentId: S.optional(S.String),
-    assessmentName: S.optional(S.String),
-    author: S.optional(S.String),
+    assessmentName: S.optional(SensitiveString),
+    author: S.optional(SensitiveString),
     status: S.optional(S.String),
     creationTime: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
   }),
@@ -2810,7 +2812,7 @@ export const ControlMetadataList = S.Array(ControlMetadata);
 export interface Notification {
   id?: string;
   assessmentId?: string;
-  assessmentName?: string;
+  assessmentName?: string | Redacted.Redacted<string>;
   controlSetId?: string;
   controlSetName?: string;
   description?: string;
@@ -2821,7 +2823,7 @@ export const Notification = S.suspend(() =>
   S.Struct({
     id: S.optional(S.String),
     assessmentId: S.optional(S.String),
-    assessmentName: S.optional(S.String),
+    assessmentName: S.optional(SensitiveString),
     controlSetId: S.optional(S.String),
     controlSetName: S.optional(S.String),
     description: S.optional(S.String),
@@ -2854,8 +2856,8 @@ export const BatchDeleteDelegationByAssessmentResponse = S.suspend(() =>
   identifier: "BatchDeleteDelegationByAssessmentResponse",
 }) as any as S.Schema<BatchDeleteDelegationByAssessmentResponse>;
 export interface CreateAssessmentRequest {
-  name: string;
-  description?: string;
+  name: string | Redacted.Redacted<string>;
+  description?: string | Redacted.Redacted<string>;
   assessmentReportsDestination: AssessmentReportsDestination;
   scope: Scope;
   roles: Roles;
@@ -2864,8 +2866,8 @@ export interface CreateAssessmentRequest {
 }
 export const CreateAssessmentRequest = S.suspend(() =>
   S.Struct({
-    name: S.String,
-    description: S.optional(S.String),
+    name: SensitiveString,
+    description: S.optional(SensitiveString),
     assessmentReportsDestination: AssessmentReportsDestination,
     scope: Scope,
     roles: Roles,
@@ -2887,7 +2889,7 @@ export const CreateAssessmentRequest = S.suspend(() =>
 export interface CreateAssessmentFrameworkRequest {
   name: string;
   description?: string;
-  complianceType?: string;
+  complianceType?: string | Redacted.Redacted<string>;
   controlSets: CreateAssessmentFrameworkControlSets;
   tags?: TagMap;
 }
@@ -2895,7 +2897,7 @@ export const CreateAssessmentFrameworkRequest = S.suspend(() =>
   S.Struct({
     name: S.String,
     description: S.optional(S.String),
-    complianceType: S.optional(S.String),
+    complianceType: S.optional(SensitiveString),
     controlSets: CreateAssessmentFrameworkControlSets,
     tags: S.optional(TagMap),
   }).pipe(
@@ -2921,20 +2923,20 @@ export const CreateAssessmentReportResponse = S.suspend(() =>
 }) as any as S.Schema<CreateAssessmentReportResponse>;
 export interface CreateControlRequest {
   name: string;
-  description?: string;
-  testingInformation?: string;
-  actionPlanTitle?: string;
-  actionPlanInstructions?: string;
+  description?: string | Redacted.Redacted<string>;
+  testingInformation?: string | Redacted.Redacted<string>;
+  actionPlanTitle?: string | Redacted.Redacted<string>;
+  actionPlanInstructions?: string | Redacted.Redacted<string>;
   controlMappingSources: CreateControlMappingSources;
   tags?: TagMap;
 }
 export const CreateControlRequest = S.suspend(() =>
   S.Struct({
     name: S.String,
-    description: S.optional(S.String),
-    testingInformation: S.optional(S.String),
-    actionPlanTitle: S.optional(S.String),
-    actionPlanInstructions: S.optional(S.String),
+    description: S.optional(SensitiveString),
+    testingInformation: S.optional(SensitiveString),
+    actionPlanTitle: S.optional(SensitiveString),
+    actionPlanInstructions: S.optional(SensitiveString),
     controlMappingSources: CreateControlMappingSources,
     tags: S.optional(TagMap),
   }).pipe(
@@ -3119,15 +3121,15 @@ export interface Framework {
   id?: string;
   name?: string;
   type?: string;
-  complianceType?: string;
+  complianceType?: string | Redacted.Redacted<string>;
   description?: string;
   logo?: string;
   controlSources?: string;
   controlSets?: ControlSets;
   createdAt?: Date;
   lastUpdatedAt?: Date;
-  createdBy?: string;
-  lastUpdatedBy?: string;
+  createdBy?: string | Redacted.Redacted<string>;
+  lastUpdatedBy?: string | Redacted.Redacted<string>;
   tags?: TagMap;
 }
 export const Framework = S.suspend(() =>
@@ -3136,15 +3138,15 @@ export const Framework = S.suspend(() =>
     id: S.optional(S.String),
     name: S.optional(S.String),
     type: S.optional(S.String),
-    complianceType: S.optional(S.String),
+    complianceType: S.optional(SensitiveString),
     description: S.optional(S.String),
     logo: S.optional(S.String),
     controlSources: S.optional(S.String),
     controlSets: S.optional(ControlSets),
     createdAt: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
     lastUpdatedAt: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
-    createdBy: S.optional(S.String),
-    lastUpdatedBy: S.optional(S.String),
+    createdBy: S.optional(SensitiveString),
+    lastUpdatedBy: S.optional(SensitiveString),
     tags: S.optional(TagMap),
   }),
 ).annotations({ identifier: "Framework" }) as any as S.Schema<Framework>;
@@ -3182,7 +3184,7 @@ export const EvidenceFinderEnablement = S.suspend(() =>
 }) as any as S.Schema<EvidenceFinderEnablement>;
 export interface Settings {
   isAwsOrgEnabled?: boolean;
-  snsTopic?: string;
+  snsTopic?: string | Redacted.Redacted<string>;
   defaultAssessmentReportsDestination?: AssessmentReportsDestination;
   defaultProcessOwners?: Roles;
   kmsKey?: string;
@@ -3193,7 +3195,7 @@ export interface Settings {
 export const Settings = S.suspend(() =>
   S.Struct({
     isAwsOrgEnabled: S.optional(S.Boolean),
-    snsTopic: S.optional(S.String),
+    snsTopic: S.optional(SensitiveString),
     defaultAssessmentReportsDestination: S.optional(
       AssessmentReportsDestination,
     ),
@@ -3285,9 +3287,9 @@ export const ControlInsightsMetadataByAssessment = S.Array(
   ControlInsightsMetadataByAssessmentItem,
 );
 export interface AssessmentMetadataItem {
-  name?: string;
+  name?: string | Redacted.Redacted<string>;
   id?: string;
-  complianceType?: string;
+  complianceType?: string | Redacted.Redacted<string>;
   status?: string;
   roles?: Roles;
   delegations?: Delegations;
@@ -3296,9 +3298,9 @@ export interface AssessmentMetadataItem {
 }
 export const AssessmentMetadataItem = S.suspend(() =>
   S.Struct({
-    name: S.optional(S.String),
+    name: S.optional(SensitiveString),
     id: S.optional(S.String),
-    complianceType: S.optional(S.String),
+    complianceType: S.optional(SensitiveString),
     status: S.optional(S.String),
     roles: S.optional(Roles),
     delegations: S.optional(Delegations),

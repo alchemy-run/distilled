@@ -1,5 +1,6 @@
 import { HttpClient } from "@effect/platform";
 import * as Effect from "effect/Effect";
+import * as Redacted from "effect/Redacted";
 import * as S from "effect/Schema";
 import * as Stream from "effect/Stream";
 import * as API from "../api.ts";
@@ -10,6 +11,7 @@ import {
   ErrorCategory,
   Errors,
 } from "../index.ts";
+import { SensitiveString, SensitiveBlob } from "../sensitive.ts";
 const svc = T.AwsApiService({
   sdkId: "CodeBuild",
   serviceShapeName: "CodeBuild_20161006",
@@ -261,8 +263,8 @@ export type WrapperInt = number;
 export type ReportGroupName = string;
 export type PageSize = number;
 export type Percentage = number;
-export type SensitiveNonEmptyString = string;
-export type SensitiveString = string;
+export type SensitiveNonEmptyString = string | Redacted.Redacted<string>;
+export type SensitiveString = string | Redacted.Redacted<string>;
 export type GitCloneDepth = number;
 export type WrapperLong = number;
 export type KeyInput = string;
@@ -642,7 +644,7 @@ export const GetResourcePolicyInput = S.suspend(() =>
 }) as any as S.Schema<GetResourcePolicyInput>;
 export interface ImportSourceCredentialsInput {
   username?: string;
-  token: string;
+  token: string | Redacted.Redacted<string>;
   serverType: string;
   authType: string;
   shouldOverwrite?: boolean;
@@ -650,7 +652,7 @@ export interface ImportSourceCredentialsInput {
 export const ImportSourceCredentialsInput = S.suspend(() =>
   S.Struct({
     username: S.optional(S.String),
-    token: S.String,
+    token: SensitiveString,
     serverType: S.String,
     authType: S.String,
     shouldOverwrite: S.optional(S.Boolean),
@@ -738,14 +740,14 @@ export interface ListCommandExecutionsForSandboxInput {
   sandboxId: string;
   maxResults?: number;
   sortOrder?: string;
-  nextToken?: string;
+  nextToken?: string | Redacted.Redacted<string>;
 }
 export const ListCommandExecutionsForSandboxInput = S.suspend(() =>
   S.Struct({
     sandboxId: S.String,
     maxResults: S.optional(S.Number),
     sortOrder: S.optional(S.String),
-    nextToken: S.optional(S.String),
+    nextToken: S.optional(SensitiveString),
   }).pipe(
     T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
   ),
@@ -753,14 +755,14 @@ export const ListCommandExecutionsForSandboxInput = S.suspend(() =>
   identifier: "ListCommandExecutionsForSandboxInput",
 }) as any as S.Schema<ListCommandExecutionsForSandboxInput>;
 export interface ListFleetsInput {
-  nextToken?: string;
+  nextToken?: string | Redacted.Redacted<string>;
   maxResults?: number;
   sortOrder?: string;
   sortBy?: string;
 }
 export const ListFleetsInput = S.suspend(() =>
   S.Struct({
-    nextToken: S.optional(S.String),
+    nextToken: S.optional(SensitiveString),
     maxResults: S.optional(S.Number),
     sortOrder: S.optional(S.String),
     sortBy: S.optional(S.String),
@@ -850,14 +852,14 @@ export interface ListSandboxesForProjectInput {
   projectName: string;
   maxResults?: number;
   sortOrder?: string;
-  nextToken?: string;
+  nextToken?: string | Redacted.Redacted<string>;
 }
 export const ListSandboxesForProjectInput = S.suspend(() =>
   S.Struct({
     projectName: S.String,
     maxResults: S.optional(S.Number),
     sortOrder: S.optional(S.String),
-    nextToken: S.optional(S.String),
+    nextToken: S.optional(SensitiveString),
   }).pipe(
     T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
   ),
@@ -1137,13 +1139,13 @@ export const StartBuildBatchInput = S.suspend(() =>
 }) as any as S.Schema<StartBuildBatchInput>;
 export interface StartCommandExecutionInput {
   sandboxId: string;
-  command: string;
+  command: string | Redacted.Redacted<string>;
   type?: string;
 }
 export const StartCommandExecutionInput = S.suspend(() =>
   S.Struct({
     sandboxId: S.String,
-    command: S.String,
+    command: SensitiveString,
     type: S.optional(S.String),
   }).pipe(
     T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
@@ -1153,12 +1155,12 @@ export const StartCommandExecutionInput = S.suspend(() =>
 }) as any as S.Schema<StartCommandExecutionInput>;
 export interface StartSandboxInput {
   projectName?: string;
-  idempotencyToken?: string;
+  idempotencyToken?: string | Redacted.Redacted<string>;
 }
 export const StartSandboxInput = S.suspend(() =>
   S.Struct({
     projectName: S.optional(S.String),
-    idempotencyToken: S.optional(S.String),
+    idempotencyToken: S.optional(SensitiveString),
   }).pipe(
     T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
   ),
@@ -1800,11 +1802,11 @@ export interface CommandExecution {
   startTime?: Date;
   endTime?: Date;
   status?: string;
-  command?: string;
+  command?: string | Redacted.Redacted<string>;
   type?: string;
   exitCode?: string;
-  standardOutputContent?: string;
-  standardErrContent?: string;
+  standardOutputContent?: string | Redacted.Redacted<string>;
+  standardErrContent?: string | Redacted.Redacted<string>;
   logs?: LogsLocation;
   sandboxArn?: string;
 }
@@ -1816,11 +1818,11 @@ export const CommandExecution = S.suspend(() =>
     startTime: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
     endTime: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
     status: S.optional(S.String),
-    command: S.optional(S.String),
+    command: S.optional(SensitiveString),
     type: S.optional(S.String),
     exitCode: S.optional(S.String),
-    standardOutputContent: S.optional(S.String),
-    standardErrContent: S.optional(S.String),
+    standardOutputContent: S.optional(SensitiveString),
+    standardErrContent: S.optional(SensitiveString),
     logs: S.optional(LogsLocation),
     sandboxArn: S.optional(S.String),
   }),

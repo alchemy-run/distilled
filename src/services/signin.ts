@@ -1,5 +1,6 @@
 import { HttpClient } from "@effect/platform";
 import * as Effect from "effect/Effect";
+import * as Redacted from "effect/Redacted";
 import * as S from "effect/Schema";
 import * as Stream from "effect/Stream";
 import * as API from "../api.ts";
@@ -10,6 +11,7 @@ import {
   ErrorCategory,
   Errors,
 } from "../index.ts";
+import { SensitiveString, SensitiveBlob } from "../sensitive.ts";
 const svc = T.AwsApiService({ sdkId: "Signin", serviceShapeName: "Signin" });
 const auth = T.AwsAuthSigv4({ name: "signin" });
 const ver = T.ServiceVersion("2023-01-01");
@@ -360,7 +362,7 @@ export type GrantType = string;
 export type AuthorizationCode = string;
 export type RedirectUri = string;
 export type CodeVerifier = string;
-export type RefreshToken = string;
+export type RefreshToken = string | Redacted.Redacted<string>;
 export type TokenType = string;
 export type ExpiresIn = number;
 export type IdToken = string;
@@ -372,7 +374,7 @@ export interface CreateOAuth2TokenRequestBody {
   code?: string;
   redirectUri?: string;
   codeVerifier?: string;
-  refreshToken?: string;
+  refreshToken?: string | Redacted.Redacted<string>;
 }
 export const CreateOAuth2TokenRequestBody = S.suspend(() =>
   S.Struct({
@@ -381,7 +383,7 @@ export const CreateOAuth2TokenRequestBody = S.suspend(() =>
     code: S.optional(S.String),
     redirectUri: S.optional(S.String).pipe(T.JsonName("redirectUri")),
     codeVerifier: S.optional(S.String).pipe(T.JsonName("codeVerifier")),
-    refreshToken: S.optional(S.String).pipe(T.JsonName("refreshToken")),
+    refreshToken: S.optional(SensitiveString).pipe(T.JsonName("refreshToken")),
   }),
 ).annotations({
   identifier: "CreateOAuth2TokenRequestBody",
@@ -423,7 +425,7 @@ export interface CreateOAuth2TokenResponseBody {
   accessToken: AccessToken;
   tokenType: string;
   expiresIn: number;
-  refreshToken: string;
+  refreshToken: string | Redacted.Redacted<string>;
   idToken?: string;
 }
 export const CreateOAuth2TokenResponseBody = S.suspend(() =>
@@ -433,7 +435,7 @@ export const CreateOAuth2TokenResponseBody = S.suspend(() =>
     }),
     tokenType: S.String.pipe(T.JsonName("tokenType")),
     expiresIn: S.Number.pipe(T.JsonName("expiresIn")),
-    refreshToken: S.String.pipe(T.JsonName("refreshToken")),
+    refreshToken: SensitiveString.pipe(T.JsonName("refreshToken")),
     idToken: S.optional(S.String).pipe(T.JsonName("idToken")),
   }),
 ).annotations({

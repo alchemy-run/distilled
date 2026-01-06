@@ -1,5 +1,6 @@
 import { HttpClient } from "@effect/platform";
 import * as Effect from "effect/Effect";
+import * as Redacted from "effect/Redacted";
 import * as S from "effect/Schema";
 import * as Stream from "effect/Stream";
 import * as API from "../api.ts";
@@ -10,6 +11,7 @@ import {
   ErrorCategory,
   Errors,
 } from "../index.ts";
+import { SensitiveString, SensitiveBlob } from "../sensitive.ts";
 const svc = T.AwsApiService({
   sdkId: "Backup",
   serviceShapeName: "CryoControllerUserManager",
@@ -252,7 +254,7 @@ const rules = T.EndpointRuleSet({
 //# Newtypes
 export type BackupVaultName = string;
 export type ARN = string;
-export type RequesterComment = string;
+export type RequesterComment = string | Redacted.Redacted<string>;
 export type Long = number;
 export type FrameworkName = string;
 export type FrameworkDescription = string;
@@ -346,13 +348,13 @@ export const TagKeyList = S.Array(S.String);
 export interface AssociateBackupVaultMpaApprovalTeamInput {
   BackupVaultName: string;
   MpaApprovalTeamArn: string;
-  RequesterComment?: string;
+  RequesterComment?: string | Redacted.Redacted<string>;
 }
 export const AssociateBackupVaultMpaApprovalTeamInput = S.suspend(() =>
   S.Struct({
     BackupVaultName: S.String.pipe(T.HttpLabel("BackupVaultName")),
     MpaApprovalTeamArn: S.String,
-    RequesterComment: S.optional(S.String),
+    RequesterComment: S.optional(SensitiveString),
   }).pipe(
     T.all(
       T.Http({
@@ -468,7 +470,7 @@ export interface CreateRestoreAccessBackupVaultInput {
   BackupVaultName?: string;
   BackupVaultTags?: Tags;
   CreatorRequestId?: string;
-  RequesterComment?: string;
+  RequesterComment?: string | Redacted.Redacted<string>;
 }
 export const CreateRestoreAccessBackupVaultInput = S.suspend(() =>
   S.Struct({
@@ -476,7 +478,7 @@ export const CreateRestoreAccessBackupVaultInput = S.suspend(() =>
     BackupVaultName: S.optional(S.String),
     BackupVaultTags: S.optional(Tags),
     CreatorRequestId: S.optional(S.String),
-    RequesterComment: S.optional(S.String),
+    RequesterComment: S.optional(SensitiveString),
   }).pipe(
     T.all(
       T.Http({ method: "PUT", uri: "/restore-access-backup-vaults" }),
@@ -1009,12 +1011,12 @@ export const DescribeScanJobInput = S.suspend(() =>
 }) as any as S.Schema<DescribeScanJobInput>;
 export interface DisassociateBackupVaultMpaApprovalTeamInput {
   BackupVaultName: string;
-  RequesterComment?: string;
+  RequesterComment?: string | Redacted.Redacted<string>;
 }
 export const DisassociateBackupVaultMpaApprovalTeamInput = S.suspend(() =>
   S.Struct({
     BackupVaultName: S.String.pipe(T.HttpLabel("BackupVaultName")),
-    RequesterComment: S.optional(S.String),
+    RequesterComment: S.optional(SensitiveString),
   }).pipe(
     T.all(
       T.Http({
@@ -2477,7 +2479,7 @@ export const PutRestoreValidationResultResponse = S.suspend(() =>
 export interface RevokeRestoreAccessBackupVaultInput {
   BackupVaultName: string;
   RestoreAccessBackupVaultArn: string;
-  RequesterComment?: string;
+  RequesterComment?: string | Redacted.Redacted<string>;
 }
 export const RevokeRestoreAccessBackupVaultInput = S.suspend(() =>
   S.Struct({
@@ -2485,7 +2487,7 @@ export const RevokeRestoreAccessBackupVaultInput = S.suspend(() =>
     RestoreAccessBackupVaultArn: S.String.pipe(
       T.HttpLabel("RestoreAccessBackupVaultArn"),
     ),
-    RequesterComment: S.optional(S.String).pipe(
+    RequesterComment: S.optional(SensitiveString).pipe(
       T.HttpQuery("requesterComment"),
     ),
   }).pipe(

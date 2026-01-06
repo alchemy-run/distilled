@@ -1,5 +1,6 @@
 import { HttpClient } from "@effect/platform";
 import * as Effect from "effect/Effect";
+import * as Redacted from "effect/Redacted";
 import * as S from "effect/Schema";
 import * as Stream from "effect/Stream";
 import * as API from "../api.ts";
@@ -10,6 +11,7 @@ import {
   ErrorCategory,
   Errors,
 } from "../index.ts";
+import { SensitiveString, SensitiveBlob } from "../sensitive.ts";
 const svc = T.AwsApiService({
   sdkId: "Personalize",
   serviceShapeName: "AmazonPersonalize",
@@ -257,14 +259,14 @@ export type RoleArn = string;
 export type TransactionsPerSecond = number;
 export type DatasetType = string;
 export type KmsKeyArn = string;
-export type FilterExpression = string;
+export type FilterExpression = string | Redacted.Redacted<string>;
 export type AvroSchema = string;
 export type EventType = string;
 export type NextToken = string;
 export type MaxResults = number;
-export type TagKey = string;
+export type TagKey = string | Redacted.Redacted<string>;
 export type MetricName = string;
-export type TagValue = string;
+export type TagValue = string | Redacted.Redacted<string>;
 export type S3Location = string;
 export type MetricExpression = string;
 export type EventValueThreshold = string;
@@ -298,16 +300,16 @@ export type ContinuousMaxValue = number;
 export type CategoricalValue = string;
 
 //# Schemas
-export type TagKeys = string[];
-export const TagKeys = S.Array(S.String);
+export type TagKeys = string | Redacted.Redacted<string>[];
+export const TagKeys = S.Array(SensitiveString);
 export type MetricAttributesNamesList = string[];
 export const MetricAttributesNamesList = S.Array(S.String);
 export interface Tag {
-  tagKey: string;
-  tagValue: string;
+  tagKey: string | Redacted.Redacted<string>;
+  tagValue: string | Redacted.Redacted<string>;
 }
 export const Tag = S.suspend(() =>
-  S.Struct({ tagKey: S.String, tagValue: S.String }),
+  S.Struct({ tagKey: SensitiveString, tagValue: SensitiveString }),
 ).annotations({ identifier: "Tag" }) as any as S.Schema<Tag>;
 export type Tags = Tag[];
 export const Tags = S.Array(Tag);
@@ -400,14 +402,14 @@ export const CreateEventTrackerRequest = S.suspend(() =>
 export interface CreateFilterRequest {
   name: string;
   datasetGroupArn: string;
-  filterExpression: string;
+  filterExpression: string | Redacted.Redacted<string>;
   tags?: Tags;
 }
 export const CreateFilterRequest = S.suspend(() =>
   S.Struct({
     name: S.String,
     datasetGroupArn: S.String,
-    filterExpression: S.String,
+    filterExpression: SensitiveString,
     tags: S.optional(Tags),
   }).pipe(
     T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
@@ -1900,7 +1902,7 @@ export interface Filter {
   lastUpdatedDateTime?: Date;
   datasetGroupArn?: string;
   failureReason?: string;
-  filterExpression?: string;
+  filterExpression?: string | Redacted.Redacted<string>;
   status?: string;
 }
 export const Filter = S.suspend(() =>
@@ -1915,7 +1917,7 @@ export const Filter = S.suspend(() =>
     ),
     datasetGroupArn: S.optional(S.String),
     failureReason: S.optional(S.String),
-    filterExpression: S.optional(S.String),
+    filterExpression: S.optional(SensitiveString),
     status: S.optional(S.String),
   }),
 ).annotations({ identifier: "Filter" }) as any as S.Schema<Filter>;

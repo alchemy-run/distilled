@@ -1,5 +1,6 @@
 import { HttpClient } from "@effect/platform";
 import * as Effect from "effect/Effect";
+import * as Redacted from "effect/Redacted";
 import * as S from "effect/Schema";
 import * as Stream from "effect/Stream";
 import * as API from "../api.ts";
@@ -10,6 +11,7 @@ import {
   ErrorCategory,
   Errors,
 } from "../index.ts";
+import { SensitiveString, SensitiveBlob } from "../sensitive.ts";
 const ns = T.XmlNamespace("http://codepipeline.amazonaws.com/doc/2015-07-09/");
 const svc = T.AwsApiService({
   sdkId: "CodePipeline",
@@ -342,9 +344,9 @@ export type ServicePrincipal = string;
 export type RuleExecutionId = string;
 export type RuleName = string;
 export type LastUpdatedBy = string;
-export type AccessKeyId = string;
-export type SecretAccessKey = string;
-export type SessionToken = string;
+export type AccessKeyId = string | Redacted.Redacted<string>;
+export type SecretAccessKey = string | Redacted.Redacted<string>;
+export type SessionToken = string | Redacted.Redacted<string>;
 export type ActionExecutionToken = string;
 export type LogStreamARN = string;
 export type RuleTimeout = number;
@@ -2650,15 +2652,15 @@ export const Artifact = S.suspend(() =>
 export type ArtifactList = Artifact[];
 export const ArtifactList = S.Array(Artifact);
 export interface AWSSessionCredentials {
-  accessKeyId: string;
-  secretAccessKey: string;
-  sessionToken: string;
+  accessKeyId: string | Redacted.Redacted<string>;
+  secretAccessKey: string | Redacted.Redacted<string>;
+  sessionToken: string | Redacted.Redacted<string>;
 }
 export const AWSSessionCredentials = S.suspend(() =>
   S.Struct({
-    accessKeyId: S.String,
-    secretAccessKey: S.String,
-    sessionToken: S.String,
+    accessKeyId: SensitiveString,
+    secretAccessKey: SensitiveString,
+    sessionToken: SensitiveString,
   }),
 ).annotations({
   identifier: "AWSSessionCredentials",

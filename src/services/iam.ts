@@ -1,5 +1,6 @@
 import { HttpClient } from "@effect/platform";
 import * as Effect from "effect/Effect";
+import * as Redacted from "effect/Redacted";
 import * as S from "effect/Schema";
 import * as Stream from "effect/Stream";
 import * as API from "../api.ts";
@@ -10,6 +11,7 @@ import {
   ErrorCategory,
   Errors,
 } from "../index.ts";
+import { SensitiveString, SensitiveBlob } from "../sensitive.ts";
 const ns = T.XmlNamespace("https://iam.amazonaws.com/doc/2010-05-08/");
 const svc = T.AwsApiService({
   sdkId: "IAM",
@@ -759,7 +761,7 @@ export type roleNameType = string;
 export type groupNameType = string;
 export type existingUserNameType = string;
 export type userNameType = string;
-export type passwordType = string;
+export type passwordType = string | Redacted.Redacted<string>;
 export type accountAliasType = string;
 export type accountIdType = string;
 export type delegationRequestDescriptionType = string;
@@ -779,7 +781,7 @@ export type roleDescriptionType = string;
 export type roleMaxSessionDurationType = number;
 export type SAMLMetadataDocumentType = string;
 export type SAMLProviderNameType = string;
-export type privateKeyType = string;
+export type privateKeyType = string | Redacted.Redacted<string>;
 export type customSuffixType = string;
 export type serviceName = string;
 export type credentialAgeDays = number;
@@ -839,13 +841,13 @@ export type integerType = number;
 export type malformedPolicyDocumentMessage = string;
 export type policyParameterNameType = string;
 export type policyParameterValueType = string;
-export type accessKeySecretType = string;
+export type accessKeySecretType = string | Redacted.Redacted<string>;
 export type idType = string;
 export type attachmentCountType = number;
 export type serviceUserName = string;
-export type servicePassword = string;
+export type servicePassword = string | Redacted.Redacted<string>;
 export type serviceCredentialAlias = string;
-export type serviceCredentialSecret = string;
+export type serviceCredentialSecret = string | Redacted.Redacted<string>;
 export type permissionType = string;
 export type requestorNameType = string;
 export type CertificationKeyType = string;
@@ -1351,11 +1353,11 @@ export const AttachUserPolicyResponse = S.suspend(() =>
   identifier: "AttachUserPolicyResponse",
 }) as any as S.Schema<AttachUserPolicyResponse>;
 export interface ChangePasswordRequest {
-  OldPassword: string;
-  NewPassword: string;
+  OldPassword: string | Redacted.Redacted<string>;
+  NewPassword: string | Redacted.Redacted<string>;
 }
 export const ChangePasswordRequest = S.suspend(() =>
-  S.Struct({ OldPassword: S.String, NewPassword: S.String }).pipe(
+  S.Struct({ OldPassword: SensitiveString, NewPassword: SensitiveString }).pipe(
     T.all(
       ns,
       T.Http({ method: "POST", uri: "/" }),
@@ -1438,13 +1440,13 @@ export const CreateGroupRequest = S.suspend(() =>
 }) as any as S.Schema<CreateGroupRequest>;
 export interface CreateLoginProfileRequest {
   UserName?: string;
-  Password?: string;
+  Password?: string | Redacted.Redacted<string>;
   PasswordResetRequired?: boolean;
 }
 export const CreateLoginProfileRequest = S.suspend(() =>
   S.Struct({
     UserName: S.optional(S.String),
-    Password: S.optional(S.String),
+    Password: S.optional(SensitiveString),
     PasswordResetRequired: S.optional(S.Boolean),
   }).pipe(
     T.all(
@@ -1584,7 +1586,7 @@ export interface CreateSAMLProviderRequest {
   Name: string;
   Tags?: tagListType;
   AssertionEncryptionMode?: string;
-  AddPrivateKey?: string;
+  AddPrivateKey?: string | Redacted.Redacted<string>;
 }
 export const CreateSAMLProviderRequest = S.suspend(() =>
   S.Struct({
@@ -1592,7 +1594,7 @@ export const CreateSAMLProviderRequest = S.suspend(() =>
     Name: S.String,
     Tags: S.optional(tagListType),
     AssertionEncryptionMode: S.optional(S.String),
-    AddPrivateKey: S.optional(S.String),
+    AddPrivateKey: S.optional(SensitiveString),
   }).pipe(
     T.all(
       ns,
@@ -4817,13 +4819,13 @@ export const UpdateGroupResponse = S.suspend(() =>
 }) as any as S.Schema<UpdateGroupResponse>;
 export interface UpdateLoginProfileRequest {
   UserName: string;
-  Password?: string;
+  Password?: string | Redacted.Redacted<string>;
   PasswordResetRequired?: boolean;
 }
 export const UpdateLoginProfileRequest = S.suspend(() =>
   S.Struct({
     UserName: S.String,
-    Password: S.optional(S.String),
+    Password: S.optional(SensitiveString),
     PasswordResetRequired: S.optional(S.Boolean),
   }).pipe(
     T.all(
@@ -4926,7 +4928,7 @@ export interface UpdateSAMLProviderRequest {
   SAMLMetadataDocument?: string;
   SAMLProviderArn: string;
   AssertionEncryptionMode?: string;
-  AddPrivateKey?: string;
+  AddPrivateKey?: string | Redacted.Redacted<string>;
   RemovePrivateKey?: string;
 }
 export const UpdateSAMLProviderRequest = S.suspend(() =>
@@ -4934,7 +4936,7 @@ export const UpdateSAMLProviderRequest = S.suspend(() =>
     SAMLMetadataDocument: S.optional(S.String),
     SAMLProviderArn: S.String,
     AssertionEncryptionMode: S.optional(S.String),
-    AddPrivateKey: S.optional(S.String),
+    AddPrivateKey: S.optional(SensitiveString),
     RemovePrivateKey: S.optional(S.String),
   }).pipe(
     T.all(
@@ -5104,7 +5106,7 @@ export interface UploadServerCertificateRequest {
   Path?: string;
   ServerCertificateName: string;
   CertificateBody: string;
-  PrivateKey: string;
+  PrivateKey: string | Redacted.Redacted<string>;
   CertificateChain?: string;
   Tags?: tagListType;
 }
@@ -5113,7 +5115,7 @@ export const UploadServerCertificateRequest = S.suspend(() =>
     Path: S.optional(S.String),
     ServerCertificateName: S.String,
     CertificateBody: S.String,
-    PrivateKey: S.String,
+    PrivateKey: SensitiveString,
     CertificateChain: S.optional(S.String),
     Tags: S.optional(tagListType),
   }).pipe(
@@ -5486,8 +5488,8 @@ export type SAMLProviderListType = SAMLProviderListEntry[];
 export const SAMLProviderListType = S.Array(SAMLProviderListEntry);
 export interface VirtualMFADevice {
   SerialNumber: string;
-  Base32StringSeed?: Uint8Array;
-  QRCodePNG?: Uint8Array;
+  Base32StringSeed?: Uint8Array | Redacted.Redacted<Uint8Array>;
+  QRCodePNG?: Uint8Array | Redacted.Redacted<Uint8Array>;
   User?: User;
   EnableDate?: Date;
   Tags?: tagListType;
@@ -5495,8 +5497,8 @@ export interface VirtualMFADevice {
 export const VirtualMFADevice = S.suspend(() =>
   S.Struct({
     SerialNumber: S.String,
-    Base32StringSeed: S.optional(T.Blob),
-    QRCodePNG: S.optional(T.Blob),
+    Base32StringSeed: S.optional(SensitiveBlob),
+    QRCodePNG: S.optional(SensitiveBlob),
     User: S.optional(User),
     EnableDate: S.optional(S.Date.pipe(T.TimestampFormat("date-time"))),
     Tags: S.optional(tagListType),
@@ -6127,9 +6129,9 @@ export interface ServiceSpecificCredential {
   ExpirationDate?: Date;
   ServiceName: string;
   ServiceUserName?: string;
-  ServicePassword?: string;
+  ServicePassword?: string | Redacted.Redacted<string>;
   ServiceCredentialAlias?: string;
-  ServiceCredentialSecret?: string;
+  ServiceCredentialSecret?: string | Redacted.Redacted<string>;
   ServiceSpecificCredentialId: string;
   UserName: string;
   Status: string;
@@ -6140,9 +6142,9 @@ export const ServiceSpecificCredential = S.suspend(() =>
     ExpirationDate: S.optional(S.Date.pipe(T.TimestampFormat("date-time"))),
     ServiceName: S.String,
     ServiceUserName: S.optional(S.String),
-    ServicePassword: S.optional(S.String),
+    ServicePassword: S.optional(SensitiveString),
     ServiceCredentialAlias: S.optional(S.String),
-    ServiceCredentialSecret: S.optional(S.String),
+    ServiceCredentialSecret: S.optional(SensitiveString),
     ServiceSpecificCredentialId: S.String,
     UserName: S.String,
     Status: S.String,
@@ -6306,7 +6308,7 @@ export interface AccessKey {
   UserName: string;
   AccessKeyId: string;
   Status: string;
-  SecretAccessKey: string;
+  SecretAccessKey: string | Redacted.Redacted<string>;
   CreateDate?: Date;
 }
 export const AccessKey = S.suspend(() =>
@@ -6314,7 +6316,7 @@ export const AccessKey = S.suspend(() =>
     UserName: S.String,
     AccessKeyId: S.String,
     Status: S.String,
-    SecretAccessKey: S.String,
+    SecretAccessKey: SensitiveString,
     CreateDate: S.optional(S.Date.pipe(T.TimestampFormat("date-time"))),
   }),
 ).annotations({ identifier: "AccessKey" }) as any as S.Schema<AccessKey>;

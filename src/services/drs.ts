@@ -1,5 +1,6 @@
 import { HttpClient } from "@effect/platform";
 import * as Effect from "effect/Effect";
+import * as Redacted from "effect/Redacted";
 import * as S from "effect/Schema";
 import * as Stream from "effect/Stream";
 import * as API from "../api.ts";
@@ -10,6 +11,7 @@ import {
   ErrorCategory,
   Errors,
 } from "../index.ts";
+import { SensitiveString, SensitiveBlob } from "../sensitive.ts";
 const svc = T.AwsApiService({
   sdkId: "drs",
   serviceShapeName: "ElasticDisasterRecoveryService",
@@ -284,7 +286,7 @@ export type ReplicationConfigurationTemplateID = string;
 export type VpcID = string;
 export type AwsRegion = string;
 export type SourceNetworkID = string;
-export type CfnStackName = string;
+export type CfnStackName = string | Redacted.Redacted<string>;
 export type SourceServerID = string;
 export type RecoverySnapshotsOrder = string;
 export type SmallBoundedString = string;
@@ -305,7 +307,7 @@ export type JobType = string;
 export type InitiatedBy = string;
 export type JobStatus = string;
 export type ReplicationStatus = string;
-export type SensitiveBoundedString = string;
+export type SensitiveBoundedString = string | Redacted.Redacted<string>;
 export type ISO8601DurationString = string;
 export type DataReplicationState = string;
 export type AwsAvailabilityZone = string;
@@ -991,10 +993,10 @@ export const DeleteSourceNetworkResponse = S.suspend(() =>
 }) as any as S.Schema<DeleteSourceNetworkResponse>;
 export interface AssociateSourceNetworkStackRequest {
   sourceNetworkID: string;
-  cfnStackName: string;
+  cfnStackName: string | Redacted.Redacted<string>;
 }
 export const AssociateSourceNetworkStackRequest = S.suspend(() =>
-  S.Struct({ sourceNetworkID: S.String, cfnStackName: S.String }).pipe(
+  S.Struct({ sourceNetworkID: S.String, cfnStackName: SensitiveString }).pipe(
     T.all(
       T.Http({ method: "POST", uri: "/AssociateSourceNetworkStack" }),
       svc,
@@ -1330,10 +1332,13 @@ export const DescribeSourceNetworksRequestFilters = S.suspend(() =>
 }) as any as S.Schema<DescribeSourceNetworksRequestFilters>;
 export interface StartSourceNetworkRecoveryRequestNetworkEntry {
   sourceNetworkID: string;
-  cfnStackName?: string;
+  cfnStackName?: string | Redacted.Redacted<string>;
 }
 export const StartSourceNetworkRecoveryRequestNetworkEntry = S.suspend(() =>
-  S.Struct({ sourceNetworkID: S.String, cfnStackName: S.optional(S.String) }),
+  S.Struct({
+    sourceNetworkID: S.String,
+    cfnStackName: S.optional(SensitiveString),
+  }),
 ).annotations({
   identifier: "StartSourceNetworkRecoveryRequestNetworkEntry",
 }) as any as S.Schema<StartSourceNetworkRecoveryRequestNetworkEntry>;
@@ -1857,8 +1862,8 @@ export interface SourceNetwork {
   arn?: string;
   tags?: TagsMap;
   replicationStatus?: string;
-  replicationStatusDetails?: string;
-  cfnStackName?: string;
+  replicationStatusDetails?: string | Redacted.Redacted<string>;
+  cfnStackName?: string | Redacted.Redacted<string>;
   sourceRegion?: string;
   sourceAccountID?: string;
   lastRecovery?: RecoveryLifeCycle;
@@ -1871,8 +1876,8 @@ export const SourceNetwork = S.suspend(() =>
     arn: S.optional(S.String),
     tags: S.optional(TagsMap),
     replicationStatus: S.optional(S.String),
-    replicationStatusDetails: S.optional(S.String),
-    cfnStackName: S.optional(S.String),
+    replicationStatusDetails: S.optional(SensitiveString),
+    cfnStackName: S.optional(SensitiveString),
     sourceRegion: S.optional(S.String),
     sourceAccountID: S.optional(S.String),
     lastRecovery: S.optional(RecoveryLifeCycle),

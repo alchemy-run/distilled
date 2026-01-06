@@ -1,5 +1,6 @@
 import { HttpClient } from "@effect/platform";
 import * as Effect from "effect/Effect";
+import * as Redacted from "effect/Redacted";
 import * as S from "effect/Schema";
 import * as Stream from "effect/Stream";
 import * as API from "../api.ts";
@@ -10,6 +11,7 @@ import {
   ErrorCategory,
   Errors,
 } from "../index.ts";
+import { SensitiveString, SensitiveBlob } from "../sensitive.ts";
 const ns = T.XmlNamespace("http://hawksnest.amazonaws.com/doc/2019-11-15");
 const svc = T.AwsApiService({
   sdkId: "FraudDetector",
@@ -257,10 +259,10 @@ export type iamRoleArn = string;
 export type wholeNumberVersionString = string;
 export type description = string;
 export type noDashIdentifier = string;
-export type Elements = string;
+export type Elements = string | Redacted.Redacted<string>;
 export type variableType = string;
 export type modelIdentifier = string;
-export type ruleExpression = string;
+export type ruleExpression = string | Redacted.Redacted<string>;
 export type sageMakerEndpointIdentifier = string;
 export type floatVersionString = string;
 export type DetectorVersionMaxResults = number;
@@ -288,15 +290,15 @@ export type tagKey = string;
 export type tagValue = string;
 export type entityRestrictedString = string;
 export type variableName = string;
-export type variableValue = string;
+export type variableValue = string | Redacted.Redacted<string>;
 export type filterString = string;
 export type modelInputTemplate = string;
 export type contentType = string;
 export type Integer2 = number;
 export type Integer = number;
-export type sensitiveString = string;
+export type sensitiveString = string | Redacted.Redacted<string>;
 export type attributeKey = string;
-export type attributeValue = string;
+export type attributeValue = string | Redacted.Redacted<string>;
 export type Long = number;
 export type float = number;
 
@@ -321,8 +323,8 @@ export type NameList = string[];
 export const NameList = S.Array(S.String);
 export type ListOfStrings = string[];
 export const ListOfStrings = S.Array(S.String);
-export type ElementsList = string[];
-export const ElementsList = S.Array(S.String);
+export type ElementsList = string | Redacted.Redacted<string>[];
+export const ElementsList = S.Array(SensitiveString);
 export type NonEmptyListOfStrings = string[];
 export const NonEmptyListOfStrings = S.Array(S.String);
 export type tagKeyList = string[];
@@ -550,7 +552,7 @@ export interface CreateRuleRequest {
   ruleId: string;
   detectorId: string;
   description?: string;
-  expression: string;
+  expression: string | Redacted.Redacted<string>;
   language: string;
   outcomes: NonEmptyListOfStrings;
   tags?: tagList;
@@ -560,7 +562,7 @@ export const CreateRuleRequest = S.suspend(() =>
     ruleId: S.String,
     detectorId: S.String,
     description: S.optional(S.String),
-    expression: S.String,
+    expression: SensitiveString,
     language: S.String,
     outcomes: NonEmptyListOfStrings,
     tags: S.optional(tagList),
@@ -1664,8 +1666,13 @@ export const PutOutcomeResult = S.suspend(() =>
 ).annotations({
   identifier: "PutOutcomeResult",
 }) as any as S.Schema<PutOutcomeResult>;
-export type EventVariableMap = { [key: string]: string };
-export const EventVariableMap = S.Record({ key: S.String, value: S.String });
+export type EventVariableMap = {
+  [key: string]: string | Redacted.Redacted<string>;
+};
+export const EventVariableMap = S.Record({
+  key: S.String,
+  value: SensitiveString,
+});
 export interface Entity {
   entityType: string;
   entityId: string;
@@ -2091,7 +2098,7 @@ export const UpdateRuleMetadataResult = S.suspend(() =>
 export interface UpdateRuleVersionRequest {
   rule: Rule;
   description?: string;
-  expression: string;
+  expression: string | Redacted.Redacted<string>;
   language: string;
   outcomes: NonEmptyListOfStrings;
   tags?: tagList;
@@ -2100,7 +2107,7 @@ export const UpdateRuleVersionRequest = S.suspend(() =>
   S.Struct({
     rule: Rule,
     description: S.optional(S.String),
-    expression: S.String,
+    expression: SensitiveString,
     language: S.String,
     outcomes: NonEmptyListOfStrings,
     tags: S.optional(tagList),
@@ -2728,15 +2735,15 @@ export const ExternalModelEndpointDataBlobMap = S.Record({
   value: ModelEndpointDataBlob,
 });
 export interface EventVariableSummary {
-  name?: string;
-  value?: string;
-  source?: string;
+  name?: string | Redacted.Redacted<string>;
+  value?: string | Redacted.Redacted<string>;
+  source?: string | Redacted.Redacted<string>;
 }
 export const EventVariableSummary = S.suspend(() =>
   S.Struct({
-    name: S.optional(S.String),
-    value: S.optional(S.String),
-    source: S.optional(S.String),
+    name: S.optional(SensitiveString),
+    value: S.optional(SensitiveString),
+    source: S.optional(SensitiveString),
   }),
 ).annotations({
   identifier: "EventVariableSummary",
@@ -2746,8 +2753,8 @@ export const ListOfEventVariableSummaries = S.Array(EventVariableSummary);
 export interface EvaluatedRule {
   ruleId?: string;
   ruleVersion?: string;
-  expression?: string;
-  expressionWithValues?: string;
+  expression?: string | Redacted.Redacted<string>;
+  expressionWithValues?: string | Redacted.Redacted<string>;
   outcomes?: ListOfStrings;
   evaluated?: boolean;
   matched?: boolean;
@@ -2756,8 +2763,8 @@ export const EvaluatedRule = S.suspend(() =>
   S.Struct({
     ruleId: S.optional(S.String),
     ruleVersion: S.optional(S.String),
-    expression: S.optional(S.String),
-    expressionWithValues: S.optional(S.String),
+    expression: S.optional(SensitiveString),
+    expressionWithValues: S.optional(SensitiveString),
     outcomes: S.optional(ListOfStrings),
     evaluated: S.optional(S.Boolean),
     matched: S.optional(S.Boolean),
@@ -2894,7 +2901,7 @@ export interface RuleDetail {
   description?: string;
   detectorId?: string;
   ruleVersion?: string;
-  expression?: string;
+  expression?: string | Redacted.Redacted<string>;
   language?: string;
   outcomes?: NonEmptyListOfStrings;
   lastUpdatedTime?: string;
@@ -2907,7 +2914,7 @@ export const RuleDetail = S.suspend(() =>
     description: S.optional(S.String),
     detectorId: S.optional(S.String),
     ruleVersion: S.optional(S.String),
-    expression: S.optional(S.String),
+    expression: S.optional(SensitiveString),
     language: S.optional(S.String),
     outcomes: S.optional(NonEmptyListOfStrings),
     lastUpdatedTime: S.optional(S.String),
@@ -3153,8 +3160,13 @@ export const PutExternalModelResult = S.suspend(() =>
 ).annotations({
   identifier: "PutExternalModelResult",
 }) as any as S.Schema<PutExternalModelResult>;
-export type EventAttributeMap = { [key: string]: string };
-export const EventAttributeMap = S.Record({ key: S.String, value: S.String });
+export type EventAttributeMap = {
+  [key: string]: string | Redacted.Redacted<string>;
+};
+export const EventAttributeMap = S.Record({
+  key: S.String,
+  value: SensitiveString,
+});
 export type MapOfStrings = { [key: string]: string };
 export const MapOfStrings = S.Record({ key: S.String, value: S.String });
 export interface IngestedEventStatistics {

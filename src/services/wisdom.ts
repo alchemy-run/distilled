@@ -1,5 +1,6 @@
 import { HttpClient } from "@effect/platform";
 import * as Effect from "effect/Effect";
+import * as Redacted from "effect/Redacted";
 import * as S from "effect/Schema";
 import * as Stream from "effect/Stream";
 import * as API from "../api.ts";
@@ -10,6 +11,7 @@ import {
   ErrorCategory,
   Errors,
 } from "../index.ts";
+import { SensitiveString, SensitiveBlob } from "../sensitive.ts";
 const svc = T.AwsApiService({
   sdkId: "Wisdom",
   serviceShapeName: "WisdomService",
@@ -260,7 +262,7 @@ export type UuidOrArn = string;
 export type NextToken = string;
 export type MaxResults = number;
 export type WaitTimeSeconds = number;
-export type QueryText = string;
+export type QueryText = string | Redacted.Redacted<string>;
 export type AssociationType = string;
 export type NonEmptyString = string;
 export type KnowledgeBaseType = string;
@@ -275,16 +277,16 @@ export type QuickResponseName = string;
 export type QuickResponseType = string;
 export type QuickResponseDescription = string;
 export type ShortCutKey = string;
-export type Channel = string;
+export type Channel = string | Redacted.Redacted<string>;
 export type LanguageCode = string;
 export type TagValue = string;
 export type ContactAttributeKey = string;
 export type ContactAttributeValue = string;
 export type ExternalSource = string;
-export type QuickResponseContent = string;
-export type GroupingCriteria = string;
-export type GroupingValue = string;
-export type Url = string;
+export type QuickResponseContent = string | Redacted.Redacted<string>;
+export type GroupingCriteria = string | Redacted.Redacted<string>;
+export type GroupingValue = string | Redacted.Redacted<string>;
+export type Url = string | Redacted.Redacted<string>;
 export type FilterField = string;
 export type FilterOperator = string;
 export type GenericArn = string;
@@ -305,7 +307,7 @@ export type KnowledgeBaseStatus = string;
 export type ImportJobStatus = string;
 export type ContentStatus = string;
 export type QuickResponseStatus = string;
-export type SensitiveString = string;
+export type SensitiveString = string | Redacted.Redacted<string>;
 export type HighlightOffset = number;
 
 //# Schemas
@@ -313,8 +315,8 @@ export type TagKeyList = string[];
 export const TagKeyList = S.Array(S.String);
 export type RecommendationIdList = string[];
 export const RecommendationIdList = S.Array(S.String);
-export type Channels = string[];
-export const Channels = S.Array(S.String);
+export type Channels = string | Redacted.Redacted<string>[];
+export const Channels = S.Array(SensitiveString);
 export interface ListTagsForResourceRequest {
   resourceArn: string;
 }
@@ -474,14 +476,14 @@ export const NotifyRecommendationsReceivedRequest = S.suspend(() =>
 }) as any as S.Schema<NotifyRecommendationsReceivedRequest>;
 export interface QueryAssistantRequest {
   assistantId: string;
-  queryText: string;
+  queryText: string | Redacted.Redacted<string>;
   nextToken?: string;
   maxResults?: number;
 }
 export const QueryAssistantRequest = S.suspend(() =>
   S.Struct({
     assistantId: S.String.pipe(T.HttpLabel("assistantId")),
-    queryText: S.String,
+    queryText: SensitiveString,
     nextToken: S.optional(S.String),
     maxResults: S.optional(S.Number),
   }).pipe(
@@ -1100,19 +1102,21 @@ export const GetQuickResponseRequest = S.suspend(() =>
 ).annotations({
   identifier: "GetQuickResponseRequest",
 }) as any as S.Schema<GetQuickResponseRequest>;
-export type QuickResponseDataProvider = { content: string };
+export type QuickResponseDataProvider = {
+  content: string | Redacted.Redacted<string>;
+};
 export const QuickResponseDataProvider = S.Union(
-  S.Struct({ content: S.String }),
+  S.Struct({ content: SensitiveString }),
 );
-export type GroupingValues = string[];
-export const GroupingValues = S.Array(S.String);
+export type GroupingValues = string | Redacted.Redacted<string>[];
+export const GroupingValues = S.Array(SensitiveString);
 export interface GroupingConfiguration {
-  criteria?: string;
+  criteria?: string | Redacted.Redacted<string>;
   values?: GroupingValues;
 }
 export const GroupingConfiguration = S.suspend(() =>
   S.Struct({
-    criteria: S.optional(S.String),
+    criteria: S.optional(SensitiveString),
     values: S.optional(GroupingValues),
   }),
 ).annotations({
@@ -1448,7 +1452,7 @@ export interface ContentData {
   metadata: ContentMetadata;
   tags?: Tags;
   linkOutUri?: string;
-  url: string;
+  url: string | Redacted.Redacted<string>;
   urlExpiry: Date;
 }
 export const ContentData = S.suspend(() =>
@@ -1465,7 +1469,7 @@ export const ContentData = S.suspend(() =>
     metadata: ContentMetadata,
     tags: S.optional(Tags),
     linkOutUri: S.optional(S.String),
-    url: S.String,
+    url: SensitiveString,
     urlExpiry: S.Date.pipe(T.TimestampFormat("epoch-seconds")),
   }),
 ).annotations({ identifier: "ContentData" }) as any as S.Schema<ContentData>;
@@ -1581,9 +1585,11 @@ export const CreateQuickResponseRequest = S.suspend(() =>
 ).annotations({
   identifier: "CreateQuickResponseRequest",
 }) as any as S.Schema<CreateQuickResponseRequest>;
-export type QuickResponseContentProvider = { content: string };
+export type QuickResponseContentProvider = {
+  content: string | Redacted.Redacted<string>;
+};
 export const QuickResponseContentProvider = S.Union(
-  S.Struct({ content: S.String }),
+  S.Struct({ content: SensitiveString }),
 );
 export interface QuickResponseContents {
   plainText?: (typeof QuickResponseContentProvider)["Type"];
@@ -1780,11 +1786,14 @@ export const Highlight = S.suspend(() =>
 export type Highlights = Highlight[];
 export const Highlights = S.Array(Highlight);
 export interface DocumentText {
-  text?: string;
+  text?: string | Redacted.Redacted<string>;
   highlights?: Highlights;
 }
 export const DocumentText = S.suspend(() =>
-  S.Struct({ text: S.optional(S.String), highlights: S.optional(Highlights) }),
+  S.Struct({
+    text: S.optional(SensitiveString),
+    highlights: S.optional(Highlights),
+  }),
 ).annotations({ identifier: "DocumentText" }) as any as S.Schema<DocumentText>;
 export interface Document {
   contentReference: ContentReference;
@@ -1916,8 +1925,8 @@ export interface ImportJobData {
   knowledgeBaseArn: string;
   importJobType: string;
   status: string;
-  url: string;
-  failedRecordReport?: string;
+  url: string | Redacted.Redacted<string>;
+  failedRecordReport?: string | Redacted.Redacted<string>;
   urlExpiry: Date;
   createdTime: Date;
   lastModifiedTime: Date;
@@ -1932,8 +1941,8 @@ export const ImportJobData = S.suspend(() =>
     knowledgeBaseArn: S.String,
     importJobType: S.String,
     status: S.String,
-    url: S.String,
-    failedRecordReport: S.optional(S.String),
+    url: SensitiveString,
+    failedRecordReport: S.optional(SensitiveString),
     urlExpiry: S.Date.pipe(T.TimestampFormat("epoch-seconds")),
     createdTime: S.Date.pipe(T.TimestampFormat("epoch-seconds")),
     lastModifiedTime: S.Date.pipe(T.TimestampFormat("epoch-seconds")),
@@ -2285,14 +2294,14 @@ export const SearchQuickResponsesRequest = S.suspend(() =>
 }) as any as S.Schema<SearchQuickResponsesRequest>;
 export interface StartContentUploadResponse {
   uploadId: string;
-  url: string;
+  url: string | Redacted.Redacted<string>;
   urlExpiry: Date;
   headersToInclude: Headers;
 }
 export const StartContentUploadResponse = S.suspend(() =>
   S.Struct({
     uploadId: S.String,
-    url: S.String,
+    url: SensitiveString,
     urlExpiry: S.Date.pipe(T.TimestampFormat("epoch-seconds")),
     headersToInclude: Headers,
   }),
@@ -2328,10 +2337,10 @@ export const ListQuickResponsesResponse = S.suspend(() =>
   identifier: "ListQuickResponsesResponse",
 }) as any as S.Schema<ListQuickResponsesResponse>;
 export interface QueryRecommendationTriggerData {
-  text?: string;
+  text?: string | Redacted.Redacted<string>;
 }
 export const QueryRecommendationTriggerData = S.suspend(() =>
-  S.Struct({ text: S.optional(S.String) }),
+  S.Struct({ text: S.optional(SensitiveString) }),
 ).annotations({
   identifier: "QueryRecommendationTriggerData",
 }) as any as S.Schema<QueryRecommendationTriggerData>;

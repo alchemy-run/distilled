@@ -1,5 +1,6 @@
 import { HttpClient } from "@effect/platform";
 import * as Effect from "effect/Effect";
+import * as Redacted from "effect/Redacted";
 import * as S from "effect/Schema";
 import * as Stream from "effect/Stream";
 import * as API from "../api.ts";
@@ -10,6 +11,7 @@ import {
   ErrorCategory,
   Errors,
 } from "../index.ts";
+import { SensitiveString, SensitiveBlob } from "../sensitive.ts";
 const ns = T.XmlNamespace("http://ecs.amazonaws.com/doc/2014-11-13/");
 const svc = T.AwsApiService({
   sdkId: "ECS",
@@ -268,7 +270,7 @@ export type PortNumber = number;
 export type EBSKMSKeyId = string;
 export type EBSVolumeType = string;
 export type EBSSnapshotId = string;
-export type SensitiveString = string;
+export type SensitiveString = string | Redacted.Redacted<string>;
 export type TaskVolumeStorageGiB = number;
 export type ExcludedInstanceType = string;
 export type AllowedInstanceType = string;
@@ -4555,13 +4557,13 @@ export const TaskDefinitionList = S.Array(TaskDefinition);
 export interface Session {
   sessionId?: string;
   streamUrl?: string;
-  tokenValue?: string;
+  tokenValue?: string | Redacted.Redacted<string>;
 }
 export const Session = S.suspend(() =>
   S.Struct({
     sessionId: S.optional(S.String),
     streamUrl: S.optional(S.String),
-    tokenValue: S.optional(S.String),
+    tokenValue: S.optional(SensitiveString),
   }),
 ).annotations({ identifier: "Session" }) as any as S.Schema<Session>;
 export interface UpdateManagedInstancesProviderConfiguration {

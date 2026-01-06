@@ -1,5 +1,6 @@
 import { HttpClient } from "@effect/platform";
 import * as Effect from "effect/Effect";
+import * as Redacted from "effect/Redacted";
 import * as S from "effect/Schema";
 import * as Stream from "effect/Stream";
 import * as API from "../api.ts";
@@ -10,6 +11,7 @@ import {
   ErrorCategory,
   Errors,
 } from "../index.ts";
+import { SensitiveString, SensitiveBlob } from "../sensitive.ts";
 const svc = T.AwsApiService({
   sdkId: "deadline",
   serviceShapeName: "Deadline",
@@ -313,7 +315,7 @@ export type JobId = string;
 export type Timezone = string;
 export type ClientToken = string;
 export type ResourceName = string;
-export type Description = string;
+export type Description = string | Redacted.Redacted<string>;
 export type KmsKeyArn = string;
 export type IdentityCenterPrincipalId = string;
 export type IdentityStoreId = string;
@@ -327,9 +329,9 @@ export type MinZeroMaxInteger = number;
 export type WorkerId = string;
 export type FileSystemLocationName = string;
 export type Priority = number;
-export type EnvironmentTemplate = string;
+export type EnvironmentTemplate = string | Redacted.Redacted<string>;
 export type QueueEnvironmentId = string;
-export type JobTemplate = string;
+export type JobTemplate = string | Redacted.Redacted<string>;
 export type JobPriority = number;
 export type MaxFailedTasksCount = number;
 export type MaxRetriesPerTask = number;
@@ -348,7 +350,7 @@ export type Subdomain = string;
 export type MonitorId = string;
 export type PathString = string;
 export type ThresholdPercentage = number;
-export type HostConfigurationScript = string;
+export type HostConfigurationScript = string | Redacted.Redacted<string>;
 export type HostConfigurationScriptTimeoutSeconds = number;
 export type HostName = string;
 export type S3BucketName = string;
@@ -361,12 +363,12 @@ export type TotalResults = number;
 export type EnvironmentName = string;
 export type JobName = string;
 export type TaskFailureRetryCount = number;
-export type JobDescription = string;
+export type JobDescription = string | Redacted.Redacted<string>;
 export type SessionActionProgressPercent = number;
 export type ProcessExitCode = number;
-export type SessionActionProgressMessage = string;
+export type SessionActionProgressMessage = string | Redacted.Redacted<string>;
 export type StepName = string;
-export type StepDescription = string;
+export type StepDescription = string | Redacted.Redacted<string>;
 export type TaskRetryCount = number;
 export type StatusMessage = string;
 export type DnsName = string;
@@ -386,9 +388,9 @@ export type LicenseProduct = string;
 export type InstanceType = string;
 export type BoundedString = string;
 export type PortNumber = number;
-export type AccessKeyId = string;
-export type SecretAccessKey = string;
-export type SessionToken = string;
+export type AccessKeyId = string | Redacted.Redacted<string>;
+export type SecretAccessKey = string | Redacted.Redacted<string>;
+export type SessionToken = string | Redacted.Redacted<string>;
 export type LogDriver = string;
 export type LogError = string;
 export type MinOneMaxInteger = number;
@@ -980,7 +982,7 @@ export const Tags = S.Record({ key: S.String, value: S.String });
 export interface CreateFarmRequest {
   clientToken?: string;
   displayName: string;
-  description?: string;
+  description?: string | Redacted.Redacted<string>;
   kmsKeyArn?: string;
   tags?: Tags;
 }
@@ -988,7 +990,7 @@ export const CreateFarmRequest = S.suspend(() =>
   S.Struct({
     clientToken: S.optional(S.String).pipe(T.HttpHeader("X-Amz-Client-Token")),
     displayName: S.String,
-    description: S.optional(S.String),
+    description: S.optional(SensitiveString),
     kmsKeyArn: S.optional(S.String),
     tags: S.optional(Tags),
   }).pipe(
@@ -1024,13 +1026,13 @@ export const GetFarmRequest = S.suspend(() =>
 export interface UpdateFarmRequest {
   farmId: string;
   displayName?: string;
-  description?: string;
+  description?: string | Redacted.Redacted<string>;
 }
 export const UpdateFarmRequest = S.suspend(() =>
   S.Struct({
     farmId: S.String.pipe(T.HttpLabel("farmId")),
     displayName: S.optional(S.String),
-    description: S.optional(S.String),
+    description: S.optional(SensitiveString),
   }).pipe(
     T.all(
       T.Http({ method: "PATCH", uri: "/2023-10-12/farms/{farmId}" }),
@@ -1134,7 +1136,7 @@ export interface CreateLimitRequest {
   amountRequirementName: string;
   maxCount: number;
   farmId: string;
-  description?: string;
+  description?: string | Redacted.Redacted<string>;
 }
 export const CreateLimitRequest = S.suspend(() =>
   S.Struct({
@@ -1143,7 +1145,7 @@ export const CreateLimitRequest = S.suspend(() =>
     amountRequirementName: S.String,
     maxCount: S.Number,
     farmId: S.String.pipe(T.HttpLabel("farmId")),
-    description: S.optional(S.String),
+    description: S.optional(SensitiveString),
   }).pipe(
     T.all(
       T.Http({ method: "POST", uri: "/2023-10-12/farms/{farmId}/limits" }),
@@ -1369,7 +1371,7 @@ export interface UpdateLimitRequest {
   farmId: string;
   limitId: string;
   displayName?: string;
-  description?: string;
+  description?: string | Redacted.Redacted<string>;
   maxCount?: number;
 }
 export const UpdateLimitRequest = S.suspend(() =>
@@ -1377,7 +1379,7 @@ export const UpdateLimitRequest = S.suspend(() =>
     farmId: S.String.pipe(T.HttpLabel("farmId")),
     limitId: S.String.pipe(T.HttpLabel("limitId")),
     displayName: S.optional(S.String),
-    description: S.optional(S.String),
+    description: S.optional(SensitiveString),
     maxCount: S.optional(S.Number),
   }).pipe(
     T.all(
@@ -1768,12 +1770,12 @@ export const FleetConfiguration = S.Union(
   S.Struct({ serviceManagedEc2: ServiceManagedEc2FleetConfiguration }),
 );
 export interface HostConfiguration {
-  scriptBody: string;
+  scriptBody: string | Redacted.Redacted<string>;
   scriptTimeoutSeconds?: number;
 }
 export const HostConfiguration = S.suspend(() =>
   S.Struct({
-    scriptBody: S.String,
+    scriptBody: SensitiveString,
     scriptTimeoutSeconds: S.optional(S.Number),
   }),
 ).annotations({
@@ -1784,7 +1786,7 @@ export interface UpdateFleetRequest {
   farmId: string;
   fleetId: string;
   displayName?: string;
-  description?: string;
+  description?: string | Redacted.Redacted<string>;
   roleArn?: string;
   minWorkerCount?: number;
   maxWorkerCount?: number;
@@ -1797,7 +1799,7 @@ export const UpdateFleetRequest = S.suspend(() =>
     farmId: S.String.pipe(T.HttpLabel("farmId")),
     fleetId: S.String.pipe(T.HttpLabel("fleetId")),
     displayName: S.optional(S.String),
-    description: S.optional(S.String),
+    description: S.optional(SensitiveString),
     roleArn: S.optional(S.String),
     minWorkerCount: S.optional(S.Number),
     maxWorkerCount: S.optional(S.Number),
@@ -2236,7 +2238,7 @@ export interface UpdateQueueRequest {
   farmId: string;
   queueId: string;
   displayName?: string;
-  description?: string;
+  description?: string | Redacted.Redacted<string>;
   defaultBudgetAction?: string;
   jobAttachmentSettings?: JobAttachmentSettings;
   roleArn?: string;
@@ -2252,7 +2254,7 @@ export const UpdateQueueRequest = S.suspend(() =>
     farmId: S.String.pipe(T.HttpLabel("farmId")),
     queueId: S.String.pipe(T.HttpLabel("queueId")),
     displayName: S.optional(S.String),
-    description: S.optional(S.String),
+    description: S.optional(SensitiveString),
     defaultBudgetAction: S.optional(S.String),
     jobAttachmentSettings: S.optional(JobAttachmentSettings),
     roleArn: S.optional(S.String),
@@ -2432,7 +2434,7 @@ export interface CreateQueueEnvironmentRequest {
   queueId: string;
   priority: number;
   templateType: string;
-  template: string;
+  template: string | Redacted.Redacted<string>;
 }
 export const CreateQueueEnvironmentRequest = S.suspend(() =>
   S.Struct({
@@ -2441,7 +2443,7 @@ export const CreateQueueEnvironmentRequest = S.suspend(() =>
     queueId: S.String.pipe(T.HttpLabel("queueId")),
     priority: S.Number,
     templateType: S.String,
-    template: S.String,
+    template: SensitiveString,
   }).pipe(
     T.all(
       T.Http({
@@ -2665,7 +2667,7 @@ export interface UpdateQueueEnvironmentRequest {
   queueEnvironmentId: string;
   priority?: number;
   templateType?: string;
-  template?: string;
+  template?: string | Redacted.Redacted<string>;
 }
 export const UpdateQueueEnvironmentRequest = S.suspend(() =>
   S.Struct({
@@ -2675,7 +2677,7 @@ export const UpdateQueueEnvironmentRequest = S.suspend(() =>
     queueEnvironmentId: S.String.pipe(T.HttpLabel("queueEnvironmentId")),
     priority: S.optional(S.Number),
     templateType: S.optional(S.String),
-    template: S.optional(S.String),
+    template: S.optional(SensitiveString),
   }).pipe(
     T.all(
       T.Http({
@@ -3659,13 +3661,13 @@ export const UsageTrackingResource = S.Union(S.Struct({ queueId: S.String }));
 export interface BudgetActionToAdd {
   type: string;
   thresholdPercentage: number;
-  description?: string;
+  description?: string | Redacted.Redacted<string>;
 }
 export const BudgetActionToAdd = S.suspend(() =>
   S.Struct({
     type: S.String,
     thresholdPercentage: S.Number,
-    description: S.optional(S.String),
+    description: S.optional(SensitiveString),
   }),
 ).annotations({
   identifier: "BudgetActionToAdd",
@@ -3822,7 +3824,7 @@ export const CreateFarmResponse = S.suspend(() =>
 export interface GetFarmResponse {
   farmId: string;
   displayName: string;
-  description?: string;
+  description?: string | Redacted.Redacted<string>;
   kmsKeyArn: string;
   createdAt: Date;
   createdBy: string;
@@ -3833,7 +3835,7 @@ export const GetFarmResponse = S.suspend(() =>
   S.Struct({
     farmId: S.String,
     displayName: S.String,
-    description: S.optional(S.String),
+    description: S.optional(SensitiveString),
     kmsKeyArn: S.String,
     createdAt: S.Date.pipe(T.TimestampFormat("date-time")),
     createdBy: S.String,
@@ -3892,7 +3894,7 @@ export interface GetLimitResponse {
   farmId: string;
   limitId: string;
   currentCount: number;
-  description?: string;
+  description?: string | Redacted.Redacted<string>;
 }
 export const GetLimitResponse = S.suspend(() =>
   S.Struct({
@@ -3906,7 +3908,7 @@ export const GetLimitResponse = S.suspend(() =>
     farmId: S.String,
     limitId: S.String,
     currentCount: S.Number,
-    description: S.optional(S.String),
+    description: S.optional(SensitiveString),
   }),
 ).annotations({
   identifier: "GetLimitResponse",
@@ -3954,7 +3956,7 @@ export interface UpdateBudgetRequest {
   farmId: string;
   budgetId: string;
   displayName?: string;
-  description?: string;
+  description?: string | Redacted.Redacted<string>;
   status?: string;
   approximateDollarLimit?: number;
   actionsToAdd?: BudgetActionsToAdd;
@@ -3967,7 +3969,7 @@ export const UpdateBudgetRequest = S.suspend(() =>
     farmId: S.String.pipe(T.HttpLabel("farmId")),
     budgetId: S.String.pipe(T.HttpLabel("budgetId")),
     displayName: S.optional(S.String),
-    description: S.optional(S.String),
+    description: S.optional(SensitiveString),
     status: S.optional(S.String),
     approximateDollarLimit: S.optional(S.Number),
     actionsToAdd: S.optional(BudgetActionsToAdd),
@@ -3994,16 +3996,16 @@ export const UpdateBudgetResponse = S.suspend(() => S.Struct({})).annotations({
   identifier: "UpdateBudgetResponse",
 }) as any as S.Schema<UpdateBudgetResponse>;
 export interface AwsCredentials {
-  accessKeyId: string;
-  secretAccessKey: string;
-  sessionToken: string;
+  accessKeyId: string | Redacted.Redacted<string>;
+  secretAccessKey: string | Redacted.Redacted<string>;
+  sessionToken: string | Redacted.Redacted<string>;
   expiration: Date;
 }
 export const AwsCredentials = S.suspend(() =>
   S.Struct({
-    accessKeyId: S.String,
-    secretAccessKey: S.String,
-    sessionToken: S.String,
+    accessKeyId: SensitiveString,
+    secretAccessKey: SensitiveString,
+    sessionToken: SensitiveString,
     expiration: S.Date.pipe(T.TimestampFormat("date-time")),
   }),
 ).annotations({
@@ -4028,7 +4030,7 @@ export const AssumeQueueRoleForWorkerResponse = S.suspend(() =>
 export interface GetQueueResponse {
   queueId: string;
   displayName: string;
-  description?: string;
+  description?: string | Redacted.Redacted<string>;
   farmId: string;
   status: string;
   defaultBudgetAction: string;
@@ -4047,7 +4049,7 @@ export const GetQueueResponse = S.suspend(() =>
   S.Struct({
     queueId: S.String,
     displayName: S.String,
-    description: S.optional(S.String),
+    description: S.optional(SensitiveString),
     farmId: S.String,
     status: S.String,
     defaultBudgetAction: S.String,
@@ -4096,7 +4098,7 @@ export interface GetQueueEnvironmentResponse {
   name: string;
   priority: number;
   templateType: string;
-  template: string;
+  template: string | Redacted.Redacted<string>;
   createdAt: Date;
   createdBy: string;
   updatedAt?: Date;
@@ -4108,7 +4110,7 @@ export const GetQueueEnvironmentResponse = S.suspend(() =>
     name: S.String,
     priority: S.Number,
     templateType: S.String,
-    template: S.String,
+    template: SensitiveString,
     createdAt: S.Date.pipe(T.TimestampFormat("date-time")),
     createdBy: S.String,
     updatedAt: S.optional(S.Date.pipe(T.TimestampFormat("date-time"))),
@@ -4749,13 +4751,13 @@ export const ConsumedUsages = S.suspend(() =>
 export interface ResponseBudgetAction {
   type: string;
   thresholdPercentage: number;
-  description?: string;
+  description?: string | Redacted.Redacted<string>;
 }
 export const ResponseBudgetAction = S.suspend(() =>
   S.Struct({
     type: S.String,
     thresholdPercentage: S.Number,
-    description: S.optional(S.String),
+    description: S.optional(SensitiveString),
   }),
 ).annotations({
   identifier: "ResponseBudgetAction",
@@ -4767,7 +4769,7 @@ export interface BudgetSummary {
   usageTrackingResource: (typeof UsageTrackingResource)["Type"];
   status: string;
   displayName: string;
-  description?: string;
+  description?: string | Redacted.Redacted<string>;
   approximateDollarLimit: number;
   usages: ConsumedUsages;
   createdBy: string;
@@ -4781,7 +4783,7 @@ export const BudgetSummary = S.suspend(() =>
     usageTrackingResource: UsageTrackingResource,
     status: S.String,
     displayName: S.String,
-    description: S.optional(S.String),
+    description: S.optional(SensitiveString),
     approximateDollarLimit: S.Number,
     usages: ConsumedUsages,
     createdBy: S.String,
@@ -5499,7 +5501,7 @@ export interface CreateBudgetRequest {
   farmId: string;
   usageTrackingResource: (typeof UsageTrackingResource)["Type"];
   displayName: string;
-  description?: string;
+  description?: string | Redacted.Redacted<string>;
   approximateDollarLimit: number;
   actions: BudgetActionsToAdd;
   schedule: (typeof BudgetSchedule)["Type"];
@@ -5510,7 +5512,7 @@ export const CreateBudgetRequest = S.suspend(() =>
     farmId: S.String.pipe(T.HttpLabel("farmId")),
     usageTrackingResource: UsageTrackingResource,
     displayName: S.String,
-    description: S.optional(S.String),
+    description: S.optional(SensitiveString),
     approximateDollarLimit: S.Number,
     actions: BudgetActionsToAdd,
     schedule: BudgetSchedule,
@@ -5532,7 +5534,7 @@ export interface GetBudgetResponse {
   usageTrackingResource: (typeof UsageTrackingResource)["Type"];
   status: string;
   displayName: string;
-  description?: string;
+  description?: string | Redacted.Redacted<string>;
   approximateDollarLimit: number;
   usages: ConsumedUsages;
   actions: ResponseBudgetActionList;
@@ -5549,7 +5551,7 @@ export const GetBudgetResponse = S.suspend(() =>
     usageTrackingResource: UsageTrackingResource,
     status: S.String,
     displayName: S.String,
-    description: S.optional(S.String),
+    description: S.optional(SensitiveString),
     approximateDollarLimit: S.Number,
     usages: ConsumedUsages,
     actions: ResponseBudgetActionList,
@@ -5713,7 +5715,7 @@ export interface CreateQueueRequest {
   clientToken?: string;
   farmId: string;
   displayName: string;
-  description?: string;
+  description?: string | Redacted.Redacted<string>;
   defaultBudgetAction?: string;
   jobAttachmentSettings?: JobAttachmentSettings;
   roleArn?: string;
@@ -5727,7 +5729,7 @@ export const CreateQueueRequest = S.suspend(() =>
     clientToken: S.optional(S.String).pipe(T.HttpHeader("X-Amz-Client-Token")),
     farmId: S.String.pipe(T.HttpLabel("farmId")),
     displayName: S.String,
-    description: S.optional(S.String),
+    description: S.optional(SensitiveString),
     defaultBudgetAction: S.optional(S.String),
     jobAttachmentSettings: S.optional(JobAttachmentSettings),
     roleArn: S.optional(S.String),
@@ -5784,7 +5786,7 @@ export interface CreateJobRequest {
   farmId: string;
   queueId: string;
   clientToken?: string;
-  template?: string;
+  template?: string | Redacted.Redacted<string>;
   templateType?: string;
   priority: number;
   parameters?: JobParameters;
@@ -5801,7 +5803,7 @@ export const CreateJobRequest = S.suspend(() =>
     farmId: S.String.pipe(T.HttpLabel("farmId")),
     queueId: S.String.pipe(T.HttpLabel("queueId")),
     clientToken: S.optional(S.String).pipe(T.HttpHeader("X-Amz-Client-Token")),
-    template: S.optional(S.String),
+    template: S.optional(SensitiveString),
     templateType: S.optional(S.String),
     priority: S.Number,
     parameters: S.optional(JobParameters),
@@ -5849,7 +5851,7 @@ export interface GetJobResponse {
   maxRetriesPerTask?: number;
   parameters?: JobParameters;
   attachments?: Attachments;
-  description?: string;
+  description?: string | Redacted.Redacted<string>;
   maxWorkerCount?: number;
   sourceJobId?: string;
 }
@@ -5875,7 +5877,7 @@ export const GetJobResponse = S.suspend(() =>
     maxRetriesPerTask: S.optional(S.Number),
     parameters: S.optional(JobParameters),
     attachments: S.optional(Attachments),
-    description: S.optional(S.String),
+    description: S.optional(SensitiveString),
     maxWorkerCount: S.optional(S.Number),
     sourceJobId: S.optional(S.String),
   }),
@@ -6019,7 +6021,7 @@ export const FleetAttributeCapabilities = S.Array(FleetAttributeCapability);
 export interface UpdatedSessionActionInfo {
   completedStatus?: string;
   processExitCode?: number;
-  progressMessage?: string;
+  progressMessage?: string | Redacted.Redacted<string>;
   startedAt?: Date;
   endedAt?: Date;
   updatedAt?: Date;
@@ -6030,7 +6032,7 @@ export const UpdatedSessionActionInfo = S.suspend(() =>
   S.Struct({
     completedStatus: S.optional(S.String),
     processExitCode: S.optional(S.Number),
-    progressMessage: S.optional(S.String),
+    progressMessage: S.optional(SensitiveString),
     startedAt: S.optional(S.Date.pipe(T.TimestampFormat("date-time"))),
     endedAt: S.optional(S.Date.pipe(T.TimestampFormat("date-time"))),
     updatedAt: S.optional(S.Date.pipe(T.TimestampFormat("date-time"))),
@@ -6285,7 +6287,7 @@ export interface GetFleetResponse {
   fleetId: string;
   farmId: string;
   displayName: string;
-  description?: string;
+  description?: string | Redacted.Redacted<string>;
   status: string;
   statusMessage?: string;
   autoScalingStatus?: string;
@@ -6307,7 +6309,7 @@ export const GetFleetResponse = S.suspend(() =>
     fleetId: S.String,
     farmId: S.String,
     displayName: S.String,
-    description: S.optional(S.String),
+    description: S.optional(SensitiveString),
     status: S.String,
     statusMessage: S.optional(S.String),
     autoScalingStatus: S.optional(S.String),
@@ -6428,7 +6430,7 @@ export interface GetSessionActionResponse {
   progressPercent?: number;
   sessionId: string;
   processExitCode?: number;
-  progressMessage?: string;
+  progressMessage?: string | Redacted.Redacted<string>;
   definition: (typeof SessionActionDefinition)["Type"];
   acquiredLimits?: AcquiredLimits;
   manifests?: TaskRunManifestPropertiesListResponse;
@@ -6443,7 +6445,7 @@ export const GetSessionActionResponse = S.suspend(() =>
     progressPercent: S.optional(S.Number),
     sessionId: S.String,
     processExitCode: S.optional(S.Number),
-    progressMessage: S.optional(S.String),
+    progressMessage: S.optional(SensitiveString),
     definition: SessionActionDefinition,
     acquiredLimits: S.optional(AcquiredLimits),
     manifests: S.optional(TaskRunManifestPropertiesListResponse),
@@ -6469,7 +6471,7 @@ export interface GetStepResponse {
   dependencyCounts?: DependencyCounts;
   requiredCapabilities?: StepRequiredCapabilities;
   parameterSpace?: ParameterSpace;
-  description?: string;
+  description?: string | Redacted.Redacted<string>;
 }
 export const GetStepResponse = S.suspend(() =>
   S.Struct({
@@ -6490,7 +6492,7 @@ export const GetStepResponse = S.suspend(() =>
     dependencyCounts: S.optional(DependencyCounts),
     requiredCapabilities: S.optional(StepRequiredCapabilities),
     parameterSpace: S.optional(ParameterSpace),
-    description: S.optional(S.String),
+    description: S.optional(SensitiveString),
   }),
 ).annotations({
   identifier: "GetStepResponse",
@@ -6784,7 +6786,7 @@ export interface CreateFleetRequest {
   clientToken?: string;
   farmId: string;
   displayName: string;
-  description?: string;
+  description?: string | Redacted.Redacted<string>;
   roleArn: string;
   minWorkerCount?: number;
   maxWorkerCount: number;
@@ -6797,7 +6799,7 @@ export const CreateFleetRequest = S.suspend(() =>
     clientToken: S.optional(S.String).pipe(T.HttpHeader("X-Amz-Client-Token")),
     farmId: S.String.pipe(T.HttpLabel("farmId")),
     displayName: S.String,
-    description: S.optional(S.String),
+    description: S.optional(SensitiveString),
     roleArn: S.String,
     minWorkerCount: S.optional(S.Number),
     maxWorkerCount: S.Number,

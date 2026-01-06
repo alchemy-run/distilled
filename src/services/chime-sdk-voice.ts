@@ -1,5 +1,6 @@
 import { HttpClient } from "@effect/platform";
 import * as Effect from "effect/Effect";
+import * as Redacted from "effect/Redacted";
 import * as S from "effect/Schema";
 import * as Stream from "effect/Stream";
 import * as API from "../api.ts";
@@ -10,6 +11,7 @@ import {
   ErrorCategory,
   Errors,
 } from "../index.ts";
+import { SensitiveString, SensitiveBlob } from "../sensitive.ts";
 const svc = T.AwsApiService({
   sdkId: "Chime SDK Voice",
   serviceShapeName: "ChimeSDKTelephonyService",
@@ -303,10 +305,10 @@ const rules = T.EndpointRuleSet({
 
 //# Newtypes
 export type NonEmptyString = string;
-export type E164PhoneNumber = string;
-export type PhoneNumberName = string;
+export type E164PhoneNumber = string | Redacted.Redacted<string>;
+export type PhoneNumberName = string | Redacted.Redacted<string>;
 export type NonEmptyString128 = string;
-export type ProxySessionNameString = string;
+export type ProxySessionNameString = string | Redacted.Redacted<string>;
 export type PositiveInteger = number;
 export type SipMediaApplicationName = string;
 export type SipRuleName = string;
@@ -316,25 +318,25 @@ export type NonEmptyString256 = string;
 export type VoiceProfileDomainName = string;
 export type VoiceProfileDomainDescription = string;
 export type ClientRequestId = string;
-export type SensitiveNonEmptyString = string;
-export type SensitiveString = string;
+export type SensitiveNonEmptyString = string | Redacted.Redacted<string>;
+export type SensitiveString = string | Redacted.Redacted<string>;
 export type GuidString = string;
-export type CallingName = string;
+export type CallingName = string | Redacted.Redacted<string>;
 export type ResultMax = number;
 export type NextTokenString = string;
-export type Arn = string;
+export type Arn = string | Redacted.Redacted<string>;
 export type Integer = number;
 export type Country = string;
 export type Alpha2CountryCode = string;
 export type TollFreePrefix = string;
 export type PhoneNumberMaxResults = number;
-export type TagKey = string;
+export type TagKey = string | Redacted.Redacted<string>;
 export type AreaCode = string;
-export type FunctionArn = string;
-export type TagValue = string;
+export type FunctionArn = string | Redacted.Redacted<string>;
+export type TagValue = string | Redacted.Redacted<string>;
 export type SipApplicationPriority = number;
 export type VoiceConnectorItemPriority = number;
-export type AlexaSkillId = string;
+export type AlexaSkillId = string | Redacted.Redacted<string>;
 export type DataRetentionInHours = number;
 export type CpsLimit = number;
 export type CallingRegion = string;
@@ -370,16 +372,16 @@ export const ListAvailableVoiceConnectorRegionsRequest = S.suspend(() =>
 ).annotations({
   identifier: "ListAvailableVoiceConnectorRegionsRequest",
 }) as any as S.Schema<ListAvailableVoiceConnectorRegionsRequest>;
-export type E164PhoneNumberList = string[];
-export const E164PhoneNumberList = S.Array(S.String);
+export type E164PhoneNumberList = string | Redacted.Redacted<string>[];
+export const E164PhoneNumberList = S.Array(SensitiveString);
 export type NonEmptyStringList = string[];
 export const NonEmptyStringList = S.Array(S.String);
-export type ParticipantPhoneNumberList = string[];
-export const ParticipantPhoneNumberList = S.Array(S.String);
+export type ParticipantPhoneNumberList = string | Redacted.Redacted<string>[];
+export const ParticipantPhoneNumberList = S.Array(SensitiveString);
 export type CapabilityList = string[];
 export const CapabilityList = S.Array(S.String);
-export type SensitiveStringList = string[];
-export const SensitiveStringList = S.Array(S.String);
+export type SensitiveStringList = string | Redacted.Redacted<string>[];
+export const SensitiveStringList = S.Array(SensitiveString);
 export type VoiceConnectorAwsRegionList = string[];
 export const VoiceConnectorAwsRegionList = S.Array(S.String);
 export type SessionBorderControllerTypeList = string[];
@@ -388,8 +390,8 @@ export type ContactCenterSystemTypeList = string[];
 export const ContactCenterSystemTypeList = S.Array(S.String);
 export type CountryList = string[];
 export const CountryList = S.Array(S.String);
-export type TagKeyList = string[];
-export const TagKeyList = S.Array(S.String);
+export type TagKeyList = string | Redacted.Redacted<string>[];
+export const TagKeyList = S.Array(SensitiveString);
 export interface AssociatePhoneNumbersWithVoiceConnectorRequest {
   VoiceConnectorId: string;
   E164PhoneNumbers: E164PhoneNumberList;
@@ -465,13 +467,13 @@ export const BatchDeletePhoneNumberRequest = S.suspend(() =>
 export interface CreatePhoneNumberOrderRequest {
   ProductType: string;
   E164PhoneNumbers: E164PhoneNumberList;
-  Name?: string;
+  Name?: string | Redacted.Redacted<string>;
 }
 export const CreatePhoneNumberOrderRequest = S.suspend(() =>
   S.Struct({
     ProductType: S.String,
     E164PhoneNumbers: E164PhoneNumberList,
-    Name: S.optional(S.String),
+    Name: S.optional(SensitiveString),
   }).pipe(
     T.all(
       T.Http({ method: "POST", uri: "/phone-number-orders" }),
@@ -486,11 +488,11 @@ export const CreatePhoneNumberOrderRequest = S.suspend(() =>
   identifier: "CreatePhoneNumberOrderRequest",
 }) as any as S.Schema<CreatePhoneNumberOrderRequest>;
 export interface Tag {
-  Key: string;
-  Value: string;
+  Key: string | Redacted.Redacted<string>;
+  Value: string | Redacted.Redacted<string>;
 }
 export const Tag = S.suspend(() =>
-  S.Struct({ Key: S.String, Value: S.String }),
+  S.Struct({ Key: SensitiveString, Value: SensitiveString }),
 ).annotations({ identifier: "Tag" }) as any as S.Schema<Tag>;
 export type TagList = Tag[];
 export const TagList = S.Array(Tag);
@@ -541,10 +543,12 @@ export const CreateVoiceProfileRequest = S.suspend(() =>
   identifier: "CreateVoiceProfileRequest",
 }) as any as S.Schema<CreateVoiceProfileRequest>;
 export interface DeletePhoneNumberRequest {
-  PhoneNumberId: string;
+  PhoneNumberId: string | Redacted.Redacted<string>;
 }
 export const DeletePhoneNumberRequest = S.suspend(() =>
-  S.Struct({ PhoneNumberId: S.String.pipe(T.HttpLabel("PhoneNumberId")) }).pipe(
+  S.Struct({
+    PhoneNumberId: SensitiveString.pipe(T.HttpLabel("PhoneNumberId")),
+  }).pipe(
     T.all(
       T.Http({ method: "DELETE", uri: "/phone-numbers/{PhoneNumberId}" }),
       svc,
@@ -998,10 +1002,12 @@ export const DisassociatePhoneNumbersFromVoiceConnectorGroupRequest = S.suspend(
   identifier: "DisassociatePhoneNumbersFromVoiceConnectorGroupRequest",
 }) as any as S.Schema<DisassociatePhoneNumbersFromVoiceConnectorGroupRequest>;
 export interface GetPhoneNumberRequest {
-  PhoneNumberId: string;
+  PhoneNumberId: string | Redacted.Redacted<string>;
 }
 export const GetPhoneNumberRequest = S.suspend(() =>
-  S.Struct({ PhoneNumberId: S.String.pipe(T.HttpLabel("PhoneNumberId")) }).pipe(
+  S.Struct({
+    PhoneNumberId: SensitiveString.pipe(T.HttpLabel("PhoneNumberId")),
+  }).pipe(
     T.all(
       T.Http({ method: "GET", uri: "/phone-numbers/{PhoneNumberId}" }),
       svc,
@@ -1037,12 +1043,12 @@ export const GetPhoneNumberOrderRequest = S.suspend(() =>
   identifier: "GetPhoneNumberOrderRequest",
 }) as any as S.Schema<GetPhoneNumberOrderRequest>;
 export interface GetPhoneNumberSettingsResponse {
-  CallingName?: string;
+  CallingName?: string | Redacted.Redacted<string>;
   CallingNameUpdatedTimestamp?: Date;
 }
 export const GetPhoneNumberSettingsResponse = S.suspend(() =>
   S.Struct({
-    CallingName: S.optional(S.String),
+    CallingName: S.optional(SensitiveString),
     CallingNameUpdatedTimestamp: S.optional(
       S.Date.pipe(T.TimestampFormat("date-time")),
     ),
@@ -1622,10 +1628,10 @@ export const ListSupportedPhoneNumberCountriesRequest = S.suspend(() =>
   identifier: "ListSupportedPhoneNumberCountriesRequest",
 }) as any as S.Schema<ListSupportedPhoneNumberCountriesRequest>;
 export interface ListTagsForResourceRequest {
-  ResourceARN: string;
+  ResourceARN: string | Redacted.Redacted<string>;
 }
 export const ListTagsForResourceRequest = S.suspend(() =>
-  S.Struct({ ResourceARN: S.String.pipe(T.HttpQuery("arn")) }).pipe(
+  S.Struct({ ResourceARN: SensitiveString.pipe(T.HttpQuery("arn")) }).pipe(
     T.all(
       T.Http({ method: "GET", uri: "/tags" }),
       svc,
@@ -1777,7 +1783,7 @@ export interface PutVoiceConnectorProxyRequest {
   VoiceConnectorId: string;
   DefaultSessionExpiryMinutes: number;
   PhoneNumberPoolCountries: CountryList;
-  FallBackPhoneNumber?: string;
+  FallBackPhoneNumber?: string | Redacted.Redacted<string>;
   Disabled?: boolean;
 }
 export const PutVoiceConnectorProxyRequest = S.suspend(() =>
@@ -1785,7 +1791,7 @@ export const PutVoiceConnectorProxyRequest = S.suspend(() =>
     VoiceConnectorId: S.String.pipe(T.HttpLabel("VoiceConnectorId")),
     DefaultSessionExpiryMinutes: S.Number,
     PhoneNumberPoolCountries: CountryList,
-    FallBackPhoneNumber: S.optional(S.String),
+    FallBackPhoneNumber: S.optional(SensitiveString),
     Disabled: S.optional(S.Boolean),
   }).pipe(
     T.all(
@@ -1804,10 +1810,12 @@ export const PutVoiceConnectorProxyRequest = S.suspend(() =>
   identifier: "PutVoiceConnectorProxyRequest",
 }) as any as S.Schema<PutVoiceConnectorProxyRequest>;
 export interface RestorePhoneNumberRequest {
-  PhoneNumberId: string;
+  PhoneNumberId: string | Redacted.Redacted<string>;
 }
 export const RestorePhoneNumberRequest = S.suspend(() =>
-  S.Struct({ PhoneNumberId: S.String.pipe(T.HttpLabel("PhoneNumberId")) }).pipe(
+  S.Struct({
+    PhoneNumberId: SensitiveString.pipe(T.HttpLabel("PhoneNumberId")),
+  }).pipe(
     T.all(
       T.Http({
         method: "POST",
@@ -1979,11 +1987,11 @@ export const StopVoiceToneAnalysisTaskResponse = S.suspend(() =>
   identifier: "StopVoiceToneAnalysisTaskResponse",
 }) as any as S.Schema<StopVoiceToneAnalysisTaskResponse>;
 export interface TagResourceRequest {
-  ResourceARN: string;
+  ResourceARN: string | Redacted.Redacted<string>;
   Tags: TagList;
 }
 export const TagResourceRequest = S.suspend(() =>
-  S.Struct({ ResourceARN: S.String, Tags: TagList }).pipe(
+  S.Struct({ ResourceARN: SensitiveString, Tags: TagList }).pipe(
     T.all(
       T.Http({ method: "POST", uri: "/tags?operation=tag-resource" }),
       svc,
@@ -2001,11 +2009,11 @@ export const TagResourceResponse = S.suspend(() => S.Struct({})).annotations({
   identifier: "TagResourceResponse",
 }) as any as S.Schema<TagResourceResponse>;
 export interface UntagResourceRequest {
-  ResourceARN: string;
+  ResourceARN: string | Redacted.Redacted<string>;
   TagKeys: TagKeyList;
 }
 export const UntagResourceRequest = S.suspend(() =>
-  S.Struct({ ResourceARN: S.String, TagKeys: TagKeyList }).pipe(
+  S.Struct({ ResourceARN: SensitiveString, TagKeys: TagKeyList }).pipe(
     T.all(
       T.Http({ method: "POST", uri: "/tags?operation=untag-resource" }),
       svc,
@@ -2054,17 +2062,17 @@ export const UpdateGlobalSettingsResponse = S.suspend(() =>
   identifier: "UpdateGlobalSettingsResponse",
 }) as any as S.Schema<UpdateGlobalSettingsResponse>;
 export interface UpdatePhoneNumberRequest {
-  PhoneNumberId: string;
+  PhoneNumberId: string | Redacted.Redacted<string>;
   ProductType?: string;
-  CallingName?: string;
-  Name?: string;
+  CallingName?: string | Redacted.Redacted<string>;
+  Name?: string | Redacted.Redacted<string>;
 }
 export const UpdatePhoneNumberRequest = S.suspend(() =>
   S.Struct({
-    PhoneNumberId: S.String.pipe(T.HttpLabel("PhoneNumberId")),
+    PhoneNumberId: SensitiveString.pipe(T.HttpLabel("PhoneNumberId")),
     ProductType: S.optional(S.String),
-    CallingName: S.optional(S.String),
-    Name: S.optional(S.String),
+    CallingName: S.optional(SensitiveString),
+    Name: S.optional(SensitiveString),
   }).pipe(
     T.all(
       T.Http({ method: "POST", uri: "/phone-numbers/{PhoneNumberId}" }),
@@ -2079,10 +2087,10 @@ export const UpdatePhoneNumberRequest = S.suspend(() =>
   identifier: "UpdatePhoneNumberRequest",
 }) as any as S.Schema<UpdatePhoneNumberRequest>;
 export interface UpdatePhoneNumberSettingsRequest {
-  CallingName: string;
+  CallingName: string | Redacted.Redacted<string>;
 }
 export const UpdatePhoneNumberSettingsRequest = S.suspend(() =>
-  S.Struct({ CallingName: S.String }).pipe(
+  S.Struct({ CallingName: SensitiveString }).pipe(
     T.all(
       T.Http({ method: "PUT", uri: "/settings/phone-number" }),
       svc,
@@ -2130,10 +2138,10 @@ export const UpdateProxySessionRequest = S.suspend(() =>
   identifier: "UpdateProxySessionRequest",
 }) as any as S.Schema<UpdateProxySessionRequest>;
 export interface SipMediaApplicationEndpoint {
-  LambdaArn?: string;
+  LambdaArn?: string | Redacted.Redacted<string>;
 }
 export const SipMediaApplicationEndpoint = S.suspend(() =>
-  S.Struct({ LambdaArn: S.optional(S.String) }),
+  S.Struct({ LambdaArn: S.optional(SensitiveString) }),
 ).annotations({
   identifier: "SipMediaApplicationEndpoint",
 }) as any as S.Schema<SipMediaApplicationEndpoint>;
@@ -2317,22 +2325,22 @@ export const UpdateVoiceProfileDomainRequest = S.suspend(() =>
 }) as any as S.Schema<UpdateVoiceProfileDomainRequest>;
 export interface ValidateE911AddressRequest {
   AwsAccountId: string;
-  StreetNumber: string;
-  StreetInfo: string;
-  City: string;
-  State: string;
-  Country: string;
-  PostalCode: string;
+  StreetNumber: string | Redacted.Redacted<string>;
+  StreetInfo: string | Redacted.Redacted<string>;
+  City: string | Redacted.Redacted<string>;
+  State: string | Redacted.Redacted<string>;
+  Country: string | Redacted.Redacted<string>;
+  PostalCode: string | Redacted.Redacted<string>;
 }
 export const ValidateE911AddressRequest = S.suspend(() =>
   S.Struct({
     AwsAccountId: S.String,
-    StreetNumber: S.String,
-    StreetInfo: S.String,
-    City: S.String,
-    State: S.String,
-    Country: S.String,
-    PostalCode: S.String,
+    StreetNumber: SensitiveString,
+    StreetInfo: SensitiveString,
+    City: SensitiveString,
+    State: SensitiveString,
+    Country: SensitiveString,
+    PostalCode: SensitiveString,
   }).pipe(
     T.all(
       T.Http({ method: "POST", uri: "/emergency-calling/address" }),
@@ -2346,24 +2354,24 @@ export const ValidateE911AddressRequest = S.suspend(() =>
 ).annotations({
   identifier: "ValidateE911AddressRequest",
 }) as any as S.Schema<ValidateE911AddressRequest>;
-export type AlexaSkillIdList = string[];
-export const AlexaSkillIdList = S.Array(S.String);
+export type AlexaSkillIdList = string | Redacted.Redacted<string>[];
+export const AlexaSkillIdList = S.Array(SensitiveString);
 export type CallingRegionList = string[];
 export const CallingRegionList = S.Array(S.String);
 export type StringList = string[];
 export const StringList = S.Array(S.String);
 export interface UpdatePhoneNumberRequestItem {
-  PhoneNumberId: string;
+  PhoneNumberId: string | Redacted.Redacted<string>;
   ProductType?: string;
-  CallingName?: string;
-  Name?: string;
+  CallingName?: string | Redacted.Redacted<string>;
+  Name?: string | Redacted.Redacted<string>;
 }
 export const UpdatePhoneNumberRequestItem = S.suspend(() =>
   S.Struct({
-    PhoneNumberId: S.String,
+    PhoneNumberId: SensitiveString,
     ProductType: S.optional(S.String),
-    CallingName: S.optional(S.String),
-    Name: S.optional(S.String),
+    CallingName: S.optional(SensitiveString),
+    Name: S.optional(SensitiveString),
   }),
 ).annotations({
   identifier: "UpdatePhoneNumberRequestItem",
@@ -2381,28 +2389,35 @@ export const GeoMatchParams = S.suspend(() =>
 ).annotations({
   identifier: "GeoMatchParams",
 }) as any as S.Schema<GeoMatchParams>;
-export type SipHeadersMap = { [key: string]: string };
-export const SipHeadersMap = S.Record({ key: S.String, value: S.String });
-export type SMACreateCallArgumentsMap = { [key: string]: string };
+export type SipHeadersMap = {
+  [key: string]: string | Redacted.Redacted<string>;
+};
+export const SipHeadersMap = S.Record({
+  key: S.String,
+  value: SensitiveString,
+});
+export type SMACreateCallArgumentsMap = {
+  [key: string]: string | Redacted.Redacted<string>;
+};
 export const SMACreateCallArgumentsMap = S.Record({
   key: S.String,
-  value: S.String,
+  value: SensitiveString,
 });
 export interface ServerSideEncryptionConfiguration {
-  KmsKeyArn: string;
+  KmsKeyArn: string | Redacted.Redacted<string>;
 }
 export const ServerSideEncryptionConfiguration = S.suspend(() =>
-  S.Struct({ KmsKeyArn: S.String }),
+  S.Struct({ KmsKeyArn: SensitiveString }),
 ).annotations({
   identifier: "ServerSideEncryptionConfiguration",
 }) as any as S.Schema<ServerSideEncryptionConfiguration>;
 export interface OrderedPhoneNumber {
-  E164PhoneNumber?: string;
+  E164PhoneNumber?: string | Redacted.Redacted<string>;
   Status?: string;
 }
 export const OrderedPhoneNumber = S.suspend(() =>
   S.Struct({
-    E164PhoneNumber: S.optional(S.String),
+    E164PhoneNumber: S.optional(SensitiveString),
     Status: S.optional(S.String),
   }),
 ).annotations({
@@ -2475,51 +2490,51 @@ export const PhoneNumberAssociation = S.suspend(() =>
 export type PhoneNumberAssociationList = PhoneNumberAssociation[];
 export const PhoneNumberAssociationList = S.Array(PhoneNumberAssociation);
 export interface PhoneNumber {
-  PhoneNumberId?: string;
-  E164PhoneNumber?: string;
+  PhoneNumberId?: string | Redacted.Redacted<string>;
+  E164PhoneNumber?: string | Redacted.Redacted<string>;
   Country?: string;
   Type?: string;
   ProductType?: string;
   Status?: string;
   Capabilities?: PhoneNumberCapabilities;
   Associations?: PhoneNumberAssociationList;
-  CallingName?: string;
+  CallingName?: string | Redacted.Redacted<string>;
   CallingNameStatus?: string;
   CreatedTimestamp?: Date;
   UpdatedTimestamp?: Date;
   DeletionTimestamp?: Date;
   OrderId?: string;
-  Name?: string;
+  Name?: string | Redacted.Redacted<string>;
 }
 export const PhoneNumber = S.suspend(() =>
   S.Struct({
-    PhoneNumberId: S.optional(S.String),
-    E164PhoneNumber: S.optional(S.String),
+    PhoneNumberId: S.optional(SensitiveString),
+    E164PhoneNumber: S.optional(SensitiveString),
     Country: S.optional(S.String),
     Type: S.optional(S.String),
     ProductType: S.optional(S.String),
     Status: S.optional(S.String),
     Capabilities: S.optional(PhoneNumberCapabilities),
     Associations: S.optional(PhoneNumberAssociationList),
-    CallingName: S.optional(S.String),
+    CallingName: S.optional(SensitiveString),
     CallingNameStatus: S.optional(S.String),
     CreatedTimestamp: S.optional(S.Date.pipe(T.TimestampFormat("date-time"))),
     UpdatedTimestamp: S.optional(S.Date.pipe(T.TimestampFormat("date-time"))),
     DeletionTimestamp: S.optional(S.Date.pipe(T.TimestampFormat("date-time"))),
     OrderId: S.optional(S.String),
-    Name: S.optional(S.String),
+    Name: S.optional(SensitiveString),
   }),
 ).annotations({ identifier: "PhoneNumber" }) as any as S.Schema<PhoneNumber>;
 export type PhoneNumberList = PhoneNumber[];
 export const PhoneNumberList = S.Array(PhoneNumber);
 export interface Participant {
-  PhoneNumber?: string;
-  ProxyPhoneNumber?: string;
+  PhoneNumber?: string | Redacted.Redacted<string>;
+  ProxyPhoneNumber?: string | Redacted.Redacted<string>;
 }
 export const Participant = S.suspend(() =>
   S.Struct({
-    PhoneNumber: S.optional(S.String),
-    ProxyPhoneNumber: S.optional(S.String),
+    PhoneNumber: S.optional(SensitiveString),
+    ProxyPhoneNumber: S.optional(SensitiveString),
   }),
 ).annotations({ identifier: "Participant" }) as any as S.Schema<Participant>;
 export type Participants = Participant[];
@@ -2689,7 +2704,7 @@ export const LoggingConfiguration = S.suspend(() =>
 }) as any as S.Schema<LoggingConfiguration>;
 export interface Termination {
   CpsLimit?: number;
-  DefaultPhoneNumber?: string;
+  DefaultPhoneNumber?: string | Redacted.Redacted<string>;
   CallingRegions?: CallingRegionList;
   CidrAllowedList?: StringList;
   Disabled?: boolean;
@@ -2697,34 +2712,39 @@ export interface Termination {
 export const Termination = S.suspend(() =>
   S.Struct({
     CpsLimit: S.optional(S.Number),
-    DefaultPhoneNumber: S.optional(S.String),
+    DefaultPhoneNumber: S.optional(SensitiveString),
     CallingRegions: S.optional(CallingRegionList),
     CidrAllowedList: S.optional(StringList),
     Disabled: S.optional(S.Boolean),
   }),
 ).annotations({ identifier: "Termination" }) as any as S.Schema<Termination>;
 export interface Credential {
-  Username?: string;
-  Password?: string;
+  Username?: string | Redacted.Redacted<string>;
+  Password?: string | Redacted.Redacted<string>;
 }
 export const Credential = S.suspend(() =>
-  S.Struct({ Username: S.optional(S.String), Password: S.optional(S.String) }),
+  S.Struct({
+    Username: S.optional(SensitiveString),
+    Password: S.optional(SensitiveString),
+  }),
 ).annotations({ identifier: "Credential" }) as any as S.Schema<Credential>;
 export type CredentialList = Credential[];
 export const CredentialList = S.Array(Credential);
-export type SMAUpdateCallArgumentsMap = { [key: string]: string };
+export type SMAUpdateCallArgumentsMap = {
+  [key: string]: string | Redacted.Redacted<string>;
+};
 export const SMAUpdateCallArgumentsMap = S.Record({
   key: S.String,
-  value: S.String,
+  value: SensitiveString,
 });
 export interface PhoneNumberError {
-  PhoneNumberId?: string;
+  PhoneNumberId?: string | Redacted.Redacted<string>;
   ErrorCode?: string;
   ErrorMessage?: string;
 }
 export const PhoneNumberError = S.suspend(() =>
   S.Struct({
-    PhoneNumberId: S.optional(S.String),
+    PhoneNumberId: S.optional(SensitiveString),
     ErrorCode: S.optional(S.String),
     ErrorMessage: S.optional(S.String),
   }),
@@ -2771,7 +2791,7 @@ export const BatchUpdatePhoneNumberRequest = S.suspend(() =>
 export interface CreateProxySessionRequest {
   VoiceConnectorId: string;
   ParticipantPhoneNumbers: ParticipantPhoneNumberList;
-  Name?: string;
+  Name?: string | Redacted.Redacted<string>;
   ExpiryMinutes?: number;
   Capabilities: CapabilityList;
   NumberSelectionBehavior?: string;
@@ -2782,7 +2802,7 @@ export const CreateProxySessionRequest = S.suspend(() =>
   S.Struct({
     VoiceConnectorId: S.String.pipe(T.HttpLabel("VoiceConnectorId")),
     ParticipantPhoneNumbers: ParticipantPhoneNumberList,
-    Name: S.optional(S.String),
+    Name: S.optional(SensitiveString),
     ExpiryMinutes: S.optional(S.Number),
     Capabilities: CapabilityList,
     NumberSelectionBehavior: S.optional(S.String),
@@ -2830,16 +2850,16 @@ export const CreateSipMediaApplicationRequest = S.suspend(() =>
   identifier: "CreateSipMediaApplicationRequest",
 }) as any as S.Schema<CreateSipMediaApplicationRequest>;
 export interface CreateSipMediaApplicationCallRequest {
-  FromPhoneNumber: string;
-  ToPhoneNumber: string;
+  FromPhoneNumber: string | Redacted.Redacted<string>;
+  ToPhoneNumber: string | Redacted.Redacted<string>;
   SipMediaApplicationId: string;
   SipHeaders?: SipHeadersMap;
   ArgumentsMap?: SMACreateCallArgumentsMap;
 }
 export const CreateSipMediaApplicationCallRequest = S.suspend(() =>
   S.Struct({
-    FromPhoneNumber: S.String,
-    ToPhoneNumber: S.String,
+    FromPhoneNumber: SensitiveString,
+    ToPhoneNumber: SensitiveString,
     SipMediaApplicationId: S.String.pipe(T.HttpLabel("SipMediaApplicationId")),
     SipHeaders: S.optional(SipHeadersMap),
     ArgumentsMap: S.optional(SMACreateCallArgumentsMap),
@@ -3002,14 +3022,14 @@ export const GetVoiceConnectorResponse = S.suspend(() =>
   identifier: "GetVoiceConnectorResponse",
 }) as any as S.Schema<GetVoiceConnectorResponse>;
 export interface DNISEmergencyCallingConfiguration {
-  EmergencyPhoneNumber: string;
-  TestPhoneNumber?: string;
+  EmergencyPhoneNumber: string | Redacted.Redacted<string>;
+  TestPhoneNumber?: string | Redacted.Redacted<string>;
   CallingCountry: string;
 }
 export const DNISEmergencyCallingConfiguration = S.suspend(() =>
   S.Struct({
-    EmergencyPhoneNumber: S.String,
-    TestPhoneNumber: S.optional(S.String),
+    EmergencyPhoneNumber: SensitiveString,
+    TestPhoneNumber: S.optional(SensitiveString),
     CallingCountry: S.String,
   }),
 ).annotations({
@@ -3099,12 +3119,12 @@ export const StreamingNotificationTargetList = S.Array(
 );
 export interface MediaInsightsConfiguration {
   Disabled?: boolean;
-  ConfigurationArn?: string;
+  ConfigurationArn?: string | Redacted.Redacted<string>;
 }
 export const MediaInsightsConfiguration = S.suspend(() =>
   S.Struct({
     Disabled: S.optional(S.Boolean),
-    ConfigurationArn: S.optional(S.String),
+    ConfigurationArn: S.optional(SensitiveString),
   }),
 ).annotations({
   identifier: "MediaInsightsConfiguration",
@@ -3143,7 +3163,7 @@ export const GetVoiceConnectorTerminationResponse = S.suspend(() =>
 }) as any as S.Schema<GetVoiceConnectorTerminationResponse>;
 export interface VoiceProfile {
   VoiceProfileId?: string;
-  VoiceProfileArn?: string;
+  VoiceProfileArn?: string | Redacted.Redacted<string>;
   VoiceProfileDomainId?: string;
   CreatedTimestamp?: Date;
   UpdatedTimestamp?: Date;
@@ -3152,7 +3172,7 @@ export interface VoiceProfile {
 export const VoiceProfile = S.suspend(() =>
   S.Struct({
     VoiceProfileId: S.optional(S.String),
-    VoiceProfileArn: S.optional(S.String),
+    VoiceProfileArn: S.optional(SensitiveString),
     VoiceProfileDomainId: S.optional(S.String),
     CreatedTimestamp: S.optional(S.Date.pipe(T.TimestampFormat("date-time"))),
     UpdatedTimestamp: S.optional(S.Date.pipe(T.TimestampFormat("date-time"))),
@@ -3374,14 +3394,14 @@ export const PutVoiceConnectorLoggingConfigurationRequest = S.suspend(() =>
 export interface Proxy {
   DefaultSessionExpiryMinutes?: number;
   Disabled?: boolean;
-  FallBackPhoneNumber?: string;
+  FallBackPhoneNumber?: string | Redacted.Redacted<string>;
   PhoneNumberCountries?: StringList;
 }
 export const Proxy = S.suspend(() =>
   S.Struct({
     DefaultSessionExpiryMinutes: S.optional(S.Number),
     Disabled: S.optional(S.Boolean),
-    FallBackPhoneNumber: S.optional(S.String),
+    FallBackPhoneNumber: S.optional(SensitiveString),
     PhoneNumberCountries: S.optional(StringList),
   }),
 ).annotations({ identifier: "Proxy" }) as any as S.Schema<Proxy>;
@@ -3651,7 +3671,7 @@ export const UpdateVoiceProfileResponse = S.suspend(() =>
 }) as any as S.Schema<UpdateVoiceProfileResponse>;
 export interface VoiceProfileDomain {
   VoiceProfileDomainId?: string;
-  VoiceProfileDomainArn?: string;
+  VoiceProfileDomainArn?: string | Redacted.Redacted<string>;
   Name?: string;
   Description?: string;
   ServerSideEncryptionConfiguration?: ServerSideEncryptionConfiguration;
@@ -3661,7 +3681,7 @@ export interface VoiceProfileDomain {
 export const VoiceProfileDomain = S.suspend(() =>
   S.Struct({
     VoiceProfileDomainId: S.optional(S.String),
-    VoiceProfileDomainArn: S.optional(S.String),
+    VoiceProfileDomainArn: S.optional(SensitiveString),
     Name: S.optional(S.String),
     Description: S.optional(S.String),
     ServerSideEncryptionConfiguration: S.optional(
@@ -3711,7 +3731,7 @@ export type PhoneNumberCountriesList = PhoneNumberCountry[];
 export const PhoneNumberCountriesList = S.Array(PhoneNumberCountry);
 export interface VoiceProfileDomainSummary {
   VoiceProfileDomainId?: string;
-  VoiceProfileDomainArn?: string;
+  VoiceProfileDomainArn?: string | Redacted.Redacted<string>;
   Name?: string;
   Description?: string;
   CreatedTimestamp?: Date;
@@ -3720,7 +3740,7 @@ export interface VoiceProfileDomainSummary {
 export const VoiceProfileDomainSummary = S.suspend(() =>
   S.Struct({
     VoiceProfileDomainId: S.optional(S.String),
-    VoiceProfileDomainArn: S.optional(S.String),
+    VoiceProfileDomainArn: S.optional(SensitiveString),
     Name: S.optional(S.String),
     Description: S.optional(S.String),
     CreatedTimestamp: S.optional(S.Date.pipe(T.TimestampFormat("date-time"))),
@@ -3733,7 +3753,7 @@ export type VoiceProfileDomainSummaryList = VoiceProfileDomainSummary[];
 export const VoiceProfileDomainSummaryList = S.Array(VoiceProfileDomainSummary);
 export interface VoiceProfileSummary {
   VoiceProfileId?: string;
-  VoiceProfileArn?: string;
+  VoiceProfileArn?: string | Redacted.Redacted<string>;
   VoiceProfileDomainId?: string;
   CreatedTimestamp?: Date;
   UpdatedTimestamp?: Date;
@@ -3742,7 +3762,7 @@ export interface VoiceProfileSummary {
 export const VoiceProfileSummary = S.suspend(() =>
   S.Struct({
     VoiceProfileId: S.optional(S.String),
-    VoiceProfileArn: S.optional(S.String),
+    VoiceProfileArn: S.optional(SensitiveString),
     VoiceProfileDomainId: S.optional(S.String),
     CreatedTimestamp: S.optional(S.Date.pipe(T.TimestampFormat("date-time"))),
     UpdatedTimestamp: S.optional(S.Date.pipe(T.TimestampFormat("date-time"))),
@@ -3756,49 +3776,49 @@ export const VoiceProfileSummary = S.suspend(() =>
 export type VoiceProfileSummaryList = VoiceProfileSummary[];
 export const VoiceProfileSummaryList = S.Array(VoiceProfileSummary);
 export interface Address {
-  streetName?: string;
-  streetSuffix?: string;
-  postDirectional?: string;
-  preDirectional?: string;
-  streetNumber?: string;
-  city?: string;
-  state?: string;
-  postalCode?: string;
-  postalCodePlus4?: string;
-  country?: string;
+  streetName?: string | Redacted.Redacted<string>;
+  streetSuffix?: string | Redacted.Redacted<string>;
+  postDirectional?: string | Redacted.Redacted<string>;
+  preDirectional?: string | Redacted.Redacted<string>;
+  streetNumber?: string | Redacted.Redacted<string>;
+  city?: string | Redacted.Redacted<string>;
+  state?: string | Redacted.Redacted<string>;
+  postalCode?: string | Redacted.Redacted<string>;
+  postalCodePlus4?: string | Redacted.Redacted<string>;
+  country?: string | Redacted.Redacted<string>;
 }
 export const Address = S.suspend(() =>
   S.Struct({
-    streetName: S.optional(S.String),
-    streetSuffix: S.optional(S.String),
-    postDirectional: S.optional(S.String),
-    preDirectional: S.optional(S.String),
-    streetNumber: S.optional(S.String),
-    city: S.optional(S.String),
-    state: S.optional(S.String),
-    postalCode: S.optional(S.String),
-    postalCodePlus4: S.optional(S.String),
-    country: S.optional(S.String),
+    streetName: S.optional(SensitiveString),
+    streetSuffix: S.optional(SensitiveString),
+    postDirectional: S.optional(SensitiveString),
+    preDirectional: S.optional(SensitiveString),
+    streetNumber: S.optional(SensitiveString),
+    city: S.optional(SensitiveString),
+    state: S.optional(SensitiveString),
+    postalCode: S.optional(SensitiveString),
+    postalCodePlus4: S.optional(SensitiveString),
+    country: S.optional(SensitiveString),
   }),
 ).annotations({ identifier: "Address" }) as any as S.Schema<Address>;
 export interface CandidateAddress {
-  streetInfo?: string;
-  streetNumber?: string;
-  city?: string;
-  state?: string;
-  postalCode?: string;
-  postalCodePlus4?: string;
-  country?: string;
+  streetInfo?: string | Redacted.Redacted<string>;
+  streetNumber?: string | Redacted.Redacted<string>;
+  city?: string | Redacted.Redacted<string>;
+  state?: string | Redacted.Redacted<string>;
+  postalCode?: string | Redacted.Redacted<string>;
+  postalCodePlus4?: string | Redacted.Redacted<string>;
+  country?: string | Redacted.Redacted<string>;
 }
 export const CandidateAddress = S.suspend(() =>
   S.Struct({
-    streetInfo: S.optional(S.String),
-    streetNumber: S.optional(S.String),
-    city: S.optional(S.String),
-    state: S.optional(S.String),
-    postalCode: S.optional(S.String),
-    postalCodePlus4: S.optional(S.String),
-    country: S.optional(S.String),
+    streetInfo: S.optional(SensitiveString),
+    streetNumber: S.optional(SensitiveString),
+    city: S.optional(SensitiveString),
+    state: S.optional(SensitiveString),
+    postalCode: S.optional(SensitiveString),
+    postalCodePlus4: S.optional(SensitiveString),
+    country: S.optional(SensitiveString),
   }),
 ).annotations({
   identifier: "CandidateAddress",

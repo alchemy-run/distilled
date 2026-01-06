@@ -1,5 +1,6 @@
 import { HttpClient } from "@effect/platform";
 import * as Effect from "effect/Effect";
+import * as Redacted from "effect/Redacted";
 import * as S from "effect/Schema";
 import * as Stream from "effect/Stream";
 import * as API from "../api.ts";
@@ -10,6 +11,7 @@ import {
   ErrorCategory,
   Errors,
 } from "../index.ts";
+import { SensitiveString, SensitiveBlob } from "../sensitive.ts";
 const svc = T.AwsApiService({
   sdkId: "Chime SDK Identity",
   serviceShapeName: "ChimeIdentityService",
@@ -250,30 +252,30 @@ const rules = T.EndpointRuleSet({
 });
 
 //# Newtypes
-export type NonEmptyResourceName = string;
-export type Metadata = string;
+export type NonEmptyResourceName = string | Redacted.Redacted<string>;
+export type Metadata = string | Redacted.Redacted<string>;
 export type ClientRequestToken = string;
 export type ChimeArn = string;
-export type ResourceName = string;
-export type UserId = string;
-export type UserName = string;
+export type ResourceName = string | Redacted.Redacted<string>;
+export type UserId = string | Redacted.Redacted<string>;
+export type UserName = string | Redacted.Redacted<string>;
 export type String64 = string;
 export type String1600 = string;
 export type MaxResults = number;
-export type NextToken = string;
-export type SensitiveChimeArn = string;
-export type SensitiveString1600 = string;
-export type TagKey = string;
-export type TagValue = string;
+export type NextToken = string | Redacted.Redacted<string>;
+export type SensitiveChimeArn = string | Redacted.Redacted<string>;
+export type SensitiveString1600 = string | Redacted.Redacted<string>;
+export type TagKey = string | Redacted.Redacted<string>;
+export type TagValue = string | Redacted.Redacted<string>;
 export type ExpirationDays = number;
-export type NonEmptySensitiveString1600 = string;
+export type NonEmptySensitiveString1600 = string | Redacted.Redacted<string>;
 export type LexBotAliasArn = string;
 export type LexIntentName = string;
 export type RetentionDays = number;
 
 //# Schemas
-export type TagKeyList = string[];
-export const TagKeyList = S.Array(S.String);
+export type TagKeyList = string | Redacted.Redacted<string>[];
+export const TagKeyList = S.Array(SensitiveString);
 export interface CreateAppInstanceAdminRequest {
   AppInstanceAdminArn: string;
   AppInstanceArn: string;
@@ -569,13 +571,13 @@ export const GetAppInstanceRetentionSettingsRequest = S.suspend(() =>
 export interface ListAppInstanceAdminsRequest {
   AppInstanceArn: string;
   MaxResults?: number;
-  NextToken?: string;
+  NextToken?: string | Redacted.Redacted<string>;
 }
 export const ListAppInstanceAdminsRequest = S.suspend(() =>
   S.Struct({
     AppInstanceArn: S.String.pipe(T.HttpLabel("AppInstanceArn")),
     MaxResults: S.optional(S.Number).pipe(T.HttpQuery("max-results")),
-    NextToken: S.optional(S.String).pipe(T.HttpQuery("next-token")),
+    NextToken: S.optional(SensitiveString).pipe(T.HttpQuery("next-token")),
   }).pipe(
     T.all(
       T.Http({ method: "GET", uri: "/app-instances/{AppInstanceArn}/admins" }),
@@ -592,13 +594,13 @@ export const ListAppInstanceAdminsRequest = S.suspend(() =>
 export interface ListAppInstanceBotsRequest {
   AppInstanceArn: string;
   MaxResults?: number;
-  NextToken?: string;
+  NextToken?: string | Redacted.Redacted<string>;
 }
 export const ListAppInstanceBotsRequest = S.suspend(() =>
   S.Struct({
     AppInstanceArn: S.String.pipe(T.HttpQuery("app-instance-arn")),
     MaxResults: S.optional(S.Number).pipe(T.HttpQuery("max-results")),
-    NextToken: S.optional(S.String).pipe(T.HttpQuery("next-token")),
+    NextToken: S.optional(SensitiveString).pipe(T.HttpQuery("next-token")),
   }).pipe(
     T.all(
       T.Http({ method: "GET", uri: "/app-instance-bots" }),
@@ -614,12 +616,12 @@ export const ListAppInstanceBotsRequest = S.suspend(() =>
 }) as any as S.Schema<ListAppInstanceBotsRequest>;
 export interface ListAppInstancesRequest {
   MaxResults?: number;
-  NextToken?: string;
+  NextToken?: string | Redacted.Redacted<string>;
 }
 export const ListAppInstancesRequest = S.suspend(() =>
   S.Struct({
     MaxResults: S.optional(S.Number).pipe(T.HttpQuery("max-results")),
-    NextToken: S.optional(S.String).pipe(T.HttpQuery("next-token")),
+    NextToken: S.optional(SensitiveString).pipe(T.HttpQuery("next-token")),
   }).pipe(
     T.all(
       T.Http({ method: "GET", uri: "/app-instances" }),
@@ -634,15 +636,15 @@ export const ListAppInstancesRequest = S.suspend(() =>
   identifier: "ListAppInstancesRequest",
 }) as any as S.Schema<ListAppInstancesRequest>;
 export interface ListAppInstanceUserEndpointsRequest {
-  AppInstanceUserArn: string;
+  AppInstanceUserArn: string | Redacted.Redacted<string>;
   MaxResults?: number;
-  NextToken?: string;
+  NextToken?: string | Redacted.Redacted<string>;
 }
 export const ListAppInstanceUserEndpointsRequest = S.suspend(() =>
   S.Struct({
-    AppInstanceUserArn: S.String.pipe(T.HttpLabel("AppInstanceUserArn")),
+    AppInstanceUserArn: SensitiveString.pipe(T.HttpLabel("AppInstanceUserArn")),
     MaxResults: S.optional(S.Number).pipe(T.HttpQuery("max-results")),
-    NextToken: S.optional(S.String).pipe(T.HttpQuery("next-token")),
+    NextToken: S.optional(SensitiveString).pipe(T.HttpQuery("next-token")),
   }).pipe(
     T.all(
       T.Http({
@@ -662,13 +664,13 @@ export const ListAppInstanceUserEndpointsRequest = S.suspend(() =>
 export interface ListAppInstanceUsersRequest {
   AppInstanceArn: string;
   MaxResults?: number;
-  NextToken?: string;
+  NextToken?: string | Redacted.Redacted<string>;
 }
 export const ListAppInstanceUsersRequest = S.suspend(() =>
   S.Struct({
     AppInstanceArn: S.String.pipe(T.HttpQuery("app-instance-arn")),
     MaxResults: S.optional(S.Number).pipe(T.HttpQuery("max-results")),
-    NextToken: S.optional(S.String).pipe(T.HttpQuery("next-token")),
+    NextToken: S.optional(SensitiveString).pipe(T.HttpQuery("next-token")),
   }).pipe(
     T.all(
       T.Http({ method: "GET", uri: "/app-instance-users" }),
@@ -733,11 +735,11 @@ export const PutAppInstanceUserExpirationSettingsRequest = S.suspend(() =>
   identifier: "PutAppInstanceUserExpirationSettingsRequest",
 }) as any as S.Schema<PutAppInstanceUserExpirationSettingsRequest>;
 export interface Tag {
-  Key: string;
-  Value: string;
+  Key: string | Redacted.Redacted<string>;
+  Value: string | Redacted.Redacted<string>;
 }
 export const Tag = S.suspend(() =>
-  S.Struct({ Key: S.String, Value: S.String }),
+  S.Struct({ Key: SensitiveString, Value: SensitiveString }),
 ).annotations({ identifier: "Tag" }) as any as S.Schema<Tag>;
 export type TagList = Tag[];
 export const TagList = S.Array(Tag);
@@ -787,14 +789,14 @@ export const UntagResourceResponse = S.suspend(() => S.Struct({})).annotations({
 }) as any as S.Schema<UntagResourceResponse>;
 export interface UpdateAppInstanceRequest {
   AppInstanceArn: string;
-  Name: string;
-  Metadata: string;
+  Name: string | Redacted.Redacted<string>;
+  Metadata: string | Redacted.Redacted<string>;
 }
 export const UpdateAppInstanceRequest = S.suspend(() =>
   S.Struct({
     AppInstanceArn: S.String.pipe(T.HttpLabel("AppInstanceArn")),
-    Name: S.String,
-    Metadata: S.String,
+    Name: SensitiveString,
+    Metadata: SensitiveString,
   }).pipe(
     T.all(
       T.Http({ method: "PUT", uri: "/app-instances/{AppInstanceArn}" }),
@@ -843,15 +845,15 @@ export const Configuration = S.suspend(() =>
 }) as any as S.Schema<Configuration>;
 export interface UpdateAppInstanceBotRequest {
   AppInstanceBotArn: string;
-  Name: string;
-  Metadata: string;
+  Name: string | Redacted.Redacted<string>;
+  Metadata: string | Redacted.Redacted<string>;
   Configuration?: Configuration;
 }
 export const UpdateAppInstanceBotRequest = S.suspend(() =>
   S.Struct({
     AppInstanceBotArn: S.String.pipe(T.HttpLabel("AppInstanceBotArn")),
-    Name: S.String,
-    Metadata: S.String,
+    Name: SensitiveString,
+    Metadata: SensitiveString,
     Configuration: S.optional(Configuration),
   }).pipe(
     T.all(
@@ -868,14 +870,14 @@ export const UpdateAppInstanceBotRequest = S.suspend(() =>
 }) as any as S.Schema<UpdateAppInstanceBotRequest>;
 export interface UpdateAppInstanceUserRequest {
   AppInstanceUserArn: string;
-  Name: string;
-  Metadata: string;
+  Name: string | Redacted.Redacted<string>;
+  Metadata: string | Redacted.Redacted<string>;
 }
 export const UpdateAppInstanceUserRequest = S.suspend(() =>
   S.Struct({
     AppInstanceUserArn: S.String.pipe(T.HttpLabel("AppInstanceUserArn")),
-    Name: S.String,
-    Metadata: S.String,
+    Name: SensitiveString,
+    Metadata: SensitiveString,
   }).pipe(
     T.all(
       T.Http({
@@ -895,14 +897,14 @@ export const UpdateAppInstanceUserRequest = S.suspend(() =>
 export interface UpdateAppInstanceUserEndpointRequest {
   AppInstanceUserArn: string;
   EndpointId: string;
-  Name?: string;
+  Name?: string | Redacted.Redacted<string>;
   AllowMessages?: string;
 }
 export const UpdateAppInstanceUserEndpointRequest = S.suspend(() =>
   S.Struct({
     AppInstanceUserArn: S.String.pipe(T.HttpLabel("AppInstanceUserArn")),
     EndpointId: S.String.pipe(T.HttpLabel("EndpointId")),
-    Name: S.optional(S.String),
+    Name: S.optional(SensitiveString),
     AllowMessages: S.optional(S.String),
   }).pipe(
     T.all(
@@ -921,24 +923,27 @@ export const UpdateAppInstanceUserEndpointRequest = S.suspend(() =>
   identifier: "UpdateAppInstanceUserEndpointRequest",
 }) as any as S.Schema<UpdateAppInstanceUserEndpointRequest>;
 export interface EndpointAttributes {
-  DeviceToken: string;
-  VoipDeviceToken?: string;
+  DeviceToken: string | Redacted.Redacted<string>;
+  VoipDeviceToken?: string | Redacted.Redacted<string>;
 }
 export const EndpointAttributes = S.suspend(() =>
-  S.Struct({ DeviceToken: S.String, VoipDeviceToken: S.optional(S.String) }),
+  S.Struct({
+    DeviceToken: SensitiveString,
+    VoipDeviceToken: S.optional(SensitiveString),
+  }),
 ).annotations({
   identifier: "EndpointAttributes",
 }) as any as S.Schema<EndpointAttributes>;
 export interface CreateAppInstanceRequest {
-  Name: string;
-  Metadata?: string;
+  Name: string | Redacted.Redacted<string>;
+  Metadata?: string | Redacted.Redacted<string>;
   ClientRequestToken: string;
   Tags?: TagList;
 }
 export const CreateAppInstanceRequest = S.suspend(() =>
   S.Struct({
-    Name: S.String,
-    Metadata: S.optional(S.String),
+    Name: SensitiveString,
+    Metadata: S.optional(SensitiveString),
     ClientRequestToken: S.String,
     Tags: S.optional(TagList),
   }).pipe(
@@ -956,9 +961,9 @@ export const CreateAppInstanceRequest = S.suspend(() =>
 }) as any as S.Schema<CreateAppInstanceRequest>;
 export interface CreateAppInstanceUserRequest {
   AppInstanceArn: string;
-  AppInstanceUserId: string;
-  Name: string;
-  Metadata?: string;
+  AppInstanceUserId: string | Redacted.Redacted<string>;
+  Name: string | Redacted.Redacted<string>;
+  Metadata?: string | Redacted.Redacted<string>;
   ClientRequestToken: string;
   Tags?: TagList;
   ExpirationSettings?: ExpirationSettings;
@@ -966,9 +971,9 @@ export interface CreateAppInstanceUserRequest {
 export const CreateAppInstanceUserRequest = S.suspend(() =>
   S.Struct({
     AppInstanceArn: S.String,
-    AppInstanceUserId: S.String,
-    Name: S.String,
-    Metadata: S.optional(S.String),
+    AppInstanceUserId: SensitiveString,
+    Name: SensitiveString,
+    Metadata: S.optional(SensitiveString),
     ClientRequestToken: S.String,
     Tags: S.optional(TagList),
     ExpirationSettings: S.optional(ExpirationSettings),
@@ -1036,8 +1041,8 @@ export const PutAppInstanceUserExpirationSettingsResponse = S.suspend(() =>
   identifier: "PutAppInstanceUserExpirationSettingsResponse",
 }) as any as S.Schema<PutAppInstanceUserExpirationSettingsResponse>;
 export interface RegisterAppInstanceUserEndpointRequest {
-  AppInstanceUserArn: string;
-  Name?: string;
+  AppInstanceUserArn: string | Redacted.Redacted<string>;
+  Name?: string | Redacted.Redacted<string>;
   Type: string;
   ResourceArn: string;
   EndpointAttributes: EndpointAttributes;
@@ -1046,8 +1051,8 @@ export interface RegisterAppInstanceUserEndpointRequest {
 }
 export const RegisterAppInstanceUserEndpointRequest = S.suspend(() =>
   S.Struct({
-    AppInstanceUserArn: S.String.pipe(T.HttpLabel("AppInstanceUserArn")),
-    Name: S.optional(S.String),
+    AppInstanceUserArn: SensitiveString.pipe(T.HttpLabel("AppInstanceUserArn")),
+    Name: S.optional(SensitiveString),
     Type: S.String,
     ResourceArn: S.String,
     EndpointAttributes: EndpointAttributes,
@@ -1107,29 +1112,29 @@ export const UpdateAppInstanceUserEndpointResponse = S.suspend(() =>
 }) as any as S.Schema<UpdateAppInstanceUserEndpointResponse>;
 export interface Identity {
   Arn?: string;
-  Name?: string;
+  Name?: string | Redacted.Redacted<string>;
 }
 export const Identity = S.suspend(() =>
-  S.Struct({ Arn: S.optional(S.String), Name: S.optional(S.String) }),
+  S.Struct({ Arn: S.optional(S.String), Name: S.optional(SensitiveString) }),
 ).annotations({ identifier: "Identity" }) as any as S.Schema<Identity>;
 export interface AppInstance {
   AppInstanceArn?: string;
-  Name?: string;
+  Name?: string | Redacted.Redacted<string>;
   CreatedTimestamp?: Date;
   LastUpdatedTimestamp?: Date;
-  Metadata?: string;
+  Metadata?: string | Redacted.Redacted<string>;
 }
 export const AppInstance = S.suspend(() =>
   S.Struct({
     AppInstanceArn: S.optional(S.String),
-    Name: S.optional(S.String),
+    Name: S.optional(SensitiveString),
     CreatedTimestamp: S.optional(
       S.Date.pipe(T.TimestampFormat("epoch-seconds")),
     ),
     LastUpdatedTimestamp: S.optional(
       S.Date.pipe(T.TimestampFormat("epoch-seconds")),
     ),
-    Metadata: S.optional(S.String),
+    Metadata: S.optional(SensitiveString),
   }),
 ).annotations({ identifier: "AppInstance" }) as any as S.Schema<AppInstance>;
 export interface AppInstanceAdmin {
@@ -1150,16 +1155,16 @@ export const AppInstanceAdmin = S.suspend(() =>
 }) as any as S.Schema<AppInstanceAdmin>;
 export interface AppInstanceBot {
   AppInstanceBotArn?: string;
-  Name?: string;
+  Name?: string | Redacted.Redacted<string>;
   Configuration?: Configuration;
   CreatedTimestamp?: Date;
   LastUpdatedTimestamp?: Date;
-  Metadata?: string;
+  Metadata?: string | Redacted.Redacted<string>;
 }
 export const AppInstanceBot = S.suspend(() =>
   S.Struct({
     AppInstanceBotArn: S.optional(S.String),
-    Name: S.optional(S.String),
+    Name: S.optional(SensitiveString),
     Configuration: S.optional(Configuration),
     CreatedTimestamp: S.optional(
       S.Date.pipe(T.TimestampFormat("epoch-seconds")),
@@ -1167,15 +1172,15 @@ export const AppInstanceBot = S.suspend(() =>
     LastUpdatedTimestamp: S.optional(
       S.Date.pipe(T.TimestampFormat("epoch-seconds")),
     ),
-    Metadata: S.optional(S.String),
+    Metadata: S.optional(SensitiveString),
   }),
 ).annotations({
   identifier: "AppInstanceBot",
 }) as any as S.Schema<AppInstanceBot>;
 export interface AppInstanceUser {
   AppInstanceUserArn?: string;
-  Name?: string;
-  Metadata?: string;
+  Name?: string | Redacted.Redacted<string>;
+  Metadata?: string | Redacted.Redacted<string>;
   CreatedTimestamp?: Date;
   LastUpdatedTimestamp?: Date;
   ExpirationSettings?: ExpirationSettings;
@@ -1183,8 +1188,8 @@ export interface AppInstanceUser {
 export const AppInstanceUser = S.suspend(() =>
   S.Struct({
     AppInstanceUserArn: S.optional(S.String),
-    Name: S.optional(S.String),
-    Metadata: S.optional(S.String),
+    Name: S.optional(SensitiveString),
+    Metadata: S.optional(SensitiveString),
     CreatedTimestamp: S.optional(
       S.Date.pipe(T.TimestampFormat("epoch-seconds")),
     ),
@@ -1208,14 +1213,14 @@ export type AppInstanceAdminList = AppInstanceAdminSummary[];
 export const AppInstanceAdminList = S.Array(AppInstanceAdminSummary);
 export interface AppInstanceBotSummary {
   AppInstanceBotArn?: string;
-  Name?: string;
-  Metadata?: string;
+  Name?: string | Redacted.Redacted<string>;
+  Metadata?: string | Redacted.Redacted<string>;
 }
 export const AppInstanceBotSummary = S.suspend(() =>
   S.Struct({
     AppInstanceBotArn: S.optional(S.String),
-    Name: S.optional(S.String),
-    Metadata: S.optional(S.String),
+    Name: S.optional(SensitiveString),
+    Metadata: S.optional(SensitiveString),
   }),
 ).annotations({
   identifier: "AppInstanceBotSummary",
@@ -1224,14 +1229,14 @@ export type AppInstanceBotList = AppInstanceBotSummary[];
 export const AppInstanceBotList = S.Array(AppInstanceBotSummary);
 export interface AppInstanceSummary {
   AppInstanceArn?: string;
-  Name?: string;
-  Metadata?: string;
+  Name?: string | Redacted.Redacted<string>;
+  Metadata?: string | Redacted.Redacted<string>;
 }
 export const AppInstanceSummary = S.suspend(() =>
   S.Struct({
     AppInstanceArn: S.optional(S.String),
-    Name: S.optional(S.String),
-    Metadata: S.optional(S.String),
+    Name: S.optional(SensitiveString),
+    Metadata: S.optional(SensitiveString),
   }),
 ).annotations({
   identifier: "AppInstanceSummary",
@@ -1250,7 +1255,7 @@ export const EndpointState = S.suspend(() =>
 export interface AppInstanceUserEndpointSummary {
   AppInstanceUserArn?: string;
   EndpointId?: string;
-  Name?: string;
+  Name?: string | Redacted.Redacted<string>;
   Type?: string;
   AllowMessages?: string;
   EndpointState?: EndpointState;
@@ -1259,7 +1264,7 @@ export const AppInstanceUserEndpointSummary = S.suspend(() =>
   S.Struct({
     AppInstanceUserArn: S.optional(S.String),
     EndpointId: S.optional(S.String),
-    Name: S.optional(S.String),
+    Name: S.optional(SensitiveString),
     Type: S.optional(S.String),
     AllowMessages: S.optional(S.String),
     EndpointState: S.optional(EndpointState),
@@ -1274,14 +1279,14 @@ export const AppInstanceUserEndpointSummaryList = S.Array(
 );
 export interface AppInstanceUserSummary {
   AppInstanceUserArn?: string;
-  Name?: string;
-  Metadata?: string;
+  Name?: string | Redacted.Redacted<string>;
+  Metadata?: string | Redacted.Redacted<string>;
 }
 export const AppInstanceUserSummary = S.suspend(() =>
   S.Struct({
     AppInstanceUserArn: S.optional(S.String),
-    Name: S.optional(S.String),
-    Metadata: S.optional(S.String),
+    Name: S.optional(SensitiveString),
+    Metadata: S.optional(SensitiveString),
   }),
 ).annotations({
   identifier: "AppInstanceUserSummary",
@@ -1351,13 +1356,13 @@ export const DescribeAppInstanceUserResponse = S.suspend(() =>
 export interface ListAppInstanceAdminsResponse {
   AppInstanceArn?: string;
   AppInstanceAdmins?: AppInstanceAdminList;
-  NextToken?: string;
+  NextToken?: string | Redacted.Redacted<string>;
 }
 export const ListAppInstanceAdminsResponse = S.suspend(() =>
   S.Struct({
     AppInstanceArn: S.optional(S.String),
     AppInstanceAdmins: S.optional(AppInstanceAdminList),
-    NextToken: S.optional(S.String),
+    NextToken: S.optional(SensitiveString),
   }),
 ).annotations({
   identifier: "ListAppInstanceAdminsResponse",
@@ -1365,37 +1370,37 @@ export const ListAppInstanceAdminsResponse = S.suspend(() =>
 export interface ListAppInstanceBotsResponse {
   AppInstanceArn?: string;
   AppInstanceBots?: AppInstanceBotList;
-  NextToken?: string;
+  NextToken?: string | Redacted.Redacted<string>;
 }
 export const ListAppInstanceBotsResponse = S.suspend(() =>
   S.Struct({
     AppInstanceArn: S.optional(S.String),
     AppInstanceBots: S.optional(AppInstanceBotList),
-    NextToken: S.optional(S.String),
+    NextToken: S.optional(SensitiveString),
   }),
 ).annotations({
   identifier: "ListAppInstanceBotsResponse",
 }) as any as S.Schema<ListAppInstanceBotsResponse>;
 export interface ListAppInstancesResponse {
   AppInstances?: AppInstanceList;
-  NextToken?: string;
+  NextToken?: string | Redacted.Redacted<string>;
 }
 export const ListAppInstancesResponse = S.suspend(() =>
   S.Struct({
     AppInstances: S.optional(AppInstanceList),
-    NextToken: S.optional(S.String),
+    NextToken: S.optional(SensitiveString),
   }),
 ).annotations({
   identifier: "ListAppInstancesResponse",
 }) as any as S.Schema<ListAppInstancesResponse>;
 export interface ListAppInstanceUserEndpointsResponse {
   AppInstanceUserEndpoints?: AppInstanceUserEndpointSummaryList;
-  NextToken?: string;
+  NextToken?: string | Redacted.Redacted<string>;
 }
 export const ListAppInstanceUserEndpointsResponse = S.suspend(() =>
   S.Struct({
     AppInstanceUserEndpoints: S.optional(AppInstanceUserEndpointSummaryList),
-    NextToken: S.optional(S.String),
+    NextToken: S.optional(SensitiveString),
   }),
 ).annotations({
   identifier: "ListAppInstanceUserEndpointsResponse",
@@ -1403,13 +1408,13 @@ export const ListAppInstanceUserEndpointsResponse = S.suspend(() =>
 export interface ListAppInstanceUsersResponse {
   AppInstanceArn?: string;
   AppInstanceUsers?: AppInstanceUserList;
-  NextToken?: string;
+  NextToken?: string | Redacted.Redacted<string>;
 }
 export const ListAppInstanceUsersResponse = S.suspend(() =>
   S.Struct({
     AppInstanceArn: S.optional(S.String),
     AppInstanceUsers: S.optional(AppInstanceUserList),
-    NextToken: S.optional(S.String),
+    NextToken: S.optional(SensitiveString),
   }),
 ).annotations({
   identifier: "ListAppInstanceUsersResponse",
@@ -1453,7 +1458,7 @@ export const RegisterAppInstanceUserEndpointResponse = S.suspend(() =>
 export interface AppInstanceUserEndpoint {
   AppInstanceUserArn?: string;
   EndpointId?: string;
-  Name?: string;
+  Name?: string | Redacted.Redacted<string>;
   Type?: string;
   ResourceArn?: string;
   EndpointAttributes?: EndpointAttributes;
@@ -1466,7 +1471,7 @@ export const AppInstanceUserEndpoint = S.suspend(() =>
   S.Struct({
     AppInstanceUserArn: S.optional(S.String),
     EndpointId: S.optional(S.String),
-    Name: S.optional(S.String),
+    Name: S.optional(SensitiveString),
     Type: S.optional(S.String),
     ResourceArn: S.optional(S.String),
     EndpointAttributes: S.optional(EndpointAttributes),
@@ -1484,8 +1489,8 @@ export const AppInstanceUserEndpoint = S.suspend(() =>
 }) as any as S.Schema<AppInstanceUserEndpoint>;
 export interface CreateAppInstanceBotRequest {
   AppInstanceArn: string;
-  Name?: string;
-  Metadata?: string;
+  Name?: string | Redacted.Redacted<string>;
+  Metadata?: string | Redacted.Redacted<string>;
   ClientRequestToken: string;
   Tags?: TagList;
   Configuration: Configuration;
@@ -1493,8 +1498,8 @@ export interface CreateAppInstanceBotRequest {
 export const CreateAppInstanceBotRequest = S.suspend(() =>
   S.Struct({
     AppInstanceArn: S.String,
-    Name: S.optional(S.String),
-    Metadata: S.optional(S.String),
+    Name: S.optional(SensitiveString),
+    Metadata: S.optional(SensitiveString),
     ClientRequestToken: S.String,
     Tags: S.optional(TagList),
     Configuration: Configuration,

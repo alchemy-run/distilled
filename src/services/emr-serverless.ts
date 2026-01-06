@@ -1,5 +1,6 @@
 import { HttpClient } from "@effect/platform";
 import * as Effect from "effect/Effect";
+import * as Redacted from "effect/Redacted";
 import * as S from "effect/Schema";
 import * as Stream from "effect/Stream";
 import * as API from "../api.ts";
@@ -10,6 +11,7 @@ import {
   ErrorCategory,
   Errors,
 } from "../index.ts";
+import { SensitiveString, SensitiveBlob } from "../sensitive.ts";
 const svc = T.AwsApiService({
   sdkId: "EMR Serverless",
   serviceShapeName: "AwsToledoWebService",
@@ -289,12 +291,12 @@ export type EncryptionKeyArn = string;
 export type LogGroupName = string;
 export type LogStreamNamePrefix = string;
 export type PrometheusUrlString = string;
-export type EntryPointPath = string;
-export type EntryPointArgument = string;
-export type SparkSubmitParameters = string;
-export type Query = string;
-export type InitScriptPath = string;
-export type HiveCliParameters = string;
+export type EntryPointPath = string | Redacted.Redacted<string>;
+export type EntryPointArgument = string | Redacted.Redacted<string>;
+export type SparkSubmitParameters = string | Redacted.Redacted<string>;
+export type Query = string | Redacted.Redacted<string>;
+export type InitScriptPath = string | Redacted.Redacted<string>;
+export type HiveCliParameters = string | Redacted.Redacted<string>;
 export type ApplicationArn = string;
 export type JobArn = string;
 export type RequestIdentityUserArn = string;
@@ -926,8 +928,8 @@ export const RetryPolicy = S.suspend(() =>
     maxFailedAttemptsPerHour: S.optional(S.Number),
   }),
 ).annotations({ identifier: "RetryPolicy" }) as any as S.Schema<RetryPolicy>;
-export type EntryPointArguments = string[];
-export const EntryPointArguments = S.Array(S.String);
+export type EntryPointArguments = string | Redacted.Redacted<string>[];
+export const EntryPointArguments = S.Array(SensitiveString);
 export interface ListTagsForResourceResponse {
   tags?: TagMap;
 }
@@ -1086,27 +1088,27 @@ export const SensitivePropertiesMap = S.Record({
   value: S.String,
 });
 export interface SparkSubmit {
-  entryPoint: string;
+  entryPoint: string | Redacted.Redacted<string>;
   entryPointArguments?: EntryPointArguments;
-  sparkSubmitParameters?: string;
+  sparkSubmitParameters?: string | Redacted.Redacted<string>;
 }
 export const SparkSubmit = S.suspend(() =>
   S.Struct({
-    entryPoint: S.String,
+    entryPoint: SensitiveString,
     entryPointArguments: S.optional(EntryPointArguments),
-    sparkSubmitParameters: S.optional(S.String),
+    sparkSubmitParameters: S.optional(SensitiveString),
   }),
 ).annotations({ identifier: "SparkSubmit" }) as any as S.Schema<SparkSubmit>;
 export interface Hive {
-  query: string;
-  initQueryFile?: string;
-  parameters?: string;
+  query: string | Redacted.Redacted<string>;
+  initQueryFile?: string | Redacted.Redacted<string>;
+  parameters?: string | Redacted.Redacted<string>;
 }
 export const Hive = S.suspend(() =>
   S.Struct({
-    query: S.String,
-    initQueryFile: S.optional(S.String),
-    parameters: S.optional(S.String),
+    query: SensitiveString,
+    initQueryFile: S.optional(SensitiveString),
+    parameters: S.optional(SensitiveString),
   }),
 ).annotations({ identifier: "Hive" }) as any as S.Schema<Hive>;
 export interface Configuration {

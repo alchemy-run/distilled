@@ -1,5 +1,6 @@
 import { HttpClient } from "@effect/platform";
 import * as Effect from "effect/Effect";
+import * as Redacted from "effect/Redacted";
 import * as S from "effect/Schema";
 import * as Stream from "effect/Stream";
 import * as API from "../api.ts";
@@ -10,6 +11,7 @@ import {
   ErrorCategory,
   Errors,
 } from "../index.ts";
+import { SensitiveString, SensitiveBlob } from "../sensitive.ts";
 const svc = T.AwsApiService({ sdkId: "EBS", serviceShapeName: "Ebs" });
 const auth = T.AwsAuthSigv4({ name: "ebs" });
 const ver = T.ServiceVersion("2019-11-02");
@@ -259,7 +261,7 @@ export type Progress = number;
 export type VolumeSize = number;
 export type Description = string;
 export type IdempotencyToken = string;
-export type KmsKeyArn = string;
+export type KmsKeyArn = string | Redacted.Redacted<string>;
 export type Timeout = number;
 export type TagKey = string;
 export type TagValue = string;
@@ -474,7 +476,7 @@ export interface StartSnapshotRequest {
   Description?: string;
   ClientToken?: string;
   Encrypted?: boolean;
-  KmsKeyArn?: string;
+  KmsKeyArn?: string | Redacted.Redacted<string>;
   Timeout?: number;
 }
 export const StartSnapshotRequest = S.suspend(() =>
@@ -485,7 +487,7 @@ export const StartSnapshotRequest = S.suspend(() =>
     Description: S.optional(S.String),
     ClientToken: S.optional(S.String),
     Encrypted: S.optional(S.Boolean),
-    KmsKeyArn: S.optional(S.String),
+    KmsKeyArn: S.optional(SensitiveString),
     Timeout: S.optional(S.Number),
   }).pipe(
     T.all(
@@ -572,7 +574,7 @@ export interface StartSnapshotResponse {
   BlockSize?: number;
   Tags?: Tags;
   ParentSnapshotId?: string;
-  KmsKeyArn?: string;
+  KmsKeyArn?: string | Redacted.Redacted<string>;
   SseType?: string;
 }
 export const StartSnapshotResponse = S.suspend(() =>
@@ -586,7 +588,7 @@ export const StartSnapshotResponse = S.suspend(() =>
     BlockSize: S.optional(S.Number),
     Tags: S.optional(Tags),
     ParentSnapshotId: S.optional(S.String),
-    KmsKeyArn: S.optional(S.String),
+    KmsKeyArn: S.optional(SensitiveString),
     SseType: S.optional(S.String),
   }),
 ).annotations({

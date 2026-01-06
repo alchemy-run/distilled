@@ -1,5 +1,6 @@
 import { HttpClient } from "@effect/platform";
 import * as Effect from "effect/Effect";
+import * as Redacted from "effect/Redacted";
 import * as S from "effect/Schema";
 import * as Stream from "effect/Stream";
 import * as API from "../api.ts";
@@ -10,6 +11,7 @@ import {
   ErrorCategory,
   Errors,
 } from "../index.ts";
+import { SensitiveString, SensitiveBlob } from "../sensitive.ts";
 const svc = T.AwsApiService({
   sdkId: "MailManager",
   serviceShapeName: "MailManagerSvc",
@@ -305,7 +307,7 @@ const rules = T.EndpointRuleSet({
 export type IdempotencyToken = string;
 export type AddressListId = string;
 export type JobName = string;
-export type Address = string;
+export type Address = string | Redacted.Redacted<string>;
 export type JobId = string;
 export type ExportId = string;
 export type ArchivedMessageId = string;
@@ -336,13 +338,13 @@ export type RelayId = string;
 export type RuleSetName = string;
 export type TrafficPolicyName = string;
 export type MaxMessageSizeBytes = number;
-export type AddressPrefix = string;
+export type AddressPrefix = string | Redacted.Redacted<string>;
 export type TagValue = string;
-export type SmtpPassword = string;
+export type SmtpPassword = string | Redacted.Redacted<string>;
 export type SecretArn = string;
 export type RuleName = string;
 export type ErrorMessage = string;
-export type PreSignedUrl = string;
+export type PreSignedUrl = string | Redacted.Redacted<string>;
 export type JobItemsCount = number;
 export type S3PresignedURL = string;
 export type AddonInstanceArn = string;
@@ -356,7 +358,7 @@ export type RuleSetArn = string;
 export type TrafficPolicyArn = string;
 export type S3Location = string;
 export type VpcEndpointId = string;
-export type SenderIpAddress = string;
+export type SenderIpAddress = string | Redacted.Redacted<string>;
 export type StringValue = string;
 export type RuleStringValue = string;
 export type RuleIpStringValue = string;
@@ -368,7 +370,7 @@ export type S3Prefix = string;
 export type KmsKeyId = string;
 export type HeaderName = string;
 export type HeaderValue = string;
-export type EmailAddress = string;
+export type EmailAddress = string | Redacted.Redacted<string>;
 export type QBusinessApplicationId = string;
 export type QBusinessIndexId = string;
 export type SnsTopicArn = string;
@@ -383,10 +385,10 @@ export type TagKeyList = string[];
 export const TagKeyList = S.Array(S.String);
 export interface DeregisterMemberFromAddressListRequest {
   AddressListId: string;
-  Address: string;
+  Address: string | Redacted.Redacted<string>;
 }
 export const DeregisterMemberFromAddressListRequest = S.suspend(() =>
-  S.Struct({ AddressListId: S.String, Address: S.String }).pipe(
+  S.Struct({ AddressListId: S.String, Address: SensitiveString }).pipe(
     T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
   ),
 ).annotations({
@@ -460,10 +462,10 @@ export const GetArchiveSearchResultsRequest = S.suspend(() =>
 }) as any as S.Schema<GetArchiveSearchResultsRequest>;
 export interface GetMemberOfAddressListRequest {
   AddressListId: string;
-  Address: string;
+  Address: string | Redacted.Redacted<string>;
 }
 export const GetMemberOfAddressListRequest = S.suspend(() =>
-  S.Struct({ AddressListId: S.String, Address: S.String }).pipe(
+  S.Struct({ AddressListId: S.String, Address: SensitiveString }).pipe(
     T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
   ),
 ).annotations({
@@ -529,10 +531,10 @@ export const ListTagsForResourceRequest = S.suspend(() =>
 }) as any as S.Schema<ListTagsForResourceRequest>;
 export interface RegisterMemberToAddressListRequest {
   AddressListId: string;
-  Address: string;
+  Address: string | Redacted.Redacted<string>;
 }
 export const RegisterMemberToAddressListRequest = S.suspend(() =>
-  S.Struct({ AddressListId: S.String, Address: S.String }).pipe(
+  S.Struct({ AddressListId: S.String, Address: SensitiveString }).pipe(
     T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
   ),
 ).annotations({
@@ -947,10 +949,10 @@ export const GetIngressPointRequest = S.suspend(() =>
   identifier: "GetIngressPointRequest",
 }) as any as S.Schema<GetIngressPointRequest>;
 export type IngressPointConfiguration =
-  | { SmtpPassword: string }
+  | { SmtpPassword: string | Redacted.Redacted<string> }
   | { SecretArn: string };
 export const IngressPointConfiguration = S.Union(
-  S.Struct({ SmtpPassword: S.String }),
+  S.Struct({ SmtpPassword: SensitiveString }),
   S.Struct({ SecretArn: S.String }),
 );
 export interface UpdateIngressPointRequest {
@@ -1300,8 +1302,8 @@ export const AddHeaderAction = S.suspend(() =>
 ).annotations({
   identifier: "AddHeaderAction",
 }) as any as S.Schema<AddHeaderAction>;
-export type Recipients = string[];
-export const Recipients = S.Array(S.String);
+export type Recipients = string | Redacted.Redacted<string>[];
+export const Recipients = S.Array(SensitiveString);
 export interface ReplaceRecipientAction {
   ReplaceWith?: Recipients;
 }
@@ -1659,10 +1661,10 @@ export const ImportDataFormat = S.suspend(() =>
   identifier: "ImportDataFormat",
 }) as any as S.Schema<ImportDataFormat>;
 export interface AddressFilter {
-  AddressPrefix?: string;
+  AddressPrefix?: string | Redacted.Redacted<string>;
 }
 export const AddressFilter = S.suspend(() =>
-  S.Struct({ AddressPrefix: S.optional(S.String) }),
+  S.Struct({ AddressPrefix: S.optional(SensitiveString) }),
 ).annotations({
   identifier: "AddressFilter",
 }) as any as S.Schema<AddressFilter>;
@@ -1688,7 +1690,7 @@ export interface GetAddressListImportJobResponse {
   JobId: string;
   Name: string;
   Status: string;
-  PreSignedUrl: string;
+  PreSignedUrl: string | Redacted.Redacted<string>;
   ImportedItemsCount?: number;
   FailedItemsCount?: number;
   ImportDataFormat: ImportDataFormat;
@@ -1703,7 +1705,7 @@ export const GetAddressListImportJobResponse = S.suspend(() =>
     JobId: S.String,
     Name: S.String,
     Status: S.String,
-    PreSignedUrl: S.String,
+    PreSignedUrl: SensitiveString,
     ImportedItemsCount: S.optional(S.Number),
     FailedItemsCount: S.optional(S.Number),
     ImportDataFormat: ImportDataFormat,
@@ -1719,12 +1721,12 @@ export const GetAddressListImportJobResponse = S.suspend(() =>
   identifier: "GetAddressListImportJobResponse",
 }) as any as S.Schema<GetAddressListImportJobResponse>;
 export interface GetMemberOfAddressListResponse {
-  Address: string;
+  Address: string | Redacted.Redacted<string>;
   CreatedTimestamp: Date;
 }
 export const GetMemberOfAddressListResponse = S.suspend(() =>
   S.Struct({
-    Address: S.String,
+    Address: SensitiveString,
     CreatedTimestamp: S.Date.pipe(T.TimestampFormat("epoch-seconds")),
   }),
 ).annotations({
@@ -2051,7 +2053,7 @@ export interface Metadata {
   TrafficPolicyId?: string;
   RuleSetId?: string;
   SenderHostname?: string;
-  SenderIpAddress?: string;
+  SenderIpAddress?: string | Redacted.Redacted<string>;
   TlsCipherSuite?: string;
   TlsProtocol?: string;
   SendingMethod?: string;
@@ -2067,7 +2069,7 @@ export const Metadata = S.suspend(() =>
     TrafficPolicyId: S.optional(S.String),
     RuleSetId: S.optional(S.String),
     SenderHostname: S.optional(S.String),
-    SenderIpAddress: S.optional(S.String),
+    SenderIpAddress: S.optional(SensitiveString),
     TlsCipherSuite: S.optional(S.String),
     TlsProtocol: S.optional(S.String),
     SendingMethod: S.optional(S.String),
@@ -2136,7 +2138,7 @@ export interface Row {
   XPriority?: string;
   IngressPointId?: string;
   SenderHostname?: string;
-  SenderIpAddress?: string;
+  SenderIpAddress?: string | Redacted.Redacted<string>;
   Envelope?: Envelope;
   SourceArn?: string;
 }
@@ -2160,7 +2162,7 @@ export const Row = S.suspend(() =>
     XPriority: S.optional(S.String),
     IngressPointId: S.optional(S.String),
     SenderHostname: S.optional(S.String),
-    SenderIpAddress: S.optional(S.String),
+    SenderIpAddress: S.optional(SensitiveString),
     Envelope: S.optional(Envelope),
     SourceArn: S.optional(S.String),
   }),
@@ -2171,7 +2173,7 @@ export interface ImportJob {
   JobId: string;
   Name: string;
   Status: string;
-  PreSignedUrl: string;
+  PreSignedUrl: string | Redacted.Redacted<string>;
   ImportedItemsCount?: number;
   FailedItemsCount?: number;
   ImportDataFormat: ImportDataFormat;
@@ -2186,7 +2188,7 @@ export const ImportJob = S.suspend(() =>
     JobId: S.String,
     Name: S.String,
     Status: S.String,
-    PreSignedUrl: S.String,
+    PreSignedUrl: SensitiveString,
     ImportedItemsCount: S.optional(S.Number),
     FailedItemsCount: S.optional(S.Number),
     ImportDataFormat: ImportDataFormat,
@@ -2388,10 +2390,10 @@ export type TrafficPolicyList = TrafficPolicy[];
 export const TrafficPolicyList = S.Array(TrafficPolicy);
 export interface CreateAddressListImportJobResponse {
   JobId: string;
-  PreSignedUrl: string;
+  PreSignedUrl: string | Redacted.Redacted<string>;
 }
 export const CreateAddressListImportJobResponse = S.suspend(() =>
-  S.Struct({ JobId: S.String, PreSignedUrl: S.String }),
+  S.Struct({ JobId: S.String, PreSignedUrl: SensitiveString }),
 ).annotations({
   identifier: "CreateAddressListImportJobResponse",
 }) as any as S.Schema<CreateAddressListImportJobResponse>;
@@ -2643,12 +2645,12 @@ export const IngressPointPasswordConfiguration = S.suspend(() =>
   identifier: "IngressPointPasswordConfiguration",
 }) as any as S.Schema<IngressPointPasswordConfiguration>;
 export interface SavedAddress {
-  Address: string;
+  Address: string | Redacted.Redacted<string>;
   CreatedTimestamp: Date;
 }
 export const SavedAddress = S.suspend(() =>
   S.Struct({
-    Address: S.String,
+    Address: SensitiveString,
     CreatedTimestamp: S.Date.pipe(T.TimestampFormat("epoch-seconds")),
   }),
 ).annotations({ identifier: "SavedAddress" }) as any as S.Schema<SavedAddress>;

@@ -1,5 +1,6 @@
 import { HttpClient } from "@effect/platform";
 import * as Effect from "effect/Effect";
+import * as Redacted from "effect/Redacted";
 import * as S from "effect/Schema";
 import * as Stream from "effect/Stream";
 import * as API from "../api.ts";
@@ -10,6 +11,7 @@ import {
   ErrorCategory,
   Errors,
 } from "../index.ts";
+import { SensitiveString, SensitiveBlob } from "../sensitive.ts";
 const svc = T.AwsApiService({
   sdkId: "Proton",
   serviceShapeName: "AwsProton20200720",
@@ -262,13 +264,13 @@ export type Arn = string;
 export type MaxPageResults = number;
 export type ResourceDeploymentStatus = string;
 export type DeploymentId = string;
-export type StatusMessage = string;
+export type StatusMessage = string | Redacted.Redacted<string>;
 export type TagKey = string;
 export type RoleArnOrEmptyString = string;
-export type Description = string;
-export type TemplateFileContents = string;
-export type TemplateManifestContents = string;
-export type SpecContents = string;
+export type Description = string | Redacted.Redacted<string>;
+export type TemplateFileContents = string | Redacted.Redacted<string>;
+export type TemplateManifestContents = string | Redacted.Redacted<string>;
+export type SpecContents = string | Redacted.Redacted<string>;
 export type ClientToken = string;
 export type ComponentDeploymentUpdateType = string;
 export type ResourceNameOrEmpty = string;
@@ -279,7 +281,7 @@ export type EnvironmentAccountConnectionId = string;
 export type EnvironmentAccountConnectionRequesterAccountType = string;
 export type EnvironmentAccountConnectionStatus = string;
 export type DeploymentUpdateType = string;
-export type DisplayName = string;
+export type DisplayName = string | Redacted.Redacted<string>;
 export type Provisioning = string;
 export type TemplateVersionStatus = string;
 export type ListServiceInstancesSortBy = string;
@@ -293,7 +295,7 @@ export type OutputValueString = string;
 export type TagValue = string;
 export type ListServiceInstancesFilterBy = string;
 export type ListServiceInstancesFilterValue = string;
-export type ErrorMessage = string;
+export type ErrorMessage = string | Redacted.Redacted<string>;
 export type RepositoryArn = string;
 export type S3Bucket = string;
 export type S3Key = string;
@@ -313,7 +315,7 @@ export type EnvironmentAccountConnectionArn = string;
 export type EnvironmentTemplateArn = string;
 export type FullTemplateVersionNumber = string;
 export type EnvironmentTemplateVersionArn = string;
-export type TemplateSchema = string;
+export type TemplateSchema = string | Redacted.Redacted<string>;
 export type ServiceArn = string;
 export type ServiceStatus = string;
 export type BlockerType = string;
@@ -522,26 +524,26 @@ export type TagList = Tag[];
 export const TagList = S.Array(Tag);
 export interface CreateComponentInput {
   name: string;
-  description?: string;
+  description?: string | Redacted.Redacted<string>;
   serviceName?: string;
   serviceInstanceName?: string;
   environmentName?: string;
-  templateFile: string;
-  manifest: string;
-  serviceSpec?: string;
+  templateFile: string | Redacted.Redacted<string>;
+  manifest: string | Redacted.Redacted<string>;
+  serviceSpec?: string | Redacted.Redacted<string>;
   tags?: TagList;
   clientToken?: string;
 }
 export const CreateComponentInput = S.suspend(() =>
   S.Struct({
     name: S.String,
-    description: S.optional(S.String),
+    description: S.optional(SensitiveString),
     serviceName: S.optional(S.String),
     serviceInstanceName: S.optional(S.String),
     environmentName: S.optional(S.String),
-    templateFile: S.String,
-    manifest: S.String,
-    serviceSpec: S.optional(S.String),
+    templateFile: SensitiveString,
+    manifest: SensitiveString,
+    serviceSpec: S.optional(SensitiveString),
     tags: S.optional(TagList),
     clientToken: S.optional(S.String),
   }).pipe(
@@ -563,22 +565,22 @@ export const GetComponentInput = S.suspend(() =>
 export interface UpdateComponentInput {
   name: string;
   deploymentType: string;
-  description?: string;
+  description?: string | Redacted.Redacted<string>;
   serviceName?: string;
   serviceInstanceName?: string;
-  serviceSpec?: string;
-  templateFile?: string;
+  serviceSpec?: string | Redacted.Redacted<string>;
+  templateFile?: string | Redacted.Redacted<string>;
   clientToken?: string;
 }
 export const UpdateComponentInput = S.suspend(() =>
   S.Struct({
     name: S.String,
     deploymentType: S.String,
-    description: S.optional(S.String),
+    description: S.optional(SensitiveString),
     serviceName: S.optional(S.String),
     serviceInstanceName: S.optional(S.String),
-    serviceSpec: S.optional(S.String),
-    templateFile: S.optional(S.String),
+    serviceSpec: S.optional(SensitiveString),
+    templateFile: S.optional(SensitiveString),
     clientToken: S.optional(S.String),
   }).pipe(
     T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
@@ -812,8 +814,8 @@ export interface CreateEnvironmentInput {
   templateName: string;
   templateMajorVersion: string;
   templateMinorVersion?: string;
-  description?: string;
-  spec: string;
+  description?: string | Redacted.Redacted<string>;
+  spec: string | Redacted.Redacted<string>;
   protonServiceRoleArn?: string;
   environmentAccountConnectionId?: string;
   tags?: TagList;
@@ -827,8 +829,8 @@ export const CreateEnvironmentInput = S.suspend(() =>
     templateName: S.String,
     templateMajorVersion: S.String,
     templateMinorVersion: S.optional(S.String),
-    description: S.optional(S.String),
-    spec: S.String,
+    description: S.optional(SensitiveString),
+    spec: SensitiveString,
     protonServiceRoleArn: S.optional(S.String),
     environmentAccountConnectionId: S.optional(S.String),
     tags: S.optional(TagList),
@@ -853,8 +855,8 @@ export const GetEnvironmentInput = S.suspend(() =>
 }) as any as S.Schema<GetEnvironmentInput>;
 export interface UpdateEnvironmentInput {
   name: string;
-  description?: string;
-  spec?: string;
+  description?: string | Redacted.Redacted<string>;
+  spec?: string | Redacted.Redacted<string>;
   templateMajorVersion?: string;
   templateMinorVersion?: string;
   protonServiceRoleArn?: string;
@@ -867,8 +869,8 @@ export interface UpdateEnvironmentInput {
 export const UpdateEnvironmentInput = S.suspend(() =>
   S.Struct({
     name: S.String,
-    description: S.optional(S.String),
-    spec: S.optional(S.String),
+    description: S.optional(SensitiveString),
+    spec: S.optional(SensitiveString),
     templateMajorVersion: S.optional(S.String),
     templateMinorVersion: S.optional(S.String),
     protonServiceRoleArn: S.optional(S.String),
@@ -895,8 +897,8 @@ export const DeleteEnvironmentInput = S.suspend(() =>
 }) as any as S.Schema<DeleteEnvironmentInput>;
 export interface CreateEnvironmentTemplateInput {
   name: string;
-  displayName?: string;
-  description?: string;
+  displayName?: string | Redacted.Redacted<string>;
+  description?: string | Redacted.Redacted<string>;
   encryptionKey?: string;
   provisioning?: string;
   tags?: TagList;
@@ -904,8 +906,8 @@ export interface CreateEnvironmentTemplateInput {
 export const CreateEnvironmentTemplateInput = S.suspend(() =>
   S.Struct({
     name: S.String,
-    displayName: S.optional(S.String),
-    description: S.optional(S.String),
+    displayName: S.optional(SensitiveString),
+    description: S.optional(SensitiveString),
     encryptionKey: S.optional(S.String),
     provisioning: S.optional(S.String),
     tags: S.optional(TagList),
@@ -927,14 +929,14 @@ export const GetEnvironmentTemplateInput = S.suspend(() =>
 }) as any as S.Schema<GetEnvironmentTemplateInput>;
 export interface UpdateEnvironmentTemplateInput {
   name: string;
-  displayName?: string;
-  description?: string;
+  displayName?: string | Redacted.Redacted<string>;
+  description?: string | Redacted.Redacted<string>;
 }
 export const UpdateEnvironmentTemplateInput = S.suspend(() =>
   S.Struct({
     name: S.String,
-    displayName: S.optional(S.String),
-    description: S.optional(S.String),
+    displayName: S.optional(SensitiveString),
+    description: S.optional(SensitiveString),
   }).pipe(
     T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
   ),
@@ -985,7 +987,7 @@ export interface UpdateEnvironmentTemplateVersionInput {
   templateName: string;
   majorVersion: string;
   minorVersion: string;
-  description?: string;
+  description?: string | Redacted.Redacted<string>;
   status?: string;
 }
 export const UpdateEnvironmentTemplateVersionInput = S.suspend(() =>
@@ -993,7 +995,7 @@ export const UpdateEnvironmentTemplateVersionInput = S.suspend(() =>
     templateName: S.String,
     majorVersion: S.String,
     minorVersion: S.String,
-    description: S.optional(S.String),
+    description: S.optional(SensitiveString),
     status: S.optional(S.String),
   }).pipe(
     T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
@@ -1128,7 +1130,7 @@ export const ListServiceInstanceProvisionedResourcesInput = S.suspend(() =>
 export interface CreateServiceInstanceInput {
   name: string;
   serviceName: string;
-  spec: string;
+  spec: string | Redacted.Redacted<string>;
   templateMajorVersion?: string;
   templateMinorVersion?: string;
   tags?: TagList;
@@ -1138,7 +1140,7 @@ export const CreateServiceInstanceInput = S.suspend(() =>
   S.Struct({
     name: S.String,
     serviceName: S.String,
-    spec: S.String,
+    spec: SensitiveString,
     templateMajorVersion: S.optional(S.String),
     templateMinorVersion: S.optional(S.String),
     tags: S.optional(TagList),
@@ -1164,7 +1166,7 @@ export interface UpdateServiceInstanceInput {
   name: string;
   serviceName: string;
   deploymentType: string;
-  spec?: string;
+  spec?: string | Redacted.Redacted<string>;
   templateMajorVersion?: string;
   templateMinorVersion?: string;
   clientToken?: string;
@@ -1174,7 +1176,7 @@ export const UpdateServiceInstanceInput = S.suspend(() =>
     name: S.String,
     serviceName: S.String,
     deploymentType: S.String,
-    spec: S.optional(S.String),
+    spec: S.optional(SensitiveString),
     templateMajorVersion: S.optional(S.String),
     templateMinorVersion: S.optional(S.String),
     clientToken: S.optional(S.String),
@@ -1213,7 +1215,7 @@ export const ListServicePipelineProvisionedResourcesInput = S.suspend(() =>
 }) as any as S.Schema<ListServicePipelineProvisionedResourcesInput>;
 export interface UpdateServicePipelineInput {
   serviceName: string;
-  spec: string;
+  spec: string | Redacted.Redacted<string>;
   deploymentType: string;
   templateMajorVersion?: string;
   templateMinorVersion?: string;
@@ -1221,7 +1223,7 @@ export interface UpdateServicePipelineInput {
 export const UpdateServicePipelineInput = S.suspend(() =>
   S.Struct({
     serviceName: S.String,
-    spec: S.String,
+    spec: SensitiveString,
     deploymentType: S.String,
     templateMajorVersion: S.optional(S.String),
     templateMinorVersion: S.optional(S.String),
@@ -1233,11 +1235,11 @@ export const UpdateServicePipelineInput = S.suspend(() =>
 }) as any as S.Schema<UpdateServicePipelineInput>;
 export interface CreateServiceInput {
   name: string;
-  description?: string;
+  description?: string | Redacted.Redacted<string>;
   templateName: string;
   templateMajorVersion: string;
   templateMinorVersion?: string;
-  spec: string;
+  spec: string | Redacted.Redacted<string>;
   repositoryConnectionArn?: string;
   repositoryId?: string;
   branchName?: string;
@@ -1246,11 +1248,11 @@ export interface CreateServiceInput {
 export const CreateServiceInput = S.suspend(() =>
   S.Struct({
     name: S.String,
-    description: S.optional(S.String),
+    description: S.optional(SensitiveString),
     templateName: S.String,
     templateMajorVersion: S.String,
     templateMinorVersion: S.optional(S.String),
-    spec: S.String,
+    spec: SensitiveString,
     repositoryConnectionArn: S.optional(S.String),
     repositoryId: S.optional(S.String),
     branchName: S.optional(S.String),
@@ -1273,14 +1275,14 @@ export const GetServiceInput = S.suspend(() =>
 }) as any as S.Schema<GetServiceInput>;
 export interface UpdateServiceInput {
   name: string;
-  description?: string;
-  spec?: string;
+  description?: string | Redacted.Redacted<string>;
+  spec?: string | Redacted.Redacted<string>;
 }
 export const UpdateServiceInput = S.suspend(() =>
   S.Struct({
     name: S.String,
-    description: S.optional(S.String),
-    spec: S.optional(S.String),
+    description: S.optional(SensitiveString),
+    spec: S.optional(SensitiveString),
   }).pipe(
     T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
   ),
@@ -1398,8 +1400,8 @@ export const DeleteServiceSyncConfigInput = S.suspend(() =>
 }) as any as S.Schema<DeleteServiceSyncConfigInput>;
 export interface CreateServiceTemplateInput {
   name: string;
-  displayName?: string;
-  description?: string;
+  displayName?: string | Redacted.Redacted<string>;
+  description?: string | Redacted.Redacted<string>;
   encryptionKey?: string;
   pipelineProvisioning?: string;
   tags?: TagList;
@@ -1407,8 +1409,8 @@ export interface CreateServiceTemplateInput {
 export const CreateServiceTemplateInput = S.suspend(() =>
   S.Struct({
     name: S.String,
-    displayName: S.optional(S.String),
-    description: S.optional(S.String),
+    displayName: S.optional(SensitiveString),
+    description: S.optional(SensitiveString),
     encryptionKey: S.optional(S.String),
     pipelineProvisioning: S.optional(S.String),
     tags: S.optional(TagList),
@@ -1430,14 +1432,14 @@ export const GetServiceTemplateInput = S.suspend(() =>
 }) as any as S.Schema<GetServiceTemplateInput>;
 export interface UpdateServiceTemplateInput {
   name: string;
-  displayName?: string;
-  description?: string;
+  displayName?: string | Redacted.Redacted<string>;
+  description?: string | Redacted.Redacted<string>;
 }
 export const UpdateServiceTemplateInput = S.suspend(() =>
   S.Struct({
     name: S.String,
-    displayName: S.optional(S.String),
-    description: S.optional(S.String),
+    displayName: S.optional(SensitiveString),
+    description: S.optional(SensitiveString),
   }).pipe(
     T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
   ),
@@ -1502,7 +1504,7 @@ export interface UpdateServiceTemplateVersionInput {
   templateName: string;
   majorVersion: string;
   minorVersion: string;
-  description?: string;
+  description?: string | Redacted.Redacted<string>;
   status?: string;
   compatibleEnvironmentTemplates?: CompatibleEnvironmentTemplateInputList;
   supportedComponentSources?: ServiceTemplateSupportedComponentSourceInputList;
@@ -1512,7 +1514,7 @@ export const UpdateServiceTemplateVersionInput = S.suspend(() =>
     templateName: S.String,
     majorVersion: S.String,
     minorVersion: S.String,
-    description: S.optional(S.String),
+    description: S.optional(SensitiveString),
     status: S.optional(S.String),
     compatibleEnvironmentTemplates: S.optional(
       CompatibleEnvironmentTemplateInputList,
@@ -1741,7 +1743,7 @@ export interface NotifyResourceDeploymentStatusChangeInput {
   status?: string;
   outputs?: OutputsList;
   deploymentId?: string;
-  statusMessage?: string;
+  statusMessage?: string | Redacted.Redacted<string>;
 }
 export const NotifyResourceDeploymentStatusChangeInput = S.suspend(() =>
   S.Struct({
@@ -1749,7 +1751,7 @@ export const NotifyResourceDeploymentStatusChangeInput = S.suspend(() =>
     status: S.optional(S.String),
     outputs: S.optional(OutputsList),
     deploymentId: S.optional(S.String),
-    statusMessage: S.optional(S.String),
+    statusMessage: S.optional(SensitiveString),
   }).pipe(
     T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
   ),
@@ -1809,7 +1811,7 @@ export const ListComponentOutputsOutput = S.suspend(() =>
 }) as any as S.Schema<ListComponentOutputsOutput>;
 export interface Component {
   name: string;
-  description?: string;
+  description?: string | Redacted.Redacted<string>;
   arn: string;
   environmentName: string;
   serviceName?: string;
@@ -1819,8 +1821,8 @@ export interface Component {
   lastDeploymentAttemptedAt?: Date;
   lastDeploymentSucceededAt?: Date;
   deploymentStatus: string;
-  deploymentStatusMessage?: string;
-  serviceSpec?: string;
+  deploymentStatusMessage?: string | Redacted.Redacted<string>;
+  serviceSpec?: string | Redacted.Redacted<string>;
   lastClientRequestToken?: string;
   lastAttemptedDeploymentId?: string;
   lastSucceededDeploymentId?: string;
@@ -1828,7 +1830,7 @@ export interface Component {
 export const Component = S.suspend(() =>
   S.Struct({
     name: S.String,
-    description: S.optional(S.String),
+    description: S.optional(SensitiveString),
     arn: S.String,
     environmentName: S.String,
     serviceName: S.optional(S.String),
@@ -1842,8 +1844,8 @@ export const Component = S.suspend(() =>
       S.Date.pipe(T.TimestampFormat("epoch-seconds")),
     ),
     deploymentStatus: S.String,
-    deploymentStatusMessage: S.optional(S.String),
-    serviceSpec: S.optional(S.String),
+    deploymentStatusMessage: S.optional(SensitiveString),
+    serviceSpec: S.optional(SensitiveString),
     lastClientRequestToken: S.optional(S.String),
     lastAttemptedDeploymentId: S.optional(S.String),
     lastSucceededDeploymentId: S.optional(S.String),
@@ -1884,7 +1886,7 @@ export const DeleteComponentOutput = S.suspend(() =>
 export type ComponentDeploymentIdList = string[];
 export const ComponentDeploymentIdList = S.Array(S.String);
 export interface ServiceInstanceState {
-  spec: string;
+  spec: string | Redacted.Redacted<string>;
   templateName: string;
   templateMajorVersion: string;
   templateMinorVersion: string;
@@ -1894,7 +1896,7 @@ export interface ServiceInstanceState {
 }
 export const ServiceInstanceState = S.suspend(() =>
   S.Struct({
-    spec: S.String,
+    spec: SensitiveString,
     templateName: S.String,
     templateMajorVersion: S.String,
     templateMinorVersion: S.String,
@@ -1906,14 +1908,14 @@ export const ServiceInstanceState = S.suspend(() =>
   identifier: "ServiceInstanceState",
 }) as any as S.Schema<ServiceInstanceState>;
 export interface EnvironmentState {
-  spec?: string;
+  spec?: string | Redacted.Redacted<string>;
   templateName: string;
   templateMajorVersion: string;
   templateMinorVersion: string;
 }
 export const EnvironmentState = S.suspend(() =>
   S.Struct({
-    spec: S.optional(S.String),
+    spec: S.optional(SensitiveString),
     templateName: S.String,
     templateMajorVersion: S.String,
     templateMinorVersion: S.String,
@@ -1922,14 +1924,14 @@ export const EnvironmentState = S.suspend(() =>
   identifier: "EnvironmentState",
 }) as any as S.Schema<EnvironmentState>;
 export interface ServicePipelineState {
-  spec?: string;
+  spec?: string | Redacted.Redacted<string>;
   templateName: string;
   templateMajorVersion: string;
   templateMinorVersion: string;
 }
 export const ServicePipelineState = S.suspend(() =>
   S.Struct({
-    spec: S.optional(S.String),
+    spec: S.optional(SensitiveString),
     templateName: S.String,
     templateMajorVersion: S.String,
     templateMinorVersion: S.String,
@@ -1940,15 +1942,15 @@ export const ServicePipelineState = S.suspend(() =>
 export interface ComponentState {
   serviceName?: string;
   serviceInstanceName?: string;
-  serviceSpec?: string;
-  templateFile?: string;
+  serviceSpec?: string | Redacted.Redacted<string>;
+  templateFile?: string | Redacted.Redacted<string>;
 }
 export const ComponentState = S.suspend(() =>
   S.Struct({
     serviceName: S.optional(S.String),
     serviceInstanceName: S.optional(S.String),
-    serviceSpec: S.optional(S.String),
-    templateFile: S.optional(S.String),
+    serviceSpec: S.optional(SensitiveString),
+    templateFile: S.optional(SensitiveString),
   }),
 ).annotations({
   identifier: "ComponentState",
@@ -1975,7 +1977,7 @@ export interface Deployment {
   serviceInstanceName?: string;
   componentName?: string;
   deploymentStatus: string;
-  deploymentStatusMessage?: string;
+  deploymentStatusMessage?: string | Redacted.Redacted<string>;
   createdAt: Date;
   lastModifiedAt: Date;
   completedAt?: Date;
@@ -1996,7 +1998,7 @@ export const Deployment = S.suspend(() =>
     serviceInstanceName: S.optional(S.String),
     componentName: S.optional(S.String),
     deploymentStatus: S.String,
-    deploymentStatusMessage: S.optional(S.String),
+    deploymentStatusMessage: S.optional(SensitiveString),
     createdAt: S.Date.pipe(T.TimestampFormat("epoch-seconds")),
     lastModifiedAt: S.Date.pipe(T.TimestampFormat("epoch-seconds")),
     completedAt: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
@@ -2141,7 +2143,7 @@ export const RepositoryBranch = S.suspend(() =>
 }) as any as S.Schema<RepositoryBranch>;
 export interface Environment {
   name: string;
-  description?: string;
+  description?: string | Redacted.Redacted<string>;
   createdAt: Date;
   lastDeploymentAttemptedAt: Date;
   lastDeploymentSucceededAt: Date;
@@ -2150,11 +2152,11 @@ export interface Environment {
   templateMajorVersion: string;
   templateMinorVersion: string;
   deploymentStatus: string;
-  deploymentStatusMessage?: string;
+  deploymentStatusMessage?: string | Redacted.Redacted<string>;
   protonServiceRoleArn?: string;
   environmentAccountConnectionId?: string;
   environmentAccountId?: string;
-  spec?: string;
+  spec?: string | Redacted.Redacted<string>;
   provisioning?: string;
   provisioningRepository?: RepositoryBranch;
   componentRoleArn?: string;
@@ -2165,7 +2167,7 @@ export interface Environment {
 export const Environment = S.suspend(() =>
   S.Struct({
     name: S.String,
-    description: S.optional(S.String),
+    description: S.optional(SensitiveString),
     createdAt: S.Date.pipe(T.TimestampFormat("epoch-seconds")),
     lastDeploymentAttemptedAt: S.Date.pipe(T.TimestampFormat("epoch-seconds")),
     lastDeploymentSucceededAt: S.Date.pipe(T.TimestampFormat("epoch-seconds")),
@@ -2174,11 +2176,11 @@ export const Environment = S.suspend(() =>
     templateMajorVersion: S.String,
     templateMinorVersion: S.String,
     deploymentStatus: S.String,
-    deploymentStatusMessage: S.optional(S.String),
+    deploymentStatusMessage: S.optional(SensitiveString),
     protonServiceRoleArn: S.optional(S.String),
     environmentAccountConnectionId: S.optional(S.String),
     environmentAccountId: S.optional(S.String),
-    spec: S.optional(S.String),
+    spec: S.optional(SensitiveString),
     provisioning: S.optional(S.String),
     provisioningRepository: S.optional(RepositoryBranch),
     componentRoleArn: S.optional(S.String),
@@ -2240,8 +2242,8 @@ export interface EnvironmentTemplate {
   arn: string;
   createdAt: Date;
   lastModifiedAt: Date;
-  displayName?: string;
-  description?: string;
+  displayName?: string | Redacted.Redacted<string>;
+  description?: string | Redacted.Redacted<string>;
   recommendedVersion?: string;
   encryptionKey?: string;
   provisioning?: string;
@@ -2252,8 +2254,8 @@ export const EnvironmentTemplate = S.suspend(() =>
     arn: S.String,
     createdAt: S.Date.pipe(T.TimestampFormat("epoch-seconds")),
     lastModifiedAt: S.Date.pipe(T.TimestampFormat("epoch-seconds")),
-    displayName: S.optional(S.String),
-    description: S.optional(S.String),
+    displayName: S.optional(SensitiveString),
+    description: S.optional(SensitiveString),
     recommendedVersion: S.optional(S.String),
     encryptionKey: S.optional(S.String),
     provisioning: S.optional(S.String),
@@ -2291,12 +2293,12 @@ export interface EnvironmentTemplateVersion {
   minorVersion: string;
   recommendedMinorVersion?: string;
   status: string;
-  statusMessage?: string;
-  description?: string;
+  statusMessage?: string | Redacted.Redacted<string>;
+  description?: string | Redacted.Redacted<string>;
   arn: string;
   createdAt: Date;
   lastModifiedAt: Date;
-  schema?: string;
+  schema?: string | Redacted.Redacted<string>;
 }
 export const EnvironmentTemplateVersion = S.suspend(() =>
   S.Struct({
@@ -2305,12 +2307,12 @@ export const EnvironmentTemplateVersion = S.suspend(() =>
     minorVersion: S.String,
     recommendedMinorVersion: S.optional(S.String),
     status: S.String,
-    statusMessage: S.optional(S.String),
-    description: S.optional(S.String),
+    statusMessage: S.optional(SensitiveString),
+    description: S.optional(SensitiveString),
     arn: S.String,
     createdAt: S.Date.pipe(T.TimestampFormat("epoch-seconds")),
     lastModifiedAt: S.Date.pipe(T.TimestampFormat("epoch-seconds")),
-    schema: S.optional(S.String),
+    schema: S.optional(SensitiveString),
   }),
 ).annotations({
   identifier: "EnvironmentTemplateVersion",
@@ -2398,8 +2400,8 @@ export interface ServiceInstance {
   templateMajorVersion: string;
   templateMinorVersion: string;
   deploymentStatus: string;
-  deploymentStatusMessage?: string;
-  spec?: string;
+  deploymentStatusMessage?: string | Redacted.Redacted<string>;
+  spec?: string | Redacted.Redacted<string>;
   lastClientRequestToken?: string;
   lastAttemptedDeploymentId?: string;
   lastSucceededDeploymentId?: string;
@@ -2417,8 +2419,8 @@ export const ServiceInstance = S.suspend(() =>
     templateMajorVersion: S.String,
     templateMinorVersion: S.String,
     deploymentStatus: S.String,
-    deploymentStatusMessage: S.optional(S.String),
-    spec: S.optional(S.String),
+    deploymentStatusMessage: S.optional(SensitiveString),
+    spec: S.optional(SensitiveString),
     lastClientRequestToken: S.optional(S.String),
     lastAttemptedDeploymentId: S.optional(S.String),
     lastSucceededDeploymentId: S.optional(S.String),
@@ -2502,8 +2504,8 @@ export interface ServicePipeline {
   templateMajorVersion: string;
   templateMinorVersion: string;
   deploymentStatus: string;
-  deploymentStatusMessage?: string;
-  spec?: string;
+  deploymentStatusMessage?: string | Redacted.Redacted<string>;
+  spec?: string | Redacted.Redacted<string>;
   lastAttemptedDeploymentId?: string;
   lastSucceededDeploymentId?: string;
 }
@@ -2517,8 +2519,8 @@ export const ServicePipeline = S.suspend(() =>
     templateMajorVersion: S.String,
     templateMinorVersion: S.String,
     deploymentStatus: S.String,
-    deploymentStatusMessage: S.optional(S.String),
-    spec: S.optional(S.String),
+    deploymentStatusMessage: S.optional(SensitiveString),
+    spec: S.optional(SensitiveString),
     lastAttemptedDeploymentId: S.optional(S.String),
     lastSucceededDeploymentId: S.optional(S.String),
   }),
@@ -2535,14 +2537,14 @@ export const UpdateServicePipelineOutput = S.suspend(() =>
 }) as any as S.Schema<UpdateServicePipelineOutput>;
 export interface Service {
   name: string;
-  description?: string;
+  description?: string | Redacted.Redacted<string>;
   arn: string;
   templateName: string;
   createdAt: Date;
   lastModifiedAt: Date;
   status: string;
-  statusMessage?: string;
-  spec: string;
+  statusMessage?: string | Redacted.Redacted<string>;
+  spec: string | Redacted.Redacted<string>;
   pipeline?: ServicePipeline;
   repositoryConnectionArn?: string;
   repositoryId?: string;
@@ -2551,14 +2553,14 @@ export interface Service {
 export const Service = S.suspend(() =>
   S.Struct({
     name: S.String,
-    description: S.optional(S.String),
+    description: S.optional(SensitiveString),
     arn: S.String,
     templateName: S.String,
     createdAt: S.Date.pipe(T.TimestampFormat("epoch-seconds")),
     lastModifiedAt: S.Date.pipe(T.TimestampFormat("epoch-seconds")),
     status: S.String,
-    statusMessage: S.optional(S.String),
-    spec: S.String,
+    statusMessage: S.optional(SensitiveString),
+    spec: SensitiveString,
     pipeline: S.optional(ServicePipeline),
     repositoryConnectionArn: S.optional(S.String),
     repositoryId: S.optional(S.String),
@@ -2636,8 +2638,8 @@ export interface ServiceTemplate {
   arn: string;
   createdAt: Date;
   lastModifiedAt: Date;
-  displayName?: string;
-  description?: string;
+  displayName?: string | Redacted.Redacted<string>;
+  description?: string | Redacted.Redacted<string>;
   recommendedVersion?: string;
   encryptionKey?: string;
   pipelineProvisioning?: string;
@@ -2648,8 +2650,8 @@ export const ServiceTemplate = S.suspend(() =>
     arn: S.String,
     createdAt: S.Date.pipe(T.TimestampFormat("epoch-seconds")),
     lastModifiedAt: S.Date.pipe(T.TimestampFormat("epoch-seconds")),
-    displayName: S.optional(S.String),
-    description: S.optional(S.String),
+    displayName: S.optional(SensitiveString),
+    description: S.optional(SensitiveString),
     recommendedVersion: S.optional(S.String),
     encryptionKey: S.optional(S.String),
     pipelineProvisioning: S.optional(S.String),
@@ -2697,7 +2699,7 @@ export const TemplateVersionSourceInput = S.Union(
 export interface CreateServiceTemplateVersionInput {
   clientToken?: string;
   templateName: string;
-  description?: string;
+  description?: string | Redacted.Redacted<string>;
   majorVersion?: string;
   source: (typeof TemplateVersionSourceInput)["Type"];
   compatibleEnvironmentTemplates: CompatibleEnvironmentTemplateInputList;
@@ -2708,7 +2710,7 @@ export const CreateServiceTemplateVersionInput = S.suspend(() =>
   S.Struct({
     clientToken: S.optional(S.String),
     templateName: S.String,
-    description: S.optional(S.String),
+    description: S.optional(SensitiveString),
     majorVersion: S.optional(S.String),
     source: TemplateVersionSourceInput,
     compatibleEnvironmentTemplates: CompatibleEnvironmentTemplateInputList,
@@ -2741,13 +2743,13 @@ export interface ServiceTemplateVersion {
   minorVersion: string;
   recommendedMinorVersion?: string;
   status: string;
-  statusMessage?: string;
-  description?: string;
+  statusMessage?: string | Redacted.Redacted<string>;
+  description?: string | Redacted.Redacted<string>;
   arn: string;
   createdAt: Date;
   lastModifiedAt: Date;
   compatibleEnvironmentTemplates: CompatibleEnvironmentTemplateList;
-  schema?: string;
+  schema?: string | Redacted.Redacted<string>;
   supportedComponentSources?: ServiceTemplateSupportedComponentSourceInputList;
 }
 export const ServiceTemplateVersion = S.suspend(() =>
@@ -2757,13 +2759,13 @@ export const ServiceTemplateVersion = S.suspend(() =>
     minorVersion: S.String,
     recommendedMinorVersion: S.optional(S.String),
     status: S.String,
-    statusMessage: S.optional(S.String),
-    description: S.optional(S.String),
+    statusMessage: S.optional(SensitiveString),
+    description: S.optional(SensitiveString),
     arn: S.String,
     createdAt: S.Date.pipe(T.TimestampFormat("epoch-seconds")),
     lastModifiedAt: S.Date.pipe(T.TimestampFormat("epoch-seconds")),
     compatibleEnvironmentTemplates: CompatibleEnvironmentTemplateList,
-    schema: S.optional(S.String),
+    schema: S.optional(SensitiveString),
     supportedComponentSources: S.optional(
       ServiceTemplateSupportedComponentSourceInputList,
     ),
@@ -2949,7 +2951,7 @@ export interface ComponentSummary {
   lastDeploymentAttemptedAt?: Date;
   lastDeploymentSucceededAt?: Date;
   deploymentStatus: string;
-  deploymentStatusMessage?: string;
+  deploymentStatusMessage?: string | Redacted.Redacted<string>;
   lastAttemptedDeploymentId?: string;
   lastSucceededDeploymentId?: string;
 }
@@ -2969,7 +2971,7 @@ export const ComponentSummary = S.suspend(() =>
       S.Date.pipe(T.TimestampFormat("epoch-seconds")),
     ),
     deploymentStatus: S.String,
-    deploymentStatusMessage: S.optional(S.String),
+    deploymentStatusMessage: S.optional(SensitiveString),
     lastAttemptedDeploymentId: S.optional(S.String),
     lastSucceededDeploymentId: S.optional(S.String),
   }),
@@ -3056,8 +3058,8 @@ export interface EnvironmentTemplateSummary {
   arn: string;
   createdAt: Date;
   lastModifiedAt: Date;
-  displayName?: string;
-  description?: string;
+  displayName?: string | Redacted.Redacted<string>;
+  description?: string | Redacted.Redacted<string>;
   recommendedVersion?: string;
   provisioning?: string;
 }
@@ -3067,8 +3069,8 @@ export const EnvironmentTemplateSummary = S.suspend(() =>
     arn: S.String,
     createdAt: S.Date.pipe(T.TimestampFormat("epoch-seconds")),
     lastModifiedAt: S.Date.pipe(T.TimestampFormat("epoch-seconds")),
-    displayName: S.optional(S.String),
-    description: S.optional(S.String),
+    displayName: S.optional(SensitiveString),
+    description: S.optional(SensitiveString),
     recommendedVersion: S.optional(S.String),
     provisioning: S.optional(S.String),
   }),
@@ -3085,8 +3087,8 @@ export interface EnvironmentTemplateVersionSummary {
   minorVersion: string;
   recommendedMinorVersion?: string;
   status: string;
-  statusMessage?: string;
-  description?: string;
+  statusMessage?: string | Redacted.Redacted<string>;
+  description?: string | Redacted.Redacted<string>;
   arn: string;
   createdAt: Date;
   lastModifiedAt: Date;
@@ -3098,8 +3100,8 @@ export const EnvironmentTemplateVersionSummary = S.suspend(() =>
     minorVersion: S.String,
     recommendedMinorVersion: S.optional(S.String),
     status: S.String,
-    statusMessage: S.optional(S.String),
-    description: S.optional(S.String),
+    statusMessage: S.optional(SensitiveString),
+    description: S.optional(SensitiveString),
     arn: S.String,
     createdAt: S.Date.pipe(T.TimestampFormat("epoch-seconds")),
     lastModifiedAt: S.Date.pipe(T.TimestampFormat("epoch-seconds")),
@@ -3132,24 +3134,24 @@ export type RepositorySummaryList = RepositorySummary[];
 export const RepositorySummaryList = S.Array(RepositorySummary);
 export interface ServiceSummary {
   name: string;
-  description?: string;
+  description?: string | Redacted.Redacted<string>;
   arn: string;
   templateName: string;
   createdAt: Date;
   lastModifiedAt: Date;
   status: string;
-  statusMessage?: string;
+  statusMessage?: string | Redacted.Redacted<string>;
 }
 export const ServiceSummary = S.suspend(() =>
   S.Struct({
     name: S.String,
-    description: S.optional(S.String),
+    description: S.optional(SensitiveString),
     arn: S.String,
     templateName: S.String,
     createdAt: S.Date.pipe(T.TimestampFormat("epoch-seconds")),
     lastModifiedAt: S.Date.pipe(T.TimestampFormat("epoch-seconds")),
     status: S.String,
-    statusMessage: S.optional(S.String),
+    statusMessage: S.optional(SensitiveString),
   }),
 ).annotations({
   identifier: "ServiceSummary",
@@ -3175,8 +3177,8 @@ export interface ServiceTemplateSummary {
   arn: string;
   createdAt: Date;
   lastModifiedAt: Date;
-  displayName?: string;
-  description?: string;
+  displayName?: string | Redacted.Redacted<string>;
+  description?: string | Redacted.Redacted<string>;
   recommendedVersion?: string;
   pipelineProvisioning?: string;
 }
@@ -3186,8 +3188,8 @@ export const ServiceTemplateSummary = S.suspend(() =>
     arn: S.String,
     createdAt: S.Date.pipe(T.TimestampFormat("epoch-seconds")),
     lastModifiedAt: S.Date.pipe(T.TimestampFormat("epoch-seconds")),
-    displayName: S.optional(S.String),
-    description: S.optional(S.String),
+    displayName: S.optional(SensitiveString),
+    description: S.optional(SensitiveString),
     recommendedVersion: S.optional(S.String),
     pipelineProvisioning: S.optional(S.String),
   }),
@@ -3202,8 +3204,8 @@ export interface ServiceTemplateVersionSummary {
   minorVersion: string;
   recommendedMinorVersion?: string;
   status: string;
-  statusMessage?: string;
-  description?: string;
+  statusMessage?: string | Redacted.Redacted<string>;
+  description?: string | Redacted.Redacted<string>;
   arn: string;
   createdAt: Date;
   lastModifiedAt: Date;
@@ -3215,8 +3217,8 @@ export const ServiceTemplateVersionSummary = S.suspend(() =>
     minorVersion: S.String,
     recommendedMinorVersion: S.optional(S.String),
     status: S.String,
-    statusMessage: S.optional(S.String),
-    description: S.optional(S.String),
+    statusMessage: S.optional(SensitiveString),
+    description: S.optional(SensitiveString),
     arn: S.String,
     createdAt: S.Date.pipe(T.TimestampFormat("epoch-seconds")),
     lastModifiedAt: S.Date.pipe(T.TimestampFormat("epoch-seconds")),
@@ -3375,7 +3377,7 @@ export const ListEnvironmentTemplatesOutput = S.suspend(() =>
 export interface CreateEnvironmentTemplateVersionInput {
   clientToken?: string;
   templateName: string;
-  description?: string;
+  description?: string | Redacted.Redacted<string>;
   majorVersion?: string;
   source: (typeof TemplateVersionSourceInput)["Type"];
   tags?: TagList;
@@ -3384,7 +3386,7 @@ export const CreateEnvironmentTemplateVersionInput = S.suspend(() =>
   S.Struct({
     clientToken: S.optional(S.String),
     templateName: S.String,
-    description: S.optional(S.String),
+    description: S.optional(SensitiveString),
     majorVersion: S.optional(S.String),
     source: TemplateVersionSourceInput,
     tags: S.optional(TagList),
@@ -3551,7 +3553,7 @@ export const RepositorySyncAttempt = S.suspend(() =>
 }) as any as S.Schema<RepositorySyncAttempt>;
 export interface EnvironmentSummary {
   name: string;
-  description?: string;
+  description?: string | Redacted.Redacted<string>;
   createdAt: Date;
   lastDeploymentAttemptedAt: Date;
   lastDeploymentSucceededAt: Date;
@@ -3560,7 +3562,7 @@ export interface EnvironmentSummary {
   templateMajorVersion: string;
   templateMinorVersion: string;
   deploymentStatus: string;
-  deploymentStatusMessage?: string;
+  deploymentStatusMessage?: string | Redacted.Redacted<string>;
   protonServiceRoleArn?: string;
   environmentAccountConnectionId?: string;
   environmentAccountId?: string;
@@ -3572,7 +3574,7 @@ export interface EnvironmentSummary {
 export const EnvironmentSummary = S.suspend(() =>
   S.Struct({
     name: S.String,
-    description: S.optional(S.String),
+    description: S.optional(SensitiveString),
     createdAt: S.Date.pipe(T.TimestampFormat("epoch-seconds")),
     lastDeploymentAttemptedAt: S.Date.pipe(T.TimestampFormat("epoch-seconds")),
     lastDeploymentSucceededAt: S.Date.pipe(T.TimestampFormat("epoch-seconds")),
@@ -3581,7 +3583,7 @@ export const EnvironmentSummary = S.suspend(() =>
     templateMajorVersion: S.String,
     templateMinorVersion: S.String,
     deploymentStatus: S.String,
-    deploymentStatusMessage: S.optional(S.String),
+    deploymentStatusMessage: S.optional(SensitiveString),
     protonServiceRoleArn: S.optional(S.String),
     environmentAccountConnectionId: S.optional(S.String),
     environmentAccountId: S.optional(S.String),
@@ -3607,7 +3609,7 @@ export interface ServiceInstanceSummary {
   templateMajorVersion: string;
   templateMinorVersion: string;
   deploymentStatus: string;
-  deploymentStatusMessage?: string;
+  deploymentStatusMessage?: string | Redacted.Redacted<string>;
   lastAttemptedDeploymentId?: string;
   lastSucceededDeploymentId?: string;
 }
@@ -3624,7 +3626,7 @@ export const ServiceInstanceSummary = S.suspend(() =>
     templateMajorVersion: S.String,
     templateMinorVersion: S.String,
     deploymentStatus: S.String,
-    deploymentStatusMessage: S.optional(S.String),
+    deploymentStatusMessage: S.optional(SensitiveString),
     lastAttemptedDeploymentId: S.optional(S.String),
     lastSucceededDeploymentId: S.optional(S.String),
   }),
@@ -3721,37 +3723,37 @@ export const GetDeploymentOutput = S.suspend(() =>
 //# Errors
 export class AccessDeniedException extends S.TaggedError<AccessDeniedException>()(
   "AccessDeniedException",
-  { message: S.String },
+  { message: SensitiveString },
 ) {}
 export class ConflictException extends S.TaggedError<ConflictException>()(
   "ConflictException",
-  { message: S.String },
+  { message: SensitiveString },
 ) {}
 export class InternalServerException extends S.TaggedError<InternalServerException>()(
   "InternalServerException",
-  { message: S.String },
+  { message: SensitiveString },
   T.Retryable(),
 ).pipe(
   ErrorCategory.withCategory(ErrorCategory.ERROR_CATEGORIES.SERVER_ERROR),
 ) {}
 export class ResourceNotFoundException extends S.TaggedError<ResourceNotFoundException>()(
   "ResourceNotFoundException",
-  { message: S.String },
+  { message: SensitiveString },
 ) {}
 export class ThrottlingException extends S.TaggedError<ThrottlingException>()(
   "ThrottlingException",
-  { message: S.String },
+  { message: SensitiveString },
   T.Retryable({ throttling: true }),
 ).pipe(
   ErrorCategory.withCategory(ErrorCategory.ERROR_CATEGORIES.THROTTLING_ERROR),
 ) {}
 export class ServiceQuotaExceededException extends S.TaggedError<ServiceQuotaExceededException>()(
   "ServiceQuotaExceededException",
-  { message: S.String },
+  { message: SensitiveString },
 ) {}
 export class ValidationException extends S.TaggedError<ValidationException>()(
   "ValidationException",
-  { message: S.String },
+  { message: SensitiveString },
 ) {}
 
 //# Operations

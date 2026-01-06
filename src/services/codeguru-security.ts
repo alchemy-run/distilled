@@ -1,5 +1,6 @@
 import { HttpClient } from "@effect/platform";
 import * as Effect from "effect/Effect";
+import * as Redacted from "effect/Redacted";
 import * as S from "effect/Schema";
 import * as Stream from "effect/Stream";
 import * as API from "../api.ts";
@@ -10,6 +11,7 @@ import {
   ErrorCategory,
   Errors,
 } from "../index.ts";
+import { SensitiveString, SensitiveBlob } from "../sensitive.ts";
 const svc = T.AwsApiService({
   sdkId: "CodeGuru Security",
   serviceShapeName: "AwsCodeGuruSecurity",
@@ -310,7 +312,7 @@ export type ScanNameArn = string;
 export type TagKey = string;
 export type TagValue = string;
 export type KmsKeyArn = string;
-export type S3Url = string;
+export type S3Url = string | Redacted.Redacted<string>;
 export type ErrorMessage = string;
 export type HeaderKey = string;
 export type HeaderValue = string;
@@ -771,13 +773,13 @@ export const CreateScanResponse = S.suspend(() =>
   identifier: "CreateScanResponse",
 }) as any as S.Schema<CreateScanResponse>;
 export interface CreateUploadUrlResponse {
-  s3Url: string;
+  s3Url: string | Redacted.Redacted<string>;
   requestHeaders: RequestHeaderMap;
   codeArtifactId: string;
 }
 export const CreateUploadUrlResponse = S.suspend(() =>
   S.Struct({
-    s3Url: S.String,
+    s3Url: SensitiveString,
     requestHeaders: RequestHeaderMap,
     codeArtifactId: S.String,
   }),

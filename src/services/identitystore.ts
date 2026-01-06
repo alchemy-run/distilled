@@ -1,5 +1,6 @@
 import { HttpClient } from "@effect/platform";
 import * as Effect from "effect/Effect";
+import * as Redacted from "effect/Redacted";
 import * as S from "effect/Schema";
 import * as Stream from "effect/Stream";
 import * as API from "../api.ts";
@@ -10,6 +11,7 @@ import {
   ErrorCategory,
   Errors,
 } from "../index.ts";
+import { SensitiveString, SensitiveBlob } from "../sensitive.ts";
 const svc = T.AwsApiService({
   sdkId: "identitystore",
   serviceShapeName: "AWSIdentityStore",
@@ -274,16 +276,16 @@ export type IdentityStoreId = string;
 export type ResourceId = string;
 export type MaxResults = number;
 export type NextToken = string;
-export type GroupDisplayName = string;
-export type SensitiveStringType = string;
-export type UserName = string;
+export type GroupDisplayName = string | Redacted.Redacted<string>;
+export type SensitiveStringType = string | Redacted.Redacted<string>;
+export type UserName = string | Redacted.Redacted<string>;
 export type ExtensionName = string;
 export type AttributePath = string;
 export type StringType = string;
 export type ExceptionMessage = string;
 export type RequestId = string;
-export type ExternalIdIssuer = string;
-export type ExternalIdIdentifier = string;
+export type ExternalIdIssuer = string | Redacted.Redacted<string>;
+export type ExternalIdIdentifier = string | Redacted.Redacted<string>;
 
 //# Schemas
 export type GroupIds = string[];
@@ -291,11 +293,11 @@ export const GroupIds = S.Array(S.String);
 export type ExtensionNames = string[];
 export const ExtensionNames = S.Array(S.String);
 export interface ExternalId {
-  Issuer: string;
-  Id: string;
+  Issuer: string | Redacted.Redacted<string>;
+  Id: string | Redacted.Redacted<string>;
 }
 export const ExternalId = S.suspend(() =>
-  S.Struct({ Issuer: S.String, Id: S.String }),
+  S.Struct({ Issuer: SensitiveString, Id: SensitiveString }),
 ).annotations({ identifier: "ExternalId" }) as any as S.Schema<ExternalId>;
 export interface UniqueAttribute {
   AttributePath: string;
@@ -427,14 +429,14 @@ export const ListGroupMembershipsRequest = S.suspend(() =>
 }) as any as S.Schema<ListGroupMembershipsRequest>;
 export interface CreateGroupRequest {
   IdentityStoreId: string;
-  DisplayName?: string;
-  Description?: string;
+  DisplayName?: string | Redacted.Redacted<string>;
+  Description?: string | Redacted.Redacted<string>;
 }
 export const CreateGroupRequest = S.suspend(() =>
   S.Struct({
     IdentityStoreId: S.String,
-    DisplayName: S.optional(S.String),
-    Description: S.optional(S.String),
+    DisplayName: S.optional(SensitiveString),
+    Description: S.optional(SensitiveString),
   }).pipe(
     T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
   ),
@@ -531,10 +533,10 @@ export const DeleteUserResponse = S.suspend(() => S.Struct({})).annotations({
 }) as any as S.Schema<DeleteUserResponse>;
 export interface Filter {
   AttributePath: string;
-  AttributeValue: string;
+  AttributeValue: string | Redacted.Redacted<string>;
 }
 export const Filter = S.suspend(() =>
-  S.Struct({ AttributePath: S.String, AttributeValue: S.String }),
+  S.Struct({ AttributePath: S.String, AttributeValue: SensitiveString }),
 ).annotations({ identifier: "Filter" }) as any as S.Schema<Filter>;
 export type Filters = Filter[];
 export const Filters = S.Array(Filter);
@@ -561,86 +563,86 @@ export const ListUsersRequest = S.suspend(() =>
 export type ExternalIds = ExternalId[];
 export const ExternalIds = S.Array(ExternalId);
 export interface Name {
-  Formatted?: string;
-  FamilyName?: string;
-  GivenName?: string;
-  MiddleName?: string;
-  HonorificPrefix?: string;
-  HonorificSuffix?: string;
+  Formatted?: string | Redacted.Redacted<string>;
+  FamilyName?: string | Redacted.Redacted<string>;
+  GivenName?: string | Redacted.Redacted<string>;
+  MiddleName?: string | Redacted.Redacted<string>;
+  HonorificPrefix?: string | Redacted.Redacted<string>;
+  HonorificSuffix?: string | Redacted.Redacted<string>;
 }
 export const Name = S.suspend(() =>
   S.Struct({
-    Formatted: S.optional(S.String),
-    FamilyName: S.optional(S.String),
-    GivenName: S.optional(S.String),
-    MiddleName: S.optional(S.String),
-    HonorificPrefix: S.optional(S.String),
-    HonorificSuffix: S.optional(S.String),
+    Formatted: S.optional(SensitiveString),
+    FamilyName: S.optional(SensitiveString),
+    GivenName: S.optional(SensitiveString),
+    MiddleName: S.optional(SensitiveString),
+    HonorificPrefix: S.optional(SensitiveString),
+    HonorificSuffix: S.optional(SensitiveString),
   }),
 ).annotations({ identifier: "Name" }) as any as S.Schema<Name>;
 export interface Email {
-  Value?: string;
-  Type?: string;
+  Value?: string | Redacted.Redacted<string>;
+  Type?: string | Redacted.Redacted<string>;
   Primary?: boolean;
 }
 export const Email = S.suspend(() =>
   S.Struct({
-    Value: S.optional(S.String),
-    Type: S.optional(S.String),
+    Value: S.optional(SensitiveString),
+    Type: S.optional(SensitiveString),
     Primary: S.optional(S.Boolean),
   }),
 ).annotations({ identifier: "Email" }) as any as S.Schema<Email>;
 export type Emails = Email[];
 export const Emails = S.Array(Email);
 export interface Address {
-  StreetAddress?: string;
-  Locality?: string;
-  Region?: string;
-  PostalCode?: string;
-  Country?: string;
-  Formatted?: string;
-  Type?: string;
+  StreetAddress?: string | Redacted.Redacted<string>;
+  Locality?: string | Redacted.Redacted<string>;
+  Region?: string | Redacted.Redacted<string>;
+  PostalCode?: string | Redacted.Redacted<string>;
+  Country?: string | Redacted.Redacted<string>;
+  Formatted?: string | Redacted.Redacted<string>;
+  Type?: string | Redacted.Redacted<string>;
   Primary?: boolean;
 }
 export const Address = S.suspend(() =>
   S.Struct({
-    StreetAddress: S.optional(S.String),
-    Locality: S.optional(S.String),
-    Region: S.optional(S.String),
-    PostalCode: S.optional(S.String),
-    Country: S.optional(S.String),
-    Formatted: S.optional(S.String),
-    Type: S.optional(S.String),
+    StreetAddress: S.optional(SensitiveString),
+    Locality: S.optional(SensitiveString),
+    Region: S.optional(SensitiveString),
+    PostalCode: S.optional(SensitiveString),
+    Country: S.optional(SensitiveString),
+    Formatted: S.optional(SensitiveString),
+    Type: S.optional(SensitiveString),
     Primary: S.optional(S.Boolean),
   }),
 ).annotations({ identifier: "Address" }) as any as S.Schema<Address>;
 export type Addresses = Address[];
 export const Addresses = S.Array(Address);
 export interface PhoneNumber {
-  Value?: string;
-  Type?: string;
+  Value?: string | Redacted.Redacted<string>;
+  Type?: string | Redacted.Redacted<string>;
   Primary?: boolean;
 }
 export const PhoneNumber = S.suspend(() =>
   S.Struct({
-    Value: S.optional(S.String),
-    Type: S.optional(S.String),
+    Value: S.optional(SensitiveString),
+    Type: S.optional(SensitiveString),
     Primary: S.optional(S.Boolean),
   }),
 ).annotations({ identifier: "PhoneNumber" }) as any as S.Schema<PhoneNumber>;
 export type PhoneNumbers = PhoneNumber[];
 export const PhoneNumbers = S.Array(PhoneNumber);
 export interface Photo {
-  Value: string;
-  Type?: string;
-  Display?: string;
+  Value: string | Redacted.Redacted<string>;
+  Type?: string | Redacted.Redacted<string>;
+  Display?: string | Redacted.Redacted<string>;
   Primary?: boolean;
 }
 export const Photo = S.suspend(() =>
   S.Struct({
-    Value: S.String,
-    Type: S.optional(S.String),
-    Display: S.optional(S.String),
+    Value: SensitiveString,
+    Type: S.optional(SensitiveString),
+    Display: S.optional(SensitiveString),
     Primary: S.optional(S.Boolean),
   }),
 ).annotations({ identifier: "Photo" }) as any as S.Schema<Photo>;
@@ -755,9 +757,9 @@ export const CreateGroupResponse = S.suspend(() =>
 }) as any as S.Schema<CreateGroupResponse>;
 export interface DescribeGroupResponse {
   GroupId: string;
-  DisplayName?: string;
+  DisplayName?: string | Redacted.Redacted<string>;
   ExternalIds?: ExternalIds;
-  Description?: string;
+  Description?: string | Redacted.Redacted<string>;
   CreatedAt?: Date;
   UpdatedAt?: Date;
   CreatedBy?: string;
@@ -767,9 +769,9 @@ export interface DescribeGroupResponse {
 export const DescribeGroupResponse = S.suspend(() =>
   S.Struct({
     GroupId: S.String,
-    DisplayName: S.optional(S.String),
+    DisplayName: S.optional(SensitiveString),
     ExternalIds: S.optional(ExternalIds),
-    Description: S.optional(S.String),
+    Description: S.optional(SensitiveString),
     CreatedAt: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
     UpdatedAt: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
     CreatedBy: S.optional(S.String),
@@ -819,43 +821,43 @@ export const ListGroupsRequest = S.suspend(() =>
 }) as any as S.Schema<ListGroupsRequest>;
 export interface CreateUserRequest {
   IdentityStoreId: string;
-  UserName?: string;
+  UserName?: string | Redacted.Redacted<string>;
   Name?: Name;
-  DisplayName?: string;
-  NickName?: string;
-  ProfileUrl?: string;
+  DisplayName?: string | Redacted.Redacted<string>;
+  NickName?: string | Redacted.Redacted<string>;
+  ProfileUrl?: string | Redacted.Redacted<string>;
   Emails?: Emails;
   Addresses?: Addresses;
   PhoneNumbers?: PhoneNumbers;
-  UserType?: string;
-  Title?: string;
-  PreferredLanguage?: string;
-  Locale?: string;
-  Timezone?: string;
+  UserType?: string | Redacted.Redacted<string>;
+  Title?: string | Redacted.Redacted<string>;
+  PreferredLanguage?: string | Redacted.Redacted<string>;
+  Locale?: string | Redacted.Redacted<string>;
+  Timezone?: string | Redacted.Redacted<string>;
   Photos?: Photos;
-  Website?: string;
-  Birthdate?: string;
+  Website?: string | Redacted.Redacted<string>;
+  Birthdate?: string | Redacted.Redacted<string>;
   Extensions?: Extensions;
 }
 export const CreateUserRequest = S.suspend(() =>
   S.Struct({
     IdentityStoreId: S.String,
-    UserName: S.optional(S.String),
+    UserName: S.optional(SensitiveString),
     Name: S.optional(Name),
-    DisplayName: S.optional(S.String),
-    NickName: S.optional(S.String),
-    ProfileUrl: S.optional(S.String),
+    DisplayName: S.optional(SensitiveString),
+    NickName: S.optional(SensitiveString),
+    ProfileUrl: S.optional(SensitiveString),
     Emails: S.optional(Emails),
     Addresses: S.optional(Addresses),
     PhoneNumbers: S.optional(PhoneNumbers),
-    UserType: S.optional(S.String),
-    Title: S.optional(S.String),
-    PreferredLanguage: S.optional(S.String),
-    Locale: S.optional(S.String),
-    Timezone: S.optional(S.String),
+    UserType: S.optional(SensitiveString),
+    Title: S.optional(SensitiveString),
+    PreferredLanguage: S.optional(SensitiveString),
+    Locale: S.optional(SensitiveString),
+    Timezone: S.optional(SensitiveString),
     Photos: S.optional(Photos),
-    Website: S.optional(S.String),
-    Birthdate: S.optional(S.String),
+    Website: S.optional(SensitiveString),
+    Birthdate: S.optional(SensitiveString),
     Extensions: S.optional(Extensions),
   }).pipe(
     T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
@@ -866,24 +868,24 @@ export const CreateUserRequest = S.suspend(() =>
 export interface DescribeUserResponse {
   IdentityStoreId: string;
   UserId: string;
-  UserName?: string;
+  UserName?: string | Redacted.Redacted<string>;
   ExternalIds?: ExternalIds;
   Name?: Name;
-  DisplayName?: string;
-  NickName?: string;
-  ProfileUrl?: string;
+  DisplayName?: string | Redacted.Redacted<string>;
+  NickName?: string | Redacted.Redacted<string>;
+  ProfileUrl?: string | Redacted.Redacted<string>;
   Emails?: Emails;
   Addresses?: Addresses;
   PhoneNumbers?: PhoneNumbers;
-  UserType?: string;
-  Title?: string;
-  PreferredLanguage?: string;
-  Locale?: string;
-  Timezone?: string;
+  UserType?: string | Redacted.Redacted<string>;
+  Title?: string | Redacted.Redacted<string>;
+  PreferredLanguage?: string | Redacted.Redacted<string>;
+  Locale?: string | Redacted.Redacted<string>;
+  Timezone?: string | Redacted.Redacted<string>;
   UserStatus?: string;
   Photos?: Photos;
-  Website?: string;
-  Birthdate?: string;
+  Website?: string | Redacted.Redacted<string>;
+  Birthdate?: string | Redacted.Redacted<string>;
   CreatedAt?: Date;
   CreatedBy?: string;
   UpdatedAt?: Date;
@@ -894,24 +896,24 @@ export const DescribeUserResponse = S.suspend(() =>
   S.Struct({
     IdentityStoreId: S.String,
     UserId: S.String,
-    UserName: S.optional(S.String),
+    UserName: S.optional(SensitiveString),
     ExternalIds: S.optional(ExternalIds),
     Name: S.optional(Name),
-    DisplayName: S.optional(S.String),
-    NickName: S.optional(S.String),
-    ProfileUrl: S.optional(S.String),
+    DisplayName: S.optional(SensitiveString),
+    NickName: S.optional(SensitiveString),
+    ProfileUrl: S.optional(SensitiveString),
     Emails: S.optional(Emails),
     Addresses: S.optional(Addresses),
     PhoneNumbers: S.optional(PhoneNumbers),
-    UserType: S.optional(S.String),
-    Title: S.optional(S.String),
-    PreferredLanguage: S.optional(S.String),
-    Locale: S.optional(S.String),
-    Timezone: S.optional(S.String),
+    UserType: S.optional(SensitiveString),
+    Title: S.optional(SensitiveString),
+    PreferredLanguage: S.optional(SensitiveString),
+    Locale: S.optional(SensitiveString),
+    Timezone: S.optional(SensitiveString),
     UserStatus: S.optional(S.String),
     Photos: S.optional(Photos),
-    Website: S.optional(S.String),
-    Birthdate: S.optional(S.String),
+    Website: S.optional(SensitiveString),
+    Birthdate: S.optional(SensitiveString),
     CreatedAt: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
     CreatedBy: S.optional(S.String),
     UpdatedAt: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
@@ -942,24 +944,24 @@ export const GroupMembershipExistenceResults = S.Array(
 export interface User {
   IdentityStoreId: string;
   UserId: string;
-  UserName?: string;
+  UserName?: string | Redacted.Redacted<string>;
   ExternalIds?: ExternalIds;
   Name?: Name;
-  DisplayName?: string;
-  NickName?: string;
-  ProfileUrl?: string;
+  DisplayName?: string | Redacted.Redacted<string>;
+  NickName?: string | Redacted.Redacted<string>;
+  ProfileUrl?: string | Redacted.Redacted<string>;
   Emails?: Emails;
   Addresses?: Addresses;
   PhoneNumbers?: PhoneNumbers;
-  UserType?: string;
-  Title?: string;
-  PreferredLanguage?: string;
-  Locale?: string;
-  Timezone?: string;
+  UserType?: string | Redacted.Redacted<string>;
+  Title?: string | Redacted.Redacted<string>;
+  PreferredLanguage?: string | Redacted.Redacted<string>;
+  Locale?: string | Redacted.Redacted<string>;
+  Timezone?: string | Redacted.Redacted<string>;
   UserStatus?: string;
   Photos?: Photos;
-  Website?: string;
-  Birthdate?: string;
+  Website?: string | Redacted.Redacted<string>;
+  Birthdate?: string | Redacted.Redacted<string>;
   CreatedAt?: Date;
   CreatedBy?: string;
   UpdatedAt?: Date;
@@ -970,24 +972,24 @@ export const User = S.suspend(() =>
   S.Struct({
     IdentityStoreId: S.String,
     UserId: S.String,
-    UserName: S.optional(S.String),
+    UserName: S.optional(SensitiveString),
     ExternalIds: S.optional(ExternalIds),
     Name: S.optional(Name),
-    DisplayName: S.optional(S.String),
-    NickName: S.optional(S.String),
-    ProfileUrl: S.optional(S.String),
+    DisplayName: S.optional(SensitiveString),
+    NickName: S.optional(SensitiveString),
+    ProfileUrl: S.optional(SensitiveString),
     Emails: S.optional(Emails),
     Addresses: S.optional(Addresses),
     PhoneNumbers: S.optional(PhoneNumbers),
-    UserType: S.optional(S.String),
-    Title: S.optional(S.String),
-    PreferredLanguage: S.optional(S.String),
-    Locale: S.optional(S.String),
-    Timezone: S.optional(S.String),
+    UserType: S.optional(SensitiveString),
+    Title: S.optional(SensitiveString),
+    PreferredLanguage: S.optional(SensitiveString),
+    Locale: S.optional(SensitiveString),
+    Timezone: S.optional(SensitiveString),
     UserStatus: S.optional(S.String),
     Photos: S.optional(Photos),
-    Website: S.optional(S.String),
-    Birthdate: S.optional(S.String),
+    Website: S.optional(SensitiveString),
+    Birthdate: S.optional(SensitiveString),
     CreatedAt: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
     CreatedBy: S.optional(S.String),
     UpdatedAt: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
@@ -1060,9 +1062,9 @@ export const ListUsersResponse = S.suspend(() =>
 }) as any as S.Schema<ListUsersResponse>;
 export interface Group {
   GroupId: string;
-  DisplayName?: string;
+  DisplayName?: string | Redacted.Redacted<string>;
   ExternalIds?: ExternalIds;
-  Description?: string;
+  Description?: string | Redacted.Redacted<string>;
   CreatedAt?: Date;
   UpdatedAt?: Date;
   CreatedBy?: string;
@@ -1072,9 +1074,9 @@ export interface Group {
 export const Group = S.suspend(() =>
   S.Struct({
     GroupId: S.String,
-    DisplayName: S.optional(S.String),
+    DisplayName: S.optional(SensitiveString),
     ExternalIds: S.optional(ExternalIds),
-    Description: S.optional(S.String),
+    Description: S.optional(SensitiveString),
     CreatedAt: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
     UpdatedAt: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
     CreatedBy: S.optional(S.String),

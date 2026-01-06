@@ -1,5 +1,6 @@
 import { HttpClient } from "@effect/platform";
 import * as Effect from "effect/Effect";
+import * as Redacted from "effect/Redacted";
 import * as S from "effect/Schema";
 import * as Stream from "effect/Stream";
 import * as API from "../api.ts";
@@ -10,6 +11,7 @@ import {
   ErrorCategory,
   Errors,
 } from "../index.ts";
+import { SensitiveString, SensitiveBlob } from "../sensitive.ts";
 const ns = T.XmlNamespace("http://firehose.amazonaws.com/doc/2015-08-04");
 const svc = T.AwsApiService({
   sdkId: "Firehose",
@@ -268,8 +270,8 @@ export type ErrorOutputPrefix = string;
 export type FileExtension = string;
 export type CustomTimeZone = string;
 export type ClusterJDBCURL = string;
-export type Username = string;
-export type Password = string;
+export type Username = string | Redacted.Redacted<string>;
+export type Password = string | Redacted.Redacted<string>;
 export type ElasticsearchDomainARN = string;
 export type ElasticsearchClusterEndpoint = string;
 export type ElasticsearchIndexName = string;
@@ -286,15 +288,15 @@ export type AmazonOpenSearchServerlessCollectionEndpoint = string;
 export type AmazonOpenSearchServerlessIndexName = string;
 export type MSKClusterARN = string;
 export type TopicName = string;
-export type SnowflakeAccountUrl = string;
-export type SnowflakePrivateKey = string;
-export type SnowflakeKeyPassphrase = string;
-export type SnowflakeUser = string;
-export type SnowflakeDatabase = string;
-export type SnowflakeSchema = string;
-export type SnowflakeTable = string;
-export type SnowflakeMetaDataColumnName = string;
-export type SnowflakeContentColumnName = string;
+export type SnowflakeAccountUrl = string | Redacted.Redacted<string>;
+export type SnowflakePrivateKey = string | Redacted.Redacted<string>;
+export type SnowflakeKeyPassphrase = string | Redacted.Redacted<string>;
+export type SnowflakeUser = string | Redacted.Redacted<string>;
+export type SnowflakeDatabase = string | Redacted.Redacted<string>;
+export type SnowflakeSchema = string | Redacted.Redacted<string>;
+export type SnowflakeTable = string | Redacted.Redacted<string>;
+export type SnowflakeMetaDataColumnName = string | Redacted.Redacted<string>;
+export type SnowflakeContentColumnName = string | Redacted.Redacted<string>;
 export type DatabaseEndpoint = string;
 export type DatabasePort = number;
 export type NonEmptyStringWithoutWhitespace = string;
@@ -319,17 +321,17 @@ export type AmazonopensearchserviceRetryDurationInSeconds = number;
 export type SplunkRetryDurationInSeconds = number;
 export type SplunkBufferingIntervalInSeconds = number;
 export type SplunkBufferingSizeInMBs = number;
-export type HttpEndpointUrl = string;
+export type HttpEndpointUrl = string | Redacted.Redacted<string>;
 export type HttpEndpointName = string;
-export type HttpEndpointAccessKey = string;
+export type HttpEndpointAccessKey = string | Redacted.Redacted<string>;
 export type HttpEndpointBufferingSizeInMBs = number;
 export type HttpEndpointBufferingIntervalInSeconds = number;
 export type HttpEndpointRetryDurationInSeconds = number;
 export type AmazonOpenSearchServerlessBufferingIntervalInSeconds = number;
 export type AmazonOpenSearchServerlessBufferingSizeInMBs = number;
 export type AmazonOpenSearchServerlessRetryDurationInSeconds = number;
-export type SnowflakeRole = string;
-export type SnowflakePrivateLinkVpceId = string;
+export type SnowflakeRole = string | Redacted.Redacted<string>;
+export type SnowflakePrivateLinkVpceId = string | Redacted.Redacted<string>;
 export type SnowflakeRetryDurationInSeconds = number;
 export type SnowflakeBufferingSizeInMBs = number;
 export type SnowflakeBufferingIntervalInSeconds = number;
@@ -343,8 +345,8 @@ export type VpcEndpointServiceName = string;
 export type DeliveryStreamARN = string;
 export type PutResponseRecordId = string;
 export type ErrorCode = string;
-export type HttpEndpointAttributeName = string;
-export type HttpEndpointAttributeValue = string;
+export type HttpEndpointAttributeName = string | Redacted.Redacted<string>;
+export type HttpEndpointAttributeValue = string | Redacted.Redacted<string>;
 export type NonEmptyString = string;
 export type ProcessorParameterValue = string;
 export type BlockSizeBytes = number;
@@ -981,8 +983,8 @@ export interface RedshiftDestinationUpdate {
   RoleARN?: string;
   ClusterJDBCURL?: string;
   CopyCommand?: CopyCommand;
-  Username?: string;
-  Password?: string;
+  Username?: string | Redacted.Redacted<string>;
+  Password?: string | Redacted.Redacted<string>;
   RetryOptions?: RedshiftRetryOptions;
   S3Update?: S3DestinationUpdate;
   ProcessingConfiguration?: ProcessingConfiguration;
@@ -996,8 +998,8 @@ export const RedshiftDestinationUpdate = S.suspend(() =>
     RoleARN: S.optional(S.String),
     ClusterJDBCURL: S.optional(S.String),
     CopyCommand: S.optional(CopyCommand),
-    Username: S.optional(S.String),
-    Password: S.optional(S.String),
+    Username: S.optional(SensitiveString),
+    Password: S.optional(SensitiveString),
     RetryOptions: S.optional(RedshiftRetryOptions),
     S3Update: S.optional(S3DestinationUpdate),
     ProcessingConfiguration: S.optional(ProcessingConfiguration),
@@ -1172,15 +1174,15 @@ export const SplunkDestinationUpdate = S.suspend(() =>
   identifier: "SplunkDestinationUpdate",
 }) as any as S.Schema<SplunkDestinationUpdate>;
 export interface HttpEndpointConfiguration {
-  Url: string;
+  Url: string | Redacted.Redacted<string>;
   Name?: string;
-  AccessKey?: string;
+  AccessKey?: string | Redacted.Redacted<string>;
 }
 export const HttpEndpointConfiguration = S.suspend(() =>
   S.Struct({
-    Url: S.String,
+    Url: SensitiveString,
     Name: S.optional(S.String),
-    AccessKey: S.optional(S.String),
+    AccessKey: S.optional(SensitiveString),
   }),
 ).annotations({
   identifier: "HttpEndpointConfiguration",
@@ -1198,11 +1200,11 @@ export const HttpEndpointBufferingHints = S.suspend(() =>
   identifier: "HttpEndpointBufferingHints",
 }) as any as S.Schema<HttpEndpointBufferingHints>;
 export interface HttpEndpointCommonAttribute {
-  AttributeName: string;
-  AttributeValue: string;
+  AttributeName: string | Redacted.Redacted<string>;
+  AttributeValue: string | Redacted.Redacted<string>;
 }
 export const HttpEndpointCommonAttribute = S.suspend(() =>
-  S.Struct({ AttributeName: S.String, AttributeValue: S.String }),
+  S.Struct({ AttributeName: SensitiveString, AttributeValue: SensitiveString }),
 ).annotations({
   identifier: "HttpEndpointCommonAttribute",
 }) as any as S.Schema<HttpEndpointCommonAttribute>;
@@ -1304,12 +1306,12 @@ export const AmazonOpenSearchServerlessDestinationUpdate = S.suspend(() =>
 }) as any as S.Schema<AmazonOpenSearchServerlessDestinationUpdate>;
 export interface SnowflakeRoleConfiguration {
   Enabled?: boolean;
-  SnowflakeRole?: string;
+  SnowflakeRole?: string | Redacted.Redacted<string>;
 }
 export const SnowflakeRoleConfiguration = S.suspend(() =>
   S.Struct({
     Enabled: S.optional(S.Boolean),
-    SnowflakeRole: S.optional(S.String),
+    SnowflakeRole: S.optional(SensitiveString),
   }),
 ).annotations({
   identifier: "SnowflakeRoleConfiguration",
@@ -1335,17 +1337,17 @@ export const SnowflakeBufferingHints = S.suspend(() =>
   identifier: "SnowflakeBufferingHints",
 }) as any as S.Schema<SnowflakeBufferingHints>;
 export interface SnowflakeDestinationUpdate {
-  AccountUrl?: string;
-  PrivateKey?: string;
-  KeyPassphrase?: string;
-  User?: string;
-  Database?: string;
-  Schema?: string;
-  Table?: string;
+  AccountUrl?: string | Redacted.Redacted<string>;
+  PrivateKey?: string | Redacted.Redacted<string>;
+  KeyPassphrase?: string | Redacted.Redacted<string>;
+  User?: string | Redacted.Redacted<string>;
+  Database?: string | Redacted.Redacted<string>;
+  Schema?: string | Redacted.Redacted<string>;
+  Table?: string | Redacted.Redacted<string>;
   SnowflakeRoleConfiguration?: SnowflakeRoleConfiguration;
   DataLoadingOption?: string;
-  MetaDataColumnName?: string;
-  ContentColumnName?: string;
+  MetaDataColumnName?: string | Redacted.Redacted<string>;
+  ContentColumnName?: string | Redacted.Redacted<string>;
   CloudWatchLoggingOptions?: CloudWatchLoggingOptions;
   ProcessingConfiguration?: ProcessingConfiguration;
   RoleARN?: string;
@@ -1357,17 +1359,17 @@ export interface SnowflakeDestinationUpdate {
 }
 export const SnowflakeDestinationUpdate = S.suspend(() =>
   S.Struct({
-    AccountUrl: S.optional(S.String),
-    PrivateKey: S.optional(S.String),
-    KeyPassphrase: S.optional(S.String),
-    User: S.optional(S.String),
-    Database: S.optional(S.String),
-    Schema: S.optional(S.String),
-    Table: S.optional(S.String),
+    AccountUrl: S.optional(SensitiveString),
+    PrivateKey: S.optional(SensitiveString),
+    KeyPassphrase: S.optional(SensitiveString),
+    User: S.optional(SensitiveString),
+    Database: S.optional(SensitiveString),
+    Schema: S.optional(SensitiveString),
+    Table: S.optional(SensitiveString),
     SnowflakeRoleConfiguration: S.optional(SnowflakeRoleConfiguration),
     DataLoadingOption: S.optional(S.String),
-    MetaDataColumnName: S.optional(S.String),
-    ContentColumnName: S.optional(S.String),
+    MetaDataColumnName: S.optional(SensitiveString),
+    ContentColumnName: S.optional(SensitiveString),
     CloudWatchLoggingOptions: S.optional(CloudWatchLoggingOptions),
     ProcessingConfiguration: S.optional(ProcessingConfiguration),
     RoleARN: S.optional(S.String),
@@ -1637,10 +1639,10 @@ export const AuthenticationConfiguration = S.suspend(() =>
   identifier: "AuthenticationConfiguration",
 }) as any as S.Schema<AuthenticationConfiguration>;
 export interface SnowflakeVpcConfiguration {
-  PrivateLinkVpceId: string;
+  PrivateLinkVpceId: string | Redacted.Redacted<string>;
 }
 export const SnowflakeVpcConfiguration = S.suspend(() =>
-  S.Struct({ PrivateLinkVpceId: S.String }),
+  S.Struct({ PrivateLinkVpceId: SensitiveString }),
 ).annotations({
   identifier: "SnowflakeVpcConfiguration",
 }) as any as S.Schema<SnowflakeVpcConfiguration>;
@@ -1698,8 +1700,8 @@ export interface RedshiftDestinationConfiguration {
   RoleARN: string;
   ClusterJDBCURL: string;
   CopyCommand: CopyCommand;
-  Username?: string;
-  Password?: string;
+  Username?: string | Redacted.Redacted<string>;
+  Password?: string | Redacted.Redacted<string>;
   RetryOptions?: RedshiftRetryOptions;
   S3Configuration: S3DestinationConfiguration;
   ProcessingConfiguration?: ProcessingConfiguration;
@@ -1713,8 +1715,8 @@ export const RedshiftDestinationConfiguration = S.suspend(() =>
     RoleARN: S.String,
     ClusterJDBCURL: S.String,
     CopyCommand: CopyCommand,
-    Username: S.optional(S.String),
-    Password: S.optional(S.String),
+    Username: S.optional(SensitiveString),
+    Password: S.optional(SensitiveString),
     RetryOptions: S.optional(RedshiftRetryOptions),
     S3Configuration: S3DestinationConfiguration,
     ProcessingConfiguration: S.optional(ProcessingConfiguration),
@@ -1876,17 +1878,17 @@ export const MSKSourceConfiguration = S.suspend(() =>
   identifier: "MSKSourceConfiguration",
 }) as any as S.Schema<MSKSourceConfiguration>;
 export interface SnowflakeDestinationConfiguration {
-  AccountUrl: string;
-  PrivateKey?: string;
-  KeyPassphrase?: string;
-  User?: string;
-  Database: string;
-  Schema: string;
-  Table: string;
+  AccountUrl: string | Redacted.Redacted<string>;
+  PrivateKey?: string | Redacted.Redacted<string>;
+  KeyPassphrase?: string | Redacted.Redacted<string>;
+  User?: string | Redacted.Redacted<string>;
+  Database: string | Redacted.Redacted<string>;
+  Schema: string | Redacted.Redacted<string>;
+  Table: string | Redacted.Redacted<string>;
   SnowflakeRoleConfiguration?: SnowflakeRoleConfiguration;
   DataLoadingOption?: string;
-  MetaDataColumnName?: string;
-  ContentColumnName?: string;
+  MetaDataColumnName?: string | Redacted.Redacted<string>;
+  ContentColumnName?: string | Redacted.Redacted<string>;
   SnowflakeVpcConfiguration?: SnowflakeVpcConfiguration;
   CloudWatchLoggingOptions?: CloudWatchLoggingOptions;
   ProcessingConfiguration?: ProcessingConfiguration;
@@ -1899,17 +1901,17 @@ export interface SnowflakeDestinationConfiguration {
 }
 export const SnowflakeDestinationConfiguration = S.suspend(() =>
   S.Struct({
-    AccountUrl: S.String,
-    PrivateKey: S.optional(S.String),
-    KeyPassphrase: S.optional(S.String),
-    User: S.optional(S.String),
-    Database: S.String,
-    Schema: S.String,
-    Table: S.String,
+    AccountUrl: SensitiveString,
+    PrivateKey: S.optional(SensitiveString),
+    KeyPassphrase: S.optional(SensitiveString),
+    User: S.optional(SensitiveString),
+    Database: SensitiveString,
+    Schema: SensitiveString,
+    Table: SensitiveString,
     SnowflakeRoleConfiguration: S.optional(SnowflakeRoleConfiguration),
     DataLoadingOption: S.optional(S.String),
-    MetaDataColumnName: S.optional(S.String),
-    ContentColumnName: S.optional(S.String),
+    MetaDataColumnName: S.optional(SensitiveString),
+    ContentColumnName: S.optional(SensitiveString),
     SnowflakeVpcConfiguration: S.optional(SnowflakeVpcConfiguration),
     CloudWatchLoggingOptions: S.optional(CloudWatchLoggingOptions),
     ProcessingConfiguration: S.optional(ProcessingConfiguration),
@@ -2164,7 +2166,7 @@ export interface RedshiftDestinationDescription {
   RoleARN: string;
   ClusterJDBCURL: string;
   CopyCommand: CopyCommand;
-  Username?: string;
+  Username?: string | Redacted.Redacted<string>;
   RetryOptions?: RedshiftRetryOptions;
   S3DestinationDescription: S3DestinationDescription;
   ProcessingConfiguration?: ProcessingConfiguration;
@@ -2178,7 +2180,7 @@ export const RedshiftDestinationDescription = S.suspend(() =>
     RoleARN: S.String,
     ClusterJDBCURL: S.String,
     CopyCommand: CopyCommand,
-    Username: S.optional(S.String),
+    Username: S.optional(SensitiveString),
     RetryOptions: S.optional(RedshiftRetryOptions),
     S3DestinationDescription: S3DestinationDescription,
     ProcessingConfiguration: S.optional(ProcessingConfiguration),
@@ -2273,15 +2275,15 @@ export const SplunkDestinationDescription = S.suspend(() =>
   identifier: "SplunkDestinationDescription",
 }) as any as S.Schema<SplunkDestinationDescription>;
 export interface SnowflakeDestinationDescription {
-  AccountUrl?: string;
-  User?: string;
-  Database?: string;
-  Schema?: string;
-  Table?: string;
+  AccountUrl?: string | Redacted.Redacted<string>;
+  User?: string | Redacted.Redacted<string>;
+  Database?: string | Redacted.Redacted<string>;
+  Schema?: string | Redacted.Redacted<string>;
+  Table?: string | Redacted.Redacted<string>;
   SnowflakeRoleConfiguration?: SnowflakeRoleConfiguration;
   DataLoadingOption?: string;
-  MetaDataColumnName?: string;
-  ContentColumnName?: string;
+  MetaDataColumnName?: string | Redacted.Redacted<string>;
+  ContentColumnName?: string | Redacted.Redacted<string>;
   SnowflakeVpcConfiguration?: SnowflakeVpcConfiguration;
   CloudWatchLoggingOptions?: CloudWatchLoggingOptions;
   ProcessingConfiguration?: ProcessingConfiguration;
@@ -2294,15 +2296,15 @@ export interface SnowflakeDestinationDescription {
 }
 export const SnowflakeDestinationDescription = S.suspend(() =>
   S.Struct({
-    AccountUrl: S.optional(S.String),
-    User: S.optional(S.String),
-    Database: S.optional(S.String),
-    Schema: S.optional(S.String),
-    Table: S.optional(S.String),
+    AccountUrl: S.optional(SensitiveString),
+    User: S.optional(SensitiveString),
+    Database: S.optional(SensitiveString),
+    Schema: S.optional(SensitiveString),
+    Table: S.optional(SensitiveString),
     SnowflakeRoleConfiguration: S.optional(SnowflakeRoleConfiguration),
     DataLoadingOption: S.optional(S.String),
-    MetaDataColumnName: S.optional(S.String),
-    ContentColumnName: S.optional(S.String),
+    MetaDataColumnName: S.optional(SensitiveString),
+    ContentColumnName: S.optional(SensitiveString),
     SnowflakeVpcConfiguration: S.optional(SnowflakeVpcConfiguration),
     CloudWatchLoggingOptions: S.optional(CloudWatchLoggingOptions),
     ProcessingConfiguration: S.optional(ProcessingConfiguration),
@@ -2401,11 +2403,11 @@ export const DatabaseSnapshotInfo = S.suspend(() =>
 export type DatabaseSnapshotInfoList = DatabaseSnapshotInfo[];
 export const DatabaseSnapshotInfoList = S.Array(DatabaseSnapshotInfo);
 export interface HttpEndpointDescription {
-  Url?: string;
+  Url?: string | Redacted.Redacted<string>;
   Name?: string;
 }
 export const HttpEndpointDescription = S.suspend(() =>
-  S.Struct({ Url: S.optional(S.String), Name: S.optional(S.String) }),
+  S.Struct({ Url: S.optional(SensitiveString), Name: S.optional(S.String) }),
 ).annotations({
   identifier: "HttpEndpointDescription",
 }) as any as S.Schema<HttpEndpointDescription>;

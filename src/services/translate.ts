@@ -1,5 +1,6 @@
 import { HttpClient } from "@effect/platform";
 import * as Effect from "effect/Effect";
+import * as Redacted from "effect/Redacted";
 import * as S from "effect/Schema";
 import * as Stream from "effect/Stream";
 import * as API from "../api.ts";
@@ -10,6 +11,7 @@ import {
   ErrorCategory,
   Errors,
 } from "../index.ts";
+import { SensitiveString, SensitiveBlob } from "../sensitive.ts";
 const svc = T.AwsApiService({
   sdkId: "Translate",
   serviceShapeName: "AWSShineFrontendService_20170701",
@@ -515,13 +517,13 @@ export const EncryptionKey = S.suspend(() =>
   identifier: "EncryptionKey",
 }) as any as S.Schema<EncryptionKey>;
 export interface TerminologyData {
-  File: Uint8Array;
+  File: Uint8Array | Redacted.Redacted<Uint8Array>;
   Format: string;
   Directionality?: string;
 }
 export const TerminologyData = S.suspend(() =>
   S.Struct({
-    File: T.Blob,
+    File: SensitiveBlob,
     Format: S.String,
     Directionality: S.optional(S.String),
   }),
@@ -653,11 +655,11 @@ export const OutputDataConfig = S.suspend(() =>
   identifier: "OutputDataConfig",
 }) as any as S.Schema<OutputDataConfig>;
 export interface Document {
-  Content: Uint8Array;
+  Content: Uint8Array | Redacted.Redacted<Uint8Array>;
   ContentType: string;
 }
 export const Document = S.suspend(() =>
-  S.Struct({ Content: T.Blob, ContentType: S.String }),
+  S.Struct({ Content: SensitiveBlob, ContentType: S.String }),
 ).annotations({ identifier: "Document" }) as any as S.Schema<Document>;
 export interface CreateParallelDataRequest {
   Name: string;
@@ -1021,10 +1023,10 @@ export const Term = S.suspend(() =>
 export type TermList = Term[];
 export const TermList = S.Array(Term);
 export interface TranslatedDocument {
-  Content: Uint8Array;
+  Content: Uint8Array | Redacted.Redacted<Uint8Array>;
 }
 export const TranslatedDocument = S.suspend(() =>
-  S.Struct({ Content: T.Blob }),
+  S.Struct({ Content: SensitiveBlob }),
 ).annotations({
   identifier: "TranslatedDocument",
 }) as any as S.Schema<TranslatedDocument>;

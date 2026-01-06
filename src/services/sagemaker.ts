@@ -1,5 +1,6 @@
 import { HttpClient } from "@effect/platform";
 import * as Effect from "effect/Effect";
+import * as Redacted from "effect/Redacted";
 import * as S from "effect/Schema";
 import * as Stream from "effect/Stream";
 import * as API from "../api.ts";
@@ -10,6 +11,7 @@ import {
   ErrorCategory,
   Errors,
 } from "../index.ts";
+import { SensitiveString, SensitiveBlob } from "../sensitive.ts";
 const ns = T.XmlNamespace("http://sagemaker.amazonaws.com/doc/2017-05-13/");
 const svc = T.AwsApiService({
   sdkId: "SageMaker",
@@ -361,7 +363,7 @@ export type WeeklyMaintenanceWindowStart = string;
 export type TrackingServerName = string;
 export type MlflowVersion = string;
 export type ModelName = string;
-export type ModelCardContent = string;
+export type ModelCardContent = string | Redacted.Redacted<string>;
 export type ModelCardNameOrArn = string;
 export type Integer = number;
 export type ArnOrName = string;
@@ -607,7 +609,7 @@ export type TrialComponentKey320 = string;
 export type TrialComponentKey128 = string;
 export type CognitoUserPool = string;
 export type ClientId = string;
-export type ClientSecret = string;
+export type ClientSecret = string | Redacted.Redacted<string>;
 export type OidcEndpoint = string;
 export type Scope = string;
 export type Cidr = string;
@@ -10506,13 +10508,13 @@ export const UpdateMlflowTrackingServerRequest = S.suspend(() =>
 }) as any as S.Schema<UpdateMlflowTrackingServerRequest>;
 export interface UpdateModelCardRequest {
   ModelCardName: string;
-  Content?: string;
+  Content?: string | Redacted.Redacted<string>;
   ModelCardStatus?: string;
 }
 export const UpdateModelCardRequest = S.suspend(() =>
   S.Struct({
     ModelCardName: S.String,
-    Content: S.optional(S.String),
+    Content: S.optional(SensitiveString),
     ModelCardStatus: S.optional(S.String),
   }).pipe(
     T.all(
@@ -10665,12 +10667,12 @@ export const InferenceSpecification = S.suspend(() =>
   identifier: "InferenceSpecification",
 }) as any as S.Schema<InferenceSpecification>;
 export interface ModelPackageModelCard {
-  ModelCardContent?: string;
+  ModelCardContent?: string | Redacted.Redacted<string>;
   ModelCardStatus?: string;
 }
 export const ModelPackageModelCard = S.suspend(() =>
   S.Struct({
-    ModelCardContent: S.optional(S.String),
+    ModelCardContent: S.optional(SensitiveString),
     ModelCardStatus: S.optional(S.String),
   }),
 ).annotations({
@@ -11658,7 +11660,7 @@ export const AuthenticationRequestExtraParams = S.Record({
 });
 export interface OidcConfig {
   ClientId: string;
-  ClientSecret: string;
+  ClientSecret: string | Redacted.Redacted<string>;
   Issuer: string;
   AuthorizationEndpoint: string;
   TokenEndpoint: string;
@@ -11671,7 +11673,7 @@ export interface OidcConfig {
 export const OidcConfig = S.suspend(() =>
   S.Struct({
     ClientId: S.String,
-    ClientSecret: S.String,
+    ClientSecret: SensitiveString,
     Issuer: S.String,
     AuthorizationEndpoint: S.String,
     TokenEndpoint: S.String,
@@ -13584,7 +13586,7 @@ export const CreateMlflowTrackingServerResponse = S.suspend(() =>
 export interface CreateModelCardRequest {
   ModelCardName: string;
   SecurityConfig?: ModelCardSecurityConfig;
-  Content: string;
+  Content: string | Redacted.Redacted<string>;
   ModelCardStatus: string;
   Tags?: TagList;
 }
@@ -13592,7 +13594,7 @@ export const CreateModelCardRequest = S.suspend(() =>
   S.Struct({
     ModelCardName: S.String,
     SecurityConfig: S.optional(ModelCardSecurityConfig),
-    Content: S.String,
+    Content: SensitiveString,
     ModelCardStatus: S.String,
     Tags: S.optional(TagList),
   }).pipe(
@@ -15242,7 +15244,7 @@ export interface DescribeModelCardResponse {
   ModelCardArn: string;
   ModelCardName: string;
   ModelCardVersion: number;
-  Content: string;
+  Content: string | Redacted.Redacted<string>;
   ModelCardStatus: string;
   SecurityConfig?: ModelCardSecurityConfig;
   CreationTime: Date;
@@ -15256,7 +15258,7 @@ export const DescribeModelCardResponse = S.suspend(() =>
     ModelCardArn: S.String,
     ModelCardName: S.String,
     ModelCardVersion: S.Number,
-    Content: S.String,
+    Content: SensitiveString,
     ModelCardStatus: S.String,
     SecurityConfig: S.optional(ModelCardSecurityConfig),
     CreationTime: S.Date.pipe(T.TimestampFormat("epoch-seconds")),
@@ -27571,7 +27573,7 @@ export interface ModelCard {
   ModelCardArn?: string;
   ModelCardName?: string;
   ModelCardVersion?: number;
-  Content?: string;
+  Content?: string | Redacted.Redacted<string>;
   ModelCardStatus?: string;
   SecurityConfig?: ModelCardSecurityConfig;
   CreationTime?: Date;
@@ -27588,7 +27590,7 @@ export const ModelCard = S.suspend(() =>
     ModelCardArn: S.optional(S.String),
     ModelCardName: S.optional(S.String),
     ModelCardVersion: S.optional(S.Number),
-    Content: S.optional(S.String),
+    Content: S.optional(SensitiveString),
     ModelCardStatus: S.optional(S.String),
     SecurityConfig: S.optional(ModelCardSecurityConfig),
     CreationTime: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),

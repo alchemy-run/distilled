@@ -1,5 +1,6 @@
 import { HttpClient } from "@effect/platform";
 import * as Effect from "effect/Effect";
+import * as Redacted from "effect/Redacted";
 import * as S from "effect/Schema";
 import * as Stream from "effect/Stream";
 import * as API from "../api.ts";
@@ -10,6 +11,7 @@ import {
   ErrorCategory,
   Errors,
 } from "../index.ts";
+import { SensitiveString, SensitiveBlob } from "../sensitive.ts";
 const svc = T.AwsApiService({
   sdkId: "ivschat",
   serviceShapeName: "AmazonInteractiveVideoServiceChat",
@@ -251,7 +253,7 @@ const rules = T.EndpointRuleSet({
 
 //# Newtypes
 export type RoomIdentifier = string;
-export type UserID = string;
+export type UserID = string | Redacted.Redacted<string>;
 export type ChatTokenCapability = string;
 export type SessionDurationInMinutes = number;
 export type LoggingConfigurationName = string;
@@ -281,7 +283,7 @@ export type UpdateLoggingConfigurationState = string;
 export type BucketName = string;
 export type LogGroupName = string;
 export type DeliveryStreamName = string;
-export type ChatToken = string;
+export type ChatToken = string | Redacted.Redacted<string>;
 export type ResourceId = string;
 export type ResourceType = string;
 export type CreateLoggingConfigurationState = string;
@@ -365,13 +367,13 @@ export const DeleteRoomResponse = S.suspend(() => S.Struct({})).annotations({
 }) as any as S.Schema<DeleteRoomResponse>;
 export interface DisconnectUserRequest {
   roomIdentifier: string;
-  userId: string;
+  userId: string | Redacted.Redacted<string>;
   reason?: string;
 }
 export const DisconnectUserRequest = S.suspend(() =>
   S.Struct({
     roomIdentifier: S.String,
-    userId: S.String,
+    userId: SensitiveString,
     reason: S.optional(S.String),
   }).pipe(
     T.all(
@@ -643,7 +645,7 @@ export type EventAttributes = { [key: string]: string };
 export const EventAttributes = S.Record({ key: S.String, value: S.String });
 export interface CreateChatTokenRequest {
   roomIdentifier: string;
-  userId: string;
+  userId: string | Redacted.Redacted<string>;
   capabilities?: ChatTokenCapabilities;
   sessionDurationInMinutes?: number;
   attributes?: ChatTokenAttributes;
@@ -651,7 +653,7 @@ export interface CreateChatTokenRequest {
 export const CreateChatTokenRequest = S.suspend(() =>
   S.Struct({
     roomIdentifier: S.String,
-    userId: S.String,
+    userId: SensitiveString,
     capabilities: S.optional(ChatTokenCapabilities),
     sessionDurationInMinutes: S.optional(S.Number),
     attributes: S.optional(ChatTokenAttributes),
@@ -899,13 +901,13 @@ export const RoomSummary = S.suspend(() =>
 export type RoomList = RoomSummary[];
 export const RoomList = S.Array(RoomSummary);
 export interface CreateChatTokenResponse {
-  token?: string;
+  token?: string | Redacted.Redacted<string>;
   tokenExpirationTime?: Date;
   sessionExpirationTime?: Date;
 }
 export const CreateChatTokenResponse = S.suspend(() =>
   S.Struct({
-    token: S.optional(S.String),
+    token: S.optional(SensitiveString),
     tokenExpirationTime: S.optional(
       S.Date.pipe(T.TimestampFormat("date-time")),
     ),

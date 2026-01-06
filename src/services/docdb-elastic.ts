@@ -1,5 +1,6 @@
 import { HttpClient } from "@effect/platform";
 import * as Effect from "effect/Effect";
+import * as Redacted from "effect/Redacted";
 import * as S from "effect/Schema";
 import * as Stream from "effect/Stream";
 import * as API from "../api.ts";
@@ -10,6 +11,7 @@ import {
   ErrorCategory,
   Errors,
 } from "../index.ts";
+import { SensitiveString, SensitiveBlob } from "../sensitive.ts";
 const svc = T.AwsApiService({
   sdkId: "DocDB Elastic",
   serviceShapeName: "ChimeraDbLionfishServiceLambda",
@@ -305,7 +307,7 @@ const rules = T.EndpointRuleSet({
 export type InputString = string;
 export type OptInType = string;
 export type Auth = string;
-export type Password = string;
+export type Password = string | Redacted.Redacted<string>;
 export type PaginationToken = string;
 export type Arn = string;
 export type TagKey = string;
@@ -350,7 +352,7 @@ export interface CreateClusterInput {
   clusterName: string;
   authType: string;
   adminUserName: string;
-  adminUserPassword: string;
+  adminUserPassword: string | Redacted.Redacted<string>;
   shardCapacity: number;
   shardCount: number;
   vpcSecurityGroupIds?: StringList;
@@ -368,7 +370,7 @@ export const CreateClusterInput = S.suspend(() =>
     clusterName: S.String,
     authType: S.String,
     adminUserName: S.String,
-    adminUserPassword: S.String,
+    adminUserPassword: SensitiveString,
     shardCapacity: S.Number,
     shardCount: S.Number,
     vpcSecurityGroupIds: S.optional(StringList),
@@ -712,7 +714,7 @@ export interface UpdateClusterInput {
   shardCount?: number;
   vpcSecurityGroupIds?: StringList;
   subnetIds?: StringList;
-  adminUserPassword?: string;
+  adminUserPassword?: string | Redacted.Redacted<string>;
   clientToken?: string;
   preferredMaintenanceWindow?: string;
   backupRetentionPeriod?: number;
@@ -727,7 +729,7 @@ export const UpdateClusterInput = S.suspend(() =>
     shardCount: S.optional(S.Number),
     vpcSecurityGroupIds: S.optional(StringList),
     subnetIds: S.optional(StringList),
-    adminUserPassword: S.optional(S.String),
+    adminUserPassword: S.optional(SensitiveString),
     clientToken: S.optional(S.String),
     preferredMaintenanceWindow: S.optional(S.String),
     backupRetentionPeriod: S.optional(S.Number),

@@ -1,5 +1,6 @@
 import { HttpClient } from "@effect/platform";
 import * as Effect from "effect/Effect";
+import * as Redacted from "effect/Redacted";
 import * as S from "effect/Schema";
 import * as Stream from "effect/Stream";
 import * as API from "../api.ts";
@@ -10,6 +11,7 @@ import {
   ErrorCategory,
   Errors,
 } from "../index.ts";
+import { SensitiveString, SensitiveBlob } from "../sensitive.ts";
 const svc = T.AwsApiService({
   sdkId: "WorkMail",
   serviceShapeName: "WorkMailService",
@@ -273,10 +275,10 @@ export type DirectoryId = string;
 export type OrganizationName = string;
 export type KmsKeyArn = string;
 export type ResourceName = string;
-export type ResourceDescription = string;
+export type ResourceDescription = string | Redacted.Redacted<string>;
 export type UserName = string;
-export type UserAttribute = string;
-export type Password = string;
+export type UserAttribute = string | Redacted.Redacted<string>;
+export type Password = string | Redacted.Redacted<string>;
 export type IdentityProviderUserId = string;
 export type AccessControlRuleName = string;
 export type ApplicationArn = string;
@@ -294,13 +296,13 @@ export type AccessControlRuleDescription = string;
 export type IpRange = string;
 export type RoleArn = string;
 export type LogGroupArn = string;
-export type PolicyDescription = string;
+export type PolicyDescription = string | Redacted.Redacted<string>;
 export type Description = string;
 export type S3BucketName = string;
 export type S3ObjectKey = string;
 export type TagKey = string;
 export type MailboxQuota = number;
-export type NewResourceDescription = string;
+export type NewResourceDescription = string | Redacted.Redacted<string>;
 export type IdentityProviderUserIdForUpdate = string;
 export type Url = string;
 export type ExternalUserName = string;
@@ -513,7 +515,7 @@ export interface CreateResourceRequest {
   OrganizationId: string;
   Name: string;
   Type: string;
-  Description?: string;
+  Description?: string | Redacted.Redacted<string>;
   HiddenFromGlobalAddressList?: boolean;
 }
 export const CreateResourceRequest = S.suspend(() =>
@@ -521,7 +523,7 @@ export const CreateResourceRequest = S.suspend(() =>
     OrganizationId: S.String,
     Name: S.String,
     Type: S.String,
-    Description: S.optional(S.String),
+    Description: S.optional(SensitiveString),
     HiddenFromGlobalAddressList: S.optional(S.Boolean),
   }).pipe(
     T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
@@ -532,11 +534,11 @@ export const CreateResourceRequest = S.suspend(() =>
 export interface CreateUserRequest {
   OrganizationId: string;
   Name: string;
-  DisplayName: string;
-  Password?: string;
+  DisplayName: string | Redacted.Redacted<string>;
+  Password?: string | Redacted.Redacted<string>;
   Role?: string;
-  FirstName?: string;
-  LastName?: string;
+  FirstName?: string | Redacted.Redacted<string>;
+  LastName?: string | Redacted.Redacted<string>;
   HiddenFromGlobalAddressList?: boolean;
   IdentityProviderUserId?: string;
 }
@@ -544,11 +546,11 @@ export const CreateUserRequest = S.suspend(() =>
   S.Struct({
     OrganizationId: S.String,
     Name: S.String,
-    DisplayName: S.String,
-    Password: S.optional(S.String),
+    DisplayName: SensitiveString,
+    Password: S.optional(SensitiveString),
     Role: S.optional(S.String),
-    FirstName: S.optional(S.String),
-    LastName: S.optional(S.String),
+    FirstName: S.optional(SensitiveString),
+    LastName: S.optional(SensitiveString),
     HiddenFromGlobalAddressList: S.optional(S.Boolean),
     IdentityProviderUserId: S.optional(S.String),
   }).pipe(
@@ -1532,13 +1534,13 @@ export const RegisterToWorkMailResponse = S.suspend(() =>
 export interface ResetPasswordRequest {
   OrganizationId: string;
   UserId: string;
-  Password: string;
+  Password: string | Redacted.Redacted<string>;
 }
 export const ResetPasswordRequest = S.suspend(() =>
   S.Struct({
     OrganizationId: S.String,
     UserId: S.String,
-    Password: S.String,
+    Password: SensitiveString,
   }).pipe(
     T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
   ),
@@ -1578,13 +1580,13 @@ export const StartMailboxExportJobRequest = S.suspend(() =>
 export interface EwsAvailabilityProvider {
   EwsEndpoint: string;
   EwsUsername: string;
-  EwsPassword: string;
+  EwsPassword: string | Redacted.Redacted<string>;
 }
 export const EwsAvailabilityProvider = S.suspend(() =>
   S.Struct({
     EwsEndpoint: S.String,
     EwsUsername: S.String,
-    EwsPassword: S.String,
+    EwsPassword: SensitiveString,
   }),
 ).annotations({
   identifier: "EwsAvailabilityProvider",
@@ -1833,20 +1835,20 @@ export interface UpdateUserRequest {
   OrganizationId: string;
   UserId: string;
   Role?: string;
-  DisplayName?: string;
-  FirstName?: string;
-  LastName?: string;
+  DisplayName?: string | Redacted.Redacted<string>;
+  FirstName?: string | Redacted.Redacted<string>;
+  LastName?: string | Redacted.Redacted<string>;
   HiddenFromGlobalAddressList?: boolean;
-  Initials?: string;
-  Telephone?: string;
-  Street?: string;
-  JobTitle?: string;
-  City?: string;
-  Company?: string;
-  ZipCode?: string;
-  Department?: string;
-  Country?: string;
-  Office?: string;
+  Initials?: string | Redacted.Redacted<string>;
+  Telephone?: string | Redacted.Redacted<string>;
+  Street?: string | Redacted.Redacted<string>;
+  JobTitle?: string | Redacted.Redacted<string>;
+  City?: string | Redacted.Redacted<string>;
+  Company?: string | Redacted.Redacted<string>;
+  ZipCode?: string | Redacted.Redacted<string>;
+  Department?: string | Redacted.Redacted<string>;
+  Country?: string | Redacted.Redacted<string>;
+  Office?: string | Redacted.Redacted<string>;
   IdentityProviderUserId?: string;
 }
 export const UpdateUserRequest = S.suspend(() =>
@@ -1854,20 +1856,20 @@ export const UpdateUserRequest = S.suspend(() =>
     OrganizationId: S.String,
     UserId: S.String,
     Role: S.optional(S.String),
-    DisplayName: S.optional(S.String),
-    FirstName: S.optional(S.String),
-    LastName: S.optional(S.String),
+    DisplayName: S.optional(SensitiveString),
+    FirstName: S.optional(SensitiveString),
+    LastName: S.optional(SensitiveString),
     HiddenFromGlobalAddressList: S.optional(S.Boolean),
-    Initials: S.optional(S.String),
-    Telephone: S.optional(S.String),
-    Street: S.optional(S.String),
-    JobTitle: S.optional(S.String),
-    City: S.optional(S.String),
-    Company: S.optional(S.String),
-    ZipCode: S.optional(S.String),
-    Department: S.optional(S.String),
-    Country: S.optional(S.String),
-    Office: S.optional(S.String),
+    Initials: S.optional(SensitiveString),
+    Telephone: S.optional(SensitiveString),
+    Street: S.optional(SensitiveString),
+    JobTitle: S.optional(SensitiveString),
+    City: S.optional(SensitiveString),
+    Company: S.optional(SensitiveString),
+    ZipCode: S.optional(SensitiveString),
+    Department: S.optional(SensitiveString),
+    Country: S.optional(SensitiveString),
+    Office: S.optional(SensitiveString),
     IdentityProviderUserId: S.optional(S.String),
   }).pipe(
     T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
@@ -1932,7 +1934,7 @@ export const ListResourcesFilters = S.suspend(() =>
 }) as any as S.Schema<ListResourcesFilters>;
 export interface ListUsersFilters {
   UsernamePrefix?: string;
-  DisplayNamePrefix?: string;
+  DisplayNamePrefix?: string | Redacted.Redacted<string>;
   PrimaryEmailPrefix?: string;
   State?: string;
   IdentityProviderUserIdPrefix?: string;
@@ -1940,7 +1942,7 @@ export interface ListUsersFilters {
 export const ListUsersFilters = S.suspend(() =>
   S.Struct({
     UsernamePrefix: S.optional(S.String),
-    DisplayNamePrefix: S.optional(S.String),
+    DisplayNamePrefix: S.optional(SensitiveString),
     PrimaryEmailPrefix: S.optional(S.String),
     State: S.optional(S.String),
     IdentityProviderUserIdPrefix: S.optional(S.String),
@@ -2275,7 +2277,7 @@ export interface DescribeResourceResponse {
   State?: string;
   EnabledDate?: Date;
   DisabledDate?: Date;
-  Description?: string;
+  Description?: string | Redacted.Redacted<string>;
   HiddenFromGlobalAddressList?: boolean;
 }
 export const DescribeResourceResponse = S.suspend(() =>
@@ -2288,7 +2290,7 @@ export const DescribeResourceResponse = S.suspend(() =>
     State: S.optional(S.String),
     EnabledDate: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
     DisabledDate: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
-    Description: S.optional(S.String),
+    Description: S.optional(SensitiveString),
     HiddenFromGlobalAddressList: S.optional(S.Boolean),
   }),
 ).annotations({
@@ -2298,26 +2300,26 @@ export interface DescribeUserResponse {
   UserId?: string;
   Name?: string;
   Email?: string;
-  DisplayName?: string;
+  DisplayName?: string | Redacted.Redacted<string>;
   State?: string;
   UserRole?: string;
   EnabledDate?: Date;
   DisabledDate?: Date;
   MailboxProvisionedDate?: Date;
   MailboxDeprovisionedDate?: Date;
-  FirstName?: string;
-  LastName?: string;
+  FirstName?: string | Redacted.Redacted<string>;
+  LastName?: string | Redacted.Redacted<string>;
   HiddenFromGlobalAddressList?: boolean;
-  Initials?: string;
-  Telephone?: string;
-  Street?: string;
-  JobTitle?: string;
-  City?: string;
-  Company?: string;
-  ZipCode?: string;
-  Department?: string;
-  Country?: string;
-  Office?: string;
+  Initials?: string | Redacted.Redacted<string>;
+  Telephone?: string | Redacted.Redacted<string>;
+  Street?: string | Redacted.Redacted<string>;
+  JobTitle?: string | Redacted.Redacted<string>;
+  City?: string | Redacted.Redacted<string>;
+  Company?: string | Redacted.Redacted<string>;
+  ZipCode?: string | Redacted.Redacted<string>;
+  Department?: string | Redacted.Redacted<string>;
+  Country?: string | Redacted.Redacted<string>;
+  Office?: string | Redacted.Redacted<string>;
   IdentityProviderUserId?: string;
   IdentityProviderIdentityStoreId?: string;
 }
@@ -2326,7 +2328,7 @@ export const DescribeUserResponse = S.suspend(() =>
     UserId: S.optional(S.String),
     Name: S.optional(S.String),
     Email: S.optional(S.String),
-    DisplayName: S.optional(S.String),
+    DisplayName: S.optional(SensitiveString),
     State: S.optional(S.String),
     UserRole: S.optional(S.String),
     EnabledDate: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
@@ -2337,19 +2339,19 @@ export const DescribeUserResponse = S.suspend(() =>
     MailboxDeprovisionedDate: S.optional(
       S.Date.pipe(T.TimestampFormat("epoch-seconds")),
     ),
-    FirstName: S.optional(S.String),
-    LastName: S.optional(S.String),
+    FirstName: S.optional(SensitiveString),
+    LastName: S.optional(SensitiveString),
     HiddenFromGlobalAddressList: S.optional(S.Boolean),
-    Initials: S.optional(S.String),
-    Telephone: S.optional(S.String),
-    Street: S.optional(S.String),
-    JobTitle: S.optional(S.String),
-    City: S.optional(S.String),
-    Company: S.optional(S.String),
-    ZipCode: S.optional(S.String),
-    Department: S.optional(S.String),
-    Country: S.optional(S.String),
-    Office: S.optional(S.String),
+    Initials: S.optional(SensitiveString),
+    Telephone: S.optional(SensitiveString),
+    Street: S.optional(SensitiveString),
+    JobTitle: S.optional(SensitiveString),
+    City: S.optional(SensitiveString),
+    Company: S.optional(SensitiveString),
+    ZipCode: S.optional(SensitiveString),
+    Department: S.optional(SensitiveString),
+    Country: S.optional(SensitiveString),
+    Office: S.optional(SensitiveString),
     IdentityProviderUserId: S.optional(S.String),
     IdentityProviderIdentityStoreId: S.optional(S.String),
   }),
@@ -2579,7 +2581,7 @@ export interface PutRetentionPolicyRequest {
   OrganizationId: string;
   Id?: string;
   Name: string;
-  Description?: string;
+  Description?: string | Redacted.Redacted<string>;
   FolderConfigurations: FolderConfigurations;
 }
 export const PutRetentionPolicyRequest = S.suspend(() =>
@@ -2587,7 +2589,7 @@ export const PutRetentionPolicyRequest = S.suspend(() =>
     OrganizationId: S.String,
     Id: S.optional(S.String),
     Name: S.String,
-    Description: S.optional(S.String),
+    Description: S.optional(SensitiveString),
     FolderConfigurations: FolderConfigurations,
   }).pipe(
     T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
@@ -2641,7 +2643,7 @@ export interface UpdateResourceRequest {
   ResourceId: string;
   Name?: string;
   BookingOptions?: BookingOptions;
-  Description?: string;
+  Description?: string | Redacted.Redacted<string>;
   Type?: string;
   HiddenFromGlobalAddressList?: boolean;
 }
@@ -2651,7 +2653,7 @@ export const UpdateResourceRequest = S.suspend(() =>
     ResourceId: S.String,
     Name: S.optional(S.String),
     BookingOptions: S.optional(BookingOptions),
-    Description: S.optional(S.String),
+    Description: S.optional(SensitiveString),
     Type: S.optional(S.String),
     HiddenFromGlobalAddressList: S.optional(S.Boolean),
   }).pipe(
@@ -3208,7 +3210,7 @@ export interface Resource {
   State?: string;
   EnabledDate?: Date;
   DisabledDate?: Date;
-  Description?: string;
+  Description?: string | Redacted.Redacted<string>;
 }
 export const Resource = S.suspend(() =>
   S.Struct({
@@ -3219,7 +3221,7 @@ export const Resource = S.suspend(() =>
     State: S.optional(S.String),
     EnabledDate: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
     DisabledDate: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
-    Description: S.optional(S.String),
+    Description: S.optional(SensitiveString),
   }),
 ).annotations({ identifier: "Resource" }) as any as S.Schema<Resource>;
 export type Resources = Resource[];

@@ -1,5 +1,6 @@
 import { HttpClient } from "@effect/platform";
 import * as Effect from "effect/Effect";
+import * as Redacted from "effect/Redacted";
 import * as S from "effect/Schema";
 import * as Stream from "effect/Stream";
 import * as API from "../api.ts";
@@ -10,6 +11,7 @@ import {
   ErrorCategory,
   Errors,
 } from "../index.ts";
+import { SensitiveString, SensitiveBlob } from "../sensitive.ts";
 const svc = T.AwsApiService({
   sdkId: "PartnerCentral Selling",
   serviceShapeName: "AWSPartnerCentralSelling",
@@ -123,7 +125,7 @@ export type TagKey = string;
 export type EngagementContextIdentifier = string;
 export type EngagementTitle = string;
 export type EngagementDescription = string;
-export type AwsAccount = string;
+export type AwsAccount = string | Redacted.Redacted<string>;
 export type EngagementPageSize = number;
 export type MemberPageSize = number;
 export type EngagementInvitationArnOrIdentifier = string;
@@ -139,12 +141,12 @@ export type ResourceSnapshotRevision = number;
 export type ResourceSnapshotJobIdentifier = string;
 export type SolutionIdentifier = string;
 export type TagValue = string;
-export type InvitationMessage = string;
-export type PiiString = string;
-export type Email = string;
-export type Name = string;
-export type JobTitle = string;
-export type PhoneNumber = string;
+export type InvitationMessage = string | Redacted.Redacted<string>;
+export type PiiString = string | Redacted.Redacted<string>;
+export type Email = string | Redacted.Redacted<string>;
+export type Name = string | Redacted.Redacted<string>;
+export type JobTitle = string | Redacted.Redacted<string>;
+export type PhoneNumber = string | Redacted.Redacted<string>;
 export type ResourceSnapshotJobRoleArn = string;
 export type EngagementArn = string;
 export type TaskIdentifier = string;
@@ -154,37 +156,39 @@ export type OpportunityArn = string;
 export type ResourceArn = string;
 export type ResourceSnapshotJobArn = string;
 export type LeadQualificationStatus = string;
-export type WebsiteUrl = string;
-export type DunsNumber = string;
-export type Amount = string;
+export type WebsiteUrl = string | Redacted.Redacted<string>;
+export type DunsNumber = string | Redacted.Redacted<string>;
+export type Amount = string | Redacted.Redacted<string>;
 export type EstimationUrl = string;
-export type MemberCompanyName = string;
+export type MemberCompanyName = string | Redacted.Redacted<string>;
 export type AwsMarketplaceOfferIdentifier = string;
 export type AwsMarketplaceOfferSetIdentifier = string;
 export type AwsProductIdentifier = string;
 export type ResourceSnapshotArn = string;
-export type CompanyName = string;
-export type CompanyWebsiteUrl = string;
+export type CompanyName = string | Redacted.Redacted<string>;
+export type CompanyWebsiteUrl = string | Redacted.Redacted<string>;
 export type EngagementCustomerProjectTitle = string;
-export type EngagementCustomerBusinessProblem = string;
+export type EngagementCustomerBusinessProblem =
+  | string
+  | Redacted.Redacted<string>;
 export type AwsMaturity = string;
 export type LeadSourceType = string;
 export type LeadSourceId = string;
 export type LeadSourceName = string;
 export type EngagementUseCase = string;
 export type CustomerAction = string;
-export type Alias = string;
-export type AddressPart = string;
-export type SenderContactEmail = string;
+export type Alias = string | Redacted.Redacted<string>;
+export type AddressPart = string | Redacted.Redacted<string>;
+export type SenderContactEmail = string | Redacted.Redacted<string>;
 export type SolutionArn = string;
-export type MonetaryAmount = string;
+export type MonetaryAmount = string | Redacted.Redacted<string>;
 export type EngagementInvitationArn = string;
 
 //# Schemas
 export type TagKeyList = string[];
 export const TagKeyList = S.Array(S.String);
-export type AwsAccountList = string[];
-export const AwsAccountList = S.Array(S.String);
+export type AwsAccountList = string | Redacted.Redacted<string>[];
+export const AwsAccountList = S.Array(SensitiveString);
 export type EngagementContextTypeList = string[];
 export const EngagementContextTypeList = S.Array(S.String);
 export type EngagementIdentifiers = string[];
@@ -201,8 +205,8 @@ export type EngagementInvitationsPayloadType = string[];
 export const EngagementInvitationsPayloadType = S.Array(S.String);
 export type InvitationStatusList = string[];
 export const InvitationStatusList = S.Array(S.String);
-export type AwsAccountIdOrAliasList = string[];
-export const AwsAccountIdOrAliasList = S.Array(S.String);
+export type AwsAccountIdOrAliasList = string | Redacted.Redacted<string>[];
+export const AwsAccountIdOrAliasList = S.Array(SensitiveString);
 export type PrimaryNeedsFromAws = string[];
 export const PrimaryNeedsFromAws = S.Array(S.String);
 export type FilterIdentifier = string[];
@@ -508,55 +512,55 @@ export const GetOpportunityRequest = S.suspend(() =>
   identifier: "GetOpportunityRequest",
 }) as any as S.Schema<GetOpportunityRequest>;
 export interface Address {
-  City?: string;
-  PostalCode?: string;
-  StateOrRegion?: string;
+  City?: string | Redacted.Redacted<string>;
+  PostalCode?: string | Redacted.Redacted<string>;
+  StateOrRegion?: string | Redacted.Redacted<string>;
   CountryCode?: string;
-  StreetAddress?: string;
+  StreetAddress?: string | Redacted.Redacted<string>;
 }
 export const Address = S.suspend(() =>
   S.Struct({
-    City: S.optional(S.String),
-    PostalCode: S.optional(S.String),
-    StateOrRegion: S.optional(S.String),
+    City: S.optional(SensitiveString),
+    PostalCode: S.optional(SensitiveString),
+    StateOrRegion: S.optional(SensitiveString),
     CountryCode: S.optional(S.String),
-    StreetAddress: S.optional(S.String),
+    StreetAddress: S.optional(SensitiveString),
   }),
 ).annotations({ identifier: "Address" }) as any as S.Schema<Address>;
 export interface Account {
   Industry?: string;
   OtherIndustry?: string;
-  CompanyName: string;
-  WebsiteUrl?: string;
-  AwsAccountId?: string;
+  CompanyName: string | Redacted.Redacted<string>;
+  WebsiteUrl?: string | Redacted.Redacted<string>;
+  AwsAccountId?: string | Redacted.Redacted<string>;
   Address?: Address;
-  Duns?: string;
+  Duns?: string | Redacted.Redacted<string>;
 }
 export const Account = S.suspend(() =>
   S.Struct({
     Industry: S.optional(S.String),
     OtherIndustry: S.optional(S.String),
-    CompanyName: S.String,
-    WebsiteUrl: S.optional(S.String),
-    AwsAccountId: S.optional(S.String),
+    CompanyName: SensitiveString,
+    WebsiteUrl: S.optional(SensitiveString),
+    AwsAccountId: S.optional(SensitiveString),
     Address: S.optional(Address),
-    Duns: S.optional(S.String),
+    Duns: S.optional(SensitiveString),
   }),
 ).annotations({ identifier: "Account" }) as any as S.Schema<Account>;
 export interface Contact {
-  Email?: string;
-  FirstName?: string;
-  LastName?: string;
-  BusinessTitle?: string;
-  Phone?: string;
+  Email?: string | Redacted.Redacted<string>;
+  FirstName?: string | Redacted.Redacted<string>;
+  LastName?: string | Redacted.Redacted<string>;
+  BusinessTitle?: string | Redacted.Redacted<string>;
+  Phone?: string | Redacted.Redacted<string>;
 }
 export const Contact = S.suspend(() =>
   S.Struct({
-    Email: S.optional(S.String),
-    FirstName: S.optional(S.String),
-    LastName: S.optional(S.String),
-    BusinessTitle: S.optional(S.String),
-    Phone: S.optional(S.String),
+    Email: S.optional(SensitiveString),
+    FirstName: S.optional(SensitiveString),
+    LastName: S.optional(SensitiveString),
+    BusinessTitle: S.optional(SensitiveString),
+    Phone: S.optional(SensitiveString),
   }),
 ).annotations({ identifier: "Contact" }) as any as S.Schema<Contact>;
 export type CustomerContactsList = Contact[];
@@ -574,7 +578,7 @@ export const Customer = S.suspend(() =>
 export type DeliveryModels = string[];
 export const DeliveryModels = S.Array(S.String);
 export interface ExpectedCustomerSpend {
-  Amount?: string;
+  Amount?: string | Redacted.Redacted<string>;
   CurrencyCode: string;
   Frequency: string;
   TargetCompany: string;
@@ -582,7 +586,7 @@ export interface ExpectedCustomerSpend {
 }
 export const ExpectedCustomerSpend = S.suspend(() =>
   S.Struct({
-    Amount: S.optional(S.String),
+    Amount: S.optional(SensitiveString),
     CurrencyCode: S.String,
     Frequency: S.String,
     TargetCompany: S.String,
@@ -600,15 +604,15 @@ export const SalesActivities = S.Array(S.String);
 export interface Project {
   DeliveryModels?: DeliveryModels;
   ExpectedCustomerSpend?: ExpectedCustomerSpendList;
-  Title?: string;
+  Title?: string | Redacted.Redacted<string>;
   ApnPrograms?: ApnPrograms;
-  CustomerBusinessProblem?: string;
+  CustomerBusinessProblem?: string | Redacted.Redacted<string>;
   CustomerUseCase?: string;
   RelatedOpportunityIdentifier?: string;
   SalesActivities?: SalesActivities;
   CompetitorName?: string;
   OtherCompetitorNames?: string;
-  OtherSolutionDescription?: string;
+  OtherSolutionDescription?: string | Redacted.Redacted<string>;
   AdditionalComments?: string;
   AwsPartition?: string;
 }
@@ -616,15 +620,15 @@ export const Project = S.suspend(() =>
   S.Struct({
     DeliveryModels: S.optional(DeliveryModels),
     ExpectedCustomerSpend: S.optional(ExpectedCustomerSpendList),
-    Title: S.optional(S.String),
+    Title: S.optional(SensitiveString),
     ApnPrograms: S.optional(ApnPrograms),
-    CustomerBusinessProblem: S.optional(S.String),
+    CustomerBusinessProblem: S.optional(SensitiveString),
     CustomerUseCase: S.optional(S.String),
     RelatedOpportunityIdentifier: S.optional(S.String),
     SalesActivities: S.optional(SalesActivities),
     CompetitorName: S.optional(S.String),
     OtherCompetitorNames: S.optional(S.String),
-    OtherSolutionDescription: S.optional(S.String),
+    OtherSolutionDescription: S.optional(SensitiveString),
     AdditionalComments: S.optional(S.String),
     AwsPartition: S.optional(S.String),
   }),
@@ -691,7 +695,7 @@ export const NextStepsHistories = S.Array(NextStepsHistory);
 export interface LifeCycle {
   Stage?: string;
   ClosedLostReason?: string;
-  NextSteps?: string;
+  NextSteps?: string | Redacted.Redacted<string>;
   TargetCloseDate?: string;
   ReviewStatus?: string;
   ReviewComments?: string;
@@ -702,7 +706,7 @@ export const LifeCycle = S.suspend(() =>
   S.Struct({
     Stage: S.optional(S.String),
     ClosedLostReason: S.optional(S.String),
-    NextSteps: S.optional(S.String),
+    NextSteps: S.optional(SensitiveString),
     TargetCloseDate: S.optional(S.String),
     ReviewStatus: S.optional(S.String),
     ReviewComments: S.optional(S.String),
@@ -989,7 +993,7 @@ export interface ListEngagementResourceAssociationsRequest {
   EngagementIdentifier?: string;
   ResourceType?: string;
   ResourceIdentifier?: string;
-  CreatedBy?: string;
+  CreatedBy?: string | Redacted.Redacted<string>;
 }
 export const ListEngagementResourceAssociationsRequest = S.suspend(() =>
   S.Struct({
@@ -999,7 +1003,7 @@ export const ListEngagementResourceAssociationsRequest = S.suspend(() =>
     EngagementIdentifier: S.optional(S.String),
     ResourceType: S.optional(S.String),
     ResourceIdentifier: S.optional(S.String),
-    CreatedBy: S.optional(S.String),
+    CreatedBy: S.optional(SensitiveString),
   }).pipe(
     T.all(
       T.Http({ method: "POST", uri: "/ListEngagementResourceAssociations" }),
@@ -1021,7 +1025,7 @@ export interface ListResourceSnapshotsRequest {
   ResourceType?: string;
   ResourceIdentifier?: string;
   ResourceSnapshotTemplateIdentifier?: string;
-  CreatedBy?: string;
+  CreatedBy?: string | Redacted.Redacted<string>;
 }
 export const ListResourceSnapshotsRequest = S.suspend(() =>
   S.Struct({
@@ -1032,7 +1036,7 @@ export const ListResourceSnapshotsRequest = S.suspend(() =>
     ResourceType: S.optional(S.String),
     ResourceIdentifier: S.optional(S.String),
     ResourceSnapshotTemplateIdentifier: S.optional(S.String),
-    CreatedBy: S.optional(S.String),
+    CreatedBy: S.optional(SensitiveString),
   }).pipe(
     T.all(
       T.Http({ method: "POST", uri: "/ListResourceSnapshots" }),
@@ -1169,15 +1173,15 @@ export const StopResourceSnapshotJobResponse = S.suspend(() =>
 }) as any as S.Schema<StopResourceSnapshotJobResponse>;
 export interface EngagementCustomer {
   Industry: string;
-  CompanyName: string;
-  WebsiteUrl: string;
+  CompanyName: string | Redacted.Redacted<string>;
+  WebsiteUrl: string | Redacted.Redacted<string>;
   CountryCode: string;
 }
 export const EngagementCustomer = S.suspend(() =>
   S.Struct({
     Industry: S.String,
-    CompanyName: S.String,
-    WebsiteUrl: S.String,
+    CompanyName: SensitiveString,
+    WebsiteUrl: SensitiveString,
     CountryCode: S.String,
   }),
 ).annotations({
@@ -1185,13 +1189,13 @@ export const EngagementCustomer = S.suspend(() =>
 }) as any as S.Schema<EngagementCustomer>;
 export interface EngagementCustomerProjectDetails {
   Title: string;
-  BusinessProblem: string;
+  BusinessProblem: string | Redacted.Redacted<string>;
   TargetCompletionDate: string;
 }
 export const EngagementCustomerProjectDetails = S.suspend(() =>
   S.Struct({
     Title: S.String,
-    BusinessProblem: S.String,
+    BusinessProblem: SensitiveString,
     TargetCompletionDate: S.String,
   }),
 ).annotations({
@@ -1210,16 +1214,16 @@ export const CustomerProjectsContext = S.suspend(() =>
   identifier: "CustomerProjectsContext",
 }) as any as S.Schema<CustomerProjectsContext>;
 export interface AddressSummary {
-  City?: string;
-  PostalCode?: string;
-  StateOrRegion?: string;
+  City?: string | Redacted.Redacted<string>;
+  PostalCode?: string | Redacted.Redacted<string>;
+  StateOrRegion?: string | Redacted.Redacted<string>;
   CountryCode?: string;
 }
 export const AddressSummary = S.suspend(() =>
   S.Struct({
-    City: S.optional(S.String),
-    PostalCode: S.optional(S.String),
-    StateOrRegion: S.optional(S.String),
+    City: S.optional(SensitiveString),
+    PostalCode: S.optional(SensitiveString),
+    StateOrRegion: S.optional(SensitiveString),
     CountryCode: S.optional(S.String),
   }),
 ).annotations({
@@ -1227,8 +1231,8 @@ export const AddressSummary = S.suspend(() =>
 }) as any as S.Schema<AddressSummary>;
 export interface LeadCustomer {
   Industry?: string;
-  CompanyName: string;
-  WebsiteUrl?: string;
+  CompanyName: string | Redacted.Redacted<string>;
+  WebsiteUrl?: string | Redacted.Redacted<string>;
   Address: AddressSummary;
   AwsMaturity?: string;
   MarketSegment?: string;
@@ -1236,27 +1240,27 @@ export interface LeadCustomer {
 export const LeadCustomer = S.suspend(() =>
   S.Struct({
     Industry: S.optional(S.String),
-    CompanyName: S.String,
-    WebsiteUrl: S.optional(S.String),
+    CompanyName: SensitiveString,
+    WebsiteUrl: S.optional(SensitiveString),
     Address: AddressSummary,
     AwsMaturity: S.optional(S.String),
     MarketSegment: S.optional(S.String),
   }),
 ).annotations({ identifier: "LeadCustomer" }) as any as S.Schema<LeadCustomer>;
 export interface LeadContact {
-  BusinessTitle: string;
-  Email: string;
-  FirstName: string;
-  LastName: string;
-  Phone?: string;
+  BusinessTitle: string | Redacted.Redacted<string>;
+  Email: string | Redacted.Redacted<string>;
+  FirstName: string | Redacted.Redacted<string>;
+  LastName: string | Redacted.Redacted<string>;
+  Phone?: string | Redacted.Redacted<string>;
 }
 export const LeadContact = S.suspend(() =>
   S.Struct({
-    BusinessTitle: S.String,
-    Email: S.String,
-    FirstName: S.String,
-    LastName: S.String,
-    Phone: S.optional(S.String),
+    BusinessTitle: SensitiveString,
+    Email: SensitiveString,
+    FirstName: SensitiveString,
+    LastName: SensitiveString,
+    Phone: S.optional(SensitiveString),
   }),
 ).annotations({ identifier: "LeadContact" }) as any as S.Schema<LeadContact>;
 export interface LeadInteraction {
@@ -1266,7 +1270,7 @@ export interface LeadInteraction {
   Usecase?: string;
   InteractionDate?: Date;
   CustomerAction: string;
-  BusinessProblem?: string;
+  BusinessProblem?: string | Redacted.Redacted<string>;
   Contact: LeadContact;
 }
 export const LeadInteraction = S.suspend(() =>
@@ -1277,7 +1281,7 @@ export const LeadInteraction = S.suspend(() =>
     Usecase: S.optional(S.String),
     InteractionDate: S.optional(S.Date.pipe(T.TimestampFormat("date-time"))),
     CustomerAction: S.String,
-    BusinessProblem: S.optional(S.String),
+    BusinessProblem: S.optional(SensitiveString),
     Contact: LeadContact,
   }),
 ).annotations({
@@ -1375,19 +1379,19 @@ export const LastModifiedDate = S.suspend(() =>
   identifier: "LastModifiedDate",
 }) as any as S.Schema<LastModifiedDate>;
 export interface AssigneeContact {
-  Email: string;
-  FirstName: string;
-  LastName: string;
-  Phone?: string;
-  BusinessTitle: string;
+  Email: string | Redacted.Redacted<string>;
+  FirstName: string | Redacted.Redacted<string>;
+  LastName: string | Redacted.Redacted<string>;
+  Phone?: string | Redacted.Redacted<string>;
+  BusinessTitle: string | Redacted.Redacted<string>;
 }
 export const AssigneeContact = S.suspend(() =>
   S.Struct({
-    Email: S.String,
-    FirstName: S.String,
-    LastName: S.String,
-    Phone: S.optional(S.String),
-    BusinessTitle: S.String,
+    Email: SensitiveString,
+    FirstName: SensitiveString,
+    LastName: SensitiveString,
+    Phone: S.optional(SensitiveString),
+    BusinessTitle: SensitiveString,
   }),
 ).annotations({
   identifier: "AssigneeContact",
@@ -1493,10 +1497,10 @@ export interface GetEngagementResponse {
   Title?: string;
   Description?: string;
   CreatedAt?: Date;
-  CreatedBy?: string;
+  CreatedBy?: string | Redacted.Redacted<string>;
   MemberCount?: number;
   ModifiedAt?: Date;
-  ModifiedBy?: string;
+  ModifiedBy?: string | Redacted.Redacted<string>;
   Contexts?: EngagementContexts;
 }
 export const GetEngagementResponse = S.suspend(() =>
@@ -1506,10 +1510,10 @@ export const GetEngagementResponse = S.suspend(() =>
     Title: S.optional(S.String),
     Description: S.optional(S.String),
     CreatedAt: S.optional(S.Date.pipe(T.TimestampFormat("date-time"))),
-    CreatedBy: S.optional(S.String),
+    CreatedBy: S.optional(SensitiveString),
     MemberCount: S.optional(S.Number),
     ModifiedAt: S.optional(S.Date.pipe(T.TimestampFormat("date-time"))),
-    ModifiedBy: S.optional(S.String),
+    ModifiedBy: S.optional(SensitiveString),
     Contexts: S.optional(EngagementContexts),
   }),
 ).annotations({
@@ -1920,15 +1924,15 @@ export const UpdateEngagementContextPayload = S.Union(
   S.Struct({ CustomerProject: CustomerProjectsContext }),
 );
 export interface EngagementMember {
-  CompanyName?: string;
+  CompanyName?: string | Redacted.Redacted<string>;
   WebsiteUrl?: string;
-  AccountId?: string;
+  AccountId?: string | Redacted.Redacted<string>;
 }
 export const EngagementMember = S.suspend(() =>
   S.Struct({
-    CompanyName: S.optional(S.String),
+    CompanyName: S.optional(SensitiveString),
     WebsiteUrl: S.optional(S.String),
-    AccountId: S.optional(S.String),
+    AccountId: S.optional(SensitiveString),
   }),
 ).annotations({
   identifier: "EngagementMember",
@@ -1969,12 +1973,12 @@ export const ListEngagementFromOpportunityTaskSummaries = S.Array(
   ListEngagementFromOpportunityTaskSummary,
 );
 export interface EngagementMemberSummary {
-  CompanyName?: string;
+  CompanyName?: string | Redacted.Redacted<string>;
   WebsiteUrl?: string;
 }
 export const EngagementMemberSummary = S.suspend(() =>
   S.Struct({
-    CompanyName: S.optional(S.String),
+    CompanyName: S.optional(SensitiveString),
     WebsiteUrl: S.optional(S.String),
   }),
 ).annotations({
@@ -1999,16 +2003,16 @@ export const RelatedEntityIdentifiers = S.suspend(() =>
   identifier: "RelatedEntityIdentifiers",
 }) as any as S.Schema<RelatedEntityIdentifiers>;
 export interface AwsTeamMember {
-  Email?: string;
-  FirstName?: string;
-  LastName?: string;
+  Email?: string | Redacted.Redacted<string>;
+  FirstName?: string | Redacted.Redacted<string>;
+  LastName?: string | Redacted.Redacted<string>;
   BusinessTitle?: string;
 }
 export const AwsTeamMember = S.suspend(() =>
   S.Struct({
-    Email: S.optional(S.String),
-    FirstName: S.optional(S.String),
-    LastName: S.optional(S.String),
+    Email: S.optional(SensitiveString),
+    FirstName: S.optional(SensitiveString),
+    LastName: S.optional(SensitiveString),
     BusinessTitle: S.optional(S.String),
   }),
 ).annotations({
@@ -2086,7 +2090,7 @@ export interface EngagementResourceAssociationSummary {
   EngagementId?: string;
   ResourceType?: string;
   ResourceId?: string;
-  CreatedBy?: string;
+  CreatedBy?: string | Redacted.Redacted<string>;
 }
 export const EngagementResourceAssociationSummary = S.suspend(() =>
   S.Struct({
@@ -2094,7 +2098,7 @@ export const EngagementResourceAssociationSummary = S.suspend(() =>
     EngagementId: S.optional(S.String),
     ResourceType: S.optional(S.String),
     ResourceId: S.optional(S.String),
-    CreatedBy: S.optional(S.String),
+    CreatedBy: S.optional(SensitiveString),
   }),
 ).annotations({
   identifier: "EngagementResourceAssociationSummary",
@@ -2110,7 +2114,7 @@ export interface ResourceSnapshotSummary {
   ResourceType?: string;
   ResourceId?: string;
   ResourceSnapshotTemplateName?: string;
-  CreatedBy?: string;
+  CreatedBy?: string | Redacted.Redacted<string>;
 }
 export const ResourceSnapshotSummary = S.suspend(() =>
   S.Struct({
@@ -2119,7 +2123,7 @@ export const ResourceSnapshotSummary = S.suspend(() =>
     ResourceType: S.optional(S.String),
     ResourceId: S.optional(S.String),
     ResourceSnapshotTemplateName: S.optional(S.String),
-    CreatedBy: S.optional(S.String),
+    CreatedBy: S.optional(SensitiveString),
   }),
 ).annotations({
   identifier: "ResourceSnapshotSummary",
@@ -2127,11 +2131,14 @@ export const ResourceSnapshotSummary = S.suspend(() =>
 export type ResourceSnapshotSummaryList = ResourceSnapshotSummary[];
 export const ResourceSnapshotSummaryList = S.Array(ResourceSnapshotSummary);
 export interface AccountReceiver {
-  Alias?: string;
-  AwsAccountId: string;
+  Alias?: string | Redacted.Redacted<string>;
+  AwsAccountId: string | Redacted.Redacted<string>;
 }
 export const AccountReceiver = S.suspend(() =>
-  S.Struct({ Alias: S.optional(S.String), AwsAccountId: S.String }),
+  S.Struct({
+    Alias: S.optional(SensitiveString),
+    AwsAccountId: SensitiveString,
+  }),
 ).annotations({
   identifier: "AccountReceiver",
 }) as any as S.Schema<AccountReceiver>;
@@ -2233,19 +2240,19 @@ export const ListEngagementFromOpportunityTasksResponse = S.suspend(() =>
 export type Receiver = { Account: AccountReceiver };
 export const Receiver = S.Union(S.Struct({ Account: AccountReceiver }));
 export interface SenderContact {
-  Email: string;
-  FirstName?: string;
-  LastName?: string;
-  BusinessTitle?: string;
-  Phone?: string;
+  Email: string | Redacted.Redacted<string>;
+  FirstName?: string | Redacted.Redacted<string>;
+  LastName?: string | Redacted.Redacted<string>;
+  BusinessTitle?: string | Redacted.Redacted<string>;
+  Phone?: string | Redacted.Redacted<string>;
 }
 export const SenderContact = S.suspend(() =>
   S.Struct({
-    Email: S.String,
-    FirstName: S.optional(S.String),
-    LastName: S.optional(S.String),
-    BusinessTitle: S.optional(S.String),
-    Phone: S.optional(S.String),
+    Email: SensitiveString,
+    FirstName: S.optional(SensitiveString),
+    LastName: S.optional(SensitiveString),
+    BusinessTitle: S.optional(SensitiveString),
+    Phone: S.optional(SensitiveString),
   }),
 ).annotations({
   identifier: "SenderContact",
@@ -2253,14 +2260,14 @@ export const SenderContact = S.suspend(() =>
 export type SenderContactList = SenderContact[];
 export const SenderContactList = S.Array(SenderContact);
 export interface ProjectDetails {
-  BusinessProblem: string;
+  BusinessProblem: string | Redacted.Redacted<string>;
   Title: string;
   TargetCompletionDate: string;
   ExpectedCustomerSpend: ExpectedCustomerSpendList;
 }
 export const ProjectDetails = S.suspend(() =>
   S.Struct({
-    BusinessProblem: S.String,
+    BusinessProblem: SensitiveString,
     Title: S.String,
     TargetCompletionDate: S.String,
     ExpectedCustomerSpend: ExpectedCustomerSpendList,
@@ -2286,8 +2293,8 @@ export const OpportunityInvitationPayload = S.suspend(() =>
 }) as any as S.Schema<OpportunityInvitationPayload>;
 export interface LeadInvitationCustomer {
   Industry?: string;
-  CompanyName: string;
-  WebsiteUrl?: string;
+  CompanyName: string | Redacted.Redacted<string>;
+  WebsiteUrl?: string | Redacted.Redacted<string>;
   CountryCode: string;
   AwsMaturity?: string;
   MarketSegment?: string;
@@ -2295,8 +2302,8 @@ export interface LeadInvitationCustomer {
 export const LeadInvitationCustomer = S.suspend(() =>
   S.Struct({
     Industry: S.optional(S.String),
-    CompanyName: S.String,
-    WebsiteUrl: S.optional(S.String),
+    CompanyName: SensitiveString,
+    WebsiteUrl: S.optional(SensitiveString),
     CountryCode: S.String,
     AwsMaturity: S.optional(S.String),
     MarketSegment: S.optional(S.String),
@@ -2309,7 +2316,7 @@ export interface LeadInvitationInteraction {
   SourceId: string;
   SourceName: string;
   Usecase?: string;
-  ContactBusinessTitle: string;
+  ContactBusinessTitle: string | Redacted.Redacted<string>;
 }
 export const LeadInvitationInteraction = S.suspend(() =>
   S.Struct({
@@ -2317,7 +2324,7 @@ export const LeadInvitationInteraction = S.suspend(() =>
     SourceId: S.String,
     SourceName: S.String,
     Usecase: S.optional(S.String),
-    ContactBusinessTitle: S.String,
+    ContactBusinessTitle: SensitiveString,
   }),
 ).annotations({
   identifier: "LeadInvitationInteraction",
@@ -2350,13 +2357,13 @@ export interface GetEngagementInvitationResponse {
   Status?: string;
   InvitationDate?: Date;
   ExpirationDate?: Date;
-  SenderAwsAccountId?: string;
+  SenderAwsAccountId?: string | Redacted.Redacted<string>;
   SenderCompanyName?: string;
   Receiver?: (typeof Receiver)["Type"];
   Catalog: string;
   RejectionReason?: string;
   Payload?: (typeof Payload)["Type"];
-  InvitationMessage?: string;
+  InvitationMessage?: string | Redacted.Redacted<string>;
   EngagementDescription?: string;
   ExistingMembers?: EngagementMemberSummaries;
 }
@@ -2370,13 +2377,13 @@ export const GetEngagementInvitationResponse = S.suspend(() =>
     Status: S.optional(S.String),
     InvitationDate: S.optional(S.Date.pipe(T.TimestampFormat("date-time"))),
     ExpirationDate: S.optional(S.Date.pipe(T.TimestampFormat("date-time"))),
-    SenderAwsAccountId: S.optional(S.String),
+    SenderAwsAccountId: S.optional(SensitiveString),
     SenderCompanyName: S.optional(S.String),
     Receiver: S.optional(Receiver),
     Catalog: S.String,
     RejectionReason: S.optional(S.String),
     Payload: S.optional(Payload),
-    InvitationMessage: S.optional(S.String),
+    InvitationMessage: S.optional(SensitiveString),
     EngagementDescription: S.optional(S.String),
     ExistingMembers: S.optional(EngagementMemberSummaries),
   }),
@@ -2479,10 +2486,10 @@ export interface EngagementSummary {
   Id?: string;
   Title?: string;
   CreatedAt?: Date;
-  CreatedBy?: string;
+  CreatedBy?: string | Redacted.Redacted<string>;
   MemberCount?: number;
   ModifiedAt?: Date;
-  ModifiedBy?: string;
+  ModifiedBy?: string | Redacted.Redacted<string>;
   ContextTypes?: EngagementContextTypeList;
 }
 export const EngagementSummary = S.suspend(() =>
@@ -2491,10 +2498,10 @@ export const EngagementSummary = S.suspend(() =>
     Id: S.optional(S.String),
     Title: S.optional(S.String),
     CreatedAt: S.optional(S.Date.pipe(T.TimestampFormat("date-time"))),
-    CreatedBy: S.optional(S.String),
+    CreatedBy: S.optional(SensitiveString),
     MemberCount: S.optional(S.Number),
     ModifiedAt: S.optional(S.Date.pipe(T.TimestampFormat("date-time"))),
-    ModifiedBy: S.optional(S.String),
+    ModifiedBy: S.optional(SensitiveString),
     ContextTypes: S.optional(EngagementContextTypeList),
   }),
 ).annotations({
@@ -2542,7 +2549,7 @@ export interface EngagementInvitationSummary {
   Status?: string;
   InvitationDate?: Date;
   ExpirationDate?: Date;
-  SenderAwsAccountId?: string;
+  SenderAwsAccountId?: string | Redacted.Redacted<string>;
   SenderCompanyName?: string;
   Receiver?: (typeof Receiver)["Type"];
   Catalog: string;
@@ -2558,7 +2565,7 @@ export const EngagementInvitationSummary = S.suspend(() =>
     Status: S.optional(S.String),
     InvitationDate: S.optional(S.Date.pipe(T.TimestampFormat("date-time"))),
     ExpirationDate: S.optional(S.Date.pipe(T.TimestampFormat("date-time"))),
-    SenderAwsAccountId: S.optional(S.String),
+    SenderAwsAccountId: S.optional(SensitiveString),
     SenderCompanyName: S.optional(S.String),
     Receiver: S.optional(Receiver),
     Catalog: S.String,
@@ -2575,7 +2582,7 @@ export interface AwsOpportunityLifeCycle {
   TargetCloseDate?: string;
   ClosedLostReason?: string;
   Stage?: string;
-  NextSteps?: string;
+  NextSteps?: string | Redacted.Redacted<string>;
   NextStepsHistory?: ProfileNextStepsHistories;
 }
 export const AwsOpportunityLifeCycle = S.suspend(() =>
@@ -2583,7 +2590,7 @@ export const AwsOpportunityLifeCycle = S.suspend(() =>
     TargetCloseDate: S.optional(S.String),
     ClosedLostReason: S.optional(S.String),
     Stage: S.optional(S.String),
-    NextSteps: S.optional(S.String),
+    NextSteps: S.optional(SensitiveString),
     NextStepsHistory: S.optional(ProfileNextStepsHistories),
   }),
 ).annotations({
@@ -2635,14 +2642,14 @@ export interface LifeCycleForView {
   TargetCloseDate?: string;
   ReviewStatus?: string;
   Stage?: string;
-  NextSteps?: string;
+  NextSteps?: string | Redacted.Redacted<string>;
 }
 export const LifeCycleForView = S.suspend(() =>
   S.Struct({
     TargetCloseDate: S.optional(S.String),
     ReviewStatus: S.optional(S.String),
     Stage: S.optional(S.String),
-    NextSteps: S.optional(S.String),
+    NextSteps: S.optional(SensitiveString),
   }),
 ).annotations({
   identifier: "LifeCycleForView",
@@ -2652,7 +2659,7 @@ export interface ProjectView {
   ExpectedCustomerSpend?: ExpectedCustomerSpendList;
   CustomerUseCase?: string;
   SalesActivities?: SalesActivities;
-  OtherSolutionDescription?: string;
+  OtherSolutionDescription?: string | Redacted.Redacted<string>;
 }
 export const ProjectView = S.suspend(() =>
   S.Struct({
@@ -2660,7 +2667,7 @@ export const ProjectView = S.suspend(() =>
     ExpectedCustomerSpend: S.optional(ExpectedCustomerSpendList),
     CustomerUseCase: S.optional(S.String),
     SalesActivities: S.optional(SalesActivities),
-    OtherSolutionDescription: S.optional(S.String),
+    OtherSolutionDescription: S.optional(SensitiveString),
   }),
 ).annotations({ identifier: "ProjectView" }) as any as S.Schema<ProjectView>;
 export interface UpdateEngagementContextResponse {
@@ -2787,7 +2794,7 @@ export const ListSolutionsResponse = S.suspend(() =>
 export interface LifeCycleSummary {
   Stage?: string;
   ClosedLostReason?: string;
-  NextSteps?: string;
+  NextSteps?: string | Redacted.Redacted<string>;
   TargetCloseDate?: string;
   ReviewStatus?: string;
   ReviewComments?: string;
@@ -2797,7 +2804,7 @@ export const LifeCycleSummary = S.suspend(() =>
   S.Struct({
     Stage: S.optional(S.String),
     ClosedLostReason: S.optional(S.String),
-    NextSteps: S.optional(S.String),
+    NextSteps: S.optional(SensitiveString),
     TargetCloseDate: S.optional(S.String),
     ReviewStatus: S.optional(S.String),
     ReviewComments: S.optional(S.String),
@@ -2840,15 +2847,15 @@ export const OpportunitySummaryView = S.suspend(() =>
 ).annotations({
   identifier: "OpportunitySummaryView",
 }) as any as S.Schema<OpportunitySummaryView>;
-export type AmountMap = { [key: string]: string };
-export const AmountMap = S.Record({ key: S.String, value: S.String });
+export type AmountMap = { [key: string]: string | Redacted.Redacted<string> };
+export const AmountMap = S.Record({ key: S.String, value: SensitiveString });
 export interface Invitation {
-  Message: string;
+  Message: string | Redacted.Redacted<string>;
   Receiver: (typeof Receiver)["Type"];
   Payload: (typeof Payload)["Type"];
 }
 export const Invitation = S.suspend(() =>
-  S.Struct({ Message: S.String, Receiver: Receiver, Payload: Payload }),
+  S.Struct({ Message: SensitiveString, Receiver: Receiver, Payload: Payload }),
 ).annotations({ identifier: "Invitation" }) as any as S.Schema<Invitation>;
 export type ResourceSnapshotPayload = {
   OpportunitySummary: OpportunitySummaryView;
@@ -2859,16 +2866,16 @@ export const ResourceSnapshotPayload = S.Union(
 export interface AccountSummary {
   Industry?: string;
   OtherIndustry?: string;
-  CompanyName: string;
-  WebsiteUrl?: string;
+  CompanyName: string | Redacted.Redacted<string>;
+  WebsiteUrl?: string | Redacted.Redacted<string>;
   Address?: AddressSummary;
 }
 export const AccountSummary = S.suspend(() =>
   S.Struct({
     Industry: S.optional(S.String),
     OtherIndustry: S.optional(S.String),
-    CompanyName: S.String,
-    WebsiteUrl: S.optional(S.String),
+    CompanyName: SensitiveString,
+    WebsiteUrl: S.optional(SensitiveString),
     Address: S.optional(AddressSummary),
   }),
 ).annotations({
@@ -2942,10 +2949,10 @@ export const CreateOpportunityResponse = S.suspend(() =>
 }) as any as S.Schema<CreateOpportunityResponse>;
 export interface AwsProductOptimization {
   Description: string;
-  SavingsAmount: string;
+  SavingsAmount: string | Redacted.Redacted<string>;
 }
 export const AwsProductOptimization = S.suspend(() =>
-  S.Struct({ Description: S.String, SavingsAmount: S.String }),
+  S.Struct({ Description: S.String, SavingsAmount: SensitiveString }),
 ).annotations({
   identifier: "AwsProductOptimization",
 }) as any as S.Schema<AwsProductOptimization>;
@@ -2954,7 +2961,7 @@ export const AwsProductOptimizationsList = S.Array(AwsProductOptimization);
 export interface GetResourceSnapshotResponse {
   Catalog: string;
   Arn?: string;
-  CreatedBy?: string;
+  CreatedBy?: string | Redacted.Redacted<string>;
   CreatedAt?: Date;
   EngagementId?: string;
   ResourceType?: string;
@@ -2967,7 +2974,7 @@ export const GetResourceSnapshotResponse = S.suspend(() =>
   S.Struct({
     Catalog: S.String,
     Arn: S.optional(S.String),
-    CreatedBy: S.optional(S.String),
+    CreatedBy: S.optional(SensitiveString),
     CreatedAt: S.optional(S.Date.pipe(T.TimestampFormat("date-time"))),
     EngagementId: S.optional(S.String),
     ResourceType: S.optional(S.String),
@@ -2991,9 +2998,9 @@ export interface AwsProductDetails {
   ProductCode: string;
   ServiceCode?: string;
   Categories: StringList;
-  Amount?: string;
-  OptimizedAmount?: string;
-  PotentialSavingsAmount?: string;
+  Amount?: string | Redacted.Redacted<string>;
+  OptimizedAmount?: string | Redacted.Redacted<string>;
+  PotentialSavingsAmount?: string | Redacted.Redacted<string>;
   Optimizations: AwsProductOptimizationsList;
 }
 export const AwsProductDetails = S.suspend(() =>
@@ -3001,9 +3008,9 @@ export const AwsProductDetails = S.suspend(() =>
     ProductCode: S.String,
     ServiceCode: S.optional(S.String),
     Categories: StringList,
-    Amount: S.optional(S.String),
-    OptimizedAmount: S.optional(S.String),
-    PotentialSavingsAmount: S.optional(S.String),
+    Amount: S.optional(SensitiveString),
+    OptimizedAmount: S.optional(SensitiveString),
+    PotentialSavingsAmount: S.optional(SensitiveString),
     Optimizations: AwsProductOptimizationsList,
   }),
 ).annotations({
@@ -3044,9 +3051,9 @@ export const OpportunitySummaries = S.Array(OpportunitySummary);
 export interface AwsProductInsights {
   CurrencyCode: string;
   Frequency: string;
-  TotalAmount?: string;
-  TotalOptimizedAmount?: string;
-  TotalPotentialSavingsAmount?: string;
+  TotalAmount?: string | Redacted.Redacted<string>;
+  TotalOptimizedAmount?: string | Redacted.Redacted<string>;
+  TotalPotentialSavingsAmount?: string | Redacted.Redacted<string>;
   TotalAmountByCategory: AmountMap;
   AwsProducts: AwsProductsList;
 }
@@ -3054,9 +3061,9 @@ export const AwsProductInsights = S.suspend(() =>
   S.Struct({
     CurrencyCode: S.String,
     Frequency: S.String,
-    TotalAmount: S.optional(S.String),
-    TotalOptimizedAmount: S.optional(S.String),
-    TotalPotentialSavingsAmount: S.optional(S.String),
+    TotalAmount: S.optional(SensitiveString),
+    TotalOptimizedAmount: S.optional(SensitiveString),
+    TotalPotentialSavingsAmount: S.optional(SensitiveString),
     TotalAmountByCategory: AmountMap,
     AwsProducts: AwsProductsList,
   }),

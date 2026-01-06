@@ -1,5 +1,6 @@
 import { HttpClient } from "@effect/platform";
 import * as Effect from "effect/Effect";
+import * as Redacted from "effect/Redacted";
 import * as S from "effect/Schema";
 import * as Stream from "effect/Stream";
 import * as API from "../api.ts";
@@ -10,6 +11,7 @@ import {
   ErrorCategory,
   Errors,
 } from "../index.ts";
+import { SensitiveString, SensitiveBlob } from "../sensitive.ts";
 const svc = T.AwsApiService({
   sdkId: "finspace data",
   serviceShapeName: "AWSHabaneroPublicAPI",
@@ -259,11 +261,11 @@ export type DatasetDescription = string;
 export type AliasString = string;
 export type StringValueLength1to255 = string;
 export type TimestampEpoch = number;
-export type PermissionGroupName = string;
-export type PermissionGroupDescription = string;
-export type Email = string;
-export type FirstName = string;
-export type LastName = string;
+export type PermissionGroupName = string | Redacted.Redacted<string>;
+export type PermissionGroupDescription = string | Redacted.Redacted<string>;
+export type Email = string | Redacted.Redacted<string>;
+export type FirstName = string | Redacted.Redacted<string>;
+export type LastName = string | Redacted.Redacted<string>;
 export type RoleArn = string;
 export type ChangesetId = string;
 export type DataViewId = string;
@@ -282,13 +284,13 @@ export type DatasetArn = string;
 export type DataViewArn = string;
 export type stringValueLength1to1024 = string;
 export type stringValueLength1to63 = string;
-export type Password = string;
+export type Password = string | Redacted.Redacted<string>;
 export type StringValueLength1to250 = string;
 export type ColumnName = string;
 export type ErrorMessage = string;
 export type AccessKeyId = string;
-export type SecretAccessKey = string;
-export type SessionToken = string;
+export type SecretAccessKey = string | Redacted.Redacted<string>;
+export type SessionToken = string | Redacted.Redacted<string>;
 export type S3BucketName = string;
 export type S3Key = string;
 export type StringValueLength1to2552 = string;
@@ -330,15 +332,15 @@ export const AssociateUserToPermissionGroupRequest = S.suspend(() =>
   identifier: "AssociateUserToPermissionGroupRequest",
 }) as any as S.Schema<AssociateUserToPermissionGroupRequest>;
 export interface CreatePermissionGroupRequest {
-  name: string;
-  description?: string;
+  name: string | Redacted.Redacted<string>;
+  description?: string | Redacted.Redacted<string>;
   applicationPermissions: ApplicationPermissionList;
   clientToken?: string;
 }
 export const CreatePermissionGroupRequest = S.suspend(() =>
   S.Struct({
-    name: S.String,
-    description: S.optional(S.String),
+    name: SensitiveString,
+    description: S.optional(SensitiveString),
     applicationPermissions: ApplicationPermissionList,
     clientToken: S.optional(S.String),
   }).pipe(
@@ -355,20 +357,20 @@ export const CreatePermissionGroupRequest = S.suspend(() =>
   identifier: "CreatePermissionGroupRequest",
 }) as any as S.Schema<CreatePermissionGroupRequest>;
 export interface CreateUserRequest {
-  emailAddress: string;
+  emailAddress: string | Redacted.Redacted<string>;
   type: string;
-  firstName?: string;
-  lastName?: string;
+  firstName?: string | Redacted.Redacted<string>;
+  lastName?: string | Redacted.Redacted<string>;
   apiAccess?: string;
   apiAccessPrincipalArn?: string;
   clientToken?: string;
 }
 export const CreateUserRequest = S.suspend(() =>
   S.Struct({
-    emailAddress: S.String,
+    emailAddress: SensitiveString,
     type: S.String,
-    firstName: S.optional(S.String),
-    lastName: S.optional(S.String),
+    firstName: S.optional(SensitiveString),
+    lastName: S.optional(SensitiveString),
     apiAccess: S.optional(S.String),
     apiAccessPrincipalArn: S.optional(S.String),
     clientToken: S.optional(S.String),
@@ -945,16 +947,16 @@ export const UpdateDatasetRequest = S.suspend(() =>
 }) as any as S.Schema<UpdateDatasetRequest>;
 export interface UpdatePermissionGroupRequest {
   permissionGroupId: string;
-  name?: string;
-  description?: string;
+  name?: string | Redacted.Redacted<string>;
+  description?: string | Redacted.Redacted<string>;
   applicationPermissions?: ApplicationPermissionList;
   clientToken?: string;
 }
 export const UpdatePermissionGroupRequest = S.suspend(() =>
   S.Struct({
     permissionGroupId: S.String.pipe(T.HttpLabel("permissionGroupId")),
-    name: S.optional(S.String),
-    description: S.optional(S.String),
+    name: S.optional(SensitiveString),
+    description: S.optional(SensitiveString),
     applicationPermissions: S.optional(ApplicationPermissionList),
     clientToken: S.optional(S.String),
   }).pipe(
@@ -973,8 +975,8 @@ export const UpdatePermissionGroupRequest = S.suspend(() =>
 export interface UpdateUserRequest {
   userId: string;
   type?: string;
-  firstName?: string;
-  lastName?: string;
+  firstName?: string | Redacted.Redacted<string>;
+  lastName?: string | Redacted.Redacted<string>;
   apiAccess?: string;
   apiAccessPrincipalArn?: string;
   clientToken?: string;
@@ -983,8 +985,8 @@ export const UpdateUserRequest = S.suspend(() =>
   S.Struct({
     userId: S.String.pipe(T.HttpLabel("userId")),
     type: S.optional(S.String),
-    firstName: S.optional(S.String),
-    lastName: S.optional(S.String),
+    firstName: S.optional(SensitiveString),
+    lastName: S.optional(SensitiveString),
     apiAccess: S.optional(S.String),
     apiAccessPrincipalArn: S.optional(S.String),
     clientToken: S.optional(S.String),
@@ -1004,21 +1006,21 @@ export const UpdateUserRequest = S.suspend(() =>
 export interface DatasetOwnerInfo {
   name?: string;
   phoneNumber?: string;
-  email?: string;
+  email?: string | Redacted.Redacted<string>;
 }
 export const DatasetOwnerInfo = S.suspend(() =>
   S.Struct({
     name: S.optional(S.String),
     phoneNumber: S.optional(S.String),
-    email: S.optional(S.String),
+    email: S.optional(SensitiveString),
   }),
 ).annotations({
   identifier: "DatasetOwnerInfo",
 }) as any as S.Schema<DatasetOwnerInfo>;
 export interface PermissionGroup {
   permissionGroupId?: string;
-  name?: string;
-  description?: string;
+  name?: string | Redacted.Redacted<string>;
+  description?: string | Redacted.Redacted<string>;
   applicationPermissions?: ApplicationPermissionList;
   createTime?: number;
   lastModifiedTime?: number;
@@ -1027,8 +1029,8 @@ export interface PermissionGroup {
 export const PermissionGroup = S.suspend(() =>
   S.Struct({
     permissionGroupId: S.optional(S.String),
-    name: S.optional(S.String),
-    description: S.optional(S.String),
+    name: S.optional(SensitiveString),
+    description: S.optional(SensitiveString),
     applicationPermissions: S.optional(ApplicationPermissionList),
     createTime: S.optional(S.Number),
     lastModifiedTime: S.optional(S.Number),
@@ -1161,9 +1163,9 @@ export const GetDatasetResponse = S.suspend(() =>
 export interface GetUserResponse {
   userId?: string;
   status?: string;
-  firstName?: string;
-  lastName?: string;
-  emailAddress?: string;
+  firstName?: string | Redacted.Redacted<string>;
+  lastName?: string | Redacted.Redacted<string>;
+  emailAddress?: string | Redacted.Redacted<string>;
   type?: string;
   apiAccess?: string;
   apiAccessPrincipalArn?: string;
@@ -1177,9 +1179,9 @@ export const GetUserResponse = S.suspend(() =>
   S.Struct({
     userId: S.optional(S.String),
     status: S.optional(S.String),
-    firstName: S.optional(S.String),
-    lastName: S.optional(S.String),
-    emailAddress: S.optional(S.String),
+    firstName: S.optional(SensitiveString),
+    lastName: S.optional(SensitiveString),
+    emailAddress: S.optional(SensitiveString),
     type: S.optional(S.String),
     apiAccess: S.optional(S.String),
     apiAccessPrincipalArn: S.optional(S.String),
@@ -1220,12 +1222,12 @@ export const ListPermissionGroupsResponse = S.suspend(() =>
 }) as any as S.Schema<ListPermissionGroupsResponse>;
 export interface ResetUserPasswordResponse {
   userId?: string;
-  temporaryPassword?: string;
+  temporaryPassword?: string | Redacted.Redacted<string>;
 }
 export const ResetUserPasswordResponse = S.suspend(() =>
   S.Struct({
     userId: S.optional(S.String),
-    temporaryPassword: S.optional(S.String),
+    temporaryPassword: S.optional(SensitiveString),
   }),
 ).annotations({
   identifier: "ResetUserPasswordResponse",
@@ -1335,15 +1337,15 @@ export const DataViewErrorInfo = S.suspend(() =>
 }) as any as S.Schema<DataViewErrorInfo>;
 export interface AwsCredentials {
   accessKeyId?: string;
-  secretAccessKey?: string;
-  sessionToken?: string;
+  secretAccessKey?: string | Redacted.Redacted<string>;
+  sessionToken?: string | Redacted.Redacted<string>;
   expiration?: number;
 }
 export const AwsCredentials = S.suspend(() =>
   S.Struct({
     accessKeyId: S.optional(S.String),
-    secretAccessKey: S.optional(S.String),
-    sessionToken: S.optional(S.String),
+    secretAccessKey: S.optional(SensitiveString),
+    sessionToken: S.optional(SensitiveString),
     expiration: S.optional(S.Number),
   }),
 ).annotations({
@@ -1468,13 +1470,13 @@ export type DataViewList = DataViewSummary[];
 export const DataViewList = S.Array(DataViewSummary);
 export interface PermissionGroupByUser {
   permissionGroupId?: string;
-  name?: string;
+  name?: string | Redacted.Redacted<string>;
   membershipStatus?: string;
 }
 export const PermissionGroupByUser = S.suspend(() =>
   S.Struct({
     permissionGroupId: S.optional(S.String),
-    name: S.optional(S.String),
+    name: S.optional(SensitiveString),
     membershipStatus: S.optional(S.String),
   }),
 ).annotations({
@@ -1485,9 +1487,9 @@ export const PermissionGroupByUserList = S.Array(PermissionGroupByUser);
 export interface User {
   userId?: string;
   status?: string;
-  firstName?: string;
-  lastName?: string;
-  emailAddress?: string;
+  firstName?: string | Redacted.Redacted<string>;
+  lastName?: string | Redacted.Redacted<string>;
+  emailAddress?: string | Redacted.Redacted<string>;
   type?: string;
   apiAccess?: string;
   apiAccessPrincipalArn?: string;
@@ -1501,9 +1503,9 @@ export const User = S.suspend(() =>
   S.Struct({
     userId: S.optional(S.String),
     status: S.optional(S.String),
-    firstName: S.optional(S.String),
-    lastName: S.optional(S.String),
-    emailAddress: S.optional(S.String),
+    firstName: S.optional(SensitiveString),
+    lastName: S.optional(SensitiveString),
+    emailAddress: S.optional(SensitiveString),
     type: S.optional(S.String),
     apiAccess: S.optional(S.String),
     apiAccessPrincipalArn: S.optional(S.String),
@@ -1519,9 +1521,9 @@ export const UserList = S.Array(User);
 export interface UserByPermissionGroup {
   userId?: string;
   status?: string;
-  firstName?: string;
-  lastName?: string;
-  emailAddress?: string;
+  firstName?: string | Redacted.Redacted<string>;
+  lastName?: string | Redacted.Redacted<string>;
+  emailAddress?: string | Redacted.Redacted<string>;
   type?: string;
   apiAccess?: string;
   apiAccessPrincipalArn?: string;
@@ -1531,9 +1533,9 @@ export const UserByPermissionGroup = S.suspend(() =>
   S.Struct({
     userId: S.optional(S.String),
     status: S.optional(S.String),
-    firstName: S.optional(S.String),
-    lastName: S.optional(S.String),
-    emailAddress: S.optional(S.String),
+    firstName: S.optional(SensitiveString),
+    lastName: S.optional(SensitiveString),
+    emailAddress: S.optional(SensitiveString),
     type: S.optional(S.String),
     apiAccess: S.optional(S.String),
     apiAccessPrincipalArn: S.optional(S.String),

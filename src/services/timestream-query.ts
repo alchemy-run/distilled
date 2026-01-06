@@ -1,5 +1,6 @@
 import { HttpClient } from "@effect/platform";
 import * as Effect from "effect/Effect";
+import * as Redacted from "effect/Redacted";
 import * as S from "effect/Schema";
 import * as Stream from "effect/Stream";
 import * as API from "../api.ts";
@@ -10,6 +11,7 @@ import {
   ErrorCategory,
   Errors,
 } from "../index.ts";
+import { SensitiveString, SensitiveBlob } from "../sensitive.ts";
 const svc = T.AwsApiService({
   sdkId: "Timestream Query",
   serviceShapeName: "Timestream_20181101",
@@ -352,8 +354,8 @@ const rules = T.EndpointRuleSet({
 //# Newtypes
 export type QueryId = string;
 export type ScheduledQueryName = string;
-export type QueryString = string;
-export type ClientToken = string;
+export type QueryString = string | Redacted.Redacted<string>;
+export type ClientToken = string | Redacted.Redacted<string>;
 export type AmazonResourceName = string;
 export type StringValue2048 = string;
 export type MaxQueryCapacity = number;
@@ -361,7 +363,7 @@ export type MaxScheduledQueriesResults = number;
 export type NextScheduledQueriesResultsToken = string;
 export type MaxTagsForResourceResult = number;
 export type NextTagsForResourceResultsToken = string;
-export type ClientRequestToken = string;
+export type ClientRequestToken = string | Redacted.Redacted<string>;
 export type PaginationToken = string;
 export type MaxQueryResults = number;
 export type TagKey = string;
@@ -467,11 +469,14 @@ export const ListTagsForResourceRequest = S.suspend(() =>
   identifier: "ListTagsForResourceRequest",
 }) as any as S.Schema<ListTagsForResourceRequest>;
 export interface PrepareQueryRequest {
-  QueryString: string;
+  QueryString: string | Redacted.Redacted<string>;
   ValidateOnly?: boolean;
 }
 export const PrepareQueryRequest = S.suspend(() =>
-  S.Struct({ QueryString: S.String, ValidateOnly: S.optional(S.Boolean) }).pipe(
+  S.Struct({
+    QueryString: SensitiveString,
+    ValidateOnly: S.optional(S.Boolean),
+  }).pipe(
     T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
   ),
 ).annotations({
@@ -585,14 +590,14 @@ export const DescribeEndpointsResponse = S.suspend(() =>
 export interface ExecuteScheduledQueryRequest {
   ScheduledQueryArn: string;
   InvocationTime: Date;
-  ClientToken?: string;
+  ClientToken?: string | Redacted.Redacted<string>;
   QueryInsights?: ScheduledQueryInsights;
 }
 export const ExecuteScheduledQueryRequest = S.suspend(() =>
   S.Struct({
     ScheduledQueryArn: S.String,
     InvocationTime: S.Date.pipe(T.TimestampFormat("epoch-seconds")),
-    ClientToken: S.optional(S.String),
+    ClientToken: S.optional(SensitiveString),
     QueryInsights: S.optional(ScheduledQueryInsights),
   }).pipe(
     T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
@@ -616,16 +621,16 @@ export const ListTagsForResourceResponse = S.suspend(() =>
   identifier: "ListTagsForResourceResponse",
 }) as any as S.Schema<ListTagsForResourceResponse>;
 export interface QueryRequest {
-  QueryString: string;
-  ClientToken?: string;
+  QueryString: string | Redacted.Redacted<string>;
+  ClientToken?: string | Redacted.Redacted<string>;
   NextToken?: string;
   MaxRows?: number;
   QueryInsights?: QueryInsights;
 }
 export const QueryRequest = S.suspend(() =>
   S.Struct({
-    QueryString: S.String,
-    ClientToken: S.optional(S.String),
+    QueryString: SensitiveString,
+    ClientToken: S.optional(SensitiveString),
     NextToken: S.optional(S.String),
     MaxRows: S.optional(S.Number),
     QueryInsights: S.optional(QueryInsights),
@@ -1061,13 +1066,13 @@ export const DescribeAccountSettingsResponse = S.suspend(() =>
   identifier: "DescribeAccountSettingsResponse",
 }) as any as S.Schema<DescribeAccountSettingsResponse>;
 export interface PrepareQueryResponse {
-  QueryString: string;
+  QueryString: string | Redacted.Redacted<string>;
   Columns: SelectColumnList;
   Parameters: ParameterMappingList;
 }
 export const PrepareQueryResponse = S.suspend(() =>
   S.Struct({
-    QueryString: S.String,
+    QueryString: SensitiveString,
     Columns: SelectColumnList,
     Parameters: ParameterMappingList,
   }),
@@ -1180,11 +1185,11 @@ export const TimeSeriesDataPointList = S.Array(
 ) as any as S.Schema<TimeSeriesDataPointList>;
 export interface CreateScheduledQueryRequest {
   Name: string;
-  QueryString: string;
+  QueryString: string | Redacted.Redacted<string>;
   ScheduleConfiguration: ScheduleConfiguration;
   NotificationConfiguration: NotificationConfiguration;
   TargetConfiguration?: TargetConfiguration;
-  ClientToken?: string;
+  ClientToken?: string | Redacted.Redacted<string>;
   ScheduledQueryExecutionRoleArn: string;
   Tags?: TagList;
   KmsKeyId?: string;
@@ -1193,11 +1198,11 @@ export interface CreateScheduledQueryRequest {
 export const CreateScheduledQueryRequest = S.suspend(() =>
   S.Struct({
     Name: S.String,
-    QueryString: S.String,
+    QueryString: SensitiveString,
     ScheduleConfiguration: ScheduleConfiguration,
     NotificationConfiguration: NotificationConfiguration,
     TargetConfiguration: S.optional(TargetConfiguration),
-    ClientToken: S.optional(S.String),
+    ClientToken: S.optional(SensitiveString),
     ScheduledQueryExecutionRoleArn: S.String,
     Tags: S.optional(TagList),
     KmsKeyId: S.optional(S.String),
@@ -1255,7 +1260,7 @@ export const DatumList = S.Array(
 export interface ScheduledQueryDescription {
   Arn: string;
   Name: string;
-  QueryString: string;
+  QueryString: string | Redacted.Redacted<string>;
   CreationTime?: Date;
   State: string;
   PreviousInvocationTime?: Date;
@@ -1273,7 +1278,7 @@ export const ScheduledQueryDescription = S.suspend(() =>
   S.Struct({
     Arn: S.String,
     Name: S.String,
-    QueryString: S.String,
+    QueryString: SensitiveString,
     CreationTime: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
     State: S.String,
     PreviousInvocationTime: S.optional(

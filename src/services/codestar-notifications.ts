@@ -1,5 +1,6 @@
 import { HttpClient } from "@effect/platform";
 import * as Effect from "effect/Effect";
+import * as Redacted from "effect/Redacted";
 import * as S from "effect/Schema";
 import * as Stream from "effect/Stream";
 import * as API from "../api.ts";
@@ -10,6 +11,7 @@ import {
   ErrorCategory,
   Errors,
 } from "../index.ts";
+import { SensitiveString, SensitiveBlob } from "../sensitive.ts";
 const svc = T.AwsApiService({
   sdkId: "codestar notifications",
   serviceShapeName: "CodeStarNotifications_20191015",
@@ -250,12 +252,12 @@ const rules = T.EndpointRuleSet({
 });
 
 //# Newtypes
-export type NotificationRuleName = string;
+export type NotificationRuleName = string | Redacted.Redacted<string>;
 export type EventTypeId = string;
 export type NotificationRuleResource = string;
 export type ClientRequestToken = string;
 export type NotificationRuleArn = string;
-export type TargetAddress = string;
+export type TargetAddress = string | Redacted.Redacted<string>;
 export type NextToken = string;
 export type MaxResults = number;
 export type TagKey = string;
@@ -294,12 +296,12 @@ export const DeleteNotificationRuleRequest = S.suspend(() =>
   identifier: "DeleteNotificationRuleRequest",
 }) as any as S.Schema<DeleteNotificationRuleRequest>;
 export interface DeleteTargetRequest {
-  TargetAddress: string;
+  TargetAddress: string | Redacted.Redacted<string>;
   ForceUnsubscribeAll?: boolean;
 }
 export const DeleteTargetRequest = S.suspend(() =>
   S.Struct({
-    TargetAddress: S.String,
+    TargetAddress: SensitiveString,
     ForceUnsubscribeAll: S.optional(S.Boolean),
   }).pipe(
     T.all(
@@ -354,12 +356,12 @@ export const ListTagsForResourceRequest = S.suspend(() =>
 }) as any as S.Schema<ListTagsForResourceRequest>;
 export interface Target {
   TargetType?: string;
-  TargetAddress?: string;
+  TargetAddress?: string | Redacted.Redacted<string>;
 }
 export const Target = S.suspend(() =>
   S.Struct({
     TargetType: S.optional(S.String),
-    TargetAddress: S.optional(S.String),
+    TargetAddress: S.optional(SensitiveString),
   }),
 ).annotations({ identifier: "Target" }) as any as S.Schema<Target>;
 export interface SubscribeRequest {
@@ -407,10 +409,10 @@ export const TagResourceRequest = S.suspend(() =>
 }) as any as S.Schema<TagResourceRequest>;
 export interface UnsubscribeRequest {
   Arn: string;
-  TargetAddress: string;
+  TargetAddress: string | Redacted.Redacted<string>;
 }
 export const UnsubscribeRequest = S.suspend(() =>
-  S.Struct({ Arn: S.String, TargetAddress: S.String }).pipe(
+  S.Struct({ Arn: S.String, TargetAddress: SensitiveString }).pipe(
     T.all(
       T.Http({ method: "POST", uri: "/unsubscribe" }),
       svc,
@@ -452,7 +454,7 @@ export type Targets = Target[];
 export const Targets = S.Array(Target);
 export interface UpdateNotificationRuleRequest {
   Arn: string;
-  Name?: string;
+  Name?: string | Redacted.Redacted<string>;
   Status?: string;
   EventTypeIds?: EventTypeIds;
   Targets?: Targets;
@@ -461,7 +463,7 @@ export interface UpdateNotificationRuleRequest {
 export const UpdateNotificationRuleRequest = S.suspend(() =>
   S.Struct({
     Arn: S.String,
-    Name: S.optional(S.String),
+    Name: S.optional(SensitiveString),
     Status: S.optional(S.String),
     EventTypeIds: S.optional(EventTypeIds),
     Targets: S.optional(Targets),
@@ -521,7 +523,7 @@ export const ListTargetsFilter = S.suspend(() =>
 export type ListTargetsFilters = ListTargetsFilter[];
 export const ListTargetsFilters = S.Array(ListTargetsFilter);
 export interface CreateNotificationRuleRequest {
-  Name: string;
+  Name: string | Redacted.Redacted<string>;
   EventTypeIds: EventTypeIds;
   Resource: string;
   Targets: Targets;
@@ -532,7 +534,7 @@ export interface CreateNotificationRuleRequest {
 }
 export const CreateNotificationRuleRequest = S.suspend(() =>
   S.Struct({
-    Name: S.String,
+    Name: SensitiveString,
     EventTypeIds: EventTypeIds,
     Resource: S.String,
     Targets: Targets,
@@ -681,13 +683,13 @@ export const EventTypeSummary = S.suspend(() =>
 export type EventTypeBatch = EventTypeSummary[];
 export const EventTypeBatch = S.Array(EventTypeSummary);
 export interface TargetSummary {
-  TargetAddress?: string;
+  TargetAddress?: string | Redacted.Redacted<string>;
   TargetType?: string;
   TargetStatus?: string;
 }
 export const TargetSummary = S.suspend(() =>
   S.Struct({
-    TargetAddress: S.optional(S.String),
+    TargetAddress: S.optional(SensitiveString),
     TargetType: S.optional(S.String),
     TargetStatus: S.optional(S.String),
   }),
@@ -706,7 +708,7 @@ export const CreateNotificationRuleResult = S.suspend(() =>
 }) as any as S.Schema<CreateNotificationRuleResult>;
 export interface DescribeNotificationRuleResult {
   Arn: string;
-  Name?: string;
+  Name?: string | Redacted.Redacted<string>;
   EventTypes?: EventTypeBatch;
   Resource?: string;
   Targets?: TargetsBatch;
@@ -720,7 +722,7 @@ export interface DescribeNotificationRuleResult {
 export const DescribeNotificationRuleResult = S.suspend(() =>
   S.Struct({
     Arn: S.String,
-    Name: S.optional(S.String),
+    Name: S.optional(SensitiveString),
     EventTypes: S.optional(EventTypeBatch),
     Resource: S.optional(S.String),
     Targets: S.optional(TargetsBatch),

@@ -1,5 +1,6 @@
 import { HttpClient } from "@effect/platform";
 import * as Effect from "effect/Effect";
+import * as Redacted from "effect/Redacted";
 import * as S from "effect/Schema";
 import * as Stream from "effect/Stream";
 import * as API from "../api.ts";
@@ -10,6 +11,7 @@ import {
   ErrorCategory,
   Errors,
 } from "../index.ts";
+import { SensitiveString, SensitiveBlob } from "../sensitive.ts";
 const ns = T.XmlNamespace("https://sts.amazonaws.com/doc/2011-06-15/");
 const svc = T.AwsApiService({
   sdkId: "STS",
@@ -645,9 +647,9 @@ export type externalIdType = string;
 export type serialNumberType = string;
 export type tokenCodeType = string;
 export type sourceIdentityType = string;
-export type SAMLAssertionType = string;
+export type SAMLAssertionType = string | Redacted.Redacted<string>;
 export type sessionPolicyDocumentType = string;
-export type clientTokenType = string;
+export type clientTokenType = string | Redacted.Redacted<string>;
 export type urlType = string;
 export type TargetPrincipalType = string;
 export type RootDurationSecondsType = number;
@@ -655,7 +657,7 @@ export type encodedMessageType = string;
 export type accessKeyIdType = string;
 export type userIdType = string;
 export type accountType = string;
-export type tradeInTokenType = string;
+export type tradeInTokenType = string | Redacted.Redacted<string>;
 export type userNameType = string;
 export type durationSecondsType = number;
 export type webIdentityTokenAudienceStringType = string;
@@ -671,8 +673,8 @@ export type Audience = string;
 export type NameQualifier = string;
 export type webIdentitySubjectType = string;
 export type decodedMessageType = string;
-export type webIdentityTokenType = string;
-export type accessKeySecretType = string;
+export type webIdentityTokenType = string | Redacted.Redacted<string>;
+export type accessKeySecretType = string | Redacted.Redacted<string>;
 export type tokenType = string;
 export type assumedRoleIdType = string;
 export type federatedIdType = string;
@@ -723,7 +725,7 @@ export const policyDescriptorListType = S.Array(PolicyDescriptorType);
 export interface AssumeRoleWithSAMLRequest {
   RoleArn: string;
   PrincipalArn: string;
-  SAMLAssertion: string;
+  SAMLAssertion: string | Redacted.Redacted<string>;
   PolicyArns?: policyDescriptorListType;
   Policy?: string;
   DurationSeconds?: number;
@@ -732,7 +734,7 @@ export const AssumeRoleWithSAMLRequest = S.suspend(() =>
   S.Struct({
     RoleArn: S.String,
     PrincipalArn: S.String,
-    SAMLAssertion: S.String,
+    SAMLAssertion: SensitiveString,
     PolicyArns: S.optional(policyDescriptorListType),
     Policy: S.optional(S.String),
     DurationSeconds: S.optional(S.Number),
@@ -753,7 +755,7 @@ export const AssumeRoleWithSAMLRequest = S.suspend(() =>
 export interface AssumeRoleWithWebIdentityRequest {
   RoleArn: string;
   RoleSessionName: string;
-  WebIdentityToken: string;
+  WebIdentityToken: string | Redacted.Redacted<string>;
   ProviderId?: string;
   PolicyArns?: policyDescriptorListType;
   Policy?: string;
@@ -763,7 +765,7 @@ export const AssumeRoleWithWebIdentityRequest = S.suspend(() =>
   S.Struct({
     RoleArn: S.String,
     RoleSessionName: S.String,
-    WebIdentityToken: S.String,
+    WebIdentityToken: SensitiveString,
     ProviderId: S.optional(S.String),
     PolicyArns: S.optional(policyDescriptorListType),
     Policy: S.optional(S.String),
@@ -857,10 +859,10 @@ export const GetCallerIdentityResponse = S.suspend(() =>
   identifier: "GetCallerIdentityResponse",
 }) as any as S.Schema<GetCallerIdentityResponse>;
 export interface GetDelegatedAccessTokenRequest {
-  TradeInToken: string;
+  TradeInToken: string | Redacted.Redacted<string>;
 }
 export const GetDelegatedAccessTokenRequest = S.suspend(() =>
-  S.Struct({ TradeInToken: S.String }).pipe(
+  S.Struct({ TradeInToken: SensitiveString }).pipe(
     T.all(
       ns,
       T.Http({ method: "POST", uri: "/" }),
@@ -1019,14 +1021,14 @@ export const AssumeRoleRequest = S.suspend(() =>
 }) as any as S.Schema<AssumeRoleRequest>;
 export interface Credentials {
   AccessKeyId: string;
-  SecretAccessKey: string;
+  SecretAccessKey: string | Redacted.Redacted<string>;
   SessionToken: string;
   Expiration: Date;
 }
 export const Credentials = S.suspend(() =>
   S.Struct({
     AccessKeyId: S.String,
-    SecretAccessKey: S.String,
+    SecretAccessKey: SensitiveString,
     SessionToken: S.String,
     Expiration: S.Date.pipe(T.TimestampFormat("date-time")),
   }),
@@ -1113,12 +1115,12 @@ export const GetSessionTokenResponse = S.suspend(() =>
   identifier: "GetSessionTokenResponse",
 }) as any as S.Schema<GetSessionTokenResponse>;
 export interface GetWebIdentityTokenResponse {
-  WebIdentityToken?: string;
+  WebIdentityToken?: string | Redacted.Redacted<string>;
   Expiration?: Date;
 }
 export const GetWebIdentityTokenResponse = S.suspend(() =>
   S.Struct({
-    WebIdentityToken: S.optional(S.String),
+    WebIdentityToken: S.optional(SensitiveString),
     Expiration: S.optional(S.Date.pipe(T.TimestampFormat("date-time"))),
   }).pipe(ns),
 ).annotations({

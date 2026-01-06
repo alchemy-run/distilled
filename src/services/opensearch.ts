@@ -1,5 +1,6 @@
 import { HttpClient } from "@effect/platform";
 import * as Effect from "effect/Effect";
+import * as Redacted from "effect/Redacted";
 import * as S from "effect/Schema";
 import * as Stream from "effect/Stream";
 import * as API from "../api.ts";
@@ -10,6 +11,7 @@ import {
   ErrorCategory,
   Errors,
 } from "../index.ts";
+import { SensitiveString, SensitiveBlob } from "../sensitive.ts";
 const ns = T.XmlNamespace("http://es.amazonaws.com/doc/2021-01-01/");
 const svc = T.AwsApiService({
   sdkId: "OpenSearch",
@@ -368,8 +370,8 @@ export type MaintenanceStatusMessage = string;
 export type UpgradeName = string;
 export type DirectQueryDataSourceRoleArn = string;
 export type CloudWatchLogsLogGroupArn = string;
-export type Username = string;
-export type Password = string;
+export type Username = string | Redacted.Redacted<string>;
+export type Password = string | Redacted.Redacted<string>;
 export type BackendRole = string;
 export type SubjectKey = string;
 export type RolesKey = string;
@@ -3632,14 +3634,14 @@ export const UpdateDirectQueryDataSourceResponse = S.suspend(() =>
 }) as any as S.Schema<UpdateDirectQueryDataSourceResponse>;
 export interface MasterUserOptions {
   MasterUserARN?: string;
-  MasterUserName?: string;
-  MasterUserPassword?: string;
+  MasterUserName?: string | Redacted.Redacted<string>;
+  MasterUserPassword?: string | Redacted.Redacted<string>;
 }
 export const MasterUserOptions = S.suspend(() =>
   S.Struct({
     MasterUserARN: S.optional(S.String),
-    MasterUserName: S.optional(S.String),
-    MasterUserPassword: S.optional(S.String),
+    MasterUserName: S.optional(SensitiveString),
+    MasterUserPassword: S.optional(SensitiveString),
   }),
 ).annotations({
   identifier: "MasterUserOptions",
@@ -3647,7 +3649,7 @@ export const MasterUserOptions = S.suspend(() =>
 export interface SAMLOptionsInput {
   Enabled?: boolean;
   Idp?: SAMLIdp;
-  MasterUserName?: string;
+  MasterUserName?: string | Redacted.Redacted<string>;
   MasterBackendRole?: string;
   SubjectKey?: string;
   RolesKey?: string;
@@ -3657,7 +3659,7 @@ export const SAMLOptionsInput = S.suspend(() =>
   S.Struct({
     Enabled: S.optional(S.Boolean),
     Idp: S.optional(SAMLIdp),
-    MasterUserName: S.optional(S.String),
+    MasterUserName: S.optional(SensitiveString),
     MasterBackendRole: S.optional(S.String),
     SubjectKey: S.optional(S.String),
     RolesKey: S.optional(S.String),

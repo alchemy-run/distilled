@@ -1,5 +1,6 @@
 import { HttpClient } from "@effect/platform";
 import * as Effect from "effect/Effect";
+import * as Redacted from "effect/Redacted";
 import * as S from "effect/Schema";
 import * as Stream from "effect/Stream";
 import * as API from "../api.ts";
@@ -10,6 +11,7 @@ import {
   ErrorCategory,
   Errors,
 } from "../index.ts";
+import { SensitiveString, SensitiveBlob } from "../sensitive.ts";
 const ns = T.XmlNamespace("http://awss3control.amazonaws.com/doc/2018-08-20/");
 const svc = T.AwsApiService({
   sdkId: "S3 Control",
@@ -2686,9 +2688,9 @@ export type JobArn = string;
 export type SuspendedCause = string;
 export type AsyncRequestStatus = string;
 export type ObjectLambdaAccessPointAliasValue = string;
-export type AccessKeyId = string;
-export type SecretAccessKey = string;
-export type SessionToken = string;
+export type AccessKeyId = string | Redacted.Redacted<string>;
+export type SecretAccessKey = string | Redacted.Redacted<string>;
+export type SessionToken = string | Redacted.Redacted<string>;
 export type MultiRegionAccessPointAlias = string;
 export type ObjectLambdaAccessPointArn = string;
 export type S3RegionalBucketArn = string;
@@ -7192,16 +7194,16 @@ export const ObjectLambdaAccessPointAlias = S.suspend(() =>
   identifier: "ObjectLambdaAccessPointAlias",
 }) as any as S.Schema<ObjectLambdaAccessPointAlias>;
 export interface Credentials {
-  AccessKeyId?: string;
-  SecretAccessKey?: string;
-  SessionToken?: string;
+  AccessKeyId?: string | Redacted.Redacted<string>;
+  SecretAccessKey?: string | Redacted.Redacted<string>;
+  SessionToken?: string | Redacted.Redacted<string>;
   Expiration?: Date;
 }
 export const Credentials = S.suspend(() =>
   S.Struct({
-    AccessKeyId: S.optional(S.String),
-    SecretAccessKey: S.optional(S.String),
-    SessionToken: S.optional(S.String),
+    AccessKeyId: S.optional(SensitiveString),
+    SecretAccessKey: S.optional(SensitiveString),
+    SessionToken: S.optional(SensitiveString),
     Expiration: S.optional(S.Date),
   }),
 ).annotations({ identifier: "Credentials" }) as any as S.Schema<Credentials>;

@@ -1,5 +1,6 @@
 import { HttpClient } from "@effect/platform";
 import * as Effect from "effect/Effect";
+import * as Redacted from "effect/Redacted";
 import * as S from "effect/Schema";
 import * as Stream from "effect/Stream";
 import * as API from "../api.ts";
@@ -10,6 +11,7 @@ import {
   ErrorCategory,
   Errors,
 } from "../index.ts";
+import { SensitiveString, SensitiveBlob } from "../sensitive.ts";
 const ns = T.XmlNamespace("http://amplify.amazonaws.com");
 const svc = T.AwsApiService({ sdkId: "Amplify", serviceShapeName: "Amplify" });
 const auth = T.AwsAuthSigv4({ name: "amplify" });
@@ -253,10 +255,10 @@ export type Description = string;
 export type Repository = string;
 export type ComputeRoleArn = string;
 export type ServiceRoleArn = string;
-export type OauthToken = string;
-export type AccessToken = string;
-export type BasicAuthCredentials = string;
-export type BuildSpec = string;
+export type OauthToken = string | Redacted.Redacted<string>;
+export type AccessToken = string | Redacted.Redacted<string>;
+export type BasicAuthCredentials = string | Redacted.Redacted<string>;
+export type BuildSpec = string | Redacted.Redacted<string>;
 export type CustomHeaders = string;
 export type AutoBranchCreationPattern = string;
 export type AppId = string;
@@ -1067,10 +1069,10 @@ export interface AutoBranchCreationConfig {
   framework?: string;
   enableAutoBuild?: boolean;
   environmentVariables?: EnvironmentVariables;
-  basicAuthCredentials?: string;
+  basicAuthCredentials?: string | Redacted.Redacted<string>;
   enableBasicAuth?: boolean;
   enablePerformanceMode?: boolean;
-  buildSpec?: string;
+  buildSpec?: string | Redacted.Redacted<string>;
   enablePullRequestPreview?: boolean;
   pullRequestEnvironmentName?: string;
 }
@@ -1080,10 +1082,10 @@ export const AutoBranchCreationConfig = S.suspend(() =>
     framework: S.optional(S.String),
     enableAutoBuild: S.optional(S.Boolean),
     environmentVariables: S.optional(EnvironmentVariables),
-    basicAuthCredentials: S.optional(S.String),
+    basicAuthCredentials: S.optional(SensitiveString),
     enableBasicAuth: S.optional(S.Boolean),
     enablePerformanceMode: S.optional(S.Boolean),
-    buildSpec: S.optional(S.String),
+    buildSpec: S.optional(SensitiveString),
     enablePullRequestPreview: S.optional(S.Boolean),
     pullRequestEnvironmentName: S.optional(S.String),
   }),
@@ -1113,16 +1115,16 @@ export interface UpdateAppRequest {
   enableBranchAutoBuild?: boolean;
   enableBranchAutoDeletion?: boolean;
   enableBasicAuth?: boolean;
-  basicAuthCredentials?: string;
+  basicAuthCredentials?: string | Redacted.Redacted<string>;
   customRules?: CustomRules;
-  buildSpec?: string;
+  buildSpec?: string | Redacted.Redacted<string>;
   customHeaders?: string;
   enableAutoBranchCreation?: boolean;
   autoBranchCreationPatterns?: AutoBranchCreationPatterns;
   autoBranchCreationConfig?: AutoBranchCreationConfig;
   repository?: string;
-  oauthToken?: string;
-  accessToken?: string;
+  oauthToken?: string | Redacted.Redacted<string>;
+  accessToken?: string | Redacted.Redacted<string>;
   jobConfig?: JobConfig;
   cacheConfig?: CacheConfig;
 }
@@ -1138,16 +1140,16 @@ export const UpdateAppRequest = S.suspend(() =>
     enableBranchAutoBuild: S.optional(S.Boolean),
     enableBranchAutoDeletion: S.optional(S.Boolean),
     enableBasicAuth: S.optional(S.Boolean),
-    basicAuthCredentials: S.optional(S.String),
+    basicAuthCredentials: S.optional(SensitiveString),
     customRules: S.optional(CustomRules),
-    buildSpec: S.optional(S.String),
+    buildSpec: S.optional(SensitiveString),
     customHeaders: S.optional(S.String),
     enableAutoBranchCreation: S.optional(S.Boolean),
     autoBranchCreationPatterns: S.optional(AutoBranchCreationPatterns),
     autoBranchCreationConfig: S.optional(AutoBranchCreationConfig),
     repository: S.optional(S.String),
-    oauthToken: S.optional(S.String),
-    accessToken: S.optional(S.String),
+    oauthToken: S.optional(SensitiveString),
+    accessToken: S.optional(SensitiveString),
     jobConfig: S.optional(JobConfig),
     cacheConfig: S.optional(CacheConfig),
   }).pipe(
@@ -1180,10 +1182,10 @@ export interface UpdateBranchRequest {
   enableAutoBuild?: boolean;
   enableSkewProtection?: boolean;
   environmentVariables?: EnvironmentVariables;
-  basicAuthCredentials?: string;
+  basicAuthCredentials?: string | Redacted.Redacted<string>;
   enableBasicAuth?: boolean;
   enablePerformanceMode?: boolean;
-  buildSpec?: string;
+  buildSpec?: string | Redacted.Redacted<string>;
   ttl?: string;
   displayName?: string;
   enablePullRequestPreview?: boolean;
@@ -1203,10 +1205,10 @@ export const UpdateBranchRequest = S.suspend(() =>
     enableAutoBuild: S.optional(S.Boolean),
     enableSkewProtection: S.optional(S.Boolean),
     environmentVariables: S.optional(EnvironmentVariables),
-    basicAuthCredentials: S.optional(S.String),
+    basicAuthCredentials: S.optional(SensitiveString),
     enableBasicAuth: S.optional(S.Boolean),
     enablePerformanceMode: S.optional(S.Boolean),
-    buildSpec: S.optional(S.String),
+    buildSpec: S.optional(SensitiveString),
     ttl: S.optional(S.String),
     displayName: S.optional(S.String),
     enablePullRequestPreview: S.optional(S.Boolean),
@@ -1353,10 +1355,10 @@ export interface App {
   enableBranchAutoBuild: boolean;
   enableBranchAutoDeletion?: boolean;
   enableBasicAuth: boolean;
-  basicAuthCredentials?: string;
+  basicAuthCredentials?: string | Redacted.Redacted<string>;
   customRules?: CustomRules;
   productionBranch?: ProductionBranch;
-  buildSpec?: string;
+  buildSpec?: string | Redacted.Redacted<string>;
   customHeaders?: string;
   enableAutoBranchCreation?: boolean;
   autoBranchCreationPatterns?: AutoBranchCreationPatterns;
@@ -1385,10 +1387,10 @@ export const App = S.suspend(() =>
     enableBranchAutoBuild: S.Boolean,
     enableBranchAutoDeletion: S.optional(S.Boolean),
     enableBasicAuth: S.Boolean,
-    basicAuthCredentials: S.optional(S.String),
+    basicAuthCredentials: S.optional(SensitiveString),
     customRules: S.optional(CustomRules),
     productionBranch: S.optional(ProductionBranch),
-    buildSpec: S.optional(S.String),
+    buildSpec: S.optional(SensitiveString),
     customHeaders: S.optional(S.String),
     enableAutoBranchCreation: S.optional(S.Boolean),
     autoBranchCreationPatterns: S.optional(AutoBranchCreationPatterns),
@@ -1450,8 +1452,8 @@ export interface Branch {
   enableBasicAuth: boolean;
   enablePerformanceMode?: boolean;
   thumbnailUrl?: string;
-  basicAuthCredentials?: string;
-  buildSpec?: string;
+  basicAuthCredentials?: string | Redacted.Redacted<string>;
+  buildSpec?: string | Redacted.Redacted<string>;
   ttl: string;
   associatedResources?: AssociatedResources;
   enablePullRequestPreview: boolean;
@@ -1483,8 +1485,8 @@ export const Branch = S.suspend(() =>
     enableBasicAuth: S.Boolean,
     enablePerformanceMode: S.optional(S.Boolean),
     thumbnailUrl: S.optional(S.String),
-    basicAuthCredentials: S.optional(S.String),
-    buildSpec: S.optional(S.String),
+    basicAuthCredentials: S.optional(SensitiveString),
+    buildSpec: S.optional(SensitiveString),
     ttl: S.String,
     associatedResources: S.optional(AssociatedResources),
     enablePullRequestPreview: S.Boolean,
@@ -1617,16 +1619,16 @@ export interface CreateAppRequest {
   platform?: string;
   computeRoleArn?: string;
   iamServiceRoleArn?: string;
-  oauthToken?: string;
-  accessToken?: string;
+  oauthToken?: string | Redacted.Redacted<string>;
+  accessToken?: string | Redacted.Redacted<string>;
   environmentVariables?: EnvironmentVariables;
   enableBranchAutoBuild?: boolean;
   enableBranchAutoDeletion?: boolean;
   enableBasicAuth?: boolean;
-  basicAuthCredentials?: string;
+  basicAuthCredentials?: string | Redacted.Redacted<string>;
   customRules?: CustomRules;
   tags?: TagMap;
-  buildSpec?: string;
+  buildSpec?: string | Redacted.Redacted<string>;
   customHeaders?: string;
   enableAutoBranchCreation?: boolean;
   autoBranchCreationPatterns?: AutoBranchCreationPatterns;
@@ -1642,16 +1644,16 @@ export const CreateAppRequest = S.suspend(() =>
     platform: S.optional(S.String),
     computeRoleArn: S.optional(S.String),
     iamServiceRoleArn: S.optional(S.String),
-    oauthToken: S.optional(S.String),
-    accessToken: S.optional(S.String),
+    oauthToken: S.optional(SensitiveString),
+    accessToken: S.optional(SensitiveString),
     environmentVariables: S.optional(EnvironmentVariables),
     enableBranchAutoBuild: S.optional(S.Boolean),
     enableBranchAutoDeletion: S.optional(S.Boolean),
     enableBasicAuth: S.optional(S.Boolean),
-    basicAuthCredentials: S.optional(S.String),
+    basicAuthCredentials: S.optional(SensitiveString),
     customRules: S.optional(CustomRules),
     tags: S.optional(TagMap),
-    buildSpec: S.optional(S.String),
+    buildSpec: S.optional(SensitiveString),
     customHeaders: S.optional(S.String),
     enableAutoBranchCreation: S.optional(S.Boolean),
     autoBranchCreationPatterns: S.optional(AutoBranchCreationPatterns),
@@ -1682,11 +1684,11 @@ export interface CreateBranchRequest {
   enableAutoBuild?: boolean;
   enableSkewProtection?: boolean;
   environmentVariables?: EnvironmentVariables;
-  basicAuthCredentials?: string;
+  basicAuthCredentials?: string | Redacted.Redacted<string>;
   enableBasicAuth?: boolean;
   enablePerformanceMode?: boolean;
   tags?: TagMap;
-  buildSpec?: string;
+  buildSpec?: string | Redacted.Redacted<string>;
   ttl?: string;
   displayName?: string;
   enablePullRequestPreview?: boolean;
@@ -1706,11 +1708,11 @@ export const CreateBranchRequest = S.suspend(() =>
     enableAutoBuild: S.optional(S.Boolean),
     enableSkewProtection: S.optional(S.Boolean),
     environmentVariables: S.optional(EnvironmentVariables),
-    basicAuthCredentials: S.optional(S.String),
+    basicAuthCredentials: S.optional(SensitiveString),
     enableBasicAuth: S.optional(S.Boolean),
     enablePerformanceMode: S.optional(S.Boolean),
     tags: S.optional(TagMap),
-    buildSpec: S.optional(S.String),
+    buildSpec: S.optional(SensitiveString),
     ttl: S.optional(S.String),
     displayName: S.optional(S.String),
     enablePullRequestPreview: S.optional(S.Boolean),

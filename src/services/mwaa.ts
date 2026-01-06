@@ -1,5 +1,6 @@
 import { HttpClient } from "@effect/platform";
 import * as Effect from "effect/Effect";
+import * as Redacted from "effect/Redacted";
 import * as S from "effect/Schema";
 import * as Stream from "effect/Stream";
 import * as API from "../api.ts";
@@ -10,6 +11,7 @@ import {
   ErrorCategory,
   Errors,
 } from "../index.ts";
+import { SensitiveString, SensitiveBlob } from "../sensitive.ts";
 const svc = T.AwsApiService({ sdkId: "MWAA", serviceShapeName: "AmazonMWAA" });
 const auth = T.AwsAuthSigv4({ name: "airflow" });
 const ver = T.ServiceVersion("2020-07-01");
@@ -272,10 +274,10 @@ export type WorkerReplacementStrategy = string;
 export type SubnetId = string;
 export type SecurityGroupId = string;
 export type ConfigKey = string;
-export type ConfigValue = string;
+export type ConfigValue = string | Redacted.Redacted<string>;
 export type TagValue = string;
 export type Unit = string;
-export type Token = string;
+export type Token = string | Redacted.Redacted<string>;
 export type Hostname = string;
 export type IamIdentity = string;
 export type AirflowIdentity = string;
@@ -500,10 +502,12 @@ export const NetworkConfiguration = S.suspend(() =>
 ).annotations({
   identifier: "NetworkConfiguration",
 }) as any as S.Schema<NetworkConfiguration>;
-export type AirflowConfigurationOptions = { [key: string]: string };
+export type AirflowConfigurationOptions = {
+  [key: string]: string | Redacted.Redacted<string>;
+};
 export const AirflowConfigurationOptions = S.Record({
   key: S.String,
-  value: S.String,
+  value: SensitiveString,
 });
 export type EnvironmentList = string[];
 export const EnvironmentList = S.Array(S.String);
@@ -516,26 +520,26 @@ export const UpdateNetworkConfigurationInput = S.suspend(() =>
   identifier: "UpdateNetworkConfigurationInput",
 }) as any as S.Schema<UpdateNetworkConfigurationInput>;
 export interface CreateCliTokenResponse {
-  CliToken?: string;
+  CliToken?: string | Redacted.Redacted<string>;
   WebServerHostname?: string;
 }
 export const CreateCliTokenResponse = S.suspend(() =>
   S.Struct({
-    CliToken: S.optional(S.String),
+    CliToken: S.optional(SensitiveString),
     WebServerHostname: S.optional(S.String),
   }),
 ).annotations({
   identifier: "CreateCliTokenResponse",
 }) as any as S.Schema<CreateCliTokenResponse>;
 export interface CreateWebLoginTokenResponse {
-  WebToken?: string;
+  WebToken?: string | Redacted.Redacted<string>;
   WebServerHostname?: string;
   IamIdentity?: string;
   AirflowIdentity?: string;
 }
 export const CreateWebLoginTokenResponse = S.suspend(() =>
   S.Struct({
-    WebToken: S.optional(S.String),
+    WebToken: S.optional(SensitiveString),
     WebServerHostname: S.optional(S.String),
     IamIdentity: S.optional(S.String),
     AirflowIdentity: S.optional(S.String),

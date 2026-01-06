@@ -1,5 +1,6 @@
 import { HttpClient } from "@effect/platform";
 import * as Effect from "effect/Effect";
+import * as Redacted from "effect/Redacted";
 import * as S from "effect/Schema";
 import * as Stream from "effect/Stream";
 import * as API from "../api.ts";
@@ -10,6 +11,7 @@ import {
   ErrorCategory,
   Errors,
 } from "../index.ts";
+import { SensitiveString, SensitiveBlob } from "../sensitive.ts";
 const svc = T.AwsApiService({
   sdkId: "RolesAnywhere",
   serviceShapeName: "RolesAnywhere",
@@ -252,20 +254,20 @@ const rules = T.EndpointRuleSet({
 //# Newtypes
 export type AmazonResourceName = string;
 export type Uuid = string;
-export type TagKey = string;
+export type TagKey = string | Redacted.Redacted<string>;
 export type ResourceName = string;
 export type TrustAnchorArn = string;
 export type RoleArn = string;
 export type CertificateField = string;
 export type NotificationEvent = string;
 export type NotificationChannel = string;
-export type TagValue = string;
+export type TagValue = string | Redacted.Redacted<string>;
 export type ProfileArn = string;
 export type TrustAnchorType = string;
 
 //# Schemas
-export type TagKeyList = string[];
-export const TagKeyList = S.Array(S.String);
+export type TagKeyList = string | Redacted.Redacted<string>[];
+export const TagKeyList = S.Array(SensitiveString);
 export type RoleArnList = string[];
 export const RoleArnList = S.Array(S.String);
 export type ManagedPolicyList = string[];
@@ -435,11 +437,11 @@ export const UntagResourceResponse = S.suspend(() => S.Struct({})).annotations({
   identifier: "UntagResourceResponse",
 }) as any as S.Schema<UntagResourceResponse>;
 export interface Tag {
-  key: string;
-  value: string;
+  key: string | Redacted.Redacted<string>;
+  value: string | Redacted.Redacted<string>;
 }
 export const Tag = S.suspend(() =>
-  S.Struct({ key: S.String, value: S.String }),
+  S.Struct({ key: SensitiveString, value: SensitiveString }),
 ).annotations({ identifier: "Tag" }) as any as S.Schema<Tag>;
 export type TagList = Tag[];
 export const TagList = S.Array(Tag);

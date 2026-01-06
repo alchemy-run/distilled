@@ -1,5 +1,6 @@
 import { HttpClient } from "@effect/platform";
 import * as Effect from "effect/Effect";
+import * as Redacted from "effect/Redacted";
 import * as S from "effect/Schema";
 import * as Stream from "effect/Stream";
 import * as API from "../api.ts";
@@ -10,6 +11,7 @@ import {
   ErrorCategory,
   Errors,
 } from "../index.ts";
+import { SensitiveString, SensitiveBlob } from "../sensitive.ts";
 const svc = T.AwsApiService({
   sdkId: "Redshift Serverless",
   serviceShapeName: "RedshiftServerless",
@@ -263,8 +265,8 @@ export type VpcSecurityGroupId = string;
 export type OwnerAccount = string;
 export type SourceArn = string;
 export type NamespaceName = string;
-export type DbUser = string;
-export type DbPassword = string;
+export type DbUser = string | Redacted.Redacted<string>;
+export type DbPassword = string | Redacted.Redacted<string>;
 export type IamRoleArn = string;
 export type LogExport = string;
 export type KmsKeyId = string;
@@ -606,8 +608,8 @@ export type TagList = Tag[];
 export const TagList = S.Array(Tag);
 export interface CreateNamespaceRequest {
   namespaceName: string;
-  adminUsername?: string;
-  adminUserPassword?: string;
+  adminUsername?: string | Redacted.Redacted<string>;
+  adminUserPassword?: string | Redacted.Redacted<string>;
   dbName?: string;
   kmsKeyId?: string;
   defaultIamRoleArn?: string;
@@ -621,8 +623,8 @@ export interface CreateNamespaceRequest {
 export const CreateNamespaceRequest = S.suspend(() =>
   S.Struct({
     namespaceName: S.String,
-    adminUsername: S.optional(S.String),
-    adminUserPassword: S.optional(S.String),
+    adminUsername: S.optional(SensitiveString),
+    adminUserPassword: S.optional(SensitiveString),
     dbName: S.optional(S.String),
     kmsKeyId: S.optional(S.String),
     defaultIamRoleArn: S.optional(S.String),
@@ -650,8 +652,8 @@ export const GetNamespaceRequest = S.suspend(() =>
 }) as any as S.Schema<GetNamespaceRequest>;
 export interface UpdateNamespaceRequest {
   namespaceName: string;
-  adminUserPassword?: string;
-  adminUsername?: string;
+  adminUserPassword?: string | Redacted.Redacted<string>;
+  adminUsername?: string | Redacted.Redacted<string>;
   kmsKeyId?: string;
   defaultIamRoleArn?: string;
   iamRoles?: IamRoleArnList;
@@ -662,8 +664,8 @@ export interface UpdateNamespaceRequest {
 export const UpdateNamespaceRequest = S.suspend(() =>
   S.Struct({
     namespaceName: S.String,
-    adminUserPassword: S.optional(S.String),
-    adminUsername: S.optional(S.String),
+    adminUserPassword: S.optional(SensitiveString),
+    adminUsername: S.optional(SensitiveString),
     kmsKeyId: S.optional(S.String),
     defaultIamRoleArn: S.optional(S.String),
     iamRoles: S.optional(IamRoleArnList),
@@ -1476,7 +1478,7 @@ export interface Namespace {
   namespaceArn?: string;
   namespaceId?: string;
   namespaceName?: string;
-  adminUsername?: string;
+  adminUsername?: string | Redacted.Redacted<string>;
   dbName?: string;
   kmsKeyId?: string;
   defaultIamRoleArn?: string;
@@ -1494,7 +1496,7 @@ export const Namespace = S.suspend(() =>
     namespaceArn: S.optional(S.String),
     namespaceId: S.optional(S.String),
     namespaceName: S.optional(S.String),
-    adminUsername: S.optional(S.String),
+    adminUsername: S.optional(SensitiveString),
     dbName: S.optional(S.String),
     kmsKeyId: S.optional(S.String),
     defaultIamRoleArn: S.optional(S.String),
@@ -1815,15 +1817,15 @@ export const CreateCustomDomainAssociationResponse = S.suspend(() =>
   identifier: "CreateCustomDomainAssociationResponse",
 }) as any as S.Schema<CreateCustomDomainAssociationResponse>;
 export interface GetCredentialsResponse {
-  dbUser?: string;
-  dbPassword?: string;
+  dbUser?: string | Redacted.Redacted<string>;
+  dbPassword?: string | Redacted.Redacted<string>;
   expiration?: Date;
   nextRefreshTime?: Date;
 }
 export const GetCredentialsResponse = S.suspend(() =>
   S.Struct({
-    dbUser: S.optional(S.String),
-    dbPassword: S.optional(S.String),
+    dbUser: S.optional(SensitiveString),
+    dbPassword: S.optional(SensitiveString),
     expiration: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
     nextRefreshTime: S.optional(
       S.Date.pipe(T.TimestampFormat("epoch-seconds")),

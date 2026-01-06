@@ -1,5 +1,6 @@
 import { HttpClient } from "@effect/platform";
 import * as Effect from "effect/Effect";
+import * as Redacted from "effect/Redacted";
 import * as S from "effect/Schema";
 import * as Stream from "effect/Stream";
 import * as API from "../api.ts";
@@ -10,6 +11,7 @@ import {
   ErrorCategory,
   Errors,
 } from "../index.ts";
+import { SensitiveString, SensitiveBlob } from "../sensitive.ts";
 const svc = T.AwsApiService({
   sdkId: "AmplifyUIBuilder",
   serviceShapeName: "AmplifyUIBuilder",
@@ -256,7 +258,7 @@ export type AppId = string;
 export type Uuid = string;
 export type ListCodegenJobsLimit = number;
 export type ListEntityLimit = number;
-export type SensitiveString = string;
+export type SensitiveString = string | Redacted.Redacted<string>;
 export type TagValue = string;
 export type ComponentName = string;
 export type ComponentType = string;
@@ -722,15 +724,15 @@ export const ExportThemesRequest = S.suspend(() =>
   identifier: "ExportThemesRequest",
 }) as any as S.Schema<ExportThemesRequest>;
 export interface ExchangeCodeForTokenRequestBody {
-  code: string;
+  code: string | Redacted.Redacted<string>;
   redirectUri: string;
-  clientId?: string;
+  clientId?: string | Redacted.Redacted<string>;
 }
 export const ExchangeCodeForTokenRequestBody = S.suspend(() =>
   S.Struct({
-    code: S.String,
+    code: SensitiveString,
     redirectUri: S.String,
-    clientId: S.optional(S.String),
+    clientId: S.optional(SensitiveString),
   }),
 ).annotations({
   identifier: "ExchangeCodeForTokenRequestBody",
@@ -744,11 +746,11 @@ export const PutMetadataFlagBody = S.suspend(() =>
   identifier: "PutMetadataFlagBody",
 }) as any as S.Schema<PutMetadataFlagBody>;
 export interface RefreshTokenRequestBody {
-  token: string;
-  clientId?: string;
+  token: string | Redacted.Redacted<string>;
+  clientId?: string | Redacted.Redacted<string>;
 }
 export const RefreshTokenRequestBody = S.suspend(() =>
-  S.Struct({ token: S.String, clientId: S.optional(S.String) }),
+  S.Struct({ token: SensitiveString, clientId: S.optional(SensitiveString) }),
 ).annotations({
   identifier: "RefreshTokenRequestBody",
 }) as any as S.Schema<RefreshTokenRequestBody>;
@@ -1855,15 +1857,15 @@ export const ThemeValue = S.suspend(() =>
   }),
 ).annotations({ identifier: "ThemeValue" }) as any as S.Schema<ThemeValue>;
 export interface ExchangeCodeForTokenResponse {
-  accessToken: string;
+  accessToken: string | Redacted.Redacted<string>;
   expiresIn: number;
-  refreshToken: string;
+  refreshToken: string | Redacted.Redacted<string>;
 }
 export const ExchangeCodeForTokenResponse = S.suspend(() =>
   S.Struct({
-    accessToken: S.String,
+    accessToken: SensitiveString,
     expiresIn: S.Number,
-    refreshToken: S.String,
+    refreshToken: SensitiveString,
   }),
 ).annotations({
   identifier: "ExchangeCodeForTokenResponse",
@@ -1877,11 +1879,11 @@ export const GetMetadataResponse = S.suspend(() =>
   identifier: "GetMetadataResponse",
 }) as any as S.Schema<GetMetadataResponse>;
 export interface RefreshTokenResponse {
-  accessToken: string;
+  accessToken: string | Redacted.Redacted<string>;
   expiresIn: number;
 }
 export const RefreshTokenResponse = S.suspend(() =>
-  S.Struct({ accessToken: S.String, expiresIn: S.Number }),
+  S.Struct({ accessToken: SensitiveString, expiresIn: S.Number }),
 ).annotations({
   identifier: "RefreshTokenResponse",
 }) as any as S.Schema<RefreshTokenResponse>;

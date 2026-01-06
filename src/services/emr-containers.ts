@@ -1,5 +1,6 @@
 import { HttpClient } from "@effect/platform";
 import * as Effect from "effect/Effect";
+import * as Redacted from "effect/Redacted";
 import * as S from "effect/Schema";
 import * as Stream from "effect/Stream";
 import * as API from "../api.ts";
@@ -10,6 +11,7 @@ import {
   ErrorCategory,
   Errors,
 } from "../index.ts";
+import { SensitiveString, SensitiveBlob } from "../sensitive.ts";
 const svc = T.AwsApiService({
   sdkId: "EMR containers",
   serviceShapeName: "AwsChicagoWebService",
@@ -300,10 +302,10 @@ export type StringEmpty256 = string;
 export type ClusterId = string;
 export type TemplateParameterName = string;
 export type VirtualClusterArn = string;
-export type EntryPointPath = string;
-export type EntryPointArgument = string;
-export type SparkSubmitParameters = string;
-export type SparkSqlParameters = string;
+export type EntryPointPath = string | Redacted.Redacted<string>;
+export type EntryPointArgument = string | Redacted.Redacted<string>;
+export type SparkSubmitParameters = string | Redacted.Redacted<string>;
+export type SparkSqlParameters = string | Redacted.Redacted<string>;
 export type JobArn = string;
 export type RequestIdentityUserArn = string;
 export type String256 = string;
@@ -311,7 +313,7 @@ export type JobTemplateArn = string;
 export type EndpointArn = string;
 export type UriString = string;
 export type SecurityConfigurationArn = string;
-export type Token = string;
+export type Token = string | Redacted.Redacted<string>;
 export type TemplateParameter = string;
 export type LogGroupName = string;
 export type RotationSize = string;
@@ -923,30 +925,30 @@ export const ConfigurationOverrides = S.suspend(() =>
 ).annotations({
   identifier: "ConfigurationOverrides",
 }) as any as S.Schema<ConfigurationOverrides>;
-export type EntryPointArguments = string[];
-export const EntryPointArguments = S.Array(S.String);
+export type EntryPointArguments = string | Redacted.Redacted<string>[];
+export const EntryPointArguments = S.Array(SensitiveString);
 export interface SparkSubmitJobDriver {
-  entryPoint: string;
+  entryPoint: string | Redacted.Redacted<string>;
   entryPointArguments?: EntryPointArguments;
-  sparkSubmitParameters?: string;
+  sparkSubmitParameters?: string | Redacted.Redacted<string>;
 }
 export const SparkSubmitJobDriver = S.suspend(() =>
   S.Struct({
-    entryPoint: S.String,
+    entryPoint: SensitiveString,
     entryPointArguments: S.optional(EntryPointArguments),
-    sparkSubmitParameters: S.optional(S.String),
+    sparkSubmitParameters: S.optional(SensitiveString),
   }),
 ).annotations({
   identifier: "SparkSubmitJobDriver",
 }) as any as S.Schema<SparkSubmitJobDriver>;
 export interface SparkSqlJobDriver {
-  entryPoint?: string;
-  sparkSqlParameters?: string;
+  entryPoint?: string | Redacted.Redacted<string>;
+  sparkSqlParameters?: string | Redacted.Redacted<string>;
 }
 export const SparkSqlJobDriver = S.suspend(() =>
   S.Struct({
-    entryPoint: S.optional(S.String),
-    sparkSqlParameters: S.optional(S.String),
+    entryPoint: S.optional(SensitiveString),
+    sparkSqlParameters: S.optional(SensitiveString),
   }),
 ).annotations({
   identifier: "SparkSqlJobDriver",
@@ -1445,8 +1447,8 @@ export const ListVirtualClustersResponse = S.suspend(() =>
 ).annotations({
   identifier: "ListVirtualClustersResponse",
 }) as any as S.Schema<ListVirtualClustersResponse>;
-export type Credentials = { token: string };
-export const Credentials = S.Union(S.Struct({ token: S.String }));
+export type Credentials = { token: string | Redacted.Redacted<string> };
+export const Credentials = S.Union(S.Struct({ token: SensitiveString }));
 export type SensitivePropertiesMap = { [key: string]: string };
 export const SensitivePropertiesMap = S.Record({
   key: S.String,

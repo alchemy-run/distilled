@@ -1,5 +1,6 @@
 import { HttpClient } from "@effect/platform";
 import * as Effect from "effect/Effect";
+import * as Redacted from "effect/Redacted";
 import * as S from "effect/Schema";
 import * as Stream from "effect/Stream";
 import * as API from "../api.ts";
@@ -10,6 +11,7 @@ import {
   ErrorCategory,
   Errors,
 } from "../index.ts";
+import { SensitiveString, SensitiveBlob } from "../sensitive.ts";
 const svc = T.AwsApiService({
   sdkId: "GuardDuty",
   serviceShapeName: "GuardDutyAPIService",
@@ -288,9 +290,9 @@ export type Integer = number;
 export type GuardDutyArn = string;
 export type ResourceArn = string;
 export type TagKey = string;
-export type SensitiveString = string;
+export type SensitiveString = string | Redacted.Redacted<string>;
 export type TagValue = string;
-export type Email = string;
+export type Email = string | Redacted.Redacted<string>;
 export type NonEmptyString = string;
 export type Long = number;
 export type NonNegativeInteger = number;
@@ -2408,7 +2410,7 @@ export interface UpdateFindingsFeedbackRequest {
   DetectorId: string;
   FindingIds: FindingIds;
   Feedback: string;
-  Comments?: string;
+  Comments?: string | Redacted.Redacted<string>;
 }
 export const UpdateFindingsFeedbackRequest = S.suspend(() =>
   S.Struct({
@@ -2418,7 +2420,7 @@ export const UpdateFindingsFeedbackRequest = S.suspend(() =>
     ),
     FindingIds: FindingIds.pipe(T.JsonName("findingIds")),
     Feedback: S.String.pipe(T.JsonName("feedback")),
-    Comments: S.optional(S.String).pipe(T.JsonName("comments")),
+    Comments: S.optional(SensitiveString).pipe(T.JsonName("comments")),
   }).pipe(
     T.all(
       T.Http({
@@ -2677,12 +2679,12 @@ export type UsageFeatureList = string[];
 export const UsageFeatureList = S.Array(S.String);
 export interface AccountDetail {
   AccountId: string;
-  Email: string;
+  Email: string | Redacted.Redacted<string>;
 }
 export const AccountDetail = S.suspend(() =>
   S.Struct({
     AccountId: S.String.pipe(T.JsonName("accountId")),
-    Email: S.String.pipe(T.JsonName("email")),
+    Email: SensitiveString.pipe(T.JsonName("email")),
   }),
 ).annotations({
   identifier: "AccountDetail",
@@ -3271,7 +3273,7 @@ export interface Member {
   AccountId: string;
   DetectorId?: string;
   MasterId: string;
-  Email: string;
+  Email: string | Redacted.Redacted<string>;
   RelationshipStatus: string;
   InvitedAt?: string;
   UpdatedAt: string;
@@ -3282,7 +3284,7 @@ export const Member = S.suspend(() =>
     AccountId: S.String.pipe(T.JsonName("accountId")),
     DetectorId: S.optional(S.String).pipe(T.JsonName("detectorId")),
     MasterId: S.String.pipe(T.JsonName("masterId")),
-    Email: S.String.pipe(T.JsonName("email")),
+    Email: SensitiveString.pipe(T.JsonName("email")),
     RelationshipStatus: S.String.pipe(T.JsonName("relationshipStatus")),
     InvitedAt: S.optional(S.String).pipe(T.JsonName("invitedAt")),
     UpdatedAt: S.String.pipe(T.JsonName("updatedAt")),
@@ -5477,8 +5479,8 @@ export interface RemoteIpDetails {
   City?: City;
   Country?: Country;
   GeoLocation?: GeoLocation;
-  IpAddressV4?: string;
-  IpAddressV6?: string;
+  IpAddressV4?: string | Redacted.Redacted<string>;
+  IpAddressV6?: string | Redacted.Redacted<string>;
   Organization?: Organization;
 }
 export const RemoteIpDetails = S.suspend(() =>
@@ -5492,8 +5494,8 @@ export const RemoteIpDetails = S.suspend(() =>
     GeoLocation: S.optional(GeoLocation)
       .pipe(T.JsonName("geoLocation"))
       .annotations({ identifier: "GeoLocation" }),
-    IpAddressV4: S.optional(S.String).pipe(T.JsonName("ipAddressV4")),
-    IpAddressV6: S.optional(S.String).pipe(T.JsonName("ipAddressV6")),
+    IpAddressV4: S.optional(SensitiveString).pipe(T.JsonName("ipAddressV4")),
+    IpAddressV6: S.optional(SensitiveString).pipe(T.JsonName("ipAddressV6")),
     Organization: S.optional(Organization)
       .pipe(T.JsonName("organization"))
       .annotations({ identifier: "Organization" }),
@@ -6091,12 +6093,14 @@ export const CreateFilterResponse = S.suspend(() =>
 }) as any as S.Schema<CreateFilterResponse>;
 export interface PrivateIpAddressDetails {
   PrivateDnsName?: string;
-  PrivateIpAddress?: string;
+  PrivateIpAddress?: string | Redacted.Redacted<string>;
 }
 export const PrivateIpAddressDetails = S.suspend(() =>
   S.Struct({
     PrivateDnsName: S.optional(S.String).pipe(T.JsonName("privateDnsName")),
-    PrivateIpAddress: S.optional(S.String).pipe(T.JsonName("privateIpAddress")),
+    PrivateIpAddress: S.optional(SensitiveString).pipe(
+      T.JsonName("privateIpAddress"),
+    ),
   }),
 ).annotations({
   identifier: "PrivateIpAddressDetails",
@@ -6150,13 +6154,13 @@ export const LocalPortDetails = S.suspend(() =>
   identifier: "LocalPortDetails",
 }) as any as S.Schema<LocalPortDetails>;
 export interface LocalIpDetails {
-  IpAddressV4?: string;
-  IpAddressV6?: string;
+  IpAddressV4?: string | Redacted.Redacted<string>;
+  IpAddressV6?: string | Redacted.Redacted<string>;
 }
 export const LocalIpDetails = S.suspend(() =>
   S.Struct({
-    IpAddressV4: S.optional(S.String).pipe(T.JsonName("ipAddressV4")),
-    IpAddressV6: S.optional(S.String).pipe(T.JsonName("ipAddressV6")),
+    IpAddressV4: S.optional(SensitiveString).pipe(T.JsonName("ipAddressV4")),
+    IpAddressV6: S.optional(SensitiveString).pipe(T.JsonName("ipAddressV6")),
   }),
 ).annotations({
   identifier: "LocalIpDetails",
@@ -6534,7 +6538,7 @@ export interface NetworkInterface {
   Ipv6Addresses?: Ipv6Addresses;
   NetworkInterfaceId?: string;
   PrivateDnsName?: string;
-  PrivateIpAddress?: string;
+  PrivateIpAddress?: string | Redacted.Redacted<string>;
   PrivateIpAddresses?: PrivateIpAddresses;
   PublicDnsName?: string;
   PublicIp?: string;
@@ -6549,7 +6553,9 @@ export const NetworkInterface = S.suspend(() =>
       T.JsonName("networkInterfaceId"),
     ),
     PrivateDnsName: S.optional(S.String).pipe(T.JsonName("privateDnsName")),
-    PrivateIpAddress: S.optional(S.String).pipe(T.JsonName("privateIpAddress")),
+    PrivateIpAddress: S.optional(SensitiveString).pipe(
+      T.JsonName("privateIpAddress"),
+    ),
     PrivateIpAddresses: S.optional(PrivateIpAddresses).pipe(
       T.JsonName("privateIpAddresses"),
     ),

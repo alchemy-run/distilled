@@ -1,5 +1,6 @@
 import { HttpClient } from "@effect/platform";
 import * as Effect from "effect/Effect";
+import * as Redacted from "effect/Redacted";
 import * as S from "effect/Schema";
 import * as Stream from "effect/Stream";
 import * as API from "../api.ts";
@@ -10,6 +11,7 @@ import {
   ErrorCategory,
   Errors,
 } from "../index.ts";
+import { SensitiveString, SensitiveBlob } from "../sensitive.ts";
 const svc = T.AwsApiService({
   sdkId: "Appflow",
   serviceShapeName: "SandstoneConfigurationServiceLambda",
@@ -313,21 +315,21 @@ export type PortNumber = number;
 export type ClientNumber = string;
 export type LogonLanguage = string;
 export type BusinessUnitId = string;
-export type ApiKey = string;
-export type SecretKey = string;
+export type ApiKey = string | Redacted.Redacted<string>;
+export type SecretKey = string | Redacted.Redacted<string>;
 export type ApplicationKey = string;
 export type ApiToken = string;
 export type ClientId = string;
-export type ClientSecret = string;
-export type AccessToken = string;
+export type ClientSecret = string | Redacted.Redacted<string>;
+export type AccessToken = string | Redacted.Redacted<string>;
 export type RefreshToken = string;
-export type AccessKeyId = string;
+export type AccessKeyId = string | Redacted.Redacted<string>;
 export type Username = string;
 export type Key = string;
-export type Password = string;
-export type ClientCredentialsArn = string;
-export type JwtToken = string;
-export type ApiSecretKey = string;
+export type Password = string | Redacted.Redacted<string>;
+export type ClientCredentialsArn = string | Redacted.Redacted<string>;
+export type JwtToken = string | Redacted.Redacted<string>;
+export type ApiSecretKey = string | Redacted.Redacted<string>;
 export type ScheduleExpression = string;
 export type Timezone = string;
 export type ScheduleOffset = number;
@@ -357,8 +359,8 @@ export type SAPODataMaxPageSize = number;
 export type FieldType = string;
 export type Value = string;
 export type ExecutionMessage = string;
-export type CredentialsMapKey = string;
-export type CredentialsMapValue = string;
+export type CredentialsMapKey = string | Redacted.Redacted<string>;
+export type CredentialsMapValue = string | Redacted.Redacted<string>;
 export type Double = number;
 
 //# Schemas
@@ -1101,20 +1103,20 @@ export const ConnectorProfileProperties = S.suspend(() =>
   identifier: "ConnectorProfileProperties",
 }) as any as S.Schema<ConnectorProfileProperties>;
 export interface AmplitudeConnectorProfileCredentials {
-  apiKey: string;
-  secretKey: string;
+  apiKey: string | Redacted.Redacted<string>;
+  secretKey: string | Redacted.Redacted<string>;
 }
 export const AmplitudeConnectorProfileCredentials = S.suspend(() =>
-  S.Struct({ apiKey: S.String, secretKey: S.String }),
+  S.Struct({ apiKey: SensitiveString, secretKey: SensitiveString }),
 ).annotations({
   identifier: "AmplitudeConnectorProfileCredentials",
 }) as any as S.Schema<AmplitudeConnectorProfileCredentials>;
 export interface DatadogConnectorProfileCredentials {
-  apiKey: string;
+  apiKey: string | Redacted.Redacted<string>;
   applicationKey: string;
 }
 export const DatadogConnectorProfileCredentials = S.suspend(() =>
-  S.Struct({ apiKey: S.String, applicationKey: S.String }),
+  S.Struct({ apiKey: SensitiveString, applicationKey: S.String }),
 ).annotations({
   identifier: "DatadogConnectorProfileCredentials",
 }) as any as S.Schema<DatadogConnectorProfileCredentials>;
@@ -1140,16 +1142,16 @@ export const ConnectorOAuthRequest = S.suspend(() =>
 }) as any as S.Schema<ConnectorOAuthRequest>;
 export interface GoogleAnalyticsConnectorProfileCredentials {
   clientId: string;
-  clientSecret: string;
-  accessToken?: string;
+  clientSecret: string | Redacted.Redacted<string>;
+  accessToken?: string | Redacted.Redacted<string>;
   refreshToken?: string;
   oAuthRequest?: ConnectorOAuthRequest;
 }
 export const GoogleAnalyticsConnectorProfileCredentials = S.suspend(() =>
   S.Struct({
     clientId: S.String,
-    clientSecret: S.String,
-    accessToken: S.optional(S.String),
+    clientSecret: SensitiveString,
+    accessToken: S.optional(SensitiveString),
     refreshToken: S.optional(S.String),
     oAuthRequest: S.optional(ConnectorOAuthRequest),
   }),
@@ -1157,13 +1159,13 @@ export const GoogleAnalyticsConnectorProfileCredentials = S.suspend(() =>
   identifier: "GoogleAnalyticsConnectorProfileCredentials",
 }) as any as S.Schema<GoogleAnalyticsConnectorProfileCredentials>;
 export interface HoneycodeConnectorProfileCredentials {
-  accessToken?: string;
+  accessToken?: string | Redacted.Redacted<string>;
   refreshToken?: string;
   oAuthRequest?: ConnectorOAuthRequest;
 }
 export const HoneycodeConnectorProfileCredentials = S.suspend(() =>
   S.Struct({
-    accessToken: S.optional(S.String),
+    accessToken: S.optional(SensitiveString),
     refreshToken: S.optional(S.String),
     oAuthRequest: S.optional(ConnectorOAuthRequest),
   }),
@@ -1171,14 +1173,14 @@ export const HoneycodeConnectorProfileCredentials = S.suspend(() =>
   identifier: "HoneycodeConnectorProfileCredentials",
 }) as any as S.Schema<HoneycodeConnectorProfileCredentials>;
 export interface InforNexusConnectorProfileCredentials {
-  accessKeyId: string;
+  accessKeyId: string | Redacted.Redacted<string>;
   userId: string;
   secretAccessKey: string;
   datakey: string;
 }
 export const InforNexusConnectorProfileCredentials = S.suspend(() =>
   S.Struct({
-    accessKeyId: S.String,
+    accessKeyId: SensitiveString,
     userId: S.String,
     secretAccessKey: S.String,
     datakey: S.String,
@@ -1188,15 +1190,15 @@ export const InforNexusConnectorProfileCredentials = S.suspend(() =>
 }) as any as S.Schema<InforNexusConnectorProfileCredentials>;
 export interface MarketoConnectorProfileCredentials {
   clientId: string;
-  clientSecret: string;
-  accessToken?: string;
+  clientSecret: string | Redacted.Redacted<string>;
+  accessToken?: string | Redacted.Redacted<string>;
   oAuthRequest?: ConnectorOAuthRequest;
 }
 export const MarketoConnectorProfileCredentials = S.suspend(() =>
   S.Struct({
     clientId: S.String,
-    clientSecret: S.String,
-    accessToken: S.optional(S.String),
+    clientSecret: SensitiveString,
+    accessToken: S.optional(SensitiveString),
     oAuthRequest: S.optional(ConnectorOAuthRequest),
   }),
 ).annotations({
@@ -1204,45 +1206,48 @@ export const MarketoConnectorProfileCredentials = S.suspend(() =>
 }) as any as S.Schema<MarketoConnectorProfileCredentials>;
 export interface RedshiftConnectorProfileCredentials {
   username?: string;
-  password?: string;
+  password?: string | Redacted.Redacted<string>;
 }
 export const RedshiftConnectorProfileCredentials = S.suspend(() =>
-  S.Struct({ username: S.optional(S.String), password: S.optional(S.String) }),
+  S.Struct({
+    username: S.optional(S.String),
+    password: S.optional(SensitiveString),
+  }),
 ).annotations({
   identifier: "RedshiftConnectorProfileCredentials",
 }) as any as S.Schema<RedshiftConnectorProfileCredentials>;
 export interface SalesforceConnectorProfileCredentials {
-  accessToken?: string;
+  accessToken?: string | Redacted.Redacted<string>;
   refreshToken?: string;
   oAuthRequest?: ConnectorOAuthRequest;
-  clientCredentialsArn?: string;
+  clientCredentialsArn?: string | Redacted.Redacted<string>;
   oAuth2GrantType?: string;
-  jwtToken?: string;
+  jwtToken?: string | Redacted.Redacted<string>;
 }
 export const SalesforceConnectorProfileCredentials = S.suspend(() =>
   S.Struct({
-    accessToken: S.optional(S.String),
+    accessToken: S.optional(SensitiveString),
     refreshToken: S.optional(S.String),
     oAuthRequest: S.optional(ConnectorOAuthRequest),
-    clientCredentialsArn: S.optional(S.String),
+    clientCredentialsArn: S.optional(SensitiveString),
     oAuth2GrantType: S.optional(S.String),
-    jwtToken: S.optional(S.String),
+    jwtToken: S.optional(SensitiveString),
   }),
 ).annotations({
   identifier: "SalesforceConnectorProfileCredentials",
 }) as any as S.Schema<SalesforceConnectorProfileCredentials>;
 export interface OAuth2Credentials {
   clientId?: string;
-  clientSecret?: string;
-  accessToken?: string;
+  clientSecret?: string | Redacted.Redacted<string>;
+  accessToken?: string | Redacted.Redacted<string>;
   refreshToken?: string;
   oAuthRequest?: ConnectorOAuthRequest;
 }
 export const OAuth2Credentials = S.suspend(() =>
   S.Struct({
     clientId: S.optional(S.String),
-    clientSecret: S.optional(S.String),
-    accessToken: S.optional(S.String),
+    clientSecret: S.optional(SensitiveString),
+    accessToken: S.optional(SensitiveString),
     refreshToken: S.optional(S.String),
     oAuthRequest: S.optional(ConnectorOAuthRequest),
   }),
@@ -1251,37 +1256,37 @@ export const OAuth2Credentials = S.suspend(() =>
 }) as any as S.Schema<OAuth2Credentials>;
 export interface ServiceNowConnectorProfileCredentials {
   username?: string;
-  password?: string;
+  password?: string | Redacted.Redacted<string>;
   oAuth2Credentials?: OAuth2Credentials;
 }
 export const ServiceNowConnectorProfileCredentials = S.suspend(() =>
   S.Struct({
     username: S.optional(S.String),
-    password: S.optional(S.String),
+    password: S.optional(SensitiveString),
     oAuth2Credentials: S.optional(OAuth2Credentials),
   }),
 ).annotations({
   identifier: "ServiceNowConnectorProfileCredentials",
 }) as any as S.Schema<ServiceNowConnectorProfileCredentials>;
 export interface SingularConnectorProfileCredentials {
-  apiKey: string;
+  apiKey: string | Redacted.Redacted<string>;
 }
 export const SingularConnectorProfileCredentials = S.suspend(() =>
-  S.Struct({ apiKey: S.String }),
+  S.Struct({ apiKey: SensitiveString }),
 ).annotations({
   identifier: "SingularConnectorProfileCredentials",
 }) as any as S.Schema<SingularConnectorProfileCredentials>;
 export interface SlackConnectorProfileCredentials {
   clientId: string;
-  clientSecret: string;
-  accessToken?: string;
+  clientSecret: string | Redacted.Redacted<string>;
+  accessToken?: string | Redacted.Redacted<string>;
   oAuthRequest?: ConnectorOAuthRequest;
 }
 export const SlackConnectorProfileCredentials = S.suspend(() =>
   S.Struct({
     clientId: S.String,
-    clientSecret: S.String,
-    accessToken: S.optional(S.String),
+    clientSecret: SensitiveString,
+    accessToken: S.optional(SensitiveString),
     oAuthRequest: S.optional(ConnectorOAuthRequest),
   }),
 ).annotations({
@@ -1289,41 +1294,41 @@ export const SlackConnectorProfileCredentials = S.suspend(() =>
 }) as any as S.Schema<SlackConnectorProfileCredentials>;
 export interface SnowflakeConnectorProfileCredentials {
   username: string;
-  password: string;
+  password: string | Redacted.Redacted<string>;
 }
 export const SnowflakeConnectorProfileCredentials = S.suspend(() =>
-  S.Struct({ username: S.String, password: S.String }),
+  S.Struct({ username: S.String, password: SensitiveString }),
 ).annotations({
   identifier: "SnowflakeConnectorProfileCredentials",
 }) as any as S.Schema<SnowflakeConnectorProfileCredentials>;
 export interface TrendmicroConnectorProfileCredentials {
-  apiSecretKey: string;
+  apiSecretKey: string | Redacted.Redacted<string>;
 }
 export const TrendmicroConnectorProfileCredentials = S.suspend(() =>
-  S.Struct({ apiSecretKey: S.String }),
+  S.Struct({ apiSecretKey: SensitiveString }),
 ).annotations({
   identifier: "TrendmicroConnectorProfileCredentials",
 }) as any as S.Schema<TrendmicroConnectorProfileCredentials>;
 export interface VeevaConnectorProfileCredentials {
   username: string;
-  password: string;
+  password: string | Redacted.Redacted<string>;
 }
 export const VeevaConnectorProfileCredentials = S.suspend(() =>
-  S.Struct({ username: S.String, password: S.String }),
+  S.Struct({ username: S.String, password: SensitiveString }),
 ).annotations({
   identifier: "VeevaConnectorProfileCredentials",
 }) as any as S.Schema<VeevaConnectorProfileCredentials>;
 export interface ZendeskConnectorProfileCredentials {
   clientId: string;
-  clientSecret: string;
-  accessToken?: string;
+  clientSecret: string | Redacted.Redacted<string>;
+  accessToken?: string | Redacted.Redacted<string>;
   oAuthRequest?: ConnectorOAuthRequest;
 }
 export const ZendeskConnectorProfileCredentials = S.suspend(() =>
   S.Struct({
     clientId: S.String,
-    clientSecret: S.String,
-    accessToken: S.optional(S.String),
+    clientSecret: SensitiveString,
+    accessToken: S.optional(SensitiveString),
     oAuthRequest: S.optional(ConnectorOAuthRequest),
   }),
 ).annotations({
@@ -1331,25 +1336,25 @@ export const ZendeskConnectorProfileCredentials = S.suspend(() =>
 }) as any as S.Schema<ZendeskConnectorProfileCredentials>;
 export interface BasicAuthCredentials {
   username: string;
-  password: string;
+  password: string | Redacted.Redacted<string>;
 }
 export const BasicAuthCredentials = S.suspend(() =>
-  S.Struct({ username: S.String, password: S.String }),
+  S.Struct({ username: S.String, password: SensitiveString }),
 ).annotations({
   identifier: "BasicAuthCredentials",
 }) as any as S.Schema<BasicAuthCredentials>;
 export interface OAuthCredentials {
   clientId: string;
-  clientSecret: string;
-  accessToken?: string;
+  clientSecret: string | Redacted.Redacted<string>;
+  accessToken?: string | Redacted.Redacted<string>;
   refreshToken?: string;
   oAuthRequest?: ConnectorOAuthRequest;
 }
 export const OAuthCredentials = S.suspend(() =>
   S.Struct({
     clientId: S.String,
-    clientSecret: S.String,
-    accessToken: S.optional(S.String),
+    clientSecret: SensitiveString,
+    accessToken: S.optional(SensitiveString),
     refreshToken: S.optional(S.String),
     oAuthRequest: S.optional(ConnectorOAuthRequest),
   }),
@@ -1369,16 +1374,24 @@ export const SAPODataConnectorProfileCredentials = S.suspend(() =>
   identifier: "SAPODataConnectorProfileCredentials",
 }) as any as S.Schema<SAPODataConnectorProfileCredentials>;
 export interface ApiKeyCredentials {
-  apiKey: string;
-  apiSecretKey?: string;
+  apiKey: string | Redacted.Redacted<string>;
+  apiSecretKey?: string | Redacted.Redacted<string>;
 }
 export const ApiKeyCredentials = S.suspend(() =>
-  S.Struct({ apiKey: S.String, apiSecretKey: S.optional(S.String) }),
+  S.Struct({
+    apiKey: SensitiveString,
+    apiSecretKey: S.optional(SensitiveString),
+  }),
 ).annotations({
   identifier: "ApiKeyCredentials",
 }) as any as S.Schema<ApiKeyCredentials>;
-export type CredentialsMap = { [key: string]: string };
-export const CredentialsMap = S.Record({ key: S.String, value: S.String });
+export type CredentialsMap = {
+  [key: string]: string | Redacted.Redacted<string>;
+};
+export const CredentialsMap = S.Record({
+  key: S.String,
+  value: SensitiveString,
+});
 export interface CustomAuthCredentials {
   customAuthenticationType: string;
   credentialsMap?: CredentialsMap;
@@ -1410,17 +1423,17 @@ export const CustomConnectorProfileCredentials = S.suspend(() =>
   identifier: "CustomConnectorProfileCredentials",
 }) as any as S.Schema<CustomConnectorProfileCredentials>;
 export interface PardotConnectorProfileCredentials {
-  accessToken?: string;
+  accessToken?: string | Redacted.Redacted<string>;
   refreshToken?: string;
   oAuthRequest?: ConnectorOAuthRequest;
-  clientCredentialsArn?: string;
+  clientCredentialsArn?: string | Redacted.Redacted<string>;
 }
 export const PardotConnectorProfileCredentials = S.suspend(() =>
   S.Struct({
-    accessToken: S.optional(S.String),
+    accessToken: S.optional(SensitiveString),
     refreshToken: S.optional(S.String),
     oAuthRequest: S.optional(ConnectorOAuthRequest),
-    clientCredentialsArn: S.optional(S.String),
+    clientCredentialsArn: S.optional(SensitiveString),
   }),
 ).annotations({
   identifier: "PardotConnectorProfileCredentials",

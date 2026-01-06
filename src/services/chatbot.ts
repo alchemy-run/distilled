@@ -1,5 +1,6 @@
 import { HttpClient } from "@effect/platform";
 import * as Effect from "effect/Effect";
+import * as Redacted from "effect/Redacted";
 import * as S from "effect/Schema";
 import * as Stream from "effect/Stream";
 import * as API from "../api.ts";
@@ -10,6 +11,7 @@ import {
   ErrorCategory,
   Errors,
 } from "../index.ts";
+import { SensitiveString, SensitiveBlob } from "../sensitive.ts";
 const ns = T.XmlNamespace(
   "http://wheatley.amazonaws.com/orchestration/2017-10-11/",
 );
@@ -307,19 +309,19 @@ const rules = T.EndpointRuleSet({
 //# Newtypes
 export type ResourceIdentifier = string;
 export type ChatConfigurationArn = string;
-export type ChimeWebhookDescription = string;
-export type ChimeWebhookUrl = string;
+export type ChimeWebhookDescription = string | Redacted.Redacted<string>;
+export type ChimeWebhookUrl = string | Redacted.Redacted<string>;
 export type Arn = string;
 export type ConfigurationName = string;
 export type CustomerCwLogLevel = string;
 export type TeamsChannelId = string;
-export type TeamsChannelName = string;
+export type TeamsChannelName = string | Redacted.Redacted<string>;
 export type UUID = string;
-export type TeamName = string;
+export type TeamName = string | Redacted.Redacted<string>;
 export type GuardrailPolicyArn = string;
 export type SlackTeamId = string;
 export type SlackChannelId = string;
-export type SlackChannelDisplayName = string;
+export type SlackChannelDisplayName = string | Redacted.Redacted<string>;
 export type SlackUserId = string;
 export type MaxResults = number;
 export type PaginationToken = string;
@@ -398,9 +400,9 @@ export type Tags = Tag[];
 export const Tags = S.Array(Tag);
 export interface CreateTeamsChannelConfigurationRequest {
   ChannelId: string;
-  ChannelName?: string;
+  ChannelName?: string | Redacted.Redacted<string>;
   TeamId: string;
-  TeamName?: string;
+  TeamName?: string | Redacted.Redacted<string>;
   TenantId: string;
   SnsTopicArns?: SnsTopicArnList;
   IamRoleArn: string;
@@ -413,9 +415,9 @@ export interface CreateTeamsChannelConfigurationRequest {
 export const CreateTeamsChannelConfigurationRequest = S.suspend(() =>
   S.Struct({
     ChannelId: S.String,
-    ChannelName: S.optional(S.String),
+    ChannelName: S.optional(SensitiveString),
     TeamId: S.String,
-    TeamName: S.optional(S.String),
+    TeamName: S.optional(SensitiveString),
     TenantId: S.String,
     SnsTopicArns: S.optional(SnsTopicArnList),
     IamRoleArn: S.String,
@@ -441,7 +443,7 @@ export const CreateTeamsChannelConfigurationRequest = S.suspend(() =>
 export interface CreateSlackChannelConfigurationRequest {
   SlackTeamId: string;
   SlackChannelId: string;
-  SlackChannelName?: string;
+  SlackChannelName?: string | Redacted.Redacted<string>;
   SnsTopicArns?: SnsTopicArnList;
   IamRoleArn: string;
   ConfigurationName: string;
@@ -454,7 +456,7 @@ export const CreateSlackChannelConfigurationRequest = S.suspend(() =>
   S.Struct({
     SlackTeamId: S.String,
     SlackChannelId: S.String,
-    SlackChannelName: S.optional(S.String),
+    SlackChannelName: S.optional(SensitiveString),
     SnsTopicArns: S.optional(SnsTopicArnList),
     IamRoleArn: S.String,
     ConfigurationName: S.String,
@@ -974,8 +976,8 @@ export const UpdateAccountPreferencesRequest = S.suspend(() =>
 }) as any as S.Schema<UpdateAccountPreferencesRequest>;
 export interface UpdateChimeWebhookConfigurationRequest {
   ChatConfigurationArn: string;
-  WebhookDescription?: string;
-  WebhookUrl?: string;
+  WebhookDescription?: string | Redacted.Redacted<string>;
+  WebhookUrl?: string | Redacted.Redacted<string>;
   SnsTopicArns?: SnsTopicArnList;
   IamRoleArn?: string;
   LoggingLevel?: string;
@@ -983,8 +985,8 @@ export interface UpdateChimeWebhookConfigurationRequest {
 export const UpdateChimeWebhookConfigurationRequest = S.suspend(() =>
   S.Struct({
     ChatConfigurationArn: S.String,
-    WebhookDescription: S.optional(S.String),
-    WebhookUrl: S.optional(S.String),
+    WebhookDescription: S.optional(SensitiveString),
+    WebhookUrl: S.optional(SensitiveString),
     SnsTopicArns: S.optional(SnsTopicArnList),
     IamRoleArn: S.optional(S.String),
     LoggingLevel: S.optional(S.String),
@@ -1005,7 +1007,7 @@ export const UpdateChimeWebhookConfigurationRequest = S.suspend(() =>
 export interface UpdateTeamsChannelConfigurationRequest {
   ChatConfigurationArn: string;
   ChannelId: string;
-  ChannelName?: string;
+  ChannelName?: string | Redacted.Redacted<string>;
   SnsTopicArns?: SnsTopicArnList;
   IamRoleArn?: string;
   LoggingLevel?: string;
@@ -1016,7 +1018,7 @@ export const UpdateTeamsChannelConfigurationRequest = S.suspend(() =>
   S.Struct({
     ChatConfigurationArn: S.String,
     ChannelId: S.String,
-    ChannelName: S.optional(S.String),
+    ChannelName: S.optional(SensitiveString),
     SnsTopicArns: S.optional(SnsTopicArnList),
     IamRoleArn: S.optional(S.String),
     LoggingLevel: S.optional(S.String),
@@ -1039,7 +1041,7 @@ export const UpdateTeamsChannelConfigurationRequest = S.suspend(() =>
 export interface UpdateSlackChannelConfigurationRequest {
   ChatConfigurationArn: string;
   SlackChannelId: string;
-  SlackChannelName?: string;
+  SlackChannelName?: string | Redacted.Redacted<string>;
   SnsTopicArns?: SnsTopicArnList;
   IamRoleArn?: string;
   LoggingLevel?: string;
@@ -1050,7 +1052,7 @@ export const UpdateSlackChannelConfigurationRequest = S.suspend(() =>
   S.Struct({
     ChatConfigurationArn: S.String,
     SlackChannelId: S.String,
-    SlackChannelName: S.optional(S.String),
+    SlackChannelName: S.optional(SensitiveString),
     SnsTopicArns: S.optional(SnsTopicArnList),
     IamRoleArn: S.optional(S.String),
     LoggingLevel: S.optional(S.String),
@@ -1214,7 +1216,7 @@ export interface SlackChannelConfiguration {
   SlackTeamName: string;
   SlackTeamId: string;
   SlackChannelId: string;
-  SlackChannelName: string;
+  SlackChannelName: string | Redacted.Redacted<string>;
   ChatConfigurationArn: string;
   IamRoleArn: string;
   SnsTopicArns: SnsTopicArnList;
@@ -1231,7 +1233,7 @@ export const SlackChannelConfiguration = S.suspend(() =>
     SlackTeamName: S.String,
     SlackTeamId: S.String,
     SlackChannelId: S.String,
-    SlackChannelName: S.String,
+    SlackChannelName: SensitiveString,
     ChatConfigurationArn: S.String,
     IamRoleArn: S.String,
     SnsTopicArns: SnsTopicArnList,
@@ -1262,9 +1264,9 @@ export const AccountPreferences = S.suspend(() =>
 }) as any as S.Schema<AccountPreferences>;
 export interface TeamsChannelConfiguration {
   ChannelId: string;
-  ChannelName?: string;
+  ChannelName?: string | Redacted.Redacted<string>;
   TeamId: string;
-  TeamName?: string;
+  TeamName?: string | Redacted.Redacted<string>;
   TenantId: string;
   ChatConfigurationArn: string;
   IamRoleArn: string;
@@ -1280,9 +1282,9 @@ export interface TeamsChannelConfiguration {
 export const TeamsChannelConfiguration = S.suspend(() =>
   S.Struct({
     ChannelId: S.String,
-    ChannelName: S.optional(S.String),
+    ChannelName: S.optional(SensitiveString),
     TeamId: S.String,
-    TeamName: S.optional(S.String),
+    TeamName: S.optional(SensitiveString),
     TenantId: S.String,
     ChatConfigurationArn: S.String,
     IamRoleArn: S.String,
@@ -1303,8 +1305,8 @@ export const TeamChannelConfigurationsList = S.Array(TeamsChannelConfiguration);
 export type CustomActionArnList = string[];
 export const CustomActionArnList = S.Array(S.String);
 export interface CreateChimeWebhookConfigurationRequest {
-  WebhookDescription: string;
-  WebhookUrl: string;
+  WebhookDescription: string | Redacted.Redacted<string>;
+  WebhookUrl: string | Redacted.Redacted<string>;
   SnsTopicArns: SnsTopicArnList;
   IamRoleArn: string;
   ConfigurationName: string;
@@ -1313,8 +1315,8 @@ export interface CreateChimeWebhookConfigurationRequest {
 }
 export const CreateChimeWebhookConfigurationRequest = S.suspend(() =>
   S.Struct({
-    WebhookDescription: S.String,
-    WebhookUrl: S.String,
+    WebhookDescription: SensitiveString,
+    WebhookUrl: SensitiveString,
     SnsTopicArns: SnsTopicArnList,
     IamRoleArn: S.String,
     ConfigurationName: S.String,
@@ -1393,7 +1395,7 @@ export const UpdateAccountPreferencesResult = S.suspend(() =>
   identifier: "UpdateAccountPreferencesResult",
 }) as any as S.Schema<UpdateAccountPreferencesResult>;
 export interface ChimeWebhookConfiguration {
-  WebhookDescription: string;
+  WebhookDescription: string | Redacted.Redacted<string>;
   ChatConfigurationArn: string;
   IamRoleArn: string;
   SnsTopicArns: SnsTopicArnList;
@@ -1405,7 +1407,7 @@ export interface ChimeWebhookConfiguration {
 }
 export const ChimeWebhookConfiguration = S.suspend(() =>
   S.Struct({
-    WebhookDescription: S.String,
+    WebhookDescription: SensitiveString,
     ChatConfigurationArn: S.String,
     IamRoleArn: S.String,
     SnsTopicArns: SnsTopicArnList,

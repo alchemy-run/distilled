@@ -1,5 +1,6 @@
 import { HttpClient } from "@effect/platform";
 import * as Effect from "effect/Effect";
+import * as Redacted from "effect/Redacted";
 import * as S from "effect/Schema";
 import * as Stream from "effect/Stream";
 import * as API from "../api.ts";
@@ -10,6 +11,7 @@ import {
   ErrorCategory,
   Errors,
 } from "../index.ts";
+import { SensitiveString, SensitiveBlob } from "../sensitive.ts";
 const svc = T.AwsApiService({
   sdkId: "Geo Places",
   serviceShapeName: "PlacesService",
@@ -483,13 +485,13 @@ const rules = T.EndpointRuleSet({
 });
 
 //# Newtypes
-export type SensitiveString = string;
+export type SensitiveString = string | Redacted.Redacted<string>;
 export type PostalCodeMode = string;
 export type AutocompleteAdditionalFeature = string;
 export type LanguageTag = string;
-export type CountryCode = string;
+export type CountryCode = string | Redacted.Redacted<string>;
 export type AutocompleteIntendedUse = string;
-export type ApiKey = string;
+export type ApiKey = string | Redacted.Redacted<string>;
 export type GeocodeAdditionalFeature = string;
 export type GeocodeIntendedUse = string;
 export type GetPlaceAdditionalFeature = string;
@@ -506,20 +508,20 @@ export type SearchTextIntendedUse = string;
 export type SuggestAdditionalFeature = string;
 export type SuggestIntendedUse = string;
 export type AutocompleteFilterPlaceType = string;
-export type GeocodeFilterPlaceType = string;
+export type GeocodeFilterPlaceType = string | Redacted.Redacted<string>;
 export type ReverseGeocodeFilterPlaceType = string;
-export type PlaceType = string;
-export type CountryCode3 = string;
+export type PlaceType = string | Redacted.Redacted<string>;
+export type CountryCode3 = string | Redacted.Redacted<string>;
 export type IntersectionStreet = string;
-export type PostalAuthority = string;
-export type PostalCodeType = string;
-export type OpeningHoursDisplay = string;
+export type PostalAuthority = string | Redacted.Redacted<string>;
+export type PostalCodeType = string | Redacted.Redacted<string>;
+export type OpeningHoursDisplay = string | Redacted.Redacted<string>;
 export type DurationSeconds = number;
-export type CountryCode2 = string;
+export type CountryCode2 = string | Redacted.Redacted<string>;
 export type TypePlacement = string;
 export type TypeSeparator = string;
-export type ZipClassificationCode = string;
-export type RecordTypeCode = string;
+export type ZipClassificationCode = string | Redacted.Redacted<string>;
+export type RecordTypeCode = string | Redacted.Redacted<string>;
 export type SuggestResultItemType = string;
 export type MatchScore = number;
 export type QueryType = string;
@@ -543,23 +545,25 @@ export const SearchTextAdditionalFeatureList = S.Array(S.String);
 export type SuggestAdditionalFeatureList = string[];
 export const SuggestAdditionalFeatureList = S.Array(S.String);
 export interface GetPlaceRequest {
-  PlaceId: string;
+  PlaceId: string | Redacted.Redacted<string>;
   AdditionalFeatures?: GetPlaceAdditionalFeatureList;
   Language?: string;
-  PoliticalView?: string;
+  PoliticalView?: string | Redacted.Redacted<string>;
   IntendedUse?: string;
-  Key?: string;
+  Key?: string | Redacted.Redacted<string>;
 }
 export const GetPlaceRequest = S.suspend(() =>
   S.Struct({
-    PlaceId: S.String.pipe(T.HttpLabel("PlaceId")),
+    PlaceId: SensitiveString.pipe(T.HttpLabel("PlaceId")),
     AdditionalFeatures: S.optional(GetPlaceAdditionalFeatureList).pipe(
       T.HttpQuery("additional-features"),
     ),
     Language: S.optional(S.String).pipe(T.HttpQuery("language")),
-    PoliticalView: S.optional(S.String).pipe(T.HttpQuery("political-view")),
+    PoliticalView: S.optional(SensitiveString).pipe(
+      T.HttpQuery("political-view"),
+    ),
     IntendedUse: S.optional(S.String).pipe(T.HttpQuery("intended-use")),
-    Key: S.optional(S.String).pipe(T.HttpQuery("key")),
+    Key: S.optional(SensitiveString).pipe(T.HttpQuery("key")),
   }).pipe(
     T.all(
       T.Http({ method: "GET", uri: "/place/{PlaceId}" }),
@@ -575,40 +579,40 @@ export const GetPlaceRequest = S.suspend(() =>
 }) as any as S.Schema<GetPlaceRequest>;
 export type BoundingBox = number[];
 export const BoundingBox = S.Array(S.Number);
-export type CountryCodeList = string[];
-export const CountryCodeList = S.Array(S.String);
+export type CountryCodeList = string | Redacted.Redacted<string>[];
+export const CountryCodeList = S.Array(SensitiveString);
 export type AutocompleteFilterPlaceTypeList = string[];
 export const AutocompleteFilterPlaceTypeList = S.Array(S.String);
-export type GeocodeFilterPlaceTypeList = string[];
-export const GeocodeFilterPlaceTypeList = S.Array(S.String);
+export type GeocodeFilterPlaceTypeList = string | Redacted.Redacted<string>[];
+export const GeocodeFilterPlaceTypeList = S.Array(SensitiveString);
 export type ReverseGeocodeFilterPlaceTypeList = string[];
 export const ReverseGeocodeFilterPlaceTypeList = S.Array(S.String);
-export type FilterCategoryList = string[];
-export const FilterCategoryList = S.Array(S.String);
-export type FilterBusinessChainList = string[];
-export const FilterBusinessChainList = S.Array(S.String);
-export type FilterFoodTypeList = string[];
-export const FilterFoodTypeList = S.Array(S.String);
+export type FilterCategoryList = string | Redacted.Redacted<string>[];
+export const FilterCategoryList = S.Array(SensitiveString);
+export type FilterBusinessChainList = string | Redacted.Redacted<string>[];
+export const FilterBusinessChainList = S.Array(SensitiveString);
+export type FilterFoodTypeList = string | Redacted.Redacted<string>[];
+export const FilterFoodTypeList = S.Array(SensitiveString);
 export interface GeocodeQueryComponents {
-  Country?: string;
-  Region?: string;
-  SubRegion?: string;
-  Locality?: string;
-  District?: string;
-  Street?: string;
-  AddressNumber?: string;
-  PostalCode?: string;
+  Country?: string | Redacted.Redacted<string>;
+  Region?: string | Redacted.Redacted<string>;
+  SubRegion?: string | Redacted.Redacted<string>;
+  Locality?: string | Redacted.Redacted<string>;
+  District?: string | Redacted.Redacted<string>;
+  Street?: string | Redacted.Redacted<string>;
+  AddressNumber?: string | Redacted.Redacted<string>;
+  PostalCode?: string | Redacted.Redacted<string>;
 }
 export const GeocodeQueryComponents = S.suspend(() =>
   S.Struct({
-    Country: S.optional(S.String),
-    Region: S.optional(S.String),
-    SubRegion: S.optional(S.String),
-    Locality: S.optional(S.String),
-    District: S.optional(S.String),
-    Street: S.optional(S.String),
-    AddressNumber: S.optional(S.String),
-    PostalCode: S.optional(S.String),
+    Country: S.optional(SensitiveString),
+    Region: S.optional(SensitiveString),
+    SubRegion: S.optional(SensitiveString),
+    Locality: S.optional(SensitiveString),
+    District: S.optional(SensitiveString),
+    Street: S.optional(SensitiveString),
+    AddressNumber: S.optional(SensitiveString),
+    PostalCode: S.optional(SensitiveString),
   }),
 ).annotations({
   identifier: "GeocodeQueryComponents",
@@ -626,52 +630,58 @@ export const GeocodeFilter = S.suspend(() =>
   identifier: "GeocodeFilter",
 }) as any as S.Schema<GeocodeFilter>;
 export interface Country {
-  Code2?: string;
-  Code3?: string;
-  Name?: string;
+  Code2?: string | Redacted.Redacted<string>;
+  Code3?: string | Redacted.Redacted<string>;
+  Name?: string | Redacted.Redacted<string>;
 }
 export const Country = S.suspend(() =>
   S.Struct({
-    Code2: S.optional(S.String),
-    Code3: S.optional(S.String),
-    Name: S.optional(S.String),
+    Code2: S.optional(SensitiveString),
+    Code3: S.optional(SensitiveString),
+    Name: S.optional(SensitiveString),
   }),
 ).annotations({ identifier: "Country" }) as any as S.Schema<Country>;
 export interface Region {
-  Code?: string;
-  Name?: string;
+  Code?: string | Redacted.Redacted<string>;
+  Name?: string | Redacted.Redacted<string>;
 }
 export const Region = S.suspend(() =>
-  S.Struct({ Code: S.optional(S.String), Name: S.optional(S.String) }),
+  S.Struct({
+    Code: S.optional(SensitiveString),
+    Name: S.optional(SensitiveString),
+  }),
 ).annotations({ identifier: "Region" }) as any as S.Schema<Region>;
 export interface SubRegion {
-  Code?: string;
-  Name?: string;
+  Code?: string | Redacted.Redacted<string>;
+  Name?: string | Redacted.Redacted<string>;
 }
 export const SubRegion = S.suspend(() =>
-  S.Struct({ Code: S.optional(S.String), Name: S.optional(S.String) }),
+  S.Struct({
+    Code: S.optional(SensitiveString),
+    Name: S.optional(SensitiveString),
+  }),
 ).annotations({ identifier: "SubRegion" }) as any as S.Schema<SubRegion>;
 export type IntersectionStreetList = string[];
 export const IntersectionStreetList = S.Array(S.String);
 export interface StreetComponents {
-  BaseName?: string;
-  Type?: string;
+  BaseName?: string | Redacted.Redacted<string>;
+  Type?: string | Redacted.Redacted<string>;
   TypePlacement?: string;
   TypeSeparator?: string;
-  Prefix?: string;
-  Suffix?: string;
-  Direction?: string;
+  Prefix?: string | Redacted.Redacted<string>;
+  Suffix?: string | Redacted.Redacted<string>;
+  Direction?: string | Redacted.Redacted<string>;
   Language?: string;
 }
 export const StreetComponents = S.suspend(() =>
   S.Struct({
-    BaseName: S.optional(S.String),
-    Type: S.optional(S.String),
+    BaseName: S.optional(SensitiveString),
+    Type: S.optional(SensitiveString),
     TypePlacement: S.optional(S.String),
     TypeSeparator: S.optional(S.String),
-    Prefix: S.optional(S.String),
-    Suffix: S.optional(S.String),
-    Direction: S.optional(S.String),
+    Prefix: S.optional(SensitiveString),
+    Suffix: S.optional(SensitiveString),
+    Direction: S.optional(SensitiveString),
     Language: S.optional(S.String),
   }),
 ).annotations({
@@ -680,51 +690,54 @@ export const StreetComponents = S.suspend(() =>
 export type StreetComponentsList = StreetComponents[];
 export const StreetComponentsList = S.Array(StreetComponents);
 export interface SecondaryAddressComponent {
-  Number: string;
-  Designator?: string;
+  Number: string | Redacted.Redacted<string>;
+  Designator?: string | Redacted.Redacted<string>;
 }
 export const SecondaryAddressComponent = S.suspend(() =>
-  S.Struct({ Number: S.String, Designator: S.optional(S.String) }),
+  S.Struct({
+    Number: SensitiveString,
+    Designator: S.optional(SensitiveString),
+  }),
 ).annotations({
   identifier: "SecondaryAddressComponent",
 }) as any as S.Schema<SecondaryAddressComponent>;
 export type SecondaryAddressComponentList = SecondaryAddressComponent[];
 export const SecondaryAddressComponentList = S.Array(SecondaryAddressComponent);
 export interface Address {
-  Label?: string;
+  Label?: string | Redacted.Redacted<string>;
   Country?: Country;
   Region?: Region;
   SubRegion?: SubRegion;
-  Locality?: string;
-  District?: string;
-  SubDistrict?: string;
-  PostalCode?: string;
-  Block?: string;
-  SubBlock?: string;
+  Locality?: string | Redacted.Redacted<string>;
+  District?: string | Redacted.Redacted<string>;
+  SubDistrict?: string | Redacted.Redacted<string>;
+  PostalCode?: string | Redacted.Redacted<string>;
+  Block?: string | Redacted.Redacted<string>;
+  SubBlock?: string | Redacted.Redacted<string>;
   Intersection?: IntersectionStreetList;
-  Street?: string;
+  Street?: string | Redacted.Redacted<string>;
   StreetComponents?: StreetComponentsList;
-  AddressNumber?: string;
-  Building?: string;
+  AddressNumber?: string | Redacted.Redacted<string>;
+  Building?: string | Redacted.Redacted<string>;
   SecondaryAddressComponents?: SecondaryAddressComponentList;
 }
 export const Address = S.suspend(() =>
   S.Struct({
-    Label: S.optional(S.String),
+    Label: S.optional(SensitiveString),
     Country: S.optional(Country),
     Region: S.optional(Region),
     SubRegion: S.optional(SubRegion),
-    Locality: S.optional(S.String),
-    District: S.optional(S.String),
-    SubDistrict: S.optional(S.String),
-    PostalCode: S.optional(S.String),
-    Block: S.optional(S.String),
-    SubBlock: S.optional(S.String),
+    Locality: S.optional(SensitiveString),
+    District: S.optional(SensitiveString),
+    SubDistrict: S.optional(SensitiveString),
+    PostalCode: S.optional(SensitiveString),
+    Block: S.optional(SensitiveString),
+    SubBlock: S.optional(SensitiveString),
     Intersection: S.optional(IntersectionStreetList),
-    Street: S.optional(S.String),
+    Street: S.optional(SensitiveString),
     StreetComponents: S.optional(StreetComponentsList),
-    AddressNumber: S.optional(S.String),
-    Building: S.optional(S.String),
+    AddressNumber: S.optional(SensitiveString),
+    Building: S.optional(SensitiveString),
     SecondaryAddressComponents: S.optional(SecondaryAddressComponentList),
   }),
 ).annotations({ identifier: "Address" }) as any as S.Schema<Address>;
@@ -737,18 +750,18 @@ export const AccessPoint = S.suspend(() =>
 export type AccessPointList = AccessPoint[];
 export const AccessPointList = S.Array(AccessPoint);
 export interface RelatedPlace {
-  PlaceId: string;
-  PlaceType: string;
-  Title: string;
+  PlaceId: string | Redacted.Redacted<string>;
+  PlaceType: string | Redacted.Redacted<string>;
+  Title: string | Redacted.Redacted<string>;
   Address?: Address;
   Position?: Position;
   AccessPoints?: AccessPointList;
 }
 export const RelatedPlace = S.suspend(() =>
   S.Struct({
-    PlaceId: S.String,
-    PlaceType: S.String,
-    Title: S.String,
+    PlaceId: SensitiveString,
+    PlaceType: SensitiveString,
+    Title: SensitiveString,
     Address: S.optional(Address),
     Position: S.optional(Position),
     AccessPoints: S.optional(AccessPointList),
@@ -826,29 +839,29 @@ export const SuggestFilter = S.suspend(() =>
   identifier: "SuggestFilter",
 }) as any as S.Schema<SuggestFilter>;
 export interface GeocodeRequest {
-  QueryText?: string;
+  QueryText?: string | Redacted.Redacted<string>;
   QueryComponents?: GeocodeQueryComponents;
   MaxResults?: number;
   BiasPosition?: Position;
   Filter?: GeocodeFilter;
   AdditionalFeatures?: GeocodeAdditionalFeatureList;
   Language?: string;
-  PoliticalView?: string;
+  PoliticalView?: string | Redacted.Redacted<string>;
   IntendedUse?: string;
-  Key?: string;
+  Key?: string | Redacted.Redacted<string>;
 }
 export const GeocodeRequest = S.suspend(() =>
   S.Struct({
-    QueryText: S.optional(S.String),
+    QueryText: S.optional(SensitiveString),
     QueryComponents: S.optional(GeocodeQueryComponents),
     MaxResults: S.optional(S.Number),
     BiasPosition: S.optional(Position),
     Filter: S.optional(GeocodeFilter),
     AdditionalFeatures: S.optional(GeocodeAdditionalFeatureList),
     Language: S.optional(S.String),
-    PoliticalView: S.optional(S.String),
+    PoliticalView: S.optional(SensitiveString),
     IntendedUse: S.optional(S.String),
-    Key: S.optional(S.String).pipe(T.HttpQuery("key")),
+    Key: S.optional(SensitiveString).pipe(T.HttpQuery("key")),
   }).pipe(
     T.all(
       T.Http({ method: "POST", uri: "/geocode" }),
@@ -869,9 +882,9 @@ export interface ReverseGeocodeRequest {
   Filter?: ReverseGeocodeFilter;
   AdditionalFeatures?: ReverseGeocodeAdditionalFeatureList;
   Language?: string;
-  PoliticalView?: string;
+  PoliticalView?: string | Redacted.Redacted<string>;
   IntendedUse?: string;
-  Key?: string;
+  Key?: string | Redacted.Redacted<string>;
   Heading?: number;
 }
 export const ReverseGeocodeRequest = S.suspend(() =>
@@ -882,9 +895,9 @@ export const ReverseGeocodeRequest = S.suspend(() =>
     Filter: S.optional(ReverseGeocodeFilter),
     AdditionalFeatures: S.optional(ReverseGeocodeAdditionalFeatureList),
     Language: S.optional(S.String),
-    PoliticalView: S.optional(S.String),
+    PoliticalView: S.optional(SensitiveString),
     IntendedUse: S.optional(S.String),
-    Key: S.optional(S.String).pipe(T.HttpQuery("key")),
+    Key: S.optional(SensitiveString).pipe(T.HttpQuery("key")),
     Heading: S.optional(S.Number),
   }).pipe(
     T.all(
@@ -906,10 +919,10 @@ export interface SearchNearbyRequest {
   Filter?: SearchNearbyFilter;
   AdditionalFeatures?: SearchNearbyAdditionalFeatureList;
   Language?: string;
-  PoliticalView?: string;
+  PoliticalView?: string | Redacted.Redacted<string>;
   IntendedUse?: string;
   NextToken?: string;
-  Key?: string;
+  Key?: string | Redacted.Redacted<string>;
 }
 export const SearchNearbyRequest = S.suspend(() =>
   S.Struct({
@@ -919,10 +932,10 @@ export const SearchNearbyRequest = S.suspend(() =>
     Filter: S.optional(SearchNearbyFilter),
     AdditionalFeatures: S.optional(SearchNearbyAdditionalFeatureList),
     Language: S.optional(S.String),
-    PoliticalView: S.optional(S.String),
+    PoliticalView: S.optional(SensitiveString),
     IntendedUse: S.optional(S.String),
     NextToken: S.optional(S.String),
-    Key: S.optional(S.String).pipe(T.HttpQuery("key")),
+    Key: S.optional(SensitiveString).pipe(T.HttpQuery("key")),
   }).pipe(
     T.all(
       T.Http({ method: "POST", uri: "/search-nearby" }),
@@ -937,31 +950,31 @@ export const SearchNearbyRequest = S.suspend(() =>
   identifier: "SearchNearbyRequest",
 }) as any as S.Schema<SearchNearbyRequest>;
 export interface SearchTextRequest {
-  QueryText?: string;
-  QueryId?: string;
+  QueryText?: string | Redacted.Redacted<string>;
+  QueryId?: string | Redacted.Redacted<string>;
   MaxResults?: number;
   BiasPosition?: Position;
   Filter?: SearchTextFilter;
   AdditionalFeatures?: SearchTextAdditionalFeatureList;
   Language?: string;
-  PoliticalView?: string;
+  PoliticalView?: string | Redacted.Redacted<string>;
   IntendedUse?: string;
   NextToken?: string;
-  Key?: string;
+  Key?: string | Redacted.Redacted<string>;
 }
 export const SearchTextRequest = S.suspend(() =>
   S.Struct({
-    QueryText: S.optional(S.String),
-    QueryId: S.optional(S.String),
+    QueryText: S.optional(SensitiveString),
+    QueryId: S.optional(SensitiveString),
     MaxResults: S.optional(S.Number),
     BiasPosition: S.optional(Position),
     Filter: S.optional(SearchTextFilter),
     AdditionalFeatures: S.optional(SearchTextAdditionalFeatureList),
     Language: S.optional(S.String),
-    PoliticalView: S.optional(S.String),
+    PoliticalView: S.optional(SensitiveString),
     IntendedUse: S.optional(S.String),
     NextToken: S.optional(S.String),
-    Key: S.optional(S.String).pipe(T.HttpQuery("key")),
+    Key: S.optional(SensitiveString).pipe(T.HttpQuery("key")),
   }).pipe(
     T.all(
       T.Http({ method: "POST", uri: "/search-text" }),
@@ -976,29 +989,29 @@ export const SearchTextRequest = S.suspend(() =>
   identifier: "SearchTextRequest",
 }) as any as S.Schema<SearchTextRequest>;
 export interface SuggestRequest {
-  QueryText: string;
+  QueryText: string | Redacted.Redacted<string>;
   MaxResults?: number;
   MaxQueryRefinements?: number;
   BiasPosition?: Position;
   Filter?: SuggestFilter;
   AdditionalFeatures?: SuggestAdditionalFeatureList;
   Language?: string;
-  PoliticalView?: string;
+  PoliticalView?: string | Redacted.Redacted<string>;
   IntendedUse?: string;
-  Key?: string;
+  Key?: string | Redacted.Redacted<string>;
 }
 export const SuggestRequest = S.suspend(() =>
   S.Struct({
-    QueryText: S.String,
+    QueryText: SensitiveString,
     MaxResults: S.optional(S.Number),
     MaxQueryRefinements: S.optional(S.Number),
     BiasPosition: S.optional(Position),
     Filter: S.optional(SuggestFilter),
     AdditionalFeatures: S.optional(SuggestAdditionalFeatureList),
     Language: S.optional(S.String),
-    PoliticalView: S.optional(S.String),
+    PoliticalView: S.optional(SensitiveString),
     IntendedUse: S.optional(S.String),
-    Key: S.optional(S.String).pipe(T.HttpQuery("key")),
+    Key: S.optional(SensitiveString).pipe(T.HttpQuery("key")),
   }).pipe(
     T.all(
       T.Http({ method: "POST", uri: "/suggest" }),
@@ -1012,8 +1025,8 @@ export const SuggestRequest = S.suspend(() =>
 ).annotations({
   identifier: "SuggestRequest",
 }) as any as S.Schema<SuggestRequest>;
-export type OpeningHoursDisplayList = string[];
-export const OpeningHoursDisplayList = S.Array(S.String);
+export type OpeningHoursDisplayList = string | Redacted.Redacted<string>[];
+export const OpeningHoursDisplayList = S.Array(SensitiveString);
 export interface AutocompleteFilter {
   BoundingBox?: BoundingBox;
   Circle?: FilterCircle;
@@ -1031,41 +1044,44 @@ export const AutocompleteFilter = S.suspend(() =>
   identifier: "AutocompleteFilter",
 }) as any as S.Schema<AutocompleteFilter>;
 export interface Category {
-  Id: string;
-  Name: string;
-  LocalizedName?: string;
+  Id: string | Redacted.Redacted<string>;
+  Name: string | Redacted.Redacted<string>;
+  LocalizedName?: string | Redacted.Redacted<string>;
   Primary?: boolean;
 }
 export const Category = S.suspend(() =>
   S.Struct({
-    Id: S.String,
-    Name: S.String,
-    LocalizedName: S.optional(S.String),
+    Id: SensitiveString,
+    Name: SensitiveString,
+    LocalizedName: S.optional(SensitiveString),
     Primary: S.optional(S.Boolean),
   }),
 ).annotations({ identifier: "Category" }) as any as S.Schema<Category>;
 export type CategoryList = Category[];
 export const CategoryList = S.Array(Category);
 export interface FoodType {
-  LocalizedName: string;
-  Id?: string;
+  LocalizedName: string | Redacted.Redacted<string>;
+  Id?: string | Redacted.Redacted<string>;
   Primary?: boolean;
 }
 export const FoodType = S.suspend(() =>
   S.Struct({
-    LocalizedName: S.String,
-    Id: S.optional(S.String),
+    LocalizedName: SensitiveString,
+    Id: S.optional(SensitiveString),
     Primary: S.optional(S.Boolean),
   }),
 ).annotations({ identifier: "FoodType" }) as any as S.Schema<FoodType>;
 export type FoodTypeList = FoodType[];
 export const FoodTypeList = S.Array(FoodType);
 export interface BusinessChain {
-  Name?: string;
-  Id?: string;
+  Name?: string | Redacted.Redacted<string>;
+  Id?: string | Redacted.Redacted<string>;
 }
 export const BusinessChain = S.suspend(() =>
-  S.Struct({ Name: S.optional(S.String), Id: S.optional(S.String) }),
+  S.Struct({
+    Name: S.optional(SensitiveString),
+    Id: S.optional(SensitiveString),
+  }),
 ).annotations({
   identifier: "BusinessChain",
 }) as any as S.Schema<BusinessChain>;
@@ -1086,41 +1102,41 @@ export const AccessRestriction = S.suspend(() =>
 export type AccessRestrictionList = AccessRestriction[];
 export const AccessRestrictionList = S.Array(AccessRestriction);
 export interface TimeZone {
-  Name: string;
-  Offset?: string;
+  Name: string | Redacted.Redacted<string>;
+  Offset?: string | Redacted.Redacted<string>;
   OffsetSeconds?: number;
 }
 export const TimeZone = S.suspend(() =>
   S.Struct({
-    Name: S.String,
-    Offset: S.optional(S.String),
+    Name: SensitiveString,
+    Offset: S.optional(SensitiveString),
     OffsetSeconds: S.optional(S.Number),
   }),
 ).annotations({ identifier: "TimeZone" }) as any as S.Schema<TimeZone>;
 export interface AutocompleteRequest {
-  QueryText: string;
+  QueryText: string | Redacted.Redacted<string>;
   MaxResults?: number;
   BiasPosition?: Position;
   Filter?: AutocompleteFilter;
   PostalCodeMode?: string;
   AdditionalFeatures?: AutocompleteAdditionalFeatureList;
   Language?: string;
-  PoliticalView?: string;
+  PoliticalView?: string | Redacted.Redacted<string>;
   IntendedUse?: string;
-  Key?: string;
+  Key?: string | Redacted.Redacted<string>;
 }
 export const AutocompleteRequest = S.suspend(() =>
   S.Struct({
-    QueryText: S.String,
+    QueryText: SensitiveString,
     MaxResults: S.optional(S.Number),
     BiasPosition: S.optional(Position),
     Filter: S.optional(AutocompleteFilter),
     PostalCodeMode: S.optional(S.String),
     AdditionalFeatures: S.optional(AutocompleteAdditionalFeatureList),
     Language: S.optional(S.String),
-    PoliticalView: S.optional(S.String),
+    PoliticalView: S.optional(SensitiveString),
     IntendedUse: S.optional(S.String),
-    Key: S.optional(S.String).pipe(T.HttpQuery("key")),
+    Key: S.optional(SensitiveString).pipe(T.HttpQuery("key")),
   }).pipe(
     T.all(
       T.Http({ method: "POST", uri: "/autocomplete" }),
@@ -1135,26 +1151,26 @@ export const AutocompleteRequest = S.suspend(() =>
   identifier: "AutocompleteRequest",
 }) as any as S.Schema<AutocompleteRequest>;
 export interface UspsZip {
-  ZipClassificationCode?: string;
+  ZipClassificationCode?: string | Redacted.Redacted<string>;
 }
 export const UspsZip = S.suspend(() =>
-  S.Struct({ ZipClassificationCode: S.optional(S.String) }),
+  S.Struct({ ZipClassificationCode: S.optional(SensitiveString) }),
 ).annotations({ identifier: "UspsZip" }) as any as S.Schema<UspsZip>;
 export interface UspsZipPlus4 {
-  RecordTypeCode?: string;
+  RecordTypeCode?: string | Redacted.Redacted<string>;
 }
 export const UspsZipPlus4 = S.suspend(() =>
-  S.Struct({ RecordTypeCode: S.optional(S.String) }),
+  S.Struct({ RecordTypeCode: S.optional(SensitiveString) }),
 ).annotations({ identifier: "UspsZipPlus4" }) as any as S.Schema<UspsZipPlus4>;
 export interface ContactDetails {
-  Label?: string;
-  Value?: string;
+  Label?: string | Redacted.Redacted<string>;
+  Value?: string | Redacted.Redacted<string>;
   Categories?: CategoryList;
 }
 export const ContactDetails = S.suspend(() =>
   S.Struct({
-    Label: S.optional(S.String),
-    Value: S.optional(S.String),
+    Label: S.optional(SensitiveString),
+    Value: S.optional(SensitiveString),
     Categories: S.optional(CategoryList),
   }),
 ).annotations({
@@ -1163,15 +1179,15 @@ export const ContactDetails = S.suspend(() =>
 export type ContactDetailsList = ContactDetails[];
 export const ContactDetailsList = S.Array(ContactDetails);
 export interface OpeningHoursComponents {
-  OpenTime?: string;
-  OpenDuration?: string;
-  Recurrence?: string;
+  OpenTime?: string | Redacted.Redacted<string>;
+  OpenDuration?: string | Redacted.Redacted<string>;
+  Recurrence?: string | Redacted.Redacted<string>;
 }
 export const OpeningHoursComponents = S.suspend(() =>
   S.Struct({
-    OpenTime: S.optional(S.String),
-    OpenDuration: S.optional(S.String),
-    Recurrence: S.optional(S.String),
+    OpenTime: S.optional(SensitiveString),
+    OpenDuration: S.optional(SensitiveString),
+    Recurrence: S.optional(SensitiveString),
   }),
 ).annotations({
   identifier: "OpeningHoursComponents",
@@ -1179,13 +1195,13 @@ export const OpeningHoursComponents = S.suspend(() =>
 export type OpeningHoursComponentsList = OpeningHoursComponents[];
 export const OpeningHoursComponentsList = S.Array(OpeningHoursComponents);
 export interface PhonemeTranscription {
-  Value?: string;
+  Value?: string | Redacted.Redacted<string>;
   Language?: string;
   Preferred?: boolean;
 }
 export const PhonemeTranscription = S.suspend(() =>
   S.Struct({
-    Value: S.optional(S.String),
+    Value: S.optional(SensitiveString),
     Language: S.optional(S.String),
     Preferred: S.optional(S.Boolean),
   }),
@@ -1221,17 +1237,17 @@ export const AddressComponentPhonemes = S.suspend(() =>
   identifier: "AddressComponentPhonemes",
 }) as any as S.Schema<AddressComponentPhonemes>;
 export interface PostalCodeDetails {
-  PostalCode?: string;
-  PostalAuthority?: string;
-  PostalCodeType?: string;
+  PostalCode?: string | Redacted.Redacted<string>;
+  PostalAuthority?: string | Redacted.Redacted<string>;
+  PostalCodeType?: string | Redacted.Redacted<string>;
   UspsZip?: UspsZip;
   UspsZipPlus4?: UspsZipPlus4;
 }
 export const PostalCodeDetails = S.suspend(() =>
   S.Struct({
-    PostalCode: S.optional(S.String),
-    PostalAuthority: S.optional(S.String),
-    PostalCodeType: S.optional(S.String),
+    PostalCode: S.optional(SensitiveString),
+    PostalAuthority: S.optional(SensitiveString),
+    PostalCodeType: S.optional(SensitiveString),
     UspsZip: S.optional(UspsZip),
     UspsZipPlus4: S.optional(UspsZipPlus4),
   }),
@@ -1283,8 +1299,8 @@ export const PhonemeDetails = S.suspend(() =>
   identifier: "PhonemeDetails",
 }) as any as S.Schema<PhonemeDetails>;
 export interface Intersection {
-  PlaceId: string;
-  Title: string;
+  PlaceId: string | Redacted.Redacted<string>;
+  Title: string | Redacted.Redacted<string>;
   Address?: Address;
   Position?: Position;
   Distance?: number;
@@ -1294,8 +1310,8 @@ export interface Intersection {
 }
 export const Intersection = S.suspend(() =>
   S.Struct({
-    PlaceId: S.String,
-    Title: S.String,
+    PlaceId: SensitiveString,
+    Title: SensitiveString,
     Address: S.optional(Address),
     Position: S.optional(Position),
     Distance: S.optional(S.Number),
@@ -1307,9 +1323,9 @@ export const Intersection = S.suspend(() =>
 export type IntersectionList = Intersection[];
 export const IntersectionList = S.Array(Intersection);
 export interface ReverseGeocodeResultItem {
-  PlaceId: string;
-  PlaceType: string;
-  Title: string;
+  PlaceId: string | Redacted.Redacted<string>;
+  PlaceType: string | Redacted.Redacted<string>;
+  Title: string | Redacted.Redacted<string>;
   Address?: Address;
   AddressNumberCorrected?: boolean;
   PostalCodeDetails?: PostalCodeDetailsList;
@@ -1320,14 +1336,14 @@ export interface ReverseGeocodeResultItem {
   FoodTypes?: FoodTypeList;
   AccessPoints?: AccessPointList;
   TimeZone?: TimeZone;
-  PoliticalView?: string;
+  PoliticalView?: string | Redacted.Redacted<string>;
   Intersections?: IntersectionList;
 }
 export const ReverseGeocodeResultItem = S.suspend(() =>
   S.Struct({
-    PlaceId: S.String,
-    PlaceType: S.String,
-    Title: S.String,
+    PlaceId: SensitiveString,
+    PlaceType: SensitiveString,
+    Title: SensitiveString,
     Address: S.optional(Address),
     AddressNumberCorrected: S.optional(S.Boolean),
     PostalCodeDetails: S.optional(PostalCodeDetailsList),
@@ -1338,7 +1354,7 @@ export const ReverseGeocodeResultItem = S.suspend(() =>
     FoodTypes: S.optional(FoodTypeList),
     AccessPoints: S.optional(AccessPointList),
     TimeZone: S.optional(TimeZone),
-    PoliticalView: S.optional(S.String),
+    PoliticalView: S.optional(SensitiveString),
     Intersections: S.optional(IntersectionList),
   }),
 ).annotations({
@@ -1347,9 +1363,9 @@ export const ReverseGeocodeResultItem = S.suspend(() =>
 export type ReverseGeocodeResultItemList = ReverseGeocodeResultItem[];
 export const ReverseGeocodeResultItemList = S.Array(ReverseGeocodeResultItem);
 export interface SearchNearbyResultItem {
-  PlaceId: string;
-  PlaceType: string;
-  Title: string;
+  PlaceId: string | Redacted.Redacted<string>;
+  PlaceType: string | Redacted.Redacted<string>;
+  Title: string | Redacted.Redacted<string>;
   Address?: Address;
   AddressNumberCorrected?: boolean;
   Position?: Position;
@@ -1363,14 +1379,14 @@ export interface SearchNearbyResultItem {
   AccessPoints?: AccessPointList;
   AccessRestrictions?: AccessRestrictionList;
   TimeZone?: TimeZone;
-  PoliticalView?: string;
+  PoliticalView?: string | Redacted.Redacted<string>;
   Phonemes?: PhonemeDetails;
 }
 export const SearchNearbyResultItem = S.suspend(() =>
   S.Struct({
-    PlaceId: S.String,
-    PlaceType: S.String,
-    Title: S.String,
+    PlaceId: SensitiveString,
+    PlaceType: SensitiveString,
+    Title: SensitiveString,
     Address: S.optional(Address),
     AddressNumberCorrected: S.optional(S.Boolean),
     Position: S.optional(Position),
@@ -1384,7 +1400,7 @@ export const SearchNearbyResultItem = S.suspend(() =>
     AccessPoints: S.optional(AccessPointList),
     AccessRestrictions: S.optional(AccessRestrictionList),
     TimeZone: S.optional(TimeZone),
-    PoliticalView: S.optional(S.String),
+    PoliticalView: S.optional(SensitiveString),
     Phonemes: S.optional(PhonemeDetails),
   }),
 ).annotations({
@@ -1393,9 +1409,9 @@ export const SearchNearbyResultItem = S.suspend(() =>
 export type SearchNearbyResultItemList = SearchNearbyResultItem[];
 export const SearchNearbyResultItemList = S.Array(SearchNearbyResultItem);
 export interface SearchTextResultItem {
-  PlaceId: string;
-  PlaceType: string;
-  Title: string;
+  PlaceId: string | Redacted.Redacted<string>;
+  PlaceType: string | Redacted.Redacted<string>;
+  Title: string | Redacted.Redacted<string>;
   Address?: Address;
   AddressNumberCorrected?: boolean;
   Position?: Position;
@@ -1409,14 +1425,14 @@ export interface SearchTextResultItem {
   AccessPoints?: AccessPointList;
   AccessRestrictions?: AccessRestrictionList;
   TimeZone?: TimeZone;
-  PoliticalView?: string;
+  PoliticalView?: string | Redacted.Redacted<string>;
   Phonemes?: PhonemeDetails;
 }
 export const SearchTextResultItem = S.suspend(() =>
   S.Struct({
-    PlaceId: S.String,
-    PlaceType: S.String,
-    Title: S.String,
+    PlaceId: SensitiveString,
+    PlaceType: SensitiveString,
+    Title: SensitiveString,
     Address: S.optional(Address),
     AddressNumberCorrected: S.optional(S.Boolean),
     Position: S.optional(Position),
@@ -1430,7 +1446,7 @@ export const SearchTextResultItem = S.suspend(() =>
     AccessPoints: S.optional(AccessPointList),
     AccessRestrictions: S.optional(AccessRestrictionList),
     TimeZone: S.optional(TimeZone),
-    PoliticalView: S.optional(S.String),
+    PoliticalView: S.optional(SensitiveString),
     Phonemes: S.optional(PhonemeDetails),
   }),
 ).annotations({
@@ -1439,15 +1455,15 @@ export const SearchTextResultItem = S.suspend(() =>
 export type SearchTextResultItemList = SearchTextResultItem[];
 export const SearchTextResultItemList = S.Array(SearchTextResultItem);
 export interface QueryRefinement {
-  RefinedTerm: string;
-  OriginalTerm: string;
+  RefinedTerm: string | Redacted.Redacted<string>;
+  OriginalTerm: string | Redacted.Redacted<string>;
   StartIndex: number;
   EndIndex: number;
 }
 export const QueryRefinement = S.suspend(() =>
   S.Struct({
-    RefinedTerm: S.String,
-    OriginalTerm: S.String,
+    RefinedTerm: SensitiveString,
+    OriginalTerm: SensitiveString,
     StartIndex: S.Number,
     EndIndex: S.Number,
   }),
@@ -1457,9 +1473,9 @@ export const QueryRefinement = S.suspend(() =>
 export type QueryRefinementList = QueryRefinement[];
 export const QueryRefinementList = S.Array(QueryRefinement);
 export interface GetPlaceResponse {
-  PlaceId: string;
-  PlaceType: string;
-  Title: string;
+  PlaceId: string | Redacted.Redacted<string>;
+  PlaceType: string | Redacted.Redacted<string>;
+  Title: string | Redacted.Redacted<string>;
   PricingBucket: string;
   Address?: Address;
   AddressNumberCorrected?: boolean;
@@ -1474,16 +1490,16 @@ export interface GetPlaceResponse {
   AccessPoints?: AccessPointList;
   AccessRestrictions?: AccessRestrictionList;
   TimeZone?: TimeZone;
-  PoliticalView?: string;
+  PoliticalView?: string | Redacted.Redacted<string>;
   Phonemes?: PhonemeDetails;
   MainAddress?: RelatedPlace;
   SecondaryAddresses?: RelatedPlaceList;
 }
 export const GetPlaceResponse = S.suspend(() =>
   S.Struct({
-    PlaceId: S.String,
-    PlaceType: S.String,
-    Title: S.String,
+    PlaceId: SensitiveString,
+    PlaceType: SensitiveString,
+    Title: SensitiveString,
     PricingBucket: S.String.pipe(T.HttpHeader("x-amz-geo-pricing-bucket")),
     Address: S.optional(Address),
     AddressNumberCorrected: S.optional(S.Boolean),
@@ -1498,7 +1514,7 @@ export const GetPlaceResponse = S.suspend(() =>
     AccessPoints: S.optional(AccessPointList),
     AccessRestrictions: S.optional(AccessRestrictionList),
     TimeZone: S.optional(TimeZone),
-    PoliticalView: S.optional(S.String),
+    PoliticalView: S.optional(SensitiveString),
     Phonemes: S.optional(PhonemeDetails),
     MainAddress: S.optional(RelatedPlace),
     SecondaryAddresses: S.optional(RelatedPlaceList),
@@ -1547,8 +1563,8 @@ export const SearchTextResponse = S.suspend(() =>
   identifier: "SearchTextResponse",
 }) as any as S.Schema<SearchTextResponse>;
 export interface SuggestPlaceResult {
-  PlaceId?: string;
-  PlaceType?: string;
+  PlaceId?: string | Redacted.Redacted<string>;
+  PlaceType?: string | Redacted.Redacted<string>;
   Address?: Address;
   Position?: Position;
   Distance?: number;
@@ -1559,13 +1575,13 @@ export interface SuggestPlaceResult {
   AccessPoints?: AccessPointList;
   AccessRestrictions?: AccessRestrictionList;
   TimeZone?: TimeZone;
-  PoliticalView?: string;
+  PoliticalView?: string | Redacted.Redacted<string>;
   Phonemes?: PhonemeDetails;
 }
 export const SuggestPlaceResult = S.suspend(() =>
   S.Struct({
-    PlaceId: S.optional(S.String),
-    PlaceType: S.optional(S.String),
+    PlaceId: S.optional(SensitiveString),
+    PlaceType: S.optional(SensitiveString),
     Address: S.optional(Address),
     Position: S.optional(Position),
     Distance: S.optional(S.Number),
@@ -1576,33 +1592,36 @@ export const SuggestPlaceResult = S.suspend(() =>
     AccessPoints: S.optional(AccessPointList),
     AccessRestrictions: S.optional(AccessRestrictionList),
     TimeZone: S.optional(TimeZone),
-    PoliticalView: S.optional(S.String),
+    PoliticalView: S.optional(SensitiveString),
     Phonemes: S.optional(PhonemeDetails),
   }),
 ).annotations({
   identifier: "SuggestPlaceResult",
 }) as any as S.Schema<SuggestPlaceResult>;
 export interface SuggestQueryResult {
-  QueryId?: string;
+  QueryId?: string | Redacted.Redacted<string>;
   QueryType?: string;
 }
 export const SuggestQueryResult = S.suspend(() =>
-  S.Struct({ QueryId: S.optional(S.String), QueryType: S.optional(S.String) }),
+  S.Struct({
+    QueryId: S.optional(SensitiveString),
+    QueryType: S.optional(S.String),
+  }),
 ).annotations({
   identifier: "SuggestQueryResult",
 }) as any as S.Schema<SuggestQueryResult>;
 export interface ParsedQueryComponent {
   StartIndex?: number;
   EndIndex?: number;
-  Value?: string;
-  QueryComponent?: string;
+  Value?: string | Redacted.Redacted<string>;
+  QueryComponent?: string | Redacted.Redacted<string>;
 }
 export const ParsedQueryComponent = S.suspend(() =>
   S.Struct({
     StartIndex: S.optional(S.Number),
     EndIndex: S.optional(S.Number),
-    Value: S.optional(S.String),
-    QueryComponent: S.optional(S.String),
+    Value: S.optional(SensitiveString),
+    QueryComponent: S.optional(SensitiveString),
   }),
 ).annotations({
   identifier: "ParsedQueryComponent",
@@ -1612,13 +1631,13 @@ export const ParsedQueryComponentList = S.Array(ParsedQueryComponent);
 export interface Highlight {
   StartIndex?: number;
   EndIndex?: number;
-  Value?: string;
+  Value?: string | Redacted.Redacted<string>;
 }
 export const Highlight = S.suspend(() =>
   S.Struct({
     StartIndex: S.optional(S.Number),
     EndIndex: S.optional(S.Number),
-    Value: S.optional(S.String),
+    Value: S.optional(SensitiveString),
   }),
 ).annotations({ identifier: "Highlight" }) as any as S.Schema<Highlight>;
 export type HighlightList = Highlight[];
@@ -1650,17 +1669,17 @@ export const IntersectionHighlightsList = S.Array(HighlightList);
 export interface ParsedQuerySecondaryAddressComponent {
   StartIndex: number;
   EndIndex: number;
-  Value: string;
-  Number: string;
-  Designator: string;
+  Value: string | Redacted.Redacted<string>;
+  Number: string | Redacted.Redacted<string>;
+  Designator: string | Redacted.Redacted<string>;
 }
 export const ParsedQuerySecondaryAddressComponent = S.suspend(() =>
   S.Struct({
     StartIndex: S.Number,
     EndIndex: S.Number,
-    Value: S.String,
-    Number: S.String,
-    Designator: S.String,
+    Value: SensitiveString,
+    Number: SensitiveString,
+    Designator: SensitiveString,
   }),
 ).annotations({
   identifier: "ParsedQuerySecondaryAddressComponent",
@@ -1671,7 +1690,7 @@ export const ParsedQuerySecondaryAddressComponentList = S.Array(
   ParsedQuerySecondaryAddressComponent,
 );
 export interface SuggestResultItem {
-  Title: string;
+  Title: string | Redacted.Redacted<string>;
   SuggestResultItemType: string;
   Place?: SuggestPlaceResult;
   Query?: SuggestQueryResult;
@@ -1679,7 +1698,7 @@ export interface SuggestResultItem {
 }
 export const SuggestResultItem = S.suspend(() =>
   S.Struct({
-    Title: S.String,
+    Title: SensitiveString,
     SuggestResultItemType: S.String,
     Place: S.optional(SuggestPlaceResult),
     Query: S.optional(SuggestQueryResult),
@@ -1910,24 +1929,24 @@ export const MatchScoreDetails = S.suspend(() =>
   identifier: "MatchScoreDetails",
 }) as any as S.Schema<MatchScoreDetails>;
 export interface AutocompleteResultItem {
-  PlaceId: string;
-  PlaceType: string;
-  Title: string;
+  PlaceId: string | Redacted.Redacted<string>;
+  PlaceType: string | Redacted.Redacted<string>;
+  Title: string | Redacted.Redacted<string>;
   Address?: Address;
   Distance?: number;
   Language?: string;
-  PoliticalView?: string;
+  PoliticalView?: string | Redacted.Redacted<string>;
   Highlights?: AutocompleteHighlights;
 }
 export const AutocompleteResultItem = S.suspend(() =>
   S.Struct({
-    PlaceId: S.String,
-    PlaceType: S.String,
-    Title: S.String,
+    PlaceId: SensitiveString,
+    PlaceType: SensitiveString,
+    Title: SensitiveString,
     Address: S.optional(Address),
     Distance: S.optional(S.Number),
     Language: S.optional(S.String),
-    PoliticalView: S.optional(S.String),
+    PoliticalView: S.optional(SensitiveString),
     Highlights: S.optional(AutocompleteHighlights),
   }),
 ).annotations({
@@ -1936,9 +1955,9 @@ export const AutocompleteResultItem = S.suspend(() =>
 export type AutocompleteResultItemList = AutocompleteResultItem[];
 export const AutocompleteResultItemList = S.Array(AutocompleteResultItem);
 export interface GeocodeResultItem {
-  PlaceId: string;
-  PlaceType: string;
-  Title: string;
+  PlaceId: string | Redacted.Redacted<string>;
+  PlaceType: string | Redacted.Redacted<string>;
+  Title: string | Redacted.Redacted<string>;
   Address?: Address;
   AddressNumberCorrected?: boolean;
   PostalCodeDetails?: PostalCodeDetailsList;
@@ -1949,7 +1968,7 @@ export interface GeocodeResultItem {
   FoodTypes?: FoodTypeList;
   AccessPoints?: AccessPointList;
   TimeZone?: TimeZone;
-  PoliticalView?: string;
+  PoliticalView?: string | Redacted.Redacted<string>;
   MatchScores?: MatchScoreDetails;
   ParsedQuery?: GeocodeParsedQuery;
   Intersections?: IntersectionList;
@@ -1958,9 +1977,9 @@ export interface GeocodeResultItem {
 }
 export const GeocodeResultItem = S.suspend(() =>
   S.Struct({
-    PlaceId: S.String,
-    PlaceType: S.String,
-    Title: S.String,
+    PlaceId: SensitiveString,
+    PlaceType: SensitiveString,
+    Title: SensitiveString,
     Address: S.optional(Address),
     AddressNumberCorrected: S.optional(S.Boolean),
     PostalCodeDetails: S.optional(PostalCodeDetailsList),
@@ -1971,7 +1990,7 @@ export const GeocodeResultItem = S.suspend(() =>
     FoodTypes: S.optional(FoodTypeList),
     AccessPoints: S.optional(AccessPointList),
     TimeZone: S.optional(TimeZone),
-    PoliticalView: S.optional(S.String),
+    PoliticalView: S.optional(SensitiveString),
     MatchScores: S.optional(MatchScoreDetails),
     ParsedQuery: S.optional(GeocodeParsedQuery),
     Intersections: S.optional(IntersectionList),

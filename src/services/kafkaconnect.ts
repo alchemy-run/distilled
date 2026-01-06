@@ -1,5 +1,6 @@
 import { HttpClient } from "@effect/platform";
 import * as Effect from "effect/Effect";
+import * as Redacted from "effect/Redacted";
 import * as S from "effect/Schema";
 import * as Stream from "effect/Stream";
 import * as API from "../api.ts";
@@ -10,6 +11,7 @@ import {
   ErrorCategory,
   Errors,
 } from "../index.ts";
+import { SensitiveString, SensitiveBlob } from "../sensitive.ts";
 const svc = T.AwsApiService({
   sdkId: "KafkaConnect",
   serviceShapeName: "KafkaConnect",
@@ -338,7 +340,7 @@ export type __stringMin1Max128 = string;
 export type __string = string;
 export type NetworkType = string;
 export type CustomPluginContentType = string;
-export type __sensitiveString = string;
+export type __sensitiveString = string | Redacted.Redacted<string>;
 export type MaxResults = number;
 export type TagKey = string;
 export type KafkaClusterClientAuthenticationType = string;
@@ -365,14 +367,14 @@ export const Tags = S.Record({ key: S.String, value: S.String });
 export interface CreateWorkerConfigurationRequest {
   description?: string;
   name: string;
-  propertiesFileContent: string;
+  propertiesFileContent: string | Redacted.Redacted<string>;
   tags?: Tags;
 }
 export const CreateWorkerConfigurationRequest = S.suspend(() =>
   S.Struct({
     description: S.optional(S.String),
     name: S.String,
-    propertiesFileContent: S.String,
+    propertiesFileContent: SensitiveString,
     tags: S.optional(Tags),
   }).pipe(
     T.all(
@@ -962,14 +964,14 @@ export const WorkerSetting = S.suspend(() =>
 export interface WorkerConfigurationRevisionDescription {
   creationTime?: Date;
   description?: string;
-  propertiesFileContent?: string;
+  propertiesFileContent?: string | Redacted.Redacted<string>;
   revision?: number;
 }
 export const WorkerConfigurationRevisionDescription = S.suspend(() =>
   S.Struct({
     creationTime: S.optional(S.Date.pipe(T.TimestampFormat("date-time"))),
     description: S.optional(S.String),
-    propertiesFileContent: S.optional(S.String),
+    propertiesFileContent: S.optional(SensitiveString),
     revision: S.optional(S.Number),
   }),
 ).annotations({

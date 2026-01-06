@@ -1,5 +1,6 @@
 import { HttpClient } from "@effect/platform";
 import * as Effect from "effect/Effect";
+import * as Redacted from "effect/Redacted";
 import * as S from "effect/Schema";
 import * as Stream from "effect/Stream";
 import * as API from "../api.ts";
@@ -10,6 +11,7 @@ import {
   ErrorCategory,
   Errors,
 } from "../index.ts";
+import { SensitiveString, SensitiveBlob } from "../sensitive.ts";
 const ns = T.XmlNamespace(
   "http://directoryservicedata.amazonaws.com/doc/2023-05-31/",
 );
@@ -311,18 +313,18 @@ export type MemberName = string;
 export type Realm = string;
 export type ClientToken = string;
 export type UserName = string;
-export type EmailAddress = string;
-export type GivenName = string;
-export type Surname = string;
+export type EmailAddress = string | Redacted.Redacted<string>;
+export type GivenName = string | Redacted.Redacted<string>;
+export type Surname = string | Redacted.Redacted<string>;
 export type LdapDisplayName = string;
-export type NextToken = string;
+export type NextToken = string | Redacted.Redacted<string>;
 export type MaxResults = number;
-export type SearchString = string;
+export type SearchString = string | Redacted.Redacted<string>;
 export type ExceptionMessage = string;
 export type SID = string;
-export type DistinguishedName = string;
-export type UserPrincipalName = string;
-export type StringAttributeValue = string;
+export type DistinguishedName = string | Redacted.Redacted<string>;
+export type UserPrincipalName = string | Redacted.Redacted<string>;
+export type StringAttributeValue = string | Redacted.Redacted<string>;
 export type NumberAttributeValue = number;
 
 //# Schemas
@@ -362,15 +364,15 @@ export const AddGroupMemberResult = S.suspend(() =>
 ).annotations({
   identifier: "AddGroupMemberResult",
 }) as any as S.Schema<AddGroupMemberResult>;
-export type StringSetAttributeValue = string[];
-export const StringSetAttributeValue = S.Array(S.String);
+export type StringSetAttributeValue = string | Redacted.Redacted<string>[];
+export const StringSetAttributeValue = S.Array(SensitiveString);
 export type AttributeValue =
-  | { S: string }
+  | { S: string | Redacted.Redacted<string> }
   | { N: number }
   | { BOOL: boolean }
   | { SS: StringSetAttributeValue };
 export const AttributeValue = S.Union(
-  S.Struct({ S: S.String }),
+  S.Struct({ S: SensitiveString }),
   S.Struct({ N: S.Number }),
   S.Struct({ BOOL: S.Boolean }),
   S.Struct({ SS: StringSetAttributeValue }),
@@ -380,9 +382,9 @@ export const Attributes = S.Record({ key: S.String, value: AttributeValue });
 export interface CreateUserRequest {
   DirectoryId: string;
   SAMAccountName: string;
-  EmailAddress?: string;
-  GivenName?: string;
-  Surname?: string;
+  EmailAddress?: string | Redacted.Redacted<string>;
+  GivenName?: string | Redacted.Redacted<string>;
+  Surname?: string | Redacted.Redacted<string>;
   OtherAttributes?: Attributes;
   ClientToken?: string;
 }
@@ -390,9 +392,9 @@ export const CreateUserRequest = S.suspend(() =>
   S.Struct({
     DirectoryId: S.String.pipe(T.HttpQuery("DirectoryId")),
     SAMAccountName: S.String,
-    EmailAddress: S.optional(S.String),
-    GivenName: S.optional(S.String),
-    Surname: S.optional(S.String),
+    EmailAddress: S.optional(SensitiveString),
+    GivenName: S.optional(SensitiveString),
+    Surname: S.optional(SensitiveString),
     OtherAttributes: S.optional(Attributes),
     ClientToken: S.optional(S.String),
   }).pipe(
@@ -556,7 +558,7 @@ export interface ListGroupMembersRequest {
   Realm?: string;
   MemberRealm?: string;
   SAMAccountName: string;
-  NextToken?: string;
+  NextToken?: string | Redacted.Redacted<string>;
   MaxResults?: number;
 }
 export const ListGroupMembersRequest = S.suspend(() =>
@@ -565,7 +567,7 @@ export const ListGroupMembersRequest = S.suspend(() =>
     Realm: S.optional(S.String),
     MemberRealm: S.optional(S.String),
     SAMAccountName: S.String,
-    NextToken: S.optional(S.String),
+    NextToken: S.optional(SensitiveString),
     MaxResults: S.optional(S.Number),
   }).pipe(
     T.all(
@@ -584,14 +586,14 @@ export const ListGroupMembersRequest = S.suspend(() =>
 export interface ListGroupsRequest {
   DirectoryId: string;
   Realm?: string;
-  NextToken?: string;
+  NextToken?: string | Redacted.Redacted<string>;
   MaxResults?: number;
 }
 export const ListGroupsRequest = S.suspend(() =>
   S.Struct({
     DirectoryId: S.String.pipe(T.HttpQuery("DirectoryId")),
     Realm: S.optional(S.String),
-    NextToken: S.optional(S.String),
+    NextToken: S.optional(SensitiveString),
     MaxResults: S.optional(S.Number),
   }).pipe(
     T.all(
@@ -612,7 +614,7 @@ export interface ListGroupsForMemberRequest {
   Realm?: string;
   MemberRealm?: string;
   SAMAccountName: string;
-  NextToken?: string;
+  NextToken?: string | Redacted.Redacted<string>;
   MaxResults?: number;
 }
 export const ListGroupsForMemberRequest = S.suspend(() =>
@@ -621,7 +623,7 @@ export const ListGroupsForMemberRequest = S.suspend(() =>
     Realm: S.optional(S.String),
     MemberRealm: S.optional(S.String),
     SAMAccountName: S.String,
-    NextToken: S.optional(S.String),
+    NextToken: S.optional(SensitiveString),
     MaxResults: S.optional(S.Number),
   }).pipe(
     T.all(
@@ -640,14 +642,14 @@ export const ListGroupsForMemberRequest = S.suspend(() =>
 export interface ListUsersRequest {
   DirectoryId: string;
   Realm?: string;
-  NextToken?: string;
+  NextToken?: string | Redacted.Redacted<string>;
   MaxResults?: number;
 }
 export const ListUsersRequest = S.suspend(() =>
   S.Struct({
     DirectoryId: S.String.pipe(T.HttpQuery("DirectoryId")),
     Realm: S.optional(S.String),
-    NextToken: S.optional(S.String),
+    NextToken: S.optional(SensitiveString),
     MaxResults: S.optional(S.Number),
   }).pipe(
     T.all(
@@ -699,19 +701,19 @@ export const RemoveGroupMemberResult = S.suspend(() =>
 }) as any as S.Schema<RemoveGroupMemberResult>;
 export interface SearchGroupsRequest {
   DirectoryId: string;
-  SearchString: string;
+  SearchString: string | Redacted.Redacted<string>;
   SearchAttributes: LdapDisplayNameList;
   Realm?: string;
-  NextToken?: string;
+  NextToken?: string | Redacted.Redacted<string>;
   MaxResults?: number;
 }
 export const SearchGroupsRequest = S.suspend(() =>
   S.Struct({
     DirectoryId: S.String.pipe(T.HttpQuery("DirectoryId")),
-    SearchString: S.String,
+    SearchString: SensitiveString,
     SearchAttributes: LdapDisplayNameList,
     Realm: S.optional(S.String),
-    NextToken: S.optional(S.String),
+    NextToken: S.optional(SensitiveString),
     MaxResults: S.optional(S.Number),
   }).pipe(
     T.all(
@@ -730,18 +732,18 @@ export const SearchGroupsRequest = S.suspend(() =>
 export interface SearchUsersRequest {
   DirectoryId: string;
   Realm?: string;
-  SearchString: string;
+  SearchString: string | Redacted.Redacted<string>;
   SearchAttributes: LdapDisplayNameList;
-  NextToken?: string;
+  NextToken?: string | Redacted.Redacted<string>;
   MaxResults?: number;
 }
 export const SearchUsersRequest = S.suspend(() =>
   S.Struct({
     DirectoryId: S.String.pipe(T.HttpQuery("DirectoryId")),
     Realm: S.optional(S.String),
-    SearchString: S.String,
+    SearchString: SensitiveString,
     SearchAttributes: LdapDisplayNameList,
-    NextToken: S.optional(S.String),
+    NextToken: S.optional(SensitiveString),
     MaxResults: S.optional(S.Number),
   }).pipe(
     T.all(
@@ -798,9 +800,9 @@ export const UpdateGroupResult = S.suspend(() =>
 export interface UpdateUserRequest {
   DirectoryId: string;
   SAMAccountName: string;
-  EmailAddress?: string;
-  GivenName?: string;
-  Surname?: string;
+  EmailAddress?: string | Redacted.Redacted<string>;
+  GivenName?: string | Redacted.Redacted<string>;
+  Surname?: string | Redacted.Redacted<string>;
   OtherAttributes?: Attributes;
   UpdateType?: string;
   ClientToken?: string;
@@ -809,9 +811,9 @@ export const UpdateUserRequest = S.suspend(() =>
   S.Struct({
     DirectoryId: S.String.pipe(T.HttpQuery("DirectoryId")),
     SAMAccountName: S.String,
-    EmailAddress: S.optional(S.String),
-    GivenName: S.optional(S.String),
-    Surname: S.optional(S.String),
+    EmailAddress: S.optional(SensitiveString),
+    GivenName: S.optional(SensitiveString),
+    Surname: S.optional(SensitiveString),
     OtherAttributes: S.optional(Attributes),
     UpdateType: S.optional(S.String),
     ClientToken: S.optional(S.String),
@@ -854,7 +856,7 @@ export interface DescribeGroupResult {
   Realm?: string;
   SID?: string;
   SAMAccountName?: string;
-  DistinguishedName?: string;
+  DistinguishedName?: string | Redacted.Redacted<string>;
   GroupType?: string;
   GroupScope?: string;
   OtherAttributes?: Attributes;
@@ -865,7 +867,7 @@ export const DescribeGroupResult = S.suspend(() =>
     Realm: S.optional(S.String),
     SID: S.optional(S.String),
     SAMAccountName: S.optional(S.String),
-    DistinguishedName: S.optional(S.String),
+    DistinguishedName: S.optional(SensitiveString),
     GroupType: S.optional(S.String),
     GroupScope: S.optional(S.String),
     OtherAttributes: S.optional(Attributes),
@@ -878,11 +880,11 @@ export interface DescribeUserResult {
   Realm?: string;
   SID?: string;
   SAMAccountName?: string;
-  DistinguishedName?: string;
-  UserPrincipalName?: string;
-  EmailAddress?: string;
-  GivenName?: string;
-  Surname?: string;
+  DistinguishedName?: string | Redacted.Redacted<string>;
+  UserPrincipalName?: string | Redacted.Redacted<string>;
+  EmailAddress?: string | Redacted.Redacted<string>;
+  GivenName?: string | Redacted.Redacted<string>;
+  Surname?: string | Redacted.Redacted<string>;
   Enabled?: boolean;
   OtherAttributes?: Attributes;
 }
@@ -892,11 +894,11 @@ export const DescribeUserResult = S.suspend(() =>
     Realm: S.optional(S.String),
     SID: S.optional(S.String),
     SAMAccountName: S.optional(S.String),
-    DistinguishedName: S.optional(S.String),
-    UserPrincipalName: S.optional(S.String),
-    EmailAddress: S.optional(S.String),
-    GivenName: S.optional(S.String),
-    Surname: S.optional(S.String),
+    DistinguishedName: S.optional(SensitiveString),
+    UserPrincipalName: S.optional(SensitiveString),
+    EmailAddress: S.optional(SensitiveString),
+    GivenName: S.optional(SensitiveString),
+    Surname: S.optional(SensitiveString),
     Enabled: S.optional(S.Boolean),
     OtherAttributes: S.optional(Attributes),
   }).pipe(ns),
@@ -924,7 +926,7 @@ export interface ListGroupsForMemberResult {
   Realm?: string;
   MemberRealm?: string;
   Groups?: GroupSummaryList;
-  NextToken?: string;
+  NextToken?: string | Redacted.Redacted<string>;
 }
 export const ListGroupsForMemberResult = S.suspend(() =>
   S.Struct({
@@ -932,7 +934,7 @@ export const ListGroupsForMemberResult = S.suspend(() =>
     Realm: S.optional(S.String),
     MemberRealm: S.optional(S.String),
     Groups: S.optional(GroupSummaryList),
-    NextToken: S.optional(S.String),
+    NextToken: S.optional(SensitiveString),
   }).pipe(ns),
 ).annotations({
   identifier: "ListGroupsForMemberResult",
@@ -950,16 +952,16 @@ export const MemberList = S.Array(Member);
 export interface UserSummary {
   SID: string;
   SAMAccountName: string;
-  GivenName?: string;
-  Surname?: string;
+  GivenName?: string | Redacted.Redacted<string>;
+  Surname?: string | Redacted.Redacted<string>;
   Enabled: boolean;
 }
 export const UserSummary = S.suspend(() =>
   S.Struct({
     SID: S.String,
     SAMAccountName: S.String,
-    GivenName: S.optional(S.String),
-    Surname: S.optional(S.String),
+    GivenName: S.optional(SensitiveString),
+    Surname: S.optional(SensitiveString),
     Enabled: S.Boolean,
   }),
 ).annotations({ identifier: "UserSummary" }) as any as S.Schema<UserSummary>;
@@ -968,7 +970,7 @@ export const UserSummaryList = S.Array(UserSummary);
 export interface Group {
   SID?: string;
   SAMAccountName: string;
-  DistinguishedName?: string;
+  DistinguishedName?: string | Redacted.Redacted<string>;
   GroupType?: string;
   GroupScope?: string;
   OtherAttributes?: Attributes;
@@ -977,7 +979,7 @@ export const Group = S.suspend(() =>
   S.Struct({
     SID: S.optional(S.String),
     SAMAccountName: S.String,
-    DistinguishedName: S.optional(S.String),
+    DistinguishedName: S.optional(SensitiveString),
     GroupType: S.optional(S.String),
     GroupScope: S.optional(S.String),
     OtherAttributes: S.optional(Attributes),
@@ -988,11 +990,11 @@ export const GroupList = S.Array(Group);
 export interface User {
   SID?: string;
   SAMAccountName: string;
-  DistinguishedName?: string;
-  UserPrincipalName?: string;
-  EmailAddress?: string;
-  GivenName?: string;
-  Surname?: string;
+  DistinguishedName?: string | Redacted.Redacted<string>;
+  UserPrincipalName?: string | Redacted.Redacted<string>;
+  EmailAddress?: string | Redacted.Redacted<string>;
+  GivenName?: string | Redacted.Redacted<string>;
+  Surname?: string | Redacted.Redacted<string>;
   Enabled?: boolean;
   OtherAttributes?: Attributes;
 }
@@ -1000,11 +1002,11 @@ export const User = S.suspend(() =>
   S.Struct({
     SID: S.optional(S.String),
     SAMAccountName: S.String,
-    DistinguishedName: S.optional(S.String),
-    UserPrincipalName: S.optional(S.String),
-    EmailAddress: S.optional(S.String),
-    GivenName: S.optional(S.String),
-    Surname: S.optional(S.String),
+    DistinguishedName: S.optional(SensitiveString),
+    UserPrincipalName: S.optional(SensitiveString),
+    EmailAddress: S.optional(SensitiveString),
+    GivenName: S.optional(SensitiveString),
+    Surname: S.optional(SensitiveString),
     Enabled: S.optional(S.Boolean),
     OtherAttributes: S.optional(Attributes),
   }),
@@ -1046,7 +1048,7 @@ export interface ListGroupMembersResult {
   Realm?: string;
   MemberRealm?: string;
   Members?: MemberList;
-  NextToken?: string;
+  NextToken?: string | Redacted.Redacted<string>;
 }
 export const ListGroupMembersResult = S.suspend(() =>
   S.Struct({
@@ -1054,7 +1056,7 @@ export const ListGroupMembersResult = S.suspend(() =>
     Realm: S.optional(S.String),
     MemberRealm: S.optional(S.String),
     Members: S.optional(MemberList),
-    NextToken: S.optional(S.String),
+    NextToken: S.optional(SensitiveString),
   }).pipe(ns),
 ).annotations({
   identifier: "ListGroupMembersResult",
@@ -1063,14 +1065,14 @@ export interface ListGroupsResult {
   DirectoryId?: string;
   Realm?: string;
   Groups?: GroupSummaryList;
-  NextToken?: string;
+  NextToken?: string | Redacted.Redacted<string>;
 }
 export const ListGroupsResult = S.suspend(() =>
   S.Struct({
     DirectoryId: S.optional(S.String),
     Realm: S.optional(S.String),
     Groups: S.optional(GroupSummaryList),
-    NextToken: S.optional(S.String),
+    NextToken: S.optional(SensitiveString),
   }).pipe(ns),
 ).annotations({
   identifier: "ListGroupsResult",
@@ -1079,14 +1081,14 @@ export interface ListUsersResult {
   DirectoryId?: string;
   Realm?: string;
   Users?: UserSummaryList;
-  NextToken?: string;
+  NextToken?: string | Redacted.Redacted<string>;
 }
 export const ListUsersResult = S.suspend(() =>
   S.Struct({
     DirectoryId: S.optional(S.String),
     Realm: S.optional(S.String),
     Users: S.optional(UserSummaryList),
-    NextToken: S.optional(S.String),
+    NextToken: S.optional(SensitiveString),
   }).pipe(ns),
 ).annotations({
   identifier: "ListUsersResult",
@@ -1095,14 +1097,14 @@ export interface SearchGroupsResult {
   DirectoryId?: string;
   Realm?: string;
   Groups?: GroupList;
-  NextToken?: string;
+  NextToken?: string | Redacted.Redacted<string>;
 }
 export const SearchGroupsResult = S.suspend(() =>
   S.Struct({
     DirectoryId: S.optional(S.String),
     Realm: S.optional(S.String),
     Groups: S.optional(GroupList),
-    NextToken: S.optional(S.String),
+    NextToken: S.optional(SensitiveString),
   }).pipe(ns),
 ).annotations({
   identifier: "SearchGroupsResult",
@@ -1111,14 +1113,14 @@ export interface SearchUsersResult {
   DirectoryId?: string;
   Realm?: string;
   Users?: UserList;
-  NextToken?: string;
+  NextToken?: string | Redacted.Redacted<string>;
 }
 export const SearchUsersResult = S.suspend(() =>
   S.Struct({
     DirectoryId: S.optional(S.String),
     Realm: S.optional(S.String),
     Users: S.optional(UserList),
-    NextToken: S.optional(S.String),
+    NextToken: S.optional(SensitiveString),
   }).pipe(ns),
 ).annotations({
   identifier: "SearchUsersResult",

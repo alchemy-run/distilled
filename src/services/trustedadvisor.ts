@@ -1,5 +1,6 @@
 import { HttpClient } from "@effect/platform";
 import * as Effect from "effect/Effect";
+import * as Redacted from "effect/Redacted";
 import * as S from "effect/Schema";
 import * as Stream from "effect/Stream";
 import * as API from "../api.ts";
@@ -10,6 +11,7 @@ import {
   ErrorCategory,
   Errors,
 } from "../index.ts";
+import { SensitiveString, SensitiveBlob } from "../sensitive.ts";
 const svc = T.AwsApiService({
   sdkId: "TrustedAdvisor",
   serviceShapeName: "TrustedAdvisor",
@@ -307,7 +309,7 @@ export type AccountRecommendationIdentifier = string;
 export type RecommendationAwsService = string;
 export type AccountId = string;
 export type CheckIdentifier = string;
-export type RecommendationUpdateReason = string;
+export type RecommendationUpdateReason = string | Redacted.Redacted<string>;
 export type RecommendationResourceArn = string;
 export type OrganizationRecommendationArn = string;
 export type AccountRecommendationArn = string;
@@ -580,14 +582,14 @@ export const ListRecommendationsRequest = S.suspend(() =>
 }) as any as S.Schema<ListRecommendationsRequest>;
 export interface UpdateOrganizationRecommendationLifecycleRequest {
   lifecycleStage: string;
-  updateReason?: string;
+  updateReason?: string | Redacted.Redacted<string>;
   updateReasonCode?: string;
   organizationRecommendationIdentifier: string;
 }
 export const UpdateOrganizationRecommendationLifecycleRequest = S.suspend(() =>
   S.Struct({
     lifecycleStage: S.String,
-    updateReason: S.optional(S.String),
+    updateReason: S.optional(SensitiveString),
     updateReasonCode: S.optional(S.String),
     organizationRecommendationIdentifier: S.String.pipe(
       T.HttpLabel("organizationRecommendationIdentifier"),
@@ -616,14 +618,14 @@ export const UpdateOrganizationRecommendationLifecycleResponse = S.suspend(() =>
 }) as any as S.Schema<UpdateOrganizationRecommendationLifecycleResponse>;
 export interface UpdateRecommendationLifecycleRequest {
   lifecycleStage: string;
-  updateReason?: string;
+  updateReason?: string | Redacted.Redacted<string>;
   updateReasonCode?: string;
   recommendationIdentifier: string;
 }
 export const UpdateRecommendationLifecycleRequest = S.suspend(() =>
   S.Struct({
     lifecycleStage: S.String,
-    updateReason: S.optional(S.String),
+    updateReason: S.optional(SensitiveString),
     updateReasonCode: S.optional(S.String),
     recommendationIdentifier: S.String.pipe(
       T.HttpLabel("recommendationIdentifier"),
@@ -741,7 +743,7 @@ export interface Recommendation {
   createdBy?: string;
   updatedOnBehalfOf?: string;
   updatedOnBehalfOfJobTitle?: string;
-  updateReason?: string;
+  updateReason?: string | Redacted.Redacted<string>;
   updateReasonCode?: string;
   resolvedAt?: Date;
 }
@@ -767,7 +769,7 @@ export const Recommendation = S.suspend(() =>
     createdBy: S.optional(S.String),
     updatedOnBehalfOf: S.optional(S.String),
     updatedOnBehalfOfJobTitle: S.optional(S.String),
-    updateReason: S.optional(S.String),
+    updateReason: S.optional(SensitiveString),
     updateReasonCode: S.optional(S.String),
     resolvedAt: S.optional(S.Date.pipe(T.TimestampFormat("date-time"))),
   }),
@@ -780,7 +782,7 @@ export interface AccountRecommendationLifecycleSummary {
   lifecycleStage?: string;
   updatedOnBehalfOf?: string;
   updatedOnBehalfOfJobTitle?: string;
-  updateReason?: string;
+  updateReason?: string | Redacted.Redacted<string>;
   updateReasonCode?: string;
   lastUpdatedAt?: Date;
 }
@@ -791,7 +793,7 @@ export const AccountRecommendationLifecycleSummary = S.suspend(() =>
     lifecycleStage: S.optional(S.String),
     updatedOnBehalfOf: S.optional(S.String),
     updatedOnBehalfOfJobTitle: S.optional(S.String),
-    updateReason: S.optional(S.String),
+    updateReason: S.optional(SensitiveString),
     updateReasonCode: S.optional(S.String),
     lastUpdatedAt: S.optional(S.Date.pipe(T.TimestampFormat("date-time"))),
   }),
@@ -1107,7 +1109,7 @@ export interface OrganizationRecommendation {
   createdBy?: string;
   updatedOnBehalfOf?: string;
   updatedOnBehalfOfJobTitle?: string;
-  updateReason?: string;
+  updateReason?: string | Redacted.Redacted<string>;
   updateReasonCode?: string;
   resolvedAt?: Date;
 }
@@ -1133,7 +1135,7 @@ export const OrganizationRecommendation = S.suspend(() =>
     createdBy: S.optional(S.String),
     updatedOnBehalfOf: S.optional(S.String),
     updatedOnBehalfOfJobTitle: S.optional(S.String),
-    updateReason: S.optional(S.String),
+    updateReason: S.optional(SensitiveString),
     updateReasonCode: S.optional(S.String),
     resolvedAt: S.optional(S.Date.pipe(T.TimestampFormat("date-time"))),
   }),

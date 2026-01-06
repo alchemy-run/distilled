@@ -1,5 +1,6 @@
 import { HttpClient } from "@effect/platform";
 import * as Effect from "effect/Effect";
+import * as Redacted from "effect/Redacted";
 import * as S from "effect/Schema";
 import * as Stream from "effect/Stream";
 import * as API from "../api.ts";
@@ -10,6 +11,7 @@ import {
   ErrorCategory,
   Errors,
 } from "../index.ts";
+import { SensitiveString, SensitiveBlob } from "../sensitive.ts";
 const svc = T.AwsApiService({
   sdkId: "Security IR",
   serviceShapeName: "SecurityIncidentResponse",
@@ -116,30 +118,30 @@ const rules = T.EndpointRuleSet({
 //# Newtypes
 export type Arn = string;
 export type TagKey = string;
-export type CaseTitle = string;
-export type CaseDescription = string;
+export type CaseTitle = string | Redacted.Redacted<string>;
+export type CaseDescription = string | Redacted.Redacted<string>;
 export type AWSAccountId = string;
 export type AwsService = string;
 export type CaseId = string;
-export type CommentBody = string;
+export type CommentBody = string | Redacted.Redacted<string>;
 export type AttachmentId = string;
-export type FileName = string;
+export type FileName = string | Redacted.Redacted<string>;
 export type ContentLength = number;
 export type ResultId = string;
 export type FeedbackComment = string;
 export type CommentId = string;
-export type MembershipName = string;
+export type MembershipName = string | Redacted.Redacted<string>;
 export type MembershipId = string;
 export type TagValue = string;
-export type EmailAddress = string;
-export type PersonName = string;
-export type JobTitle = string;
-export type IPAddress = string;
+export type EmailAddress = string | Redacted.Redacted<string>;
+export type PersonName = string | Redacted.Redacted<string>;
+export type JobTitle = string | Redacted.Redacted<string>;
+export type IPAddress = string | Redacted.Redacted<string>;
 export type UserAgent = string;
-export type IncidentResponderName = string;
+export type IncidentResponderName = string | Redacted.Redacted<string>;
 export type OrganizationalUnitId = string;
 export type CaseArn = string;
-export type Url = string;
+export type Url = string | Redacted.Redacted<string>;
 export type MembershipArn = string;
 export type PrincipalId = string;
 export type CaseEditAction = string;
@@ -257,13 +259,13 @@ export const CloseCaseRequest = S.suspend(() =>
 export interface CreateCaseCommentRequest {
   caseId: string;
   clientToken?: string;
-  body: string;
+  body: string | Redacted.Redacted<string>;
 }
 export const CreateCaseCommentRequest = S.suspend(() =>
   S.Struct({
     caseId: S.String.pipe(T.HttpLabel("caseId")),
     clientToken: S.optional(S.String),
-    body: S.String,
+    body: SensitiveString,
   }).pipe(
     T.all(
       T.Http({ method: "POST", uri: "/v1/cases/{caseId}/create-comment" }),
@@ -303,14 +305,14 @@ export const GetCaseAttachmentDownloadUrlRequest = S.suspend(() =>
 }) as any as S.Schema<GetCaseAttachmentDownloadUrlRequest>;
 export interface GetCaseAttachmentUploadUrlRequest {
   caseId: string;
-  fileName: string;
+  fileName: string | Redacted.Redacted<string>;
   contentLength: number;
   clientToken?: string;
 }
 export const GetCaseAttachmentUploadUrlRequest = S.suspend(() =>
   S.Struct({
     caseId: S.String.pipe(T.HttpLabel("caseId")),
-    fileName: S.String,
+    fileName: SensitiveString,
     contentLength: S.Number,
     clientToken: S.optional(S.String),
   }).pipe(
@@ -430,13 +432,13 @@ export const SendFeedbackResponse = S.suspend(() => S.Struct({})).annotations({
 export interface UpdateCaseCommentRequest {
   caseId: string;
   commentId: string;
-  body: string;
+  body: string | Redacted.Redacted<string>;
 }
 export const UpdateCaseCommentRequest = S.suspend(() =>
   S.Struct({
     caseId: S.String.pipe(T.HttpLabel("caseId")),
     commentId: S.String.pipe(T.HttpLabel("commentId")),
-    body: S.String,
+    body: SensitiveString,
   }).pipe(
     T.all(
       T.Http({
@@ -584,25 +586,25 @@ export const OrganizationalUnits = S.Array(S.String);
 export type TagMap = { [key: string]: string };
 export const TagMap = S.Record({ key: S.String, value: S.String });
 export interface Watcher {
-  email: string;
-  name?: string;
-  jobTitle?: string;
+  email: string | Redacted.Redacted<string>;
+  name?: string | Redacted.Redacted<string>;
+  jobTitle?: string | Redacted.Redacted<string>;
 }
 export const Watcher = S.suspend(() =>
   S.Struct({
-    email: S.String,
-    name: S.optional(S.String),
-    jobTitle: S.optional(S.String),
+    email: SensitiveString,
+    name: S.optional(SensitiveString),
+    jobTitle: S.optional(SensitiveString),
   }),
 ).annotations({ identifier: "Watcher" }) as any as S.Schema<Watcher>;
 export type Watchers = Watcher[];
 export const Watchers = S.Array(Watcher);
 export interface ThreatActorIp {
-  ipAddress: string;
+  ipAddress: string | Redacted.Redacted<string>;
   userAgent?: string;
 }
 export const ThreatActorIp = S.suspend(() =>
-  S.Struct({ ipAddress: S.String, userAgent: S.optional(S.String) }),
+  S.Struct({ ipAddress: SensitiveString, userAgent: S.optional(S.String) }),
 ).annotations({
   identifier: "ThreatActorIp",
 }) as any as S.Schema<ThreatActorIp>;
@@ -630,16 +632,16 @@ export const CaseMetadataEntry = S.suspend(() =>
 export type CaseMetadata = CaseMetadataEntry[];
 export const CaseMetadata = S.Array(CaseMetadataEntry);
 export interface IncidentResponder {
-  name: string;
-  jobTitle: string;
-  email: string;
+  name: string | Redacted.Redacted<string>;
+  jobTitle: string | Redacted.Redacted<string>;
+  email: string | Redacted.Redacted<string>;
   communicationPreferences?: CommunicationPreferences;
 }
 export const IncidentResponder = S.suspend(() =>
   S.Struct({
-    name: S.String,
-    jobTitle: S.String,
-    email: S.String,
+    name: SensitiveString,
+    jobTitle: SensitiveString,
+    email: SensitiveString,
     communicationPreferences: S.optional(CommunicationPreferences),
   }),
 ).annotations({
@@ -706,8 +708,8 @@ export const TagResourceOutput = S.suspend(() => S.Struct({})).annotations({
 export interface CreateCaseRequest {
   clientToken?: string;
   resolverType: string;
-  title: string;
-  description: string;
+  title: string | Redacted.Redacted<string>;
+  description: string | Redacted.Redacted<string>;
   engagementType: string;
   reportedIncidentStartDate: Date;
   impactedAccounts: ImpactedAccounts;
@@ -721,8 +723,8 @@ export const CreateCaseRequest = S.suspend(() =>
   S.Struct({
     clientToken: S.optional(S.String),
     resolverType: S.String,
-    title: S.String,
-    description: S.String,
+    title: SensitiveString,
+    description: SensitiveString,
     engagementType: S.String,
     reportedIncidentStartDate: S.Date.pipe(T.TimestampFormat("epoch-seconds")),
     impactedAccounts: ImpactedAccounts,
@@ -746,8 +748,8 @@ export const CreateCaseRequest = S.suspend(() =>
 }) as any as S.Schema<CreateCaseRequest>;
 export interface UpdateCaseRequest {
   caseId: string;
-  title?: string;
-  description?: string;
+  title?: string | Redacted.Redacted<string>;
+  description?: string | Redacted.Redacted<string>;
   reportedIncidentStartDate?: Date;
   actualIncidentStartDate?: Date;
   engagementType?: string;
@@ -766,8 +768,8 @@ export interface UpdateCaseRequest {
 export const UpdateCaseRequest = S.suspend(() =>
   S.Struct({
     caseId: S.String.pipe(T.HttpLabel("caseId")),
-    title: S.optional(S.String),
-    description: S.optional(S.String),
+    title: S.optional(SensitiveString),
+    description: S.optional(SensitiveString),
     reportedIncidentStartDate: S.optional(
       S.Date.pipe(T.TimestampFormat("epoch-seconds")),
     ),
@@ -824,27 +826,27 @@ export const CreateCaseCommentResponse = S.suspend(() =>
   identifier: "CreateCaseCommentResponse",
 }) as any as S.Schema<CreateCaseCommentResponse>;
 export interface GetCaseAttachmentDownloadUrlResponse {
-  attachmentPresignedUrl: string;
+  attachmentPresignedUrl: string | Redacted.Redacted<string>;
 }
 export const GetCaseAttachmentDownloadUrlResponse = S.suspend(() =>
-  S.Struct({ attachmentPresignedUrl: S.String }),
+  S.Struct({ attachmentPresignedUrl: SensitiveString }),
 ).annotations({
   identifier: "GetCaseAttachmentDownloadUrlResponse",
 }) as any as S.Schema<GetCaseAttachmentDownloadUrlResponse>;
 export interface GetCaseAttachmentUploadUrlResponse {
-  attachmentPresignedUrl: string;
+  attachmentPresignedUrl: string | Redacted.Redacted<string>;
 }
 export const GetCaseAttachmentUploadUrlResponse = S.suspend(() =>
-  S.Struct({ attachmentPresignedUrl: S.String }),
+  S.Struct({ attachmentPresignedUrl: SensitiveString }),
 ).annotations({
   identifier: "GetCaseAttachmentUploadUrlResponse",
 }) as any as S.Schema<GetCaseAttachmentUploadUrlResponse>;
 export interface UpdateCaseCommentResponse {
   commentId: string;
-  body?: string;
+  body?: string | Redacted.Redacted<string>;
 }
 export const UpdateCaseCommentResponse = S.suspend(() =>
-  S.Struct({ commentId: S.String, body: S.optional(S.String) }),
+  S.Struct({ commentId: S.String, body: S.optional(SensitiveString) }),
 ).annotations({
   identifier: "UpdateCaseCommentResponse",
 }) as any as S.Schema<UpdateCaseCommentResponse>;
@@ -872,7 +874,7 @@ export const UpdateResolverTypeResponse = S.suspend(() =>
 }) as any as S.Schema<UpdateResolverTypeResponse>;
 export interface CreateMembershipRequest {
   clientToken?: string;
-  membershipName: string;
+  membershipName: string | Redacted.Redacted<string>;
   incidentResponseTeam: IncidentResponseTeam;
   optInFeatures?: OptInFeatures;
   tags?: TagMap;
@@ -881,7 +883,7 @@ export interface CreateMembershipRequest {
 export const CreateMembershipRequest = S.suspend(() =>
   S.Struct({
     clientToken: S.optional(S.String),
-    membershipName: S.String,
+    membershipName: SensitiveString,
     incidentResponseTeam: IncidentResponseTeam,
     optInFeatures: S.optional(OptInFeatures),
     tags: S.optional(TagMap),
@@ -901,7 +903,7 @@ export const CreateMembershipRequest = S.suspend(() =>
 }) as any as S.Schema<CreateMembershipRequest>;
 export interface UpdateMembershipRequest {
   membershipId: string;
-  membershipName?: string;
+  membershipName?: string | Redacted.Redacted<string>;
   incidentResponseTeam?: IncidentResponseTeam;
   optInFeatures?: OptInFeatures;
   membershipAccountsConfigurationsUpdate?: MembershipAccountsConfigurationsUpdate;
@@ -910,7 +912,7 @@ export interface UpdateMembershipRequest {
 export const UpdateMembershipRequest = S.suspend(() =>
   S.Struct({
     membershipId: S.String.pipe(T.HttpLabel("membershipId")),
-    membershipName: S.optional(S.String),
+    membershipName: S.optional(SensitiveString),
     incidentResponseTeam: S.optional(IncidentResponseTeam),
     optInFeatures: S.optional(OptInFeatures),
     membershipAccountsConfigurationsUpdate: S.optional(
@@ -949,7 +951,7 @@ export const CancelMembershipResponse = S.suspend(() =>
 }) as any as S.Schema<CancelMembershipResponse>;
 export interface CaseAttachmentAttributes {
   attachmentId: string;
-  fileName: string;
+  fileName: string | Redacted.Redacted<string>;
   attachmentStatus: string;
   creator: string;
   createdDate: Date;
@@ -957,7 +959,7 @@ export interface CaseAttachmentAttributes {
 export const CaseAttachmentAttributes = S.suspend(() =>
   S.Struct({
     attachmentId: S.String,
-    fileName: S.String,
+    fileName: SensitiveString,
     attachmentStatus: S.String,
     creator: S.String,
     createdDate: S.Date.pipe(T.TimestampFormat("epoch-seconds")),
@@ -970,7 +972,7 @@ export const CaseAttachmentsList = S.Array(CaseAttachmentAttributes);
 export interface ListCasesItem {
   caseId: string;
   lastUpdatedDate?: Date;
-  title?: string;
+  title?: string | Redacted.Redacted<string>;
   caseArn?: string;
   engagementType?: string;
   caseStatus?: string;
@@ -985,7 +987,7 @@ export const ListCasesItem = S.suspend(() =>
     lastUpdatedDate: S.optional(
       S.Date.pipe(T.TimestampFormat("epoch-seconds")),
     ),
-    title: S.optional(S.String),
+    title: S.optional(SensitiveString),
     caseArn: S.optional(S.String),
     engagementType: S.optional(S.String),
     caseStatus: S.optional(S.String),
@@ -1021,7 +1023,7 @@ export interface ListCommentsItem {
   lastUpdatedDate?: Date;
   creator?: string;
   lastUpdatedBy?: string;
-  body?: string;
+  body?: string | Redacted.Redacted<string>;
 }
 export const ListCommentsItem = S.suspend(() =>
   S.Struct({
@@ -1032,7 +1034,7 @@ export const ListCommentsItem = S.suspend(() =>
     ),
     creator: S.optional(S.String),
     lastUpdatedBy: S.optional(S.String),
-    body: S.optional(S.String),
+    body: S.optional(SensitiveString),
   }),
 ).annotations({
   identifier: "ListCommentsItem",
@@ -1113,9 +1115,9 @@ export const CreateCaseResponse = S.suspend(() =>
   identifier: "CreateCaseResponse",
 }) as any as S.Schema<CreateCaseResponse>;
 export interface GetCaseResponse {
-  title?: string;
+  title?: string | Redacted.Redacted<string>;
   caseArn?: string;
-  description?: string;
+  description?: string | Redacted.Redacted<string>;
   caseStatus?: string;
   engagementType?: string;
   reportedIncidentStartDate?: Date;
@@ -1136,9 +1138,9 @@ export interface GetCaseResponse {
 }
 export const GetCaseResponse = S.suspend(() =>
   S.Struct({
-    title: S.optional(S.String),
+    title: S.optional(SensitiveString),
     caseArn: S.optional(S.String),
-    description: S.optional(S.String),
+    description: S.optional(SensitiveString),
     caseStatus: S.optional(S.String),
     engagementType: S.optional(S.String),
     reportedIncidentStartDate: S.optional(
@@ -1220,7 +1222,7 @@ export interface GetMembershipResponse {
   membershipId: string;
   accountId?: string;
   region?: string;
-  membershipName?: string;
+  membershipName?: string | Redacted.Redacted<string>;
   membershipArn?: string;
   membershipStatus?: string;
   membershipActivationTimestamp?: Date;
@@ -1236,7 +1238,7 @@ export const GetMembershipResponse = S.suspend(() =>
     membershipId: S.String,
     accountId: S.optional(S.String),
     region: S.optional(S.String),
-    membershipName: S.optional(S.String),
+    membershipName: S.optional(SensitiveString),
     membershipArn: S.optional(S.String),
     membershipStatus: S.optional(S.String),
     membershipActivationTimestamp: S.optional(

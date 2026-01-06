@@ -1,5 +1,6 @@
 import { HttpClient } from "@effect/platform";
 import * as Effect from "effect/Effect";
+import * as Redacted from "effect/Redacted";
 import * as S from "effect/Schema";
 import * as Stream from "effect/Stream";
 import * as API from "../api.ts";
@@ -10,6 +11,7 @@ import {
   ErrorCategory,
   Errors,
 } from "../index.ts";
+import { SensitiveString, SensitiveBlob } from "../sensitive.ts";
 const svc = T.AwsApiService({
   sdkId: "WorkSpaces Web",
   serviceShapeName: "AWSErmineControlPlaneService",
@@ -252,21 +254,21 @@ const rules = T.EndpointRuleSet({
 //# Newtypes
 export type PortalId = string;
 export type SessionId = string;
-export type Username = string;
+export type Username = string | Redacted.Redacted<string>;
 export type MaxResults = number;
 export type PaginationToken = string;
 export type ARN = string;
 export type ClientToken = string;
-export type TagKey = string;
+export type TagKey = string | Redacted.Redacted<string>;
 export type keyArn = string;
-export type BrowserPolicy = string;
-export type DisplayNameSafe = string;
-export type DescriptionSafe = string;
-export type IdentityProviderName = string;
+export type BrowserPolicy = string | Redacted.Redacted<string>;
+export type DisplayNameSafe = string | Redacted.Redacted<string>;
+export type DescriptionSafe = string | Redacted.Redacted<string>;
+export type IdentityProviderName = string | Redacted.Redacted<string>;
 export type IdentityProviderType = string;
 export type SubresourceARN = string;
-export type DisplayName = string;
-export type Description = string;
+export type DisplayName = string | Redacted.Redacted<string>;
+export type Description = string | Redacted.Redacted<string>;
 export type VpcId = string;
 export type SubnetId = string;
 export type SecurityGroupId = string;
@@ -278,38 +280,38 @@ export type KinesisStreamArn = string;
 export type EnabledType = string;
 export type DisconnectTimeoutInMinutes = number;
 export type IdleDisconnectTimeoutInMinutes = number;
-export type TagValue = string;
+export type TagValue = string | Redacted.Redacted<string>;
 export type StringType = string;
-export type UrlPattern = string;
-export type InlineRedactionUrl = string;
+export type UrlPattern = string | Redacted.Redacted<string>;
+export type InlineRedactionUrl = string | Redacted.Redacted<string>;
 export type ConfidenceLevel = number;
-export type IpRange = string;
+export type IpRange = string | Redacted.Redacted<string>;
 export type ToolbarType = string;
 export type VisualMode = string;
 export type ToolbarItem = string;
 export type MaxDisplayResolution = string;
-export type Markdown = string;
+export type Markdown = string | Redacted.Redacted<string>;
 export type ExceptionMessage = string;
 export type PortalEndpoint = string;
 export type SamlMetadata = string;
-export type BuiltInPatternId = string;
-export type S3Bucket = string;
-export type S3KeyPrefix = string;
+export type BuiltInPatternId = string | Redacted.Redacted<string>;
+export type S3Bucket = string | Redacted.Redacted<string>;
+export type S3KeyPrefix = string | Redacted.Redacted<string>;
 export type S3BucketOwner = string;
-export type CookieDomain = string;
-export type CookieName = string;
-export type CookiePath = string;
+export type CookieDomain = string | Redacted.Redacted<string>;
+export type CookieName = string | Redacted.Redacted<string>;
+export type CookiePath = string | Redacted.Redacted<string>;
 export type S3Uri = string;
-export type IpAddress = string;
+export type IpAddress = string | Redacted.Redacted<string>;
 export type RendererType = string;
 export type BrowserType = string;
 export type PortalStatus = string;
 export type StatusReason = string;
 export type CertificatePrincipal = string;
-export type PatternName = string;
-export type Regex = string;
+export type PatternName = string | Redacted.Redacted<string>;
+export type Regex = string | Redacted.Redacted<string>;
 export type RedactionPlaceHolderType = string;
-export type RedactionPlaceHolderText = string;
+export type RedactionPlaceHolderText = string | Redacted.Redacted<string>;
 export type BrandingSafeStringType = string;
 export type ContactLinkUrl = string;
 export type RetryAfterSeconds = number;
@@ -322,8 +324,8 @@ export type TagExceptionMessage = string;
 export type FieldName = string;
 
 //# Schemas
-export type TagKeyList = string[];
-export const TagKeyList = S.Array(S.String);
+export type TagKeyList = string | Redacted.Redacted<string>[];
+export const TagKeyList = S.Array(SensitiveString);
 export type SubnetIdList = string[];
 export const SubnetIdList = S.Array(S.String);
 export type SecurityGroupIdList = string[];
@@ -386,7 +388,7 @@ export const GetSessionRequest = S.suspend(() =>
 }) as any as S.Schema<GetSessionRequest>;
 export interface ListSessionsRequest {
   portalId: string;
-  username?: string;
+  username?: string | Redacted.Redacted<string>;
   sessionId?: string;
   sortBy?: string;
   status?: string;
@@ -396,7 +398,7 @@ export interface ListSessionsRequest {
 export const ListSessionsRequest = S.suspend(() =>
   S.Struct({
     portalId: S.String.pipe(T.HttpLabel("portalId")),
-    username: S.optional(S.String).pipe(T.HttpQuery("username")),
+    username: S.optional(SensitiveString).pipe(T.HttpQuery("username")),
     sessionId: S.optional(S.String).pipe(T.HttpQuery("sessionId")),
     sortBy: S.optional(S.String).pipe(T.HttpQuery("sortBy")),
     status: S.optional(S.String).pipe(T.HttpQuery("status")),
@@ -478,8 +480,8 @@ export const GetBrowserSettingsRequest = S.suspend(() =>
 }) as any as S.Schema<GetBrowserSettingsRequest>;
 export type BlockedCategories = string[];
 export const BlockedCategories = S.Array(S.String);
-export type UrlPatternList = string[];
-export const UrlPatternList = S.Array(S.String);
+export type UrlPatternList = string | Redacted.Redacted<string>[];
+export const UrlPatternList = S.Array(SensitiveString);
 export interface WebContentFilteringPolicy {
   blockedCategories?: BlockedCategories;
   allowedUrls?: UrlPatternList;
@@ -496,14 +498,14 @@ export const WebContentFilteringPolicy = S.suspend(() =>
 }) as any as S.Schema<WebContentFilteringPolicy>;
 export interface UpdateBrowserSettingsRequest {
   browserSettingsArn: string;
-  browserPolicy?: string;
+  browserPolicy?: string | Redacted.Redacted<string>;
   clientToken?: string;
   webContentFilteringPolicy?: WebContentFilteringPolicy;
 }
 export const UpdateBrowserSettingsRequest = S.suspend(() =>
   S.Struct({
     browserSettingsArn: S.String.pipe(T.HttpLabel("browserSettingsArn")),
-    browserPolicy: S.optional(S.String),
+    browserPolicy: S.optional(SensitiveString),
     clientToken: S.optional(S.String),
     webContentFilteringPolicy: S.optional(WebContentFilteringPolicy),
   }).pipe(
@@ -596,37 +598,37 @@ export const GetDataProtectionSettingsRequest = S.suspend(() =>
   identifier: "GetDataProtectionSettingsRequest",
 }) as any as S.Schema<GetDataProtectionSettingsRequest>;
 export interface CustomPattern {
-  patternName: string;
-  patternRegex: string;
-  patternDescription?: string;
-  keywordRegex?: string;
+  patternName: string | Redacted.Redacted<string>;
+  patternRegex: string | Redacted.Redacted<string>;
+  patternDescription?: string | Redacted.Redacted<string>;
+  keywordRegex?: string | Redacted.Redacted<string>;
 }
 export const CustomPattern = S.suspend(() =>
   S.Struct({
-    patternName: S.String,
-    patternRegex: S.String,
-    patternDescription: S.optional(S.String),
-    keywordRegex: S.optional(S.String),
+    patternName: SensitiveString,
+    patternRegex: SensitiveString,
+    patternDescription: S.optional(SensitiveString),
+    keywordRegex: S.optional(SensitiveString),
   }),
 ).annotations({
   identifier: "CustomPattern",
 }) as any as S.Schema<CustomPattern>;
 export interface RedactionPlaceHolder {
   redactionPlaceHolderType: string;
-  redactionPlaceHolderText?: string;
+  redactionPlaceHolderText?: string | Redacted.Redacted<string>;
 }
 export const RedactionPlaceHolder = S.suspend(() =>
   S.Struct({
     redactionPlaceHolderType: S.String,
-    redactionPlaceHolderText: S.optional(S.String),
+    redactionPlaceHolderText: S.optional(SensitiveString),
   }),
 ).annotations({
   identifier: "RedactionPlaceHolder",
 }) as any as S.Schema<RedactionPlaceHolder>;
-export type InlineRedactionUrls = string[];
-export const InlineRedactionUrls = S.Array(S.String);
+export type InlineRedactionUrls = string | Redacted.Redacted<string>[];
+export const InlineRedactionUrls = S.Array(SensitiveString);
 export interface InlineRedactionPattern {
-  builtInPatternId?: string;
+  builtInPatternId?: string | Redacted.Redacted<string>;
   customPattern?: CustomPattern;
   redactionPlaceHolder: RedactionPlaceHolder;
   enforcedUrls?: InlineRedactionUrls;
@@ -635,7 +637,7 @@ export interface InlineRedactionPattern {
 }
 export const InlineRedactionPattern = S.suspend(() =>
   S.Struct({
-    builtInPatternId: S.optional(S.String),
+    builtInPatternId: S.optional(SensitiveString),
     customPattern: S.optional(CustomPattern),
     redactionPlaceHolder: RedactionPlaceHolder,
     enforcedUrls: S.optional(InlineRedactionUrls),
@@ -647,8 +649,8 @@ export const InlineRedactionPattern = S.suspend(() =>
 }) as any as S.Schema<InlineRedactionPattern>;
 export type InlineRedactionPatterns = InlineRedactionPattern[];
 export const InlineRedactionPatterns = S.Array(InlineRedactionPattern);
-export type GlobalInlineRedactionUrls = string[];
-export const GlobalInlineRedactionUrls = S.Array(S.String);
+export type GlobalInlineRedactionUrls = string | Redacted.Redacted<string>[];
+export const GlobalInlineRedactionUrls = S.Array(SensitiveString);
 export interface InlineRedactionConfiguration {
   inlineRedactionPatterns: InlineRedactionPatterns;
   globalEnforcedUrls?: GlobalInlineRedactionUrls;
@@ -668,8 +670,8 @@ export const InlineRedactionConfiguration = S.suspend(() =>
 export interface UpdateDataProtectionSettingsRequest {
   dataProtectionSettingsArn: string;
   inlineRedactionConfiguration?: InlineRedactionConfiguration;
-  displayName?: string;
-  description?: string;
+  displayName?: string | Redacted.Redacted<string>;
+  description?: string | Redacted.Redacted<string>;
   clientToken?: string;
 }
 export const UpdateDataProtectionSettingsRequest = S.suspend(() =>
@@ -678,8 +680,8 @@ export const UpdateDataProtectionSettingsRequest = S.suspend(() =>
       T.HttpLabel("dataProtectionSettingsArn"),
     ),
     inlineRedactionConfiguration: S.optional(InlineRedactionConfiguration),
-    displayName: S.optional(S.String),
-    description: S.optional(S.String),
+    displayName: S.optional(SensitiveString),
+    description: S.optional(SensitiveString),
     clientToken: S.optional(S.String),
   }).pipe(
     T.all(
@@ -777,7 +779,7 @@ export const IdentityProviderDetails = S.Record({
 });
 export interface UpdateIdentityProviderRequest {
   identityProviderArn: string;
-  identityProviderName?: string;
+  identityProviderName?: string | Redacted.Redacted<string>;
   identityProviderType?: string;
   identityProviderDetails?: IdentityProviderDetails;
   clientToken?: string;
@@ -785,7 +787,7 @@ export interface UpdateIdentityProviderRequest {
 export const UpdateIdentityProviderRequest = S.suspend(() =>
   S.Struct({
     identityProviderArn: S.String.pipe(T.HttpLabel("identityProviderArn")),
-    identityProviderName: S.optional(S.String),
+    identityProviderName: S.optional(SensitiveString),
     identityProviderType: S.optional(S.String),
     identityProviderDetails: S.optional(IdentityProviderDetails),
     clientToken: S.optional(S.String),
@@ -879,26 +881,29 @@ export const GetIpAccessSettingsRequest = S.suspend(() =>
   identifier: "GetIpAccessSettingsRequest",
 }) as any as S.Schema<GetIpAccessSettingsRequest>;
 export interface IpRule {
-  ipRange: string;
-  description?: string;
+  ipRange: string | Redacted.Redacted<string>;
+  description?: string | Redacted.Redacted<string>;
 }
 export const IpRule = S.suspend(() =>
-  S.Struct({ ipRange: S.String, description: S.optional(S.String) }),
+  S.Struct({
+    ipRange: SensitiveString,
+    description: S.optional(SensitiveString),
+  }),
 ).annotations({ identifier: "IpRule" }) as any as S.Schema<IpRule>;
 export type IpRuleList = IpRule[];
 export const IpRuleList = S.Array(IpRule);
 export interface UpdateIpAccessSettingsRequest {
   ipAccessSettingsArn: string;
-  displayName?: string;
-  description?: string;
+  displayName?: string | Redacted.Redacted<string>;
+  description?: string | Redacted.Redacted<string>;
   ipRules?: IpRuleList;
   clientToken?: string;
 }
 export const UpdateIpAccessSettingsRequest = S.suspend(() =>
   S.Struct({
     ipAccessSettingsArn: S.String.pipe(T.HttpLabel("ipAccessSettingsArn")),
-    displayName: S.optional(S.String),
-    description: S.optional(S.String),
+    displayName: S.optional(SensitiveString),
+    description: S.optional(SensitiveString),
     ipRules: S.optional(IpRuleList),
     clientToken: S.optional(S.String),
   }).pipe(
@@ -967,11 +972,11 @@ export const ListIpAccessSettingsRequest = S.suspend(() =>
   identifier: "ListIpAccessSettingsRequest",
 }) as any as S.Schema<ListIpAccessSettingsRequest>;
 export interface Tag {
-  Key: string;
-  Value: string;
+  Key: string | Redacted.Redacted<string>;
+  Value: string | Redacted.Redacted<string>;
 }
 export const Tag = S.suspend(() =>
-  S.Struct({ Key: S.String, Value: S.String }),
+  S.Struct({ Key: SensitiveString, Value: SensitiveString }),
 ).annotations({ identifier: "Tag" }) as any as S.Schema<Tag>;
 export type TagList = Tag[];
 export const TagList = S.Array(Tag);
@@ -1106,7 +1111,7 @@ export const EncryptionContextMap = S.Record({
   value: S.String,
 });
 export interface CreatePortalRequest {
-  displayName?: string;
+  displayName?: string | Redacted.Redacted<string>;
   tags?: TagList;
   customerManagedKey?: string;
   additionalEncryptionContext?: EncryptionContextMap;
@@ -1117,7 +1122,7 @@ export interface CreatePortalRequest {
 }
 export const CreatePortalRequest = S.suspend(() =>
   S.Struct({
-    displayName: S.optional(S.String),
+    displayName: S.optional(SensitiveString),
     tags: S.optional(TagList),
     customerManagedKey: S.optional(S.String),
     additionalEncryptionContext: S.optional(EncryptionContextMap),
@@ -1157,7 +1162,7 @@ export const GetPortalRequest = S.suspend(() =>
 }) as any as S.Schema<GetPortalRequest>;
 export interface UpdatePortalRequest {
   portalArn: string;
-  displayName?: string;
+  displayName?: string | Redacted.Redacted<string>;
   authenticationType?: string;
   instanceType?: string;
   maxConcurrentSessions?: number;
@@ -1165,7 +1170,7 @@ export interface UpdatePortalRequest {
 export const UpdatePortalRequest = S.suspend(() =>
   S.Struct({
     portalArn: S.String.pipe(T.HttpLabel("portalArn")),
-    displayName: S.optional(S.String),
+    displayName: S.optional(SensitiveString),
     authenticationType: S.optional(S.String),
     instanceType: S.optional(S.String),
     maxConcurrentSessions: S.optional(S.Number),
@@ -1645,16 +1650,16 @@ export const EventFilter = S.Union(
   S.Struct({ include: Events }),
 );
 export interface S3LogConfiguration {
-  bucket: string;
-  keyPrefix?: string;
+  bucket: string | Redacted.Redacted<string>;
+  keyPrefix?: string | Redacted.Redacted<string>;
   bucketOwner?: string;
   logFileFormat: string;
   folderStructure: string;
 }
 export const S3LogConfiguration = S.suspend(() =>
   S.Struct({
-    bucket: S.String,
-    keyPrefix: S.optional(S.String),
+    bucket: SensitiveString,
+    keyPrefix: S.optional(SensitiveString),
     bucketOwner: S.optional(S.String),
     logFileFormat: S.String,
     folderStructure: S.String,
@@ -1674,14 +1679,14 @@ export interface UpdateSessionLoggerRequest {
   sessionLoggerArn: string;
   eventFilter?: (typeof EventFilter)["Type"];
   logConfiguration?: LogConfiguration;
-  displayName?: string;
+  displayName?: string | Redacted.Redacted<string>;
 }
 export const UpdateSessionLoggerRequest = S.suspend(() =>
   S.Struct({
     sessionLoggerArn: S.String.pipe(T.HttpLabel("sessionLoggerArn")),
     eventFilter: S.optional(EventFilter),
     logConfiguration: S.optional(LogConfiguration),
-    displayName: S.optional(S.String),
+    displayName: S.optional(SensitiveString),
   }).pipe(
     T.all(
       T.Http({ method: "POST", uri: "/sessionLoggers/{sessionLoggerArn+}" }),
@@ -2156,7 +2161,7 @@ export interface BrandingConfigurationUpdateInput {
   favicon?: (typeof IconImageInput)["Type"];
   localizedStrings?: LocalizedBrandingStringMap;
   colorTheme?: string;
-  termsOfService?: string;
+  termsOfService?: string | Redacted.Redacted<string>;
 }
 export const BrandingConfigurationUpdateInput = S.suspend(() =>
   S.Struct({
@@ -2165,7 +2170,7 @@ export const BrandingConfigurationUpdateInput = S.suspend(() =>
     favicon: S.optional(IconImageInput),
     localizedStrings: S.optional(LocalizedBrandingStringMap),
     colorTheme: S.optional(S.String),
-    termsOfService: S.optional(S.String),
+    termsOfService: S.optional(SensitiveString),
   }),
 ).annotations({
   identifier: "BrandingConfigurationUpdateInput",
@@ -2209,7 +2214,7 @@ export interface CreateBrowserSettingsRequest {
   tags?: TagList;
   customerManagedKey?: string;
   additionalEncryptionContext?: EncryptionContextMap;
-  browserPolicy?: string;
+  browserPolicy?: string | Redacted.Redacted<string>;
   clientToken?: string;
   webContentFilteringPolicy?: WebContentFilteringPolicy;
 }
@@ -2218,7 +2223,7 @@ export const CreateBrowserSettingsRequest = S.suspend(() =>
     tags: S.optional(TagList),
     customerManagedKey: S.optional(S.String),
     additionalEncryptionContext: S.optional(EncryptionContextMap),
-    browserPolicy: S.optional(S.String),
+    browserPolicy: S.optional(SensitiveString),
     clientToken: S.optional(S.String),
     webContentFilteringPolicy: S.optional(WebContentFilteringPolicy),
   }).pipe(
@@ -2239,7 +2244,7 @@ export const ArnList = S.Array(S.String);
 export interface BrowserSettings {
   browserSettingsArn: string;
   associatedPortalArns?: ArnList;
-  browserPolicy?: string;
+  browserPolicy?: string | Redacted.Redacted<string>;
   customerManagedKey?: string;
   additionalEncryptionContext?: EncryptionContextMap;
   webContentFilteringPolicy?: WebContentFilteringPolicy;
@@ -2248,7 +2253,7 @@ export const BrowserSettings = S.suspend(() =>
   S.Struct({
     browserSettingsArn: S.String,
     associatedPortalArns: S.optional(ArnList),
-    browserPolicy: S.optional(S.String),
+    browserPolicy: S.optional(SensitiveString),
     customerManagedKey: S.optional(S.String),
     additionalEncryptionContext: S.optional(EncryptionContextMap),
     webContentFilteringPolicy: S.optional(WebContentFilteringPolicy),
@@ -2268,8 +2273,8 @@ export interface DataProtectionSettings {
   dataProtectionSettingsArn: string;
   inlineRedactionConfiguration?: InlineRedactionConfiguration;
   associatedPortalArns?: ArnList;
-  displayName?: string;
-  description?: string;
+  displayName?: string | Redacted.Redacted<string>;
+  description?: string | Redacted.Redacted<string>;
   creationDate?: Date;
   customerManagedKey?: string;
   additionalEncryptionContext?: EncryptionContextMap;
@@ -2279,8 +2284,8 @@ export const DataProtectionSettings = S.suspend(() =>
     dataProtectionSettingsArn: S.String,
     inlineRedactionConfiguration: S.optional(InlineRedactionConfiguration),
     associatedPortalArns: S.optional(ArnList),
-    displayName: S.optional(S.String),
-    description: S.optional(S.String),
+    displayName: S.optional(SensitiveString),
+    description: S.optional(SensitiveString),
     creationDate: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
     customerManagedKey: S.optional(S.String),
     additionalEncryptionContext: S.optional(EncryptionContextMap),
@@ -2298,7 +2303,7 @@ export const UpdateDataProtectionSettingsResponse = S.suspend(() =>
 }) as any as S.Schema<UpdateDataProtectionSettingsResponse>;
 export interface CreateIdentityProviderRequest {
   portalArn: string;
-  identityProviderName: string;
+  identityProviderName: string | Redacted.Redacted<string>;
   identityProviderType: string;
   identityProviderDetails: IdentityProviderDetails;
   clientToken?: string;
@@ -2307,7 +2312,7 @@ export interface CreateIdentityProviderRequest {
 export const CreateIdentityProviderRequest = S.suspend(() =>
   S.Struct({
     portalArn: S.String,
-    identityProviderName: S.String,
+    identityProviderName: SensitiveString,
     identityProviderType: S.String,
     identityProviderDetails: IdentityProviderDetails,
     clientToken: S.optional(S.String),
@@ -2327,14 +2332,14 @@ export const CreateIdentityProviderRequest = S.suspend(() =>
 }) as any as S.Schema<CreateIdentityProviderRequest>;
 export interface IdentityProvider {
   identityProviderArn: string;
-  identityProviderName?: string;
+  identityProviderName?: string | Redacted.Redacted<string>;
   identityProviderType?: string;
   identityProviderDetails?: IdentityProviderDetails;
 }
 export const IdentityProvider = S.suspend(() =>
   S.Struct({
     identityProviderArn: S.String,
-    identityProviderName: S.optional(S.String),
+    identityProviderName: S.optional(SensitiveString),
     identityProviderType: S.optional(S.String),
     identityProviderDetails: S.optional(IdentityProviderDetails),
   }),
@@ -2350,8 +2355,8 @@ export const UpdateIdentityProviderResponse = S.suspend(() =>
   identifier: "UpdateIdentityProviderResponse",
 }) as any as S.Schema<UpdateIdentityProviderResponse>;
 export interface CreateIpAccessSettingsRequest {
-  displayName?: string;
-  description?: string;
+  displayName?: string | Redacted.Redacted<string>;
+  description?: string | Redacted.Redacted<string>;
   tags?: TagList;
   customerManagedKey?: string;
   additionalEncryptionContext?: EncryptionContextMap;
@@ -2360,8 +2365,8 @@ export interface CreateIpAccessSettingsRequest {
 }
 export const CreateIpAccessSettingsRequest = S.suspend(() =>
   S.Struct({
-    displayName: S.optional(S.String),
-    description: S.optional(S.String),
+    displayName: S.optional(SensitiveString),
+    description: S.optional(SensitiveString),
     tags: S.optional(TagList),
     customerManagedKey: S.optional(S.String),
     additionalEncryptionContext: S.optional(EncryptionContextMap),
@@ -2384,8 +2389,8 @@ export interface IpAccessSettings {
   ipAccessSettingsArn: string;
   associatedPortalArns?: ArnList;
   ipRules?: IpRuleList;
-  displayName?: string;
-  description?: string;
+  displayName?: string | Redacted.Redacted<string>;
+  description?: string | Redacted.Redacted<string>;
   creationDate?: Date;
   customerManagedKey?: string;
   additionalEncryptionContext?: EncryptionContextMap;
@@ -2395,8 +2400,8 @@ export const IpAccessSettings = S.suspend(() =>
     ipAccessSettingsArn: S.String,
     associatedPortalArns: S.optional(ArnList),
     ipRules: S.optional(IpRuleList),
-    displayName: S.optional(S.String),
-    description: S.optional(S.String),
+    displayName: S.optional(SensitiveString),
+    description: S.optional(SensitiveString),
     creationDate: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
     customerManagedKey: S.optional(S.String),
     additionalEncryptionContext: S.optional(EncryptionContextMap),
@@ -2461,7 +2466,7 @@ export interface Portal {
   browserType?: string;
   portalStatus?: string;
   portalEndpoint?: string;
-  displayName?: string;
+  displayName?: string | Redacted.Redacted<string>;
   creationDate?: Date;
   browserSettingsArn?: string;
   dataProtectionSettingsArn?: string;
@@ -2485,7 +2490,7 @@ export const Portal = S.suspend(() =>
     browserType: S.optional(S.String),
     portalStatus: S.optional(S.String),
     portalEndpoint: S.optional(S.String),
-    displayName: S.optional(S.String),
+    displayName: S.optional(SensitiveString),
     creationDate: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
     browserSettingsArn: S.optional(S.String),
     dataProtectionSettingsArn: S.optional(S.String),
@@ -2602,7 +2607,7 @@ export interface SessionLogger {
   customerManagedKey?: string;
   additionalEncryptionContext?: EncryptionContextMap;
   associatedPortalArns?: ArnList;
-  displayName?: string;
+  displayName?: string | Redacted.Redacted<string>;
   creationDate?: Date;
 }
 export const SessionLogger = S.suspend(() =>
@@ -2613,7 +2618,7 @@ export const SessionLogger = S.suspend(() =>
     customerManagedKey: S.optional(S.String),
     additionalEncryptionContext: S.optional(EncryptionContextMap),
     associatedPortalArns: S.optional(ArnList),
-    displayName: S.optional(S.String),
+    displayName: S.optional(SensitiveString),
     creationDate: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
   }),
 ).annotations({
@@ -2674,15 +2679,15 @@ export const UpdateUserAccessLoggingSettingsResponse = S.suspend(() =>
   identifier: "UpdateUserAccessLoggingSettingsResponse",
 }) as any as S.Schema<UpdateUserAccessLoggingSettingsResponse>;
 export interface CookieSpecification {
-  domain: string;
-  name?: string;
-  path?: string;
+  domain: string | Redacted.Redacted<string>;
+  name?: string | Redacted.Redacted<string>;
+  path?: string | Redacted.Redacted<string>;
 }
 export const CookieSpecification = S.suspend(() =>
   S.Struct({
-    domain: S.String,
-    name: S.optional(S.String),
-    path: S.optional(S.String),
+    domain: SensitiveString,
+    name: S.optional(SensitiveString),
+    path: S.optional(SensitiveString),
   }),
 ).annotations({
   identifier: "CookieSpecification",
@@ -2748,12 +2753,12 @@ export const UpdateUserSettingsRequest = S.suspend(() =>
 ).annotations({
   identifier: "UpdateUserSettingsRequest",
 }) as any as S.Schema<UpdateUserSettingsRequest>;
-export type IpAddressList = string[];
-export const IpAddressList = S.Array(S.String);
+export type IpAddressList = string | Redacted.Redacted<string>[];
+export const IpAddressList = S.Array(SensitiveString);
 export interface Session {
   portalArn?: string;
   sessionId?: string;
-  username?: string;
+  username?: string | Redacted.Redacted<string>;
   clientIpAddresses?: IpAddressList;
   status?: string;
   startTime?: Date;
@@ -2763,7 +2768,7 @@ export const Session = S.suspend(() =>
   S.Struct({
     portalArn: S.optional(S.String),
     sessionId: S.optional(S.String),
-    username: S.optional(S.String),
+    username: S.optional(SensitiveString),
     clientIpAddresses: S.optional(IpAddressList),
     status: S.optional(S.String),
     startTime: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
@@ -2773,7 +2778,7 @@ export const Session = S.suspend(() =>
 export interface SessionSummary {
   portalArn?: string;
   sessionId?: string;
-  username?: string;
+  username?: string | Redacted.Redacted<string>;
   status?: string;
   startTime?: Date;
   endTime?: Date;
@@ -2782,7 +2787,7 @@ export const SessionSummary = S.suspend(() =>
   S.Struct({
     portalArn: S.optional(S.String),
     sessionId: S.optional(S.String),
-    username: S.optional(S.String),
+    username: S.optional(SensitiveString),
     status: S.optional(S.String),
     startTime: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
     endTime: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
@@ -2804,15 +2809,15 @@ export type BrowserSettingsList = BrowserSettingsSummary[];
 export const BrowserSettingsList = S.Array(BrowserSettingsSummary);
 export interface DataProtectionSettingsSummary {
   dataProtectionSettingsArn: string;
-  displayName?: string;
-  description?: string;
+  displayName?: string | Redacted.Redacted<string>;
+  description?: string | Redacted.Redacted<string>;
   creationDate?: Date;
 }
 export const DataProtectionSettingsSummary = S.suspend(() =>
   S.Struct({
     dataProtectionSettingsArn: S.String,
-    displayName: S.optional(S.String),
-    description: S.optional(S.String),
+    displayName: S.optional(SensitiveString),
+    description: S.optional(SensitiveString),
     creationDate: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
   }),
 ).annotations({
@@ -2824,13 +2829,13 @@ export const DataProtectionSettingsList = S.Array(
 );
 export interface IdentityProviderSummary {
   identityProviderArn: string;
-  identityProviderName?: string;
+  identityProviderName?: string | Redacted.Redacted<string>;
   identityProviderType?: string;
 }
 export const IdentityProviderSummary = S.suspend(() =>
   S.Struct({
     identityProviderArn: S.String,
-    identityProviderName: S.optional(S.String),
+    identityProviderName: S.optional(SensitiveString),
     identityProviderType: S.optional(S.String),
   }),
 ).annotations({
@@ -2840,15 +2845,15 @@ export type IdentityProviderList = IdentityProviderSummary[];
 export const IdentityProviderList = S.Array(IdentityProviderSummary);
 export interface IpAccessSettingsSummary {
   ipAccessSettingsArn: string;
-  displayName?: string;
-  description?: string;
+  displayName?: string | Redacted.Redacted<string>;
+  description?: string | Redacted.Redacted<string>;
   creationDate?: Date;
 }
 export const IpAccessSettingsSummary = S.suspend(() =>
   S.Struct({
     ipAccessSettingsArn: S.String,
-    displayName: S.optional(S.String),
-    description: S.optional(S.String),
+    displayName: S.optional(SensitiveString),
+    description: S.optional(SensitiveString),
     creationDate: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
   }),
 ).annotations({
@@ -2873,7 +2878,7 @@ export interface PortalSummary {
   browserType?: string;
   portalStatus?: string;
   portalEndpoint?: string;
-  displayName?: string;
+  displayName?: string | Redacted.Redacted<string>;
   creationDate?: Date;
   browserSettingsArn?: string;
   dataProtectionSettingsArn?: string;
@@ -2894,7 +2899,7 @@ export const PortalSummary = S.suspend(() =>
     browserType: S.optional(S.String),
     portalStatus: S.optional(S.String),
     portalEndpoint: S.optional(S.String),
-    displayName: S.optional(S.String),
+    displayName: S.optional(SensitiveString),
     creationDate: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
     browserSettingsArn: S.optional(S.String),
     dataProtectionSettingsArn: S.optional(S.String),
@@ -2916,14 +2921,14 @@ export const PortalList = S.Array(PortalSummary);
 export interface SessionLoggerSummary {
   sessionLoggerArn: string;
   logConfiguration?: LogConfiguration;
-  displayName?: string;
+  displayName?: string | Redacted.Redacted<string>;
   creationDate?: Date;
 }
 export const SessionLoggerSummary = S.suspend(() =>
   S.Struct({
     sessionLoggerArn: S.String,
     logConfiguration: S.optional(LogConfiguration),
-    displayName: S.optional(S.String),
+    displayName: S.optional(SensitiveString),
     creationDate: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
   }),
 ).annotations({
@@ -3025,7 +3030,7 @@ export interface BrandingConfiguration {
   favicon: ImageMetadata;
   localizedStrings: LocalizedBrandingStringMap;
   colorTheme: string;
-  termsOfService?: string;
+  termsOfService?: string | Redacted.Redacted<string>;
 }
 export const BrandingConfiguration = S.suspend(() =>
   S.Struct({
@@ -3034,7 +3039,7 @@ export const BrandingConfiguration = S.suspend(() =>
     favicon: ImageMetadata,
     localizedStrings: LocalizedBrandingStringMap,
     colorTheme: S.String,
-    termsOfService: S.optional(S.String),
+    termsOfService: S.optional(SensitiveString),
   }),
 ).annotations({
   identifier: "BrandingConfiguration",
@@ -3241,7 +3246,7 @@ export const ListPortalsResponse = S.suspend(() =>
 export interface CreateSessionLoggerRequest {
   eventFilter: (typeof EventFilter)["Type"];
   logConfiguration: LogConfiguration;
-  displayName?: string;
+  displayName?: string | Redacted.Redacted<string>;
   customerManagedKey?: string;
   additionalEncryptionContext?: EncryptionContextMap;
   tags?: TagList;
@@ -3251,7 +3256,7 @@ export const CreateSessionLoggerRequest = S.suspend(() =>
   S.Struct({
     eventFilter: EventFilter,
     logConfiguration: LogConfiguration,
-    displayName: S.optional(S.String),
+    displayName: S.optional(SensitiveString),
     customerManagedKey: S.optional(S.String),
     additionalEncryptionContext: S.optional(EncryptionContextMap),
     tags: S.optional(TagList),
@@ -3420,7 +3425,7 @@ export interface BrandingConfigurationCreateInput {
   favicon: (typeof IconImageInput)["Type"];
   localizedStrings: LocalizedBrandingStringMap;
   colorTheme: string;
-  termsOfService?: string;
+  termsOfService?: string | Redacted.Redacted<string>;
 }
 export const BrandingConfigurationCreateInput = S.suspend(() =>
   S.Struct({
@@ -3429,14 +3434,14 @@ export const BrandingConfigurationCreateInput = S.suspend(() =>
     favicon: IconImageInput,
     localizedStrings: LocalizedBrandingStringMap,
     colorTheme: S.String,
-    termsOfService: S.optional(S.String),
+    termsOfService: S.optional(SensitiveString),
   }),
 ).annotations({
   identifier: "BrandingConfigurationCreateInput",
 }) as any as S.Schema<BrandingConfigurationCreateInput>;
 export interface CreateDataProtectionSettingsRequest {
-  displayName?: string;
-  description?: string;
+  displayName?: string | Redacted.Redacted<string>;
+  description?: string | Redacted.Redacted<string>;
   tags?: TagList;
   customerManagedKey?: string;
   additionalEncryptionContext?: EncryptionContextMap;
@@ -3445,8 +3450,8 @@ export interface CreateDataProtectionSettingsRequest {
 }
 export const CreateDataProtectionSettingsRequest = S.suspend(() =>
   S.Struct({
-    displayName: S.optional(S.String),
-    description: S.optional(S.String),
+    displayName: S.optional(SensitiveString),
+    description: S.optional(SensitiveString),
     tags: S.optional(TagList),
     customerManagedKey: S.optional(S.String),
     additionalEncryptionContext: S.optional(EncryptionContextMap),

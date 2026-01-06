@@ -1,5 +1,6 @@
 import { HttpClient } from "@effect/platform";
 import * as Effect from "effect/Effect";
+import * as Redacted from "effect/Redacted";
 import * as S from "effect/Schema";
 import * as Stream from "effect/Stream";
 import * as API from "../api.ts";
@@ -10,6 +11,7 @@ import {
   ErrorCategory,
   Errors,
 } from "../index.ts";
+import { SensitiveString, SensitiveBlob } from "../sensitive.ts";
 const svc = T.AwsApiService({
   sdkId: "SSO",
   serviceShapeName: "SWBPortalService",
@@ -272,13 +274,13 @@ const rules = T.EndpointRuleSet({
 //# Newtypes
 export type RoleNameType = string;
 export type AccountIdType = string;
-export type AccessTokenType = string;
+export type AccessTokenType = string | Redacted.Redacted<string>;
 export type NextTokenType = string;
 export type MaxResultType = number;
 export type ErrorDescription = string;
 export type AccessKeyType = string;
-export type SecretAccessKeyType = string;
-export type SessionTokenType = string;
+export type SecretAccessKeyType = string | Redacted.Redacted<string>;
+export type SessionTokenType = string | Redacted.Redacted<string>;
 export type ExpirationTimestampType = number;
 export type AccountNameType = string;
 export type EmailAddressType = string;
@@ -287,13 +289,13 @@ export type EmailAddressType = string;
 export interface GetRoleCredentialsRequest {
   roleName: string;
   accountId: string;
-  accessToken: string;
+  accessToken: string | Redacted.Redacted<string>;
 }
 export const GetRoleCredentialsRequest = S.suspend(() =>
   S.Struct({
     roleName: S.String.pipe(T.HttpQuery("role_name")),
     accountId: S.String.pipe(T.HttpQuery("account_id")),
-    accessToken: S.String.pipe(T.HttpHeader("x-amz-sso_bearer_token")),
+    accessToken: SensitiveString.pipe(T.HttpHeader("x-amz-sso_bearer_token")),
   }).pipe(
     T.all(
       T.Http({ method: "GET", uri: "/federation/credentials" }),
@@ -310,14 +312,14 @@ export const GetRoleCredentialsRequest = S.suspend(() =>
 export interface ListAccountRolesRequest {
   nextToken?: string;
   maxResults?: number;
-  accessToken: string;
+  accessToken: string | Redacted.Redacted<string>;
   accountId: string;
 }
 export const ListAccountRolesRequest = S.suspend(() =>
   S.Struct({
     nextToken: S.optional(S.String).pipe(T.HttpQuery("next_token")),
     maxResults: S.optional(S.Number).pipe(T.HttpQuery("max_result")),
-    accessToken: S.String.pipe(T.HttpHeader("x-amz-sso_bearer_token")),
+    accessToken: SensitiveString.pipe(T.HttpHeader("x-amz-sso_bearer_token")),
     accountId: S.String.pipe(T.HttpQuery("account_id")),
   }).pipe(
     T.all(
@@ -335,13 +337,13 @@ export const ListAccountRolesRequest = S.suspend(() =>
 export interface ListAccountsRequest {
   nextToken?: string;
   maxResults?: number;
-  accessToken: string;
+  accessToken: string | Redacted.Redacted<string>;
 }
 export const ListAccountsRequest = S.suspend(() =>
   S.Struct({
     nextToken: S.optional(S.String).pipe(T.HttpQuery("next_token")),
     maxResults: S.optional(S.Number).pipe(T.HttpQuery("max_result")),
-    accessToken: S.String.pipe(T.HttpHeader("x-amz-sso_bearer_token")),
+    accessToken: SensitiveString.pipe(T.HttpHeader("x-amz-sso_bearer_token")),
   }).pipe(
     T.all(
       T.Http({ method: "GET", uri: "/assignment/accounts" }),
@@ -356,11 +358,11 @@ export const ListAccountsRequest = S.suspend(() =>
   identifier: "ListAccountsRequest",
 }) as any as S.Schema<ListAccountsRequest>;
 export interface LogoutRequest {
-  accessToken: string;
+  accessToken: string | Redacted.Redacted<string>;
 }
 export const LogoutRequest = S.suspend(() =>
   S.Struct({
-    accessToken: S.String.pipe(T.HttpHeader("x-amz-sso_bearer_token")),
+    accessToken: SensitiveString.pipe(T.HttpHeader("x-amz-sso_bearer_token")),
   }).pipe(
     T.all(
       T.Http({ method: "POST", uri: "/logout" }),
@@ -380,15 +382,15 @@ export const LogoutResponse = S.suspend(() => S.Struct({})).annotations({
 }) as any as S.Schema<LogoutResponse>;
 export interface RoleCredentials {
   accessKeyId?: string;
-  secretAccessKey?: string;
-  sessionToken?: string;
+  secretAccessKey?: string | Redacted.Redacted<string>;
+  sessionToken?: string | Redacted.Redacted<string>;
   expiration?: number;
 }
 export const RoleCredentials = S.suspend(() =>
   S.Struct({
     accessKeyId: S.optional(S.String),
-    secretAccessKey: S.optional(S.String),
-    sessionToken: S.optional(S.String),
+    secretAccessKey: S.optional(SensitiveString),
+    sessionToken: S.optional(SensitiveString),
     expiration: S.optional(S.Number),
   }),
 ).annotations({

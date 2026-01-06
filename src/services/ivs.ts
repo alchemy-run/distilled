@@ -1,5 +1,6 @@
 import { HttpClient } from "@effect/platform";
 import * as Effect from "effect/Effect";
+import * as Redacted from "effect/Redacted";
 import * as S from "effect/Schema";
 import * as Strm from "effect/Stream";
 import * as API from "../api.ts";
@@ -10,6 +11,7 @@ import {
   ErrorCategory,
   Errors,
 } from "../index.ts";
+import { SensitiveString, SensitiveBlob } from "../sensitive.ts";
 const svc = T.AwsApiService({
   sdkId: "ivs",
   serviceShapeName: "AmazonInteractiveVideoService",
@@ -276,7 +278,7 @@ export type MaxRecordingConfigurationResults = number;
 export type MaxStreamKeyResults = number;
 export type MaxStreamResults = number;
 export type ResourceArn = string;
-export type StreamMetadata = string;
+export type StreamMetadata = string | Redacted.Redacted<string>;
 export type ViewerId = string;
 export type ViewerSessionVersion = number;
 export type TagKey = string;
@@ -291,13 +293,13 @@ export type S3DestinationBucketName = string;
 export type IngestEndpoint = string;
 export type PlaybackURL = string;
 export type errorCode = string;
-export type StreamKeyValue = string;
+export type StreamKeyValue = string | Redacted.Redacted<string>;
 export type PlaybackKeyPairFingerprint = string;
 export type RecordingConfigurationState = string;
 export type StreamState = string;
 export type StreamViewerCount = number;
 export type SrtEndpoint = string;
-export type SrtPassphrase = string;
+export type SrtPassphrase = string | Redacted.Redacted<string>;
 export type Integer = number;
 
 //# Schemas
@@ -803,10 +805,10 @@ export const ListTagsForResourceRequest = S.suspend(() =>
 }) as any as S.Schema<ListTagsForResourceRequest>;
 export interface PutMetadataRequest {
   channelArn: string;
-  metadata: string;
+  metadata: string | Redacted.Redacted<string>;
 }
 export const PutMetadataRequest = S.suspend(() =>
-  S.Struct({ channelArn: S.String, metadata: S.String }).pipe(
+  S.Struct({ channelArn: S.String, metadata: SensitiveString }).pipe(
     T.all(
       T.Http({ method: "POST", uri: "/PutMetadata" }),
       svc,
@@ -1122,14 +1124,14 @@ export const CreateChannelRequest = S.suspend(() =>
 }) as any as S.Schema<CreateChannelRequest>;
 export interface StreamKey {
   arn?: string;
-  value?: string;
+  value?: string | Redacted.Redacted<string>;
   channelArn?: string;
   tags?: Tags;
 }
 export const StreamKey = S.suspend(() =>
   S.Struct({
     arn: S.optional(S.String),
-    value: S.optional(S.String),
+    value: S.optional(SensitiveString),
     channelArn: S.optional(S.String),
     tags: S.optional(Tags),
   }),
@@ -1144,12 +1146,12 @@ export const CreateStreamKeyResponse = S.suspend(() =>
 }) as any as S.Schema<CreateStreamKeyResponse>;
 export interface Srt {
   endpoint?: string;
-  passphrase?: string;
+  passphrase?: string | Redacted.Redacted<string>;
 }
 export const Srt = S.suspend(() =>
   S.Struct({
     endpoint: S.optional(S.String),
-    passphrase: S.optional(S.String),
+    passphrase: S.optional(SensitiveString),
   }),
 ).annotations({ identifier: "Srt" }) as any as S.Schema<Srt>;
 export interface Channel {

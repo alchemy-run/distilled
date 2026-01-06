@@ -1,5 +1,6 @@
 import { HttpClient } from "@effect/platform";
 import * as Effect from "effect/Effect";
+import * as Redacted from "effect/Redacted";
 import * as S from "effect/Schema";
 import * as Stream from "effect/Stream";
 import * as API from "../api.ts";
@@ -10,6 +11,7 @@ import {
   ErrorCategory,
   Errors,
 } from "../index.ts";
+import { SensitiveString, SensitiveBlob } from "../sensitive.ts";
 const ns = T.XmlNamespace("http://ec2.amazonaws.com/doc/2016-11-15");
 const svc = T.AwsApiService({ sdkId: "EC2", serviceShapeName: "AmazonEC2" });
 const auth = T.AwsAuthSigv4({ name: "ec2" });
@@ -324,14 +326,14 @@ export type SpotFleetRequestId = string;
 export type SpotInstanceRequestId = string;
 export type KmsKeyId = string;
 export type Long = number;
-export type CopySnapshotRequestPSU = string;
+export type CopySnapshotRequestPSU = string | Redacted.Redacted<string>;
 export type SnapshotCompletionDurationMinutesRequest = number;
 export type OutpostArn = string;
 export type PlacementGroupArn = string;
 export type CapacityReservationCommitmentDuration = number;
 export type Ipv4PoolCoipId = string;
 export type LocalGatewayRoutetableId = string;
-export type SensitiveMacCredentials = string;
+export type SensitiveMacCredentials = string | Redacted.Redacted<string>;
 export type FlowLogResourceId = string;
 export type InstanceEventWindowCronExpression = string;
 export type IpamScopeId = string;
@@ -552,15 +554,17 @@ export type StringType = string;
 export type KernelId = string;
 export type RamdiskId = string;
 export type NetworkAclAssociationId = string;
-export type ReportInstanceStatusRequestDescription = string;
+export type ReportInstanceStatusRequestDescription =
+  | string
+  | Redacted.Redacted<string>;
 export type RestoreSnapshotTierRequestTemporaryRestoreDays = number;
-export type RunInstancesUserData = string;
+export type RunInstancesUserData = string | Redacted.Redacted<string>;
 export type ResourceArn = string;
 export type DoubleWithConstraints = number;
 export type IntegerWithConstraints = number;
 export type ImageUsageResourceTypeName = string;
 export type Hour = number;
-export type SensitiveUserData = string;
+export type SensitiveUserData = string | Redacted.Redacted<string>;
 export type Double = number;
 export type InstanceIdWithVolumeResolver = string;
 export type VerifiedAccessEndpointPortNumber = number;
@@ -569,24 +573,26 @@ export type KmsKeyArn = string;
 export type RdsDbInstanceArn = string;
 export type RdsDbClusterArn = string;
 export type RdsDbProxyArn = string;
-export type ClientSecretType = string;
+export type ClientSecretType = string | Redacted.Redacted<string>;
 export type ExcludedInstanceType = string;
 export type AllowedInstanceType = string;
-export type SensitiveUrl = string;
-export type ImportManifestUrl = string;
+export type SensitiveUrl = string | Redacted.Redacted<string>;
+export type ImportManifestUrl = string | Redacted.Redacted<string>;
 export type SecurityGroupRuleId = string;
-export type preSharedKey = string;
+export type preSharedKey = string | Redacted.Redacted<string>;
 export type ImageProviderRequest = string;
 export type MarketplaceProductCodeRequest = string;
 export type ImageNameRequest = string;
 export type ElasticInferenceAcceleratorCount = number;
 export type SnapshotCompletionDurationMinutesResponse = number;
-export type EkPubKeyValue = string;
-export type PasswordData = string;
-export type VpnConnectionDeviceSampleConfiguration = string;
+export type EkPubKeyValue = string | Redacted.Redacted<string>;
+export type PasswordData = string | Redacted.Redacted<string>;
+export type VpnConnectionDeviceSampleConfiguration =
+  | string
+  | Redacted.Redacted<string>;
 export type RetentionPeriodResponseDays = number;
 export type CoolOffPeriodResponseHours = number;
-export type S3StorageUploadPolicySignature = string;
+export type S3StorageUploadPolicySignature = string | Redacted.Redacted<string>;
 export type ImageUsageResourceTypeOptionValue = string;
 export type LaunchTemplateElasticInferenceAcceleratorCount = number;
 export type ResourceTypeOptionValue = string;
@@ -597,7 +603,7 @@ export type ImageUsageReportState = string;
 export type ImageUsageReportStateReason = string;
 export type Location = string;
 export type Float = number;
-export type customerGatewayConfiguration = string;
+export type customerGatewayConfiguration = string | Redacted.Redacted<string>;
 export type ImageProvider = string;
 export type MarketplaceProductCode = string;
 export type ImageName = string;
@@ -2958,7 +2964,7 @@ export interface CopySnapshotRequest {
   DestinationRegion?: string;
   Encrypted?: boolean;
   KmsKeyId?: string;
-  PresignedUrl?: string;
+  PresignedUrl?: string | Redacted.Redacted<string>;
   SourceRegion: string;
   SourceSnapshotId: string;
   TagSpecifications?: TagSpecificationList;
@@ -2982,7 +2988,7 @@ export const CopySnapshotRequest = S.suspend(() =>
       T.XmlName("kmsKeyId"),
       T.Ec2QueryName("KmsKeyId"),
     ),
-    PresignedUrl: S.optional(S.String).pipe(
+    PresignedUrl: S.optional(SensitiveString).pipe(
       T.XmlName("presignedUrl"),
       T.Ec2QueryName("PresignedUrl"),
     ),
@@ -3366,7 +3372,7 @@ export interface CreateDelegateMacVolumeOwnershipTaskRequest {
   ClientToken?: string;
   DryRun?: boolean;
   InstanceId: string;
-  MacCredentials: string;
+  MacCredentials: string | Redacted.Redacted<string>;
   TagSpecifications?: TagSpecificationList;
 }
 export const CreateDelegateMacVolumeOwnershipTaskRequest = S.suspend(() =>
@@ -3374,7 +3380,7 @@ export const CreateDelegateMacVolumeOwnershipTaskRequest = S.suspend(() =>
     ClientToken: S.optional(S.String),
     DryRun: S.optional(S.Boolean),
     InstanceId: S.String,
-    MacCredentials: S.String,
+    MacCredentials: SensitiveString,
     TagSpecifications: S.optional(TagSpecificationList).pipe(
       T.XmlName("TagSpecification"),
     ),
@@ -4384,7 +4390,7 @@ export interface RequestLaunchTemplateData {
   RamDiskId?: string;
   DisableApiTermination?: boolean;
   InstanceInitiatedShutdownBehavior?: string;
-  UserData?: string;
+  UserData?: string | Redacted.Redacted<string>;
   TagSpecifications?: LaunchTemplateTagSpecificationRequestList;
   ElasticGpuSpecifications?: ElasticGpuSpecificationList;
   ElasticInferenceAccelerators?: LaunchTemplateElasticInferenceAcceleratorList;
@@ -4426,7 +4432,7 @@ export const RequestLaunchTemplateData = S.suspend(() =>
     RamDiskId: S.optional(S.String),
     DisableApiTermination: S.optional(S.Boolean),
     InstanceInitiatedShutdownBehavior: S.optional(S.String),
-    UserData: S.optional(S.String),
+    UserData: S.optional(SensitiveString),
     TagSpecifications: S.optional(
       LaunchTemplateTagSpecificationRequestList,
     ).pipe(T.XmlName("TagSpecification")),
@@ -20330,7 +20336,7 @@ export interface ReportInstanceStatusRequest {
   StartTime?: Date;
   EndTime?: Date;
   ReasonCodes: ReasonCodesList;
-  Description?: string;
+  Description?: string | Redacted.Redacted<string>;
 }
 export const ReportInstanceStatusRequest = S.suspend(() =>
   S.Struct({
@@ -20355,7 +20361,7 @@ export const ReportInstanceStatusRequest = S.suspend(() =>
       T.XmlName("reasonCode"),
       T.Ec2QueryName("ReasonCode"),
     ),
-    Description: S.optional(S.String).pipe(
+    Description: S.optional(SensitiveString).pipe(
       T.XmlName("description"),
       T.Ec2QueryName("Description"),
     ),
@@ -22163,7 +22169,7 @@ export interface CreateVerifiedAccessTrustProviderOidcOptions {
   TokenEndpoint?: string;
   UserInfoEndpoint?: string;
   ClientId?: string;
-  ClientSecret?: string;
+  ClientSecret?: string | Redacted.Redacted<string>;
   Scope?: string;
 }
 export const CreateVerifiedAccessTrustProviderOidcOptions = S.suspend(() =>
@@ -22173,7 +22179,7 @@ export const CreateVerifiedAccessTrustProviderOidcOptions = S.suspend(() =>
     TokenEndpoint: S.optional(S.String),
     UserInfoEndpoint: S.optional(S.String),
     ClientId: S.optional(S.String),
-    ClientSecret: S.optional(S.String),
+    ClientSecret: S.optional(SensitiveString),
     Scope: S.optional(S.String),
   }),
 ).annotations({
@@ -22198,7 +22204,7 @@ export interface CreateVerifiedAccessNativeApplicationOidcOptions {
   TokenEndpoint?: string;
   UserInfoEndpoint?: string;
   ClientId?: string;
-  ClientSecret?: string;
+  ClientSecret?: string | Redacted.Redacted<string>;
   Scope?: string;
 }
 export const CreateVerifiedAccessNativeApplicationOidcOptions = S.suspend(() =>
@@ -22209,7 +22215,7 @@ export const CreateVerifiedAccessNativeApplicationOidcOptions = S.suspend(() =>
     TokenEndpoint: S.optional(S.String),
     UserInfoEndpoint: S.optional(S.String),
     ClientId: S.optional(S.String),
-    ClientSecret: S.optional(S.String),
+    ClientSecret: S.optional(SensitiveString),
     Scope: S.optional(S.String),
   }),
 ).annotations({
@@ -22264,7 +22270,7 @@ export interface S3Storage {
   Bucket?: string;
   Prefix?: string;
   UploadPolicy?: Uint8Array;
-  UploadPolicySignature?: string;
+  UploadPolicySignature?: string | Redacted.Redacted<string>;
 }
 export const S3Storage = S.suspend(() =>
   S.Struct({
@@ -22281,7 +22287,7 @@ export const S3Storage = S.suspend(() =>
       T.XmlName("uploadPolicy"),
       T.Ec2QueryName("UploadPolicy"),
     ),
-    UploadPolicySignature: S.optional(S.String).pipe(
+    UploadPolicySignature: S.optional(SensitiveString).pipe(
       T.XmlName("uploadPolicySignature"),
       T.Ec2QueryName("UploadPolicySignature"),
     ),
@@ -24964,7 +24970,7 @@ export interface ResponseLaunchTemplateData {
   RamDiskId?: string;
   DisableApiTermination?: boolean;
   InstanceInitiatedShutdownBehavior?: string;
-  UserData?: string;
+  UserData?: string | Redacted.Redacted<string>;
   TagSpecifications?: LaunchTemplateTagSpecificationList;
   ElasticGpuSpecifications?: ElasticGpuSpecificationResponseList;
   ElasticInferenceAccelerators?: LaunchTemplateElasticInferenceAcceleratorResponseList;
@@ -25045,7 +25051,7 @@ export const ResponseLaunchTemplateData = S.suspend(() =>
       T.XmlName("instanceInitiatedShutdownBehavior"),
       T.Ec2QueryName("InstanceInitiatedShutdownBehavior"),
     ),
-    UserData: S.optional(S.String).pipe(
+    UserData: S.optional(SensitiveString).pipe(
       T.XmlName("userData"),
       T.Ec2QueryName("UserData"),
     ),
@@ -28455,7 +28461,7 @@ export interface OidcOptions {
   TokenEndpoint?: string;
   UserInfoEndpoint?: string;
   ClientId?: string;
-  ClientSecret?: string;
+  ClientSecret?: string | Redacted.Redacted<string>;
   Scope?: string;
 }
 export const OidcOptions = S.suspend(() =>
@@ -28480,7 +28486,7 @@ export const OidcOptions = S.suspend(() =>
       T.XmlName("clientId"),
       T.Ec2QueryName("ClientId"),
     ),
-    ClientSecret: S.optional(S.String).pipe(
+    ClientSecret: S.optional(SensitiveString).pipe(
       T.XmlName("clientSecret"),
       T.Ec2QueryName("ClientSecret"),
     ),
@@ -29988,13 +29994,13 @@ export const ImportImageLicenseSpecificationListRequest = S.Array(
 export interface DiskImageDetail {
   Format: string;
   Bytes: number;
-  ImportManifestUrl: string;
+  ImportManifestUrl: string | Redacted.Redacted<string>;
 }
 export const DiskImageDetail = S.suspend(() =>
   S.Struct({
     Format: S.String.pipe(T.XmlName("format"), T.Ec2QueryName("Format")),
     Bytes: S.Number.pipe(T.XmlName("bytes"), T.Ec2QueryName("Bytes")),
-    ImportManifestUrl: S.String.pipe(
+    ImportManifestUrl: SensitiveString.pipe(
       T.XmlName("importManifestUrl"),
       T.Ec2QueryName("ImportManifestUrl"),
     ),
@@ -30032,14 +30038,14 @@ export const UserBucket = S.suspend(() =>
 export interface SnapshotDiskContainer {
   Description?: string;
   Format?: string;
-  Url?: string;
+  Url?: string | Redacted.Redacted<string>;
   UserBucket?: UserBucket;
 }
 export const SnapshotDiskContainer = S.suspend(() =>
   S.Struct({
     Description: S.optional(S.String),
     Format: S.optional(S.String),
-    Url: S.optional(S.String),
+    Url: S.optional(SensitiveString),
     UserBucket: S.optional(UserBucket),
   }),
 ).annotations({
@@ -30378,7 +30384,7 @@ export interface ModifyVerifiedAccessTrustProviderOidcOptions {
   TokenEndpoint?: string;
   UserInfoEndpoint?: string;
   ClientId?: string;
-  ClientSecret?: string;
+  ClientSecret?: string | Redacted.Redacted<string>;
   Scope?: string;
 }
 export const ModifyVerifiedAccessTrustProviderOidcOptions = S.suspend(() =>
@@ -30388,7 +30394,7 @@ export const ModifyVerifiedAccessTrustProviderOidcOptions = S.suspend(() =>
     TokenEndpoint: S.optional(S.String),
     UserInfoEndpoint: S.optional(S.String),
     ClientId: S.optional(S.String),
-    ClientSecret: S.optional(S.String),
+    ClientSecret: S.optional(SensitiveString),
     Scope: S.optional(S.String),
   }),
 ).annotations({
@@ -30409,7 +30415,7 @@ export interface ModifyVerifiedAccessNativeApplicationOidcOptions {
   TokenEndpoint?: string;
   UserInfoEndpoint?: string;
   ClientId?: string;
-  ClientSecret?: string;
+  ClientSecret?: string | Redacted.Redacted<string>;
   Scope?: string;
 }
 export const ModifyVerifiedAccessNativeApplicationOidcOptions = S.suspend(() =>
@@ -30420,7 +30426,7 @@ export const ModifyVerifiedAccessNativeApplicationOidcOptions = S.suspend(() =>
     TokenEndpoint: S.optional(S.String),
     UserInfoEndpoint: S.optional(S.String),
     ClientId: S.optional(S.String),
-    ClientSecret: S.optional(S.String),
+    ClientSecret: S.optional(SensitiveString),
     Scope: S.optional(S.String),
   }),
 ).annotations({
@@ -31801,7 +31807,7 @@ export interface KeyPair {
   Tags?: TagList;
   KeyName?: string;
   KeyFingerprint?: string;
-  KeyMaterial?: string;
+  KeyMaterial?: string | Redacted.Redacted<string>;
 }
 export const KeyPair = S.suspend(() =>
   S.Struct({
@@ -31821,7 +31827,7 @@ export const KeyPair = S.suspend(() =>
       T.XmlName("keyFingerprint"),
       T.Ec2QueryName("KeyFingerprint"),
     ),
-    KeyMaterial: S.optional(S.String).pipe(
+    KeyMaterial: S.optional(SensitiveString).pipe(
       T.XmlName("keyMaterial"),
       T.Ec2QueryName("KeyMaterial"),
     ),
@@ -31831,7 +31837,7 @@ export interface CreateMacSystemIntegrityProtectionModificationTaskRequest {
   ClientToken?: string;
   DryRun?: boolean;
   InstanceId: string;
-  MacCredentials?: string;
+  MacCredentials?: string | Redacted.Redacted<string>;
   MacSystemIntegrityProtectionConfiguration?: MacSystemIntegrityProtectionConfigurationRequest;
   MacSystemIntegrityProtectionStatus: string;
   TagSpecifications?: TagSpecificationList;
@@ -31842,7 +31848,7 @@ export const CreateMacSystemIntegrityProtectionModificationTaskRequest =
       ClientToken: S.optional(S.String),
       DryRun: S.optional(S.Boolean),
       InstanceId: S.String,
-      MacCredentials: S.optional(S.String),
+      MacCredentials: S.optional(SensitiveString),
       MacSystemIntegrityProtectionConfiguration: S.optional(
         MacSystemIntegrityProtectionConfigurationRequest,
       ),
@@ -36760,7 +36766,7 @@ export interface GetInstanceTpmEkPubResult {
   InstanceId?: string;
   KeyType?: string;
   KeyFormat?: string;
-  KeyValue?: string;
+  KeyValue?: string | Redacted.Redacted<string>;
 }
 export const GetInstanceTpmEkPubResult = S.suspend(() =>
   S.Struct({
@@ -36776,7 +36782,7 @@ export const GetInstanceTpmEkPubResult = S.suspend(() =>
       T.XmlName("keyFormat"),
       T.Ec2QueryName("KeyFormat"),
     ),
-    KeyValue: S.optional(S.String).pipe(
+    KeyValue: S.optional(SensitiveString).pipe(
       T.XmlName("keyValue"),
       T.Ec2QueryName("KeyValue"),
     ),
@@ -36841,7 +36847,7 @@ export const GetIpamPoolCidrsResult = S.suspend(() =>
 export interface GetPasswordDataResult {
   InstanceId?: string;
   Timestamp?: Date;
-  PasswordData?: string;
+  PasswordData?: string | Redacted.Redacted<string>;
 }
 export const GetPasswordDataResult = S.suspend(() =>
   S.Struct({
@@ -36853,7 +36859,7 @@ export const GetPasswordDataResult = S.suspend(() =>
       T.XmlName("timestamp"),
       T.Ec2QueryName("Timestamp"),
     ),
-    PasswordData: S.optional(S.String).pipe(
+    PasswordData: S.optional(SensitiveString).pipe(
       T.XmlName("passwordData"),
       T.Ec2QueryName("PasswordData"),
     ),
@@ -37079,11 +37085,11 @@ export const GetVerifiedAccessGroupPolicyResult = S.suspend(() =>
   identifier: "GetVerifiedAccessGroupPolicyResult",
 }) as any as S.Schema<GetVerifiedAccessGroupPolicyResult>;
 export interface GetVpnConnectionDeviceSampleConfigurationResult {
-  VpnConnectionDeviceSampleConfiguration?: string;
+  VpnConnectionDeviceSampleConfiguration?: string | Redacted.Redacted<string>;
 }
 export const GetVpnConnectionDeviceSampleConfigurationResult = S.suspend(() =>
   S.Struct({
-    VpnConnectionDeviceSampleConfiguration: S.optional(S.String).pipe(
+    VpnConnectionDeviceSampleConfiguration: S.optional(SensitiveString).pipe(
       T.XmlName("vpnConnectionDeviceSampleConfiguration"),
       T.Ec2QueryName("VpnConnectionDeviceSampleConfiguration"),
     ),
@@ -38938,7 +38944,7 @@ export interface TunnelOption {
   OutsideIpAddress?: string;
   TunnelInsideCidr?: string;
   TunnelInsideIpv6Cidr?: string;
-  PreSharedKey?: string;
+  PreSharedKey?: string | Redacted.Redacted<string>;
   Phase1LifetimeSeconds?: number;
   Phase2LifetimeSeconds?: number;
   RekeyMarginTimeSeconds?: number;
@@ -38971,7 +38977,7 @@ export const TunnelOption = S.suspend(() =>
       T.XmlName("tunnelInsideIpv6Cidr"),
       T.Ec2QueryName("TunnelInsideIpv6Cidr"),
     ),
-    PreSharedKey: S.optional(S.String).pipe(
+    PreSharedKey: S.optional(SensitiveString).pipe(
       T.XmlName("preSharedKey"),
       T.Ec2QueryName("PreSharedKey"),
     ),
@@ -39197,7 +39203,7 @@ export interface VpnConnection {
   PreSharedKeyArn?: string;
   VpnConnectionId?: string;
   State?: string;
-  CustomerGatewayConfiguration?: string;
+  CustomerGatewayConfiguration?: string | Redacted.Redacted<string>;
   Type?: string;
   CustomerGatewayId?: string;
   VpnGatewayId?: string;
@@ -39255,7 +39261,7 @@ export const VpnConnection = S.suspend(() =>
       T.XmlName("state"),
       T.Ec2QueryName("State"),
     ),
-    CustomerGatewayConfiguration: S.optional(S.String).pipe(
+    CustomerGatewayConfiguration: S.optional(SensitiveString).pipe(
       T.XmlName("customerGatewayConfiguration"),
       T.Ec2QueryName("CustomerGatewayConfiguration"),
     ),
@@ -41993,7 +41999,7 @@ export const VpnTunnelLogOptionsSpecification = S.suspend(() =>
 export interface VpnTunnelOptionsSpecification {
   TunnelInsideCidr?: string;
   TunnelInsideIpv6Cidr?: string;
-  PreSharedKey?: string;
+  PreSharedKey?: string | Redacted.Redacted<string>;
   Phase1LifetimeSeconds?: number;
   Phase2LifetimeSeconds?: number;
   RekeyMarginTimeSeconds?: number;
@@ -42016,7 +42022,7 @@ export const VpnTunnelOptionsSpecification = S.suspend(() =>
   S.Struct({
     TunnelInsideCidr: S.optional(S.String),
     TunnelInsideIpv6Cidr: S.optional(S.String),
-    PreSharedKey: S.optional(S.String),
+    PreSharedKey: S.optional(SensitiveString),
     Phase1LifetimeSeconds: S.optional(S.Number),
     Phase2LifetimeSeconds: S.optional(S.Number),
     RekeyMarginTimeSeconds: S.optional(S.Number),
@@ -45085,7 +45091,7 @@ export interface SpotFleetLaunchSpecification {
   RamdiskId?: string;
   SpotPrice?: string;
   SubnetId?: string;
-  UserData?: string;
+  UserData?: string | Redacted.Redacted<string>;
   WeightedCapacity?: number;
   TagSpecifications?: SpotFleetTagSpecificationList;
   InstanceRequirements?: InstanceRequirements;
@@ -45151,7 +45157,7 @@ export const SpotFleetLaunchSpecification = S.suspend(() =>
       T.XmlName("subnetId"),
       T.Ec2QueryName("SubnetId"),
     ),
-    UserData: S.optional(S.String).pipe(
+    UserData: S.optional(SensitiveString).pipe(
       T.XmlName("userData"),
       T.Ec2QueryName("UserData"),
     ),
@@ -45990,7 +45996,7 @@ export interface VerifiedAccessInstanceUserTrustProviderClientConfiguration {
   TokenEndpoint?: string;
   UserInfoEndpoint?: string;
   ClientId?: string;
-  ClientSecret?: string;
+  ClientSecret?: string | Redacted.Redacted<string>;
   PkceEnabled?: boolean;
 }
 export const VerifiedAccessInstanceUserTrustProviderClientConfiguration =
@@ -46028,7 +46034,7 @@ export const VerifiedAccessInstanceUserTrustProviderClientConfiguration =
         T.XmlName("clientId"),
         T.Ec2QueryName("ClientId"),
       ),
-      ClientSecret: S.optional(S.String).pipe(
+      ClientSecret: S.optional(SensitiveString).pipe(
         T.XmlName("clientSecret"),
         T.Ec2QueryName("ClientSecret"),
       ),
@@ -47069,7 +47075,7 @@ export interface ImageDiskContainer {
   DeviceName?: string;
   Format?: string;
   SnapshotId?: string;
-  Url?: string;
+  Url?: string | Redacted.Redacted<string>;
   UserBucket?: UserBucket;
 }
 export const ImageDiskContainer = S.suspend(() =>
@@ -47078,7 +47084,7 @@ export const ImageDiskContainer = S.suspend(() =>
     DeviceName: S.optional(S.String),
     Format: S.optional(S.String),
     SnapshotId: S.optional(S.String),
-    Url: S.optional(S.String),
+    Url: S.optional(SensitiveString),
     UserBucket: S.optional(UserBucket),
   }),
 ).annotations({
@@ -47744,7 +47750,7 @@ export interface RequestSpotLaunchSpecification {
   Placement?: SpotPlacement;
   RamdiskId?: string;
   SubnetId?: string;
-  UserData?: string;
+  UserData?: string | Redacted.Redacted<string>;
 }
 export const RequestSpotLaunchSpecification = S.suspend(() =>
   S.Struct({
@@ -47805,7 +47811,7 @@ export const RequestSpotLaunchSpecification = S.suspend(() =>
       T.XmlName("subnetId"),
       T.Ec2QueryName("SubnetId"),
     ),
-    UserData: S.optional(S.String).pipe(
+    UserData: S.optional(SensitiveString).pipe(
       T.XmlName("userData"),
       T.Ec2QueryName("UserData"),
     ),
@@ -53061,7 +53067,7 @@ export interface SnapshotTaskDetail {
   SnapshotId?: string;
   Status?: string;
   StatusMessage?: string;
-  Url?: string;
+  Url?: string | Redacted.Redacted<string>;
   UserBucket?: UserBucketDetails;
 }
 export const SnapshotTaskDetail = S.suspend(() =>
@@ -53102,7 +53108,10 @@ export const SnapshotTaskDetail = S.suspend(() =>
       T.XmlName("statusMessage"),
       T.Ec2QueryName("StatusMessage"),
     ),
-    Url: S.optional(S.String).pipe(T.XmlName("url"), T.Ec2QueryName("Url")),
+    Url: S.optional(SensitiveString).pipe(
+      T.XmlName("url"),
+      T.Ec2QueryName("Url"),
+    ),
     UserBucket: S.optional(UserBucketDetails)
       .pipe(T.XmlName("userBucket"), T.Ec2QueryName("UserBucket"))
       .annotations({ identifier: "UserBucketDetails" }),
@@ -53143,7 +53152,7 @@ export const ImportSnapshotResult = S.suspend(() =>
 export interface DiskImageDescription {
   Checksum?: string;
   Format?: string;
-  ImportManifestUrl?: string;
+  ImportManifestUrl?: string | Redacted.Redacted<string>;
   Size?: number;
 }
 export const DiskImageDescription = S.suspend(() =>
@@ -53156,7 +53165,7 @@ export const DiskImageDescription = S.suspend(() =>
       T.XmlName("format"),
       T.Ec2QueryName("Format"),
     ),
-    ImportManifestUrl: S.optional(S.String).pipe(
+    ImportManifestUrl: S.optional(SensitiveString).pipe(
       T.XmlName("importManifestUrl"),
       T.Ec2QueryName("ImportManifestUrl"),
     ),
@@ -55320,7 +55329,7 @@ export const PricingDetailsList = S.Array(
   }),
 );
 export interface LaunchSpecification {
-  UserData?: string;
+  UserData?: string | Redacted.Redacted<string>;
   AddressingType?: string;
   BlockDeviceMappings?: BlockDeviceMappingList;
   EbsOptimized?: boolean;
@@ -55338,7 +55347,7 @@ export interface LaunchSpecification {
 }
 export const LaunchSpecification = S.suspend(() =>
   S.Struct({
-    UserData: S.optional(S.String).pipe(
+    UserData: S.optional(SensitiveString).pipe(
       T.XmlName("userData"),
       T.Ec2QueryName("UserData"),
     ),
@@ -58166,7 +58175,7 @@ export const PeeringConnectionOptions = S.suspend(() =>
 export interface ModifyVpnTunnelOptionsSpecification {
   TunnelInsideCidr?: string;
   TunnelInsideIpv6Cidr?: string;
-  PreSharedKey?: string;
+  PreSharedKey?: string | Redacted.Redacted<string>;
   Phase1LifetimeSeconds?: number;
   Phase2LifetimeSeconds?: number;
   RekeyMarginTimeSeconds?: number;
@@ -58189,7 +58198,7 @@ export const ModifyVpnTunnelOptionsSpecification = S.suspend(() =>
   S.Struct({
     TunnelInsideCidr: S.optional(S.String),
     TunnelInsideIpv6Cidr: S.optional(S.String),
-    PreSharedKey: S.optional(S.String),
+    PreSharedKey: S.optional(SensitiveString),
     Phase1LifetimeSeconds: S.optional(S.Number),
     Phase2LifetimeSeconds: S.optional(S.Number),
     RekeyMarginTimeSeconds: S.optional(S.Number),
@@ -60909,7 +60918,7 @@ export interface SnapshotDetail {
   SnapshotId?: string;
   Status?: string;
   StatusMessage?: string;
-  Url?: string;
+  Url?: string | Redacted.Redacted<string>;
   UserBucket?: UserBucketDetails;
 }
 export const SnapshotDetail = S.suspend(() =>
@@ -60946,7 +60955,10 @@ export const SnapshotDetail = S.suspend(() =>
       T.XmlName("statusMessage"),
       T.Ec2QueryName("StatusMessage"),
     ),
-    Url: S.optional(S.String).pipe(T.XmlName("url"), T.Ec2QueryName("Url")),
+    Url: S.optional(SensitiveString).pipe(
+      T.XmlName("url"),
+      T.Ec2QueryName("Url"),
+    ),
     UserBucket: S.optional(UserBucketDetails)
       .pipe(T.XmlName("userBucket"), T.Ec2QueryName("UserBucket"))
       .annotations({ identifier: "UserBucketDetails" }),
@@ -61333,7 +61345,7 @@ export interface RunInstancesRequest {
   SecurityGroupIds?: SecurityGroupIdStringList;
   SecurityGroups?: SecurityGroupStringList;
   SubnetId?: string;
-  UserData?: string;
+  UserData?: string | Redacted.Redacted<string>;
   ElasticGpuSpecification?: ElasticGpuSpecifications;
   ElasticInferenceAccelerators?: ElasticInferenceAccelerators;
   TagSpecifications?: TagSpecificationList;
@@ -61387,7 +61399,7 @@ export const RunInstancesRequest = S.suspend(() =>
       T.XmlName("SecurityGroup"),
     ),
     SubnetId: S.optional(S.String),
-    UserData: S.optional(S.String),
+    UserData: S.optional(SensitiveString),
     ElasticGpuSpecification: S.optional(ElasticGpuSpecifications),
     ElasticInferenceAccelerators: S.optional(ElasticInferenceAccelerators).pipe(
       T.XmlName("ElasticInferenceAccelerator"),

@@ -1,5 +1,6 @@
 import { HttpClient } from "@effect/platform";
 import * as Effect from "effect/Effect";
+import * as Redacted from "effect/Redacted";
 import * as S from "effect/Schema";
 import * as Stream from "effect/Stream";
 import * as API from "../api.ts";
@@ -10,6 +11,7 @@ import {
   ErrorCategory,
   Errors,
 } from "../index.ts";
+import { SensitiveString, SensitiveBlob } from "../sensitive.ts";
 const svc = T.AwsApiService({
   sdkId: "IoTSecureTunneling",
   serviceShapeName: "IoTSecuredTunneling",
@@ -382,7 +384,7 @@ export type Service = string;
 export type TimeoutInMin = number;
 export type ErrorMessage = string;
 export type TunnelArn = string;
-export type ClientAccessToken = string;
+export type ClientAccessToken = string | Redacted.Redacted<string>;
 
 //# Schemas
 export type TagKeyList = string[];
@@ -599,14 +601,14 @@ export const OpenTunnelRequest = S.suspend(() =>
 }) as any as S.Schema<OpenTunnelRequest>;
 export interface RotateTunnelAccessTokenResponse {
   tunnelArn?: string;
-  sourceAccessToken?: string;
-  destinationAccessToken?: string;
+  sourceAccessToken?: string | Redacted.Redacted<string>;
+  destinationAccessToken?: string | Redacted.Redacted<string>;
 }
 export const RotateTunnelAccessTokenResponse = S.suspend(() =>
   S.Struct({
     tunnelArn: S.optional(S.String),
-    sourceAccessToken: S.optional(S.String),
-    destinationAccessToken: S.optional(S.String),
+    sourceAccessToken: S.optional(SensitiveString),
+    destinationAccessToken: S.optional(SensitiveString),
   }),
 ).annotations({
   identifier: "RotateTunnelAccessTokenResponse",
@@ -648,15 +650,15 @@ export const ListTunnelsResponse = S.suspend(() =>
 export interface OpenTunnelResponse {
   tunnelId?: string;
   tunnelArn?: string;
-  sourceAccessToken?: string;
-  destinationAccessToken?: string;
+  sourceAccessToken?: string | Redacted.Redacted<string>;
+  destinationAccessToken?: string | Redacted.Redacted<string>;
 }
 export const OpenTunnelResponse = S.suspend(() =>
   S.Struct({
     tunnelId: S.optional(S.String),
     tunnelArn: S.optional(S.String),
-    sourceAccessToken: S.optional(S.String),
-    destinationAccessToken: S.optional(S.String),
+    sourceAccessToken: S.optional(SensitiveString),
+    destinationAccessToken: S.optional(SensitiveString),
   }),
 ).annotations({
   identifier: "OpenTunnelResponse",

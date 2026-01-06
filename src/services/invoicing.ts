@@ -1,5 +1,6 @@
 import { HttpClient } from "@effect/platform";
 import * as Effect from "effect/Effect";
+import * as Redacted from "effect/Redacted";
 import * as S from "effect/Schema";
 import * as Stream from "effect/Stream";
 import * as API from "../api.ts";
@@ -10,6 +11,7 @@ import {
   ErrorCategory,
   Errors,
 } from "../index.ts";
+import { SensitiveString, SensitiveBlob } from "../sensitive.ts";
 const svc = T.AwsApiService({
   sdkId: "Invoicing",
   serviceShapeName: "Invoicing",
@@ -134,7 +136,9 @@ export type AccountIdString = string;
 export type InvoiceUnitName = string;
 export type DescriptionString = string;
 export type BasicStringWithoutSpace = string;
-export type SensitiveBasicStringWithoutSpace = string;
+export type SensitiveBasicStringWithoutSpace =
+  | string
+  | Redacted.Redacted<string>;
 export type InvoiceUnitArnString = string;
 export type ProcurementPortalPreferenceArnString = string;
 export type StringWithoutNewLine = string;
@@ -334,7 +338,7 @@ export const Contacts = S.Array(Contact);
 export interface PutProcurementPortalPreferenceRequest {
   ProcurementPortalPreferenceArn: string;
   Selector?: ProcurementPortalPreferenceSelector;
-  ProcurementPortalSharedSecret?: string;
+  ProcurementPortalSharedSecret?: string | Redacted.Redacted<string>;
   ProcurementPortalInstanceEndpoint?: string;
   TestEnvPreference?: TestEnvPreferenceInput;
   EinvoiceDeliveryEnabled: boolean;
@@ -346,7 +350,7 @@ export const PutProcurementPortalPreferenceRequest = S.suspend(() =>
   S.Struct({
     ProcurementPortalPreferenceArn: S.String,
     Selector: S.optional(ProcurementPortalPreferenceSelector),
-    ProcurementPortalSharedSecret: S.optional(S.String),
+    ProcurementPortalSharedSecret: S.optional(SensitiveString),
     ProcurementPortalInstanceEndpoint: S.optional(S.String),
     TestEnvPreference: S.optional(TestEnvPreferenceInput),
     EinvoiceDeliveryEnabled: S.Boolean,
@@ -680,7 +684,7 @@ export interface CreateProcurementPortalPreferenceRequest {
   SupplierDomain: string;
   SupplierIdentifier: string;
   Selector?: ProcurementPortalPreferenceSelector;
-  ProcurementPortalSharedSecret?: string;
+  ProcurementPortalSharedSecret?: string | Redacted.Redacted<string>;
   ProcurementPortalInstanceEndpoint?: string;
   TestEnvPreference?: TestEnvPreferenceInput;
   EinvoiceDeliveryEnabled: boolean;
@@ -698,7 +702,7 @@ export const CreateProcurementPortalPreferenceRequest = S.suspend(() =>
     SupplierDomain: S.String,
     SupplierIdentifier: S.String,
     Selector: S.optional(ProcurementPortalPreferenceSelector),
-    ProcurementPortalSharedSecret: S.optional(S.String),
+    ProcurementPortalSharedSecret: S.optional(SensitiveString),
     ProcurementPortalInstanceEndpoint: S.optional(S.String),
     TestEnvPreference: S.optional(TestEnvPreferenceInput),
     EinvoiceDeliveryEnabled: S.Boolean,
@@ -813,18 +817,18 @@ export interface InvoiceProfile {
   AccountId?: string;
   ReceiverName?: string;
   ReceiverAddress?: ReceiverAddress;
-  ReceiverEmail?: string;
+  ReceiverEmail?: string | Redacted.Redacted<string>;
   Issuer?: string;
-  TaxRegistrationNumber?: string;
+  TaxRegistrationNumber?: string | Redacted.Redacted<string>;
 }
 export const InvoiceProfile = S.suspend(() =>
   S.Struct({
     AccountId: S.optional(S.String),
     ReceiverName: S.optional(S.String),
     ReceiverAddress: S.optional(ReceiverAddress),
-    ReceiverEmail: S.optional(S.String),
+    ReceiverEmail: S.optional(SensitiveString),
     Issuer: S.optional(S.String),
-    TaxRegistrationNumber: S.optional(S.String),
+    TaxRegistrationNumber: S.optional(SensitiveString),
   }),
 ).annotations({
   identifier: "InvoiceProfile",

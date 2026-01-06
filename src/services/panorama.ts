@@ -1,5 +1,6 @@
 import { HttpClient } from "@effect/platform";
 import * as Effect from "effect/Effect";
+import * as Redacted from "effect/Redacted";
 import * as S from "effect/Schema";
 import * as Stream from "effect/Stream";
 import * as API from "../api.ts";
@@ -10,6 +11,7 @@ import {
   ErrorCategory,
   Errors,
 } from "../index.ts";
+import { SensitiveString, SensitiveBlob } from "../sensitive.ts";
 const svc = T.AwsApiService({
   sdkId: "Panorama",
   serviceShapeName: "OmniCloudServiceLambda",
@@ -284,7 +286,7 @@ export type ManifestPayloadData = string;
 export type ManifestOverridesPayloadData = string;
 export type TagValue = string;
 export type TemplateKey = string;
-export type TemplateValue = string;
+export type TemplateValue = string | Redacted.Redacted<string>;
 export type JobResourceType = string;
 export type NodeInstanceId = string;
 export type NodeSignalValue = string;
@@ -1004,10 +1006,12 @@ export type ManifestOverridesPayload = { PayloadData: string };
 export const ManifestOverridesPayload = S.Union(
   S.Struct({ PayloadData: S.String }),
 );
-export type TemplateParametersMap = { [key: string]: string };
+export type TemplateParametersMap = {
+  [key: string]: string | Redacted.Redacted<string>;
+};
 export const TemplateParametersMap = S.Record({
   key: S.String,
-  value: S.String,
+  value: SensitiveString,
 });
 export interface JobResourceTags {
   ResourceType: string;

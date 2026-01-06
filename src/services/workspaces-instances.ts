@@ -1,5 +1,6 @@
 import { HttpClient } from "@effect/platform";
 import * as Effect from "effect/Effect";
+import * as Redacted from "effect/Redacted";
 import * as S from "effect/Schema";
 import * as Stream from "effect/Stream";
 import * as API from "../api.ts";
@@ -10,6 +11,7 @@ import {
   ErrorCategory,
   Errors,
 } from "../index.ts";
+import { SensitiveString, SensitiveBlob } from "../sensitive.ts";
 const svc = T.AwsApiService({
   sdkId: "Workspaces Instances",
   serviceShapeName: "EUCMIFrontendAPIService",
@@ -118,25 +120,25 @@ export type WorkspaceInstanceId = string;
 export type VolumeId = string;
 export type DeviceName = string;
 export type String64 = string;
-export type ClientToken = string;
+export type ClientToken = string | Redacted.Redacted<string>;
 export type NonNegativeInteger = number;
-export type KmsKeyId = string;
+export type KmsKeyId = string | Redacted.Redacted<string>;
 export type SnapshotId = string;
 export type MaxResults = number;
-export type NextToken = string;
+export type NextToken = string | Redacted.Redacted<string>;
 export type TagKey = string;
 export type TagValue = string;
 export type ImageId = string;
 export type InstanceType = string;
 export type String128 = string;
-export type Ipv4Address = string;
+export type Ipv4Address = string | Redacted.Redacted<string>;
 export type SecurityGroupId = string;
 export type SecurityGroupName = string;
 export type SubnetId = string;
-export type UserData = string;
+export type UserData = string | Redacted.Redacted<string>;
 export type VirtualName = string;
 export type ARN = string;
-export type Ipv6Address = string;
+export type Ipv6Address = string | Redacted.Redacted<string>;
 export type HttpPutResponseHopLimit = number;
 export type Description = string;
 export type NetworkInterfaceId = string;
@@ -240,12 +242,12 @@ export const GetWorkspaceInstanceRequest = S.suspend(() =>
 }) as any as S.Schema<GetWorkspaceInstanceRequest>;
 export interface ListInstanceTypesRequest {
   MaxResults?: number;
-  NextToken?: string;
+  NextToken?: string | Redacted.Redacted<string>;
 }
 export const ListInstanceTypesRequest = S.suspend(() =>
   S.Struct({
     MaxResults: S.optional(S.Number),
-    NextToken: S.optional(S.String),
+    NextToken: S.optional(SensitiveString),
   }).pipe(
     T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
   ),
@@ -254,12 +256,12 @@ export const ListInstanceTypesRequest = S.suspend(() =>
 }) as any as S.Schema<ListInstanceTypesRequest>;
 export interface ListRegionsRequest {
   MaxResults?: number;
-  NextToken?: string;
+  NextToken?: string | Redacted.Redacted<string>;
 }
 export const ListRegionsRequest = S.suspend(() =>
   S.Struct({
     MaxResults: S.optional(S.Number),
-    NextToken: S.optional(S.String),
+    NextToken: S.optional(SensitiveString),
   }).pipe(
     T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
   ),
@@ -279,13 +281,13 @@ export const ListTagsForResourceRequest = S.suspend(() =>
 export interface ListWorkspaceInstancesRequest {
   ProvisionStates?: ProvisionStates;
   MaxResults?: number;
-  NextToken?: string;
+  NextToken?: string | Redacted.Redacted<string>;
 }
 export const ListWorkspaceInstancesRequest = S.suspend(() =>
   S.Struct({
     ProvisionStates: S.optional(ProvisionStates),
     MaxResults: S.optional(S.Number),
-    NextToken: S.optional(S.String),
+    NextToken: S.optional(SensitiveString),
   }).pipe(
     T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
   ),
@@ -348,10 +350,10 @@ export type TagSpecifications = TagSpecification[];
 export const TagSpecifications = S.Array(TagSpecification);
 export interface CreateVolumeRequest {
   AvailabilityZone: string;
-  ClientToken?: string;
+  ClientToken?: string | Redacted.Redacted<string>;
   Encrypted?: boolean;
   Iops?: number;
-  KmsKeyId?: string;
+  KmsKeyId?: string | Redacted.Redacted<string>;
   SizeInGB?: number;
   SnapshotId?: string;
   TagSpecifications?: TagSpecifications;
@@ -361,10 +363,10 @@ export interface CreateVolumeRequest {
 export const CreateVolumeRequest = S.suspend(() =>
   S.Struct({
     AvailabilityZone: S.String,
-    ClientToken: S.optional(S.String),
+    ClientToken: S.optional(SensitiveString),
     Encrypted: S.optional(S.Boolean),
     Iops: S.optional(S.Number),
-    KmsKeyId: S.optional(S.String),
+    KmsKeyId: S.optional(SensitiveString),
     SizeInGB: S.optional(S.Number),
     SnapshotId: S.optional(S.String),
     TagSpecifications: S.optional(TagSpecifications),
@@ -432,12 +434,12 @@ export const IamInstanceProfileSpecification = S.suspend(() =>
   identifier: "IamInstanceProfileSpecification",
 }) as any as S.Schema<IamInstanceProfileSpecification>;
 export interface InstanceIpv6Address {
-  Ipv6Address?: string;
+  Ipv6Address?: string | Redacted.Redacted<string>;
   IsPrimaryIpv6?: boolean;
 }
 export const InstanceIpv6Address = S.suspend(() =>
   S.Struct({
-    Ipv6Address: S.optional(S.String),
+    Ipv6Address: S.optional(SensitiveString),
     IsPrimaryIpv6: S.optional(S.Boolean),
   }),
 ).annotations({
@@ -608,7 +610,7 @@ export const WorkspaceInstances = S.Array(WorkspaceInstance);
 export interface EbsBlockDevice {
   VolumeType?: string;
   Encrypted?: boolean;
-  KmsKeyId?: string;
+  KmsKeyId?: string | Redacted.Redacted<string>;
   Iops?: number;
   Throughput?: number;
   VolumeSize?: number;
@@ -617,7 +619,7 @@ export const EbsBlockDevice = S.suspend(() =>
   S.Struct({
     VolumeType: S.optional(S.String),
     Encrypted: S.optional(S.Boolean),
-    KmsKeyId: S.optional(S.String),
+    KmsKeyId: S.optional(SensitiveString),
     Iops: S.optional(S.Number),
     Throughput: S.optional(S.Number),
     VolumeSize: S.optional(S.Number),
@@ -691,12 +693,12 @@ export type Ipv6Prefixes = Ipv6PrefixSpecificationRequest[];
 export const Ipv6Prefixes = S.Array(Ipv6PrefixSpecificationRequest);
 export interface PrivateIpAddressSpecification {
   Primary?: boolean;
-  PrivateIpAddress?: string;
+  PrivateIpAddress?: string | Redacted.Redacted<string>;
 }
 export const PrivateIpAddressSpecification = S.suspend(() =>
   S.Struct({
     Primary: S.optional(S.Boolean),
-    PrivateIpAddress: S.optional(S.String),
+    PrivateIpAddress: S.optional(SensitiveString),
   }),
 ).annotations({
   identifier: "PrivateIpAddressSpecification",
@@ -731,30 +733,33 @@ export const GetWorkspaceInstanceResponse = S.suspend(() =>
 }) as any as S.Schema<GetWorkspaceInstanceResponse>;
 export interface ListInstanceTypesResponse {
   InstanceTypes: InstanceTypes;
-  NextToken?: string;
+  NextToken?: string | Redacted.Redacted<string>;
 }
 export const ListInstanceTypesResponse = S.suspend(() =>
-  S.Struct({ InstanceTypes: InstanceTypes, NextToken: S.optional(S.String) }),
+  S.Struct({
+    InstanceTypes: InstanceTypes,
+    NextToken: S.optional(SensitiveString),
+  }),
 ).annotations({
   identifier: "ListInstanceTypesResponse",
 }) as any as S.Schema<ListInstanceTypesResponse>;
 export interface ListRegionsResponse {
   Regions: RegionList;
-  NextToken?: string;
+  NextToken?: string | Redacted.Redacted<string>;
 }
 export const ListRegionsResponse = S.suspend(() =>
-  S.Struct({ Regions: RegionList, NextToken: S.optional(S.String) }),
+  S.Struct({ Regions: RegionList, NextToken: S.optional(SensitiveString) }),
 ).annotations({
   identifier: "ListRegionsResponse",
 }) as any as S.Schema<ListRegionsResponse>;
 export interface ListWorkspaceInstancesResponse {
   WorkspaceInstances: WorkspaceInstances;
-  NextToken?: string;
+  NextToken?: string | Redacted.Redacted<string>;
 }
 export const ListWorkspaceInstancesResponse = S.suspend(() =>
   S.Struct({
     WorkspaceInstances: WorkspaceInstances,
-    NextToken: S.optional(S.String),
+    NextToken: S.optional(SensitiveString),
   }),
 ).annotations({
   identifier: "ListWorkspaceInstancesResponse",
@@ -838,7 +843,7 @@ export interface InstanceNetworkInterfaceSpecification {
   NetworkCardIndex?: number;
   NetworkInterfaceId?: string;
   PrimaryIpv6?: boolean;
-  PrivateIpAddress?: string;
+  PrivateIpAddress?: string | Redacted.Redacted<string>;
   PrivateIpAddresses?: PrivateIpAddresses;
   SecondaryPrivateIpAddressCount?: number;
   Groups?: SecurityGroupIds;
@@ -864,7 +869,7 @@ export const InstanceNetworkInterfaceSpecification = S.suspend(() =>
     NetworkCardIndex: S.optional(S.Number),
     NetworkInterfaceId: S.optional(S.String),
     PrimaryIpv6: S.optional(S.Boolean),
-    PrivateIpAddress: S.optional(S.String),
+    PrivateIpAddress: S.optional(SensitiveString),
     PrivateIpAddresses: S.optional(PrivateIpAddresses),
     SecondaryPrivateIpAddressCount: S.optional(S.Number),
     Groups: S.optional(SecurityGroupIds),
@@ -901,13 +906,13 @@ export interface ManagedInstanceRequest {
   NetworkPerformanceOptions?: InstanceNetworkPerformanceOptionsRequest;
   Placement?: Placement;
   PrivateDnsNameOptions?: PrivateDnsNameOptionsRequest;
-  PrivateIpAddress?: string;
+  PrivateIpAddress?: string | Redacted.Redacted<string>;
   RamdiskId?: string;
   SecurityGroupIds?: SecurityGroupIds;
   SecurityGroups?: SecurityGroupNames;
   SubnetId?: string;
   TagSpecifications?: TagSpecifications;
-  UserData?: string;
+  UserData?: string | Redacted.Redacted<string>;
 }
 export const ManagedInstanceRequest = S.suspend(() =>
   S.Struct({
@@ -940,25 +945,25 @@ export const ManagedInstanceRequest = S.suspend(() =>
     ),
     Placement: S.optional(Placement),
     PrivateDnsNameOptions: S.optional(PrivateDnsNameOptionsRequest),
-    PrivateIpAddress: S.optional(S.String),
+    PrivateIpAddress: S.optional(SensitiveString),
     RamdiskId: S.optional(S.String),
     SecurityGroupIds: S.optional(SecurityGroupIds),
     SecurityGroups: S.optional(SecurityGroupNames),
     SubnetId: S.optional(S.String),
     TagSpecifications: S.optional(TagSpecifications),
-    UserData: S.optional(S.String),
+    UserData: S.optional(SensitiveString),
   }),
 ).annotations({
   identifier: "ManagedInstanceRequest",
 }) as any as S.Schema<ManagedInstanceRequest>;
 export interface CreateWorkspaceInstanceRequest {
-  ClientToken?: string;
+  ClientToken?: string | Redacted.Redacted<string>;
   Tags?: TagList;
   ManagedInstance: ManagedInstanceRequest;
 }
 export const CreateWorkspaceInstanceRequest = S.suspend(() =>
   S.Struct({
-    ClientToken: S.optional(S.String),
+    ClientToken: S.optional(SensitiveString),
     Tags: S.optional(TagList),
     ManagedInstance: ManagedInstanceRequest,
   }).pipe(

@@ -1,5 +1,6 @@
 import { HttpClient } from "@effect/platform";
 import * as Effect from "effect/Effect";
+import * as Redacted from "effect/Redacted";
 import * as S from "effect/Schema";
 import * as Stream from "effect/Stream";
 import * as API from "../api.ts";
@@ -10,6 +11,7 @@ import {
   ErrorCategory,
   Errors,
 } from "../index.ts";
+import { SensitiveString, SensitiveBlob } from "../sensitive.ts";
 const svc = T.AwsApiService({
   sdkId: "Marketplace Deployment",
   serviceShapeName: "AWSMPDeploymentParametersService",
@@ -306,7 +308,7 @@ export type Catalog = string;
 export type ResourceId = string;
 export type ClientToken = string;
 export type DeploymentParameterName = string;
-export type SecretString = string;
+export type SecretString = string | Redacted.Redacted<string>;
 export type TagKey = string;
 export type TagValue = string;
 export type ResourceArn = string;
@@ -361,10 +363,10 @@ export type Tags = { [key: string]: string };
 export const Tags = S.Record({ key: S.String, value: S.String });
 export interface DeploymentParameterInput {
   name: string;
-  secretString: string;
+  secretString: string | Redacted.Redacted<string>;
 }
 export const DeploymentParameterInput = S.suspend(() =>
-  S.Struct({ name: S.String, secretString: S.String }),
+  S.Struct({ name: S.String, secretString: SensitiveString }),
 ).annotations({
   identifier: "DeploymentParameterInput",
 }) as any as S.Schema<DeploymentParameterInput>;

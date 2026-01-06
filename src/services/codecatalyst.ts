@@ -1,5 +1,6 @@
 import { HttpClient } from "@effect/platform";
 import * as Effect from "effect/Effect";
+import * as Redacted from "effect/Redacted";
 import * as S from "effect/Schema";
 import * as Stream from "effect/Stream";
 import * as API from "../api.ts";
@@ -10,6 +11,7 @@ import {
   ErrorCategory,
   Errors,
 } from "../index.ts";
+import { SensitiveString, SensitiveBlob } from "../sensitive.ts";
 const svc = T.AwsApiService({
   sdkId: "CodeCatalyst",
   serviceShapeName: "CodeCatalyst",
@@ -173,7 +175,7 @@ export type SourceRepositoryBranchString = string;
 export type FilterKey = string;
 export type ComparisonOperator = string;
 export type DevEnvironmentSessionType = string;
-export type AccessTokenSecret = string;
+export type AccessTokenSecret = string | Redacted.Redacted<string>;
 export type RegionString = string;
 export type DevEnvironmentStatus = string;
 export type StatusReason = string;
@@ -184,7 +186,7 @@ export type WorkflowRunStatus = string;
 export type OperationType = string;
 export type SourceRepositoryIdString = string;
 export type UserType = string;
-export type SensitiveString = string;
+export type SensitiveString = string | Redacted.Redacted<string>;
 
 //# Schemas
 export interface VerifySessionRequest {}
@@ -1128,14 +1130,14 @@ export const WorkflowRunStatusReasons = S.Array(WorkflowRunStatusReason);
 export type ExecuteCommandSessionConfigurationArguments = string[];
 export const ExecuteCommandSessionConfigurationArguments = S.Array(S.String);
 export interface CreateAccessTokenResponse {
-  secret: string;
+  secret: string | Redacted.Redacted<string>;
   name: string;
   expiresTime: Date;
   accessTokenId: string;
 }
 export const CreateAccessTokenResponse = S.suspend(() =>
   S.Struct({
-    secret: S.String,
+    secret: SensitiveString,
     name: S.String,
     expiresTime: S.Date.pipe(T.TimestampFormat("date-time")),
     accessTokenId: S.String,
@@ -2144,11 +2146,11 @@ export const ListWorkflowsResponse = S.suspend(() =>
   identifier: "ListWorkflowsResponse",
 }) as any as S.Schema<ListWorkflowsResponse>;
 export interface DevEnvironmentAccessDetails {
-  streamUrl: string;
-  tokenValue: string;
+  streamUrl: string | Redacted.Redacted<string>;
+  tokenValue: string | Redacted.Redacted<string>;
 }
 export const DevEnvironmentAccessDetails = S.suspend(() =>
-  S.Struct({ streamUrl: S.String, tokenValue: S.String }),
+  S.Struct({ streamUrl: SensitiveString, tokenValue: SensitiveString }),
 ).annotations({
   identifier: "DevEnvironmentAccessDetails",
 }) as any as S.Schema<DevEnvironmentAccessDetails>;

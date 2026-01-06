@@ -1,5 +1,6 @@
 import { HttpClient } from "@effect/platform";
 import * as Effect from "effect/Effect";
+import * as Redacted from "effect/Redacted";
 import * as S from "effect/Schema";
 import * as Stream from "effect/Stream";
 import * as API from "../api.ts";
@@ -10,6 +11,7 @@ import {
   ErrorCategory,
   Errors,
 } from "../index.ts";
+import { SensitiveString, SensitiveBlob } from "../sensitive.ts";
 const svc = T.AwsApiService({
   sdkId: "grafana",
   serviceShapeName: "AWSGrafanaControlPlane",
@@ -266,15 +268,15 @@ export type Role = string;
 export type ServiceAccountTokenName = string;
 export type AccountAccessType = string;
 export type ClientToken = string;
-export type OrganizationRoleName = string;
+export type OrganizationRoleName = string | Redacted.Redacted<string>;
 export type PermissionType = string;
 export type StackSetName = string;
 export type DataSourceType = string;
-export type Description = string;
-export type WorkspaceName = string;
+export type Description = string | Redacted.Redacted<string>;
+export type WorkspaceName = string | Redacted.Redacted<string>;
 export type NotificationDestinationType = string;
 export type OrganizationalUnit = string;
-export type IamRoleArn = string;
+export type IamRoleArn = string | Redacted.Redacted<string>;
 export type TagValue = string;
 export type AllowedOrganization = string;
 export type LoginValidityDuration = number;
@@ -283,13 +285,13 @@ export type SecurityGroupId = string;
 export type SubnetId = string;
 export type PrefixListId = string;
 export type VpceId = string;
-export type ApiKeyToken = string;
+export type ApiKeyToken = string | Redacted.Redacted<string>;
 export type IdpMetadataUrl = string;
 export type AssertionAttribute = string;
 export type RoleValue = string;
 export type Endpoint = string;
 export type WorkspaceStatus = string;
-export type ServiceAccountTokenKey = string;
+export type ServiceAccountTokenKey = string | Redacted.Redacted<string>;
 export type SamlConfigurationStatus = string;
 export type SSOClientId = string;
 export type ValidationExceptionReason = string;
@@ -767,16 +769,16 @@ export const NetworkAccessConfiguration = S.suspend(() =>
 }) as any as S.Schema<NetworkAccessConfiguration>;
 export interface UpdateWorkspaceRequest {
   accountAccessType?: string;
-  organizationRoleName?: string;
+  organizationRoleName?: string | Redacted.Redacted<string>;
   permissionType?: string;
   stackSetName?: string;
   workspaceDataSources?: DataSourceTypesList;
-  workspaceDescription?: string;
+  workspaceDescription?: string | Redacted.Redacted<string>;
   workspaceId: string;
-  workspaceName?: string;
+  workspaceName?: string | Redacted.Redacted<string>;
   workspaceNotificationDestinations?: NotificationDestinationsList;
   workspaceOrganizationalUnits?: OrganizationalUnitList;
-  workspaceRoleArn?: string;
+  workspaceRoleArn?: string | Redacted.Redacted<string>;
   vpcConfiguration?: VpcConfiguration;
   removeVpcConfiguration?: boolean;
   networkAccessControl?: NetworkAccessConfiguration;
@@ -785,16 +787,16 @@ export interface UpdateWorkspaceRequest {
 export const UpdateWorkspaceRequest = S.suspend(() =>
   S.Struct({
     accountAccessType: S.optional(S.String),
-    organizationRoleName: S.optional(S.String),
+    organizationRoleName: S.optional(SensitiveString),
     permissionType: S.optional(S.String),
     stackSetName: S.optional(S.String),
     workspaceDataSources: S.optional(DataSourceTypesList),
-    workspaceDescription: S.optional(S.String),
+    workspaceDescription: S.optional(SensitiveString),
     workspaceId: S.String.pipe(T.HttpLabel("workspaceId")),
-    workspaceName: S.optional(S.String),
+    workspaceName: S.optional(SensitiveString),
     workspaceNotificationDestinations: S.optional(NotificationDestinationsList),
     workspaceOrganizationalUnits: S.optional(OrganizationalUnitList),
-    workspaceRoleArn: S.optional(S.String),
+    workspaceRoleArn: S.optional(SensitiveString),
     vpcConfiguration: S.optional(VpcConfiguration),
     removeVpcConfiguration: S.optional(S.Boolean),
     networkAccessControl: S.optional(NetworkAccessConfiguration),
@@ -905,11 +907,11 @@ export const TagResourceResponse = S.suspend(() => S.Struct({})).annotations({
 }) as any as S.Schema<TagResourceResponse>;
 export interface CreateWorkspaceApiKeyResponse {
   keyName: string;
-  key: string;
+  key: string | Redacted.Redacted<string>;
   workspaceId: string;
 }
 export const CreateWorkspaceApiKeyResponse = S.suspend(() =>
-  S.Struct({ keyName: S.String, key: S.String, workspaceId: S.String }),
+  S.Struct({ keyName: S.String, key: SensitiveString, workspaceId: S.String }),
 ).annotations({
   identifier: "CreateWorkspaceApiKeyResponse",
 }) as any as S.Schema<CreateWorkspaceApiKeyResponse>;
@@ -947,19 +949,19 @@ export interface WorkspaceDescription {
   accountAccessType?: string;
   created: Date;
   dataSources: DataSourceTypesList;
-  description?: string;
+  description?: string | Redacted.Redacted<string>;
   endpoint: string;
   grafanaVersion: string;
   id: string;
   modified: Date;
-  name?: string;
-  organizationRoleName?: string;
+  name?: string | Redacted.Redacted<string>;
+  organizationRoleName?: string | Redacted.Redacted<string>;
   notificationDestinations?: NotificationDestinationsList;
   organizationalUnits?: OrganizationalUnitList;
   permissionType?: string;
   stackSetName?: string;
   status: string;
-  workspaceRoleArn?: string;
+  workspaceRoleArn?: string | Redacted.Redacted<string>;
   licenseType?: string;
   freeTrialConsumed?: boolean;
   licenseExpiration?: Date;
@@ -975,19 +977,19 @@ export const WorkspaceDescription = S.suspend(() =>
     accountAccessType: S.optional(S.String),
     created: S.Date.pipe(T.TimestampFormat("epoch-seconds")),
     dataSources: DataSourceTypesList,
-    description: S.optional(S.String),
+    description: S.optional(SensitiveString),
     endpoint: S.String,
     grafanaVersion: S.String,
     id: S.String,
     modified: S.Date.pipe(T.TimestampFormat("epoch-seconds")),
-    name: S.optional(S.String),
-    organizationRoleName: S.optional(S.String),
+    name: S.optional(SensitiveString),
+    organizationRoleName: S.optional(SensitiveString),
     notificationDestinations: S.optional(NotificationDestinationsList),
     organizationalUnits: S.optional(OrganizationalUnitList),
     permissionType: S.optional(S.String),
     stackSetName: S.optional(S.String),
     status: S.String,
-    workspaceRoleArn: S.optional(S.String),
+    workspaceRoleArn: S.optional(SensitiveString),
     licenseType: S.optional(S.String),
     freeTrialConsumed: S.optional(S.Boolean),
     licenseExpiration: S.optional(
@@ -1055,15 +1057,15 @@ export const DeleteWorkspaceServiceAccountTokenResponse = S.suspend(() =>
 export interface CreateWorkspaceRequest {
   accountAccessType: string;
   clientToken?: string;
-  organizationRoleName?: string;
+  organizationRoleName?: string | Redacted.Redacted<string>;
   permissionType: string;
   stackSetName?: string;
   workspaceDataSources?: DataSourceTypesList;
-  workspaceDescription?: string;
-  workspaceName?: string;
+  workspaceDescription?: string | Redacted.Redacted<string>;
+  workspaceName?: string | Redacted.Redacted<string>;
   workspaceNotificationDestinations?: NotificationDestinationsList;
   workspaceOrganizationalUnits?: OrganizationalUnitList;
-  workspaceRoleArn?: string;
+  workspaceRoleArn?: string | Redacted.Redacted<string>;
   authenticationProviders: AuthenticationProviders;
   tags?: TagMap;
   vpcConfiguration?: VpcConfiguration;
@@ -1075,15 +1077,15 @@ export const CreateWorkspaceRequest = S.suspend(() =>
   S.Struct({
     accountAccessType: S.String,
     clientToken: S.optional(S.String),
-    organizationRoleName: S.optional(S.String),
+    organizationRoleName: S.optional(SensitiveString),
     permissionType: S.String,
     stackSetName: S.optional(S.String),
     workspaceDataSources: S.optional(DataSourceTypesList),
-    workspaceDescription: S.optional(S.String),
-    workspaceName: S.optional(S.String),
+    workspaceDescription: S.optional(SensitiveString),
+    workspaceName: S.optional(SensitiveString),
     workspaceNotificationDestinations: S.optional(NotificationDestinationsList),
     workspaceOrganizationalUnits: S.optional(OrganizationalUnitList),
-    workspaceRoleArn: S.optional(S.String),
+    workspaceRoleArn: S.optional(SensitiveString),
     authenticationProviders: AuthenticationProviders,
     tags: S.optional(TagMap),
     vpcConfiguration: S.optional(VpcConfiguration),
@@ -1233,10 +1235,10 @@ export const ServiceAccountList = S.Array(ServiceAccountSummary);
 export interface ServiceAccountTokenSummaryWithKey {
   id: string;
   name: string;
-  key: string;
+  key: string | Redacted.Redacted<string>;
 }
 export const ServiceAccountTokenSummaryWithKey = S.suspend(() =>
-  S.Struct({ id: S.String, name: S.String, key: S.String }),
+  S.Struct({ id: S.String, name: S.String, key: SensitiveString }),
 ).annotations({
   identifier: "ServiceAccountTokenSummaryWithKey",
 }) as any as S.Schema<ServiceAccountTokenSummaryWithKey>;
@@ -1262,12 +1264,12 @@ export type ServiceAccountTokenList = ServiceAccountTokenSummary[];
 export const ServiceAccountTokenList = S.Array(ServiceAccountTokenSummary);
 export interface WorkspaceSummary {
   created: Date;
-  description?: string;
+  description?: string | Redacted.Redacted<string>;
   endpoint: string;
   grafanaVersion: string;
   id: string;
   modified: Date;
-  name?: string;
+  name?: string | Redacted.Redacted<string>;
   notificationDestinations?: NotificationDestinationsList;
   status: string;
   authentication: AuthenticationSummary;
@@ -1278,12 +1280,12 @@ export interface WorkspaceSummary {
 export const WorkspaceSummary = S.suspend(() =>
   S.Struct({
     created: S.Date.pipe(T.TimestampFormat("epoch-seconds")),
-    description: S.optional(S.String),
+    description: S.optional(SensitiveString),
     endpoint: S.String,
     grafanaVersion: S.String,
     id: S.String,
     modified: S.Date.pipe(T.TimestampFormat("epoch-seconds")),
-    name: S.optional(S.String),
+    name: S.optional(SensitiveString),
     notificationDestinations: S.optional(NotificationDestinationsList),
     status: S.String,
     authentication: AuthenticationSummary,

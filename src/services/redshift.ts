@@ -1,5 +1,6 @@
 import { HttpClient } from "@effect/platform";
 import * as Effect from "effect/Effect";
+import * as Redacted from "effect/Redacted";
 import * as S from "effect/Schema";
 import * as Stream from "effect/Stream";
 import * as API from "../api.ts";
@@ -10,6 +11,7 @@ import {
   ErrorCategory,
   Errors,
 } from "../index.ts";
+import { SensitiveString, SensitiveBlob } from "../sensitive.ts";
 const ns = T.XmlNamespace("http://redshift.amazonaws.com/doc/2012-12-01/");
 const svc = T.AwsApiService({
   sdkId: "Redshift",
@@ -277,7 +279,7 @@ export type PartnerIntegrationDatabaseName = string;
 export type PartnerIntegrationPartnerName = string;
 export type IntegerOptional = number;
 export type AuthenticationProfileNameString = string;
-export type SensitiveString = string;
+export type SensitiveString = string | Redacted.Redacted<string>;
 export type CatalogNameString = string;
 export type CustomDomainNameString = string;
 export type CustomDomainCertificateArnString = string;
@@ -2788,7 +2790,7 @@ export interface ModifyClusterMessage {
   NumberOfNodes?: number;
   ClusterSecurityGroups?: ClusterSecurityGroupNameList;
   VpcSecurityGroupIds?: VpcSecurityGroupIdList;
-  MasterUserPassword?: string;
+  MasterUserPassword?: string | Redacted.Redacted<string>;
   ClusterParameterGroupName?: string;
   AutomatedSnapshotRetentionPeriod?: number;
   ManualSnapshotRetentionPeriod?: number;
@@ -2820,7 +2822,7 @@ export const ModifyClusterMessage = S.suspend(() =>
     NumberOfNodes: S.optional(S.Number),
     ClusterSecurityGroups: S.optional(ClusterSecurityGroupNameList),
     VpcSecurityGroupIds: S.optional(VpcSecurityGroupIdList),
-    MasterUserPassword: S.optional(S.String),
+    MasterUserPassword: S.optional(SensitiveString),
     ClusterParameterGroupName: S.optional(S.String),
     AutomatedSnapshotRetentionPeriod: S.optional(S.Number),
     ManualSnapshotRetentionPeriod: S.optional(S.Number),
@@ -4064,7 +4066,7 @@ export const ClusterParameterGroupStatusList = S.Array(
   ).annotations({ identifier: "ClusterParameterGroupStatus" }),
 );
 export interface PendingModifiedValues {
-  MasterUserPassword?: string;
+  MasterUserPassword?: string | Redacted.Redacted<string>;
   NodeType?: string;
   NumberOfNodes?: number;
   ClusterType?: string;
@@ -4078,7 +4080,7 @@ export interface PendingModifiedValues {
 }
 export const PendingModifiedValues = S.suspend(() =>
   S.Struct({
-    MasterUserPassword: S.optional(S.String),
+    MasterUserPassword: S.optional(SensitiveString),
     NodeType: S.optional(S.String),
     NumberOfNodes: S.optional(S.Number),
     ClusterType: S.optional(S.String),
@@ -5144,7 +5146,7 @@ export interface CreateClusterMessage {
   ClusterType?: string;
   NodeType: string;
   MasterUsername: string;
-  MasterUserPassword?: string;
+  MasterUserPassword?: string | Redacted.Redacted<string>;
   ClusterSecurityGroups?: ClusterSecurityGroupNameList;
   VpcSecurityGroupIds?: VpcSecurityGroupIdList;
   ClusterSubnetGroupName?: string;
@@ -5187,7 +5189,7 @@ export const CreateClusterMessage = S.suspend(() =>
     ClusterType: S.optional(S.String),
     NodeType: S.String,
     MasterUsername: S.String,
-    MasterUserPassword: S.optional(S.String),
+    MasterUserPassword: S.optional(SensitiveString),
     ClusterSecurityGroups: S.optional(ClusterSecurityGroupNameList),
     VpcSecurityGroupIds: S.optional(VpcSecurityGroupIdList),
     ClusterSubnetGroupName: S.optional(S.String),
@@ -5746,13 +5748,13 @@ export const FailoverPrimaryComputeResult = S.suspend(() =>
 }) as any as S.Schema<FailoverPrimaryComputeResult>;
 export interface ClusterCredentials {
   DbUser?: string;
-  DbPassword?: string;
+  DbPassword?: string | Redacted.Redacted<string>;
   Expiration?: Date;
 }
 export const ClusterCredentials = S.suspend(() =>
   S.Struct({
     DbUser: S.optional(S.String),
-    DbPassword: S.optional(S.String),
+    DbPassword: S.optional(SensitiveString),
     Expiration: S.optional(S.Date.pipe(T.TimestampFormat("date-time"))),
   }).pipe(ns),
 ).annotations({
@@ -5760,14 +5762,14 @@ export const ClusterCredentials = S.suspend(() =>
 }) as any as S.Schema<ClusterCredentials>;
 export interface ClusterExtendedCredentials {
   DbUser?: string;
-  DbPassword?: string;
+  DbPassword?: string | Redacted.Redacted<string>;
   Expiration?: Date;
   NextRefreshTime?: Date;
 }
 export const ClusterExtendedCredentials = S.suspend(() =>
   S.Struct({
     DbUser: S.optional(S.String),
-    DbPassword: S.optional(S.String),
+    DbPassword: S.optional(SensitiveString),
     Expiration: S.optional(S.Date.pipe(T.TimestampFormat("date-time"))),
     NextRefreshTime: S.optional(S.Date.pipe(T.TimestampFormat("date-time"))),
   }).pipe(ns),
@@ -5775,12 +5777,12 @@ export const ClusterExtendedCredentials = S.suspend(() =>
   identifier: "ClusterExtendedCredentials",
 }) as any as S.Schema<ClusterExtendedCredentials>;
 export interface GetIdentityCenterAuthTokenResponse {
-  Token?: string;
+  Token?: string | Redacted.Redacted<string>;
   ExpirationTime?: Date;
 }
 export const GetIdentityCenterAuthTokenResponse = S.suspend(() =>
   S.Struct({
-    Token: S.optional(S.String),
+    Token: S.optional(SensitiveString),
     ExpirationTime: S.optional(S.Date.pipe(T.TimestampFormat("date-time"))),
   }).pipe(ns),
 ).annotations({

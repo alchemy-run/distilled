@@ -1,5 +1,6 @@
 import { HttpClient } from "@effect/platform";
 import * as Effect from "effect/Effect";
+import * as Redacted from "effect/Redacted";
 import * as S from "effect/Schema";
 import * as Stream from "effect/Stream";
 import * as API from "../api.ts";
@@ -10,6 +11,7 @@ import {
   ErrorCategory,
   Errors,
 } from "../index.ts";
+import { SensitiveString, SensitiveBlob } from "../sensitive.ts";
 const svc = T.AwsApiService({
   sdkId: "Secrets Manager",
   serviceShapeName: "secretsmanager",
@@ -357,7 +359,7 @@ export type NameType = string;
 export type ClientRequestTokenType = string;
 export type DescriptionType = string;
 export type KmsKeyIdType = string;
-export type SecretStringType = string;
+export type SecretStringType = string | Redacted.Redacted<string>;
 export type MedeaTypeType = string;
 export type RecoveryWindowInDaysType = number;
 export type PasswordLengthType = number;
@@ -366,7 +368,7 @@ export type SecretVersionIdType = string;
 export type SecretVersionStageType = string;
 export type MaxResultsType = number;
 export type NonEmptyResourcePolicyType = string;
-export type RotationTokenType = string;
+export type RotationTokenType = string | Redacted.Redacted<string>;
 export type RegionType = string;
 export type RotationLambdaARNType = string;
 export type RoleARNType = string;
@@ -381,7 +383,7 @@ export type ExternalSecretRotationMetadataItemValueType = string;
 export type SecretARNType = string;
 export type SecretNameType = string;
 export type OwningServiceType = string;
-export type RandomPasswordType = string;
+export type RandomPasswordType = string | Redacted.Redacted<string>;
 export type ErrorMessage = string;
 export type StatusMessageType = string;
 export type ErrorCode = string;
@@ -566,19 +568,19 @@ export const PutResourcePolicyRequest = S.suspend(() =>
 export interface PutSecretValueRequest {
   SecretId: string;
   ClientRequestToken?: string;
-  SecretBinary?: Uint8Array;
-  SecretString?: string;
+  SecretBinary?: Uint8Array | Redacted.Redacted<Uint8Array>;
+  SecretString?: string | Redacted.Redacted<string>;
   VersionStages?: SecretVersionStagesType;
-  RotationToken?: string;
+  RotationToken?: string | Redacted.Redacted<string>;
 }
 export const PutSecretValueRequest = S.suspend(() =>
   S.Struct({
     SecretId: S.String,
     ClientRequestToken: S.optional(S.String),
-    SecretBinary: S.optional(T.Blob),
-    SecretString: S.optional(S.String),
+    SecretBinary: S.optional(SensitiveBlob),
+    SecretString: S.optional(SensitiveString),
     VersionStages: S.optional(SecretVersionStagesType),
-    RotationToken: S.optional(S.String),
+    RotationToken: S.optional(SensitiveString),
   }).pipe(
     T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
   ),
@@ -690,8 +692,8 @@ export interface UpdateSecretRequest {
   ClientRequestToken?: string;
   Description?: string;
   KmsKeyId?: string;
-  SecretBinary?: Uint8Array;
-  SecretString?: string;
+  SecretBinary?: Uint8Array | Redacted.Redacted<Uint8Array>;
+  SecretString?: string | Redacted.Redacted<string>;
   Type?: string;
 }
 export const UpdateSecretRequest = S.suspend(() =>
@@ -700,8 +702,8 @@ export const UpdateSecretRequest = S.suspend(() =>
     ClientRequestToken: S.optional(S.String),
     Description: S.optional(S.String),
     KmsKeyId: S.optional(S.String),
-    SecretBinary: S.optional(T.Blob),
-    SecretString: S.optional(S.String),
+    SecretBinary: S.optional(SensitiveBlob),
+    SecretString: S.optional(SensitiveString),
     Type: S.optional(S.String),
   }).pipe(
     T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
@@ -803,8 +805,8 @@ export interface CreateSecretRequest {
   ClientRequestToken?: string;
   Description?: string;
   KmsKeyId?: string;
-  SecretBinary?: Uint8Array;
-  SecretString?: string;
+  SecretBinary?: Uint8Array | Redacted.Redacted<Uint8Array>;
+  SecretString?: string | Redacted.Redacted<string>;
   Tags?: TagListType;
   AddReplicaRegions?: AddReplicaRegionListType;
   ForceOverwriteReplicaSecret?: boolean;
@@ -816,8 +818,8 @@ export const CreateSecretRequest = S.suspend(() =>
     ClientRequestToken: S.optional(S.String),
     Description: S.optional(S.String),
     KmsKeyId: S.optional(S.String),
-    SecretBinary: S.optional(T.Blob),
-    SecretString: S.optional(S.String),
+    SecretBinary: S.optional(SensitiveBlob),
+    SecretString: S.optional(SensitiveString),
     Tags: S.optional(TagListType),
     AddReplicaRegions: S.optional(AddReplicaRegionListType),
     ForceOverwriteReplicaSecret: S.optional(S.Boolean),
@@ -852,10 +854,10 @@ export const DeleteSecretResponse = S.suspend(() =>
   identifier: "DeleteSecretResponse",
 }) as any as S.Schema<DeleteSecretResponse>;
 export interface GetRandomPasswordResponse {
-  RandomPassword?: string;
+  RandomPassword?: string | Redacted.Redacted<string>;
 }
 export const GetRandomPasswordResponse = S.suspend(() =>
-  S.Struct({ RandomPassword: S.optional(S.String) }),
+  S.Struct({ RandomPassword: S.optional(SensitiveString) }),
 ).annotations({
   identifier: "GetRandomPasswordResponse",
 }) as any as S.Schema<GetRandomPasswordResponse>;
@@ -877,8 +879,8 @@ export interface GetSecretValueResponse {
   ARN?: string;
   Name?: string;
   VersionId?: string;
-  SecretBinary?: Uint8Array;
-  SecretString?: string;
+  SecretBinary?: Uint8Array | Redacted.Redacted<Uint8Array>;
+  SecretString?: string | Redacted.Redacted<string>;
   VersionStages?: SecretVersionStagesType;
   CreatedDate?: Date;
 }
@@ -887,8 +889,8 @@ export const GetSecretValueResponse = S.suspend(() =>
     ARN: S.optional(S.String),
     Name: S.optional(S.String),
     VersionId: S.optional(S.String),
-    SecretBinary: S.optional(T.Blob),
-    SecretString: S.optional(S.String),
+    SecretBinary: S.optional(SensitiveBlob),
+    SecretString: S.optional(SensitiveString),
     VersionStages: S.optional(SecretVersionStagesType),
     CreatedDate: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
   }),
@@ -1271,8 +1273,8 @@ export interface SecretValueEntry {
   ARN?: string;
   Name?: string;
   VersionId?: string;
-  SecretBinary?: Uint8Array;
-  SecretString?: string;
+  SecretBinary?: Uint8Array | Redacted.Redacted<Uint8Array>;
+  SecretString?: string | Redacted.Redacted<string>;
   VersionStages?: SecretVersionStagesType;
   CreatedDate?: Date;
 }
@@ -1281,8 +1283,8 @@ export const SecretValueEntry = S.suspend(() =>
     ARN: S.optional(S.String),
     Name: S.optional(S.String),
     VersionId: S.optional(S.String),
-    SecretBinary: S.optional(T.Blob),
-    SecretString: S.optional(S.String),
+    SecretBinary: S.optional(SensitiveBlob),
+    SecretString: S.optional(SensitiveString),
     VersionStages: S.optional(SecretVersionStagesType),
     CreatedDate: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
   }),

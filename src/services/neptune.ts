@@ -1,5 +1,6 @@
 import { HttpClient } from "@effect/platform";
 import * as Effect from "effect/Effect";
+import * as Redacted from "effect/Redacted";
 import * as S from "effect/Schema";
 import * as Stream from "effect/Stream";
 import * as API from "../api.ts";
@@ -10,6 +11,7 @@ import {
   ErrorCategory,
   Errors,
 } from "../index.ts";
+import { SensitiveString, SensitiveBlob } from "../sensitive.ts";
 const ns = T.XmlNamespace("http://rds.amazonaws.com/doc/2014-10-31/");
 const svc = T.AwsApiService({
   sdkId: "Neptune",
@@ -273,7 +275,7 @@ const rules = T.EndpointRuleSet({
 //# Newtypes
 export type IntegerOptional = number;
 export type GlobalClusterIdentifier = string;
-export type SensitiveString = string;
+export type SensitiveString = string | Redacted.Redacted<string>;
 export type DoubleOptional = number;
 export type ExceptionMessage = string;
 export type Integer = number;
@@ -587,7 +589,7 @@ export interface CreateDBInstanceMessage {
   DBClusterIdentifier: string;
   StorageType?: string;
   TdeCredentialArn?: string;
-  TdeCredentialPassword?: string;
+  TdeCredentialPassword?: string | Redacted.Redacted<string>;
   StorageEncrypted?: boolean;
   KmsKeyId?: string;
   Domain?: string;
@@ -633,7 +635,7 @@ export const CreateDBInstanceMessage = S.suspend(() =>
     DBClusterIdentifier: S.String,
     StorageType: S.optional(S.String),
     TdeCredentialArn: S.optional(S.String),
-    TdeCredentialPassword: S.optional(S.String),
+    TdeCredentialPassword: S.optional(SensitiveString),
     StorageEncrypted: S.optional(S.Boolean),
     KmsKeyId: S.optional(S.String),
     Domain: S.optional(S.String),
@@ -1647,7 +1649,7 @@ export interface ModifyDBInstanceMessage {
   NewDBInstanceIdentifier?: string;
   StorageType?: string;
   TdeCredentialArn?: string;
-  TdeCredentialPassword?: string;
+  TdeCredentialPassword?: string | Redacted.Redacted<string>;
   CACertificateIdentifier?: string;
   Domain?: string;
   CopyTagsToSnapshot?: boolean;
@@ -1687,7 +1689,7 @@ export const ModifyDBInstanceMessage = S.suspend(() =>
     NewDBInstanceIdentifier: S.optional(S.String),
     StorageType: S.optional(S.String),
     TdeCredentialArn: S.optional(S.String),
-    TdeCredentialPassword: S.optional(S.String),
+    TdeCredentialPassword: S.optional(SensitiveString),
     CACertificateIdentifier: S.optional(S.String),
     Domain: S.optional(S.String),
     CopyTagsToSnapshot: S.optional(S.Boolean),

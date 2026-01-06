@@ -1,5 +1,6 @@
 import { HttpClient } from "@effect/platform";
 import * as Effect from "effect/Effect";
+import * as Redacted from "effect/Redacted";
 import * as S from "effect/Schema";
 import * as Stream from "effect/Stream";
 import * as API from "../api.ts";
@@ -10,6 +11,7 @@ import {
   ErrorCategory,
   Errors,
 } from "../index.ts";
+import { SensitiveString, SensitiveBlob } from "../sensitive.ts";
 const svc = T.AwsApiService({
   sdkId: "Bedrock Agent Runtime",
   serviceShapeName: "AmazonBedrockAgentRunTimeService",
@@ -312,14 +314,14 @@ export type FlowExecutionId = string;
 export type AgentId = string;
 export type AgentAliasId = string;
 export type SessionId = string;
-export type InputText = string;
+export type InputText = string | Redacted.Redacted<string>;
 export type MemoryId = string;
 export type AWSResourceARN = string;
 export type KmsKeyArn = string;
 export type ModelIdentifier = string;
-export type Instruction = string;
+export type Instruction = string | Redacted.Redacted<string>;
 export type SessionTTL = number;
-export type Name = string;
+export type Name = string | Redacted.Redacted<string>;
 export type KnowledgeBaseId = string;
 export type SessionIdentifier = string;
 export type Uuid = string;
@@ -330,12 +332,12 @@ export type TagKey = string;
 export type NodeName = string;
 export type NodeOutputName = string;
 export type NodeInputName = string;
-export type ResourceName = string;
-export type ResourceDescription = string;
+export type ResourceName = string | Redacted.Redacted<string>;
+export type ResourceDescription = string | Redacted.Redacted<string>;
 export type GuardrailIdentifierWithArn = string;
 export type GuardrailVersion = string;
 export type LambdaResourceArn = string;
-export type CollaborationInstruction = string;
+export type CollaborationInstruction = string | Redacted.Redacted<string>;
 export type AgentAliasArn = string;
 export type SessionMetadataKey = string;
 export type SessionMetadataValue = string;
@@ -344,12 +346,12 @@ export type Version = string;
 export type FlowExecutionRoleArn = string;
 export type NonBlankString = string;
 export type SessionArn = string;
-export type Payload = string;
-export type BasePromptTemplate = string;
+export type Payload = string | Redacted.Redacted<string>;
+export type BasePromptTemplate = string | Redacted.Redacted<string>;
 export type LambdaArn = string;
 export type BedrockModelArn = string;
 export type KnowledgeBaseArn = string;
-export type ApiPath = string;
+export type ApiPath = string | Redacted.Redacted<string>;
 export type S3BucketName = string;
 export type S3ObjectKey = string;
 export type FunctionDescription = string;
@@ -362,30 +364,30 @@ export type S3Uri = string;
 export type MimeType = string;
 export type ParameterName = string;
 export type AdditionalModelRequestFieldsKey = string;
-export type TextPromptTemplate = string;
-export type Identifier = string;
+export type TextPromptTemplate = string | Redacted.Redacted<string>;
+export type Identifier = string | Redacted.Redacted<string>;
 export type ContentType = string;
 export type FilterKey = string;
 export type ParameterDescription = string;
 export type MaxTokens = number;
 export type BedrockRerankingModelArn = string;
 export type FlowNodeOutputName = string;
-export type FlowNodeInputExpression = string;
+export type FlowNodeInputExpression = string | Redacted.Redacted<string>;
 export type FlowNodeInputName = string;
 export type AgentVersion = string;
 export type RetrievalResultMetadataKey = string;
 export type TraceId = string;
-export type FailureReasonString = string;
-export type PromptText = string;
-export type RationaleString = string;
-export type ActionGroupName = string;
-export type Verb = string;
-export type KnowledgeBaseLookupInputString = string;
-export type TraceKnowledgeBaseId = string;
-export type ActionGroupOutputString = string;
-export type FinalResponseString = string;
-export type OutputString = string;
-export type AgentCollaboratorPayloadString = string;
+export type FailureReasonString = string | Redacted.Redacted<string>;
+export type PromptText = string | Redacted.Redacted<string>;
+export type RationaleString = string | Redacted.Redacted<string>;
+export type ActionGroupName = string | Redacted.Redacted<string>;
+export type Verb = string | Redacted.Redacted<string>;
+export type KnowledgeBaseLookupInputString = string | Redacted.Redacted<string>;
+export type TraceKnowledgeBaseId = string | Redacted.Redacted<string>;
+export type ActionGroupOutputString = string | Redacted.Redacted<string>;
+export type FinalResponseString = string | Redacted.Redacted<string>;
+export type OutputString = string | Redacted.Redacted<string>;
+export type AgentCollaboratorPayloadString = string | Redacted.Redacted<string>;
 
 //# Schemas
 export type TagKeyList = string[];
@@ -842,10 +844,10 @@ export const KnowledgeBaseRetrievalConfiguration = S.suspend(() =>
   identifier: "KnowledgeBaseRetrievalConfiguration",
 }) as any as S.Schema<KnowledgeBaseRetrievalConfiguration>;
 export interface PromptTemplate {
-  textPromptTemplate?: string;
+  textPromptTemplate?: string | Redacted.Redacted<string>;
 }
 export const PromptTemplate = S.suspend(() =>
-  S.Struct({ textPromptTemplate: S.optional(S.String) }),
+  S.Struct({ textPromptTemplate: S.optional(SensitiveString) }),
 ).annotations({
   identifier: "PromptTemplate",
 }) as any as S.Schema<PromptTemplate>;
@@ -955,12 +957,16 @@ export const S3ObjectDoc = S.suspend(() =>
   S.Struct({ uri: S.String }),
 ).annotations({ identifier: "S3ObjectDoc" }) as any as S.Schema<S3ObjectDoc>;
 export interface ByteContentDoc {
-  identifier: string;
+  identifier: string | Redacted.Redacted<string>;
   contentType: string;
-  data: Uint8Array;
+  data: Uint8Array | Redacted.Redacted<Uint8Array>;
 }
 export const ByteContentDoc = S.suspend(() =>
-  S.Struct({ identifier: S.String, contentType: S.String, data: T.Blob }),
+  S.Struct({
+    identifier: SensitiveString,
+    contentType: S.String,
+    data: SensitiveBlob,
+  }),
 ).annotations({
   identifier: "ByteContentDoc",
 }) as any as S.Schema<ByteContentDoc>;
@@ -1388,13 +1394,13 @@ export const PromptCreationConfigurations = S.suspend(() =>
 }) as any as S.Schema<PromptCreationConfigurations>;
 export interface KnowledgeBase {
   knowledgeBaseId: string;
-  description: string;
+  description: string | Redacted.Redacted<string>;
   retrievalConfiguration?: KnowledgeBaseRetrievalConfiguration;
 }
 export const KnowledgeBase = S.suspend(() =>
   S.Struct({
     knowledgeBaseId: S.String,
-    description: S.String,
+    description: SensitiveString,
     retrievalConfiguration: S.optional(KnowledgeBaseRetrievalConfiguration),
   }),
 ).annotations({
@@ -1412,15 +1418,15 @@ export const GuardrailConfigurationWithArn = S.suspend(() =>
   identifier: "GuardrailConfigurationWithArn",
 }) as any as S.Schema<GuardrailConfigurationWithArn>;
 export interface CollaboratorConfiguration {
-  collaboratorName: string;
-  collaboratorInstruction: string;
+  collaboratorName: string | Redacted.Redacted<string>;
+  collaboratorInstruction: string | Redacted.Redacted<string>;
   agentAliasArn?: string;
   relayConversationHistory?: string;
 }
 export const CollaboratorConfiguration = S.suspend(() =>
   S.Struct({
-    collaboratorName: S.String,
-    collaboratorInstruction: S.String,
+    collaboratorName: SensitiveString,
+    collaboratorInstruction: SensitiveString,
     agentAliasArn: S.optional(S.String),
     relayConversationHistory: S.optional(S.String),
   }),
@@ -1462,7 +1468,7 @@ export const ResponseBody = S.Record({ key: S.String, value: ContentBody });
 export interface ApiResult {
   actionGroup: string;
   httpMethod?: string;
-  apiPath?: string;
+  apiPath?: string | Redacted.Redacted<string>;
   confirmationState?: string;
   responseState?: string;
   httpStatusCode?: number;
@@ -1473,7 +1479,7 @@ export const ApiResult = S.suspend(() =>
   S.Struct({
     actionGroup: S.String,
     httpMethod: S.optional(S.String),
-    apiPath: S.optional(S.String),
+    apiPath: S.optional(SensitiveString),
     confirmationState: S.optional(S.String),
     responseState: S.optional(S.String),
     httpStatusCode: S.optional(S.Number),
@@ -1519,10 +1525,10 @@ export const S3ObjectFile = S.suspend(() =>
 ).annotations({ identifier: "S3ObjectFile" }) as any as S.Schema<S3ObjectFile>;
 export interface ByteContentFile {
   mediaType: string;
-  data: Uint8Array;
+  data: Uint8Array | Redacted.Redacted<Uint8Array>;
 }
 export const ByteContentFile = S.suspend(() =>
-  S.Struct({ mediaType: S.String, data: T.Blob }),
+  S.Struct({ mediaType: S.String, data: SensitiveBlob }),
 ).annotations({
   identifier: "ByteContentFile",
 }) as any as S.Schema<ByteContentFile>;
@@ -1606,10 +1612,12 @@ export const S3Identifier = S.suspend(() =>
     s3ObjectKey: S.optional(S.String),
   }),
 ).annotations({ identifier: "S3Identifier" }) as any as S.Schema<S3Identifier>;
-export type APISchema = { s3: S3Identifier } | { payload: string };
+export type APISchema =
+  | { s3: S3Identifier }
+  | { payload: string | Redacted.Redacted<string> };
 export const APISchema = S.Union(
   S.Struct({ s3: S3Identifier }),
-  S.Struct({ payload: S.String }),
+  S.Struct({ payload: SensitiveString }),
 );
 export interface ParameterDetail {
   description?: string;
@@ -1628,14 +1636,14 @@ export const ParameterDetail = S.suspend(() =>
 export type ParameterMap = { [key: string]: ParameterDetail };
 export const ParameterMap = S.Record({ key: S.String, value: ParameterDetail });
 export interface FunctionDefinition {
-  name: string;
+  name: string | Redacted.Redacted<string>;
   description?: string;
   parameters?: ParameterMap;
   requireConfirmation?: string;
 }
 export const FunctionDefinition = S.suspend(() =>
   S.Struct({
-    name: S.String,
+    name: SensitiveString,
     description: S.optional(S.String),
     parameters: S.optional(ParameterMap),
     requireConfirmation: S.optional(S.String),
@@ -1653,8 +1661,8 @@ export const ActionGroupSignatureParams = S.Record({
   value: S.String,
 });
 export interface AgentActionGroup {
-  actionGroupName: string;
-  description?: string;
+  actionGroupName: string | Redacted.Redacted<string>;
+  description?: string | Redacted.Redacted<string>;
   parentActionGroupSignature?: string;
   actionGroupExecutor?: (typeof ActionGroupExecutor)["Type"];
   apiSchema?: (typeof APISchema)["Type"];
@@ -1663,8 +1671,8 @@ export interface AgentActionGroup {
 }
 export const AgentActionGroup = S.suspend(() =>
   S.Struct({
-    actionGroupName: S.String,
-    description: S.optional(S.String),
+    actionGroupName: SensitiveString,
+    description: S.optional(SensitiveString),
     parentActionGroupSignature: S.optional(S.String),
     actionGroupExecutor: S.optional(ActionGroupExecutor),
     apiSchema: S.optional(APISchema),
@@ -1700,7 +1708,7 @@ export interface PromptConfiguration {
   promptType?: string;
   promptCreationMode?: string;
   promptState?: string;
-  basePromptTemplate?: string;
+  basePromptTemplate?: string | Redacted.Redacted<string>;
   inferenceConfiguration?: InferenceConfiguration;
   parserMode?: string;
   foundationModel?: string;
@@ -1711,7 +1719,7 @@ export const PromptConfiguration = S.suspend(() =>
     promptType: S.optional(S.String),
     promptCreationMode: S.optional(S.String),
     promptState: S.optional(S.String),
-    basePromptTemplate: S.optional(S.String),
+    basePromptTemplate: S.optional(SensitiveString),
     inferenceConfiguration: S.optional(InferenceConfiguration),
     parserMode: S.optional(S.String),
     foundationModel: S.optional(S.String),
@@ -1737,7 +1745,7 @@ export const PromptOverrideConfiguration = S.suspend(() =>
 export interface Collaborator {
   customerEncryptionKeyArn?: string;
   foundationModel: string;
-  instruction: string;
+  instruction: string | Redacted.Redacted<string>;
   idleSessionTTLInSeconds?: number;
   actionGroups?: AgentActionGroups;
   knowledgeBases?: KnowledgeBases;
@@ -1745,13 +1753,13 @@ export interface Collaborator {
   promptOverrideConfiguration?: PromptOverrideConfiguration;
   agentCollaboration?: string;
   collaboratorConfigurations?: CollaboratorConfigurations;
-  agentName?: string;
+  agentName?: string | Redacted.Redacted<string>;
 }
 export const Collaborator = S.suspend(() =>
   S.Struct({
     customerEncryptionKeyArn: S.optional(S.String),
     foundationModel: S.String,
-    instruction: S.String,
+    instruction: SensitiveString,
     idleSessionTTLInSeconds: S.optional(S.Number),
     actionGroups: S.optional(AgentActionGroups),
     knowledgeBases: S.optional(KnowledgeBases),
@@ -1759,7 +1767,7 @@ export const Collaborator = S.suspend(() =>
     promptOverrideConfiguration: S.optional(PromptOverrideConfiguration),
     agentCollaboration: S.optional(S.String),
     collaboratorConfigurations: S.optional(CollaboratorConfigurations),
-    agentName: S.optional(S.String),
+    agentName: S.optional(SensitiveString),
   }),
 ).annotations({ identifier: "Collaborator" }) as any as S.Schema<Collaborator>;
 export type Collaborators = Collaborator[];
@@ -1946,10 +1954,10 @@ export const RerankDocument = S.suspend(() =>
 }) as any as S.Schema<RerankDocument>;
 export interface InputImage {
   format: string;
-  inlineContent: Uint8Array;
+  inlineContent: Uint8Array | Redacted.Redacted<Uint8Array>;
 }
 export const InputImage = S.suspend(() =>
-  S.Struct({ format: S.String, inlineContent: T.Blob }),
+  S.Struct({ format: S.String, inlineContent: SensitiveBlob }),
 ).annotations({ identifier: "InputImage" }) as any as S.Schema<InputImage>;
 export type RetrievalFilterList = RetrievalFilter[];
 export const RetrievalFilterList = S.Array(
@@ -2769,13 +2777,13 @@ export const NodeExecutionContent = S.Union(S.Struct({ document: S.Any }));
 export interface NodeInputSource {
   nodeName: string;
   outputFieldName: string;
-  expression: string;
+  expression: string | Redacted.Redacted<string>;
 }
 export const NodeInputSource = S.suspend(() =>
   S.Struct({
     nodeName: S.String,
     outputFieldName: S.String,
-    expression: S.String,
+    expression: SensitiveString,
   }),
 ).annotations({
   identifier: "NodeInputSource",
@@ -3103,7 +3111,7 @@ export const GuardrailTrace = S.suspend(() =>
 }) as any as S.Schema<GuardrailTrace>;
 export interface ModelInvocationInput {
   traceId?: string;
-  text?: string;
+  text?: string | Redacted.Redacted<string>;
   type?: string;
   overrideLambda?: string;
   promptCreationMode?: string;
@@ -3114,7 +3122,7 @@ export interface ModelInvocationInput {
 export const ModelInvocationInput = S.suspend(() =>
   S.Struct({
     traceId: S.optional(S.String),
-    text: S.optional(S.String),
+    text: S.optional(SensitiveString),
     type: S.optional(S.String),
     overrideLambda: S.optional(S.String),
     promptCreationMode: S.optional(S.String),
@@ -3126,11 +3134,14 @@ export const ModelInvocationInput = S.suspend(() =>
   identifier: "ModelInvocationInput",
 }) as any as S.Schema<ModelInvocationInput>;
 export interface PreProcessingParsedResponse {
-  rationale?: string;
+  rationale?: string | Redacted.Redacted<string>;
   isValid?: boolean;
 }
 export const PreProcessingParsedResponse = S.suspend(() =>
-  S.Struct({ rationale: S.optional(S.String), isValid: S.optional(S.Boolean) }),
+  S.Struct({
+    rationale: S.optional(SensitiveString),
+    isValid: S.optional(S.Boolean),
+  }),
 ).annotations({
   identifier: "PreProcessingParsedResponse",
 }) as any as S.Schema<PreProcessingParsedResponse>;
@@ -3183,10 +3194,13 @@ export const PreProcessingTrace = S.Union(
 );
 export interface Rationale {
   traceId?: string;
-  text?: string;
+  text?: string | Redacted.Redacted<string>;
 }
 export const Rationale = S.suspend(() =>
-  S.Struct({ traceId: S.optional(S.String), text: S.optional(S.String) }),
+  S.Struct({
+    traceId: S.optional(S.String),
+    text: S.optional(SensitiveString),
+  }),
 ).annotations({ identifier: "Rationale" }) as any as S.Schema<Rationale>;
 export interface Parameter {
   name?: string;
@@ -3211,23 +3225,23 @@ export const RequestBody = S.suspend(() =>
   S.Struct({ content: S.optional(ContentMap) }),
 ).annotations({ identifier: "RequestBody" }) as any as S.Schema<RequestBody>;
 export interface ActionGroupInvocationInput {
-  actionGroupName?: string;
-  verb?: string;
-  apiPath?: string;
+  actionGroupName?: string | Redacted.Redacted<string>;
+  verb?: string | Redacted.Redacted<string>;
+  apiPath?: string | Redacted.Redacted<string>;
   parameters?: Parameters;
   requestBody?: RequestBody;
-  function?: string;
+  function?: string | Redacted.Redacted<string>;
   executionType?: string;
   invocationId?: string;
 }
 export const ActionGroupInvocationInput = S.suspend(() =>
   S.Struct({
-    actionGroupName: S.optional(S.String),
-    verb: S.optional(S.String),
-    apiPath: S.optional(S.String),
+    actionGroupName: S.optional(SensitiveString),
+    verb: S.optional(SensitiveString),
+    apiPath: S.optional(SensitiveString),
     parameters: S.optional(Parameters),
     requestBody: S.optional(RequestBody),
-    function: S.optional(S.String),
+    function: S.optional(SensitiveString),
     executionType: S.optional(S.String),
     invocationId: S.optional(S.String),
   }),
@@ -3235,13 +3249,13 @@ export const ActionGroupInvocationInput = S.suspend(() =>
   identifier: "ActionGroupInvocationInput",
 }) as any as S.Schema<ActionGroupInvocationInput>;
 export interface KnowledgeBaseLookupInput {
-  text?: string;
-  knowledgeBaseId?: string;
+  text?: string | Redacted.Redacted<string>;
+  knowledgeBaseId?: string | Redacted.Redacted<string>;
 }
 export const KnowledgeBaseLookupInput = S.suspend(() =>
   S.Struct({
-    text: S.optional(S.String),
-    knowledgeBaseId: S.optional(S.String),
+    text: S.optional(SensitiveString),
+    knowledgeBaseId: S.optional(SensitiveString),
   }),
 ).annotations({
   identifier: "KnowledgeBaseLookupInput",
@@ -3271,13 +3285,13 @@ export const ReturnControlResults = S.suspend(() =>
 }) as any as S.Schema<ReturnControlResults>;
 export interface AgentCollaboratorInputPayload {
   type?: string;
-  text?: string;
+  text?: string | Redacted.Redacted<string>;
   returnControlResults?: ReturnControlResults;
 }
 export const AgentCollaboratorInputPayload = S.suspend(() =>
   S.Struct({
     type: S.optional(S.String),
-    text: S.optional(S.String),
+    text: S.optional(SensitiveString),
     returnControlResults: S.optional(ReturnControlResults),
   }),
 ).annotations({
@@ -3320,11 +3334,14 @@ export const InvocationInput = S.suspend(() =>
   identifier: "InvocationInput",
 }) as any as S.Schema<InvocationInput>;
 export interface ActionGroupInvocationOutput {
-  text?: string;
+  text?: string | Redacted.Redacted<string>;
   metadata?: Metadata;
 }
 export const ActionGroupInvocationOutput = S.suspend(() =>
-  S.Struct({ text: S.optional(S.String), metadata: S.optional(Metadata) }),
+  S.Struct({
+    text: S.optional(SensitiveString),
+    metadata: S.optional(Metadata),
+  }),
 ).annotations({
   identifier: "ActionGroupInvocationOutput",
 }) as any as S.Schema<ActionGroupInvocationOutput>;
@@ -3368,23 +3385,23 @@ export const ApiRequestBody = S.suspend(() =>
 export interface ApiInvocationInput {
   actionGroup: string;
   httpMethod?: string;
-  apiPath?: string;
+  apiPath?: string | Redacted.Redacted<string>;
   parameters?: ApiParameters;
   requestBody?: ApiRequestBody;
   actionInvocationType?: string;
   agentId?: string;
-  collaboratorName?: string;
+  collaboratorName?: string | Redacted.Redacted<string>;
 }
 export const ApiInvocationInput = S.suspend(() =>
   S.Struct({
     actionGroup: S.String,
     httpMethod: S.optional(S.String),
-    apiPath: S.optional(S.String),
+    apiPath: S.optional(SensitiveString),
     parameters: S.optional(ApiParameters),
     requestBody: S.optional(ApiRequestBody),
     actionInvocationType: S.optional(S.String),
     agentId: S.optional(S.String),
-    collaboratorName: S.optional(S.String),
+    collaboratorName: S.optional(SensitiveString),
   }),
 ).annotations({
   identifier: "ApiInvocationInput",
@@ -3411,7 +3428,7 @@ export interface FunctionInvocationInput {
   function?: string;
   actionInvocationType?: string;
   agentId?: string;
-  collaboratorName?: string;
+  collaboratorName?: string | Redacted.Redacted<string>;
 }
 export const FunctionInvocationInput = S.suspend(() =>
   S.Struct({
@@ -3420,7 +3437,7 @@ export const FunctionInvocationInput = S.suspend(() =>
     function: S.optional(S.String),
     actionInvocationType: S.optional(S.String),
     agentId: S.optional(S.String),
-    collaboratorName: S.optional(S.String),
+    collaboratorName: S.optional(SensitiveString),
   }),
 ).annotations({
   identifier: "FunctionInvocationInput",
@@ -3448,13 +3465,13 @@ export const ReturnControlPayload = S.suspend(() =>
 }) as any as S.Schema<ReturnControlPayload>;
 export interface AgentCollaboratorOutputPayload {
   type?: string;
-  text?: string;
+  text?: string | Redacted.Redacted<string>;
   returnControlPayload?: ReturnControlPayload;
 }
 export const AgentCollaboratorOutputPayload = S.suspend(() =>
   S.Struct({
     type: S.optional(S.String),
-    text: S.optional(S.String),
+    text: S.optional(SensitiveString),
     returnControlPayload: S.optional(ReturnControlPayload),
   }),
 ).annotations({
@@ -3489,11 +3506,14 @@ export const KnowledgeBaseLookupOutput = S.suspend(() =>
   identifier: "KnowledgeBaseLookupOutput",
 }) as any as S.Schema<KnowledgeBaseLookupOutput>;
 export interface FinalResponse {
-  text?: string;
+  text?: string | Redacted.Redacted<string>;
   metadata?: Metadata;
 }
 export const FinalResponse = S.suspend(() =>
-  S.Struct({ text: S.optional(S.String), metadata: S.optional(Metadata) }),
+  S.Struct({
+    text: S.optional(SensitiveString),
+    metadata: S.optional(Metadata),
+  }),
 ).annotations({
   identifier: "FinalResponse",
 }) as any as S.Schema<FinalResponse>;
@@ -3580,10 +3600,10 @@ export const OrchestrationTrace = S.Union(
   S.Struct({ modelInvocationOutput: OrchestrationModelInvocationOutput }),
 );
 export interface PostProcessingParsedResponse {
-  text?: string;
+  text?: string | Redacted.Redacted<string>;
 }
 export const PostProcessingParsedResponse = S.suspend(() =>
-  S.Struct({ text: S.optional(S.String) }),
+  S.Struct({ text: S.optional(SensitiveString) }),
 ).annotations({
   identifier: "PostProcessingParsedResponse",
 }) as any as S.Schema<PostProcessingParsedResponse>;
@@ -3639,14 +3659,14 @@ export const RoutingClassifierTrace = S.Union(
 );
 export interface FailureTrace {
   traceId?: string;
-  failureReason?: string;
+  failureReason?: string | Redacted.Redacted<string>;
   failureCode?: number;
   metadata?: Metadata;
 }
 export const FailureTrace = S.suspend(() =>
   S.Struct({
     traceId: S.optional(S.String),
-    failureReason: S.optional(S.String),
+    failureReason: S.optional(SensitiveString),
     failureCode: S.optional(S.Number),
     metadata: S.optional(Metadata),
   }),
@@ -3693,7 +3713,7 @@ export interface TracePart {
   trace?: (typeof Trace)["Type"];
   callerChain?: CallerChain;
   eventTime?: Date;
-  collaboratorName?: string;
+  collaboratorName?: string | Redacted.Redacted<string>;
   agentId?: string;
   agentAliasId?: string;
   agentVersion?: string;
@@ -3704,7 +3724,7 @@ export const TracePart = S.suspend(() =>
     trace: S.optional(Trace),
     callerChain: S.optional(CallerChain),
     eventTime: S.optional(S.Date.pipe(T.TimestampFormat("date-time"))),
-    collaboratorName: S.optional(S.String),
+    collaboratorName: S.optional(SensitiveString),
     agentId: S.optional(S.String),
     agentAliasId: S.optional(S.String),
     agentVersion: S.optional(S.String),
@@ -3822,13 +3842,13 @@ export const FlowTraceNodeInputContent = S.Union(S.Struct({ document: S.Any }));
 export interface FlowTraceNodeInputSource {
   nodeName: string;
   outputFieldName: string;
-  expression: string;
+  expression: string | Redacted.Redacted<string>;
 }
 export const FlowTraceNodeInputSource = S.suspend(() =>
   S.Struct({
     nodeName: S.String,
     outputFieldName: S.String,
-    expression: S.String,
+    expression: SensitiveString,
   }),
 ).annotations({
   identifier: "FlowTraceNodeInputSource",
@@ -3927,7 +3947,7 @@ export const GenerateQueryResponse = S.suspend(() =>
 export interface InvokeInlineAgentRequest {
   customerEncryptionKeyArn?: string;
   foundationModel: string;
-  instruction: string;
+  instruction: string | Redacted.Redacted<string>;
   idleSessionTTLInSeconds?: number;
   actionGroups?: AgentActionGroups;
   knowledgeBases?: KnowledgeBases;
@@ -3935,11 +3955,11 @@ export interface InvokeInlineAgentRequest {
   promptOverrideConfiguration?: PromptOverrideConfiguration;
   agentCollaboration?: string;
   collaboratorConfigurations?: CollaboratorConfigurations;
-  agentName?: string;
+  agentName?: string | Redacted.Redacted<string>;
   sessionId: string;
   endSession?: boolean;
   enableTrace?: boolean;
-  inputText?: string;
+  inputText?: string | Redacted.Redacted<string>;
   streamingConfigurations?: StreamingConfigurations;
   promptCreationConfigurations?: PromptCreationConfigurations;
   inlineSessionState?: InlineSessionState;
@@ -3952,7 +3972,7 @@ export const InvokeInlineAgentRequest = S.suspend(() =>
   S.Struct({
     customerEncryptionKeyArn: S.optional(S.String),
     foundationModel: S.String,
-    instruction: S.String,
+    instruction: SensitiveString,
     idleSessionTTLInSeconds: S.optional(S.Number),
     actionGroups: S.optional(AgentActionGroups),
     knowledgeBases: S.optional(KnowledgeBases),
@@ -3960,11 +3980,11 @@ export const InvokeInlineAgentRequest = S.suspend(() =>
     promptOverrideConfiguration: S.optional(PromptOverrideConfiguration),
     agentCollaboration: S.optional(S.String),
     collaboratorConfigurations: S.optional(CollaboratorConfigurations),
-    agentName: S.optional(S.String),
+    agentName: S.optional(SensitiveString),
     sessionId: S.String.pipe(T.HttpLabel("sessionId")),
     endSession: S.optional(S.Boolean),
     enableTrace: S.optional(S.Boolean),
-    inputText: S.optional(S.String),
+    inputText: S.optional(SensitiveString),
     streamingConfigurations: S.optional(StreamingConfigurations),
     promptCreationConfigurations: S.optional(PromptCreationConfigurations),
     inlineSessionState: S.optional(InlineSessionState),
@@ -4360,7 +4380,7 @@ export interface InvokeAgentRequest {
   sessionId: string;
   endSession?: boolean;
   enableTrace?: boolean;
-  inputText?: string;
+  inputText?: string | Redacted.Redacted<string>;
   memoryId?: string;
   bedrockModelConfigurations?: BedrockModelConfigurations;
   streamingConfigurations?: StreamingConfigurations;
@@ -4375,7 +4395,7 @@ export const InvokeAgentRequest = S.suspend(() =>
     sessionId: S.String.pipe(T.HttpLabel("sessionId")),
     endSession: S.optional(S.Boolean),
     enableTrace: S.optional(S.Boolean),
-    inputText: S.optional(S.String),
+    inputText: S.optional(SensitiveString),
     memoryId: S.optional(S.String),
     bedrockModelConfigurations: S.optional(BedrockModelConfigurations),
     streamingConfigurations: S.optional(StreamingConfigurations),
@@ -4448,7 +4468,7 @@ export interface InlineAgentTracePart {
   trace?: (typeof Trace)["Type"];
   callerChain?: CallerChain;
   eventTime?: Date;
-  collaboratorName?: string;
+  collaboratorName?: string | Redacted.Redacted<string>;
 }
 export const InlineAgentTracePart = S.suspend(() =>
   S.Struct({
@@ -4456,7 +4476,7 @@ export const InlineAgentTracePart = S.suspend(() =>
     trace: S.optional(Trace),
     callerChain: S.optional(CallerChain),
     eventTime: S.optional(S.Date.pipe(T.TimestampFormat("date-time"))),
-    collaboratorName: S.optional(S.String),
+    collaboratorName: S.optional(SensitiveString),
   }),
 ).annotations({
   identifier: "InlineAgentTracePart",
@@ -4482,23 +4502,26 @@ export const Attribution = S.suspend(() =>
 export interface OutputFile {
   name?: string;
   type?: string;
-  bytes?: Uint8Array;
+  bytes?: Uint8Array | Redacted.Redacted<Uint8Array>;
 }
 export const OutputFile = S.suspend(() =>
   S.Struct({
     name: S.optional(S.String),
     type: S.optional(S.String),
-    bytes: S.optional(T.Blob),
+    bytes: S.optional(SensitiveBlob),
   }),
 ).annotations({ identifier: "OutputFile" }) as any as S.Schema<OutputFile>;
 export type OutputFiles = OutputFile[];
 export const OutputFiles = S.Array(OutputFile);
 export interface InlineAgentPayloadPart {
-  bytes?: Uint8Array;
+  bytes?: Uint8Array | Redacted.Redacted<Uint8Array>;
   attribution?: Attribution;
 }
 export const InlineAgentPayloadPart = S.suspend(() =>
-  S.Struct({ bytes: S.optional(T.Blob), attribution: S.optional(Attribution) }),
+  S.Struct({
+    bytes: S.optional(SensitiveBlob),
+    attribution: S.optional(Attribution),
+  }),
 ).annotations({
   identifier: "InlineAgentPayloadPart",
 }) as any as S.Schema<InlineAgentPayloadPart>;
@@ -4614,11 +4637,14 @@ export const RetrieveResponse = S.suspend(() =>
   identifier: "RetrieveResponse",
 }) as any as S.Schema<RetrieveResponse>;
 export interface PayloadPart {
-  bytes?: Uint8Array;
+  bytes?: Uint8Array | Redacted.Redacted<Uint8Array>;
   attribution?: Attribution;
 }
 export const PayloadPart = S.suspend(() =>
-  S.Struct({ bytes: S.optional(T.Blob), attribution: S.optional(Attribution) }),
+  S.Struct({
+    bytes: S.optional(SensitiveBlob),
+    attribution: S.optional(Attribution),
+  }),
 ).annotations({ identifier: "PayloadPart" }) as any as S.Schema<PayloadPart>;
 export interface FilePart {
   files?: OutputFiles;

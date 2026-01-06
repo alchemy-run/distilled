@@ -1,5 +1,6 @@
 import { HttpClient } from "@effect/platform";
 import * as Effect from "effect/Effect";
+import * as Redacted from "effect/Redacted";
 import * as S from "effect/Schema";
 import * as Stream from "effect/Stream";
 import * as API from "../api.ts";
@@ -10,6 +11,7 @@ import {
   ErrorCategory,
   Errors,
 } from "../index.ts";
+import { SensitiveString, SensitiveBlob } from "../sensitive.ts";
 const svc = T.AwsApiService({
   sdkId: "Backup Gateway",
   serviceShapeName: "BackupOnPremises_v20210101",
@@ -264,8 +266,8 @@ export type MinuteOfHour = number;
 export type DayOfWeek = number;
 export type DayOfMonth = number;
 export type Host = string;
-export type Username = string;
-export type Password = string;
+export type Username = string | Redacted.Redacted<string>;
+export type Password = string | Redacted.Redacted<string>;
 export type KmsKeyArn = string;
 export type LogGroupArn = string;
 export type IamRoleArn = string;
@@ -422,15 +424,15 @@ export const PutMaintenanceStartTimeInput = S.suspend(() =>
 export interface TestHypervisorConfigurationInput {
   GatewayArn: string;
   Host: string;
-  Username?: string;
-  Password?: string;
+  Username?: string | Redacted.Redacted<string>;
+  Password?: string | Redacted.Redacted<string>;
 }
 export const TestHypervisorConfigurationInput = S.suspend(() =>
   S.Struct({
     GatewayArn: S.String,
     Host: S.String,
-    Username: S.optional(S.String),
-    Password: S.optional(S.String),
+    Username: S.optional(SensitiveString),
+    Password: S.optional(SensitiveString),
   }).pipe(
     T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
   ),
@@ -466,8 +468,8 @@ export const GetBandwidthRateLimitScheduleInput = S.suspend(() =>
 export interface ImportHypervisorConfigurationInput {
   Name: string;
   Host: string;
-  Username?: string;
-  Password?: string;
+  Username?: string | Redacted.Redacted<string>;
+  Password?: string | Redacted.Redacted<string>;
   KmsKeyArn?: string;
   Tags?: Tags;
 }
@@ -475,8 +477,8 @@ export const ImportHypervisorConfigurationInput = S.suspend(() =>
   S.Struct({
     Name: S.String,
     Host: S.String,
-    Username: S.optional(S.String),
-    Password: S.optional(S.String),
+    Username: S.optional(SensitiveString),
+    Password: S.optional(SensitiveString),
     KmsKeyArn: S.optional(S.String),
     Tags: S.optional(Tags),
   }).pipe(
@@ -498,8 +500,8 @@ export const GetHypervisorInput = S.suspend(() =>
 export interface UpdateHypervisorInput {
   HypervisorArn: string;
   Host?: string;
-  Username?: string;
-  Password?: string;
+  Username?: string | Redacted.Redacted<string>;
+  Password?: string | Redacted.Redacted<string>;
   Name?: string;
   LogGroupArn?: string;
 }
@@ -507,8 +509,8 @@ export const UpdateHypervisorInput = S.suspend(() =>
   S.Struct({
     HypervisorArn: S.String,
     Host: S.optional(S.String),
-    Username: S.optional(S.String),
-    Password: S.optional(S.String),
+    Username: S.optional(SensitiveString),
+    Password: S.optional(SensitiveString),
     Name: S.optional(S.String),
     LogGroupArn: S.optional(S.String),
   }).pipe(

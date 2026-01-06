@@ -1,5 +1,6 @@
 import { HttpClient } from "@effect/platform";
 import * as Effect from "effect/Effect";
+import * as Redacted from "effect/Redacted";
 import * as S from "effect/Schema";
 import * as Stream from "effect/Stream";
 import * as API from "../api.ts";
@@ -10,6 +11,7 @@ import {
   ErrorCategory,
   Errors,
 } from "../index.ts";
+import { SensitiveString, SensitiveBlob } from "../sensitive.ts";
 const svc = T.AwsApiService({
   sdkId: "IoT Managed Integrations",
   serviceShapeName: "IotManagedIntegrations",
@@ -117,12 +119,12 @@ const rules = T.EndpointRuleSet({
 export type EndpointAddress = string;
 export type IoTManagedIntegrationsResourceARN = string;
 export type ConnectorId = string;
-export type ThirdPartyUserId = string;
-export type ConnectorEventOperationVersion = string;
+export type ThirdPartyUserId = string | Redacted.Redacted<string>;
+export type ConnectorEventOperationVersion = string | Redacted.Redacted<string>;
 export type ConnectorEventStatusCode = number;
-export type ConnectorEventMessage = string;
+export type ConnectorEventMessage = string | Redacted.Redacted<string>;
 export type DeviceDiscoveryId = string;
-export type ConnectorDeviceId = string;
+export type ConnectorDeviceId = string | Redacted.Redacted<string>;
 export type TraceId = string;
 export type TagKey = string;
 export type ClientToken = string;
@@ -138,7 +140,7 @@ export type CloudConnectorId = string;
 export type LambdaArn = string;
 export type ConnectorDestinationName = string;
 export type ConnectorDestinationDescription = string;
-export type CredentialLockerName = string;
+export type CredentialLockerName = string | Redacted.Redacted<string>;
 export type CredentialLockerId = string;
 export type DeliveryDestinationArn = string;
 export type DestinationName = string;
@@ -146,39 +148,39 @@ export type DeliveryDestinationRoleArn = string;
 export type DestinationDescription = string;
 export type ManagedThingId = string;
 export type ConnectorAssociationId = string;
-export type DiscoveryAuthMaterialString = string;
+export type DiscoveryAuthMaterialString = string | Redacted.Redacted<string>;
 export type SmartHomeResourceType = string;
 export type SmartHomeResourceId = string;
 export type LogConfigurationId = string;
 export type HubTokenTimerExpirySettingInSeconds = number;
 export type KmsKeyArn = string;
-export type Owner = string;
-export type AuthMaterialString = string;
-export type SerialNumber = string;
-export type Brand = string;
-export type Model = string;
+export type Owner = string | Redacted.Redacted<string>;
+export type AuthMaterialString = string | Redacted.Redacted<string>;
+export type SerialNumber = string | Redacted.Redacted<string>;
+export type Brand = string | Redacted.Redacted<string>;
+export type Model = string | Redacted.Redacted<string>;
 export type Name = string;
 export type Capabilities = string;
-export type Classification = string;
+export type Classification = string | Redacted.Redacted<string>;
 export type ParentControllerId = string;
 export type ConnectorPolicyId = string;
 export type EndpointId = string;
 export type CapabilityId = string;
 export type OtaDescription = string;
-export type OtaTaskConfigurationName = string;
+export type OtaTaskConfigurationName = string | Redacted.Redacted<string>;
 export type OtaTaskConfigurationId = string;
 export type S3Url = string;
 export type OtaTargetQueryString = string;
 export type OtaTaskId = string;
 export type OtaNextToken = string;
-export type CaCertificate = string;
+export type CaCertificate = string | Redacted.Redacted<string>;
 export type ProvisioningProfileName = string;
 export type ProvisioningProfileId = string;
 export type SchemaVersionedId = string;
 export type SchemaId = string;
 export type SchemaVersionNamespaceName = string;
 export type SchemaVersionVersion = string;
-export type ConnectorDeviceName = string;
+export type ConnectorDeviceName = string | Redacted.Redacted<string>;
 export type TagValue = string;
 export type SecretsManagerArn = string;
 export type SecretsManagerVersionId = string;
@@ -197,7 +199,7 @@ export type LocalStoreFileRotationMaxFiles = number;
 export type LocalStoreFileRotationMaxBytes = number;
 export type UploadPeriodMinutes = number;
 export type ErrorMessage = string;
-export type OAuthAuthorizationUrl = string;
+export type OAuthAuthorizationUrl = string | Redacted.Redacted<string>;
 export type AccountAssociationArn = string;
 export type AccountAssociationErrorMessage = string;
 export type OAuthCompleteRedirectUrl = string;
@@ -205,15 +207,15 @@ export type CredentialLockerArn = string;
 export type DeviceDiscoveryArn = string;
 export type ManagedThingArn = string;
 export type AdvertisedProductId = string;
-export type UniversalProductCode = string;
-export type InternationalArticleNumber = string;
-export type DeviceSpecificKey = string;
-export type MacAddress = string;
+export type UniversalProductCode = string | Redacted.Redacted<string>;
+export type InternationalArticleNumber = string | Redacted.Redacted<string>;
+export type DeviceSpecificKey = string | Redacted.Redacted<string>;
+export type MacAddress = string | Redacted.Redacted<string>;
 export type CertificatePem = string;
 export type OtaTaskArn = string;
 export type ProvisioningProfileArn = string;
-export type ClaimCertificate = string;
-export type ClaimCertificatePrivateKey = string;
+export type ClaimCertificate = string | Redacted.Redacted<string>;
+export type ClaimCertificatePrivateKey = string | Redacted.Redacted<string>;
 export type SchemaVersionDescription = string;
 export type ClusterId = string;
 export type AuthUrl = string;
@@ -693,13 +695,13 @@ export const ListConnectorDestinationsRequest = S.suspend(() =>
   identifier: "ListConnectorDestinationsRequest",
 }) as any as S.Schema<ListConnectorDestinationsRequest>;
 export interface CreateCredentialLockerRequest {
-  Name?: string;
+  Name?: string | Redacted.Redacted<string>;
   ClientToken?: string;
   Tags?: TagsMap;
 }
 export const CreateCredentialLockerRequest = S.suspend(() =>
   S.Struct({
-    Name: S.optional(S.String),
+    Name: S.optional(SensitiveString),
     ClientToken: S.optional(S.String),
     Tags: S.optional(TagsMap),
   }).pipe(
@@ -1304,32 +1306,32 @@ export type MetaData = { [key: string]: string };
 export const MetaData = S.Record({ key: S.String, value: S.String });
 export interface UpdateManagedThingRequest {
   Identifier: string;
-  Owner?: string;
+  Owner?: string | Redacted.Redacted<string>;
   CredentialLockerId?: string;
-  SerialNumber?: string;
-  Brand?: string;
-  Model?: string;
+  SerialNumber?: string | Redacted.Redacted<string>;
+  Brand?: string | Redacted.Redacted<string>;
+  Model?: string | Redacted.Redacted<string>;
   Name?: string;
   CapabilityReport?: CapabilityReport;
   CapabilitySchemas?: CapabilitySchemas;
   Capabilities?: string;
-  Classification?: string;
+  Classification?: string | Redacted.Redacted<string>;
   HubNetworkMode?: string;
   MetaData?: MetaData;
 }
 export const UpdateManagedThingRequest = S.suspend(() =>
   S.Struct({
     Identifier: S.String.pipe(T.HttpLabel("Identifier")),
-    Owner: S.optional(S.String),
+    Owner: S.optional(SensitiveString),
     CredentialLockerId: S.optional(S.String),
-    SerialNumber: S.optional(S.String),
-    Brand: S.optional(S.String),
-    Model: S.optional(S.String),
+    SerialNumber: S.optional(SensitiveString),
+    Brand: S.optional(SensitiveString),
+    Model: S.optional(SensitiveString),
     Name: S.optional(S.String),
     CapabilityReport: S.optional(CapabilityReport),
     CapabilitySchemas: S.optional(CapabilitySchemas),
     Capabilities: S.optional(S.String),
-    Classification: S.optional(S.String),
+    Classification: S.optional(SensitiveString),
     HubNetworkMode: S.optional(S.String),
     MetaData: S.optional(MetaData),
   }).pipe(
@@ -1379,21 +1381,21 @@ export const DeleteManagedThingResponse = S.suspend(() =>
   identifier: "DeleteManagedThingResponse",
 }) as any as S.Schema<DeleteManagedThingResponse>;
 export interface ListManagedThingsRequest {
-  OwnerFilter?: string;
+  OwnerFilter?: string | Redacted.Redacted<string>;
   CredentialLockerFilter?: string;
   RoleFilter?: string;
   ParentControllerIdentifierFilter?: string;
   ConnectorPolicyIdFilter?: string;
   ConnectorDestinationIdFilter?: string;
-  ConnectorDeviceIdFilter?: string;
-  SerialNumberFilter?: string;
+  ConnectorDeviceIdFilter?: string | Redacted.Redacted<string>;
+  SerialNumberFilter?: string | Redacted.Redacted<string>;
   ProvisioningStatusFilter?: string;
   NextToken?: string;
   MaxResults?: number;
 }
 export const ListManagedThingsRequest = S.suspend(() =>
   S.Struct({
-    OwnerFilter: S.optional(S.String).pipe(T.HttpQuery("OwnerFilter")),
+    OwnerFilter: S.optional(SensitiveString).pipe(T.HttpQuery("OwnerFilter")),
     CredentialLockerFilter: S.optional(S.String).pipe(
       T.HttpQuery("CredentialLockerFilter"),
     ),
@@ -1407,10 +1409,10 @@ export const ListManagedThingsRequest = S.suspend(() =>
     ConnectorDestinationIdFilter: S.optional(S.String).pipe(
       T.HttpQuery("ConnectorDestinationIdFilter"),
     ),
-    ConnectorDeviceIdFilter: S.optional(S.String).pipe(
+    ConnectorDeviceIdFilter: S.optional(SensitiveString).pipe(
       T.HttpQuery("ConnectorDeviceIdFilter"),
     ),
-    SerialNumberFilter: S.optional(S.String).pipe(
+    SerialNumberFilter: S.optional(SensitiveString).pipe(
       T.HttpQuery("SerialNumberFilter"),
     ),
     ProvisioningStatusFilter: S.optional(S.String).pipe(
@@ -1855,7 +1857,7 @@ export const ListOtaTaskExecutionsRequest = S.suspend(() =>
 }) as any as S.Schema<ListOtaTaskExecutionsRequest>;
 export interface CreateProvisioningProfileRequest {
   ProvisioningType: string;
-  CaCertificate?: string;
+  CaCertificate?: string | Redacted.Redacted<string>;
   Name?: string;
   ClientToken?: string;
   Tags?: TagsMap;
@@ -1863,7 +1865,7 @@ export interface CreateProvisioningProfileRequest {
 export const CreateProvisioningProfileRequest = S.suspend(() =>
   S.Struct({
     ProvisioningType: S.String,
-    CaCertificate: S.optional(S.String),
+    CaCertificate: S.optional(SensitiveString),
     Name: S.optional(S.String),
     ClientToken: S.optional(S.String),
     Tags: S.optional(TagsMap),
@@ -2122,14 +2124,14 @@ export const TagResourceResponse = S.suspend(() => S.Struct({})).annotations({
   identifier: "TagResourceResponse",
 }) as any as S.Schema<TagResourceResponse>;
 export interface CreateAccountAssociationResponse {
-  OAuthAuthorizationUrl: string;
+  OAuthAuthorizationUrl: string | Redacted.Redacted<string>;
   AccountAssociationId: string;
   AssociationState: string;
   Arn?: string;
 }
 export const CreateAccountAssociationResponse = S.suspend(() =>
   S.Struct({
-    OAuthAuthorizationUrl: S.String,
+    OAuthAuthorizationUrl: SensitiveString,
     AccountAssociationId: S.String,
     AssociationState: S.String,
     Arn: S.optional(S.String),
@@ -2145,7 +2147,7 @@ export interface GetAccountAssociationResponse {
   Name?: string;
   Description?: string;
   Arn?: string;
-  OAuthAuthorizationUrl: string;
+  OAuthAuthorizationUrl: string | Redacted.Redacted<string>;
   Tags?: TagsMap;
 }
 export const GetAccountAssociationResponse = S.suspend(() =>
@@ -2157,17 +2159,17 @@ export const GetAccountAssociationResponse = S.suspend(() =>
     Name: S.optional(S.String),
     Description: S.optional(S.String),
     Arn: S.optional(S.String),
-    OAuthAuthorizationUrl: S.String,
+    OAuthAuthorizationUrl: SensitiveString,
     Tags: S.optional(TagsMap),
   }),
 ).annotations({
   identifier: "GetAccountAssociationResponse",
 }) as any as S.Schema<GetAccountAssociationResponse>;
 export interface StartAccountAssociationRefreshResponse {
-  OAuthAuthorizationUrl: string;
+  OAuthAuthorizationUrl: string | Redacted.Redacted<string>;
 }
 export const StartAccountAssociationRefreshResponse = S.suspend(() =>
-  S.Struct({ OAuthAuthorizationUrl: S.String }),
+  S.Struct({ OAuthAuthorizationUrl: SensitiveString }),
 ).annotations({
   identifier: "StartAccountAssociationRefreshResponse",
 }) as any as S.Schema<StartAccountAssociationRefreshResponse>;
@@ -2282,7 +2284,7 @@ export const CreateCredentialLockerResponse = S.suspend(() =>
 export interface GetCredentialLockerResponse {
   Id?: string;
   Arn?: string;
-  Name?: string;
+  Name?: string | Redacted.Redacted<string>;
   CreatedAt?: Date;
   Tags?: TagsMap;
 }
@@ -2290,7 +2292,7 @@ export const GetCredentialLockerResponse = S.suspend(() =>
   S.Struct({
     Id: S.optional(S.String),
     Arn: S.optional(S.String),
-    Name: S.optional(S.String),
+    Name: S.optional(SensitiveString),
     CreatedAt: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
     Tags: S.optional(TagsMap),
   }),
@@ -2335,7 +2337,7 @@ export interface StartDeviceDiscoveryRequest {
   ControllerIdentifier?: string;
   ConnectorAssociationIdentifier?: string;
   AccountAssociationId?: string;
-  AuthenticationMaterial?: string;
+  AuthenticationMaterial?: string | Redacted.Redacted<string>;
   AuthenticationMaterialType?: string;
   ClientToken?: string;
   Tags?: TagsMap;
@@ -2347,7 +2349,7 @@ export const StartDeviceDiscoveryRequest = S.suspend(() =>
     ControllerIdentifier: S.optional(S.String),
     ConnectorAssociationIdentifier: S.optional(S.String),
     AccountAssociationId: S.optional(S.String),
-    AuthenticationMaterial: S.optional(S.String),
+    AuthenticationMaterial: S.optional(SensitiveString),
     AuthenticationMaterialType: S.optional(S.String),
     ClientToken: S.optional(S.String),
     Tags: S.optional(TagsMap),
@@ -2473,24 +2475,24 @@ export const RegisterAccountAssociationResponse = S.suspend(() =>
 export interface GetManagedThingResponse {
   Id?: string;
   Arn?: string;
-  Owner?: string;
+  Owner?: string | Redacted.Redacted<string>;
   CredentialLockerId?: string;
   AdvertisedProductId?: string;
   Role?: string;
   ProvisioningStatus?: string;
   Name?: string;
-  Model?: string;
-  Brand?: string;
-  SerialNumber?: string;
-  UniversalProductCode?: string;
-  InternationalArticleNumber?: string;
+  Model?: string | Redacted.Redacted<string>;
+  Brand?: string | Redacted.Redacted<string>;
+  SerialNumber?: string | Redacted.Redacted<string>;
+  UniversalProductCode?: string | Redacted.Redacted<string>;
+  InternationalArticleNumber?: string | Redacted.Redacted<string>;
   ConnectorPolicyId?: string;
   ConnectorDestinationId?: string;
-  ConnectorDeviceId?: string;
-  DeviceSpecificKey?: string;
-  MacAddress?: string;
+  ConnectorDeviceId?: string | Redacted.Redacted<string>;
+  DeviceSpecificKey?: string | Redacted.Redacted<string>;
+  MacAddress?: string | Redacted.Redacted<string>;
   ParentControllerId?: string;
-  Classification?: string;
+  Classification?: string | Redacted.Redacted<string>;
   CreatedAt?: Date;
   UpdatedAt?: Date;
   ActivatedAt?: Date;
@@ -2502,24 +2504,24 @@ export const GetManagedThingResponse = S.suspend(() =>
   S.Struct({
     Id: S.optional(S.String),
     Arn: S.optional(S.String),
-    Owner: S.optional(S.String),
+    Owner: S.optional(SensitiveString),
     CredentialLockerId: S.optional(S.String),
     AdvertisedProductId: S.optional(S.String),
     Role: S.optional(S.String),
     ProvisioningStatus: S.optional(S.String),
     Name: S.optional(S.String),
-    Model: S.optional(S.String),
-    Brand: S.optional(S.String),
-    SerialNumber: S.optional(S.String),
-    UniversalProductCode: S.optional(S.String),
-    InternationalArticleNumber: S.optional(S.String),
+    Model: S.optional(SensitiveString),
+    Brand: S.optional(SensitiveString),
+    SerialNumber: S.optional(SensitiveString),
+    UniversalProductCode: S.optional(SensitiveString),
+    InternationalArticleNumber: S.optional(SensitiveString),
     ConnectorPolicyId: S.optional(S.String),
     ConnectorDestinationId: S.optional(S.String),
-    ConnectorDeviceId: S.optional(S.String),
-    DeviceSpecificKey: S.optional(S.String),
-    MacAddress: S.optional(S.String),
+    ConnectorDeviceId: S.optional(SensitiveString),
+    DeviceSpecificKey: S.optional(SensitiveString),
+    MacAddress: S.optional(SensitiveString),
     ParentControllerId: S.optional(S.String),
-    Classification: S.optional(S.String),
+    Classification: S.optional(SensitiveString),
     CreatedAt: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
     UpdatedAt: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
     ActivatedAt: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
@@ -2696,7 +2698,7 @@ export const PushConfig = S.suspend(() =>
 ).annotations({ identifier: "PushConfig" }) as any as S.Schema<PushConfig>;
 export interface GetOtaTaskConfigurationResponse {
   TaskConfigurationId?: string;
-  Name?: string;
+  Name?: string | Redacted.Redacted<string>;
   PushConfig?: PushConfig;
   Description?: string;
   CreatedAt?: Date;
@@ -2704,7 +2706,7 @@ export interface GetOtaTaskConfigurationResponse {
 export const GetOtaTaskConfigurationResponse = S.suspend(() =>
   S.Struct({
     TaskConfigurationId: S.optional(S.String),
-    Name: S.optional(S.String),
+    Name: S.optional(SensitiveString),
     PushConfig: S.optional(PushConfig),
     Description: S.optional(S.String),
     CreatedAt: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
@@ -2717,8 +2719,8 @@ export interface CreateProvisioningProfileResponse {
   Name?: string;
   ProvisioningType?: string;
   Id?: string;
-  ClaimCertificate?: string;
-  ClaimCertificatePrivateKey?: string;
+  ClaimCertificate?: string | Redacted.Redacted<string>;
+  ClaimCertificatePrivateKey?: string | Redacted.Redacted<string>;
 }
 export const CreateProvisioningProfileResponse = S.suspend(() =>
   S.Struct({
@@ -2726,8 +2728,8 @@ export const CreateProvisioningProfileResponse = S.suspend(() =>
     Name: S.optional(S.String),
     ProvisioningType: S.optional(S.String),
     Id: S.optional(S.String),
-    ClaimCertificate: S.optional(S.String),
-    ClaimCertificatePrivateKey: S.optional(S.String),
+    ClaimCertificate: S.optional(SensitiveString),
+    ClaimCertificatePrivateKey: S.optional(SensitiveString),
   }),
 ).annotations({
   identifier: "CreateProvisioningProfileResponse",
@@ -2737,7 +2739,7 @@ export interface GetProvisioningProfileResponse {
   Name?: string;
   ProvisioningType?: string;
   Id?: string;
-  ClaimCertificate?: string;
+  ClaimCertificate?: string | Redacted.Redacted<string>;
   Tags?: TagsMap;
 }
 export const GetProvisioningProfileResponse = S.suspend(() =>
@@ -2746,7 +2748,7 @@ export const GetProvisioningProfileResponse = S.suspend(() =>
     Name: S.optional(S.String),
     ProvisioningType: S.optional(S.String),
     Id: S.optional(S.String),
-    ClaimCertificate: S.optional(S.String),
+    ClaimCertificate: S.optional(SensitiveString),
     Tags: S.optional(TagsMap),
   }),
 ).annotations({
@@ -2939,14 +2941,14 @@ export const ConnectorDestinationListDefinition = S.Array(
 export interface CredentialLockerSummary {
   Id?: string;
   Arn?: string;
-  Name?: string;
+  Name?: string | Redacted.Redacted<string>;
   CreatedAt?: Date;
 }
 export const CredentialLockerSummary = S.suspend(() =>
   S.Struct({
     Id: S.optional(S.String),
     Arn: S.optional(S.String),
-    Name: S.optional(S.String),
+    Name: S.optional(SensitiveString),
     CreatedAt: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
   }),
 ).annotations({
@@ -2991,27 +2993,27 @@ export const DeviceDiscoverySummary = S.suspend(() =>
 export type DeviceDiscoveryListDefinition = DeviceDiscoverySummary[];
 export const DeviceDiscoveryListDefinition = S.Array(DeviceDiscoverySummary);
 export interface DiscoveredDeviceSummary {
-  ConnectorDeviceId?: string;
-  ConnectorDeviceName?: string;
+  ConnectorDeviceId?: string | Redacted.Redacted<string>;
+  ConnectorDeviceName?: string | Redacted.Redacted<string>;
   DeviceTypes?: DeviceTypeList;
   ManagedThingId?: string;
   Modification?: string;
   DiscoveredAt?: Date;
-  Brand?: string;
-  Model?: string;
-  AuthenticationMaterial?: string;
+  Brand?: string | Redacted.Redacted<string>;
+  Model?: string | Redacted.Redacted<string>;
+  AuthenticationMaterial?: string | Redacted.Redacted<string>;
 }
 export const DiscoveredDeviceSummary = S.suspend(() =>
   S.Struct({
-    ConnectorDeviceId: S.optional(S.String),
-    ConnectorDeviceName: S.optional(S.String),
+    ConnectorDeviceId: S.optional(SensitiveString),
+    ConnectorDeviceName: S.optional(SensitiveString),
     DeviceTypes: S.optional(DeviceTypeList),
     ManagedThingId: S.optional(S.String),
     Modification: S.optional(S.String),
     DiscoveredAt: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
-    Brand: S.optional(S.String),
-    Model: S.optional(S.String),
-    AuthenticationMaterial: S.optional(S.String),
+    Brand: S.optional(SensitiveString),
+    Model: S.optional(SensitiveString),
+    AuthenticationMaterial: S.optional(SensitiveString),
   }),
 ).annotations({
   identifier: "DiscoveredDeviceSummary",
@@ -3057,19 +3059,19 @@ export interface ManagedThingSummary {
   Id?: string;
   Arn?: string;
   AdvertisedProductId?: string;
-  Brand?: string;
-  Classification?: string;
-  ConnectorDeviceId?: string;
+  Brand?: string | Redacted.Redacted<string>;
+  Classification?: string | Redacted.Redacted<string>;
+  ConnectorDeviceId?: string | Redacted.Redacted<string>;
   ConnectorPolicyId?: string;
   ConnectorDestinationId?: string;
-  Model?: string;
+  Model?: string | Redacted.Redacted<string>;
   Name?: string;
-  Owner?: string;
+  Owner?: string | Redacted.Redacted<string>;
   CredentialLockerId?: string;
   ParentControllerId?: string;
   ProvisioningStatus?: string;
   Role?: string;
-  SerialNumber?: string;
+  SerialNumber?: string | Redacted.Redacted<string>;
   CreatedAt?: Date;
   UpdatedAt?: Date;
   ActivatedAt?: Date;
@@ -3079,19 +3081,19 @@ export const ManagedThingSummary = S.suspend(() =>
     Id: S.optional(S.String),
     Arn: S.optional(S.String),
     AdvertisedProductId: S.optional(S.String),
-    Brand: S.optional(S.String),
-    Classification: S.optional(S.String),
-    ConnectorDeviceId: S.optional(S.String),
+    Brand: S.optional(SensitiveString),
+    Classification: S.optional(SensitiveString),
+    ConnectorDeviceId: S.optional(SensitiveString),
     ConnectorPolicyId: S.optional(S.String),
     ConnectorDestinationId: S.optional(S.String),
-    Model: S.optional(S.String),
+    Model: S.optional(SensitiveString),
     Name: S.optional(S.String),
-    Owner: S.optional(S.String),
+    Owner: S.optional(SensitiveString),
     CredentialLockerId: S.optional(S.String),
     ParentControllerId: S.optional(S.String),
     ProvisioningStatus: S.optional(S.String),
     Role: S.optional(S.String),
-    SerialNumber: S.optional(S.String),
+    SerialNumber: S.optional(SensitiveString),
     CreatedAt: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
     UpdatedAt: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
     ActivatedAt: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
@@ -3138,13 +3140,13 @@ export const NotificationConfigurationListDefinition = S.Array(
 );
 export interface OtaTaskConfigurationSummary {
   TaskConfigurationId?: string;
-  Name?: string;
+  Name?: string | Redacted.Redacted<string>;
   CreatedAt?: Date;
 }
 export const OtaTaskConfigurationSummary = S.suspend(() =>
   S.Struct({
     TaskConfigurationId: S.optional(S.String),
-    Name: S.optional(S.String),
+    Name: S.optional(SensitiveString),
     CreatedAt: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
   }),
 ).annotations({
@@ -3871,38 +3873,38 @@ export const SendManagedThingCommandRequest = S.suspend(() =>
 }) as any as S.Schema<SendManagedThingCommandRequest>;
 export interface CreateManagedThingRequest {
   Role: string;
-  Owner?: string;
+  Owner?: string | Redacted.Redacted<string>;
   CredentialLockerId?: string;
-  AuthenticationMaterial: string;
+  AuthenticationMaterial: string | Redacted.Redacted<string>;
   AuthenticationMaterialType: string;
-  SerialNumber?: string;
-  Brand?: string;
-  Model?: string;
+  SerialNumber?: string | Redacted.Redacted<string>;
+  Brand?: string | Redacted.Redacted<string>;
+  Model?: string | Redacted.Redacted<string>;
   Name?: string;
   CapabilityReport?: CapabilityReport;
   CapabilitySchemas?: CapabilitySchemas;
   Capabilities?: string;
   ClientToken?: string;
-  Classification?: string;
+  Classification?: string | Redacted.Redacted<string>;
   Tags?: TagsMap;
   MetaData?: MetaData;
 }
 export const CreateManagedThingRequest = S.suspend(() =>
   S.Struct({
     Role: S.String,
-    Owner: S.optional(S.String),
+    Owner: S.optional(SensitiveString),
     CredentialLockerId: S.optional(S.String),
-    AuthenticationMaterial: S.String,
+    AuthenticationMaterial: SensitiveString,
     AuthenticationMaterialType: S.String,
-    SerialNumber: S.optional(S.String),
-    Brand: S.optional(S.String),
-    Model: S.optional(S.String),
+    SerialNumber: S.optional(SensitiveString),
+    Brand: S.optional(SensitiveString),
+    Model: S.optional(SensitiveString),
     Name: S.optional(S.String),
     CapabilityReport: S.optional(CapabilityReport),
     CapabilitySchemas: S.optional(CapabilitySchemas),
     Capabilities: S.optional(S.String),
     ClientToken: S.optional(S.String),
-    Classification: S.optional(S.String),
+    Classification: S.optional(SensitiveString),
     Tags: S.optional(TagsMap),
     MetaData: S.optional(MetaData),
   }).pipe(
@@ -4042,14 +4044,14 @@ export const CreateManagedThingResponse = S.suspend(() =>
 }) as any as S.Schema<CreateManagedThingResponse>;
 export interface CreateOtaTaskConfigurationRequest {
   Description?: string;
-  Name?: string;
+  Name?: string | Redacted.Redacted<string>;
   PushConfig?: PushConfig;
   ClientToken?: string;
 }
 export const CreateOtaTaskConfigurationRequest = S.suspend(() =>
   S.Struct({
     Description: S.optional(S.String),
-    Name: S.optional(S.String),
+    Name: S.optional(SensitiveString),
     PushConfig: S.optional(PushConfig),
     ClientToken: S.optional(S.String),
   }).pipe(
@@ -4080,16 +4082,16 @@ export const MatterCapabilityReport = S.suspend(() =>
   identifier: "MatterCapabilityReport",
 }) as any as S.Schema<MatterCapabilityReport>;
 export interface Device {
-  ConnectorDeviceId: string;
-  ConnectorDeviceName?: string;
+  ConnectorDeviceId: string | Redacted.Redacted<string>;
+  ConnectorDeviceName?: string | Redacted.Redacted<string>;
   CapabilityReport: MatterCapabilityReport;
   CapabilitySchemas?: CapabilitySchemas;
   DeviceMetadata?: any;
 }
 export const Device = S.suspend(() =>
   S.Struct({
-    ConnectorDeviceId: S.String,
-    ConnectorDeviceName: S.optional(S.String),
+    ConnectorDeviceId: SensitiveString,
+    ConnectorDeviceName: S.optional(SensitiveString),
     CapabilityReport: MatterCapabilityReport,
     CapabilitySchemas: S.optional(CapabilitySchemas),
     DeviceMetadata: S.optional(S.Any),
@@ -4099,13 +4101,13 @@ export type Devices = Device[];
 export const Devices = S.Array(Device);
 export interface SendConnectorEventRequest {
   ConnectorId: string;
-  UserId?: string;
+  UserId?: string | Redacted.Redacted<string>;
   Operation: string;
-  OperationVersion?: string;
+  OperationVersion?: string | Redacted.Redacted<string>;
   StatusCode?: number;
-  Message?: string;
+  Message?: string | Redacted.Redacted<string>;
   DeviceDiscoveryId?: string;
-  ConnectorDeviceId?: string;
+  ConnectorDeviceId?: string | Redacted.Redacted<string>;
   TraceId?: string;
   Devices?: Devices;
   MatterEndpoint?: MatterEndpoint;
@@ -4113,13 +4115,13 @@ export interface SendConnectorEventRequest {
 export const SendConnectorEventRequest = S.suspend(() =>
   S.Struct({
     ConnectorId: S.String.pipe(T.HttpLabel("ConnectorId")),
-    UserId: S.optional(S.String),
+    UserId: S.optional(SensitiveString),
     Operation: S.String,
-    OperationVersion: S.optional(S.String),
+    OperationVersion: S.optional(SensitiveString),
     StatusCode: S.optional(S.Number),
-    Message: S.optional(S.String),
+    Message: S.optional(SensitiveString),
     DeviceDiscoveryId: S.optional(S.String),
-    ConnectorDeviceId: S.optional(S.String),
+    ConnectorDeviceId: S.optional(SensitiveString),
     TraceId: S.optional(S.String),
     Devices: S.optional(Devices),
     MatterEndpoint: S.optional(MatterEndpoint),

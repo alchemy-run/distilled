@@ -1,5 +1,6 @@
 import { HttpClient } from "@effect/platform";
 import * as Effect from "effect/Effect";
+import * as Redacted from "effect/Redacted";
 import * as S from "effect/Schema";
 import * as Stream from "effect/Stream";
 import * as API from "../api.ts";
@@ -10,6 +11,7 @@ import {
   ErrorCategory,
   Errors,
 } from "../index.ts";
+import { SensitiveString, SensitiveBlob } from "../sensitive.ts";
 const svc = T.AwsApiService({
   sdkId: "Chime SDK Messaging",
   serviceShapeName: "ChimeMessagingService",
@@ -253,30 +255,30 @@ const rules = T.EndpointRuleSet({
 export type ChimeArn = string;
 export type SubChannelId = string;
 export type CallbackIdType = string;
-export type NonEmptyResourceName = string;
-export type Metadata = string;
-export type ClientRequestToken = string;
-export type ChannelId = string;
+export type NonEmptyResourceName = string | Redacted.Redacted<string>;
+export type Metadata = string | Redacted.Redacted<string>;
+export type ClientRequestToken = string | Redacted.Redacted<string>;
+export type ChannelId = string | Redacted.Redacted<string>;
 export type MessageId = string;
 export type MaxResults = number;
-export type NextToken = string;
-export type NonEmptyContent = string;
-export type ContentType = string;
-export type TagKey = string;
-export type TagValue = string;
+export type NextToken = string | Redacted.Redacted<string>;
+export type NonEmptyContent = string | Redacted.Redacted<string>;
+export type ContentType = string | Redacted.Redacted<string>;
+export type TagKey = string | Redacted.Redacted<string>;
+export type TagValue = string | Redacted.Redacted<string>;
 export type MaximumSubChannels = number;
 export type TargetMembershipsPerSubChannel = number;
 export type MinimumMembershipPercentage = number;
 export type ExpirationDays = number;
 export type ChannelFlowExecutionOrder = number;
 export type SearchFieldValue = string;
-export type PushNotificationTitle = string;
-export type PushNotificationBody = string;
-export type MessageAttributeName = string;
-export type FilterRule = string;
-export type MessageAttributeStringValue = string;
-export type ResourceName = string;
-export type Content = string;
+export type PushNotificationTitle = string | Redacted.Redacted<string>;
+export type PushNotificationBody = string | Redacted.Redacted<string>;
+export type MessageAttributeName = string | Redacted.Redacted<string>;
+export type FilterRule = string | Redacted.Redacted<string>;
+export type MessageAttributeStringValue = string | Redacted.Redacted<string>;
+export type ResourceName = string | Redacted.Redacted<string>;
+export type Content = string | Redacted.Redacted<string>;
 export type StatusDetail = string;
 export type UrlType = string;
 export type MembershipCount = number;
@@ -289,8 +291,8 @@ export type ChannelMemberArns = string[];
 export const ChannelMemberArns = S.Array(S.String);
 export type ChannelModeratorArns = string[];
 export const ChannelModeratorArns = S.Array(S.String);
-export type TagKeyList = string[];
-export const TagKeyList = S.Array(S.String);
+export type TagKeyList = string | Redacted.Redacted<string>[];
+export const TagKeyList = S.Array(SensitiveString);
 export interface AssociateChannelFlowRequest {
   ChannelArn: string;
   ChannelFlowArn: string;
@@ -961,14 +963,14 @@ export const GetMessagingStreamingConfigurationsRequest = S.suspend(() =>
 export interface ListChannelBansRequest {
   ChannelArn: string;
   MaxResults?: number;
-  NextToken?: string;
+  NextToken?: string | Redacted.Redacted<string>;
   ChimeBearer: string;
 }
 export const ListChannelBansRequest = S.suspend(() =>
   S.Struct({
     ChannelArn: S.String.pipe(T.HttpLabel("ChannelArn")),
     MaxResults: S.optional(S.Number).pipe(T.HttpQuery("max-results")),
-    NextToken: S.optional(S.String).pipe(T.HttpQuery("next-token")),
+    NextToken: S.optional(SensitiveString).pipe(T.HttpQuery("next-token")),
     ChimeBearer: S.String.pipe(T.HttpHeader("x-amz-chime-bearer")),
   }).pipe(
     T.all(
@@ -986,13 +988,13 @@ export const ListChannelBansRequest = S.suspend(() =>
 export interface ListChannelFlowsRequest {
   AppInstanceArn: string;
   MaxResults?: number;
-  NextToken?: string;
+  NextToken?: string | Redacted.Redacted<string>;
 }
 export const ListChannelFlowsRequest = S.suspend(() =>
   S.Struct({
     AppInstanceArn: S.String.pipe(T.HttpQuery("app-instance-arn")),
     MaxResults: S.optional(S.Number).pipe(T.HttpQuery("max-results")),
-    NextToken: S.optional(S.String).pipe(T.HttpQuery("next-token")),
+    NextToken: S.optional(SensitiveString).pipe(T.HttpQuery("next-token")),
   }).pipe(
     T.all(
       T.Http({ method: "GET", uri: "/channel-flows" }),
@@ -1010,7 +1012,7 @@ export interface ListChannelMembershipsRequest {
   ChannelArn: string;
   Type?: string;
   MaxResults?: number;
-  NextToken?: string;
+  NextToken?: string | Redacted.Redacted<string>;
   ChimeBearer: string;
   SubChannelId?: string;
 }
@@ -1019,7 +1021,7 @@ export const ListChannelMembershipsRequest = S.suspend(() =>
     ChannelArn: S.String.pipe(T.HttpLabel("ChannelArn")),
     Type: S.optional(S.String).pipe(T.HttpQuery("type")),
     MaxResults: S.optional(S.Number).pipe(T.HttpQuery("max-results")),
-    NextToken: S.optional(S.String).pipe(T.HttpQuery("next-token")),
+    NextToken: S.optional(SensitiveString).pipe(T.HttpQuery("next-token")),
     ChimeBearer: S.String.pipe(T.HttpHeader("x-amz-chime-bearer")),
     SubChannelId: S.optional(S.String).pipe(T.HttpQuery("sub-channel-id")),
   }).pipe(
@@ -1038,7 +1040,7 @@ export const ListChannelMembershipsRequest = S.suspend(() =>
 export interface ListChannelMembershipsForAppInstanceUserRequest {
   AppInstanceUserArn?: string;
   MaxResults?: number;
-  NextToken?: string;
+  NextToken?: string | Redacted.Redacted<string>;
   ChimeBearer: string;
 }
 export const ListChannelMembershipsForAppInstanceUserRequest = S.suspend(() =>
@@ -1047,7 +1049,7 @@ export const ListChannelMembershipsForAppInstanceUserRequest = S.suspend(() =>
       T.HttpQuery("app-instance-user-arn"),
     ),
     MaxResults: S.optional(S.Number).pipe(T.HttpQuery("max-results")),
-    NextToken: S.optional(S.String).pipe(T.HttpQuery("next-token")),
+    NextToken: S.optional(SensitiveString).pipe(T.HttpQuery("next-token")),
     ChimeBearer: S.String.pipe(T.HttpHeader("x-amz-chime-bearer")),
   }).pipe(
     T.all(
@@ -1071,7 +1073,7 @@ export interface ListChannelMessagesRequest {
   NotBefore?: Date;
   NotAfter?: Date;
   MaxResults?: number;
-  NextToken?: string;
+  NextToken?: string | Redacted.Redacted<string>;
   ChimeBearer: string;
   SubChannelId?: string;
 }
@@ -1086,7 +1088,7 @@ export const ListChannelMessagesRequest = S.suspend(() =>
       T.HttpQuery("not-after"),
     ),
     MaxResults: S.optional(S.Number).pipe(T.HttpQuery("max-results")),
-    NextToken: S.optional(S.String).pipe(T.HttpQuery("next-token")),
+    NextToken: S.optional(SensitiveString).pipe(T.HttpQuery("next-token")),
     ChimeBearer: S.String.pipe(T.HttpHeader("x-amz-chime-bearer")),
     SubChannelId: S.optional(S.String).pipe(T.HttpQuery("sub-channel-id")),
   }).pipe(
@@ -1105,14 +1107,14 @@ export const ListChannelMessagesRequest = S.suspend(() =>
 export interface ListChannelModeratorsRequest {
   ChannelArn: string;
   MaxResults?: number;
-  NextToken?: string;
+  NextToken?: string | Redacted.Redacted<string>;
   ChimeBearer: string;
 }
 export const ListChannelModeratorsRequest = S.suspend(() =>
   S.Struct({
     ChannelArn: S.String.pipe(T.HttpLabel("ChannelArn")),
     MaxResults: S.optional(S.Number).pipe(T.HttpQuery("max-results")),
-    NextToken: S.optional(S.String).pipe(T.HttpQuery("next-token")),
+    NextToken: S.optional(SensitiveString).pipe(T.HttpQuery("next-token")),
     ChimeBearer: S.String.pipe(T.HttpHeader("x-amz-chime-bearer")),
   }).pipe(
     T.all(
@@ -1131,7 +1133,7 @@ export interface ListChannelsRequest {
   AppInstanceArn: string;
   Privacy?: string;
   MaxResults?: number;
-  NextToken?: string;
+  NextToken?: string | Redacted.Redacted<string>;
   ChimeBearer: string;
 }
 export const ListChannelsRequest = S.suspend(() =>
@@ -1139,7 +1141,7 @@ export const ListChannelsRequest = S.suspend(() =>
     AppInstanceArn: S.String.pipe(T.HttpQuery("app-instance-arn")),
     Privacy: S.optional(S.String).pipe(T.HttpQuery("privacy")),
     MaxResults: S.optional(S.Number).pipe(T.HttpQuery("max-results")),
-    NextToken: S.optional(S.String).pipe(T.HttpQuery("next-token")),
+    NextToken: S.optional(SensitiveString).pipe(T.HttpQuery("next-token")),
     ChimeBearer: S.String.pipe(T.HttpHeader("x-amz-chime-bearer")),
   }).pipe(
     T.all(
@@ -1157,13 +1159,13 @@ export const ListChannelsRequest = S.suspend(() =>
 export interface ListChannelsAssociatedWithChannelFlowRequest {
   ChannelFlowArn: string;
   MaxResults?: number;
-  NextToken?: string;
+  NextToken?: string | Redacted.Redacted<string>;
 }
 export const ListChannelsAssociatedWithChannelFlowRequest = S.suspend(() =>
   S.Struct({
     ChannelFlowArn: S.String.pipe(T.HttpQuery("channel-flow-arn")),
     MaxResults: S.optional(S.Number).pipe(T.HttpQuery("max-results")),
-    NextToken: S.optional(S.String).pipe(T.HttpQuery("next-token")),
+    NextToken: S.optional(SensitiveString).pipe(T.HttpQuery("next-token")),
   }).pipe(
     T.all(
       T.Http({
@@ -1183,7 +1185,7 @@ export const ListChannelsAssociatedWithChannelFlowRequest = S.suspend(() =>
 export interface ListChannelsModeratedByAppInstanceUserRequest {
   AppInstanceUserArn?: string;
   MaxResults?: number;
-  NextToken?: string;
+  NextToken?: string | Redacted.Redacted<string>;
   ChimeBearer: string;
 }
 export const ListChannelsModeratedByAppInstanceUserRequest = S.suspend(() =>
@@ -1192,7 +1194,7 @@ export const ListChannelsModeratedByAppInstanceUserRequest = S.suspend(() =>
       T.HttpQuery("app-instance-user-arn"),
     ),
     MaxResults: S.optional(S.Number).pipe(T.HttpQuery("max-results")),
-    NextToken: S.optional(S.String).pipe(T.HttpQuery("next-token")),
+    NextToken: S.optional(SensitiveString).pipe(T.HttpQuery("next-token")),
     ChimeBearer: S.String.pipe(T.HttpHeader("x-amz-chime-bearer")),
   }).pipe(
     T.all(
@@ -1214,14 +1216,14 @@ export interface ListSubChannelsRequest {
   ChannelArn: string;
   ChimeBearer: string;
   MaxResults?: number;
-  NextToken?: string;
+  NextToken?: string | Redacted.Redacted<string>;
 }
 export const ListSubChannelsRequest = S.suspend(() =>
   S.Struct({
     ChannelArn: S.String.pipe(T.HttpLabel("ChannelArn")),
     ChimeBearer: S.String.pipe(T.HttpHeader("x-amz-chime-bearer")),
     MaxResults: S.optional(S.Number).pipe(T.HttpQuery("max-results")),
-    NextToken: S.optional(S.String).pipe(T.HttpQuery("next-token")),
+    NextToken: S.optional(SensitiveString).pipe(T.HttpQuery("next-token")),
   }).pipe(
     T.all(
       T.Http({ method: "GET", uri: "/channels/{ChannelArn}/subchannels" }),
@@ -1316,11 +1318,11 @@ export const RedactChannelMessageRequest = S.suspend(() =>
   identifier: "RedactChannelMessageRequest",
 }) as any as S.Schema<RedactChannelMessageRequest>;
 export interface Tag {
-  Key: string;
-  Value: string;
+  Key: string | Redacted.Redacted<string>;
+  Value: string | Redacted.Redacted<string>;
 }
 export const Tag = S.suspend(() =>
-  S.Struct({ Key: S.String, Value: S.String }),
+  S.Struct({ Key: SensitiveString, Value: SensitiveString }),
 ).annotations({ identifier: "Tag" }) as any as S.Schema<Tag>;
 export type TagList = Tag[];
 export const TagList = S.Array(Tag);
@@ -1370,17 +1372,17 @@ export const UntagResourceResponse = S.suspend(() => S.Struct({})).annotations({
 }) as any as S.Schema<UntagResourceResponse>;
 export interface UpdateChannelRequest {
   ChannelArn: string;
-  Name?: string;
+  Name?: string | Redacted.Redacted<string>;
   Mode?: string;
-  Metadata?: string;
+  Metadata?: string | Redacted.Redacted<string>;
   ChimeBearer: string;
 }
 export const UpdateChannelRequest = S.suspend(() =>
   S.Struct({
     ChannelArn: S.String.pipe(T.HttpLabel("ChannelArn")),
-    Name: S.optional(S.String),
+    Name: S.optional(SensitiveString),
     Mode: S.optional(S.String),
-    Metadata: S.optional(S.String),
+    Metadata: S.optional(SensitiveString),
     ChimeBearer: S.String.pipe(T.HttpHeader("x-amz-chime-bearer")),
   }).pipe(
     T.all(
@@ -1413,14 +1415,14 @@ export const ProcessorConfiguration = S.suspend(() =>
   identifier: "ProcessorConfiguration",
 }) as any as S.Schema<ProcessorConfiguration>;
 export interface Processor {
-  Name: string;
+  Name: string | Redacted.Redacted<string>;
   Configuration: ProcessorConfiguration;
   ExecutionOrder: number;
   FallbackAction: string;
 }
 export const Processor = S.suspend(() =>
   S.Struct({
-    Name: S.String,
+    Name: SensitiveString,
     Configuration: ProcessorConfiguration,
     ExecutionOrder: S.Number,
     FallbackAction: S.String,
@@ -1431,13 +1433,13 @@ export const ProcessorList = S.Array(Processor);
 export interface UpdateChannelFlowRequest {
   ChannelFlowArn: string;
   Processors: ProcessorList;
-  Name: string;
+  Name: string | Redacted.Redacted<string>;
 }
 export const UpdateChannelFlowRequest = S.suspend(() =>
   S.Struct({
     ChannelFlowArn: S.String.pipe(T.HttpLabel("ChannelFlowArn")),
     Processors: ProcessorList,
-    Name: S.String,
+    Name: SensitiveString,
   }).pipe(
     T.all(
       T.Http({ method: "PUT", uri: "/channel-flows/{ChannelFlowArn}" }),
@@ -1454,21 +1456,21 @@ export const UpdateChannelFlowRequest = S.suspend(() =>
 export interface UpdateChannelMessageRequest {
   ChannelArn: string;
   MessageId: string;
-  Content: string;
-  Metadata?: string;
+  Content: string | Redacted.Redacted<string>;
+  Metadata?: string | Redacted.Redacted<string>;
   ChimeBearer: string;
   SubChannelId?: string;
-  ContentType?: string;
+  ContentType?: string | Redacted.Redacted<string>;
 }
 export const UpdateChannelMessageRequest = S.suspend(() =>
   S.Struct({
     ChannelArn: S.String.pipe(T.HttpLabel("ChannelArn")),
     MessageId: S.String.pipe(T.HttpLabel("MessageId")),
-    Content: S.String,
-    Metadata: S.optional(S.String),
+    Content: SensitiveString,
+    Metadata: S.optional(SensitiveString),
     ChimeBearer: S.String.pipe(T.HttpHeader("x-amz-chime-bearer")),
     SubChannelId: S.optional(S.String),
-    ContentType: S.optional(S.String),
+    ContentType: S.optional(SensitiveString),
   }).pipe(
     T.all(
       T.Http({
@@ -1509,21 +1511,21 @@ export const UpdateChannelReadMarkerRequest = S.suspend(() =>
 export type SearchFieldValues = string[];
 export const SearchFieldValues = S.Array(S.String);
 export interface PushNotificationConfiguration {
-  Title?: string;
-  Body?: string;
+  Title?: string | Redacted.Redacted<string>;
+  Body?: string | Redacted.Redacted<string>;
   Type?: string;
 }
 export const PushNotificationConfiguration = S.suspend(() =>
   S.Struct({
-    Title: S.optional(S.String),
-    Body: S.optional(S.String),
+    Title: S.optional(SensitiveString),
+    Body: S.optional(SensitiveString),
     Type: S.optional(S.String),
   }),
 ).annotations({
   identifier: "PushNotificationConfiguration",
 }) as any as S.Schema<PushNotificationConfiguration>;
-export type MessageAttributeStringValues = string[];
-export const MessageAttributeStringValues = S.Array(S.String);
+export type MessageAttributeStringValues = string | Redacted.Redacted<string>[];
+export const MessageAttributeStringValues = S.Array(SensitiveString);
 export interface MessageAttributeValue {
   StringValues?: MessageAttributeStringValues;
 }
@@ -1539,22 +1541,22 @@ export const MessageAttributeMap = S.Record({
 });
 export interface ChannelMessageCallback {
   MessageId: string;
-  Content?: string;
-  Metadata?: string;
+  Content?: string | Redacted.Redacted<string>;
+  Metadata?: string | Redacted.Redacted<string>;
   PushNotification?: PushNotificationConfiguration;
   MessageAttributes?: MessageAttributeMap;
   SubChannelId?: string;
-  ContentType?: string;
+  ContentType?: string | Redacted.Redacted<string>;
 }
 export const ChannelMessageCallback = S.suspend(() =>
   S.Struct({
     MessageId: S.String,
-    Content: S.optional(S.String),
-    Metadata: S.optional(S.String),
+    Content: S.optional(SensitiveString),
+    Metadata: S.optional(SensitiveString),
     PushNotification: S.optional(PushNotificationConfiguration),
     MessageAttributes: S.optional(MessageAttributeMap),
     SubChannelId: S.optional(S.String),
-    ContentType: S.optional(S.String),
+    ContentType: S.optional(SensitiveString),
   }),
 ).annotations({
   identifier: "ChannelMessageCallback",
@@ -1574,20 +1576,20 @@ export const ElasticChannelConfiguration = S.suspend(() =>
   identifier: "ElasticChannelConfiguration",
 }) as any as S.Schema<ElasticChannelConfiguration>;
 export interface ChannelSummary {
-  Name?: string;
+  Name?: string | Redacted.Redacted<string>;
   ChannelArn?: string;
   Mode?: string;
   Privacy?: string;
-  Metadata?: string;
+  Metadata?: string | Redacted.Redacted<string>;
   LastMessageTimestamp?: Date;
 }
 export const ChannelSummary = S.suspend(() =>
   S.Struct({
-    Name: S.optional(S.String),
+    Name: S.optional(SensitiveString),
     ChannelArn: S.optional(S.String),
     Mode: S.optional(S.String),
     Privacy: S.optional(S.String),
-    Metadata: S.optional(S.String),
+    Metadata: S.optional(SensitiveString),
     LastMessageTimestamp: S.optional(
       S.Date.pipe(T.TimestampFormat("epoch-seconds")),
     ),
@@ -1702,14 +1704,14 @@ export const ChannelFlowCallbackRequest = S.suspend(() =>
 }) as any as S.Schema<ChannelFlowCallbackRequest>;
 export interface CreateChannelRequest {
   AppInstanceArn: string;
-  Name: string;
+  Name: string | Redacted.Redacted<string>;
   Mode?: string;
   Privacy?: string;
-  Metadata?: string;
-  ClientRequestToken: string;
+  Metadata?: string | Redacted.Redacted<string>;
+  ClientRequestToken: string | Redacted.Redacted<string>;
   Tags?: TagList;
   ChimeBearer: string;
-  ChannelId?: string;
+  ChannelId?: string | Redacted.Redacted<string>;
   MemberArns?: ChannelMemberArns;
   ModeratorArns?: ChannelModeratorArns;
   ElasticChannelConfiguration?: ElasticChannelConfiguration;
@@ -1718,14 +1720,14 @@ export interface CreateChannelRequest {
 export const CreateChannelRequest = S.suspend(() =>
   S.Struct({
     AppInstanceArn: S.String,
-    Name: S.String,
+    Name: SensitiveString,
     Mode: S.optional(S.String),
     Privacy: S.optional(S.String),
-    Metadata: S.optional(S.String),
-    ClientRequestToken: S.String,
+    Metadata: S.optional(SensitiveString),
+    ClientRequestToken: SensitiveString,
     Tags: S.optional(TagList),
     ChimeBearer: S.String.pipe(T.HttpHeader("x-amz-chime-bearer")),
-    ChannelId: S.optional(S.String),
+    ChannelId: S.optional(SensitiveString),
     MemberArns: S.optional(ChannelMemberArns),
     ModeratorArns: S.optional(ChannelModeratorArns),
     ElasticChannelConfiguration: S.optional(ElasticChannelConfiguration),
@@ -1745,10 +1747,10 @@ export const CreateChannelRequest = S.suspend(() =>
 }) as any as S.Schema<CreateChannelRequest>;
 export interface Identity {
   Arn?: string;
-  Name?: string;
+  Name?: string | Redacted.Redacted<string>;
 }
 export const Identity = S.suspend(() =>
-  S.Struct({ Arn: S.optional(S.String), Name: S.optional(S.String) }),
+  S.Struct({ Arn: S.optional(S.String), Name: S.optional(SensitiveString) }),
 ).annotations({ identifier: "Identity" }) as any as S.Schema<Identity>;
 export interface CreateChannelMembershipResponse {
   ChannelArn?: string;
@@ -1778,10 +1780,13 @@ export const CreateChannelModeratorResponse = S.suspend(() =>
 }) as any as S.Schema<CreateChannelModeratorResponse>;
 export interface PushNotificationPreferences {
   AllowNotifications: string;
-  FilterRule?: string;
+  FilterRule?: string | Redacted.Redacted<string>;
 }
 export const PushNotificationPreferences = S.suspend(() =>
-  S.Struct({ AllowNotifications: S.String, FilterRule: S.optional(S.String) }),
+  S.Struct({
+    AllowNotifications: S.String,
+    FilterRule: S.optional(SensitiveString),
+  }),
 ).annotations({
   identifier: "PushNotificationPreferences",
 }) as any as S.Schema<PushNotificationPreferences>;
@@ -1817,26 +1822,26 @@ export const GetMessagingStreamingConfigurationsResponse = S.suspend(() =>
 }) as any as S.Schema<GetMessagingStreamingConfigurationsResponse>;
 export interface ListChannelMembershipsForAppInstanceUserResponse {
   ChannelMemberships?: ChannelMembershipForAppInstanceUserSummaryList;
-  NextToken?: string;
+  NextToken?: string | Redacted.Redacted<string>;
 }
 export const ListChannelMembershipsForAppInstanceUserResponse = S.suspend(() =>
   S.Struct({
     ChannelMemberships: S.optional(
       ChannelMembershipForAppInstanceUserSummaryList,
     ),
-    NextToken: S.optional(S.String),
+    NextToken: S.optional(SensitiveString),
   }),
 ).annotations({
   identifier: "ListChannelMembershipsForAppInstanceUserResponse",
 }) as any as S.Schema<ListChannelMembershipsForAppInstanceUserResponse>;
 export interface ListChannelsModeratedByAppInstanceUserResponse {
   Channels?: ChannelModeratedByAppInstanceUserSummaryList;
-  NextToken?: string;
+  NextToken?: string | Redacted.Redacted<string>;
 }
 export const ListChannelsModeratedByAppInstanceUserResponse = S.suspend(() =>
   S.Struct({
     Channels: S.optional(ChannelModeratedByAppInstanceUserSummaryList),
-    NextToken: S.optional(S.String),
+    NextToken: S.optional(SensitiveString),
   }),
 ).annotations({
   identifier: "ListChannelsModeratedByAppInstanceUserResponse",
@@ -1903,14 +1908,14 @@ export interface SearchChannelsRequest {
   ChimeBearer?: string;
   Fields: SearchFields;
   MaxResults?: number;
-  NextToken?: string;
+  NextToken?: string | Redacted.Redacted<string>;
 }
 export const SearchChannelsRequest = S.suspend(() =>
   S.Struct({
     ChimeBearer: S.optional(S.String).pipe(T.HttpHeader("x-amz-chime-bearer")),
     Fields: SearchFields,
     MaxResults: S.optional(S.Number).pipe(T.HttpQuery("max-results")),
-    NextToken: S.optional(S.String).pipe(T.HttpQuery("next-token")),
+    NextToken: S.optional(SensitiveString).pipe(T.HttpQuery("next-token")),
   }).pipe(
     T.all(
       T.Http({ method: "POST", uri: "/channels?operation=search" }),
@@ -2013,11 +2018,11 @@ export const BatchCreateChannelMembershipErrors = S.Array(
   BatchCreateChannelMembershipError,
 );
 export interface Channel {
-  Name?: string;
+  Name?: string | Redacted.Redacted<string>;
   ChannelArn?: string;
   Mode?: string;
   Privacy?: string;
-  Metadata?: string;
+  Metadata?: string | Redacted.Redacted<string>;
   CreatedBy?: Identity;
   CreatedTimestamp?: Date;
   LastMessageTimestamp?: Date;
@@ -2028,11 +2033,11 @@ export interface Channel {
 }
 export const Channel = S.suspend(() =>
   S.Struct({
-    Name: S.optional(S.String),
+    Name: S.optional(SensitiveString),
     ChannelArn: S.optional(S.String),
     Mode: S.optional(S.String),
     Privacy: S.optional(S.String),
-    Metadata: S.optional(S.String),
+    Metadata: S.optional(SensitiveString),
     CreatedBy: S.optional(Identity),
     CreatedTimestamp: S.optional(
       S.Date.pipe(T.TimestampFormat("epoch-seconds")),
@@ -2067,7 +2072,7 @@ export const ChannelBan = S.suspend(() =>
 export interface ChannelFlow {
   ChannelFlowArn?: string;
   Processors?: ProcessorList;
-  Name?: string;
+  Name?: string | Redacted.Redacted<string>;
   CreatedTimestamp?: Date;
   LastUpdatedTimestamp?: Date;
 }
@@ -2075,7 +2080,7 @@ export const ChannelFlow = S.suspend(() =>
   S.Struct({
     ChannelFlowArn: S.optional(S.String),
     Processors: S.optional(ProcessorList),
-    Name: S.optional(S.String),
+    Name: S.optional(SensitiveString),
     CreatedTimestamp: S.optional(
       S.Date.pipe(T.TimestampFormat("epoch-seconds")),
     ),
@@ -2131,8 +2136,8 @@ export const ChannelModerator = S.suspend(() =>
 export interface ChannelMessage {
   ChannelArn?: string;
   MessageId?: string;
-  Content?: string;
-  Metadata?: string;
+  Content?: string | Redacted.Redacted<string>;
+  Metadata?: string | Redacted.Redacted<string>;
   Type?: string;
   CreatedTimestamp?: Date;
   LastEditedTimestamp?: Date;
@@ -2143,15 +2148,15 @@ export interface ChannelMessage {
   Status?: ChannelMessageStatusStructure;
   MessageAttributes?: MessageAttributeMap;
   SubChannelId?: string;
-  ContentType?: string;
+  ContentType?: string | Redacted.Redacted<string>;
   Target?: TargetList;
 }
 export const ChannelMessage = S.suspend(() =>
   S.Struct({
     ChannelArn: S.optional(S.String),
     MessageId: S.optional(S.String),
-    Content: S.optional(S.String),
-    Metadata: S.optional(S.String),
+    Content: S.optional(SensitiveString),
+    Metadata: S.optional(SensitiveString),
     Type: S.optional(S.String),
     CreatedTimestamp: S.optional(
       S.Date.pipe(T.TimestampFormat("epoch-seconds")),
@@ -2168,7 +2173,7 @@ export const ChannelMessage = S.suspend(() =>
     Status: S.optional(ChannelMessageStatusStructure),
     MessageAttributes: S.optional(MessageAttributeMap),
     SubChannelId: S.optional(S.String),
-    ContentType: S.optional(S.String),
+    ContentType: S.optional(SensitiveString),
     Target: S.optional(TargetList),
   }),
 ).annotations({
@@ -2194,13 +2199,13 @@ export type ChannelBanSummaryList = ChannelBanSummary[];
 export const ChannelBanSummaryList = S.Array(ChannelBanSummary);
 export interface ChannelFlowSummary {
   ChannelFlowArn?: string;
-  Name?: string;
+  Name?: string | Redacted.Redacted<string>;
   Processors?: ProcessorList;
 }
 export const ChannelFlowSummary = S.suspend(() =>
   S.Struct({
     ChannelFlowArn: S.optional(S.String),
-    Name: S.optional(S.String),
+    Name: S.optional(SensitiveString),
     Processors: S.optional(ProcessorList),
   }),
 ).annotations({
@@ -2220,8 +2225,8 @@ export type ChannelMembershipSummaryList = ChannelMembershipSummary[];
 export const ChannelMembershipSummaryList = S.Array(ChannelMembershipSummary);
 export interface ChannelMessageSummary {
   MessageId?: string;
-  Content?: string;
-  Metadata?: string;
+  Content?: string | Redacted.Redacted<string>;
+  Metadata?: string | Redacted.Redacted<string>;
   Type?: string;
   CreatedTimestamp?: Date;
   LastUpdatedTimestamp?: Date;
@@ -2230,14 +2235,14 @@ export interface ChannelMessageSummary {
   Redacted?: boolean;
   Status?: ChannelMessageStatusStructure;
   MessageAttributes?: MessageAttributeMap;
-  ContentType?: string;
+  ContentType?: string | Redacted.Redacted<string>;
   Target?: TargetList;
 }
 export const ChannelMessageSummary = S.suspend(() =>
   S.Struct({
     MessageId: S.optional(S.String),
-    Content: S.optional(S.String),
-    Metadata: S.optional(S.String),
+    Content: S.optional(SensitiveString),
+    Metadata: S.optional(SensitiveString),
     Type: S.optional(S.String),
     CreatedTimestamp: S.optional(
       S.Date.pipe(T.TimestampFormat("epoch-seconds")),
@@ -2252,7 +2257,7 @@ export const ChannelMessageSummary = S.suspend(() =>
     Redacted: S.optional(S.Boolean),
     Status: S.optional(ChannelMessageStatusStructure),
     MessageAttributes: S.optional(MessageAttributeMap),
-    ContentType: S.optional(S.String),
+    ContentType: S.optional(SensitiveString),
     Target: S.optional(TargetList),
   }),
 ).annotations({
@@ -2273,19 +2278,19 @@ export const ChannelModeratorSummaryList = S.Array(ChannelModeratorSummary);
 export type ChannelSummaryList = ChannelSummary[];
 export const ChannelSummaryList = S.Array(ChannelSummary);
 export interface ChannelAssociatedWithFlowSummary {
-  Name?: string;
+  Name?: string | Redacted.Redacted<string>;
   ChannelArn?: string;
   Mode?: string;
   Privacy?: string;
-  Metadata?: string;
+  Metadata?: string | Redacted.Redacted<string>;
 }
 export const ChannelAssociatedWithFlowSummary = S.suspend(() =>
   S.Struct({
-    Name: S.optional(S.String),
+    Name: S.optional(SensitiveString),
     ChannelArn: S.optional(S.String),
     Mode: S.optional(S.String),
     Privacy: S.optional(S.String),
-    Metadata: S.optional(S.String),
+    Metadata: S.optional(SensitiveString),
   }),
 ).annotations({
   identifier: "ChannelAssociatedWithFlowSummary",
@@ -2424,13 +2429,13 @@ export const GetMessagingSessionEndpointResponse = S.suspend(() =>
 }) as any as S.Schema<GetMessagingSessionEndpointResponse>;
 export interface ListChannelBansResponse {
   ChannelArn?: string;
-  NextToken?: string;
+  NextToken?: string | Redacted.Redacted<string>;
   ChannelBans?: ChannelBanSummaryList;
 }
 export const ListChannelBansResponse = S.suspend(() =>
   S.Struct({
     ChannelArn: S.optional(S.String),
-    NextToken: S.optional(S.String),
+    NextToken: S.optional(SensitiveString),
     ChannelBans: S.optional(ChannelBanSummaryList),
   }),
 ).annotations({
@@ -2438,12 +2443,12 @@ export const ListChannelBansResponse = S.suspend(() =>
 }) as any as S.Schema<ListChannelBansResponse>;
 export interface ListChannelFlowsResponse {
   ChannelFlows?: ChannelFlowSummaryList;
-  NextToken?: string;
+  NextToken?: string | Redacted.Redacted<string>;
 }
 export const ListChannelFlowsResponse = S.suspend(() =>
   S.Struct({
     ChannelFlows: S.optional(ChannelFlowSummaryList),
-    NextToken: S.optional(S.String),
+    NextToken: S.optional(SensitiveString),
   }),
 ).annotations({
   identifier: "ListChannelFlowsResponse",
@@ -2451,27 +2456,27 @@ export const ListChannelFlowsResponse = S.suspend(() =>
 export interface ListChannelMembershipsResponse {
   ChannelArn?: string;
   ChannelMemberships?: ChannelMembershipSummaryList;
-  NextToken?: string;
+  NextToken?: string | Redacted.Redacted<string>;
 }
 export const ListChannelMembershipsResponse = S.suspend(() =>
   S.Struct({
     ChannelArn: S.optional(S.String),
     ChannelMemberships: S.optional(ChannelMembershipSummaryList),
-    NextToken: S.optional(S.String),
+    NextToken: S.optional(SensitiveString),
   }),
 ).annotations({
   identifier: "ListChannelMembershipsResponse",
 }) as any as S.Schema<ListChannelMembershipsResponse>;
 export interface ListChannelMessagesResponse {
   ChannelArn?: string;
-  NextToken?: string;
+  NextToken?: string | Redacted.Redacted<string>;
   ChannelMessages?: ChannelMessageSummaryList;
   SubChannelId?: string;
 }
 export const ListChannelMessagesResponse = S.suspend(() =>
   S.Struct({
     ChannelArn: S.optional(S.String),
-    NextToken: S.optional(S.String),
+    NextToken: S.optional(SensitiveString),
     ChannelMessages: S.optional(ChannelMessageSummaryList),
     SubChannelId: S.optional(S.String),
   }),
@@ -2480,13 +2485,13 @@ export const ListChannelMessagesResponse = S.suspend(() =>
 }) as any as S.Schema<ListChannelMessagesResponse>;
 export interface ListChannelModeratorsResponse {
   ChannelArn?: string;
-  NextToken?: string;
+  NextToken?: string | Redacted.Redacted<string>;
   ChannelModerators?: ChannelModeratorSummaryList;
 }
 export const ListChannelModeratorsResponse = S.suspend(() =>
   S.Struct({
     ChannelArn: S.optional(S.String),
-    NextToken: S.optional(S.String),
+    NextToken: S.optional(SensitiveString),
     ChannelModerators: S.optional(ChannelModeratorSummaryList),
   }),
 ).annotations({
@@ -2494,24 +2499,24 @@ export const ListChannelModeratorsResponse = S.suspend(() =>
 }) as any as S.Schema<ListChannelModeratorsResponse>;
 export interface ListChannelsResponse {
   Channels?: ChannelSummaryList;
-  NextToken?: string;
+  NextToken?: string | Redacted.Redacted<string>;
 }
 export const ListChannelsResponse = S.suspend(() =>
   S.Struct({
     Channels: S.optional(ChannelSummaryList),
-    NextToken: S.optional(S.String),
+    NextToken: S.optional(SensitiveString),
   }),
 ).annotations({
   identifier: "ListChannelsResponse",
 }) as any as S.Schema<ListChannelsResponse>;
 export interface ListChannelsAssociatedWithChannelFlowResponse {
   Channels?: ChannelAssociatedWithFlowSummaryList;
-  NextToken?: string;
+  NextToken?: string | Redacted.Redacted<string>;
 }
 export const ListChannelsAssociatedWithChannelFlowResponse = S.suspend(() =>
   S.Struct({
     Channels: S.optional(ChannelAssociatedWithFlowSummaryList),
-    NextToken: S.optional(S.String),
+    NextToken: S.optional(SensitiveString),
   }),
 ).annotations({
   identifier: "ListChannelsAssociatedWithChannelFlowResponse",
@@ -2519,13 +2524,13 @@ export const ListChannelsAssociatedWithChannelFlowResponse = S.suspend(() =>
 export interface ListSubChannelsResponse {
   ChannelArn?: string;
   SubChannels?: SubChannelSummaryList;
-  NextToken?: string;
+  NextToken?: string | Redacted.Redacted<string>;
 }
 export const ListSubChannelsResponse = S.suspend(() =>
   S.Struct({
     ChannelArn: S.optional(S.String),
     SubChannels: S.optional(SubChannelSummaryList),
-    NextToken: S.optional(S.String),
+    NextToken: S.optional(SensitiveString),
   }),
 ).annotations({
   identifier: "ListSubChannelsResponse",
@@ -2568,43 +2573,43 @@ export const PutMessagingStreamingConfigurationsResponse = S.suspend(() =>
 }) as any as S.Schema<PutMessagingStreamingConfigurationsResponse>;
 export interface SearchChannelsResponse {
   Channels?: ChannelSummaryList;
-  NextToken?: string;
+  NextToken?: string | Redacted.Redacted<string>;
 }
 export const SearchChannelsResponse = S.suspend(() =>
   S.Struct({
     Channels: S.optional(ChannelSummaryList),
-    NextToken: S.optional(S.String),
+    NextToken: S.optional(SensitiveString),
   }),
 ).annotations({
   identifier: "SearchChannelsResponse",
 }) as any as S.Schema<SearchChannelsResponse>;
 export interface SendChannelMessageRequest {
   ChannelArn: string;
-  Content: string;
+  Content: string | Redacted.Redacted<string>;
   Type: string;
   Persistence: string;
-  Metadata?: string;
-  ClientRequestToken: string;
+  Metadata?: string | Redacted.Redacted<string>;
+  ClientRequestToken: string | Redacted.Redacted<string>;
   ChimeBearer: string;
   PushNotification?: PushNotificationConfiguration;
   MessageAttributes?: MessageAttributeMap;
   SubChannelId?: string;
-  ContentType?: string;
+  ContentType?: string | Redacted.Redacted<string>;
   Target?: TargetList;
 }
 export const SendChannelMessageRequest = S.suspend(() =>
   S.Struct({
     ChannelArn: S.String.pipe(T.HttpLabel("ChannelArn")),
-    Content: S.String,
+    Content: SensitiveString,
     Type: S.String,
     Persistence: S.String,
-    Metadata: S.optional(S.String),
-    ClientRequestToken: S.String,
+    Metadata: S.optional(SensitiveString),
+    ClientRequestToken: SensitiveString,
     ChimeBearer: S.String.pipe(T.HttpHeader("x-amz-chime-bearer")),
     PushNotification: S.optional(PushNotificationConfiguration),
     MessageAttributes: S.optional(MessageAttributeMap),
     SubChannelId: S.optional(S.String),
-    ContentType: S.optional(S.String),
+    ContentType: S.optional(SensitiveString),
     Target: S.optional(TargetList),
   }).pipe(
     T.all(
@@ -2622,17 +2627,17 @@ export const SendChannelMessageRequest = S.suspend(() =>
 export interface CreateChannelFlowRequest {
   AppInstanceArn: string;
   Processors: ProcessorList;
-  Name: string;
+  Name: string | Redacted.Redacted<string>;
   Tags?: TagList;
-  ClientRequestToken: string;
+  ClientRequestToken: string | Redacted.Redacted<string>;
 }
 export const CreateChannelFlowRequest = S.suspend(() =>
   S.Struct({
     AppInstanceArn: S.String,
     Processors: ProcessorList,
-    Name: S.String,
+    Name: SensitiveString,
     Tags: S.optional(TagList),
-    ClientRequestToken: S.String,
+    ClientRequestToken: SensitiveString,
   }).pipe(
     T.all(
       T.Http({ method: "POST", uri: "/channel-flows" }),

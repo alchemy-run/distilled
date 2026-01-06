@@ -1,5 +1,6 @@
 import { HttpClient } from "@effect/platform";
 import * as Effect from "effect/Effect";
+import * as Redacted from "effect/Redacted";
 import * as S from "effect/Schema";
 import * as Stream from "effect/Stream";
 import * as API from "../api.ts";
@@ -10,6 +11,7 @@ import {
   ErrorCategory,
   Errors,
 } from "../index.ts";
+import { SensitiveString, SensitiveBlob } from "../sensitive.ts";
 const svc = T.AwsApiService({
   sdkId: "GameLiftStreams",
   serviceShapeName: "GameLiftStreams",
@@ -116,7 +118,7 @@ const rules = T.EndpointRuleSet({
 //# Newtypes
 export type Identifier = string;
 export type ClientToken = string;
-export type SignalRequest = string;
+export type SignalRequest = string | Redacted.Redacted<string>;
 export type OutputUri = string;
 export type NextToken = string;
 export type MaxResults = number;
@@ -137,7 +139,7 @@ export type TargetIdleCapacity = number;
 export type MaximumCapacity = number;
 export type TagValue = string;
 export type RuntimeEnvironmentVersion = string;
-export type SignalResponse = string;
+export type SignalResponse = string | Redacted.Redacted<string>;
 export type Id = string;
 export type FileLocationUri = string;
 export type WebSdkProtocolUrl = string;
@@ -185,7 +187,7 @@ export interface CreateStreamSessionConnectionInput {
   ClientToken?: string;
   Identifier: string;
   StreamSessionIdentifier: string;
-  SignalRequest: string;
+  SignalRequest: string | Redacted.Redacted<string>;
 }
 export const CreateStreamSessionConnectionInput = S.suspend(() =>
   S.Struct({
@@ -194,7 +196,7 @@ export const CreateStreamSessionConnectionInput = S.suspend(() =>
     StreamSessionIdentifier: S.String.pipe(
       T.HttpLabel("StreamSessionIdentifier"),
     ),
-    SignalRequest: S.String,
+    SignalRequest: SensitiveString,
   }).pipe(
     T.all(
       T.Http({
@@ -733,10 +735,10 @@ export const AssociateApplicationsOutput = S.suspend(() =>
   identifier: "AssociateApplicationsOutput",
 }) as any as S.Schema<AssociateApplicationsOutput>;
 export interface CreateStreamSessionConnectionOutput {
-  SignalResponse?: string;
+  SignalResponse?: string | Redacted.Redacted<string>;
 }
 export const CreateStreamSessionConnectionOutput = S.suspend(() =>
-  S.Struct({ SignalResponse: S.optional(S.String) }),
+  S.Struct({ SignalResponse: S.optional(SensitiveString) }),
 ).annotations({
   identifier: "CreateStreamSessionConnectionOutput",
 }) as any as S.Schema<CreateStreamSessionConnectionOutput>;
@@ -818,7 +820,7 @@ export interface StartStreamSessionInput {
   Description?: string;
   Identifier: string;
   Protocol: string;
-  SignalRequest: string;
+  SignalRequest: string | Redacted.Redacted<string>;
   ApplicationIdentifier: string;
   UserId?: string;
   Locations?: LocationList;
@@ -834,7 +836,7 @@ export const StartStreamSessionInput = S.suspend(() =>
     Description: S.optional(S.String),
     Identifier: S.String.pipe(T.HttpLabel("Identifier")),
     Protocol: S.String,
-    SignalRequest: S.String,
+    SignalRequest: SensitiveString,
     ApplicationIdentifier: S.String,
     UserId: S.optional(S.String),
     Locations: S.optional(LocationList),
@@ -1135,8 +1137,8 @@ export interface GetStreamSessionOutput {
   StatusReason?: string;
   Protocol?: string;
   Location?: string;
-  SignalRequest?: string;
-  SignalResponse?: string;
+  SignalRequest?: string | Redacted.Redacted<string>;
+  SignalResponse?: string | Redacted.Redacted<string>;
   ConnectionTimeoutSeconds?: number;
   SessionLengthSeconds?: number;
   AdditionalLaunchArgs?: GameLaunchArgList;
@@ -1159,8 +1161,8 @@ export const GetStreamSessionOutput = S.suspend(() =>
     StatusReason: S.optional(S.String),
     Protocol: S.optional(S.String),
     Location: S.optional(S.String),
-    SignalRequest: S.optional(S.String),
-    SignalResponse: S.optional(S.String),
+    SignalRequest: S.optional(SensitiveString),
+    SignalResponse: S.optional(SensitiveString),
     ConnectionTimeoutSeconds: S.optional(S.Number),
     SessionLengthSeconds: S.optional(S.Number),
     AdditionalLaunchArgs: S.optional(GameLaunchArgList),
@@ -1197,8 +1199,8 @@ export interface StartStreamSessionOutput {
   StatusReason?: string;
   Protocol?: string;
   Location?: string;
-  SignalRequest?: string;
-  SignalResponse?: string;
+  SignalRequest?: string | Redacted.Redacted<string>;
+  SignalResponse?: string | Redacted.Redacted<string>;
   ConnectionTimeoutSeconds?: number;
   SessionLengthSeconds?: number;
   AdditionalLaunchArgs?: GameLaunchArgList;
@@ -1221,8 +1223,8 @@ export const StartStreamSessionOutput = S.suspend(() =>
     StatusReason: S.optional(S.String),
     Protocol: S.optional(S.String),
     Location: S.optional(S.String),
-    SignalRequest: S.optional(S.String),
-    SignalResponse: S.optional(S.String),
+    SignalRequest: S.optional(SensitiveString),
+    SignalResponse: S.optional(SensitiveString),
     ConnectionTimeoutSeconds: S.optional(S.Number),
     SessionLengthSeconds: S.optional(S.Number),
     AdditionalLaunchArgs: S.optional(GameLaunchArgList),

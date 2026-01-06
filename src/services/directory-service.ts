@@ -1,5 +1,6 @@
 import { HttpClient } from "@effect/platform";
 import * as Effect from "effect/Effect";
+import * as Redacted from "effect/Redacted";
 import * as S from "effect/Schema";
 import * as Stream from "effect/Stream";
 import * as API from "../api.ts";
@@ -10,6 +11,7 @@ import {
   ErrorCategory,
   Errors,
 } from "../index.ts";
+import { SensitiveString, SensitiveBlob } from "../sensitive.ts";
 const ns = T.XmlNamespace(
   "http://directoryservice.amazonaws.com/doc/2015-04-16/",
 );
@@ -259,21 +261,21 @@ export type ResourceId = string;
 export type SchemaExtensionId = string;
 export type DirectoryName = string;
 export type DirectoryShortName = string;
-export type ConnectPassword = string;
+export type ConnectPassword = string | Redacted.Redacted<string>;
 export type Description = string;
 export type AliasName = string;
 export type ComputerName = string;
-export type ComputerPassword = string;
+export type ComputerPassword = string | Redacted.Redacted<string>;
 export type OrganizationalUnitDN = string;
 export type RemoteDomainName = string;
 export type IpAddr = string;
 export type Ipv6Addr = string;
-export type Password = string;
+export type Password = string | Redacted.Redacted<string>;
 export type SecretArn = string;
 export type AssessmentId = string;
 export type LogGroupName = string;
 export type SnapshotName = string;
-export type TrustPassword = string;
+export type TrustPassword = string | Redacted.Redacted<string>;
 export type SnapshotId = string;
 export type TrustId = string;
 export type CertificateId = string;
@@ -290,8 +292,8 @@ export type CidrIp = string;
 export type CidrIpv6 = string;
 export type TagKey = string;
 export type CustomerUserName = string;
-export type UserPassword = string;
-export type Notes = string;
+export type UserPassword = string | Redacted.Redacted<string>;
+export type Notes = string | Redacted.Redacted<string>;
 export type LdifContent = string;
 export type DesiredNumberOfDomainControllers = number;
 export type VpcId = string;
@@ -303,7 +305,7 @@ export type Server = string;
 export type PortNumber = number;
 export type RadiusTimeout = number;
 export type RadiusRetries = number;
-export type RadiusSharedSecret = string;
+export type RadiusSharedSecret = string | Redacted.Redacted<string>;
 export type RadiusDisplayLabel = string;
 export type OCSPUrl = string;
 export type TargetId = string;
@@ -500,7 +502,7 @@ export const Tags = S.Array(Tag);
 export interface CreateDirectoryRequest {
   Name: string;
   ShortName?: string;
-  Password: string;
+  Password: string | Redacted.Redacted<string>;
   Description?: string;
   Size: string;
   VpcSettings?: DirectoryVpcSettings;
@@ -511,7 +513,7 @@ export const CreateDirectoryRequest = S.suspend(() =>
   S.Struct({
     Name: S.String,
     ShortName: S.optional(S.String),
-    Password: S.String,
+    Password: SensitiveString,
     Description: S.optional(S.String),
     Size: S.String,
     VpcSettings: S.optional(DirectoryVpcSettings),
@@ -583,7 +585,7 @@ export const CreateLogSubscriptionResult = S.suspend(() =>
 export interface CreateMicrosoftADRequest {
   Name: string;
   ShortName?: string;
-  Password: string;
+  Password: string | Redacted.Redacted<string>;
   Description?: string;
   VpcSettings: DirectoryVpcSettings;
   Edition?: string;
@@ -594,7 +596,7 @@ export const CreateMicrosoftADRequest = S.suspend(() =>
   S.Struct({
     Name: S.String,
     ShortName: S.optional(S.String),
-    Password: S.String,
+    Password: SensitiveString,
     Description: S.optional(S.String),
     VpcSettings: DirectoryVpcSettings,
     Edition: S.optional(S.String),
@@ -636,7 +638,7 @@ export const CreateSnapshotRequest = S.suspend(() =>
 export interface CreateTrustRequest {
   DirectoryId: string;
   RemoteDomainName: string;
-  TrustPassword: string;
+  TrustPassword: string | Redacted.Redacted<string>;
   TrustDirection: string;
   TrustType?: string;
   ConditionalForwarderIpAddrs?: DnsIpAddrs;
@@ -647,7 +649,7 @@ export const CreateTrustRequest = S.suspend(() =>
   S.Struct({
     DirectoryId: S.String,
     RemoteDomainName: S.String,
-    TrustPassword: S.String,
+    TrustPassword: SensitiveString,
     TrustDirection: S.String,
     TrustType: S.optional(S.String),
     ConditionalForwarderIpAddrs: S.optional(DnsIpAddrs),
@@ -1362,13 +1364,13 @@ export const DisableRadiusResult = S.suspend(() =>
 export interface DisableSsoRequest {
   DirectoryId: string;
   UserName?: string;
-  Password?: string;
+  Password?: string | Redacted.Redacted<string>;
 }
 export const DisableSsoRequest = S.suspend(() =>
   S.Struct({
     DirectoryId: S.String,
     UserName: S.optional(S.String),
-    Password: S.optional(S.String),
+    Password: S.optional(SensitiveString),
   }).pipe(
     T.all(
       ns,
@@ -1491,13 +1493,13 @@ export const EnableLDAPSResult = S.suspend(() =>
 export interface EnableSsoRequest {
   DirectoryId: string;
   UserName?: string;
-  Password?: string;
+  Password?: string | Redacted.Redacted<string>;
 }
 export const EnableSsoRequest = S.suspend(() =>
   S.Struct({
     DirectoryId: S.String,
     UserName: S.optional(S.String),
-    Password: S.optional(S.String),
+    Password: S.optional(SensitiveString),
   }).pipe(
     T.all(
       ns,
@@ -1805,13 +1807,13 @@ export const RemoveTagsFromResourceResult = S.suspend(() =>
 export interface ResetUserPasswordRequest {
   DirectoryId: string;
   UserName: string;
-  NewPassword: string;
+  NewPassword: string | Redacted.Redacted<string>;
 }
 export const ResetUserPasswordRequest = S.suspend(() =>
   S.Struct({
     DirectoryId: S.String,
     UserName: S.String,
-    NewPassword: S.String,
+    NewPassword: SensitiveString,
   }).pipe(
     T.all(
       ns,
@@ -1947,7 +1949,7 @@ export interface RadiusSettings {
   RadiusPort?: number;
   RadiusTimeout?: number;
   RadiusRetries?: number;
-  SharedSecret?: string;
+  SharedSecret?: string | Redacted.Redacted<string>;
   AuthenticationProtocol?: string;
   DisplayLabel?: string;
   UseSameUsername?: boolean;
@@ -1959,7 +1961,7 @@ export const RadiusSettings = S.suspend(() =>
     RadiusPort: S.optional(S.Number),
     RadiusTimeout: S.optional(S.Number),
     RadiusRetries: S.optional(S.Number),
-    SharedSecret: S.optional(S.String),
+    SharedSecret: S.optional(SensitiveString),
     AuthenticationProtocol: S.optional(S.String),
     DisplayLabel: S.optional(S.String),
     UseSameUsername: S.optional(S.Boolean),
@@ -2083,7 +2085,7 @@ export interface SharedDirectory {
   SharedAccountId?: string;
   SharedDirectoryId?: string;
   ShareStatus?: string;
-  ShareNotes?: string;
+  ShareNotes?: string | Redacted.Redacted<string>;
   CreatedDateTime?: Date;
   LastUpdatedDateTime?: Date;
 }
@@ -2095,7 +2097,7 @@ export const SharedDirectory = S.suspend(() =>
     SharedAccountId: S.optional(S.String),
     SharedDirectoryId: S.optional(S.String),
     ShareStatus: S.optional(S.String),
-    ShareNotes: S.optional(S.String),
+    ShareNotes: S.optional(SensitiveString),
     CreatedDateTime: S.optional(
       S.Date.pipe(T.TimestampFormat("epoch-seconds")),
     ),
@@ -2321,7 +2323,7 @@ export const AddTagsToResourceResult = S.suspend(() =>
 export interface ConnectDirectoryRequest {
   Name: string;
   ShortName?: string;
-  Password: string;
+  Password: string | Redacted.Redacted<string>;
   Description?: string;
   Size: string;
   ConnectSettings: DirectoryConnectSettings;
@@ -2332,7 +2334,7 @@ export const ConnectDirectoryRequest = S.suspend(() =>
   S.Struct({
     Name: S.String,
     ShortName: S.optional(S.String),
-    Password: S.String,
+    Password: SensitiveString,
     Description: S.optional(S.String),
     Size: S.String,
     ConnectSettings: DirectoryConnectSettings,
@@ -2367,7 +2369,7 @@ export const CreateAliasResult = S.suspend(() =>
 export interface CreateComputerRequest {
   DirectoryId: string;
   ComputerName: string;
-  Password: string;
+  Password: string | Redacted.Redacted<string>;
   OrganizationalUnitDistinguishedName?: string;
   ComputerAttributes?: Attributes;
 }
@@ -2375,7 +2377,7 @@ export const CreateComputerRequest = S.suspend(() =>
   S.Struct({
     DirectoryId: S.String,
     ComputerName: S.String,
-    Password: S.String,
+    Password: SensitiveString,
     OrganizationalUnitDistinguishedName: S.optional(S.String),
     ComputerAttributes: S.optional(Attributes),
   }).pipe(
@@ -2584,14 +2586,14 @@ export const RejectSharedDirectoryResult = S.suspend(() =>
 }) as any as S.Schema<RejectSharedDirectoryResult>;
 export interface ShareDirectoryRequest {
   DirectoryId: string;
-  ShareNotes?: string;
+  ShareNotes?: string | Redacted.Redacted<string>;
   ShareTarget: ShareTarget;
   ShareMethod: string;
 }
 export const ShareDirectoryRequest = S.suspend(() =>
   S.Struct({
     DirectoryId: S.String,
-    ShareNotes: S.optional(S.String),
+    ShareNotes: S.optional(SensitiveString),
     ShareTarget: ShareTarget,
     ShareMethod: S.String,
   }).pipe(
@@ -3552,7 +3554,7 @@ export interface DirectoryDescription {
   Stage?: string;
   ShareStatus?: string;
   ShareMethod?: string;
-  ShareNotes?: string;
+  ShareNotes?: string | Redacted.Redacted<string>;
   LaunchTime?: Date;
   StageLastUpdatedDateTime?: Date;
   Type?: string;
@@ -3584,7 +3586,7 @@ export const DirectoryDescription = S.suspend(() =>
     Stage: S.optional(S.String),
     ShareStatus: S.optional(S.String),
     ShareMethod: S.optional(S.String),
-    ShareNotes: S.optional(S.String),
+    ShareNotes: S.optional(SensitiveString),
     LaunchTime: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
     StageLastUpdatedDateTime: S.optional(
       S.Date.pipe(T.TimestampFormat("epoch-seconds")),

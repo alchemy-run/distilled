@@ -1,5 +1,6 @@
 import { HttpClient } from "@effect/platform";
 import * as Effect from "effect/Effect";
+import * as Redacted from "effect/Redacted";
 import * as S from "effect/Schema";
 import * as Stream from "effect/Stream";
 import * as API from "../api.ts";
@@ -10,6 +11,7 @@ import {
   ErrorCategory,
   Errors,
 } from "../index.ts";
+import { SensitiveString, SensitiveBlob } from "../sensitive.ts";
 const ns = T.XmlNamespace("http://apprunner.amazonaws.com/doc/2020-05-15/");
 const svc = T.AwsApiService({
   sdkId: "AppRunner",
@@ -289,12 +291,14 @@ export type MinSize = number;
 export type MaxSize = number;
 export type ServiceId = string;
 export type CustomerAccountId = string;
-export type StartCommand = string;
-export type BuildCommand = string;
-export type RuntimeEnvironmentVariablesKey = string;
-export type RuntimeEnvironmentVariablesValue = string;
-export type RuntimeEnvironmentSecretsName = string;
-export type RuntimeEnvironmentSecretsValue = string;
+export type StartCommand = string | Redacted.Redacted<string>;
+export type BuildCommand = string | Redacted.Redacted<string>;
+export type RuntimeEnvironmentVariablesKey = string | Redacted.Redacted<string>;
+export type RuntimeEnvironmentVariablesValue =
+  | string
+  | Redacted.Redacted<string>;
+export type RuntimeEnvironmentSecretsName = string | Redacted.Redacted<string>;
+export type RuntimeEnvironmentSecretsValue = string | Redacted.Redacted<string>;
 
 //# Schemas
 export type StringList = string[];
@@ -946,20 +950,24 @@ export const SourceCodeVersion = S.suspend(() =>
 ).annotations({
   identifier: "SourceCodeVersion",
 }) as any as S.Schema<SourceCodeVersion>;
-export type RuntimeEnvironmentVariables = { [key: string]: string };
+export type RuntimeEnvironmentVariables = {
+  [key: string]: string | Redacted.Redacted<string>;
+};
 export const RuntimeEnvironmentVariables = S.Record({
   key: S.String,
-  value: S.String,
+  value: SensitiveString,
 });
-export type RuntimeEnvironmentSecrets = { [key: string]: string };
+export type RuntimeEnvironmentSecrets = {
+  [key: string]: string | Redacted.Redacted<string>;
+};
 export const RuntimeEnvironmentSecrets = S.Record({
   key: S.String,
-  value: S.String,
+  value: SensitiveString,
 });
 export interface CodeConfigurationValues {
   Runtime: string;
-  BuildCommand?: string;
-  StartCommand?: string;
+  BuildCommand?: string | Redacted.Redacted<string>;
+  StartCommand?: string | Redacted.Redacted<string>;
   Port?: string;
   RuntimeEnvironmentVariables?: RuntimeEnvironmentVariables;
   RuntimeEnvironmentSecrets?: RuntimeEnvironmentSecrets;
@@ -967,8 +975,8 @@ export interface CodeConfigurationValues {
 export const CodeConfigurationValues = S.suspend(() =>
   S.Struct({
     Runtime: S.String,
-    BuildCommand: S.optional(S.String),
-    StartCommand: S.optional(S.String),
+    BuildCommand: S.optional(SensitiveString),
+    StartCommand: S.optional(SensitiveString),
     Port: S.optional(S.String),
     RuntimeEnvironmentVariables: S.optional(RuntimeEnvironmentVariables),
     RuntimeEnvironmentSecrets: S.optional(RuntimeEnvironmentSecrets),
@@ -1006,14 +1014,14 @@ export const CodeRepository = S.suspend(() =>
 }) as any as S.Schema<CodeRepository>;
 export interface ImageConfiguration {
   RuntimeEnvironmentVariables?: RuntimeEnvironmentVariables;
-  StartCommand?: string;
+  StartCommand?: string | Redacted.Redacted<string>;
   Port?: string;
   RuntimeEnvironmentSecrets?: RuntimeEnvironmentSecrets;
 }
 export const ImageConfiguration = S.suspend(() =>
   S.Struct({
     RuntimeEnvironmentVariables: S.optional(RuntimeEnvironmentVariables),
-    StartCommand: S.optional(S.String),
+    StartCommand: S.optional(SensitiveString),
     Port: S.optional(S.String),
     RuntimeEnvironmentSecrets: S.optional(RuntimeEnvironmentSecrets),
   }),

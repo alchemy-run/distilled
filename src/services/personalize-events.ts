@@ -1,5 +1,6 @@
 import { HttpClient } from "@effect/platform";
 import * as Effect from "effect/Effect";
+import * as Redacted from "effect/Redacted";
 import * as S from "effect/Schema";
 import * as Stream from "effect/Stream";
 import * as API from "../api.ts";
@@ -10,6 +11,7 @@ import {
   ErrorCategory,
   Errors,
 } from "../index.ts";
+import { SensitiveString, SensitiveBlob } from "../sensitive.ts";
 const svc = T.AwsApiService({
   sdkId: "Personalize Events",
   serviceShapeName: "AmazonPersonalizeEvents",
@@ -252,46 +254,52 @@ const rules = T.EndpointRuleSet({
 //# Newtypes
 export type StringType = string;
 export type Arn = string;
-export type UserId = string;
-export type ActionId = string;
+export type UserId = string | Redacted.Redacted<string>;
+export type ActionId = string | Redacted.Redacted<string>;
 export type RecommendationId = string;
-export type SynthesizedJsonActionInteractionProperties = string;
-export type SynthesizedJsonActionProperties = string;
+export type SynthesizedJsonActionInteractionProperties =
+  | string
+  | Redacted.Redacted<string>;
+export type SynthesizedJsonActionProperties =
+  | string
+  | Redacted.Redacted<string>;
 export type FloatType = number;
-export type ItemId = string;
-export type SynthesizedJsonEventPropertiesJSON = string;
-export type SynthesizedJsonItemProperties = string;
-export type SynthesizedJsonUserProperties = string;
+export type ItemId = string | Redacted.Redacted<string>;
+export type SynthesizedJsonEventPropertiesJSON =
+  | string
+  | Redacted.Redacted<string>;
+export type SynthesizedJsonItemProperties = string | Redacted.Redacted<string>;
+export type SynthesizedJsonUserProperties = string | Redacted.Redacted<string>;
 export type EventAttributionSource = string;
 export type ErrorMessage = string;
 
 //# Schemas
-export type ActionImpression = string[];
-export const ActionImpression = S.Array(S.String);
-export type Impression = string[];
-export const Impression = S.Array(S.String);
+export type ActionImpression = string | Redacted.Redacted<string>[];
+export const ActionImpression = S.Array(SensitiveString);
+export type Impression = string | Redacted.Redacted<string>[];
+export const Impression = S.Array(SensitiveString);
 export interface ActionInteraction {
-  actionId: string;
-  userId?: string;
+  actionId: string | Redacted.Redacted<string>;
+  userId?: string | Redacted.Redacted<string>;
   sessionId: string;
   timestamp: Date;
   eventType: string;
   eventId?: string;
   recommendationId?: string;
   impression?: ActionImpression;
-  properties?: string;
+  properties?: string | Redacted.Redacted<string>;
 }
 export const ActionInteraction = S.suspend(() =>
   S.Struct({
-    actionId: S.String,
-    userId: S.optional(S.String),
+    actionId: SensitiveString,
+    userId: S.optional(SensitiveString),
     sessionId: S.String,
     timestamp: S.Date.pipe(T.TimestampFormat("epoch-seconds")),
     eventType: S.String,
     eventId: S.optional(S.String),
     recommendationId: S.optional(S.String),
     impression: S.optional(ActionImpression),
-    properties: S.optional(S.String),
+    properties: S.optional(SensitiveString),
   }),
 ).annotations({
   identifier: "ActionInteraction",
@@ -300,28 +308,28 @@ export type ActionInteractionsList = ActionInteraction[];
 export const ActionInteractionsList = S.Array(ActionInteraction);
 export interface Action {
   actionId: string;
-  properties?: string;
+  properties?: string | Redacted.Redacted<string>;
 }
 export const Action = S.suspend(() =>
-  S.Struct({ actionId: S.String, properties: S.optional(S.String) }),
+  S.Struct({ actionId: S.String, properties: S.optional(SensitiveString) }),
 ).annotations({ identifier: "Action" }) as any as S.Schema<Action>;
 export type ActionList = Action[];
 export const ActionList = S.Array(Action);
 export interface Item {
   itemId: string;
-  properties?: string;
+  properties?: string | Redacted.Redacted<string>;
 }
 export const Item = S.suspend(() =>
-  S.Struct({ itemId: S.String, properties: S.optional(S.String) }),
+  S.Struct({ itemId: S.String, properties: S.optional(SensitiveString) }),
 ).annotations({ identifier: "Item" }) as any as S.Schema<Item>;
 export type ItemList = Item[];
 export const ItemList = S.Array(Item);
 export interface User {
   userId: string;
-  properties?: string;
+  properties?: string | Redacted.Redacted<string>;
 }
 export const User = S.suspend(() =>
-  S.Struct({ userId: S.String, properties: S.optional(S.String) }),
+  S.Struct({ userId: S.String, properties: S.optional(SensitiveString) }),
 ).annotations({ identifier: "User" }) as any as S.Schema<User>;
 export type UserList = User[];
 export const UserList = S.Array(User);
@@ -430,8 +438,8 @@ export interface Event {
   eventId?: string;
   eventType: string;
   eventValue?: number;
-  itemId?: string;
-  properties?: string;
+  itemId?: string | Redacted.Redacted<string>;
+  properties?: string | Redacted.Redacted<string>;
   sentAt: Date;
   recommendationId?: string;
   impression?: Impression;
@@ -442,8 +450,8 @@ export const Event = S.suspend(() =>
     eventId: S.optional(S.String),
     eventType: S.String,
     eventValue: S.optional(S.Number),
-    itemId: S.optional(S.String),
-    properties: S.optional(S.String),
+    itemId: S.optional(SensitiveString),
+    properties: S.optional(SensitiveString),
     sentAt: S.Date.pipe(T.TimestampFormat("epoch-seconds")),
     recommendationId: S.optional(S.String),
     impression: S.optional(Impression),
@@ -454,14 +462,14 @@ export type EventList = Event[];
 export const EventList = S.Array(Event);
 export interface PutEventsRequest {
   trackingId: string;
-  userId?: string;
+  userId?: string | Redacted.Redacted<string>;
   sessionId: string;
   eventList: EventList;
 }
 export const PutEventsRequest = S.suspend(() =>
   S.Struct({
     trackingId: S.String,
-    userId: S.optional(S.String),
+    userId: S.optional(SensitiveString),
     sessionId: S.String,
     eventList: EventList,
   }).pipe(

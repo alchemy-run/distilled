@@ -1,5 +1,6 @@
 import { HttpClient } from "@effect/platform";
 import * as Effect from "effect/Effect";
+import * as Redacted from "effect/Redacted";
 import * as S from "effect/Schema";
 import * as Stream from "effect/Stream";
 import * as API from "../api.ts";
@@ -10,6 +11,7 @@ import {
   ErrorCategory,
   Errors,
 } from "../index.ts";
+import { SensitiveString, SensitiveBlob } from "../sensitive.ts";
 const svc = T.AwsApiService({
   sdkId: "AccessAnalyzer",
   serviceShapeName: "AccessAnalyzer",
@@ -273,7 +275,7 @@ const rules = T.EndpointRuleSet({
 export type AnalyzerArn = string;
 export type Name = string;
 export type JobId = string;
-export type AccessCheckPolicyDocument = string;
+export type AccessCheckPolicyDocument = string | Redacted.Redacted<string>;
 export type AccessCheckPolicyType = string;
 export type AccessCheckResourceType = string;
 export type AccessPreviewId = string;
@@ -413,14 +415,14 @@ export const CancelPolicyGenerationResponse = S.suspend(() =>
   identifier: "CancelPolicyGenerationResponse",
 }) as any as S.Schema<CancelPolicyGenerationResponse>;
 export interface CheckNoNewAccessRequest {
-  newPolicyDocument: string;
-  existingPolicyDocument: string;
+  newPolicyDocument: string | Redacted.Redacted<string>;
+  existingPolicyDocument: string | Redacted.Redacted<string>;
   policyType: string;
 }
 export const CheckNoNewAccessRequest = S.suspend(() =>
   S.Struct({
-    newPolicyDocument: S.String,
-    existingPolicyDocument: S.String,
+    newPolicyDocument: SensitiveString,
+    existingPolicyDocument: SensitiveString,
     policyType: S.String,
   }).pipe(
     T.all(
@@ -436,11 +438,11 @@ export const CheckNoNewAccessRequest = S.suspend(() =>
   identifier: "CheckNoNewAccessRequest",
 }) as any as S.Schema<CheckNoNewAccessRequest>;
 export interface CheckNoPublicAccessRequest {
-  policyDocument: string;
+  policyDocument: string | Redacted.Redacted<string>;
   resourceType: string;
 }
 export const CheckNoPublicAccessRequest = S.suspend(() =>
-  S.Struct({ policyDocument: S.String, resourceType: S.String }).pipe(
+  S.Struct({ policyDocument: SensitiveString, resourceType: S.String }).pipe(
     T.all(
       T.Http({ method: "POST", uri: "/policy/check-no-public-access" }),
       svc,
@@ -1302,13 +1304,13 @@ export const ArchiveRulesList = S.Array(ArchiveRuleSummary);
 export type RegionList = string[];
 export const RegionList = S.Array(S.String);
 export interface CheckAccessNotGrantedRequest {
-  policyDocument: string;
+  policyDocument: string | Redacted.Redacted<string>;
   access: AccessList;
   policyType: string;
 }
 export const CheckAccessNotGrantedRequest = S.suspend(() =>
   S.Struct({
-    policyDocument: S.String,
+    policyDocument: SensitiveString,
     access: AccessList,
     policyType: S.String,
   }).pipe(

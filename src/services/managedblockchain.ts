@@ -1,5 +1,6 @@
 import { HttpClient } from "@effect/platform";
 import * as Effect from "effect/Effect";
+import * as Redacted from "effect/Redacted";
 import * as S from "effect/Schema";
 import * as Stream from "effect/Stream";
 import * as API from "../api.ts";
@@ -10,6 +11,7 @@ import {
   ErrorCategory,
   Errors,
 } from "../index.ts";
+import { SensitiveString, SensitiveBlob } from "../sensitive.ts";
 const svc = T.AwsApiService({
   sdkId: "ManagedBlockchain",
   serviceShapeName: "TaigaWebService",
@@ -273,7 +275,7 @@ export type PrincipalString = string;
 export type AccessorBillingTokenString = string;
 export type VoteCount = number;
 export type UsernameString = string;
-export type PasswordString = string;
+export type PasswordString = string | Redacted.Redacted<string>;
 export type ExceptionMessage = string;
 
 //# Schemas
@@ -1138,10 +1140,10 @@ export type ProposalVoteList = VoteSummary[];
 export const ProposalVoteList = S.Array(VoteSummary);
 export interface MemberFabricConfiguration {
   AdminUsername: string;
-  AdminPassword: string;
+  AdminPassword: string | Redacted.Redacted<string>;
 }
 export const MemberFabricConfiguration = S.suspend(() =>
-  S.Struct({ AdminUsername: S.String, AdminPassword: S.String }),
+  S.Struct({ AdminUsername: S.String, AdminPassword: SensitiveString }),
 ).annotations({
   identifier: "MemberFabricConfiguration",
 }) as any as S.Schema<MemberFabricConfiguration>;

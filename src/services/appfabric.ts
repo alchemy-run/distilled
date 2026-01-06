@@ -1,5 +1,6 @@
 import { HttpClient } from "@effect/platform";
 import * as Effect from "effect/Effect";
+import * as Redacted from "effect/Redacted";
 import * as S from "effect/Schema";
 import * as Stream from "effect/Stream";
 import * as API from "../api.ts";
@@ -10,6 +11,7 @@ import {
   ErrorCategory,
   Errors,
 } from "../index.ts";
+import { SensitiveString, SensitiveBlob } from "../sensitive.ts";
 const svc = T.AwsApiService({
   sdkId: "AppFabric",
   serviceShapeName: "FabricFrontEndService",
@@ -309,10 +311,10 @@ export type TenantIdentifier = string;
 export type MaxResults = number;
 export type String2048 = string;
 export type Arn = string;
-export type Email = string;
+export type Email = string | Redacted.Redacted<string>;
 export type TagKey = string;
 export type RedirectUri = string;
-export type SensitiveString2048 = string;
+export type SensitiveString2048 = string | Redacted.Redacted<string>;
 export type TagValue = string;
 export type Integer = number;
 export type String63 = string;
@@ -772,10 +774,10 @@ export const StartIngestionResponse = S.suspend(() => S.Struct({})).annotations(
 ) as any as S.Schema<StartIngestionResponse>;
 export interface StartUserAccessTasksRequest {
   appBundleIdentifier: string;
-  email: string;
+  email: string | Redacted.Redacted<string>;
 }
 export const StartUserAccessTasksRequest = S.suspend(() =>
-  S.Struct({ appBundleIdentifier: S.String, email: S.String }).pipe(
+  S.Struct({ appBundleIdentifier: S.String, email: SensitiveString }).pipe(
     T.all(
       T.Http({ method: "POST", uri: "/useraccess/start" }),
       svc,
@@ -868,18 +870,18 @@ export const UntagResourceResponse = S.suspend(() => S.Struct({})).annotations({
 }) as any as S.Schema<UntagResourceResponse>;
 export interface Oauth2Credential {
   clientId: string;
-  clientSecret: string;
+  clientSecret: string | Redacted.Redacted<string>;
 }
 export const Oauth2Credential = S.suspend(() =>
-  S.Struct({ clientId: S.String, clientSecret: S.String }),
+  S.Struct({ clientId: S.String, clientSecret: SensitiveString }),
 ).annotations({
   identifier: "Oauth2Credential",
 }) as any as S.Schema<Oauth2Credential>;
 export interface ApiKeyCredential {
-  apiKey: string;
+  apiKey: string | Redacted.Redacted<string>;
 }
 export const ApiKeyCredential = S.suspend(() =>
-  S.Struct({ apiKey: S.String }),
+  S.Struct({ apiKey: SensitiveString }),
 ).annotations({
   identifier: "ApiKeyCredential",
 }) as any as S.Schema<ApiKeyCredential>;
@@ -995,10 +997,10 @@ export const UpdateIngestionDestinationRequest = S.suspend(() =>
 }) as any as S.Schema<UpdateIngestionDestinationRequest>;
 export interface AuthRequest {
   redirectUri: string;
-  code: string;
+  code: string | Redacted.Redacted<string>;
 }
 export const AuthRequest = S.suspend(() =>
-  S.Struct({ redirectUri: S.String, code: S.String }),
+  S.Struct({ redirectUri: S.String, code: SensitiveString }),
 ).annotations({ identifier: "AuthRequest" }) as any as S.Schema<AuthRequest>;
 export interface ConnectAppAuthorizationRequest {
   appBundleIdentifier: string;
@@ -1385,11 +1387,11 @@ export interface UserAccessResultItem {
   tenantDisplayName?: string;
   taskId?: string;
   resultStatus?: string;
-  email?: string;
-  userId?: string;
-  userFullName?: string;
-  userFirstName?: string;
-  userLastName?: string;
+  email?: string | Redacted.Redacted<string>;
+  userId?: string | Redacted.Redacted<string>;
+  userFullName?: string | Redacted.Redacted<string>;
+  userFirstName?: string | Redacted.Redacted<string>;
+  userLastName?: string | Redacted.Redacted<string>;
   userStatus?: string;
   taskError?: TaskError;
 }
@@ -1400,11 +1402,11 @@ export const UserAccessResultItem = S.suspend(() =>
     tenantDisplayName: S.optional(S.String),
     taskId: S.optional(S.String),
     resultStatus: S.optional(S.String),
-    email: S.optional(S.String),
-    userId: S.optional(S.String),
-    userFullName: S.optional(S.String),
-    userFirstName: S.optional(S.String),
-    userLastName: S.optional(S.String),
+    email: S.optional(SensitiveString),
+    userId: S.optional(SensitiveString),
+    userFullName: S.optional(SensitiveString),
+    userFirstName: S.optional(SensitiveString),
+    userLastName: S.optional(SensitiveString),
     userStatus: S.optional(S.String),
     taskError: S.optional(TaskError),
   }),

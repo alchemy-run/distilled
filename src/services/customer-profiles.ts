@@ -1,5 +1,6 @@
 import { HttpClient } from "@effect/platform";
 import * as Effect from "effect/Effect";
+import * as Redacted from "effect/Redacted";
 import * as S from "effect/Schema";
 import * as Stream from "effect/Stream";
 import * as API from "../api.ts";
@@ -10,6 +11,7 @@ import {
   ErrorCategory,
   Errors,
 } from "../index.ts";
+import { SensitiveString, SensitiveBlob } from "../sensitive.ts";
 const svc = T.AwsApiService({
   sdkId: "Customer Profiles",
   serviceShapeName: "CustomerProfiles_20200815",
@@ -255,18 +257,18 @@ export type name = string;
 export type string1To255 = string;
 export type typeName = string;
 export type displayName = string;
-export type sensitiveText = string;
+export type sensitiveText = string | Redacted.Redacted<string>;
 export type expirationDaysInteger = number;
 export type encryptionKey = string;
 export type sqsQueueUrl = string;
-export type sensitiveString1To2000000 = string;
+export type sensitiveString1To2000000 = string | Redacted.Redacted<string>;
 export type RoleArn = string;
-export type sensitiveString1To255 = string;
-export type sensitiveString1To1000 = string;
-export type sensitiveString1To4000 = string;
-export type sensitiveString1To50000 = string;
+export type sensitiveString1To255 = string | Redacted.Redacted<string>;
+export type sensitiveString1To1000 = string | Redacted.Redacted<string>;
+export type sensitiveString1To4000 = string | Redacted.Redacted<string>;
+export type sensitiveString1To50000 = string | Redacted.Redacted<string>;
 export type text = string;
-export type stringifiedJson = string;
+export type stringifiedJson = string | Redacted.Redacted<string>;
 export type Double0To1 = number;
 export type token = string;
 export type maxSize100 = number;
@@ -277,11 +279,11 @@ export type ListRecommenderRecipesRequestMaxResultsInteger = number;
 export type ListRecommendersRequestMaxResultsInteger = number;
 export type MaxSize500 = number;
 export type TagArn = string;
-export type sensitiveString1To10000 = string;
+export type sensitiveString1To10000 = string | Redacted.Redacted<string>;
 export type minSize1 = number;
 export type TagKey = string;
-export type sensitiveString0To1000 = string;
-export type sensitiveString0To255 = string;
+export type sensitiveString0To1000 = string | Redacted.Redacted<string>;
+export type sensitiveString0To255 = string | Redacted.Redacted<string>;
 export type ObjectCount = number;
 export type TagValue = string;
 export type MaxAllowedRuleLevelForMerging = number;
@@ -339,8 +341,8 @@ export type BatchGetCalculatedAttributeForProfileIdList = string[];
 export const BatchGetCalculatedAttributeForProfileIdList = S.Array(S.String);
 export type BatchGetProfileIdList = string[];
 export const BatchGetProfileIdList = S.Array(S.String);
-export type Objects = string[];
-export const Objects = S.Array(S.String);
+export type Objects = string | Redacted.Redacted<string>[];
+export const Objects = S.Array(SensitiveString);
 export type ProfileIds = string[];
 export const ProfileIds = S.Array(S.String);
 export type ProfileIdToBeMergedList = string[];
@@ -403,22 +405,22 @@ export const TagMap = S.Record({ key: S.String, value: S.String });
 export interface CreateDomainLayoutRequest {
   DomainName: string;
   LayoutDefinitionName: string;
-  Description: string;
+  Description: string | Redacted.Redacted<string>;
   DisplayName: string;
   IsDefault?: boolean;
   LayoutType: string;
-  Layout: string;
+  Layout: string | Redacted.Redacted<string>;
   Tags?: TagMap;
 }
 export const CreateDomainLayoutRequest = S.suspend(() =>
   S.Struct({
     DomainName: S.String.pipe(T.HttpLabel("DomainName")),
     LayoutDefinitionName: S.String.pipe(T.HttpLabel("LayoutDefinitionName")),
-    Description: S.String,
+    Description: SensitiveString,
     DisplayName: S.String,
     IsDefault: S.optional(S.Boolean),
     LayoutType: S.String,
-    Layout: S.String,
+    Layout: SensitiveString,
     Tags: S.optional(TagMap),
   }).pipe(
     T.all(
@@ -2044,13 +2046,13 @@ export const ListWorkflowsRequest = S.suspend(() =>
 }) as any as S.Schema<ListWorkflowsRequest>;
 export interface PutProfileObjectRequest {
   ObjectTypeName: string;
-  Object: string;
+  Object: string | Redacted.Redacted<string>;
   DomainName: string;
 }
 export const PutProfileObjectRequest = S.suspend(() =>
   S.Struct({
     ObjectTypeName: S.String,
-    Object: S.String,
+    Object: SensitiveString,
     DomainName: S.String.pipe(T.HttpLabel("DomainName")),
   }).pipe(
     T.all(
@@ -2277,7 +2279,7 @@ export interface UpdateCalculatedAttributeDefinitionRequest {
   DomainName: string;
   CalculatedAttributeName: string;
   DisplayName?: string;
-  Description?: string;
+  Description?: string | Redacted.Redacted<string>;
   Conditions?: Conditions;
 }
 export const UpdateCalculatedAttributeDefinitionRequest = S.suspend(() =>
@@ -2287,7 +2289,7 @@ export const UpdateCalculatedAttributeDefinitionRequest = S.suspend(() =>
       T.HttpLabel("CalculatedAttributeName"),
     ),
     DisplayName: S.optional(S.String),
-    Description: S.optional(S.String),
+    Description: S.optional(SensitiveString),
     Conditions: S.optional(Conditions),
   }).pipe(
     T.all(
@@ -2481,21 +2483,21 @@ export const UpdateDomainRequest = S.suspend(() =>
 export interface UpdateDomainLayoutRequest {
   DomainName: string;
   LayoutDefinitionName: string;
-  Description?: string;
+  Description?: string | Redacted.Redacted<string>;
   DisplayName?: string;
   IsDefault?: boolean;
   LayoutType?: string;
-  Layout?: string;
+  Layout?: string | Redacted.Redacted<string>;
 }
 export const UpdateDomainLayoutRequest = S.suspend(() =>
   S.Struct({
     DomainName: S.String.pipe(T.HttpLabel("DomainName")),
     LayoutDefinitionName: S.String.pipe(T.HttpLabel("LayoutDefinitionName")),
-    Description: S.optional(S.String),
+    Description: S.optional(SensitiveString),
     DisplayName: S.optional(S.String),
     IsDefault: S.optional(S.Boolean),
     LayoutType: S.optional(S.String),
-    Layout: S.optional(S.String),
+    Layout: S.optional(SensitiveString),
   }).pipe(
     T.all(
       T.Http({
@@ -2588,7 +2590,7 @@ export interface UpdateEventTriggerRequest {
   DomainName: string;
   EventTriggerName: string;
   ObjectTypeName?: string;
-  Description?: string;
+  Description?: string | Redacted.Redacted<string>;
   EventTriggerConditions?: EventTriggerConditions;
   SegmentFilter?: string;
   EventTriggerLimits?: EventTriggerLimits;
@@ -2598,7 +2600,7 @@ export const UpdateEventTriggerRequest = S.suspend(() =>
     DomainName: S.String.pipe(T.HttpLabel("DomainName")),
     EventTriggerName: S.String.pipe(T.HttpLabel("EventTriggerName")),
     ObjectTypeName: S.optional(S.String),
-    Description: S.optional(S.String),
+    Description: S.optional(SensitiveString),
     EventTriggerConditions: S.optional(EventTriggerConditions),
     SegmentFilter: S.optional(S.String),
     EventTriggerLimits: S.optional(EventTriggerLimits),
@@ -2650,14 +2652,14 @@ export const RecommenderConfig = S.suspend(() =>
 export interface UpdateRecommenderRequest {
   DomainName: string;
   RecommenderName: string;
-  Description?: string;
+  Description?: string | Redacted.Redacted<string>;
   RecommenderConfig?: RecommenderConfig;
 }
 export const UpdateRecommenderRequest = S.suspend(() =>
   S.Struct({
     DomainName: S.String.pipe(T.HttpLabel("DomainName")),
     RecommenderName: S.String.pipe(T.HttpLabel("RecommenderName")),
-    Description: S.optional(S.String),
+    Description: S.optional(SensitiveString),
     RecommenderConfig: S.optional(RecommenderConfig),
   }).pipe(
     T.all(
@@ -3098,11 +3100,11 @@ export const AddProfileKeyResponse = S.suspend(() =>
 }) as any as S.Schema<AddProfileKeyResponse>;
 export interface CreateDomainLayoutResponse {
   LayoutDefinitionName: string;
-  Description: string;
+  Description: string | Redacted.Redacted<string>;
   DisplayName: string;
   IsDefault?: boolean;
   LayoutType: string;
-  Layout: string;
+  Layout: string | Redacted.Redacted<string>;
   Version: string;
   Tags?: TagMap;
   CreatedAt: Date;
@@ -3111,11 +3113,11 @@ export interface CreateDomainLayoutResponse {
 export const CreateDomainLayoutResponse = S.suspend(() =>
   S.Struct({
     LayoutDefinitionName: S.String,
-    Description: S.String,
+    Description: SensitiveString,
     DisplayName: S.String,
     IsDefault: S.optional(S.Boolean),
     LayoutType: S.String,
-    Layout: S.String,
+    Layout: SensitiveString,
     Version: S.String,
     Tags: S.optional(TagMap),
     CreatedAt: S.Date.pipe(T.TimestampFormat("epoch-seconds")),
@@ -3136,13 +3138,13 @@ export const CreateEventStreamResponse = S.suspend(() =>
 export interface CreateSegmentEstimateRequest {
   DomainName: string;
   SegmentQuery?: SegmentGroupStructure;
-  SegmentSqlQuery?: string;
+  SegmentSqlQuery?: string | Redacted.Redacted<string>;
 }
 export const CreateSegmentEstimateRequest = S.suspend(() =>
   S.Struct({
     DomainName: S.String.pipe(T.HttpLabel("DomainName")),
     SegmentQuery: S.optional(SegmentGroupStructure),
-    SegmentSqlQuery: S.optional(S.String),
+    SegmentSqlQuery: S.optional(SensitiveString),
   }).pipe(
     T.all(
       T.Http({
@@ -3289,11 +3291,11 @@ export const GetCalculatedAttributeForProfileResponse = S.suspend(() =>
 }) as any as S.Schema<GetCalculatedAttributeForProfileResponse>;
 export interface GetDomainLayoutResponse {
   LayoutDefinitionName: string;
-  Description: string;
+  Description: string | Redacted.Redacted<string>;
   DisplayName: string;
   IsDefault?: boolean;
   LayoutType: string;
-  Layout: string;
+  Layout: string | Redacted.Redacted<string>;
   Version: string;
   CreatedAt: Date;
   LastUpdatedAt: Date;
@@ -3302,11 +3304,11 @@ export interface GetDomainLayoutResponse {
 export const GetDomainLayoutResponse = S.suspend(() =>
   S.Struct({
     LayoutDefinitionName: S.String,
-    Description: S.String,
+    Description: SensitiveString,
     DisplayName: S.String,
     IsDefault: S.optional(S.Boolean),
     LayoutType: S.String,
-    Layout: S.String,
+    Layout: SensitiveString,
     Version: S.String,
     CreatedAt: S.Date.pipe(T.TimestampFormat("epoch-seconds")),
     LastUpdatedAt: S.Date.pipe(T.TimestampFormat("epoch-seconds")),
@@ -3338,7 +3340,7 @@ export const DomainObjectTypeFields = S.Record({
 });
 export interface GetDomainObjectTypeResponse {
   ObjectTypeName: string;
-  Description?: string;
+  Description?: string | Redacted.Redacted<string>;
   EncryptionKey?: string;
   Fields?: DomainObjectTypeFields;
   CreatedAt?: Date;
@@ -3348,7 +3350,7 @@ export interface GetDomainObjectTypeResponse {
 export const GetDomainObjectTypeResponse = S.suspend(() =>
   S.Struct({
     ObjectTypeName: S.String,
-    Description: S.optional(S.String),
+    Description: S.optional(SensitiveString),
     EncryptionKey: S.optional(S.String),
     Fields: S.optional(DomainObjectTypeFields),
     CreatedAt: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
@@ -3361,7 +3363,7 @@ export const GetDomainObjectTypeResponse = S.suspend(() =>
 export interface GetEventTriggerResponse {
   EventTriggerName?: string;
   ObjectTypeName?: string;
-  Description?: string;
+  Description?: string | Redacted.Redacted<string>;
   EventTriggerConditions?: EventTriggerConditions;
   SegmentFilter?: string;
   EventTriggerLimits?: EventTriggerLimits;
@@ -3373,7 +3375,7 @@ export const GetEventTriggerResponse = S.suspend(() =>
   S.Struct({
     EventTriggerName: S.optional(S.String),
     ObjectTypeName: S.optional(S.String),
-    Description: S.optional(S.String),
+    Description: S.optional(SensitiveString),
     EventTriggerConditions: S.optional(EventTriggerConditions),
     SegmentFilter: S.optional(S.String),
     EventTriggerLimits: S.optional(EventTriggerLimits),
@@ -3423,7 +3425,7 @@ export interface GetProfileHistoryRecordResponse {
   LastUpdatedAt?: Date;
   ActionType: string;
   ProfileObjectUniqueKey?: string;
-  Content?: string;
+  Content?: string | Redacted.Redacted<string>;
   PerformedBy?: string;
 }
 export const GetProfileHistoryRecordResponse = S.suspend(() =>
@@ -3434,7 +3436,7 @@ export const GetProfileHistoryRecordResponse = S.suspend(() =>
     LastUpdatedAt: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
     ActionType: S.String,
     ProfileObjectUniqueKey: S.optional(S.String),
-    Content: S.optional(S.String),
+    Content: S.optional(SensitiveString),
     PerformedBy: S.optional(S.String),
   }),
 ).annotations({
@@ -3474,7 +3476,7 @@ export type KeyMap = { [key: string]: ObjectTypeKeyList };
 export const KeyMap = S.Record({ key: S.String, value: ObjectTypeKeyList });
 export interface GetProfileObjectTypeResponse {
   ObjectTypeName: string;
-  Description: string;
+  Description: string | Redacted.Redacted<string>;
   TemplateId?: string;
   ExpirationDays?: number;
   EncryptionKey?: string;
@@ -3491,7 +3493,7 @@ export interface GetProfileObjectTypeResponse {
 export const GetProfileObjectTypeResponse = S.suspend(() =>
   S.Struct({
     ObjectTypeName: S.String,
-    Description: S.String,
+    Description: SensitiveString,
     TemplateId: S.optional(S.String),
     ExpirationDays: S.optional(S.Number),
     EncryptionKey: S.optional(S.String),
@@ -3573,12 +3575,12 @@ export const SegmentGroup = S.suspend(() =>
 export interface GetSegmentDefinitionResponse {
   SegmentDefinitionName?: string;
   DisplayName?: string;
-  Description?: string;
+  Description?: string | Redacted.Redacted<string>;
   SegmentGroups?: SegmentGroup;
   SegmentDefinitionArn: string;
   CreatedAt?: Date;
   Tags?: TagMap;
-  SegmentSqlQuery?: string;
+  SegmentSqlQuery?: string | Redacted.Redacted<string>;
   SegmentType?: string;
 }
 export const GetSegmentDefinitionResponse = S.suspend(() =>
@@ -3587,7 +3589,7 @@ export const GetSegmentDefinitionResponse = S.suspend(() =>
       T.JsonName("SegmentDefinitionName"),
     ),
     DisplayName: S.optional(S.String).pipe(T.JsonName("DisplayName")),
-    Description: S.optional(S.String).pipe(T.JsonName("Description")),
+    Description: S.optional(SensitiveString).pipe(T.JsonName("Description")),
     SegmentGroups: S.optional(SegmentGroup)
       .pipe(T.JsonName("SegmentGroups"))
       .annotations({ identifier: "SegmentGroup" }),
@@ -3596,7 +3598,9 @@ export const GetSegmentDefinitionResponse = S.suspend(() =>
       T.JsonName("CreatedAt"),
     ),
     Tags: S.optional(TagMap).pipe(T.JsonName("Tags")),
-    SegmentSqlQuery: S.optional(S.String).pipe(T.JsonName("SegmentSqlQuery")),
+    SegmentSqlQuery: S.optional(SensitiveString).pipe(
+      T.JsonName("SegmentSqlQuery"),
+    ),
     SegmentType: S.optional(S.String).pipe(T.JsonName("SegmentType")),
   }),
 ).annotations({
@@ -3846,7 +3850,7 @@ export const Readiness = S.suspend(() =>
 export interface UpdateCalculatedAttributeDefinitionResponse {
   CalculatedAttributeName?: string;
   DisplayName?: string;
-  Description?: string;
+  Description?: string | Redacted.Redacted<string>;
   CreatedAt?: Date;
   LastUpdatedAt?: Date;
   Statistic?: string;
@@ -3861,7 +3865,7 @@ export const UpdateCalculatedAttributeDefinitionResponse = S.suspend(() =>
   S.Struct({
     CalculatedAttributeName: S.optional(S.String),
     DisplayName: S.optional(S.String),
-    Description: S.optional(S.String),
+    Description: S.optional(SensitiveString),
     CreatedAt: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
     LastUpdatedAt: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
     Statistic: S.optional(S.String),
@@ -3957,11 +3961,11 @@ export const UpdateDomainResponse = S.suspend(() =>
 }) as any as S.Schema<UpdateDomainResponse>;
 export interface UpdateDomainLayoutResponse {
   LayoutDefinitionName?: string;
-  Description?: string;
+  Description?: string | Redacted.Redacted<string>;
   DisplayName?: string;
   IsDefault?: boolean;
   LayoutType?: string;
-  Layout?: string;
+  Layout?: string | Redacted.Redacted<string>;
   Version?: string;
   CreatedAt?: Date;
   LastUpdatedAt?: Date;
@@ -3970,11 +3974,11 @@ export interface UpdateDomainLayoutResponse {
 export const UpdateDomainLayoutResponse = S.suspend(() =>
   S.Struct({
     LayoutDefinitionName: S.optional(S.String),
-    Description: S.optional(S.String),
+    Description: S.optional(SensitiveString),
     DisplayName: S.optional(S.String),
     IsDefault: S.optional(S.Boolean),
     LayoutType: S.optional(S.String),
-    Layout: S.optional(S.String),
+    Layout: S.optional(SensitiveString),
     Version: S.optional(S.String),
     CreatedAt: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
     LastUpdatedAt: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
@@ -3986,7 +3990,7 @@ export const UpdateDomainLayoutResponse = S.suspend(() =>
 export interface UpdateEventTriggerResponse {
   EventTriggerName?: string;
   ObjectTypeName?: string;
-  Description?: string;
+  Description?: string | Redacted.Redacted<string>;
   EventTriggerConditions?: EventTriggerConditions;
   SegmentFilter?: string;
   EventTriggerLimits?: EventTriggerLimits;
@@ -3998,7 +4002,7 @@ export const UpdateEventTriggerResponse = S.suspend(() =>
   S.Struct({
     EventTriggerName: S.optional(S.String),
     ObjectTypeName: S.optional(S.String),
-    Description: S.optional(S.String),
+    Description: S.optional(SensitiveString),
     EventTriggerConditions: S.optional(EventTriggerConditions),
     SegmentFilter: S.optional(S.String),
     EventTriggerLimits: S.optional(EventTriggerLimits),
@@ -4026,29 +4030,29 @@ export const EngagementPreferences = S.suspend(() =>
 export interface UpdateProfileRequest {
   DomainName: string;
   ProfileId: string;
-  AdditionalInformation?: string;
-  AccountNumber?: string;
+  AdditionalInformation?: string | Redacted.Redacted<string>;
+  AccountNumber?: string | Redacted.Redacted<string>;
   PartyType?: string;
-  BusinessName?: string;
-  FirstName?: string;
-  MiddleName?: string;
-  LastName?: string;
-  BirthDate?: string;
+  BusinessName?: string | Redacted.Redacted<string>;
+  FirstName?: string | Redacted.Redacted<string>;
+  MiddleName?: string | Redacted.Redacted<string>;
+  LastName?: string | Redacted.Redacted<string>;
+  BirthDate?: string | Redacted.Redacted<string>;
   Gender?: string;
-  PhoneNumber?: string;
-  MobilePhoneNumber?: string;
-  HomePhoneNumber?: string;
-  BusinessPhoneNumber?: string;
-  EmailAddress?: string;
-  PersonalEmailAddress?: string;
-  BusinessEmailAddress?: string;
+  PhoneNumber?: string | Redacted.Redacted<string>;
+  MobilePhoneNumber?: string | Redacted.Redacted<string>;
+  HomePhoneNumber?: string | Redacted.Redacted<string>;
+  BusinessPhoneNumber?: string | Redacted.Redacted<string>;
+  EmailAddress?: string | Redacted.Redacted<string>;
+  PersonalEmailAddress?: string | Redacted.Redacted<string>;
+  BusinessEmailAddress?: string | Redacted.Redacted<string>;
   Address?: UpdateAddress;
   ShippingAddress?: UpdateAddress;
   MailingAddress?: UpdateAddress;
   BillingAddress?: UpdateAddress;
   Attributes?: UpdateAttributes;
-  PartyTypeString?: string;
-  GenderString?: string;
+  PartyTypeString?: string | Redacted.Redacted<string>;
+  GenderString?: string | Redacted.Redacted<string>;
   ProfileType?: string;
   EngagementPreferences?: EngagementPreferences;
 }
@@ -4056,29 +4060,29 @@ export const UpdateProfileRequest = S.suspend(() =>
   S.Struct({
     DomainName: S.String.pipe(T.HttpLabel("DomainName")),
     ProfileId: S.String,
-    AdditionalInformation: S.optional(S.String),
-    AccountNumber: S.optional(S.String),
+    AdditionalInformation: S.optional(SensitiveString),
+    AccountNumber: S.optional(SensitiveString),
     PartyType: S.optional(S.String),
-    BusinessName: S.optional(S.String),
-    FirstName: S.optional(S.String),
-    MiddleName: S.optional(S.String),
-    LastName: S.optional(S.String),
-    BirthDate: S.optional(S.String),
+    BusinessName: S.optional(SensitiveString),
+    FirstName: S.optional(SensitiveString),
+    MiddleName: S.optional(SensitiveString),
+    LastName: S.optional(SensitiveString),
+    BirthDate: S.optional(SensitiveString),
     Gender: S.optional(S.String),
-    PhoneNumber: S.optional(S.String),
-    MobilePhoneNumber: S.optional(S.String),
-    HomePhoneNumber: S.optional(S.String),
-    BusinessPhoneNumber: S.optional(S.String),
-    EmailAddress: S.optional(S.String),
-    PersonalEmailAddress: S.optional(S.String),
-    BusinessEmailAddress: S.optional(S.String),
+    PhoneNumber: S.optional(SensitiveString),
+    MobilePhoneNumber: S.optional(SensitiveString),
+    HomePhoneNumber: S.optional(SensitiveString),
+    BusinessPhoneNumber: S.optional(SensitiveString),
+    EmailAddress: S.optional(SensitiveString),
+    PersonalEmailAddress: S.optional(SensitiveString),
+    BusinessEmailAddress: S.optional(SensitiveString),
     Address: S.optional(UpdateAddress),
     ShippingAddress: S.optional(UpdateAddress),
     MailingAddress: S.optional(UpdateAddress),
     BillingAddress: S.optional(UpdateAddress),
     Attributes: S.optional(UpdateAttributes),
-    PartyTypeString: S.optional(S.String),
-    GenderString: S.optional(S.String),
+    PartyTypeString: S.optional(SensitiveString),
+    GenderString: S.optional(SensitiveString),
     ProfileType: S.optional(S.String),
     EngagementPreferences: S.optional(EngagementPreferences),
   }).pipe(
@@ -4225,60 +4229,60 @@ export type foundByList = FoundByKeyValue[];
 export const foundByList = S.Array(FoundByKeyValue);
 export interface Profile {
   ProfileId?: string;
-  AccountNumber?: string;
-  AdditionalInformation?: string;
+  AccountNumber?: string | Redacted.Redacted<string>;
+  AdditionalInformation?: string | Redacted.Redacted<string>;
   PartyType?: string;
-  BusinessName?: string;
-  FirstName?: string;
-  MiddleName?: string;
-  LastName?: string;
-  BirthDate?: string;
+  BusinessName?: string | Redacted.Redacted<string>;
+  FirstName?: string | Redacted.Redacted<string>;
+  MiddleName?: string | Redacted.Redacted<string>;
+  LastName?: string | Redacted.Redacted<string>;
+  BirthDate?: string | Redacted.Redacted<string>;
   Gender?: string;
-  PhoneNumber?: string;
-  MobilePhoneNumber?: string;
-  HomePhoneNumber?: string;
-  BusinessPhoneNumber?: string;
-  EmailAddress?: string;
-  PersonalEmailAddress?: string;
-  BusinessEmailAddress?: string;
+  PhoneNumber?: string | Redacted.Redacted<string>;
+  MobilePhoneNumber?: string | Redacted.Redacted<string>;
+  HomePhoneNumber?: string | Redacted.Redacted<string>;
+  BusinessPhoneNumber?: string | Redacted.Redacted<string>;
+  EmailAddress?: string | Redacted.Redacted<string>;
+  PersonalEmailAddress?: string | Redacted.Redacted<string>;
+  BusinessEmailAddress?: string | Redacted.Redacted<string>;
   Address?: Address;
   ShippingAddress?: Address;
   MailingAddress?: Address;
   BillingAddress?: Address;
   Attributes?: Attributes;
   FoundByItems?: foundByList;
-  PartyTypeString?: string;
-  GenderString?: string;
+  PartyTypeString?: string | Redacted.Redacted<string>;
+  GenderString?: string | Redacted.Redacted<string>;
   ProfileType?: string;
   EngagementPreferences?: EngagementPreferences;
 }
 export const Profile = S.suspend(() =>
   S.Struct({
     ProfileId: S.optional(S.String),
-    AccountNumber: S.optional(S.String),
-    AdditionalInformation: S.optional(S.String),
+    AccountNumber: S.optional(SensitiveString),
+    AdditionalInformation: S.optional(SensitiveString),
     PartyType: S.optional(S.String),
-    BusinessName: S.optional(S.String),
-    FirstName: S.optional(S.String),
-    MiddleName: S.optional(S.String),
-    LastName: S.optional(S.String),
-    BirthDate: S.optional(S.String),
+    BusinessName: S.optional(SensitiveString),
+    FirstName: S.optional(SensitiveString),
+    MiddleName: S.optional(SensitiveString),
+    LastName: S.optional(SensitiveString),
+    BirthDate: S.optional(SensitiveString),
     Gender: S.optional(S.String),
-    PhoneNumber: S.optional(S.String),
-    MobilePhoneNumber: S.optional(S.String),
-    HomePhoneNumber: S.optional(S.String),
-    BusinessPhoneNumber: S.optional(S.String),
-    EmailAddress: S.optional(S.String),
-    PersonalEmailAddress: S.optional(S.String),
-    BusinessEmailAddress: S.optional(S.String),
+    PhoneNumber: S.optional(SensitiveString),
+    MobilePhoneNumber: S.optional(SensitiveString),
+    HomePhoneNumber: S.optional(SensitiveString),
+    BusinessPhoneNumber: S.optional(SensitiveString),
+    EmailAddress: S.optional(SensitiveString),
+    PersonalEmailAddress: S.optional(SensitiveString),
+    BusinessEmailAddress: S.optional(SensitiveString),
     Address: S.optional(Address),
     ShippingAddress: S.optional(Address),
     MailingAddress: S.optional(Address),
     BillingAddress: S.optional(Address),
     Attributes: S.optional(Attributes),
     FoundByItems: S.optional(foundByList),
-    PartyTypeString: S.optional(S.String),
-    GenderString: S.optional(S.String),
+    PartyTypeString: S.optional(SensitiveString),
+    GenderString: S.optional(SensitiveString),
     ProfileType: S.optional(S.String),
     EngagementPreferences: S.optional(EngagementPreferences),
   }),
@@ -4334,7 +4338,7 @@ export const ResultsSummary = S.suspend(() =>
 export interface ListCalculatedAttributeDefinitionItem {
   CalculatedAttributeName?: string;
   DisplayName?: string;
-  Description?: string;
+  Description?: string | Redacted.Redacted<string>;
   CreatedAt?: Date;
   LastUpdatedAt?: Date;
   UseHistoricalData?: boolean;
@@ -4345,7 +4349,7 @@ export const ListCalculatedAttributeDefinitionItem = S.suspend(() =>
   S.Struct({
     CalculatedAttributeName: S.optional(S.String),
     DisplayName: S.optional(S.String),
-    Description: S.optional(S.String),
+    Description: S.optional(SensitiveString),
     CreatedAt: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
     LastUpdatedAt: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
     UseHistoricalData: S.optional(S.Boolean),
@@ -4387,7 +4391,7 @@ export const CalculatedAttributesForProfileList = S.Array(
 );
 export interface LayoutItem {
   LayoutDefinitionName: string;
-  Description: string;
+  Description: string | Redacted.Redacted<string>;
   DisplayName: string;
   IsDefault?: boolean;
   LayoutType: string;
@@ -4398,7 +4402,7 @@ export interface LayoutItem {
 export const LayoutItem = S.suspend(() =>
   S.Struct({
     LayoutDefinitionName: S.String,
-    Description: S.String,
+    Description: SensitiveString,
     DisplayName: S.String,
     IsDefault: S.optional(S.Boolean),
     LayoutType: S.String,
@@ -4411,7 +4415,7 @@ export type LayoutList = LayoutItem[];
 export const LayoutList = S.Array(LayoutItem);
 export interface DomainObjectTypesListItem {
   ObjectTypeName: string;
-  Description?: string;
+  Description?: string | Redacted.Redacted<string>;
   CreatedAt?: Date;
   LastUpdatedAt?: Date;
   Tags?: TagMap;
@@ -4419,7 +4423,7 @@ export interface DomainObjectTypesListItem {
 export const DomainObjectTypesListItem = S.suspend(() =>
   S.Struct({
     ObjectTypeName: S.String,
-    Description: S.optional(S.String),
+    Description: S.optional(SensitiveString),
     CreatedAt: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
     LastUpdatedAt: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
     Tags: S.optional(TagMap),
@@ -4532,12 +4536,12 @@ export const ListObjectTypeAttributesList = S.Array(
   ListObjectTypeAttributeItem,
 );
 export interface ListObjectTypeAttributeValuesItem {
-  Value: string;
+  Value: string | Redacted.Redacted<string>;
   LastUpdatedAt: Date;
 }
 export const ListObjectTypeAttributeValuesItem = S.suspend(() =>
   S.Struct({
-    Value: S.String,
+    Value: SensitiveString,
     LastUpdatedAt: S.Date.pipe(T.TimestampFormat("epoch-seconds")),
   }),
 ).annotations({
@@ -4640,7 +4644,7 @@ export interface RecommenderSummary {
   RecipeName?: string;
   RecommenderConfig?: RecommenderConfig;
   CreatedAt?: Date;
-  Description?: string;
+  Description?: string | Redacted.Redacted<string>;
   Status?: string;
   LastUpdatedAt?: Date;
   Tags?: TagMap;
@@ -4653,7 +4657,7 @@ export const RecommenderSummary = S.suspend(() =>
     RecipeName: S.optional(S.String),
     RecommenderConfig: S.optional(RecommenderConfig),
     CreatedAt: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
-    Description: S.optional(S.String),
+    Description: S.optional(SensitiveString),
     Status: S.optional(S.String),
     LastUpdatedAt: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
     Tags: S.optional(TagMap),
@@ -4668,7 +4672,7 @@ export const RecommenderSummaryList = S.Array(RecommenderSummary);
 export interface SegmentDefinitionItem {
   SegmentDefinitionName?: string;
   DisplayName?: string;
-  Description?: string;
+  Description?: string | Redacted.Redacted<string>;
   SegmentDefinitionArn?: string;
   CreatedAt?: Date;
   Tags?: TagMap;
@@ -4680,7 +4684,7 @@ export const SegmentDefinitionItem = S.suspend(() =>
       T.JsonName("SegmentDefinitionName"),
     ),
     DisplayName: S.optional(S.String).pipe(T.JsonName("DisplayName")),
-    Description: S.optional(S.String).pipe(T.JsonName("Description")),
+    Description: S.optional(SensitiveString).pipe(T.JsonName("Description")),
     SegmentDefinitionArn: S.optional(S.String).pipe(
       T.JsonName("SegmentDefinitionArn"),
     ),
@@ -4871,58 +4875,58 @@ export const BatchGetCalculatedAttributeForProfileRequest = S.suspend(() =>
 }) as any as S.Schema<BatchGetCalculatedAttributeForProfileRequest>;
 export interface CreateProfileRequest {
   DomainName: string;
-  AccountNumber?: string;
-  AdditionalInformation?: string;
+  AccountNumber?: string | Redacted.Redacted<string>;
+  AdditionalInformation?: string | Redacted.Redacted<string>;
   PartyType?: string;
-  BusinessName?: string;
-  FirstName?: string;
-  MiddleName?: string;
-  LastName?: string;
-  BirthDate?: string;
+  BusinessName?: string | Redacted.Redacted<string>;
+  FirstName?: string | Redacted.Redacted<string>;
+  MiddleName?: string | Redacted.Redacted<string>;
+  LastName?: string | Redacted.Redacted<string>;
+  BirthDate?: string | Redacted.Redacted<string>;
   Gender?: string;
-  PhoneNumber?: string;
-  MobilePhoneNumber?: string;
-  HomePhoneNumber?: string;
-  BusinessPhoneNumber?: string;
-  EmailAddress?: string;
-  PersonalEmailAddress?: string;
-  BusinessEmailAddress?: string;
+  PhoneNumber?: string | Redacted.Redacted<string>;
+  MobilePhoneNumber?: string | Redacted.Redacted<string>;
+  HomePhoneNumber?: string | Redacted.Redacted<string>;
+  BusinessPhoneNumber?: string | Redacted.Redacted<string>;
+  EmailAddress?: string | Redacted.Redacted<string>;
+  PersonalEmailAddress?: string | Redacted.Redacted<string>;
+  BusinessEmailAddress?: string | Redacted.Redacted<string>;
   Address?: Address;
   ShippingAddress?: Address;
   MailingAddress?: Address;
   BillingAddress?: Address;
   Attributes?: Attributes;
-  PartyTypeString?: string;
-  GenderString?: string;
+  PartyTypeString?: string | Redacted.Redacted<string>;
+  GenderString?: string | Redacted.Redacted<string>;
   ProfileType?: string;
   EngagementPreferences?: EngagementPreferences;
 }
 export const CreateProfileRequest = S.suspend(() =>
   S.Struct({
     DomainName: S.String.pipe(T.HttpLabel("DomainName")),
-    AccountNumber: S.optional(S.String),
-    AdditionalInformation: S.optional(S.String),
+    AccountNumber: S.optional(SensitiveString),
+    AdditionalInformation: S.optional(SensitiveString),
     PartyType: S.optional(S.String),
-    BusinessName: S.optional(S.String),
-    FirstName: S.optional(S.String),
-    MiddleName: S.optional(S.String),
-    LastName: S.optional(S.String),
-    BirthDate: S.optional(S.String),
+    BusinessName: S.optional(SensitiveString),
+    FirstName: S.optional(SensitiveString),
+    MiddleName: S.optional(SensitiveString),
+    LastName: S.optional(SensitiveString),
+    BirthDate: S.optional(SensitiveString),
     Gender: S.optional(S.String),
-    PhoneNumber: S.optional(S.String),
-    MobilePhoneNumber: S.optional(S.String),
-    HomePhoneNumber: S.optional(S.String),
-    BusinessPhoneNumber: S.optional(S.String),
-    EmailAddress: S.optional(S.String),
-    PersonalEmailAddress: S.optional(S.String),
-    BusinessEmailAddress: S.optional(S.String),
+    PhoneNumber: S.optional(SensitiveString),
+    MobilePhoneNumber: S.optional(SensitiveString),
+    HomePhoneNumber: S.optional(SensitiveString),
+    BusinessPhoneNumber: S.optional(SensitiveString),
+    EmailAddress: S.optional(SensitiveString),
+    PersonalEmailAddress: S.optional(SensitiveString),
+    BusinessEmailAddress: S.optional(SensitiveString),
     Address: S.optional(Address),
     ShippingAddress: S.optional(Address),
     MailingAddress: S.optional(Address),
     BillingAddress: S.optional(Address),
     Attributes: S.optional(Attributes),
-    PartyTypeString: S.optional(S.String),
-    GenderString: S.optional(S.String),
+    PartyTypeString: S.optional(SensitiveString),
+    GenderString: S.optional(SensitiveString),
     ProfileType: S.optional(S.String),
     EngagementPreferences: S.optional(EngagementPreferences),
   }).pipe(
@@ -5050,7 +5054,7 @@ export const Filter = S.suspend(() =>
 export interface GetCalculatedAttributeDefinitionResponse {
   CalculatedAttributeName?: string;
   DisplayName?: string;
-  Description?: string;
+  Description?: string | Redacted.Redacted<string>;
   CreatedAt?: Date;
   LastUpdatedAt?: Date;
   Statistic?: string;
@@ -5066,7 +5070,7 @@ export const GetCalculatedAttributeDefinitionResponse = S.suspend(() =>
   S.Struct({
     CalculatedAttributeName: S.optional(S.String),
     DisplayName: S.optional(S.String),
-    Description: S.optional(S.String),
+    Description: S.optional(SensitiveString),
     CreatedAt: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
     LastUpdatedAt: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
     Statistic: S.optional(S.String),
@@ -5462,7 +5466,7 @@ export const MergeProfilesRequest = S.suspend(() =>
 export interface PutDomainObjectTypeRequest {
   DomainName: string;
   ObjectTypeName: string;
-  Description?: string;
+  Description?: string | Redacted.Redacted<string>;
   EncryptionKey?: string;
   Fields: DomainObjectTypeFields;
   Tags?: TagMap;
@@ -5471,7 +5475,7 @@ export const PutDomainObjectTypeRequest = S.suspend(() =>
   S.Struct({
     DomainName: S.String.pipe(T.HttpLabel("DomainName")),
     ObjectTypeName: S.String.pipe(T.HttpLabel("ObjectTypeName")),
-    Description: S.optional(S.String),
+    Description: S.optional(SensitiveString),
     EncryptionKey: S.optional(S.String),
     Fields: DomainObjectTypeFields,
     Tags: S.optional(TagMap),
@@ -5494,7 +5498,7 @@ export const PutDomainObjectTypeRequest = S.suspend(() =>
 export interface PutProfileObjectTypeRequest {
   DomainName: string;
   ObjectTypeName: string;
-  Description: string;
+  Description: string | Redacted.Redacted<string>;
   TemplateId?: string;
   ExpirationDays?: number;
   EncryptionKey?: string;
@@ -5509,7 +5513,7 @@ export const PutProfileObjectTypeRequest = S.suspend(() =>
   S.Struct({
     DomainName: S.String.pipe(T.HttpLabel("DomainName")),
     ObjectTypeName: S.String.pipe(T.HttpLabel("ObjectTypeName")),
-    Description: S.String,
+    Description: SensitiveString,
     TemplateId: S.optional(S.String),
     ExpirationDays: S.optional(S.Number),
     EncryptionKey: S.optional(S.String),
@@ -5913,13 +5917,13 @@ export const EventStreamSummaryList = S.Array(EventStreamSummary);
 export interface ListProfileObjectsItem {
   ObjectTypeName?: string;
   ProfileObjectUniqueKey?: string;
-  Object?: string;
+  Object?: string | Redacted.Redacted<string>;
 }
 export const ListProfileObjectsItem = S.suspend(() =>
   S.Struct({
     ObjectTypeName: S.optional(S.String),
     ProfileObjectUniqueKey: S.optional(S.String),
-    Object: S.optional(S.String),
+    Object: S.optional(SensitiveString),
   }),
 ).annotations({
   identifier: "ListProfileObjectsItem",
@@ -5975,7 +5979,7 @@ export interface CreateEventTriggerRequest {
   DomainName: string;
   EventTriggerName: string;
   ObjectTypeName: string;
-  Description?: string;
+  Description?: string | Redacted.Redacted<string>;
   EventTriggerConditions: EventTriggerConditions;
   SegmentFilter?: string;
   EventTriggerLimits?: EventTriggerLimits;
@@ -5986,7 +5990,7 @@ export const CreateEventTriggerRequest = S.suspend(() =>
     DomainName: S.String.pipe(T.HttpLabel("DomainName")),
     EventTriggerName: S.String.pipe(T.HttpLabel("EventTriggerName")),
     ObjectTypeName: S.String,
-    Description: S.optional(S.String),
+    Description: S.optional(SensitiveString),
     EventTriggerConditions: EventTriggerConditions,
     SegmentFilter: S.optional(S.String),
     EventTriggerLimits: S.optional(EventTriggerLimits),
@@ -6052,7 +6056,7 @@ export interface CreateRecommenderRequest {
   RecommenderName: string;
   RecommenderRecipeName: string;
   RecommenderConfig?: RecommenderConfig;
-  Description?: string;
+  Description?: string | Redacted.Redacted<string>;
   Tags?: TagMap;
 }
 export const CreateRecommenderRequest = S.suspend(() =>
@@ -6061,7 +6065,7 @@ export const CreateRecommenderRequest = S.suspend(() =>
     RecommenderName: S.String.pipe(T.HttpLabel("RecommenderName")),
     RecommenderRecipeName: S.String,
     RecommenderConfig: S.optional(RecommenderConfig),
-    Description: S.optional(S.String),
+    Description: S.optional(SensitiveString),
     Tags: S.optional(TagMap),
   }).pipe(
     T.all(
@@ -6135,7 +6139,7 @@ export interface GetRecommenderResponse {
   RecommenderName: string;
   RecommenderRecipeName: string;
   RecommenderConfig?: RecommenderConfig;
-  Description?: string;
+  Description?: string | Redacted.Redacted<string>;
   Status?: string;
   LastUpdatedAt?: Date;
   CreatedAt?: Date;
@@ -6149,7 +6153,7 @@ export const GetRecommenderResponse = S.suspend(() =>
     RecommenderName: S.String,
     RecommenderRecipeName: S.String,
     RecommenderConfig: S.optional(RecommenderConfig),
-    Description: S.optional(S.String),
+    Description: S.optional(SensitiveString),
     Status: S.optional(S.String),
     LastUpdatedAt: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
     CreatedAt: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
@@ -6235,7 +6239,7 @@ export const MergeProfilesResponse = S.suspend(() =>
 }) as any as S.Schema<MergeProfilesResponse>;
 export interface PutDomainObjectTypeResponse {
   ObjectTypeName?: string;
-  Description?: string;
+  Description?: string | Redacted.Redacted<string>;
   EncryptionKey?: string;
   Fields?: DomainObjectTypeFields;
   CreatedAt?: Date;
@@ -6245,7 +6249,7 @@ export interface PutDomainObjectTypeResponse {
 export const PutDomainObjectTypeResponse = S.suspend(() =>
   S.Struct({
     ObjectTypeName: S.optional(S.String),
-    Description: S.optional(S.String),
+    Description: S.optional(SensitiveString),
     EncryptionKey: S.optional(S.String),
     Fields: S.optional(DomainObjectTypeFields),
     CreatedAt: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
@@ -6257,7 +6261,7 @@ export const PutDomainObjectTypeResponse = S.suspend(() =>
 }) as any as S.Schema<PutDomainObjectTypeResponse>;
 export interface PutProfileObjectTypeResponse {
   ObjectTypeName: string;
-  Description: string;
+  Description: string | Redacted.Redacted<string>;
   TemplateId?: string;
   ExpirationDays?: number;
   EncryptionKey?: string;
@@ -6274,7 +6278,7 @@ export interface PutProfileObjectTypeResponse {
 export const PutProfileObjectTypeResponse = S.suspend(() =>
   S.Struct({
     ObjectTypeName: S.String,
-    Description: S.String,
+    Description: SensitiveString,
     TemplateId: S.optional(S.String),
     ExpirationDays: S.optional(S.Number),
     EncryptionKey: S.optional(S.String),
@@ -6292,34 +6296,34 @@ export const PutProfileObjectTypeResponse = S.suspend(() =>
   identifier: "PutProfileObjectTypeResponse",
 }) as any as S.Schema<PutProfileObjectTypeResponse>;
 export interface CatalogItem {
-  Id?: string;
-  Name?: string;
-  Code?: string;
-  Type?: string;
-  Category?: string;
-  Description?: string;
-  AdditionalInformation?: string;
-  ImageLink?: string;
-  Link?: string;
+  Id?: string | Redacted.Redacted<string>;
+  Name?: string | Redacted.Redacted<string>;
+  Code?: string | Redacted.Redacted<string>;
+  Type?: string | Redacted.Redacted<string>;
+  Category?: string | Redacted.Redacted<string>;
+  Description?: string | Redacted.Redacted<string>;
+  AdditionalInformation?: string | Redacted.Redacted<string>;
+  ImageLink?: string | Redacted.Redacted<string>;
+  Link?: string | Redacted.Redacted<string>;
   CreatedAt?: Date;
   UpdatedAt?: Date;
-  Price?: string;
+  Price?: string | Redacted.Redacted<string>;
   Attributes?: Attributes;
 }
 export const CatalogItem = S.suspend(() =>
   S.Struct({
-    Id: S.optional(S.String),
-    Name: S.optional(S.String),
-    Code: S.optional(S.String),
-    Type: S.optional(S.String),
-    Category: S.optional(S.String),
-    Description: S.optional(S.String),
-    AdditionalInformation: S.optional(S.String),
-    ImageLink: S.optional(S.String),
-    Link: S.optional(S.String),
+    Id: S.optional(SensitiveString),
+    Name: S.optional(SensitiveString),
+    Code: S.optional(SensitiveString),
+    Type: S.optional(SensitiveString),
+    Category: S.optional(SensitiveString),
+    Description: S.optional(SensitiveString),
+    AdditionalInformation: S.optional(SensitiveString),
+    ImageLink: S.optional(SensitiveString),
+    Link: S.optional(SensitiveString),
     CreatedAt: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
     UpdatedAt: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
-    Price: S.optional(S.String),
+    Price: S.optional(SensitiveString),
     Attributes: S.optional(Attributes),
   }),
 ).annotations({ identifier: "CatalogItem" }) as any as S.Schema<CatalogItem>;
@@ -6421,7 +6425,7 @@ export const CreateDomainResponse = S.suspend(() =>
 export interface CreateEventTriggerResponse {
   EventTriggerName?: string;
   ObjectTypeName?: string;
-  Description?: string;
+  Description?: string | Redacted.Redacted<string>;
   EventTriggerConditions?: EventTriggerConditions;
   SegmentFilter?: string;
   EventTriggerLimits?: EventTriggerLimits;
@@ -6433,7 +6437,7 @@ export const CreateEventTriggerResponse = S.suspend(() =>
   S.Struct({
     EventTriggerName: S.optional(S.String),
     ObjectTypeName: S.optional(S.String),
-    Description: S.optional(S.String),
+    Description: S.optional(SensitiveString),
     EventTriggerConditions: S.optional(EventTriggerConditions),
     SegmentFilter: S.optional(S.String),
     EventTriggerLimits: S.optional(EventTriggerLimits),
@@ -6509,7 +6513,7 @@ export interface CreateCalculatedAttributeDefinitionRequest {
   DomainName: string;
   CalculatedAttributeName: string;
   DisplayName?: string;
-  Description?: string;
+  Description?: string | Redacted.Redacted<string>;
   AttributeDetails: AttributeDetails;
   Conditions?: Conditions;
   Filter?: Filter;
@@ -6524,7 +6528,7 @@ export const CreateCalculatedAttributeDefinitionRequest = S.suspend(() =>
       T.HttpLabel("CalculatedAttributeName"),
     ),
     DisplayName: S.optional(S.String),
-    Description: S.optional(S.String),
+    Description: S.optional(SensitiveString),
     AttributeDetails: AttributeDetails,
     Conditions: S.optional(Conditions),
     Filter: S.optional(Filter),
@@ -6582,7 +6586,7 @@ export const PutIntegrationResponse = S.suspend(() =>
 export interface CreateCalculatedAttributeDefinitionResponse {
   CalculatedAttributeName?: string;
   DisplayName?: string;
-  Description?: string;
+  Description?: string | Redacted.Redacted<string>;
   AttributeDetails?: AttributeDetails;
   Conditions?: Conditions;
   Filter?: Filter;
@@ -6598,7 +6602,7 @@ export const CreateCalculatedAttributeDefinitionResponse = S.suspend(() =>
   S.Struct({
     CalculatedAttributeName: S.optional(S.String),
     DisplayName: S.optional(S.String),
-    Description: S.optional(S.String),
+    Description: S.optional(SensitiveString),
     AttributeDetails: S.optional(AttributeDetails),
     Conditions: S.optional(Conditions),
     Filter: S.optional(Filter),
@@ -6617,9 +6621,9 @@ export interface CreateSegmentDefinitionRequest {
   DomainName: string;
   SegmentDefinitionName: string;
   DisplayName: string;
-  Description?: string;
+  Description?: string | Redacted.Redacted<string>;
   SegmentGroups?: SegmentGroup;
-  SegmentSqlQuery?: string;
+  SegmentSqlQuery?: string | Redacted.Redacted<string>;
   Tags?: TagMap;
 }
 export const CreateSegmentDefinitionRequest = S.suspend(() =>
@@ -6627,9 +6631,9 @@ export const CreateSegmentDefinitionRequest = S.suspend(() =>
     DomainName: S.String.pipe(T.HttpLabel("DomainName")),
     SegmentDefinitionName: S.String.pipe(T.HttpLabel("SegmentDefinitionName")),
     DisplayName: S.String,
-    Description: S.optional(S.String),
+    Description: S.optional(SensitiveString),
     SegmentGroups: S.optional(SegmentGroup),
-    SegmentSqlQuery: S.optional(S.String),
+    SegmentSqlQuery: S.optional(SensitiveString),
     Tags: S.optional(TagMap),
   }).pipe(
     T.all(
@@ -6650,7 +6654,7 @@ export const CreateSegmentDefinitionRequest = S.suspend(() =>
 export interface CreateSegmentDefinitionResponse {
   SegmentDefinitionName: string;
   DisplayName?: string;
-  Description?: string;
+  Description?: string | Redacted.Redacted<string>;
   CreatedAt?: Date;
   SegmentDefinitionArn?: string;
   Tags?: TagMap;
@@ -6659,7 +6663,7 @@ export const CreateSegmentDefinitionResponse = S.suspend(() =>
   S.Struct({
     SegmentDefinitionName: S.String.pipe(T.JsonName("SegmentDefinitionName")),
     DisplayName: S.optional(S.String).pipe(T.JsonName("DisplayName")),
-    Description: S.optional(S.String).pipe(T.JsonName("Description")),
+    Description: S.optional(SensitiveString).pipe(T.JsonName("Description")),
     CreatedAt: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))).pipe(
       T.JsonName("CreatedAt"),
     ),

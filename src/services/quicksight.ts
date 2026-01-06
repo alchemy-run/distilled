@@ -1,5 +1,6 @@
 import { HttpClient } from "@effect/platform";
 import * as Effect from "effect/Effect";
+import * as Redacted from "effect/Redacted";
 import * as S from "effect/Schema";
 import * as Stream from "effect/Stream";
 import * as API from "../api.ts";
@@ -10,6 +11,7 @@ import {
   ErrorCategory,
   Errors,
 } from "../index.ts";
+import { SensitiveString, SensitiveBlob } from "../sensitive.ts";
 const svc = T.AwsApiService({
   sdkId: "QuickSight",
   serviceShapeName: "QuickSight_20180401",
@@ -257,8 +259,8 @@ export type IngestionId = string;
 export type Namespace = string;
 export type AccountName = string;
 export type ShortRestrictiveResourceId = string;
-export type ActionConnectorName = string;
-export type ActionConnectorDescription = string;
+export type ActionConnectorName = string | Redacted.Redacted<string>;
+export type ActionConnectorDescription = string | Redacted.Redacted<string>;
 export type Arn = string;
 export type AnalysisName = string;
 export type CustomPermissionsName = string;
@@ -294,7 +296,7 @@ export type EntryPoint = string;
 export type FlowMaxResults = number;
 export type ListIdentityPropagationMaxResults = number;
 export type IngestionMaxResults = number;
-export type QAQueryText = string;
+export type QAQueryText = string | Redacted.Redacted<string>;
 export type MaxTopicsToConsider = number;
 export type RoleSessionName = string;
 export type RoleName = string;
@@ -312,9 +314,9 @@ export type SessionTagKey = string;
 export type CopySourceArn = string;
 export type SecretArn = string;
 export type IdentityName = string;
-export type CustomInstructionsString = string;
-export type SessionTagValue = string;
-export type SensitiveString = string;
+export type CustomInstructionsString = string | Redacted.Redacted<string>;
+export type SessionTagValue = string | Redacted.Redacted<string>;
+export type SensitiveString = string | Redacted.Redacted<string>;
 export type S3Uri = string;
 export type ActionsListMemberString = string;
 export type PermissionPrincipalString = string;
@@ -325,9 +327,9 @@ export type VpcIdRestrictionRuleDescription = string;
 export type VpcEndpointId = string;
 export type VpcEndpointIdRestrictionRuleDescription = string;
 export type StatusCode = number;
-export type SensitiveS3Uri = string;
+export type SensitiveS3Uri = string | Redacted.Redacted<string>;
 export type NonEmptyString = string;
-export type EmbeddingUrl = string;
+export type EmbeddingUrl = string | Redacted.Redacted<string>;
 export type Title = string;
 export type FlowDescription = string;
 export type Integer = number;
@@ -338,7 +340,7 @@ export type SheetTitle = string;
 export type SheetDescription = string;
 export type SheetName = string;
 export type ColumnName = string;
-export type CalculatedFieldExpression = string;
+export type CalculatedFieldExpression = string | Redacted.Redacted<string>;
 export type LogicalTableAlias = string;
 export type ColumnGroupName = string;
 export type FieldFolderDescription = string;
@@ -370,20 +372,20 @@ export type XpathFields = string;
 export type ApplicationArn = string;
 export type DbUsername = string;
 export type Password = string;
-export type PrivateKey = string;
-export type PrivateKeyPassphrase = string;
+export type PrivateKey = string | Redacted.Redacted<string>;
+export type PrivateKeyPassphrase = string | Redacted.Redacted<string>;
 export type HexColor = string;
 export type EntryPath = string;
 export type AssetBundleRestrictiveResourceId = string;
 export type ActionId = string;
 export type ErrorMessage = string;
 export type Long = number;
-export type Expression = string;
+export type Expression = string | Redacted.Redacted<string>;
 export type Endpoint = string;
-export type ActionUserName = string;
-export type ActionPassword = string;
-export type APIKey = string;
-export type Email = string;
+export type ActionUserName = string | Redacted.Redacted<string>;
+export type ActionPassword = string | Redacted.Redacted<string>;
+export type APIKey = string | Redacted.Redacted<string>;
+export type Email = string | Redacted.Redacted<string>;
 export type SheetTextBoxContent = string;
 export type LongPlainText = string;
 export type ParameterName = string;
@@ -391,7 +393,7 @@ export type RelationalTableCatalog = string;
 export type RelationalTableSchema = string;
 export type RelationalTableName = string;
 export type CustomSqlName = string;
-export type SqlQuery = string;
+export type SqlQuery = string | Redacted.Redacted<string>;
 export type StringDatasetParameterDefaultValue = string;
 export type DecimalDatasetParameterDefaultValue = number;
 export type IntegerDatasetParameterDefaultValue = number;
@@ -410,7 +412,7 @@ export type Padding = string;
 export type StatusCode2 = number;
 export type AltText = string;
 export type ColumnId = string;
-export type ColumnDescriptiveText = string;
+export type ColumnDescriptiveText = string | Redacted.Redacted<string>;
 export type NetworkInterfaceId = string;
 export type VisualTitle = string;
 export type VisualSubtitle = string;
@@ -423,11 +425,11 @@ export type SheetControlTitle = string;
 export type TextAreaControlDelimiter = string;
 export type Double = number;
 export type ImageCustomActionName = string;
-export type SensitiveStringObject = string;
+export type SensitiveStringObject = string | Redacted.Redacted<string>;
 export type SensitiveDoubleObject = number;
 export type SensitiveLongObject = number;
 export type DateTimeFormat = string;
-export type FieldValue = string;
+export type FieldValue = string | Redacted.Redacted<string>;
 export type ElementValue = string;
 export type HexColorWithTransparency = string;
 export type Delimiter = string;
@@ -436,17 +438,19 @@ export type TablePathElementId = string;
 export type TransformOperationAlias = string;
 export type TypeCastFormat = string;
 export type OnClause = string;
-export type JoinOperationOnClause = string;
+export type JoinOperationOnClause = string | Redacted.Redacted<string>;
 export type Width = string;
 export type PixelLength = string;
 export type PositiveLong = number;
 export type ClientId = string;
-export type ClientSecret = string;
+export type ClientSecret = string | Redacted.Redacted<string>;
 export type VisualCustomActionName = string;
 export type URLOperationTemplate = string;
 export type RadarChartStartAngle = number;
-export type NullString = string;
-export type DataSetCalculatedFieldExpression = string;
+export type NullString = string | Redacted.Redacted<string>;
+export type DataSetCalculatedFieldExpression =
+  | string
+  | Redacted.Redacted<string>;
 export type CellValue = string;
 export type ResourceArn = string;
 export type SheetControlInfoIconText = string;
@@ -470,8 +474,8 @@ export type GridLayoutElementRowIndex = number;
 export type GridLayoutElementRowSpan = number;
 export type UnlimitedPixelLength = string;
 export type CategoryValue = string;
-export type Prefix = string;
-export type Suffix = string;
+export type Prefix = string | Redacted.Redacted<string>;
+export type Suffix = string | Redacted.Redacted<string>;
 export type CurrencyCode = string;
 export type PageNumber = number;
 export type TableFieldHeight = number;
@@ -496,7 +500,7 @@ export type GrowthRatePeriodSize = number;
 export type ForecastComputationCustomSeasonalityValue = number;
 export type PercentileValue = number;
 export type DecimalPlaces = number;
-export type DataSetStringFilterStaticValue = string;
+export type DataSetStringFilterStaticValue = string | Redacted.Redacted<string>;
 export type Separator = string;
 export type Length = string;
 export type TableBorderThickness = number;
@@ -4497,7 +4501,7 @@ export const ListVPCConnectionsRequest = S.suspend(() =>
 }) as any as S.Schema<ListVPCConnectionsRequest>;
 export interface PredictQAResultsRequest {
   AwsAccountId: string;
-  QueryText: string;
+  QueryText: string | Redacted.Redacted<string>;
   IncludeQuickSightQIndex?: string;
   IncludeGeneratedAnswer?: string;
   MaxTopicsToConsider?: number;
@@ -4505,7 +4509,7 @@ export interface PredictQAResultsRequest {
 export const PredictQAResultsRequest = S.suspend(() =>
   S.Struct({
     AwsAccountId: S.String.pipe(T.HttpLabel("AwsAccountId")),
-    QueryText: S.String,
+    QueryText: SensitiveString,
     IncludeQuickSightQIndex: S.optional(S.String),
     IncludeGeneratedAnswer: S.optional(S.String),
     MaxTopicsToConsider: S.optional(S.Number),
@@ -4750,14 +4754,14 @@ export const UpdateAccountSettingsRequest = S.suspend(() =>
 }) as any as S.Schema<UpdateAccountSettingsRequest>;
 export interface AuthorizationCodeGrantDetails {
   ClientId: string;
-  ClientSecret: string;
+  ClientSecret: string | Redacted.Redacted<string>;
   TokenEndpoint: string;
   AuthorizationEndpoint: string;
 }
 export const AuthorizationCodeGrantDetails = S.suspend(() =>
   S.Struct({
     ClientId: S.String,
-    ClientSecret: S.String,
+    ClientSecret: SensitiveString,
     TokenEndpoint: S.String,
     AuthorizationEndpoint: S.String,
   }),
@@ -4790,13 +4794,13 @@ export const AuthorizationCodeGrantMetadata = S.suspend(() =>
 }) as any as S.Schema<AuthorizationCodeGrantMetadata>;
 export interface ClientCredentialsGrantDetails {
   ClientId: string;
-  ClientSecret: string;
+  ClientSecret: string | Redacted.Redacted<string>;
   TokenEndpoint: string;
 }
 export const ClientCredentialsGrantDetails = S.suspend(() =>
   S.Struct({
     ClientId: S.String,
-    ClientSecret: S.String,
+    ClientSecret: SensitiveString,
     TokenEndpoint: S.String,
   }),
 ).annotations({
@@ -4824,24 +4828,28 @@ export const ClientCredentialsGrantMetadata = S.suspend(() =>
 }) as any as S.Schema<ClientCredentialsGrantMetadata>;
 export interface BasicAuthConnectionMetadata {
   BaseEndpoint: string;
-  Username: string;
-  Password: string;
+  Username: string | Redacted.Redacted<string>;
+  Password: string | Redacted.Redacted<string>;
 }
 export const BasicAuthConnectionMetadata = S.suspend(() =>
-  S.Struct({ BaseEndpoint: S.String, Username: S.String, Password: S.String }),
+  S.Struct({
+    BaseEndpoint: S.String,
+    Username: SensitiveString,
+    Password: SensitiveString,
+  }),
 ).annotations({
   identifier: "BasicAuthConnectionMetadata",
 }) as any as S.Schema<BasicAuthConnectionMetadata>;
 export interface APIKeyConnectionMetadata {
   BaseEndpoint: string;
-  ApiKey: string;
-  Email?: string;
+  ApiKey: string | Redacted.Redacted<string>;
+  Email?: string | Redacted.Redacted<string>;
 }
 export const APIKeyConnectionMetadata = S.suspend(() =>
   S.Struct({
     BaseEndpoint: S.String,
-    ApiKey: S.String,
-    Email: S.optional(S.String),
+    ApiKey: SensitiveString,
+    Email: S.optional(SensitiveString),
   }),
 ).annotations({
   identifier: "APIKeyConnectionMetadata",
@@ -4890,18 +4898,18 @@ export const AuthConfig = S.suspend(() =>
 export interface UpdateActionConnectorRequest {
   AwsAccountId: string;
   ActionConnectorId: string;
-  Name: string;
+  Name: string | Redacted.Redacted<string>;
   AuthenticationConfig: AuthConfig;
-  Description?: string;
+  Description?: string | Redacted.Redacted<string>;
   VpcConnectionArn?: string;
 }
 export const UpdateActionConnectorRequest = S.suspend(() =>
   S.Struct({
     AwsAccountId: S.String.pipe(T.HttpLabel("AwsAccountId")),
     ActionConnectorId: S.String.pipe(T.HttpLabel("ActionConnectorId")),
-    Name: S.String,
+    Name: SensitiveString,
     AuthenticationConfig: AuthConfig,
-    Description: S.optional(S.String),
+    Description: S.optional(SensitiveString),
     VpcConnectionArn: S.optional(S.String),
   }).pipe(
     T.all(
@@ -4947,8 +4955,8 @@ export const UpdateActionConnectorPermissionsRequest = S.suspend(() =>
 ).annotations({
   identifier: "UpdateActionConnectorPermissionsRequest",
 }) as any as S.Schema<UpdateActionConnectorPermissionsRequest>;
-export type SensitiveStringList = string[];
-export const SensitiveStringList = S.Array(S.String);
+export type SensitiveStringList = string | Redacted.Redacted<string>[];
+export const SensitiveStringList = S.Array(SensitiveString);
 export interface StringParameter {
   Name: string;
   Values: SensitiveStringList;
@@ -5699,16 +5707,16 @@ export const NegativeValueConfiguration = S.suspend(() =>
   identifier: "NegativeValueConfiguration",
 }) as any as S.Schema<NegativeValueConfiguration>;
 export interface NullValueFormatConfiguration {
-  NullString: string;
+  NullString: string | Redacted.Redacted<string>;
 }
 export const NullValueFormatConfiguration = S.suspend(() =>
-  S.Struct({ NullString: S.String }),
+  S.Struct({ NullString: SensitiveString }),
 ).annotations({
   identifier: "NullValueFormatConfiguration",
 }) as any as S.Schema<NullValueFormatConfiguration>;
 export interface NumberDisplayFormatConfiguration {
-  Prefix?: string;
-  Suffix?: string;
+  Prefix?: string | Redacted.Redacted<string>;
+  Suffix?: string | Redacted.Redacted<string>;
   SeparatorConfiguration?: NumericSeparatorConfiguration;
   DecimalPlacesConfiguration?: DecimalPlacesConfiguration;
   NumberScale?: string;
@@ -5717,8 +5725,8 @@ export interface NumberDisplayFormatConfiguration {
 }
 export const NumberDisplayFormatConfiguration = S.suspend(() =>
   S.Struct({
-    Prefix: S.optional(S.String),
-    Suffix: S.optional(S.String),
+    Prefix: S.optional(SensitiveString),
+    Suffix: S.optional(SensitiveString),
     SeparatorConfiguration: S.optional(NumericSeparatorConfiguration),
     DecimalPlacesConfiguration: S.optional(DecimalPlacesConfiguration),
     NumberScale: S.optional(S.String),
@@ -5729,8 +5737,8 @@ export const NumberDisplayFormatConfiguration = S.suspend(() =>
   identifier: "NumberDisplayFormatConfiguration",
 }) as any as S.Schema<NumberDisplayFormatConfiguration>;
 export interface CurrencyDisplayFormatConfiguration {
-  Prefix?: string;
-  Suffix?: string;
+  Prefix?: string | Redacted.Redacted<string>;
+  Suffix?: string | Redacted.Redacted<string>;
   SeparatorConfiguration?: NumericSeparatorConfiguration;
   Symbol?: string;
   DecimalPlacesConfiguration?: DecimalPlacesConfiguration;
@@ -5740,8 +5748,8 @@ export interface CurrencyDisplayFormatConfiguration {
 }
 export const CurrencyDisplayFormatConfiguration = S.suspend(() =>
   S.Struct({
-    Prefix: S.optional(S.String),
-    Suffix: S.optional(S.String),
+    Prefix: S.optional(SensitiveString),
+    Suffix: S.optional(SensitiveString),
     SeparatorConfiguration: S.optional(NumericSeparatorConfiguration),
     Symbol: S.optional(S.String),
     DecimalPlacesConfiguration: S.optional(DecimalPlacesConfiguration),
@@ -5753,8 +5761,8 @@ export const CurrencyDisplayFormatConfiguration = S.suspend(() =>
   identifier: "CurrencyDisplayFormatConfiguration",
 }) as any as S.Schema<CurrencyDisplayFormatConfiguration>;
 export interface PercentageDisplayFormatConfiguration {
-  Prefix?: string;
-  Suffix?: string;
+  Prefix?: string | Redacted.Redacted<string>;
+  Suffix?: string | Redacted.Redacted<string>;
   SeparatorConfiguration?: NumericSeparatorConfiguration;
   DecimalPlacesConfiguration?: DecimalPlacesConfiguration;
   NegativeValueConfiguration?: NegativeValueConfiguration;
@@ -5762,8 +5770,8 @@ export interface PercentageDisplayFormatConfiguration {
 }
 export const PercentageDisplayFormatConfiguration = S.suspend(() =>
   S.Struct({
-    Prefix: S.optional(S.String),
-    Suffix: S.optional(S.String),
+    Prefix: S.optional(SensitiveString),
+    Suffix: S.optional(SensitiveString),
     SeparatorConfiguration: S.optional(NumericSeparatorConfiguration),
     DecimalPlacesConfiguration: S.optional(DecimalPlacesConfiguration),
     NegativeValueConfiguration: S.optional(NegativeValueConfiguration),
@@ -5962,10 +5970,10 @@ export const DateMeasureField = S.suspend(() =>
 }) as any as S.Schema<DateMeasureField>;
 export interface CalculatedMeasureField {
   FieldId: string;
-  Expression: string;
+  Expression: string | Redacted.Redacted<string>;
 }
 export const CalculatedMeasureField = S.suspend(() =>
-  S.Struct({ FieldId: S.String, Expression: S.String }),
+  S.Struct({ FieldId: S.String, Expression: SensitiveString }),
 ).annotations({
   identifier: "CalculatedMeasureField",
 }) as any as S.Schema<CalculatedMeasureField>;
@@ -6520,11 +6528,11 @@ export const TableConfiguration = S.suspend(() =>
   identifier: "TableConfiguration",
 }) as any as S.Schema<TableConfiguration>;
 export interface ConditionalFormattingSolidColor {
-  Expression: string;
+  Expression: string | Redacted.Redacted<string>;
   Color?: string;
 }
 export const ConditionalFormattingSolidColor = S.suspend(() =>
-  S.Struct({ Expression: S.String, Color: S.optional(S.String) }),
+  S.Struct({ Expression: SensitiveString, Color: S.optional(S.String) }),
 ).annotations({
   identifier: "ConditionalFormattingSolidColor",
 }) as any as S.Schema<ConditionalFormattingSolidColor>;
@@ -6551,11 +6559,11 @@ export const GradientColor = S.suspend(() =>
   identifier: "GradientColor",
 }) as any as S.Schema<GradientColor>;
 export interface ConditionalFormattingGradientColor {
-  Expression: string;
+  Expression: string | Redacted.Redacted<string>;
   Color: GradientColor;
 }
 export const ConditionalFormattingGradientColor = S.suspend(() =>
-  S.Struct({ Expression: S.String, Color: GradientColor }),
+  S.Struct({ Expression: SensitiveString, Color: GradientColor }),
 ).annotations({
   identifier: "ConditionalFormattingGradientColor",
 }) as any as S.Schema<ConditionalFormattingGradientColor>;
@@ -6572,11 +6580,11 @@ export const ConditionalFormattingColor = S.suspend(() =>
   identifier: "ConditionalFormattingColor",
 }) as any as S.Schema<ConditionalFormattingColor>;
 export interface ConditionalFormattingIconSet {
-  Expression: string;
+  Expression: string | Redacted.Redacted<string>;
   IconSetType?: string;
 }
 export const ConditionalFormattingIconSet = S.suspend(() =>
-  S.Struct({ Expression: S.String, IconSetType: S.optional(S.String) }),
+  S.Struct({ Expression: SensitiveString, IconSetType: S.optional(S.String) }),
 ).annotations({
   identifier: "ConditionalFormattingIconSet",
 }) as any as S.Schema<ConditionalFormattingIconSet>;
@@ -6598,14 +6606,14 @@ export const ConditionalFormattingIconDisplayConfiguration = S.suspend(() =>
   identifier: "ConditionalFormattingIconDisplayConfiguration",
 }) as any as S.Schema<ConditionalFormattingIconDisplayConfiguration>;
 export interface ConditionalFormattingCustomIconCondition {
-  Expression: string;
+  Expression: string | Redacted.Redacted<string>;
   IconOptions: ConditionalFormattingCustomIconOptions;
   Color?: string;
   DisplayConfiguration?: ConditionalFormattingIconDisplayConfiguration;
 }
 export const ConditionalFormattingCustomIconCondition = S.suspend(() =>
   S.Struct({
-    Expression: S.String,
+    Expression: SensitiveString,
     IconOptions: ConditionalFormattingCustomIconOptions,
     Color: S.optional(S.String),
     DisplayConfiguration: S.optional(
@@ -6777,8 +6785,8 @@ export const CustomActionURLOperation = S.suspend(() =>
 ).annotations({
   identifier: "CustomActionURLOperation",
 }) as any as S.Schema<CustomActionURLOperation>;
-export type StringDefaultValueList = string[];
-export const StringDefaultValueList = S.Array(S.String);
+export type StringDefaultValueList = string | Redacted.Redacted<string>[];
+export const StringDefaultValueList = S.Array(SensitiveString);
 export type IntegerDefaultValueList = number[];
 export const IntegerDefaultValueList = S.Array(S.Number);
 export type DecimalDefaultValueList = number[];
@@ -6956,13 +6964,13 @@ export const DataPathType = S.suspend(() =>
 ).annotations({ identifier: "DataPathType" }) as any as S.Schema<DataPathType>;
 export interface DataPathValue {
   FieldId?: string;
-  FieldValue?: string;
+  FieldValue?: string | Redacted.Redacted<string>;
   DataPathType?: DataPathType;
 }
 export const DataPathValue = S.suspend(() =>
   S.Struct({
     FieldId: S.optional(S.String),
-    FieldValue: S.optional(S.String),
+    FieldValue: S.optional(SensitiveString),
     DataPathType: S.optional(DataPathType),
   }),
 ).annotations({
@@ -7737,13 +7745,13 @@ export const FieldBarSeriesItem = S.suspend(() =>
 }) as any as S.Schema<FieldBarSeriesItem>;
 export interface DataFieldBarSeriesItem {
   FieldId: string;
-  FieldValue?: string;
+  FieldValue?: string | Redacted.Redacted<string>;
   Settings?: BarChartSeriesSettings;
 }
 export const DataFieldBarSeriesItem = S.suspend(() =>
   S.Struct({
     FieldId: S.String,
-    FieldValue: S.optional(S.String),
+    FieldValue: S.optional(SensitiveString),
     Settings: S.optional(BarChartSeriesSettings),
   }),
 ).annotations({
@@ -7794,13 +7802,13 @@ export const FieldLabelType = S.suspend(() =>
 }) as any as S.Schema<FieldLabelType>;
 export interface DataPathLabelType {
   FieldId?: string;
-  FieldValue?: string;
+  FieldValue?: string | Redacted.Redacted<string>;
   Visibility?: string;
 }
 export const DataPathLabelType = S.suspend(() =>
   S.Struct({
     FieldId: S.optional(S.String),
-    FieldValue: S.optional(S.String),
+    FieldValue: S.optional(SensitiveString),
     Visibility: S.optional(S.String),
   }),
 ).annotations({
@@ -9016,14 +9024,14 @@ export const FieldSeriesItem = S.suspend(() =>
 }) as any as S.Schema<FieldSeriesItem>;
 export interface DataFieldSeriesItem {
   FieldId: string;
-  FieldValue?: string;
+  FieldValue?: string | Redacted.Redacted<string>;
   AxisBinding: string;
   Settings?: LineChartSeriesSettings;
 }
 export const DataFieldSeriesItem = S.suspend(() =>
   S.Struct({
     FieldId: S.String,
-    FieldValue: S.optional(S.String),
+    FieldValue: S.optional(SensitiveString),
     AxisBinding: S.String,
     Settings: S.optional(LineChartSeriesSettings),
   }),
@@ -10377,13 +10385,13 @@ export const FieldComboSeriesItem = S.suspend(() =>
 }) as any as S.Schema<FieldComboSeriesItem>;
 export interface DataFieldComboSeriesItem {
   FieldId: string;
-  FieldValue?: string;
+  FieldValue?: string | Redacted.Redacted<string>;
   Settings?: ComboChartSeriesSettings;
 }
 export const DataFieldComboSeriesItem = S.suspend(() =>
   S.Struct({
     FieldId: S.String,
-    FieldValue: S.optional(S.String),
+    FieldValue: S.optional(SensitiveString),
     Settings: S.optional(ComboChartSeriesSettings),
   }),
 ).annotations({
@@ -11844,12 +11852,12 @@ export const SheetElementConfigurationOverrides = S.suspend(() =>
   identifier: "SheetElementConfigurationOverrides",
 }) as any as S.Schema<SheetElementConfigurationOverrides>;
 export interface SheetElementRenderingRule {
-  Expression: string;
+  Expression: string | Redacted.Redacted<string>;
   ConfigurationOverrides: SheetElementConfigurationOverrides;
 }
 export const SheetElementRenderingRule = S.suspend(() =>
   S.Struct({
-    Expression: S.String,
+    Expression: SensitiveString,
     ConfigurationOverrides: SheetElementConfigurationOverrides,
   }),
 ).annotations({
@@ -12263,13 +12271,13 @@ export const SheetDefinitionList = S.Array(SheetDefinition);
 export interface CalculatedField {
   DataSetIdentifier: string;
   Name: string;
-  Expression: string;
+  Expression: string | Redacted.Redacted<string>;
 }
 export const CalculatedField = S.suspend(() =>
   S.Struct({
     DataSetIdentifier: S.String,
     Name: S.String,
-    Expression: S.String,
+    Expression: SensitiveString,
   }),
 ).annotations({
   identifier: "CalculatedField",
@@ -12304,12 +12312,12 @@ export const StringDefaultValues = S.suspend(() =>
 }) as any as S.Schema<StringDefaultValues>;
 export interface StringValueWhenUnsetConfiguration {
   ValueWhenUnsetOption?: string;
-  CustomValue?: string;
+  CustomValue?: string | Redacted.Redacted<string>;
 }
 export const StringValueWhenUnsetConfiguration = S.suspend(() =>
   S.Struct({
     ValueWhenUnsetOption: S.optional(S.String),
-    CustomValue: S.optional(S.String),
+    CustomValue: S.optional(SensitiveString),
   }),
 ).annotations({
   identifier: "StringValueWhenUnsetConfiguration",
@@ -12429,10 +12437,13 @@ export const IntegerParameterDeclaration = S.suspend(() =>
 }) as any as S.Schema<IntegerParameterDeclaration>;
 export interface RollingDateConfiguration {
   DataSetIdentifier?: string;
-  Expression: string;
+  Expression: string | Redacted.Redacted<string>;
 }
 export const RollingDateConfiguration = S.suspend(() =>
-  S.Struct({ DataSetIdentifier: S.optional(S.String), Expression: S.String }),
+  S.Struct({
+    DataSetIdentifier: S.optional(S.String),
+    Expression: SensitiveString,
+  }),
 ).annotations({
   identifier: "RollingDateConfiguration",
 }) as any as S.Schema<RollingDateConfiguration>;
@@ -13077,13 +13088,13 @@ export const FilterGroup = S.suspend(() =>
 export type FilterGroupList = FilterGroup[];
 export const FilterGroupList = S.Array(FilterGroup);
 export interface CustomColor {
-  FieldValue?: string;
+  FieldValue?: string | Redacted.Redacted<string>;
   Color: string;
   SpecialValue?: string;
 }
 export const CustomColor = S.suspend(() =>
   S.Struct({
-    FieldValue: S.optional(S.String),
+    FieldValue: S.optional(SensitiveString),
     Color: S.String,
     SpecialValue: S.optional(S.String),
   }),
@@ -14124,14 +14135,14 @@ export const RelationalTable = S.suspend(() =>
 export interface CustomSql {
   DataSourceArn: string;
   Name: string;
-  SqlQuery: string;
+  SqlQuery: string | Redacted.Redacted<string>;
   Columns?: InputColumnList;
 }
 export const CustomSql = S.suspend(() =>
   S.Struct({
     DataSourceArn: S.String,
     Name: S.String,
-    SqlQuery: S.String,
+    SqlQuery: SensitiveString,
     Columns: S.optional(InputColumnList),
   }),
 ).annotations({ identifier: "CustomSql" }) as any as S.Schema<CustomSql>;
@@ -14248,10 +14259,10 @@ export const ProjectOperation = S.suspend(() =>
   identifier: "ProjectOperation",
 }) as any as S.Schema<ProjectOperation>;
 export interface DataSetStringFilterValue {
-  StaticValue?: string;
+  StaticValue?: string | Redacted.Redacted<string>;
 }
 export const DataSetStringFilterValue = S.suspend(() =>
-  S.Struct({ StaticValue: S.optional(S.String) }),
+  S.Struct({ StaticValue: S.optional(SensitiveString) }),
 ).annotations({
   identifier: "DataSetStringFilterValue",
 }) as any as S.Schema<DataSetStringFilterValue>;
@@ -14264,8 +14275,10 @@ export const DataSetStringComparisonFilterCondition = S.suspend(() =>
 ).annotations({
   identifier: "DataSetStringComparisonFilterCondition",
 }) as any as S.Schema<DataSetStringComparisonFilterCondition>;
-export type DataSetStringFilterStaticValueList = string[];
-export const DataSetStringFilterStaticValueList = S.Array(S.String);
+export type DataSetStringFilterStaticValueList =
+  | string
+  | Redacted.Redacted<string>[];
+export const DataSetStringFilterStaticValueList = S.Array(SensitiveString);
 export interface DataSetStringListFilterValue {
   StaticValues?: DataSetStringFilterStaticValueList;
 }
@@ -14404,14 +14417,14 @@ export const DataSetDateFilterCondition = S.suspend(() =>
   identifier: "DataSetDateFilterCondition",
 }) as any as S.Schema<DataSetDateFilterCondition>;
 export interface FilterOperation {
-  ConditionExpression?: string;
+  ConditionExpression?: string | Redacted.Redacted<string>;
   StringFilterCondition?: DataSetStringFilterCondition;
   NumericFilterCondition?: DataSetNumericFilterCondition;
   DateFilterCondition?: DataSetDateFilterCondition;
 }
 export const FilterOperation = S.suspend(() =>
   S.Struct({
-    ConditionExpression: S.optional(S.String),
+    ConditionExpression: S.optional(SensitiveString),
     StringFilterCondition: S.optional(DataSetStringFilterCondition),
     NumericFilterCondition: S.optional(DataSetNumericFilterCondition),
     DateFilterCondition: S.optional(DataSetDateFilterCondition),
@@ -14422,10 +14435,14 @@ export const FilterOperation = S.suspend(() =>
 export interface CalculatedColumn {
   ColumnName: string;
   ColumnId: string;
-  Expression: string;
+  Expression: string | Redacted.Redacted<string>;
 }
 export const CalculatedColumn = S.suspend(() =>
-  S.Struct({ ColumnName: S.String, ColumnId: S.String, Expression: S.String }),
+  S.Struct({
+    ColumnName: S.String,
+    ColumnId: S.String,
+    Expression: SensitiveString,
+  }),
 ).annotations({
   identifier: "CalculatedColumn",
 }) as any as S.Schema<CalculatedColumn>;
@@ -14471,10 +14488,10 @@ export const CastColumnTypeOperation = S.suspend(() =>
   identifier: "CastColumnTypeOperation",
 }) as any as S.Schema<CastColumnTypeOperation>;
 export interface ColumnDescription {
-  Text?: string;
+  Text?: string | Redacted.Redacted<string>;
 }
 export const ColumnDescription = S.suspend(() =>
-  S.Struct({ Text: S.optional(S.String) }),
+  S.Struct({ Text: S.optional(SensitiveString) }),
 ).annotations({
   identifier: "ColumnDescription",
 }) as any as S.Schema<ColumnDescription>;
@@ -14689,14 +14706,14 @@ export interface RowLevelPermissionTagRule {
   TagKey: string;
   ColumnName: string;
   TagMultiValueDelimiter?: string;
-  MatchAllValue?: string;
+  MatchAllValue?: string | Redacted.Redacted<string>;
 }
 export const RowLevelPermissionTagRule = S.suspend(() =>
   S.Struct({
     TagKey: S.String,
     ColumnName: S.String,
     TagMultiValueDelimiter: S.optional(S.String),
-    MatchAllValue: S.optional(S.String),
+    MatchAllValue: S.optional(SensitiveString),
   }),
 ).annotations({
   identifier: "RowLevelPermissionTagRule",
@@ -15007,7 +15024,7 @@ export interface JoinOperation {
   LeftOperand: TransformOperationSource;
   RightOperand: TransformOperationSource;
   Type: string;
-  OnClause: string;
+  OnClause: string | Redacted.Redacted<string>;
   LeftOperandProperties?: JoinOperandProperties;
   RightOperandProperties?: JoinOperandProperties;
 }
@@ -15017,7 +15034,7 @@ export const JoinOperation = S.suspend(() =>
     LeftOperand: TransformOperationSource,
     RightOperand: TransformOperationSource,
     Type: S.String,
-    OnClause: S.String,
+    OnClause: SensitiveString,
     LeftOperandProperties: S.optional(JoinOperandProperties),
     RightOperandProperties: S.optional(JoinOperandProperties),
   }),
@@ -15913,14 +15930,14 @@ export const CredentialPair = S.suspend(() =>
 }) as any as S.Schema<CredentialPair>;
 export interface KeyPairCredentials {
   KeyPairUsername: string;
-  PrivateKey: string;
-  PrivateKeyPassphrase?: string;
+  PrivateKey: string | Redacted.Redacted<string>;
+  PrivateKeyPassphrase?: string | Redacted.Redacted<string>;
 }
 export const KeyPairCredentials = S.suspend(() =>
   S.Struct({
     KeyPairUsername: S.String,
-    PrivateKey: S.String,
-    PrivateKeyPassphrase: S.optional(S.String),
+    PrivateKey: SensitiveString,
+    PrivateKeyPassphrase: S.optional(SensitiveString),
   }),
 ).annotations({
   identifier: "KeyPairCredentials",
@@ -17147,9 +17164,9 @@ export interface SemanticType {
   TypeName?: string;
   SubTypeName?: string;
   TypeParameters?: TypeParameters;
-  TruthyCellValue?: string;
+  TruthyCellValue?: string | Redacted.Redacted<string>;
   TruthyCellValueSynonyms?: SensitiveStringList;
-  FalseyCellValue?: string;
+  FalseyCellValue?: string | Redacted.Redacted<string>;
   FalseyCellValueSynonyms?: SensitiveStringList;
 }
 export const SemanticType = S.suspend(() =>
@@ -17157,9 +17174,9 @@ export const SemanticType = S.suspend(() =>
     TypeName: S.optional(S.String),
     SubTypeName: S.optional(S.String),
     TypeParameters: S.optional(TypeParameters),
-    TruthyCellValue: S.optional(S.String),
+    TruthyCellValue: S.optional(SensitiveString),
     TruthyCellValueSynonyms: S.optional(SensitiveStringList),
-    FalseyCellValue: S.optional(S.String),
+    FalseyCellValue: S.optional(SensitiveString),
     FalseyCellValueSynonyms: S.optional(SensitiveStringList),
   }),
 ).annotations({ identifier: "SemanticType" }) as any as S.Schema<SemanticType>;
@@ -17277,7 +17294,7 @@ export const TopicColumns = S.Array(TopicColumn);
 export interface TopicCalculatedField {
   CalculatedFieldName: string;
   CalculatedFieldDescription?: string;
-  Expression: string;
+  Expression: string | Redacted.Redacted<string>;
   CalculatedFieldSynonyms?: Synonyms;
   IsIncludedInTopic?: boolean;
   DisableIndexing?: boolean;
@@ -17297,7 +17314,7 @@ export const TopicCalculatedField = S.suspend(() =>
   S.Struct({
     CalculatedFieldName: S.String,
     CalculatedFieldDescription: S.optional(S.String),
-    Expression: S.String,
+    Expression: SensitiveString,
     CalculatedFieldSynonyms: S.optional(Synonyms),
     IsIncludedInTopic: S.optional(S.Boolean),
     DisableIndexing: S.optional(S.Boolean),
@@ -17440,10 +17457,10 @@ export const TopicDetails = S.suspend(() =>
   }),
 ).annotations({ identifier: "TopicDetails" }) as any as S.Schema<TopicDetails>;
 export interface CustomInstructions {
-  CustomInstructionsString: string;
+  CustomInstructionsString: string | Redacted.Redacted<string>;
 }
 export const CustomInstructions = S.suspend(() =>
-  S.Struct({ CustomInstructionsString: S.String }),
+  S.Struct({ CustomInstructionsString: SensitiveString }),
 ).annotations({
   identifier: "CustomInstructions",
 }) as any as S.Schema<CustomInstructions>;
@@ -17663,22 +17680,22 @@ export const LinkSharingConfiguration = S.suspend(() =>
 }) as any as S.Schema<LinkSharingConfiguration>;
 export interface SessionTag {
   Key: string;
-  Value: string;
+  Value: string | Redacted.Redacted<string>;
 }
 export const SessionTag = S.suspend(() =>
-  S.Struct({ Key: S.String, Value: S.String }),
+  S.Struct({ Key: S.String, Value: SensitiveString }),
 ).annotations({ identifier: "SessionTag" }) as any as S.Schema<SessionTag>;
 export type SessionTagList = SessionTag[];
 export const SessionTagList = S.Array(SessionTag);
 export type PermissionsList = Permission[];
 export const PermissionsList = S.Array(Permission);
 export type UserIdentifier =
-  | { UserName: string }
-  | { Email: string }
+  | { UserName: string | Redacted.Redacted<string> }
+  | { Email: string | Redacted.Redacted<string> }
   | { UserArn: string };
 export const UserIdentifier = S.Union(
-  S.Struct({ UserName: S.String }),
-  S.Struct({ Email: S.String }),
+  S.Struct({ UserName: SensitiveString }),
+  S.Struct({ Email: SensitiveString }),
   S.Struct({ UserArn: S.String }),
 );
 export interface CustomPermissions {
@@ -17947,22 +17964,22 @@ export const DashboardVisualResult = S.suspend(() =>
   identifier: "DashboardVisualResult",
 }) as any as S.Schema<DashboardVisualResult>;
 export interface GeneratedAnswerResult {
-  QuestionText?: string;
+  QuestionText?: string | Redacted.Redacted<string>;
   AnswerStatus?: string;
   TopicId?: string;
   TopicName?: string;
-  Restatement?: string;
+  Restatement?: string | Redacted.Redacted<string>;
   QuestionId?: string;
   AnswerId?: string;
   QuestionUrl?: string;
 }
 export const GeneratedAnswerResult = S.suspend(() =>
   S.Struct({
-    QuestionText: S.optional(S.String),
+    QuestionText: S.optional(SensitiveString),
     AnswerStatus: S.optional(S.String),
     TopicId: S.optional(S.String),
     TopicName: S.optional(S.String),
-    Restatement: S.optional(S.String),
+    Restatement: S.optional(SensitiveString),
     QuestionId: S.optional(S.String),
     AnswerId: S.optional(S.String),
     QuestionUrl: S.optional(S.String),
@@ -18115,11 +18132,11 @@ export const AssetBundleExportJobValidationStrategy = S.suspend(() =>
   identifier: "AssetBundleExportJobValidationStrategy",
 }) as any as S.Schema<AssetBundleExportJobValidationStrategy>;
 export interface AssetBundleImportSource {
-  Body?: Uint8Array;
+  Body?: Uint8Array | Redacted.Redacted<Uint8Array>;
   S3Uri?: string;
 }
 export const AssetBundleImportSource = S.suspend(() =>
-  S.Struct({ Body: S.optional(T.Blob), S3Uri: S.optional(S.String) }),
+  S.Struct({ Body: S.optional(SensitiveBlob), S3Uri: S.optional(S.String) }),
 ).annotations({
   identifier: "AssetBundleImportSource",
 }) as any as S.Schema<AssetBundleImportSource>;
@@ -19463,14 +19480,14 @@ export const DescribeTopicRefreshScheduleResponse = S.suspend(() =>
   identifier: "DescribeTopicRefreshScheduleResponse",
 }) as any as S.Schema<DescribeTopicRefreshScheduleResponse>;
 export interface GenerateEmbedUrlForRegisteredUserWithIdentityResponse {
-  EmbedUrl: string;
+  EmbedUrl: string | Redacted.Redacted<string>;
   Status: number;
   RequestId: string;
 }
 export const GenerateEmbedUrlForRegisteredUserWithIdentityResponse = S.suspend(
   () =>
     S.Struct({
-      EmbedUrl: S.String,
+      EmbedUrl: SensitiveString,
       Status: S.Number.pipe(T.HttpResponseCode()),
       RequestId: S.String,
     }),
@@ -19478,13 +19495,13 @@ export const GenerateEmbedUrlForRegisteredUserWithIdentityResponse = S.suspend(
   identifier: "GenerateEmbedUrlForRegisteredUserWithIdentityResponse",
 }) as any as S.Schema<GenerateEmbedUrlForRegisteredUserWithIdentityResponse>;
 export interface GetDashboardEmbedUrlResponse {
-  EmbedUrl?: string;
+  EmbedUrl?: string | Redacted.Redacted<string>;
   Status?: number;
   RequestId?: string;
 }
 export const GetDashboardEmbedUrlResponse = S.suspend(() =>
   S.Struct({
-    EmbedUrl: S.optional(S.String),
+    EmbedUrl: S.optional(SensitiveString),
     Status: S.optional(S.Number).pipe(T.HttpResponseCode()),
     RequestId: S.optional(S.String),
   }),
@@ -19572,13 +19589,13 @@ export const GetIdentityContextRequest = S.suspend(() =>
   identifier: "GetIdentityContextRequest",
 }) as any as S.Schema<GetIdentityContextRequest>;
 export interface GetSessionEmbedUrlResponse {
-  EmbedUrl?: string;
+  EmbedUrl?: string | Redacted.Redacted<string>;
   Status?: number;
   RequestId?: string;
 }
 export const GetSessionEmbedUrlResponse = S.suspend(() =>
   S.Struct({
-    EmbedUrl: S.optional(S.String),
+    EmbedUrl: S.optional(SensitiveString),
     Status: S.optional(S.Number).pipe(T.HttpResponseCode()),
     RequestId: S.optional(S.String),
   }),
@@ -21024,7 +21041,7 @@ export interface TopicIRMetric {
   Function?: AggFunction;
   Operands?: OperandList;
   ComparisonMethod?: TopicIRComparisonMethod;
-  Expression?: string;
+  Expression?: string | Redacted.Redacted<string>;
   CalculatedFieldReferences?: CalculatedFieldReferenceList;
   DisplayFormat?: string;
   DisplayFormatOptions?: DisplayFormatOptions;
@@ -21036,7 +21053,7 @@ export const TopicIRMetric = S.suspend(() =>
     Function: S.optional(AggFunction),
     Operands: S.optional(OperandList),
     ComparisonMethod: S.optional(TopicIRComparisonMethod),
-    Expression: S.optional(S.String),
+    Expression: S.optional(SensitiveString),
     CalculatedFieldReferences: S.optional(CalculatedFieldReferenceList),
     DisplayFormat: S.optional(S.String),
     DisplayFormatOptions: S.optional(DisplayFormatOptions),
@@ -21914,11 +21931,11 @@ export const AssetBundleImportJobError = S.suspend(() =>
 export type AssetBundleImportJobErrorList = AssetBundleImportJobError[];
 export const AssetBundleImportJobErrorList = S.Array(AssetBundleImportJobError);
 export interface AssetBundleImportSourceDescription {
-  Body?: string;
+  Body?: string | Redacted.Redacted<string>;
   S3Uri?: string;
 }
 export const AssetBundleImportSourceDescription = S.suspend(() =>
-  S.Struct({ Body: S.optional(S.String), S3Uri: S.optional(S.String) }),
+  S.Struct({ Body: S.optional(SensitiveString), S3Uri: S.optional(S.String) }),
 ).annotations({
   identifier: "AssetBundleImportSourceDescription",
 }) as any as S.Schema<AssetBundleImportSourceDescription>;
@@ -22076,7 +22093,7 @@ export interface ActionConnectorSummary {
   Arn: string;
   ActionConnectorId: string;
   Type: string;
-  Name: string;
+  Name: string | Redacted.Redacted<string>;
   CreatedTime?: Date;
   LastUpdatedTime: Date;
   Status?: string;
@@ -22087,7 +22104,7 @@ export const ActionConnectorSummary = S.suspend(() =>
     Arn: S.String,
     ActionConnectorId: S.String,
     Type: S.String,
-    Name: S.String,
+    Name: SensitiveString,
     CreatedTime: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
     LastUpdatedTime: S.Date.pipe(T.TimestampFormat("epoch-seconds")),
     Status: S.optional(S.String),
@@ -22874,7 +22891,7 @@ export const DescribeAccountSubscriptionResponse = S.suspend(() =>
 }) as any as S.Schema<DescribeAccountSubscriptionResponse>;
 export interface DescribeAssetBundleExportJobResponse {
   JobStatus?: string;
-  DownloadUrl?: string;
+  DownloadUrl?: string | Redacted.Redacted<string>;
   Errors?: AssetBundleExportJobErrorList;
   Arn?: string;
   CreatedTime?: Date;
@@ -22896,7 +22913,7 @@ export interface DescribeAssetBundleExportJobResponse {
 export const DescribeAssetBundleExportJobResponse = S.suspend(() =>
   S.Struct({
     JobStatus: S.optional(S.String),
-    DownloadUrl: S.optional(S.String),
+    DownloadUrl: S.optional(SensitiveString),
     Errors: S.optional(AssetBundleExportJobErrorList),
     Arn: S.optional(S.String),
     CreatedTime: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
@@ -23997,13 +24014,13 @@ export const SnapshotJobResultErrorInfoList = S.Array(
 );
 export interface SnapshotJobS3Result {
   S3DestinationConfiguration?: SnapshotS3DestinationConfiguration;
-  S3Uri?: string;
+  S3Uri?: string | Redacted.Redacted<string>;
   ErrorInfo?: SnapshotJobResultErrorInfoList;
 }
 export const SnapshotJobS3Result = S.suspend(() =>
   S.Struct({
     S3DestinationConfiguration: S.optional(SnapshotS3DestinationConfiguration),
-    S3Uri: S.optional(S.String),
+    S3Uri: S.optional(SensitiveString),
     ErrorInfo: S.optional(SnapshotJobResultErrorInfoList),
   }),
 ).annotations({
@@ -24043,7 +24060,7 @@ export const RegisteredUserSnapshotJobResultList = S.Array(
 export interface OutputColumn {
   Name?: string;
   Id?: string;
-  Description?: string;
+  Description?: string | Redacted.Redacted<string>;
   Type?: string;
   SubType?: string;
 }
@@ -24051,7 +24068,7 @@ export const OutputColumn = S.suspend(() =>
   S.Struct({
     Name: S.optional(S.String),
     Id: S.optional(S.String),
-    Description: S.optional(S.String),
+    Description: S.optional(SensitiveString),
     Type: S.optional(S.String),
     SubType: S.optional(S.String),
   }),
@@ -24794,19 +24811,19 @@ export const AnonymousUserDashboardEmbeddingConfiguration = S.suspend(() =>
 }) as any as S.Schema<AnonymousUserDashboardEmbeddingConfiguration>;
 export interface ReadBasicAuthConnectionMetadata {
   BaseEndpoint: string;
-  Username: string;
+  Username: string | Redacted.Redacted<string>;
 }
 export const ReadBasicAuthConnectionMetadata = S.suspend(() =>
-  S.Struct({ BaseEndpoint: S.String, Username: S.String }),
+  S.Struct({ BaseEndpoint: S.String, Username: SensitiveString }),
 ).annotations({
   identifier: "ReadBasicAuthConnectionMetadata",
 }) as any as S.Schema<ReadBasicAuthConnectionMetadata>;
 export interface ReadAPIKeyConnectionMetadata {
   BaseEndpoint: string;
-  Email?: string;
+  Email?: string | Redacted.Redacted<string>;
 }
 export const ReadAPIKeyConnectionMetadata = S.suspend(() =>
-  S.Struct({ BaseEndpoint: S.String, Email: S.optional(S.String) }),
+  S.Struct({ BaseEndpoint: S.String, Email: S.optional(SensitiveString) }),
 ).annotations({
   identifier: "ReadAPIKeyConnectionMetadata",
 }) as any as S.Schema<ReadAPIKeyConnectionMetadata>;
@@ -25211,10 +25228,10 @@ export const BatchCreateTopicReviewedAnswerRequest = S.suspend(() =>
 export interface CreateActionConnectorRequest {
   AwsAccountId: string;
   ActionConnectorId: string;
-  Name: string;
+  Name: string | Redacted.Redacted<string>;
   Type: string;
   AuthenticationConfig: AuthConfig;
-  Description?: string;
+  Description?: string | Redacted.Redacted<string>;
   Permissions?: ResourcePermissionList;
   VpcConnectionArn?: string;
   Tags?: TagList;
@@ -25223,10 +25240,10 @@ export const CreateActionConnectorRequest = S.suspend(() =>
   S.Struct({
     AwsAccountId: S.String.pipe(T.HttpLabel("AwsAccountId")),
     ActionConnectorId: S.String,
-    Name: S.String,
+    Name: SensitiveString,
     Type: S.String,
     AuthenticationConfig: AuthConfig,
-    Description: S.optional(S.String),
+    Description: S.optional(SensitiveString),
     Permissions: S.optional(ResourcePermissionList),
     VpcConnectionArn: S.optional(S.String),
     Tags: S.optional(TagList),
@@ -25303,14 +25320,14 @@ export const ReadClientCredentialsDetails = S.Union(
   }),
 );
 export interface GenerateEmbedUrlForAnonymousUserResponse {
-  EmbedUrl: string;
+  EmbedUrl: string | Redacted.Redacted<string>;
   Status: number;
   RequestId: string;
   AnonymousUserArn: string;
 }
 export const GenerateEmbedUrlForAnonymousUserResponse = S.suspend(() =>
   S.Struct({
-    EmbedUrl: S.String,
+    EmbedUrl: SensitiveString,
     Status: S.Number.pipe(T.HttpResponseCode()),
     RequestId: S.String,
     AnonymousUserArn: S.String,
@@ -25604,13 +25621,13 @@ export const DescribeDashboardSnapshotJobResultResponse = S.suspend(() =>
   identifier: "DescribeDashboardSnapshotJobResultResponse",
 }) as any as S.Schema<DescribeDashboardSnapshotJobResultResponse>;
 export interface GenerateEmbedUrlForRegisteredUserResponse {
-  EmbedUrl: string;
+  EmbedUrl: string | Redacted.Redacted<string>;
   Status: number;
   RequestId: string;
 }
 export const GenerateEmbedUrlForRegisteredUserResponse = S.suspend(() =>
   S.Struct({
-    EmbedUrl: S.String,
+    EmbedUrl: SensitiveString,
     Status: S.Number.pipe(T.HttpResponseCode()),
     RequestId: S.String,
   }),
@@ -25633,12 +25650,12 @@ export interface ActionConnector {
   Arn: string;
   ActionConnectorId: string;
   Type: string;
-  Name: string;
+  Name: string | Redacted.Redacted<string>;
   CreatedTime?: Date;
   LastUpdatedTime: Date;
   Status?: string;
   Error?: ActionConnectorError;
-  Description?: string;
+  Description?: string | Redacted.Redacted<string>;
   AuthenticationConfig?: ReadAuthConfig;
   EnabledActions?: ActionIdList;
   VpcConnectionArn?: string;
@@ -25648,12 +25665,12 @@ export const ActionConnector = S.suspend(() =>
     Arn: S.String,
     ActionConnectorId: S.String,
     Type: S.String,
-    Name: S.String,
+    Name: SensitiveString,
     CreatedTime: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
     LastUpdatedTime: S.Date.pipe(T.TimestampFormat("epoch-seconds")),
     Status: S.optional(S.String),
     Error: S.optional(ActionConnectorError),
-    Description: S.optional(S.String),
+    Description: S.optional(SensitiveString),
     AuthenticationConfig: S.optional(ReadAuthConfig),
     EnabledActions: S.optional(ActionIdList),
     VpcConnectionArn: S.optional(S.String),

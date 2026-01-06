@@ -1,5 +1,6 @@
 import { HttpClient } from "@effect/platform";
 import * as Effect from "effect/Effect";
+import * as Redacted from "effect/Redacted";
 import * as S from "effect/Schema";
 import * as Stream from "effect/Stream";
 import * as API from "../api.ts";
@@ -10,6 +11,7 @@ import {
   ErrorCategory,
   Errors,
 } from "../index.ts";
+import { SensitiveString, SensitiveBlob } from "../sensitive.ts";
 const svc = T.AwsApiService({
   sdkId: "Bedrock AgentCore Control",
   serviceShapeName: "AmazonBedrockAgentCoreControl",
@@ -308,7 +310,7 @@ export type TaggableResourcesArn = string;
 export type ResourcePolicyBody = string;
 export type TagKey = string;
 export type AgentRuntimeId = string;
-export type EndpointName = string;
+export type EndpointName = string | Redacted.Redacted<string>;
 export type AgentRuntimeVersion = string;
 export type AgentEndpointDescription = string;
 export type ClientToken = string;
@@ -316,23 +318,23 @@ export type MaxResults = number;
 export type NextToken = string;
 export type AgentRuntimeName = string;
 export type RoleArn = string;
-export type Description = string;
+export type Description = string | Redacted.Redacted<string>;
 export type CredentialProviderName = string;
-export type ApiKeyType = string;
+export type ApiKeyType = string | Redacted.Redacted<string>;
 export type SandboxName = string;
 export type BrowserId = string;
 export type CodeInterpreterId = string;
 export type CustomEvaluatorName = string;
-export type EvaluatorDescription = string;
+export type EvaluatorDescription = string | Redacted.Redacted<string>;
 export type EvaluatorId = string;
-export type GatewayName = string;
-export type GatewayDescription = string;
+export type GatewayName = string | Redacted.Redacted<string>;
+export type GatewayDescription = string | Redacted.Redacted<string>;
 export type KmsKeyArn = string;
 export type GatewayIdentifier = string;
 export type GatewayMaxResults = number;
 export type GatewayNextToken = string;
-export type TargetName = string;
-export type TargetDescription = string;
+export type TargetName = string | Redacted.Redacted<string>;
+export type TargetDescription = string | Redacted.Redacted<string>;
 export type TargetId = string;
 export type TargetMaxResults = number;
 export type TargetNextToken = string;
@@ -341,7 +343,7 @@ export type Name = string;
 export type Arn = string;
 export type MemoryId = string;
 export type EvaluationConfigName = string;
-export type EvaluationConfigDescription = string;
+export type EvaluationConfigDescription = string | Redacted.Redacted<string>;
 export type OnlineEvaluationConfigId = string;
 export type PolicyEngineName = string;
 export type ResourceId = string;
@@ -384,12 +386,12 @@ export type DiscoveryUrl = string;
 export type AllowedAudience = string;
 export type AllowedClient = string;
 export type AllowedScopeType = string;
-export type EvaluatorInstructions = string;
+export type EvaluatorInstructions = string | Redacted.Redacted<string>;
 export type McpVersion = string;
 export type McpInstructions = string;
 export type Namespace = string;
 export type ClientIdType = string;
-export type ClientSecretType = string;
+export type ClientSecretType = string | Redacted.Redacted<string>;
 export type TenantIdType = string;
 export type IssuerUrlType = string;
 export type AuthorizationEndpointType = string;
@@ -403,7 +405,7 @@ export type SecretArn = string;
 export type MemoryArn = string;
 export type InboundTokenClaimNameType = string;
 export type LambdaFunctionArn = string;
-export type InlinePayload = string;
+export type InlinePayload = string | Redacted.Redacted<string>;
 export type OAuthCredentialProviderArn = string;
 export type OAuthScope = string;
 export type OAuthDefaultReturnUrl = string;
@@ -416,11 +418,11 @@ export type ModelId = string;
 export type S3BucketUri = string;
 export type AwsAccountId = string;
 export type OAuthCustomParametersKey = string;
-export type OAuthCustomParametersValue = string;
+export type OAuthCustomParametersValue = string | Redacted.Redacted<string>;
 export type ResponseType = string;
 export type TokenAuthMethod = string;
 export type MatchValueString = string;
-export type Prompt = string;
+export type Prompt = string | Redacted.Redacted<string>;
 export type CustomEvaluatorArn = string;
 
 //# Schemas
@@ -554,7 +556,7 @@ export type TagsMap = { [key: string]: string };
 export const TagsMap = S.Record({ key: S.String, value: S.String });
 export interface CreateAgentRuntimeEndpointRequest {
   agentRuntimeId: string;
-  name: string;
+  name: string | Redacted.Redacted<string>;
   agentRuntimeVersion?: string;
   description?: string;
   clientToken?: string;
@@ -563,7 +565,7 @@ export interface CreateAgentRuntimeEndpointRequest {
 export const CreateAgentRuntimeEndpointRequest = S.suspend(() =>
   S.Struct({
     agentRuntimeId: S.String.pipe(T.HttpLabel("agentRuntimeId")),
-    name: S.String,
+    name: SensitiveString,
     agentRuntimeVersion: S.optional(S.String),
     description: S.optional(S.String),
     clientToken: S.optional(S.String),
@@ -586,12 +588,12 @@ export const CreateAgentRuntimeEndpointRequest = S.suspend(() =>
 }) as any as S.Schema<CreateAgentRuntimeEndpointRequest>;
 export interface GetAgentRuntimeEndpointRequest {
   agentRuntimeId: string;
-  endpointName: string;
+  endpointName: string | Redacted.Redacted<string>;
 }
 export const GetAgentRuntimeEndpointRequest = S.suspend(() =>
   S.Struct({
     agentRuntimeId: S.String.pipe(T.HttpLabel("agentRuntimeId")),
-    endpointName: S.String.pipe(T.HttpLabel("endpointName")),
+    endpointName: SensitiveString.pipe(T.HttpLabel("endpointName")),
   }).pipe(
     T.all(
       T.Http({
@@ -610,7 +612,7 @@ export const GetAgentRuntimeEndpointRequest = S.suspend(() =>
 }) as any as S.Schema<GetAgentRuntimeEndpointRequest>;
 export interface UpdateAgentRuntimeEndpointRequest {
   agentRuntimeId: string;
-  endpointName: string;
+  endpointName: string | Redacted.Redacted<string>;
   agentRuntimeVersion?: string;
   description?: string;
   clientToken?: string;
@@ -618,7 +620,7 @@ export interface UpdateAgentRuntimeEndpointRequest {
 export const UpdateAgentRuntimeEndpointRequest = S.suspend(() =>
   S.Struct({
     agentRuntimeId: S.String.pipe(T.HttpLabel("agentRuntimeId")),
-    endpointName: S.String.pipe(T.HttpLabel("endpointName")),
+    endpointName: SensitiveString.pipe(T.HttpLabel("endpointName")),
     agentRuntimeVersion: S.optional(S.String),
     description: S.optional(S.String),
     clientToken: S.optional(S.String),
@@ -640,13 +642,13 @@ export const UpdateAgentRuntimeEndpointRequest = S.suspend(() =>
 }) as any as S.Schema<UpdateAgentRuntimeEndpointRequest>;
 export interface DeleteAgentRuntimeEndpointRequest {
   agentRuntimeId: string;
-  endpointName: string;
+  endpointName: string | Redacted.Redacted<string>;
   clientToken?: string;
 }
 export const DeleteAgentRuntimeEndpointRequest = S.suspend(() =>
   S.Struct({
     agentRuntimeId: S.String.pipe(T.HttpLabel("agentRuntimeId")),
-    endpointName: S.String.pipe(T.HttpLabel("endpointName")),
+    endpointName: SensitiveString.pipe(T.HttpLabel("endpointName")),
     clientToken: S.optional(S.String).pipe(T.HttpQuery("clientToken")),
   }).pipe(
     T.all(
@@ -877,7 +879,7 @@ export interface UpdateAgentRuntimeRequest {
   agentRuntimeArtifact: (typeof AgentRuntimeArtifact)["Type"];
   roleArn: string;
   networkConfiguration: NetworkConfiguration;
-  description?: string;
+  description?: string | Redacted.Redacted<string>;
   authorizerConfiguration?: (typeof AuthorizerConfiguration)["Type"];
   requestHeaderConfiguration?: (typeof RequestHeaderConfiguration)["Type"];
   protocolConfiguration?: ProtocolConfiguration;
@@ -891,7 +893,7 @@ export const UpdateAgentRuntimeRequest = S.suspend(() =>
     agentRuntimeArtifact: AgentRuntimeArtifact,
     roleArn: S.String,
     networkConfiguration: NetworkConfiguration,
-    description: S.optional(S.String),
+    description: S.optional(SensitiveString),
     authorizerConfiguration: S.optional(AuthorizerConfiguration),
     requestHeaderConfiguration: S.optional(RequestHeaderConfiguration),
     protocolConfiguration: S.optional(ProtocolConfiguration),
@@ -978,13 +980,13 @@ export const ListAgentRuntimeVersionsRequest = S.suspend(() =>
 }) as any as S.Schema<ListAgentRuntimeVersionsRequest>;
 export interface CreateApiKeyCredentialProviderRequest {
   name: string;
-  apiKey: string;
+  apiKey: string | Redacted.Redacted<string>;
   tags?: TagsMap;
 }
 export const CreateApiKeyCredentialProviderRequest = S.suspend(() =>
   S.Struct({
     name: S.String,
-    apiKey: S.String,
+    apiKey: SensitiveString,
     tags: S.optional(TagsMap),
   }).pipe(
     T.all(
@@ -1024,10 +1026,10 @@ export const GetApiKeyCredentialProviderRequest = S.suspend(() =>
 }) as any as S.Schema<GetApiKeyCredentialProviderRequest>;
 export interface UpdateApiKeyCredentialProviderRequest {
   name: string;
-  apiKey: string;
+  apiKey: string | Redacted.Redacted<string>;
 }
 export const UpdateApiKeyCredentialProviderRequest = S.suspend(() =>
-  S.Struct({ name: S.String, apiKey: S.String }).pipe(
+  S.Struct({ name: S.String, apiKey: SensitiveString }).pipe(
     T.all(
       T.Http({
         method: "POST",
@@ -1306,13 +1308,13 @@ export const EvaluatorModelConfig = S.Union(
   S.Struct({ bedrockEvaluatorModelConfig: BedrockEvaluatorModelConfig }),
 );
 export interface LlmAsAJudgeEvaluatorConfig {
-  instructions: string;
+  instructions: string | Redacted.Redacted<string>;
   ratingScale: (typeof RatingScale)["Type"];
   modelConfig: (typeof EvaluatorModelConfig)["Type"];
 }
 export const LlmAsAJudgeEvaluatorConfig = S.suspend(() =>
   S.Struct({
-    instructions: S.String,
+    instructions: SensitiveString,
     ratingScale: RatingScale,
     modelConfig: EvaluatorModelConfig,
   }),
@@ -1326,7 +1328,7 @@ export const EvaluatorConfig = S.Union(
 export interface UpdateEvaluatorRequest {
   clientToken?: string;
   evaluatorId: string;
-  description?: string;
+  description?: string | Redacted.Redacted<string>;
   evaluatorConfig?: (typeof EvaluatorConfig)["Type"];
   level?: string;
 }
@@ -1334,7 +1336,7 @@ export const UpdateEvaluatorRequest = S.suspend(() =>
   S.Struct({
     clientToken: S.optional(S.String),
     evaluatorId: S.String.pipe(T.HttpLabel("evaluatorId")),
-    description: S.optional(S.String),
+    description: S.optional(SensitiveString),
     evaluatorConfig: S.optional(EvaluatorConfig),
     level: S.optional(S.String),
   }).pipe(
@@ -1521,8 +1523,8 @@ export const GatewayPolicyEngineConfiguration = S.suspend(() =>
 }) as any as S.Schema<GatewayPolicyEngineConfiguration>;
 export interface UpdateGatewayRequest {
   gatewayIdentifier: string;
-  name: string;
-  description?: string;
+  name: string | Redacted.Redacted<string>;
+  description?: string | Redacted.Redacted<string>;
   roleArn: string;
   protocolType: string;
   protocolConfiguration?: (typeof GatewayProtocolConfiguration)["Type"];
@@ -1536,8 +1538,8 @@ export interface UpdateGatewayRequest {
 export const UpdateGatewayRequest = S.suspend(() =>
   S.Struct({
     gatewayIdentifier: S.String.pipe(T.HttpLabel("gatewayIdentifier")),
-    name: S.String,
-    description: S.optional(S.String),
+    name: SensitiveString,
+    description: S.optional(SensitiveString),
     roleArn: S.String,
     protocolType: S.String,
     protocolConfiguration: S.optional(GatewayProtocolConfiguration),
@@ -1669,10 +1671,10 @@ export const S3Configuration = S.suspend(() =>
 }) as any as S.Schema<S3Configuration>;
 export type ApiSchemaConfiguration =
   | { s3: S3Configuration }
-  | { inlinePayload: string };
+  | { inlinePayload: string | Redacted.Redacted<string> };
 export const ApiSchemaConfiguration = S.Union(
   S.Struct({ s3: S3Configuration }),
-  S.Struct({ inlinePayload: S.String }),
+  S.Struct({ inlinePayload: SensitiveString }),
 );
 export type RequiredProperties = string[];
 export const RequiredProperties = S.Array(S.String);
@@ -1822,10 +1824,12 @@ export const TargetConfiguration = S.Union(
 );
 export type OAuthScopes = string[];
 export const OAuthScopes = S.Array(S.String);
-export type OAuthCustomParameters = { [key: string]: string };
+export type OAuthCustomParameters = {
+  [key: string]: string | Redacted.Redacted<string>;
+};
 export const OAuthCustomParameters = S.Record({
   key: S.String,
-  value: S.String,
+  value: SensitiveString,
 });
 export interface OAuthCredentialProvider {
   providerArn: string;
@@ -1908,8 +1912,8 @@ export const MetadataConfiguration = S.suspend(() =>
 export interface UpdateGatewayTargetRequest {
   gatewayIdentifier: string;
   targetId: string;
-  name: string;
-  description?: string;
+  name: string | Redacted.Redacted<string>;
+  description?: string | Redacted.Redacted<string>;
   targetConfiguration: (typeof TargetConfiguration)["Type"];
   credentialProviderConfigurations?: CredentialProviderConfigurations;
   metadataConfiguration?: MetadataConfiguration;
@@ -1918,8 +1922,8 @@ export const UpdateGatewayTargetRequest = S.suspend(() =>
   S.Struct({
     gatewayIdentifier: S.String.pipe(T.HttpLabel("gatewayIdentifier")),
     targetId: S.String.pipe(T.HttpLabel("targetId")),
-    name: S.String,
-    description: S.optional(S.String),
+    name: SensitiveString,
+    description: S.optional(SensitiveString),
     targetConfiguration: TargetConfiguration,
     credentialProviderConfigurations: S.optional(
       CredentialProviderConfigurations,
@@ -2052,62 +2056,62 @@ export const Oauth2Discovery = S.Union(
 export interface CustomOauth2ProviderConfigInput {
   oauthDiscovery: (typeof Oauth2Discovery)["Type"];
   clientId: string;
-  clientSecret: string;
+  clientSecret: string | Redacted.Redacted<string>;
 }
 export const CustomOauth2ProviderConfigInput = S.suspend(() =>
   S.Struct({
     oauthDiscovery: Oauth2Discovery,
     clientId: S.String,
-    clientSecret: S.String,
+    clientSecret: SensitiveString,
   }),
 ).annotations({
   identifier: "CustomOauth2ProviderConfigInput",
 }) as any as S.Schema<CustomOauth2ProviderConfigInput>;
 export interface GoogleOauth2ProviderConfigInput {
   clientId: string;
-  clientSecret: string;
+  clientSecret: string | Redacted.Redacted<string>;
 }
 export const GoogleOauth2ProviderConfigInput = S.suspend(() =>
-  S.Struct({ clientId: S.String, clientSecret: S.String }),
+  S.Struct({ clientId: S.String, clientSecret: SensitiveString }),
 ).annotations({
   identifier: "GoogleOauth2ProviderConfigInput",
 }) as any as S.Schema<GoogleOauth2ProviderConfigInput>;
 export interface GithubOauth2ProviderConfigInput {
   clientId: string;
-  clientSecret: string;
+  clientSecret: string | Redacted.Redacted<string>;
 }
 export const GithubOauth2ProviderConfigInput = S.suspend(() =>
-  S.Struct({ clientId: S.String, clientSecret: S.String }),
+  S.Struct({ clientId: S.String, clientSecret: SensitiveString }),
 ).annotations({
   identifier: "GithubOauth2ProviderConfigInput",
 }) as any as S.Schema<GithubOauth2ProviderConfigInput>;
 export interface SlackOauth2ProviderConfigInput {
   clientId: string;
-  clientSecret: string;
+  clientSecret: string | Redacted.Redacted<string>;
 }
 export const SlackOauth2ProviderConfigInput = S.suspend(() =>
-  S.Struct({ clientId: S.String, clientSecret: S.String }),
+  S.Struct({ clientId: S.String, clientSecret: SensitiveString }),
 ).annotations({
   identifier: "SlackOauth2ProviderConfigInput",
 }) as any as S.Schema<SlackOauth2ProviderConfigInput>;
 export interface SalesforceOauth2ProviderConfigInput {
   clientId: string;
-  clientSecret: string;
+  clientSecret: string | Redacted.Redacted<string>;
 }
 export const SalesforceOauth2ProviderConfigInput = S.suspend(() =>
-  S.Struct({ clientId: S.String, clientSecret: S.String }),
+  S.Struct({ clientId: S.String, clientSecret: SensitiveString }),
 ).annotations({
   identifier: "SalesforceOauth2ProviderConfigInput",
 }) as any as S.Schema<SalesforceOauth2ProviderConfigInput>;
 export interface MicrosoftOauth2ProviderConfigInput {
   clientId: string;
-  clientSecret: string;
+  clientSecret: string | Redacted.Redacted<string>;
   tenantId?: string;
 }
 export const MicrosoftOauth2ProviderConfigInput = S.suspend(() =>
   S.Struct({
     clientId: S.String,
-    clientSecret: S.String,
+    clientSecret: SensitiveString,
     tenantId: S.optional(S.String),
   }),
 ).annotations({
@@ -2115,25 +2119,25 @@ export const MicrosoftOauth2ProviderConfigInput = S.suspend(() =>
 }) as any as S.Schema<MicrosoftOauth2ProviderConfigInput>;
 export interface AtlassianOauth2ProviderConfigInput {
   clientId: string;
-  clientSecret: string;
+  clientSecret: string | Redacted.Redacted<string>;
 }
 export const AtlassianOauth2ProviderConfigInput = S.suspend(() =>
-  S.Struct({ clientId: S.String, clientSecret: S.String }),
+  S.Struct({ clientId: S.String, clientSecret: SensitiveString }),
 ).annotations({
   identifier: "AtlassianOauth2ProviderConfigInput",
 }) as any as S.Schema<AtlassianOauth2ProviderConfigInput>;
 export interface LinkedinOauth2ProviderConfigInput {
   clientId: string;
-  clientSecret: string;
+  clientSecret: string | Redacted.Redacted<string>;
 }
 export const LinkedinOauth2ProviderConfigInput = S.suspend(() =>
-  S.Struct({ clientId: S.String, clientSecret: S.String }),
+  S.Struct({ clientId: S.String, clientSecret: SensitiveString }),
 ).annotations({
   identifier: "LinkedinOauth2ProviderConfigInput",
 }) as any as S.Schema<LinkedinOauth2ProviderConfigInput>;
 export interface IncludedOauth2ProviderConfigInput {
   clientId: string;
-  clientSecret: string;
+  clientSecret: string | Redacted.Redacted<string>;
   issuer?: string;
   authorizationEndpoint?: string;
   tokenEndpoint?: string;
@@ -2141,7 +2145,7 @@ export interface IncludedOauth2ProviderConfigInput {
 export const IncludedOauth2ProviderConfigInput = S.suspend(() =>
   S.Struct({
     clientId: S.String,
-    clientSecret: S.String,
+    clientSecret: SensitiveString,
     issuer: S.optional(S.String),
     authorizationEndpoint: S.optional(S.String),
     tokenEndpoint: S.optional(S.String),
@@ -2350,7 +2354,7 @@ export const EvaluatorList = S.Array(EvaluatorReference);
 export interface UpdateOnlineEvaluationConfigRequest {
   clientToken?: string;
   onlineEvaluationConfigId: string;
-  description?: string;
+  description?: string | Redacted.Redacted<string>;
   rule?: Rule;
   dataSourceConfig?: (typeof DataSourceConfig)["Type"];
   evaluators?: EvaluatorList;
@@ -2363,7 +2367,7 @@ export const UpdateOnlineEvaluationConfigRequest = S.suspend(() =>
     onlineEvaluationConfigId: S.String.pipe(
       T.HttpLabel("onlineEvaluationConfigId"),
     ),
-    description: S.optional(S.String),
+    description: S.optional(SensitiveString),
     rule: S.optional(Rule),
     dataSourceConfig: S.optional(DataSourceConfig),
     evaluators: S.optional(EvaluatorList),
@@ -2432,13 +2436,13 @@ export const ListOnlineEvaluationConfigsRequest = S.suspend(() =>
 }) as any as S.Schema<ListOnlineEvaluationConfigsRequest>;
 export interface CreatePolicyEngineRequest {
   name: string;
-  description?: string;
+  description?: string | Redacted.Redacted<string>;
   clientToken?: string;
 }
 export const CreatePolicyEngineRequest = S.suspend(() =>
   S.Struct({
     name: S.String,
-    description: S.optional(S.String),
+    description: S.optional(SensitiveString),
     clientToken: S.optional(S.String),
   }).pipe(
     T.all(
@@ -2474,12 +2478,12 @@ export const GetPolicyEngineRequest = S.suspend(() =>
 }) as any as S.Schema<GetPolicyEngineRequest>;
 export interface UpdatePolicyEngineRequest {
   policyEngineId: string;
-  description?: string;
+  description?: string | Redacted.Redacted<string>;
 }
 export const UpdatePolicyEngineRequest = S.suspend(() =>
   S.Struct({
     policyEngineId: S.String.pipe(T.HttpLabel("policyEngineId")),
-    description: S.optional(S.String),
+    description: S.optional(SensitiveString),
   }).pipe(
     T.all(
       T.Http({ method: "PUT", uri: "/policy-engines/{policyEngineId}" }),
@@ -2646,7 +2650,7 @@ export const PolicyDefinition = S.Union(S.Struct({ cedar: CedarPolicy }));
 export interface UpdatePolicyRequest {
   policyEngineId: string;
   policyId: string;
-  description?: string;
+  description?: string | Redacted.Redacted<string>;
   definition: (typeof PolicyDefinition)["Type"];
   validationMode?: string;
 }
@@ -2654,7 +2658,7 @@ export const UpdatePolicyRequest = S.suspend(() =>
   S.Struct({
     policyEngineId: S.String.pipe(T.HttpLabel("policyEngineId")),
     policyId: S.String.pipe(T.HttpLabel("policyId")),
-    description: S.optional(S.String),
+    description: S.optional(SensitiveString),
     definition: PolicyDefinition,
     validationMode: S.optional(S.String),
   }).pipe(
@@ -2970,7 +2974,7 @@ export interface CreateAgentRuntimeEndpointResponse {
   agentRuntimeEndpointArn: string;
   agentRuntimeArn: string;
   agentRuntimeId?: string;
-  endpointName?: string;
+  endpointName?: string | Redacted.Redacted<string>;
   status: string;
   createdAt: Date;
 }
@@ -2980,7 +2984,7 @@ export const CreateAgentRuntimeEndpointResponse = S.suspend(() =>
     agentRuntimeEndpointArn: S.String,
     agentRuntimeArn: S.String,
     agentRuntimeId: S.optional(S.String),
-    endpointName: S.optional(S.String),
+    endpointName: S.optional(SensitiveString),
     status: S.String,
     createdAt: S.Date.pipe(T.TimestampFormat("date-time")),
   }),
@@ -2997,7 +3001,7 @@ export interface GetAgentRuntimeEndpointResponse {
   createdAt: Date;
   lastUpdatedAt: Date;
   failureReason?: string;
-  name: string;
+  name: string | Redacted.Redacted<string>;
   id: string;
 }
 export const GetAgentRuntimeEndpointResponse = S.suspend(() =>
@@ -3011,7 +3015,7 @@ export const GetAgentRuntimeEndpointResponse = S.suspend(() =>
     createdAt: S.Date.pipe(T.TimestampFormat("date-time")),
     lastUpdatedAt: S.Date.pipe(T.TimestampFormat("date-time")),
     failureReason: S.optional(S.String),
-    name: S.String,
+    name: SensitiveString,
     id: S.String,
   }),
 ).annotations({
@@ -3042,13 +3046,13 @@ export const UpdateAgentRuntimeEndpointResponse = S.suspend(() =>
 export interface DeleteAgentRuntimeEndpointResponse {
   status: string;
   agentRuntimeId?: string;
-  endpointName?: string;
+  endpointName?: string | Redacted.Redacted<string>;
 }
 export const DeleteAgentRuntimeEndpointResponse = S.suspend(() =>
   S.Struct({
     status: S.String,
     agentRuntimeId: S.optional(S.String),
-    endpointName: S.optional(S.String),
+    endpointName: S.optional(SensitiveString),
   }),
 ).annotations({
   identifier: "DeleteAgentRuntimeEndpointResponse",
@@ -3097,7 +3101,7 @@ export interface AgentRuntime {
   agentRuntimeId: string;
   agentRuntimeVersion: string;
   agentRuntimeName: string;
-  description: string;
+  description: string | Redacted.Redacted<string>;
   lastUpdatedAt: Date;
   status: string;
 }
@@ -3107,7 +3111,7 @@ export const AgentRuntime = S.suspend(() =>
     agentRuntimeId: S.String,
     agentRuntimeVersion: S.String,
     agentRuntimeName: S.String,
-    description: S.String,
+    description: SensitiveString,
     lastUpdatedAt: S.Date.pipe(T.TimestampFormat("date-time")),
     status: S.String,
   }),
@@ -3181,7 +3185,7 @@ export const DeleteBrowserResponse = S.suspend(() =>
 }) as any as S.Schema<DeleteBrowserResponse>;
 export interface CreateCodeInterpreterRequest {
   name: string;
-  description?: string;
+  description?: string | Redacted.Redacted<string>;
   executionRoleArn?: string;
   networkConfiguration: CodeInterpreterNetworkConfiguration;
   clientToken?: string;
@@ -3190,7 +3194,7 @@ export interface CreateCodeInterpreterRequest {
 export const CreateCodeInterpreterRequest = S.suspend(() =>
   S.Struct({
     name: S.String,
-    description: S.optional(S.String),
+    description: S.optional(SensitiveString),
     executionRoleArn: S.optional(S.String),
     networkConfiguration: CodeInterpreterNetworkConfiguration,
     clientToken: S.optional(S.String),
@@ -3212,7 +3216,7 @@ export interface GetCodeInterpreterResponse {
   codeInterpreterId: string;
   codeInterpreterArn: string;
   name: string;
-  description?: string;
+  description?: string | Redacted.Redacted<string>;
   executionRoleArn?: string;
   networkConfiguration: CodeInterpreterNetworkConfiguration;
   status: string;
@@ -3225,7 +3229,7 @@ export const GetCodeInterpreterResponse = S.suspend(() =>
     codeInterpreterId: S.String,
     codeInterpreterArn: S.String,
     name: S.String,
-    description: S.optional(S.String),
+    description: S.optional(SensitiveString),
     executionRoleArn: S.optional(S.String),
     networkConfiguration: CodeInterpreterNetworkConfiguration,
     status: S.String,
@@ -3254,7 +3258,7 @@ export interface GetEvaluatorResponse {
   evaluatorArn: string;
   evaluatorId: string;
   evaluatorName: string;
-  description?: string;
+  description?: string | Redacted.Redacted<string>;
   evaluatorConfig: (typeof EvaluatorConfig)["Type"];
   level: string;
   status: string;
@@ -3267,7 +3271,7 @@ export const GetEvaluatorResponse = S.suspend(() =>
     evaluatorArn: S.String,
     evaluatorId: S.String,
     evaluatorName: S.String,
-    description: S.optional(S.String),
+    description: S.optional(SensitiveString),
     evaluatorConfig: EvaluatorConfig,
     level: S.String,
     status: S.String,
@@ -3326,8 +3330,8 @@ export interface GetGatewayResponse {
   updatedAt: Date;
   status: string;
   statusReasons?: StatusReasons;
-  name: string;
-  description?: string;
+  name: string | Redacted.Redacted<string>;
+  description?: string | Redacted.Redacted<string>;
   roleArn?: string;
   protocolType: string;
   protocolConfiguration?: (typeof GatewayProtocolConfiguration)["Type"];
@@ -3348,8 +3352,8 @@ export const GetGatewayResponse = S.suspend(() =>
     updatedAt: S.Date.pipe(T.TimestampFormat("date-time")),
     status: S.String,
     statusReasons: S.optional(StatusReasons),
-    name: S.String,
-    description: S.optional(S.String),
+    name: SensitiveString,
+    description: S.optional(SensitiveString),
     roleArn: S.optional(S.String),
     protocolType: S.String,
     protocolConfiguration: S.optional(GatewayProtocolConfiguration),
@@ -3372,8 +3376,8 @@ export interface UpdateGatewayResponse {
   updatedAt: Date;
   status: string;
   statusReasons?: StatusReasons;
-  name: string;
-  description?: string;
+  name: string | Redacted.Redacted<string>;
+  description?: string | Redacted.Redacted<string>;
   roleArn?: string;
   protocolType: string;
   protocolConfiguration?: (typeof GatewayProtocolConfiguration)["Type"];
@@ -3394,8 +3398,8 @@ export const UpdateGatewayResponse = S.suspend(() =>
     updatedAt: S.Date.pipe(T.TimestampFormat("date-time")),
     status: S.String,
     statusReasons: S.optional(StatusReasons),
-    name: S.String,
-    description: S.optional(S.String),
+    name: SensitiveString,
+    description: S.optional(SensitiveString),
     roleArn: S.optional(S.String),
     protocolType: S.String,
     protocolConfiguration: S.optional(GatewayProtocolConfiguration),
@@ -3433,8 +3437,8 @@ export interface GetGatewayTargetResponse {
   updatedAt: Date;
   status: string;
   statusReasons?: StatusReasons;
-  name: string;
-  description?: string;
+  name: string | Redacted.Redacted<string>;
+  description?: string | Redacted.Redacted<string>;
   targetConfiguration: (typeof TargetConfiguration)["Type"];
   credentialProviderConfigurations: CredentialProviderConfigurations;
   lastSynchronizedAt?: Date;
@@ -3448,8 +3452,8 @@ export const GetGatewayTargetResponse = S.suspend(() =>
     updatedAt: S.Date.pipe(T.TimestampFormat("date-time")),
     status: S.String,
     statusReasons: S.optional(StatusReasons),
-    name: S.String,
-    description: S.optional(S.String),
+    name: SensitiveString,
+    description: S.optional(SensitiveString),
     targetConfiguration: TargetConfiguration,
     credentialProviderConfigurations: CredentialProviderConfigurations,
     lastSynchronizedAt: S.optional(S.Date.pipe(T.TimestampFormat("date-time"))),
@@ -3465,8 +3469,8 @@ export interface UpdateGatewayTargetResponse {
   updatedAt: Date;
   status: string;
   statusReasons?: StatusReasons;
-  name: string;
-  description?: string;
+  name: string | Redacted.Redacted<string>;
+  description?: string | Redacted.Redacted<string>;
   targetConfiguration: (typeof TargetConfiguration)["Type"];
   credentialProviderConfigurations: CredentialProviderConfigurations;
   lastSynchronizedAt?: Date;
@@ -3480,8 +3484,8 @@ export const UpdateGatewayTargetResponse = S.suspend(() =>
     updatedAt: S.Date.pipe(T.TimestampFormat("date-time")),
     status: S.String,
     statusReasons: S.optional(StatusReasons),
-    name: S.String,
-    description: S.optional(S.String),
+    name: SensitiveString,
+    description: S.optional(SensitiveString),
     targetConfiguration: TargetConfiguration,
     credentialProviderConfigurations: CredentialProviderConfigurations,
     lastSynchronizedAt: S.optional(S.Date.pipe(T.TimestampFormat("date-time"))),
@@ -3672,7 +3676,7 @@ export const DeleteOnlineEvaluationConfigResponse = S.suspend(() =>
 export interface CreatePolicyEngineResponse {
   policyEngineId: string;
   name: string;
-  description?: string;
+  description?: string | Redacted.Redacted<string>;
   createdAt: Date;
   updatedAt: Date;
   policyEngineArn: string;
@@ -3683,7 +3687,7 @@ export const CreatePolicyEngineResponse = S.suspend(() =>
   S.Struct({
     policyEngineId: S.String,
     name: S.String,
-    description: S.optional(S.String),
+    description: S.optional(SensitiveString),
     createdAt: S.Date.pipe(T.TimestampFormat("date-time")),
     updatedAt: S.Date.pipe(T.TimestampFormat("date-time")),
     policyEngineArn: S.String,
@@ -3696,7 +3700,7 @@ export const CreatePolicyEngineResponse = S.suspend(() =>
 export interface GetPolicyEngineResponse {
   policyEngineId: string;
   name: string;
-  description?: string;
+  description?: string | Redacted.Redacted<string>;
   createdAt: Date;
   updatedAt: Date;
   policyEngineArn: string;
@@ -3707,7 +3711,7 @@ export const GetPolicyEngineResponse = S.suspend(() =>
   S.Struct({
     policyEngineId: S.String,
     name: S.String,
-    description: S.optional(S.String),
+    description: S.optional(SensitiveString),
     createdAt: S.Date.pipe(T.TimestampFormat("date-time")),
     updatedAt: S.Date.pipe(T.TimestampFormat("date-time")),
     policyEngineArn: S.String,
@@ -3720,7 +3724,7 @@ export const GetPolicyEngineResponse = S.suspend(() =>
 export interface UpdatePolicyEngineResponse {
   policyEngineId: string;
   name: string;
-  description?: string;
+  description?: string | Redacted.Redacted<string>;
   createdAt: Date;
   updatedAt: Date;
   policyEngineArn: string;
@@ -3731,7 +3735,7 @@ export const UpdatePolicyEngineResponse = S.suspend(() =>
   S.Struct({
     policyEngineId: S.String,
     name: S.String,
-    description: S.optional(S.String),
+    description: S.optional(SensitiveString),
     createdAt: S.Date.pipe(T.TimestampFormat("date-time")),
     updatedAt: S.Date.pipe(T.TimestampFormat("date-time")),
     policyEngineArn: S.String,
@@ -3744,7 +3748,7 @@ export const UpdatePolicyEngineResponse = S.suspend(() =>
 export interface DeletePolicyEngineResponse {
   policyEngineId: string;
   name: string;
-  description?: string;
+  description?: string | Redacted.Redacted<string>;
   createdAt: Date;
   updatedAt: Date;
   policyEngineArn: string;
@@ -3755,7 +3759,7 @@ export const DeletePolicyEngineResponse = S.suspend(() =>
   S.Struct({
     policyEngineId: S.String,
     name: S.String,
-    description: S.optional(S.String),
+    description: S.optional(SensitiveString),
     createdAt: S.Date.pipe(T.TimestampFormat("date-time")),
     updatedAt: S.Date.pipe(T.TimestampFormat("date-time")),
     policyEngineArn: S.String,
@@ -3828,7 +3832,7 @@ export interface GetPolicyResponse {
   name: string;
   policyEngineId: string;
   definition: (typeof PolicyDefinition)["Type"];
-  description?: string;
+  description?: string | Redacted.Redacted<string>;
   createdAt: Date;
   updatedAt: Date;
   policyArn: string;
@@ -3841,7 +3845,7 @@ export const GetPolicyResponse = S.suspend(() =>
     name: S.String,
     policyEngineId: S.String,
     definition: PolicyDefinition,
-    description: S.optional(S.String),
+    description: S.optional(SensitiveString),
     createdAt: S.Date.pipe(T.TimestampFormat("date-time")),
     updatedAt: S.Date.pipe(T.TimestampFormat("date-time")),
     policyArn: S.String,
@@ -3856,7 +3860,7 @@ export interface UpdatePolicyResponse {
   name: string;
   policyEngineId: string;
   definition: (typeof PolicyDefinition)["Type"];
-  description?: string;
+  description?: string | Redacted.Redacted<string>;
   createdAt: Date;
   updatedAt: Date;
   policyArn: string;
@@ -3869,7 +3873,7 @@ export const UpdatePolicyResponse = S.suspend(() =>
     name: S.String,
     policyEngineId: S.String,
     definition: PolicyDefinition,
-    description: S.optional(S.String),
+    description: S.optional(SensitiveString),
     createdAt: S.Date.pipe(T.TimestampFormat("date-time")),
     updatedAt: S.Date.pipe(T.TimestampFormat("date-time")),
     policyArn: S.String,
@@ -3884,7 +3888,7 @@ export interface DeletePolicyResponse {
   name: string;
   policyEngineId: string;
   definition: (typeof PolicyDefinition)["Type"];
-  description?: string;
+  description?: string | Redacted.Redacted<string>;
   createdAt: Date;
   updatedAt: Date;
   policyArn: string;
@@ -3897,7 +3901,7 @@ export const DeletePolicyResponse = S.suspend(() =>
     name: S.String,
     policyEngineId: S.String,
     definition: PolicyDefinition,
-    description: S.optional(S.String),
+    description: S.optional(SensitiveString),
     createdAt: S.Date.pipe(T.TimestampFormat("date-time")),
     updatedAt: S.Date.pipe(T.TimestampFormat("date-time")),
     policyArn: S.String,
@@ -3965,13 +3969,13 @@ export const UpdateWorkloadIdentityResponse = S.suspend(() =>
 }) as any as S.Schema<UpdateWorkloadIdentityResponse>;
 export interface SemanticMemoryStrategyInput {
   name: string;
-  description?: string;
+  description?: string | Redacted.Redacted<string>;
   namespaces?: NamespacesList;
 }
 export const SemanticMemoryStrategyInput = S.suspend(() =>
   S.Struct({
     name: S.String,
-    description: S.optional(S.String),
+    description: S.optional(SensitiveString),
     namespaces: S.optional(NamespacesList),
   }),
 ).annotations({
@@ -3979,13 +3983,13 @@ export const SemanticMemoryStrategyInput = S.suspend(() =>
 }) as any as S.Schema<SemanticMemoryStrategyInput>;
 export interface SummaryMemoryStrategyInput {
   name: string;
-  description?: string;
+  description?: string | Redacted.Redacted<string>;
   namespaces?: NamespacesList;
 }
 export const SummaryMemoryStrategyInput = S.suspend(() =>
   S.Struct({
     name: S.String,
-    description: S.optional(S.String),
+    description: S.optional(SensitiveString),
     namespaces: S.optional(NamespacesList),
   }),
 ).annotations({
@@ -3993,13 +3997,13 @@ export const SummaryMemoryStrategyInput = S.suspend(() =>
 }) as any as S.Schema<SummaryMemoryStrategyInput>;
 export interface UserPreferenceMemoryStrategyInput {
   name: string;
-  description?: string;
+  description?: string | Redacted.Redacted<string>;
   namespaces?: NamespacesList;
 }
 export const UserPreferenceMemoryStrategyInput = S.suspend(() =>
   S.Struct({
     name: S.String,
-    description: S.optional(S.String),
+    description: S.optional(SensitiveString),
     namespaces: S.optional(NamespacesList),
   }),
 ).annotations({
@@ -4016,7 +4020,7 @@ export const DeleteMemoryStrategyInput = S.suspend(() =>
 export type DeleteMemoryStrategiesList = DeleteMemoryStrategyInput[];
 export const DeleteMemoryStrategiesList = S.Array(DeleteMemoryStrategyInput);
 export interface AgentRuntimeEndpoint {
-  name: string;
+  name: string | Redacted.Redacted<string>;
   liveVersion?: string;
   targetVersion?: string;
   agentRuntimeEndpointArn: string;
@@ -4029,7 +4033,7 @@ export interface AgentRuntimeEndpoint {
 }
 export const AgentRuntimeEndpoint = S.suspend(() =>
   S.Struct({
-    name: S.String,
+    name: SensitiveString,
     liveVersion: S.optional(S.String),
     targetVersion: S.optional(S.String),
     agentRuntimeEndpointArn: S.String,
@@ -4087,7 +4091,7 @@ export interface BrowserSummary {
   browserId: string;
   browserArn: string;
   name?: string;
-  description?: string;
+  description?: string | Redacted.Redacted<string>;
   status: string;
   createdAt: Date;
   lastUpdatedAt?: Date;
@@ -4097,7 +4101,7 @@ export const BrowserSummary = S.suspend(() =>
     browserId: S.String,
     browserArn: S.String,
     name: S.optional(S.String),
-    description: S.optional(S.String),
+    description: S.optional(SensitiveString),
     status: S.String,
     createdAt: S.Date.pipe(T.TimestampFormat("date-time")),
     lastUpdatedAt: S.optional(S.Date.pipe(T.TimestampFormat("date-time"))),
@@ -4111,7 +4115,7 @@ export interface CodeInterpreterSummary {
   codeInterpreterId: string;
   codeInterpreterArn: string;
   name?: string;
-  description?: string;
+  description?: string | Redacted.Redacted<string>;
   status: string;
   createdAt: Date;
   lastUpdatedAt?: Date;
@@ -4121,7 +4125,7 @@ export const CodeInterpreterSummary = S.suspend(() =>
     codeInterpreterId: S.String,
     codeInterpreterArn: S.String,
     name: S.optional(S.String),
-    description: S.optional(S.String),
+    description: S.optional(SensitiveString),
     status: S.String,
     createdAt: S.Date.pipe(T.TimestampFormat("date-time")),
     lastUpdatedAt: S.optional(S.Date.pipe(T.TimestampFormat("date-time"))),
@@ -4135,7 +4139,7 @@ export interface EvaluatorSummary {
   evaluatorArn: string;
   evaluatorId: string;
   evaluatorName: string;
-  description?: string;
+  description?: string | Redacted.Redacted<string>;
   evaluatorType: string;
   level?: string;
   status: string;
@@ -4148,7 +4152,7 @@ export const EvaluatorSummary = S.suspend(() =>
     evaluatorArn: S.String,
     evaluatorId: S.String,
     evaluatorName: S.String,
-    description: S.optional(S.String),
+    description: S.optional(SensitiveString),
     evaluatorType: S.String,
     level: S.optional(S.String),
     status: S.String,
@@ -4163,9 +4167,9 @@ export type EvaluatorSummaryList = EvaluatorSummary[];
 export const EvaluatorSummaryList = S.Array(EvaluatorSummary);
 export interface GatewaySummary {
   gatewayId: string;
-  name: string;
+  name: string | Redacted.Redacted<string>;
   status: string;
-  description?: string;
+  description?: string | Redacted.Redacted<string>;
   createdAt: Date;
   updatedAt: Date;
   authorizerType: string;
@@ -4174,9 +4178,9 @@ export interface GatewaySummary {
 export const GatewaySummary = S.suspend(() =>
   S.Struct({
     gatewayId: S.String,
-    name: S.String,
+    name: SensitiveString,
     status: S.String,
-    description: S.optional(S.String),
+    description: S.optional(SensitiveString),
     createdAt: S.Date.pipe(T.TimestampFormat("date-time")),
     updatedAt: S.Date.pipe(T.TimestampFormat("date-time")),
     authorizerType: S.String,
@@ -4189,18 +4193,18 @@ export type GatewaySummaries = GatewaySummary[];
 export const GatewaySummaries = S.Array(GatewaySummary);
 export interface TargetSummary {
   targetId: string;
-  name: string;
+  name: string | Redacted.Redacted<string>;
   status: string;
-  description?: string;
+  description?: string | Redacted.Redacted<string>;
   createdAt: Date;
   updatedAt: Date;
 }
 export const TargetSummary = S.suspend(() =>
   S.Struct({
     targetId: S.String,
-    name: S.String,
+    name: SensitiveString,
     status: S.String,
-    description: S.optional(S.String),
+    description: S.optional(SensitiveString),
     createdAt: S.Date.pipe(T.TimestampFormat("date-time")),
     updatedAt: S.Date.pipe(T.TimestampFormat("date-time")),
   }),
@@ -4216,8 +4220,8 @@ export interface GatewayTarget {
   updatedAt: Date;
   status: string;
   statusReasons?: StatusReasons;
-  name: string;
-  description?: string;
+  name: string | Redacted.Redacted<string>;
+  description?: string | Redacted.Redacted<string>;
   targetConfiguration: (typeof TargetConfiguration)["Type"];
   credentialProviderConfigurations: CredentialProviderConfigurations;
   lastSynchronizedAt?: Date;
@@ -4231,8 +4235,8 @@ export const GatewayTarget = S.suspend(() =>
     updatedAt: S.Date.pipe(T.TimestampFormat("date-time")),
     status: S.String,
     statusReasons: S.optional(StatusReasons),
-    name: S.String,
-    description: S.optional(S.String),
+    name: SensitiveString,
+    description: S.optional(SensitiveString),
     targetConfiguration: TargetConfiguration,
     credentialProviderConfigurations: CredentialProviderConfigurations,
     lastSynchronizedAt: S.optional(S.Date.pipe(T.TimestampFormat("date-time"))),
@@ -4287,7 +4291,7 @@ export interface OnlineEvaluationConfigSummary {
   onlineEvaluationConfigArn: string;
   onlineEvaluationConfigId: string;
   onlineEvaluationConfigName: string;
-  description?: string;
+  description?: string | Redacted.Redacted<string>;
   status: string;
   executionStatus: string;
   createdAt: Date;
@@ -4299,7 +4303,7 @@ export const OnlineEvaluationConfigSummary = S.suspend(() =>
     onlineEvaluationConfigArn: S.String,
     onlineEvaluationConfigId: S.String,
     onlineEvaluationConfigName: S.String,
-    description: S.optional(S.String),
+    description: S.optional(SensitiveString),
     status: S.String,
     executionStatus: S.String,
     createdAt: S.Date.pipe(T.TimestampFormat("epoch-seconds")),
@@ -4316,7 +4320,7 @@ export const OnlineEvaluationConfigSummaryList = S.Array(
 export interface PolicyEngine {
   policyEngineId: string;
   name: string;
-  description?: string;
+  description?: string | Redacted.Redacted<string>;
   createdAt: Date;
   updatedAt: Date;
   policyEngineArn: string;
@@ -4327,7 +4331,7 @@ export const PolicyEngine = S.suspend(() =>
   S.Struct({
     policyEngineId: S.String,
     name: S.String,
-    description: S.optional(S.String),
+    description: S.optional(SensitiveString),
     createdAt: S.Date.pipe(T.TimestampFormat("date-time")),
     updatedAt: S.Date.pipe(T.TimestampFormat("date-time")),
     policyEngineArn: S.String,
@@ -4372,7 +4376,7 @@ export interface Policy {
   name: string;
   policyEngineId: string;
   definition: (typeof PolicyDefinition)["Type"];
-  description?: string;
+  description?: string | Redacted.Redacted<string>;
   createdAt: Date;
   updatedAt: Date;
   policyArn: string;
@@ -4385,7 +4389,7 @@ export const Policy = S.suspend(() =>
     name: S.String,
     policyEngineId: S.String,
     definition: PolicyDefinition,
-    description: S.optional(S.String),
+    description: S.optional(SensitiveString),
     createdAt: S.Date.pipe(T.TimestampFormat("date-time")),
     updatedAt: S.Date.pipe(T.TimestampFormat("date-time")),
     policyArn: S.String,
@@ -4452,7 +4456,7 @@ export interface GetAgentRuntimeResponse {
   status: string;
   lifecycleConfiguration: LifecycleConfiguration;
   failureReason?: string;
-  description?: string;
+  description?: string | Redacted.Redacted<string>;
   workloadIdentityDetails?: WorkloadIdentityDetails;
   agentRuntimeArtifact?: (typeof AgentRuntimeArtifact)["Type"];
   protocolConfiguration?: ProtocolConfiguration;
@@ -4473,7 +4477,7 @@ export const GetAgentRuntimeResponse = S.suspend(() =>
     status: S.String,
     lifecycleConfiguration: LifecycleConfiguration,
     failureReason: S.optional(S.String),
-    description: S.optional(S.String),
+    description: S.optional(SensitiveString),
     workloadIdentityDetails: S.optional(WorkloadIdentityDetails),
     agentRuntimeArtifact: S.optional(AgentRuntimeArtifact),
     protocolConfiguration: S.optional(ProtocolConfiguration),
@@ -4521,7 +4525,7 @@ export const ListApiKeyCredentialProvidersResponse = S.suspend(() =>
 }) as any as S.Schema<ListApiKeyCredentialProvidersResponse>;
 export interface CreateBrowserRequest {
   name: string;
-  description?: string;
+  description?: string | Redacted.Redacted<string>;
   executionRoleArn?: string;
   networkConfiguration: BrowserNetworkConfiguration;
   recording?: RecordingConfig;
@@ -4532,7 +4536,7 @@ export interface CreateBrowserRequest {
 export const CreateBrowserRequest = S.suspend(() =>
   S.Struct({
     name: S.String,
-    description: S.optional(S.String),
+    description: S.optional(SensitiveString),
     executionRoleArn: S.optional(S.String),
     networkConfiguration: BrowserNetworkConfiguration,
     recording: S.optional(RecordingConfig),
@@ -4556,7 +4560,7 @@ export interface GetBrowserResponse {
   browserId: string;
   browserArn: string;
   name: string;
-  description?: string;
+  description?: string | Redacted.Redacted<string>;
   executionRoleArn?: string;
   networkConfiguration: BrowserNetworkConfiguration;
   recording?: RecordingConfig;
@@ -4571,7 +4575,7 @@ export const GetBrowserResponse = S.suspend(() =>
     browserId: S.String,
     browserArn: S.String,
     name: S.String,
-    description: S.optional(S.String),
+    description: S.optional(SensitiveString),
     executionRoleArn: S.optional(S.String),
     networkConfiguration: BrowserNetworkConfiguration,
     recording: S.optional(RecordingConfig),
@@ -4747,7 +4751,7 @@ export const ListPolicyGenerationsResponse = S.suspend(() =>
 export interface CreatePolicyRequest {
   name: string;
   definition: (typeof PolicyDefinition)["Type"];
-  description?: string;
+  description?: string | Redacted.Redacted<string>;
   validationMode?: string;
   policyEngineId: string;
   clientToken?: string;
@@ -4756,7 +4760,7 @@ export const CreatePolicyRequest = S.suspend(() =>
   S.Struct({
     name: S.String,
     definition: PolicyDefinition,
-    description: S.optional(S.String),
+    description: S.optional(SensitiveString),
     validationMode: S.optional(S.String),
     policyEngineId: S.String.pipe(T.HttpLabel("policyEngineId")),
     clientToken: S.optional(S.String),
@@ -4799,14 +4803,14 @@ export const ListWorkloadIdentitiesResponse = S.suspend(() =>
 }) as any as S.Schema<ListWorkloadIdentitiesResponse>;
 export interface EpisodicMemoryStrategyInput {
   name: string;
-  description?: string;
+  description?: string | Redacted.Redacted<string>;
   namespaces?: NamespacesList;
   reflectionConfiguration?: EpisodicReflectionConfigurationInput;
 }
 export const EpisodicMemoryStrategyInput = S.suspend(() =>
   S.Struct({
     name: S.String,
-    description: S.optional(S.String),
+    description: S.optional(SensitiveString),
     namespaces: S.optional(NamespacesList),
     reflectionConfiguration: S.optional(EpisodicReflectionConfigurationInput),
   }),
@@ -4871,8 +4875,8 @@ export const CreateBrowserResponse = S.suspend(() =>
   identifier: "CreateBrowserResponse",
 }) as any as S.Schema<CreateBrowserResponse>;
 export interface CreateGatewayRequest {
-  name: string;
-  description?: string;
+  name: string | Redacted.Redacted<string>;
+  description?: string | Redacted.Redacted<string>;
   clientToken?: string;
   roleArn: string;
   protocolType: string;
@@ -4887,8 +4891,8 @@ export interface CreateGatewayRequest {
 }
 export const CreateGatewayRequest = S.suspend(() =>
   S.Struct({
-    name: S.String,
-    description: S.optional(S.String),
+    name: SensitiveString,
+    description: S.optional(SensitiveString),
     clientToken: S.optional(S.String),
     roleArn: S.String,
     protocolType: S.String,
@@ -4914,76 +4918,76 @@ export const CreateGatewayRequest = S.suspend(() =>
   identifier: "CreateGatewayRequest",
 }) as any as S.Schema<CreateGatewayRequest>;
 export interface SemanticOverrideExtractionConfigurationInput {
-  appendToPrompt: string;
+  appendToPrompt: string | Redacted.Redacted<string>;
   modelId: string;
 }
 export const SemanticOverrideExtractionConfigurationInput = S.suspend(() =>
-  S.Struct({ appendToPrompt: S.String, modelId: S.String }),
+  S.Struct({ appendToPrompt: SensitiveString, modelId: S.String }),
 ).annotations({
   identifier: "SemanticOverrideExtractionConfigurationInput",
 }) as any as S.Schema<SemanticOverrideExtractionConfigurationInput>;
 export interface SemanticOverrideConsolidationConfigurationInput {
-  appendToPrompt: string;
+  appendToPrompt: string | Redacted.Redacted<string>;
   modelId: string;
 }
 export const SemanticOverrideConsolidationConfigurationInput = S.suspend(() =>
-  S.Struct({ appendToPrompt: S.String, modelId: S.String }),
+  S.Struct({ appendToPrompt: SensitiveString, modelId: S.String }),
 ).annotations({
   identifier: "SemanticOverrideConsolidationConfigurationInput",
 }) as any as S.Schema<SemanticOverrideConsolidationConfigurationInput>;
 export interface SummaryOverrideConsolidationConfigurationInput {
-  appendToPrompt: string;
+  appendToPrompt: string | Redacted.Redacted<string>;
   modelId: string;
 }
 export const SummaryOverrideConsolidationConfigurationInput = S.suspend(() =>
-  S.Struct({ appendToPrompt: S.String, modelId: S.String }),
+  S.Struct({ appendToPrompt: SensitiveString, modelId: S.String }),
 ).annotations({
   identifier: "SummaryOverrideConsolidationConfigurationInput",
 }) as any as S.Schema<SummaryOverrideConsolidationConfigurationInput>;
 export interface UserPreferenceOverrideExtractionConfigurationInput {
-  appendToPrompt: string;
+  appendToPrompt: string | Redacted.Redacted<string>;
   modelId: string;
 }
 export const UserPreferenceOverrideExtractionConfigurationInput = S.suspend(
-  () => S.Struct({ appendToPrompt: S.String, modelId: S.String }),
+  () => S.Struct({ appendToPrompt: SensitiveString, modelId: S.String }),
 ).annotations({
   identifier: "UserPreferenceOverrideExtractionConfigurationInput",
 }) as any as S.Schema<UserPreferenceOverrideExtractionConfigurationInput>;
 export interface UserPreferenceOverrideConsolidationConfigurationInput {
-  appendToPrompt: string;
+  appendToPrompt: string | Redacted.Redacted<string>;
   modelId: string;
 }
 export const UserPreferenceOverrideConsolidationConfigurationInput = S.suspend(
-  () => S.Struct({ appendToPrompt: S.String, modelId: S.String }),
+  () => S.Struct({ appendToPrompt: SensitiveString, modelId: S.String }),
 ).annotations({
   identifier: "UserPreferenceOverrideConsolidationConfigurationInput",
 }) as any as S.Schema<UserPreferenceOverrideConsolidationConfigurationInput>;
 export interface EpisodicOverrideExtractionConfigurationInput {
-  appendToPrompt: string;
+  appendToPrompt: string | Redacted.Redacted<string>;
   modelId: string;
 }
 export const EpisodicOverrideExtractionConfigurationInput = S.suspend(() =>
-  S.Struct({ appendToPrompt: S.String, modelId: S.String }),
+  S.Struct({ appendToPrompt: SensitiveString, modelId: S.String }),
 ).annotations({
   identifier: "EpisodicOverrideExtractionConfigurationInput",
 }) as any as S.Schema<EpisodicOverrideExtractionConfigurationInput>;
 export interface EpisodicOverrideConsolidationConfigurationInput {
-  appendToPrompt: string;
+  appendToPrompt: string | Redacted.Redacted<string>;
   modelId: string;
 }
 export const EpisodicOverrideConsolidationConfigurationInput = S.suspend(() =>
-  S.Struct({ appendToPrompt: S.String, modelId: S.String }),
+  S.Struct({ appendToPrompt: SensitiveString, modelId: S.String }),
 ).annotations({
   identifier: "EpisodicOverrideConsolidationConfigurationInput",
 }) as any as S.Schema<EpisodicOverrideConsolidationConfigurationInput>;
 export interface EpisodicOverrideReflectionConfigurationInput {
-  appendToPrompt: string;
+  appendToPrompt: string | Redacted.Redacted<string>;
   modelId: string;
   namespaces?: NamespacesList;
 }
 export const EpisodicOverrideReflectionConfigurationInput = S.suspend(() =>
   S.Struct({
-    appendToPrompt: S.String,
+    appendToPrompt: SensitiveString,
     modelId: S.String,
     namespaces: S.optional(NamespacesList),
   }),
@@ -5097,7 +5101,7 @@ export const GetOauth2CredentialProviderResponse = S.suspend(() =>
 export interface CreateOnlineEvaluationConfigRequest {
   clientToken?: string;
   onlineEvaluationConfigName: string;
-  description?: string;
+  description?: string | Redacted.Redacted<string>;
   rule: Rule;
   dataSourceConfig: (typeof DataSourceConfig)["Type"];
   evaluators: EvaluatorList;
@@ -5108,7 +5112,7 @@ export const CreateOnlineEvaluationConfigRequest = S.suspend(() =>
   S.Struct({
     clientToken: S.optional(S.String),
     onlineEvaluationConfigName: S.String,
-    description: S.optional(S.String),
+    description: S.optional(SensitiveString),
     rule: Rule,
     dataSourceConfig: DataSourceConfig,
     evaluators: EvaluatorList,
@@ -5131,7 +5135,7 @@ export interface GetOnlineEvaluationConfigResponse {
   onlineEvaluationConfigArn: string;
   onlineEvaluationConfigId: string;
   onlineEvaluationConfigName: string;
-  description?: string;
+  description?: string | Redacted.Redacted<string>;
   rule: Rule;
   dataSourceConfig: (typeof DataSourceConfig)["Type"];
   evaluators: EvaluatorList;
@@ -5148,7 +5152,7 @@ export const GetOnlineEvaluationConfigResponse = S.suspend(() =>
     onlineEvaluationConfigArn: S.String,
     onlineEvaluationConfigId: S.String,
     onlineEvaluationConfigName: S.String,
-    description: S.optional(S.String),
+    description: S.optional(SensitiveString),
     rule: Rule,
     dataSourceConfig: DataSourceConfig,
     evaluators: EvaluatorList,
@@ -5180,7 +5184,7 @@ export interface CreatePolicyResponse {
   name: string;
   policyEngineId: string;
   definition: (typeof PolicyDefinition)["Type"];
-  description?: string;
+  description?: string | Redacted.Redacted<string>;
   createdAt: Date;
   updatedAt: Date;
   policyArn: string;
@@ -5193,7 +5197,7 @@ export const CreatePolicyResponse = S.suspend(() =>
     name: S.String,
     policyEngineId: S.String,
     definition: PolicyDefinition,
-    description: S.optional(S.String),
+    description: S.optional(SensitiveString),
     createdAt: S.Date.pipe(T.TimestampFormat("date-time")),
     updatedAt: S.Date.pipe(T.TimestampFormat("date-time")),
     policyArn: S.String,
@@ -5356,8 +5360,8 @@ export interface CreateGatewayResponse {
   updatedAt: Date;
   status: string;
   statusReasons?: StatusReasons;
-  name: string;
-  description?: string;
+  name: string | Redacted.Redacted<string>;
+  description?: string | Redacted.Redacted<string>;
   roleArn?: string;
   protocolType: string;
   protocolConfiguration?: (typeof GatewayProtocolConfiguration)["Type"];
@@ -5378,8 +5382,8 @@ export const CreateGatewayResponse = S.suspend(() =>
     updatedAt: S.Date.pipe(T.TimestampFormat("date-time")),
     status: S.String,
     statusReasons: S.optional(StatusReasons),
-    name: S.String,
-    description: S.optional(S.String),
+    name: SensitiveString,
+    description: S.optional(SensitiveString),
     roleArn: S.optional(S.String),
     protocolType: S.String,
     protocolConfiguration: S.optional(GatewayProtocolConfiguration),
@@ -5470,14 +5474,14 @@ export const SchemaProperties = S.Record({
 }) as any as S.Schema<SchemaProperties>;
 export interface ModifyMemoryStrategyInput {
   memoryStrategyId: string;
-  description?: string;
+  description?: string | Redacted.Redacted<string>;
   namespaces?: NamespacesList;
   configuration?: ModifyStrategyConfiguration;
 }
 export const ModifyMemoryStrategyInput = S.suspend(() =>
   S.Struct({
     memoryStrategyId: S.String,
-    description: S.optional(S.String),
+    description: S.optional(SensitiveString),
     namespaces: S.optional(NamespacesList),
     configuration: S.optional(ModifyStrategyConfiguration),
   }),
@@ -5512,76 +5516,76 @@ export const ValidationExceptionField = S.suspend(() =>
 export type ValidationExceptionFieldList = ValidationExceptionField[];
 export const ValidationExceptionFieldList = S.Array(ValidationExceptionField);
 export interface SemanticExtractionOverride {
-  appendToPrompt: string;
+  appendToPrompt: string | Redacted.Redacted<string>;
   modelId: string;
 }
 export const SemanticExtractionOverride = S.suspend(() =>
-  S.Struct({ appendToPrompt: S.String, modelId: S.String }),
+  S.Struct({ appendToPrompt: SensitiveString, modelId: S.String }),
 ).annotations({
   identifier: "SemanticExtractionOverride",
 }) as any as S.Schema<SemanticExtractionOverride>;
 export interface UserPreferenceExtractionOverride {
-  appendToPrompt: string;
+  appendToPrompt: string | Redacted.Redacted<string>;
   modelId: string;
 }
 export const UserPreferenceExtractionOverride = S.suspend(() =>
-  S.Struct({ appendToPrompt: S.String, modelId: S.String }),
+  S.Struct({ appendToPrompt: SensitiveString, modelId: S.String }),
 ).annotations({
   identifier: "UserPreferenceExtractionOverride",
 }) as any as S.Schema<UserPreferenceExtractionOverride>;
 export interface EpisodicExtractionOverride {
-  appendToPrompt: string;
+  appendToPrompt: string | Redacted.Redacted<string>;
   modelId: string;
 }
 export const EpisodicExtractionOverride = S.suspend(() =>
-  S.Struct({ appendToPrompt: S.String, modelId: S.String }),
+  S.Struct({ appendToPrompt: SensitiveString, modelId: S.String }),
 ).annotations({
   identifier: "EpisodicExtractionOverride",
 }) as any as S.Schema<EpisodicExtractionOverride>;
 export interface SemanticConsolidationOverride {
-  appendToPrompt: string;
+  appendToPrompt: string | Redacted.Redacted<string>;
   modelId: string;
 }
 export const SemanticConsolidationOverride = S.suspend(() =>
-  S.Struct({ appendToPrompt: S.String, modelId: S.String }),
+  S.Struct({ appendToPrompt: SensitiveString, modelId: S.String }),
 ).annotations({
   identifier: "SemanticConsolidationOverride",
 }) as any as S.Schema<SemanticConsolidationOverride>;
 export interface SummaryConsolidationOverride {
-  appendToPrompt: string;
+  appendToPrompt: string | Redacted.Redacted<string>;
   modelId: string;
 }
 export const SummaryConsolidationOverride = S.suspend(() =>
-  S.Struct({ appendToPrompt: S.String, modelId: S.String }),
+  S.Struct({ appendToPrompt: SensitiveString, modelId: S.String }),
 ).annotations({
   identifier: "SummaryConsolidationOverride",
 }) as any as S.Schema<SummaryConsolidationOverride>;
 export interface UserPreferenceConsolidationOverride {
-  appendToPrompt: string;
+  appendToPrompt: string | Redacted.Redacted<string>;
   modelId: string;
 }
 export const UserPreferenceConsolidationOverride = S.suspend(() =>
-  S.Struct({ appendToPrompt: S.String, modelId: S.String }),
+  S.Struct({ appendToPrompt: SensitiveString, modelId: S.String }),
 ).annotations({
   identifier: "UserPreferenceConsolidationOverride",
 }) as any as S.Schema<UserPreferenceConsolidationOverride>;
 export interface EpisodicConsolidationOverride {
-  appendToPrompt: string;
+  appendToPrompt: string | Redacted.Redacted<string>;
   modelId: string;
 }
 export const EpisodicConsolidationOverride = S.suspend(() =>
-  S.Struct({ appendToPrompt: S.String, modelId: S.String }),
+  S.Struct({ appendToPrompt: SensitiveString, modelId: S.String }),
 ).annotations({
   identifier: "EpisodicConsolidationOverride",
 }) as any as S.Schema<EpisodicConsolidationOverride>;
 export interface EpisodicReflectionOverride {
-  appendToPrompt: string;
+  appendToPrompt: string | Redacted.Redacted<string>;
   modelId: string;
   namespaces?: NamespacesList;
 }
 export const EpisodicReflectionOverride = S.suspend(() =>
   S.Struct({
-    appendToPrompt: S.String,
+    appendToPrompt: SensitiveString,
     modelId: S.String,
     namespaces: S.optional(NamespacesList),
   }),
@@ -5629,14 +5633,14 @@ export const CustomConfigurationInput = S.Union(
 );
 export interface CustomMemoryStrategyInput {
   name: string;
-  description?: string;
+  description?: string | Redacted.Redacted<string>;
   namespaces?: NamespacesList;
   configuration?: (typeof CustomConfigurationInput)["Type"];
 }
 export const CustomMemoryStrategyInput = S.suspend(() =>
   S.Struct({
     name: S.String,
-    description: S.optional(S.String),
+    description: S.optional(SensitiveString),
     namespaces: S.optional(NamespacesList),
     configuration: S.optional(CustomConfigurationInput),
   }),
@@ -5678,7 +5682,7 @@ export interface CreateAgentRuntimeRequest {
   roleArn: string;
   networkConfiguration: NetworkConfiguration;
   clientToken?: string;
-  description?: string;
+  description?: string | Redacted.Redacted<string>;
   authorizerConfiguration?: (typeof AuthorizerConfiguration)["Type"];
   requestHeaderConfiguration?: (typeof RequestHeaderConfiguration)["Type"];
   protocolConfiguration?: ProtocolConfiguration;
@@ -5693,7 +5697,7 @@ export const CreateAgentRuntimeRequest = S.suspend(() =>
     roleArn: S.String,
     networkConfiguration: NetworkConfiguration,
     clientToken: S.optional(S.String),
-    description: S.optional(S.String),
+    description: S.optional(SensitiveString),
     authorizerConfiguration: S.optional(AuthorizerConfiguration),
     requestHeaderConfiguration: S.optional(RequestHeaderConfiguration),
     protocolConfiguration: S.optional(ProtocolConfiguration),
@@ -5716,7 +5720,7 @@ export const CreateAgentRuntimeRequest = S.suspend(() =>
 export interface CreateEvaluatorRequest {
   clientToken?: string;
   evaluatorName: string;
-  description?: string;
+  description?: string | Redacted.Redacted<string>;
   evaluatorConfig: (typeof EvaluatorConfig)["Type"];
   level: string;
 }
@@ -5724,7 +5728,7 @@ export const CreateEvaluatorRequest = S.suspend(() =>
   S.Struct({
     clientToken: S.optional(S.String),
     evaluatorName: S.String,
-    description: S.optional(S.String),
+    description: S.optional(SensitiveString),
     evaluatorConfig: EvaluatorConfig,
     level: S.String,
   }).pipe(
@@ -5784,7 +5788,7 @@ export const TriggerConditionsList = S.Array(TriggerCondition);
 export interface UpdateMemoryInput {
   clientToken?: string;
   memoryId: string;
-  description?: string;
+  description?: string | Redacted.Redacted<string>;
   eventExpiryDuration?: number;
   memoryExecutionRoleArn?: string;
   memoryStrategies?: ModifyMemoryStrategies;
@@ -5793,7 +5797,7 @@ export const UpdateMemoryInput = S.suspend(() =>
   S.Struct({
     clientToken: S.optional(S.String),
     memoryId: S.String.pipe(T.HttpLabel("memoryId")),
-    description: S.optional(S.String),
+    description: S.optional(SensitiveString),
     eventExpiryDuration: S.optional(S.Number),
     memoryExecutionRoleArn: S.optional(S.String),
     memoryStrategies: S.optional(ModifyMemoryStrategies),
@@ -5924,7 +5928,7 @@ export const CreateEvaluatorResponse = S.suspend(() =>
 export interface CreateMemoryInput {
   clientToken?: string;
   name: string;
-  description?: string;
+  description?: string | Redacted.Redacted<string>;
   encryptionKeyArn?: string;
   memoryExecutionRoleArn?: string;
   eventExpiryDuration: number;
@@ -5935,7 +5939,7 @@ export const CreateMemoryInput = S.suspend(() =>
   S.Struct({
     clientToken: S.optional(S.String),
     name: S.String,
-    description: S.optional(S.String),
+    description: S.optional(SensitiveString),
     encryptionKeyArn: S.optional(S.String),
     memoryExecutionRoleArn: S.optional(S.String),
     eventExpiryDuration: S.Number,
@@ -5957,7 +5961,7 @@ export const CreateMemoryInput = S.suspend(() =>
 export interface MemoryStrategy {
   strategyId: string;
   name: string;
-  description?: string;
+  description?: string | Redacted.Redacted<string>;
   configuration?: StrategyConfiguration;
   type: string;
   namespaces: NamespacesList;
@@ -5969,7 +5973,7 @@ export const MemoryStrategy = S.suspend(() =>
   S.Struct({
     strategyId: S.String,
     name: S.String,
-    description: S.optional(S.String),
+    description: S.optional(SensitiveString),
     configuration: S.optional(StrategyConfiguration),
     type: S.String,
     namespaces: NamespacesList,
@@ -5986,7 +5990,7 @@ export interface Memory {
   arn: string;
   id: string;
   name: string;
-  description?: string;
+  description?: string | Redacted.Redacted<string>;
   encryptionKeyArn?: string;
   memoryExecutionRoleArn?: string;
   eventExpiryDuration: number;
@@ -6001,7 +6005,7 @@ export const Memory = S.suspend(() =>
     arn: S.String,
     id: S.String,
     name: S.String,
-    description: S.optional(S.String),
+    description: S.optional(SensitiveString),
     encryptionKeyArn: S.optional(S.String),
     memoryExecutionRoleArn: S.optional(S.String),
     eventExpiryDuration: S.Number,
@@ -6022,8 +6026,8 @@ export const UpdateMemoryOutput = S.suspend(() =>
 }) as any as S.Schema<UpdateMemoryOutput>;
 export interface CreateGatewayTargetRequest {
   gatewayIdentifier: string;
-  name: string;
-  description?: string;
+  name: string | Redacted.Redacted<string>;
+  description?: string | Redacted.Redacted<string>;
   clientToken?: string;
   targetConfiguration: (typeof TargetConfiguration)["Type"];
   credentialProviderConfigurations?: CredentialProviderConfigurations;
@@ -6032,8 +6036,8 @@ export interface CreateGatewayTargetRequest {
 export const CreateGatewayTargetRequest = S.suspend(() =>
   S.Struct({
     gatewayIdentifier: S.String.pipe(T.HttpLabel("gatewayIdentifier")),
-    name: S.String,
-    description: S.optional(S.String),
+    name: SensitiveString,
+    description: S.optional(SensitiveString),
     clientToken: S.optional(S.String),
     targetConfiguration: TargetConfiguration,
     credentialProviderConfigurations: S.optional(
@@ -6076,8 +6080,8 @@ export interface CreateGatewayTargetResponse {
   updatedAt: Date;
   status: string;
   statusReasons?: StatusReasons;
-  name: string;
-  description?: string;
+  name: string | Redacted.Redacted<string>;
+  description?: string | Redacted.Redacted<string>;
   targetConfiguration: (typeof TargetConfiguration)["Type"];
   credentialProviderConfigurations: CredentialProviderConfigurations;
   lastSynchronizedAt?: Date;
@@ -6091,8 +6095,8 @@ export const CreateGatewayTargetResponse = S.suspend(() =>
     updatedAt: S.Date.pipe(T.TimestampFormat("date-time")),
     status: S.String,
     statusReasons: S.optional(StatusReasons),
-    name: S.String,
-    description: S.optional(S.String),
+    name: SensitiveString,
+    description: S.optional(SensitiveString),
     targetConfiguration: TargetConfiguration,
     credentialProviderConfigurations: CredentialProviderConfigurations,
     lastSynchronizedAt: S.optional(S.Date.pipe(T.TimestampFormat("date-time"))),

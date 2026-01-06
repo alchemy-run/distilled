@@ -1,5 +1,6 @@
 import { HttpClient } from "@effect/platform";
 import * as Effect from "effect/Effect";
+import * as Redacted from "effect/Redacted";
 import * as S from "effect/Schema";
 import * as Stream from "effect/Stream";
 import * as API from "../api.ts";
@@ -10,6 +11,7 @@ import {
   ErrorCategory,
   Errors,
 } from "../index.ts";
+import { SensitiveString, SensitiveBlob } from "../sensitive.ts";
 const svc = T.AwsApiService({
   sdkId: "MigrationHubStrategy",
   serviceShapeName: "AWSMigrationHubStrategyRecommendation",
@@ -266,7 +268,7 @@ export type importS3Bucket = string;
 export type DataSourceType = string;
 export type OutputFormat = string;
 export type InclusionStatus = string;
-export type SecretsManagerKey = string;
+export type SecretsManagerKey = string | Redacted.Redacted<string>;
 export type AppType = string;
 export type DatabaseManagementPreference = string;
 export type AntipatternReportStatus = string;
@@ -1183,7 +1185,7 @@ export interface UpdateApplicationComponentConfigRequest {
   inclusionStatus?: string;
   strategyOption?: StrategyOption;
   sourceCodeList?: SourceCodeList;
-  secretsManagerKey?: string;
+  secretsManagerKey?: string | Redacted.Redacted<string>;
   configureOnly?: boolean;
   appType?: string;
 }
@@ -1193,7 +1195,7 @@ export const UpdateApplicationComponentConfigRequest = S.suspend(() =>
     inclusionStatus: S.optional(S.String),
     strategyOption: S.optional(StrategyOption),
     sourceCodeList: S.optional(SourceCodeList),
-    secretsManagerKey: S.optional(S.String),
+    secretsManagerKey: S.optional(SensitiveString),
     configureOnly: S.optional(S.Boolean),
     appType: S.optional(S.String),
   }).pipe(

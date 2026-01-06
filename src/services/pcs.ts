@@ -1,5 +1,6 @@
 import { HttpClient } from "@effect/platform";
 import * as Effect from "effect/Effect";
+import * as Redacted from "effect/Redacted";
 import * as S from "effect/Schema";
 import * as Stream from "effect/Stream";
 import * as API from "../api.ts";
@@ -10,6 +11,7 @@ import {
   ErrorCategory,
   Errors,
 } from "../index.ts";
+import { SensitiveString, SensitiveBlob } from "../sensitive.ts";
 const svc = T.AwsApiService({
   sdkId: "PCS",
   serviceShapeName: "AWSParallelComputingService",
@@ -318,7 +320,7 @@ export type QueueIdentifier = string;
 export type TagValue = string;
 export type SubnetId = string;
 export type SecurityGroupId = string;
-export type SharedSecret = string;
+export type SharedSecret = string | Redacted.Redacted<string>;
 
 //# Schemas
 export type TagKeys = string[];
@@ -961,11 +963,15 @@ export const UpdateClusterRequest = S.suspend(() =>
 }) as any as S.Schema<UpdateClusterRequest>;
 export interface RegisterComputeNodeGroupInstanceResponse {
   nodeID: string;
-  sharedSecret: string;
+  sharedSecret: string | Redacted.Redacted<string>;
   endpoints: Endpoints;
 }
 export const RegisterComputeNodeGroupInstanceResponse = S.suspend(() =>
-  S.Struct({ nodeID: S.String, sharedSecret: S.String, endpoints: Endpoints }),
+  S.Struct({
+    nodeID: S.String,
+    sharedSecret: SensitiveString,
+    endpoints: Endpoints,
+  }),
 ).annotations({
   identifier: "RegisterComputeNodeGroupInstanceResponse",
 }) as any as S.Schema<RegisterComputeNodeGroupInstanceResponse>;

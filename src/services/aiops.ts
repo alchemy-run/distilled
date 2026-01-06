@@ -1,5 +1,6 @@
 import { HttpClient } from "@effect/platform";
 import * as Effect from "effect/Effect";
+import * as Redacted from "effect/Redacted";
 import * as S from "effect/Schema";
 import * as Stream from "effect/Stream";
 import * as API from "../api.ts";
@@ -10,6 +11,7 @@ import {
   ErrorCategory,
   Errors,
 } from "../index.ts";
+import { SensitiveString, SensitiveBlob } from "../sensitive.ts";
 const svc = T.AwsApiService({ sdkId: "AIOps", serviceShapeName: "AIOps" });
 const auth = T.AwsAuthSigv4({ name: "aiops" });
 const ver = T.ServiceVersion("2018-05-10");
@@ -304,7 +306,9 @@ export type StringWithPatternAndLengthLimits = string;
 export type RoleArn = string;
 export type Retention = number;
 export type InvestigationGroupIdentifier = string;
-export type SensitiveStringWithLengthLimits = string;
+export type SensitiveStringWithLengthLimits =
+  | string
+  | Redacted.Redacted<string>;
 export type InvestigationGroupPolicyDocument = string;
 export type TagValue = string;
 export type KmsKeyId = string;
@@ -466,12 +470,12 @@ export const DeleteInvestigationGroupResponse = S.suspend(() =>
   identifier: "DeleteInvestigationGroupResponse",
 }) as any as S.Schema<DeleteInvestigationGroupResponse>;
 export interface ListInvestigationGroupsInput {
-  nextToken?: string;
+  nextToken?: string | Redacted.Redacted<string>;
   maxResults?: number;
 }
 export const ListInvestigationGroupsInput = S.suspend(() =>
   S.Struct({
-    nextToken: S.optional(S.String).pipe(T.HttpQuery("nextToken")),
+    nextToken: S.optional(SensitiveString).pipe(T.HttpQuery("nextToken")),
     maxResults: S.optional(S.Number).pipe(T.HttpQuery("maxResults")),
   }).pipe(
     T.all(
@@ -700,12 +704,12 @@ export const CreateInvestigationGroupOutput = S.suspend(() =>
   identifier: "CreateInvestigationGroupOutput",
 }) as any as S.Schema<CreateInvestigationGroupOutput>;
 export interface ListInvestigationGroupsOutput {
-  nextToken?: string;
+  nextToken?: string | Redacted.Redacted<string>;
   investigationGroups?: InvestigationGroups;
 }
 export const ListInvestigationGroupsOutput = S.suspend(() =>
   S.Struct({
-    nextToken: S.optional(S.String),
+    nextToken: S.optional(SensitiveString),
     investigationGroups: S.optional(InvestigationGroups),
   }),
 ).annotations({

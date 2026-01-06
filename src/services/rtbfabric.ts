@@ -1,5 +1,6 @@
 import { HttpClient } from "@effect/platform";
 import * as Effect from "effect/Effect";
+import * as Redacted from "effect/Redacted";
 import * as S from "effect/Schema";
 import * as Stream from "effect/Stream";
 import * as API from "../api.ts";
@@ -10,6 +11,7 @@ import {
   ErrorCategory,
   Errors,
 } from "../index.ts";
+import { SensitiveString, SensitiveBlob } from "../sensitive.ts";
 const svc = T.AwsApiService({
   sdkId: "RTBFabric",
   serviceShapeName: "RTBFabric",
@@ -296,7 +298,7 @@ export type TagValue = string;
 export type CustomerProvidedId = string;
 export type Version = string;
 export type FlowModuleName = string;
-export type Base64EncodedCertificateChain = string;
+export type Base64EncodedCertificateChain = string | Redacted.Redacted<string>;
 export type AutoScalingGroupName = string;
 export type KubernetesEndpointsResourceName = string;
 export type KubernetesNamespace = string;
@@ -793,8 +795,10 @@ export const DeleteResponderGatewayRequest = S.suspend(() =>
 ).annotations({
   identifier: "DeleteResponderGatewayRequest",
 }) as any as S.Schema<DeleteResponderGatewayRequest>;
-export type CertificateAuthorityCertificates = string[];
-export const CertificateAuthorityCertificates = S.Array(S.String);
+export type CertificateAuthorityCertificates =
+  | string
+  | Redacted.Redacted<string>[];
+export const CertificateAuthorityCertificates = S.Array(SensitiveString);
 export interface TrustStoreConfiguration {
   certificateAuthorityCertificates: CertificateAuthorityCertificates;
 }
@@ -823,7 +827,7 @@ export interface EksEndpointsConfiguration {
   endpointsResourceName: string;
   endpointsResourceNamespace: string;
   clusterApiServerEndpointUri: string;
-  clusterApiServerCaCertificateChain: string;
+  clusterApiServerCaCertificateChain: string | Redacted.Redacted<string>;
   clusterName: string;
   roleArn: string;
 }
@@ -832,7 +836,7 @@ export const EksEndpointsConfiguration = S.suspend(() =>
     endpointsResourceName: S.String,
     endpointsResourceNamespace: S.String,
     clusterApiServerEndpointUri: S.String,
-    clusterApiServerCaCertificateChain: S.String,
+    clusterApiServerCaCertificateChain: SensitiveString,
     clusterName: S.String,
     roleArn: S.String,
   }),

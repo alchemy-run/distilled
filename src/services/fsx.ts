@@ -1,5 +1,6 @@
 import { HttpClient } from "@effect/platform";
 import * as Effect from "effect/Effect";
+import * as Redacted from "effect/Redacted";
 import * as S from "effect/Schema";
 import * as Stream from "effect/Stream";
 import * as API from "../api.ts";
@@ -10,6 +11,7 @@ import {
   ErrorCategory,
   Errors,
 } from "../index.ts";
+import { SensitiveString, SensitiveBlob } from "../sensitive.ts";
 const svc = T.AwsApiService({
   sdkId: "FSx",
   serviceShapeName: "AWSSimbaAPIService_v20180301",
@@ -272,7 +274,7 @@ export type SecurityGroupId = string;
 export type BackupId = string;
 export type SnapshotName = string;
 export type StorageVirtualMachineName = string;
-export type AdminPassword = string;
+export type AdminPassword = string | Redacted.Redacted<string>;
 export type VolumeName = string;
 export type DataRepositoryAssociationId = string;
 export type FileCacheId = string;
@@ -319,7 +321,7 @@ export type ActiveDirectoryFullyQualifiedName = string;
 export type OrganizationalUnitDistinguishedName = string;
 export type FileSystemAdministratorsGroupName = string;
 export type DirectoryUserName = string;
-export type DirectoryPassword = string;
+export type DirectoryPassword = string | Redacted.Redacted<string>;
 export type CustomerSecretsManagerARN = string;
 export type GeneralARN = string;
 export type Iops = number;
@@ -477,7 +479,7 @@ export interface SelfManagedActiveDirectoryConfiguration {
   OrganizationalUnitDistinguishedName?: string;
   FileSystemAdministratorsGroup?: string;
   UserName?: string;
-  Password?: string;
+  Password?: string | Redacted.Redacted<string>;
   DnsIps: DnsIps;
   DomainJoinServiceAccountSecret?: string;
 }
@@ -487,7 +489,7 @@ export const SelfManagedActiveDirectoryConfiguration = S.suspend(() =>
     OrganizationalUnitDistinguishedName: S.optional(S.String),
     FileSystemAdministratorsGroup: S.optional(S.String),
     UserName: S.optional(S.String),
-    Password: S.optional(S.String),
+    Password: S.optional(SensitiveString),
     DnsIps: DnsIps,
     DomainJoinServiceAccountSecret: S.optional(S.String),
   }),
@@ -1332,7 +1334,7 @@ export interface CreateFileSystemOntapConfiguration {
   DailyAutomaticBackupStartTime?: string;
   DeploymentType: string;
   EndpointIpAddressRange?: string;
-  FsxAdminPassword?: string;
+  FsxAdminPassword?: string | Redacted.Redacted<string>;
   DiskIopsConfiguration?: DiskIopsConfiguration;
   PreferredSubnetId?: string;
   RouteTableIds?: RouteTableIds;
@@ -1348,7 +1350,7 @@ export const CreateFileSystemOntapConfiguration = S.suspend(() =>
     DailyAutomaticBackupStartTime: S.optional(S.String),
     DeploymentType: S.String,
     EndpointIpAddressRange: S.optional(S.String),
-    FsxAdminPassword: S.optional(S.String),
+    FsxAdminPassword: S.optional(SensitiveString),
     DiskIopsConfiguration: S.optional(DiskIopsConfiguration),
     PreferredSubnetId: S.optional(S.String),
     RouteTableIds: S.optional(RouteTableIds),
@@ -1675,7 +1677,7 @@ export interface OntapFileSystemConfiguration {
   RouteTableIds?: RouteTableIds;
   ThroughputCapacity?: number;
   WeeklyMaintenanceStartTime?: string;
-  FsxAdminPassword?: string;
+  FsxAdminPassword?: string | Redacted.Redacted<string>;
   HAPairs?: number;
   ThroughputCapacityPerHAPair?: number;
   EndpointIpv6AddressRange?: string;
@@ -1692,7 +1694,7 @@ export const OntapFileSystemConfiguration = S.suspend(() =>
     RouteTableIds: S.optional(RouteTableIds),
     ThroughputCapacity: S.optional(S.Number),
     WeeklyMaintenanceStartTime: S.optional(S.String),
-    FsxAdminPassword: S.optional(S.String),
+    FsxAdminPassword: S.optional(SensitiveString),
     HAPairs: S.optional(S.Number),
     ThroughputCapacityPerHAPair: S.optional(S.Number),
     EndpointIpv6AddressRange: S.optional(S.String),
@@ -1869,7 +1871,7 @@ export const UpdateFileCacheLustreConfiguration = S.suspend(() =>
 export interface UpdateFileSystemOntapConfiguration {
   AutomaticBackupRetentionDays?: number;
   DailyAutomaticBackupStartTime?: string;
-  FsxAdminPassword?: string;
+  FsxAdminPassword?: string | Redacted.Redacted<string>;
   WeeklyMaintenanceStartTime?: string;
   DiskIopsConfiguration?: DiskIopsConfiguration;
   ThroughputCapacity?: number;
@@ -1883,7 +1885,7 @@ export const UpdateFileSystemOntapConfiguration = S.suspend(() =>
   S.Struct({
     AutomaticBackupRetentionDays: S.optional(S.Number),
     DailyAutomaticBackupStartTime: S.optional(S.String),
-    FsxAdminPassword: S.optional(S.String),
+    FsxAdminPassword: S.optional(SensitiveString),
     WeeklyMaintenanceStartTime: S.optional(S.String),
     DiskIopsConfiguration: S.optional(DiskIopsConfiguration),
     ThroughputCapacity: S.optional(S.Number),
@@ -1928,7 +1930,7 @@ export const UpdateFileSystemOpenZFSConfiguration = S.suspend(() =>
 }) as any as S.Schema<UpdateFileSystemOpenZFSConfiguration>;
 export interface SelfManagedActiveDirectoryConfigurationUpdates {
   UserName?: string;
-  Password?: string;
+  Password?: string | Redacted.Redacted<string>;
   DnsIps?: DnsIps;
   DomainName?: string;
   OrganizationalUnitDistinguishedName?: string;
@@ -1938,7 +1940,7 @@ export interface SelfManagedActiveDirectoryConfigurationUpdates {
 export const SelfManagedActiveDirectoryConfigurationUpdates = S.suspend(() =>
   S.Struct({
     UserName: S.optional(S.String),
-    Password: S.optional(S.String),
+    Password: S.optional(SensitiveString),
     DnsIps: S.optional(DnsIps),
     DomainName: S.optional(S.String),
     OrganizationalUnitDistinguishedName: S.optional(S.String),
@@ -2022,7 +2024,7 @@ export interface CreateStorageVirtualMachineRequest {
   ClientRequestToken?: string;
   FileSystemId: string;
   Name: string;
-  SvmAdminPassword?: string;
+  SvmAdminPassword?: string | Redacted.Redacted<string>;
   Tags?: Tags;
   RootVolumeSecurityStyle?: string;
 }
@@ -2034,7 +2036,7 @@ export const CreateStorageVirtualMachineRequest = S.suspend(() =>
     ClientRequestToken: S.optional(S.String),
     FileSystemId: S.String,
     Name: S.String,
-    SvmAdminPassword: S.optional(S.String),
+    SvmAdminPassword: S.optional(SensitiveString),
     Tags: S.optional(Tags),
     RootVolumeSecurityStyle: S.optional(S.String),
   }).pipe(
@@ -2469,7 +2471,7 @@ export interface UpdateStorageVirtualMachineRequest {
   ActiveDirectoryConfiguration?: UpdateSvmActiveDirectoryConfiguration;
   ClientRequestToken?: string;
   StorageVirtualMachineId: string;
-  SvmAdminPassword?: string;
+  SvmAdminPassword?: string | Redacted.Redacted<string>;
 }
 export const UpdateStorageVirtualMachineRequest = S.suspend(() =>
   S.Struct({
@@ -2478,7 +2480,7 @@ export const UpdateStorageVirtualMachineRequest = S.suspend(() =>
     ),
     ClientRequestToken: S.optional(S.String),
     StorageVirtualMachineId: S.String,
-    SvmAdminPassword: S.optional(S.String),
+    SvmAdminPassword: S.optional(SensitiveString),
   }).pipe(
     T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
   ),

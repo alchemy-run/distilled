@@ -1,5 +1,6 @@
 import { HttpClient } from "@effect/platform";
 import * as Effect from "effect/Effect";
+import * as Redacted from "effect/Redacted";
 import * as S from "effect/Schema";
 import * as Stream from "effect/Stream";
 import * as API from "../api.ts";
@@ -10,6 +11,7 @@ import {
   ErrorCategory,
   Errors,
 } from "../index.ts";
+import { SensitiveString, SensitiveBlob } from "../sensitive.ts";
 const svc = T.AwsApiService({ sdkId: "Glue", serviceShapeName: "AWSGlue" });
 const auth = T.AwsAuthSigv4({ name: "glue" });
 const ver = T.ServiceVersion("2017-03-31");
@@ -417,8 +419,12 @@ export type FieldDescription = string;
 export type PositiveInteger = number;
 export type NonNegativeDouble = number;
 export type LongValueString = string;
-export type DataQualityRuleResultDescription = string;
-export type DataQualityObservationDescription = string;
+export type DataQualityRuleResultDescription =
+  | string
+  | Redacted.Redacted<string>;
+export type DataQualityObservationDescription =
+  | string
+  | Redacted.Redacted<string>;
 export type JsonValue = string;
 export type AttemptCount = number;
 export type OrchestrationMessageString = string;
@@ -438,7 +444,7 @@ export type ColumnValuesString = string;
 export type DataLakePrincipalString = string;
 export type TokenUrl = string;
 export type Username = string;
-export type Password = string;
+export type Password = string | Redacted.Redacted<string>;
 export type CredentialKey = string;
 export type CredentialValue = string;
 export type NodeName = string;
@@ -473,12 +479,14 @@ export type UserManagedClientApplicationClientId = string;
 export type AWSManagedClientApplicationReference = string;
 export type TokenUrlParameterKey = string;
 export type TokenUrlParameterValue = string;
-export type AuthorizationCode = string;
+export type AuthorizationCode = string | Redacted.Redacted<string>;
 export type RedirectUri = string;
-export type UserManagedClientApplicationClientSecret = string;
-export type AccessToken = string;
-export type RefreshToken = string;
-export type JwtToken = string;
+export type UserManagedClientApplicationClientSecret =
+  | string
+  | Redacted.Redacted<string>;
+export type AccessToken = string | Redacted.Redacted<string>;
+export type RefreshToken = string | Redacted.Redacted<string>;
+export type JwtToken = string | Redacted.Redacted<string>;
 export type BoxedNonNegativeLong = number;
 export type PollingTime = number;
 export type PositiveLong = number;
@@ -3989,29 +3997,29 @@ export const TokenUrlParametersMap = S.Record({
   value: S.String,
 });
 export interface AuthorizationCodeProperties {
-  AuthorizationCode?: string;
+  AuthorizationCode?: string | Redacted.Redacted<string>;
   RedirectUri?: string;
 }
 export const AuthorizationCodeProperties = S.suspend(() =>
   S.Struct({
-    AuthorizationCode: S.optional(S.String),
+    AuthorizationCode: S.optional(SensitiveString),
     RedirectUri: S.optional(S.String),
   }),
 ).annotations({
   identifier: "AuthorizationCodeProperties",
 }) as any as S.Schema<AuthorizationCodeProperties>;
 export interface OAuth2Credentials {
-  UserManagedClientApplicationClientSecret?: string;
-  AccessToken?: string;
-  RefreshToken?: string;
-  JwtToken?: string;
+  UserManagedClientApplicationClientSecret?: string | Redacted.Redacted<string>;
+  AccessToken?: string | Redacted.Redacted<string>;
+  RefreshToken?: string | Redacted.Redacted<string>;
+  JwtToken?: string | Redacted.Redacted<string>;
 }
 export const OAuth2Credentials = S.suspend(() =>
   S.Struct({
-    UserManagedClientApplicationClientSecret: S.optional(S.String),
-    AccessToken: S.optional(S.String),
-    RefreshToken: S.optional(S.String),
-    JwtToken: S.optional(S.String),
+    UserManagedClientApplicationClientSecret: S.optional(SensitiveString),
+    AccessToken: S.optional(SensitiveString),
+    RefreshToken: S.optional(SensitiveString),
+    JwtToken: S.optional(SensitiveString),
   }),
 ).annotations({
   identifier: "OAuth2Credentials",
@@ -4038,10 +4046,13 @@ export const OAuth2PropertiesInput = S.suspend(() =>
 }) as any as S.Schema<OAuth2PropertiesInput>;
 export interface BasicAuthenticationCredentials {
   Username?: string;
-  Password?: string;
+  Password?: string | Redacted.Redacted<string>;
 }
 export const BasicAuthenticationCredentials = S.suspend(() =>
-  S.Struct({ Username: S.optional(S.String), Password: S.optional(S.String) }),
+  S.Struct({
+    Username: S.optional(S.String),
+    Password: S.optional(SensitiveString),
+  }),
 ).annotations({
   identifier: "BasicAuthenticationCredentials",
 }) as any as S.Schema<BasicAuthenticationCredentials>;
@@ -11431,22 +11442,22 @@ export type Labels = { [key: string]: string };
 export const Labels = S.Record({ key: S.String, value: S.String });
 export interface DataQualityRuleResult {
   Name?: string;
-  Description?: string;
-  EvaluationMessage?: string;
+  Description?: string | Redacted.Redacted<string>;
+  EvaluationMessage?: string | Redacted.Redacted<string>;
   Result?: string;
   EvaluatedMetrics?: EvaluatedMetricsMap;
-  EvaluatedRule?: string;
+  EvaluatedRule?: string | Redacted.Redacted<string>;
   RuleMetrics?: RuleMetricsMap;
   Labels?: Labels;
 }
 export const DataQualityRuleResult = S.suspend(() =>
   S.Struct({
     Name: S.optional(S.String),
-    Description: S.optional(S.String),
-    EvaluationMessage: S.optional(S.String),
+    Description: S.optional(SensitiveString),
+    EvaluationMessage: S.optional(SensitiveString),
     Result: S.optional(S.String),
     EvaluatedMetrics: S.optional(EvaluatedMetricsMap),
-    EvaluatedRule: S.optional(S.String),
+    EvaluatedRule: S.optional(SensitiveString),
     RuleMetrics: S.optional(RuleMetricsMap),
     Labels: S.optional(Labels),
   }),
@@ -11457,15 +11468,15 @@ export type DataQualityRuleResults = DataQualityRuleResult[];
 export const DataQualityRuleResults = S.Array(DataQualityRuleResult);
 export interface DataQualityAnalyzerResult {
   Name?: string;
-  Description?: string;
-  EvaluationMessage?: string;
+  Description?: string | Redacted.Redacted<string>;
+  EvaluationMessage?: string | Redacted.Redacted<string>;
   EvaluatedMetrics?: EvaluatedMetricsMap;
 }
 export const DataQualityAnalyzerResult = S.suspend(() =>
   S.Struct({
     Name: S.optional(S.String),
-    Description: S.optional(S.String),
-    EvaluationMessage: S.optional(S.String),
+    Description: S.optional(SensitiveString),
+    EvaluationMessage: S.optional(SensitiveString),
     EvaluatedMetrics: S.optional(EvaluatedMetricsMap),
   }),
 ).annotations({
@@ -11508,12 +11519,12 @@ export const MetricBasedObservation = S.suspend(() =>
   identifier: "MetricBasedObservation",
 }) as any as S.Schema<MetricBasedObservation>;
 export interface DataQualityObservation {
-  Description?: string;
+  Description?: string | Redacted.Redacted<string>;
   MetricBasedObservation?: MetricBasedObservation;
 }
 export const DataQualityObservation = S.suspend(() =>
   S.Struct({
-    Description: S.optional(S.String),
+    Description: S.optional(SensitiveString),
     MetricBasedObservation: S.optional(MetricBasedObservation),
   }),
 ).annotations({

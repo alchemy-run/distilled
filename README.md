@@ -450,6 +450,63 @@ const program = lambda.invoke({
 );
 ```
 
+## Sensitive Data
+
+AWS APIs often include sensitive data like passwords, secret keys, and encryption keys. Fields marked with the Smithy `@sensitive` trait are automatically wrapped in Effect's `Redacted` type to prevent accidental exposure in logs.
+
+### How It Works
+
+- **Response values are always `Redacted`** — When you receive sensitive data from AWS, it's wrapped in `Redacted` to prevent accidental logging
+- **Input values accept both raw and `Redacted`** — You can pass plain strings or `Redacted` values for convenience
+
+```typescript
+import { Effect } from "effect";
+import * as Redacted from "effect/Redacted";
+import * as iam from "distilled-aws/iam";
+
+const program = Effect.gen(function* () {
+  // Create an access key
+  const result = yield* iam.createAccessKey({ UserName: "my-user" });
+
+  // SecretAccessKey is Redacted<string> - safe to log the whole object
+  console.log(result); // { AccessKeyId: "AKIA...", SecretAccessKey: <redacted>, ... }
+
+  // Extract the actual value when needed
+  const secret = Redacted.value(result.AccessKey!.SecretAccessKey);
+  // Use 'secret' to configure credentials, etc.
+});
+```
+
+### Sensitive Fields in Common Services
+
+| Service | Field | Type |
+|---------|-------|------|
+| IAM | `SecretAccessKey` | `Redacted<string>` |
+| IAM | `Password` | `Redacted<string>` |
+| KMS | `Plaintext` | `Redacted<Uint8Array>` |
+| Lambda | `Environment.Variables` (values) | `Redacted<string>` |
+
+### Passing Sensitive Input
+
+For operations that accept sensitive input, you can pass either raw values or `Redacted`:
+
+```typescript
+import * as Redacted from "effect/Redacted";
+import * as iam from "distilled-aws/iam";
+
+// Raw value (convenient)
+yield* iam.changePassword({
+  OldPassword: "old-password",
+  NewPassword: "new-password",
+});
+
+// Redacted value (explicit)
+yield* iam.changePassword({
+  OldPassword: Redacted.make("old-password"),
+  NewPassword: Redacted.make("new-password"),
+});
+```
+
 ## Streaming
 
 ### Streaming Uploads
@@ -588,6 +645,7 @@ Smithy traits are modeled 1:1 with Effect Schema annotations in [`src/traits.ts`
 | `@timestampFormat` | `T.TimestampFormat("http-date")` | Timestamp wire format |
 | `@streaming` | `T.Streaming()` | Streaming blob type |
 | `@contextParam` | `T.ContextParam("Bucket")` | Endpoint resolution parameter |
+| `@sensitive` | `SensitiveString` / `SensitiveBlob` | Wrap in `Redacted` to prevent logging |
 
 ### Generated Code Examples
 

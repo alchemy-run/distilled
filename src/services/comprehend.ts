@@ -1,5 +1,6 @@
 import { HttpClient } from "@effect/platform";
 import * as Effect from "effect/Effect";
+import * as Redacted from "effect/Redacted";
 import * as S from "effect/Schema";
 import * as Stream from "effect/Stream";
 import * as API from "../api.ts";
@@ -10,6 +11,7 @@ import {
   ErrorCategory,
   Errors,
 } from "../index.ts";
+import { SensitiveString, SensitiveBlob } from "../sensitive.ts";
 const svc = T.AwsApiService({
   sdkId: "Comprehend",
   serviceShapeName: "Comprehend_20171127",
@@ -250,7 +252,7 @@ const rules = T.EndpointRuleSet({
 });
 
 //# Newtypes
-export type CustomerInputString = string;
+export type CustomerInputString = string | Redacted.Redacted<string>;
 export type DocumentClassifierEndpointArn = string;
 export type ComprehendFlywheelArn = string;
 export type ComprehendArnName = string;
@@ -294,8 +296,8 @@ export type NumberOfDocuments = number;
 export type Double = number;
 
 //# Schemas
-export type CustomerInputStringList = string[];
-export const CustomerInputStringList = S.Array(S.String);
+export type CustomerInputStringList = string | Redacted.Redacted<string>[];
+export const CustomerInputStringList = S.Array(SensitiveString);
 export type TargetEventTypes = string[];
 export const TargetEventTypes = S.Array(S.String);
 export type TagKeyList = string[];
@@ -651,10 +653,10 @@ export const DescribeTopicsDetectionJobRequest = S.suspend(() =>
   identifier: "DescribeTopicsDetectionJobRequest",
 }) as any as S.Schema<DescribeTopicsDetectionJobRequest>;
 export interface DetectDominantLanguageRequest {
-  Text: string;
+  Text: string | Redacted.Redacted<string>;
 }
 export const DetectDominantLanguageRequest = S.suspend(() =>
-  S.Struct({ Text: S.String }).pipe(
+  S.Struct({ Text: SensitiveString }).pipe(
     T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
   ),
 ).annotations({
@@ -677,7 +679,7 @@ export const DocumentReaderConfig = S.suspend(() =>
   identifier: "DocumentReaderConfig",
 }) as any as S.Schema<DocumentReaderConfig>;
 export interface DetectEntitiesRequest {
-  Text?: string;
+  Text?: string | Redacted.Redacted<string>;
   LanguageCode?: string;
   EndpointArn?: string;
   Bytes?: Uint8Array;
@@ -685,7 +687,7 @@ export interface DetectEntitiesRequest {
 }
 export const DetectEntitiesRequest = S.suspend(() =>
   S.Struct({
-    Text: S.optional(S.String),
+    Text: S.optional(SensitiveString),
     LanguageCode: S.optional(S.String),
     EndpointArn: S.optional(S.String),
     Bytes: S.optional(T.Blob),
@@ -697,11 +699,11 @@ export const DetectEntitiesRequest = S.suspend(() =>
   identifier: "DetectEntitiesRequest",
 }) as any as S.Schema<DetectEntitiesRequest>;
 export interface DetectKeyPhrasesRequest {
-  Text: string;
+  Text: string | Redacted.Redacted<string>;
   LanguageCode: string;
 }
 export const DetectKeyPhrasesRequest = S.suspend(() =>
-  S.Struct({ Text: S.String, LanguageCode: S.String }).pipe(
+  S.Struct({ Text: SensitiveString, LanguageCode: S.String }).pipe(
     T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
   ),
 ).annotations({
@@ -719,33 +721,33 @@ export const DetectPiiEntitiesRequest = S.suspend(() =>
   identifier: "DetectPiiEntitiesRequest",
 }) as any as S.Schema<DetectPiiEntitiesRequest>;
 export interface DetectSentimentRequest {
-  Text: string;
+  Text: string | Redacted.Redacted<string>;
   LanguageCode: string;
 }
 export const DetectSentimentRequest = S.suspend(() =>
-  S.Struct({ Text: S.String, LanguageCode: S.String }).pipe(
+  S.Struct({ Text: SensitiveString, LanguageCode: S.String }).pipe(
     T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
   ),
 ).annotations({
   identifier: "DetectSentimentRequest",
 }) as any as S.Schema<DetectSentimentRequest>;
 export interface DetectSyntaxRequest {
-  Text: string;
+  Text: string | Redacted.Redacted<string>;
   LanguageCode: string;
 }
 export const DetectSyntaxRequest = S.suspend(() =>
-  S.Struct({ Text: S.String, LanguageCode: S.String }).pipe(
+  S.Struct({ Text: SensitiveString, LanguageCode: S.String }).pipe(
     T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
   ),
 ).annotations({
   identifier: "DetectSyntaxRequest",
 }) as any as S.Schema<DetectSyntaxRequest>;
 export interface DetectTargetedSentimentRequest {
-  Text: string;
+  Text: string | Redacted.Redacted<string>;
   LanguageCode: string;
 }
 export const DetectTargetedSentimentRequest = S.suspend(() =>
-  S.Struct({ Text: S.String, LanguageCode: S.String }).pipe(
+  S.Struct({ Text: SensitiveString, LanguageCode: S.String }).pipe(
     T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
   ),
 ).annotations({
@@ -1283,10 +1285,10 @@ export const DataSecurityConfig = S.suspend(() =>
   identifier: "DataSecurityConfig",
 }) as any as S.Schema<DataSecurityConfig>;
 export interface TextSegment {
-  Text: string;
+  Text: string | Redacted.Redacted<string>;
 }
 export const TextSegment = S.suspend(() =>
-  S.Struct({ Text: S.String }),
+  S.Struct({ Text: SensitiveString }),
 ).annotations({ identifier: "TextSegment" }) as any as S.Schema<TextSegment>;
 export type ListOfTextSegments = TextSegment[];
 export const ListOfTextSegments = S.Array(TextSegment);
@@ -1615,14 +1617,14 @@ export const UpdateDataSecurityConfig = S.suspend(() =>
 export type LabelsList = string[];
 export const LabelsList = S.Array(S.String);
 export interface ClassifyDocumentRequest {
-  Text?: string;
+  Text?: string | Redacted.Redacted<string>;
   EndpointArn: string;
   Bytes?: Uint8Array;
   DocumentReaderConfig?: DocumentReaderConfig;
 }
 export const ClassifyDocumentRequest = S.suspend(() =>
   S.Struct({
-    Text: S.optional(S.String),
+    Text: S.optional(SensitiveString),
     EndpointArn: S.String,
     Bytes: S.optional(T.Blob),
     DocumentReaderConfig: S.optional(DocumentReaderConfig),

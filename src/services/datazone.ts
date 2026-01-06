@@ -1,5 +1,6 @@
 import { HttpClient } from "@effect/platform";
 import * as Effect from "effect/Effect";
+import * as Redacted from "effect/Redacted";
 import * as S from "effect/Schema";
 import * as Stream from "effect/Stream";
 import * as API from "../api.ts";
@@ -10,6 +11,7 @@ import {
   ErrorCategory,
   Errors,
 } from "../index.ts";
+import { SensitiveString, SensitiveBlob } from "../sensitive.ts";
 const svc = T.AwsApiService({
   sdkId: "DataZone",
   serviceShapeName: "DataZone",
@@ -211,33 +213,33 @@ export type AssetIdentifier = string;
 export type Revision = string;
 export type ClientToken = string;
 export type SubscriptionRequestId = string;
-export type DecisionComment = string;
+export type DecisionComment = string | Redacted.Redacted<string>;
 export type EnvironmentId = string;
 export type EntityIdentifier = string;
 export type GlossaryTermId = string;
 export type EntityId = string;
 export type AttributeIdentifier = string;
 export type SubscriptionId = string;
-export type AccountPoolName = string;
-export type Description = string;
+export type AccountPoolName = string | Redacted.Redacted<string>;
+export type Description = string | Redacted.Redacted<string>;
 export type AssetId = string;
-export type FilterName = string;
+export type FilterName = string | Redacted.Redacted<string>;
 export type ConnectionName = string;
 export type ProjectId = string;
 export type EnvironmentProfileId = string;
 export type EnvironmentBlueprintName = string;
-export type EnvironmentProfileName = string;
+export type EnvironmentProfileName = string | Redacted.Redacted<string>;
 export type EnvironmentBlueprintId = string;
 export type AwsAccountId = string;
 export type AwsRegion = string;
 export type GroupIdentifier = string;
-export type ProjectName = string;
+export type ProjectName = string | Redacted.Redacted<string>;
 export type DomainUnitId = string;
 export type ProjectProfileId = string;
-export type ProjectProfileName = string;
+export type ProjectProfileName = string | Redacted.Redacted<string>;
 export type SubscriptionTargetId = string;
-export type RequestReason = string;
-export type SubscriptionTargetName = string;
+export type RequestReason = string | Redacted.Redacted<string>;
+export type SubscriptionTargetName = string | Redacted.Redacted<string>;
 export type AuthorizedPrincipalIdentifier = string;
 export type IamRoleArn = string;
 export type TypeName = string;
@@ -261,38 +263,38 @@ export type UserProfileId = string;
 export type GroupProfileId = string;
 export type GrantIdentifier = string;
 export type SearchText = string;
-export type GroupSearchText = string;
-export type UserSearchText = string;
+export type GroupSearchText = string | Redacted.Redacted<string>;
+export type UserSearchText = string | Redacted.Redacted<string>;
 export type TagKey = string;
-export type AssetName = string;
+export type AssetName = string | Redacted.Redacted<string>;
 export type ExternalIdentifier = string;
 export type AssetTypeIdentifier = string;
-export type DataProductName = string;
-export type DataProductDescription = string;
-export type Name = string;
+export type DataProductName = string | Redacted.Redacted<string>;
+export type DataProductDescription = string | Redacted.Redacted<string>;
+export type Name = string | Redacted.Redacted<string>;
 export type DataSourceType = string;
 export type DataSourceId = string;
 export type RoleArn = string;
 export type KmsKeyArn = string;
-export type DomainUnitName = string;
-export type DomainUnitDescription = string;
+export type DomainUnitName = string | Redacted.Redacted<string>;
+export type DomainUnitDescription = string | Redacted.Redacted<string>;
 export type PolicyArn = string;
 export type RegionName = string;
-export type FormTypeName = string;
+export type FormTypeName = string | Redacted.Redacted<string>;
 export type FormTypeIdentifier = string;
-export type GlossaryName = string;
-export type GlossaryDescription = string;
+export type GlossaryName = string | Redacted.Redacted<string>;
+export type GlossaryDescription = string | Redacted.Redacted<string>;
 export type GlossaryId = string;
-export type GlossaryTermName = string;
-export type ShortDescription = string;
-export type LongDescription = string;
+export type GlossaryTermName = string | Redacted.Redacted<string>;
+export type ShortDescription = string | Redacted.Redacted<string>;
+export type LongDescription = string | Redacted.Redacted<string>;
 export type MetadataGenerationRunIdentifier = string;
-export type RuleName = string;
+export type RuleName = string | Redacted.Redacted<string>;
 export type RuleId = string;
-export type EditedValue = string;
+export type EditedValue = string | Redacted.Redacted<string>;
 export type TagValue = string;
-export type EnvironmentConfigurationName = string;
-export type EnvironmentConfigurationId = string;
+export type EnvironmentConfigurationName = string | Redacted.Redacted<string>;
+export type EnvironmentConfigurationId = string | Redacted.Redacted<string>;
 export type DeploymentOrder = number;
 export type FormName = string;
 export type RevisionInput = string;
@@ -303,12 +305,12 @@ export type Smithy = string;
 export type ErrorMessage = string;
 export type CreatedBy = string;
 export type UpdatedBy = string;
-export type GroupProfileName = string;
-export type EnvironmentName = string;
+export type GroupProfileName = string | Redacted.Redacted<string>;
+export type EnvironmentName = string | Redacted.Redacted<string>;
 export type EnvironmentActionId = string;
 export type LineageNodeId = string;
 export type ListingName = string;
-export type AwsAccountName = string;
+export type AwsAccountName = string | Redacted.Redacted<string>;
 export type LambdaFunctionArn = string;
 export type LambdaExecutionRoleArn = string;
 export type S3Uri = string;
@@ -318,21 +320,21 @@ export type S3Location = string;
 export type DeploymentMessage = string;
 export type DataPointIdentifier = string;
 export type TaskId = string;
-export type Title = string;
-export type Message = string;
-export type ActionLink = string;
-export type DomainName = string;
-export type DomainDescription = string;
+export type Title = string | Redacted.Redacted<string>;
+export type Message = string | Redacted.Redacted<string>;
+export type ActionLink = string | Redacted.Redacted<string>;
+export type DomainName = string | Redacted.Redacted<string>;
+export type DomainDescription = string | Redacted.Redacted<string>;
 export type EnvironmentConfigurationParameterName = string;
 export type SageMakerAssetType = string;
 export type SageMakerResourceArn = string;
-export type UserProfileName = string;
-export type FirstName = string;
-export type LastName = string;
+export type UserProfileName = string | Redacted.Redacted<string>;
+export type FirstName = string | Redacted.Redacted<string>;
+export type LastName = string | Redacted.Redacted<string>;
 export type LineageEventErrorMessage = string;
 export type Forms = string;
 export type SubnetId = string;
-export type Password = string;
+export type Password = string | Redacted.Redacted<string>;
 export type Username = string;
 export type AggregationAttributeValue = string;
 export type AggregationAttributeDisplayValue = string;
@@ -515,8 +517,8 @@ export type EnvironmentParametersList = EnvironmentParameter[];
 export const EnvironmentParametersList = S.Array(EnvironmentParameter);
 export interface CreateEnvironmentProfileInput {
   domainIdentifier: string;
-  name: string;
-  description?: string;
+  name: string | Redacted.Redacted<string>;
+  description?: string | Redacted.Redacted<string>;
   environmentBlueprintIdentifier: string;
   projectIdentifier: string;
   userParameters?: EnvironmentParametersList;
@@ -526,8 +528,8 @@ export interface CreateEnvironmentProfileInput {
 export const CreateEnvironmentProfileInput = S.suspend(() =>
   S.Struct({
     domainIdentifier: S.String.pipe(T.HttpLabel("domainIdentifier")),
-    name: S.String,
-    description: S.optional(S.String),
+    name: SensitiveString,
+    description: S.optional(SensitiveString),
     environmentBlueprintIdentifier: S.String,
     projectIdentifier: S.String,
     userParameters: S.optional(EnvironmentParametersList),
@@ -1676,7 +1678,7 @@ export const GetUserProfileInput = S.suspend(() =>
 }) as any as S.Schema<GetUserProfileInput>;
 export interface ListAccountPoolsInput {
   domainIdentifier: string;
-  name?: string;
+  name?: string | Redacted.Redacted<string>;
   sortBy?: string;
   sortOrder?: string;
   nextToken?: string;
@@ -1685,7 +1687,7 @@ export interface ListAccountPoolsInput {
 export const ListAccountPoolsInput = S.suspend(() =>
   S.Struct({
     domainIdentifier: S.String.pipe(T.HttpLabel("domainIdentifier")),
-    name: S.optional(S.String).pipe(T.HttpQuery("name")),
+    name: S.optional(SensitiveString).pipe(T.HttpQuery("name")),
     sortBy: S.optional(S.String).pipe(T.HttpQuery("sortBy")),
     sortOrder: S.optional(S.String).pipe(T.HttpQuery("sortOrder")),
     nextToken: S.optional(S.String).pipe(T.HttpQuery("nextToken")),
@@ -1988,7 +1990,7 @@ export interface ListEnvironmentProfilesInput {
   awsAccountRegion?: string;
   environmentBlueprintIdentifier?: string;
   projectIdentifier?: string;
-  name?: string;
+  name?: string | Redacted.Redacted<string>;
   nextToken?: string;
   maxResults?: number;
 }
@@ -2005,7 +2007,7 @@ export const ListEnvironmentProfilesInput = S.suspend(() =>
     projectIdentifier: S.optional(S.String).pipe(
       T.HttpQuery("projectIdentifier"),
     ),
-    name: S.optional(S.String).pipe(T.HttpQuery("name")),
+    name: S.optional(SensitiveString).pipe(T.HttpQuery("name")),
     nextToken: S.optional(S.String).pipe(T.HttpQuery("nextToken")),
     maxResults: S.optional(S.Number).pipe(T.HttpQuery("maxResults")),
   }).pipe(
@@ -2290,7 +2292,7 @@ export const ListProjectMembershipsInput = S.suspend(() =>
 }) as any as S.Schema<ListProjectMembershipsInput>;
 export interface ListProjectProfilesInput {
   domainIdentifier: string;
-  name?: string;
+  name?: string | Redacted.Redacted<string>;
   sortBy?: string;
   sortOrder?: string;
   nextToken?: string;
@@ -2299,7 +2301,7 @@ export interface ListProjectProfilesInput {
 export const ListProjectProfilesInput = S.suspend(() =>
   S.Struct({
     domainIdentifier: S.String.pipe(T.HttpLabel("domainIdentifier")),
-    name: S.optional(S.String).pipe(T.HttpQuery("name")),
+    name: S.optional(SensitiveString).pipe(T.HttpQuery("name")),
     sortBy: S.optional(S.String).pipe(T.HttpQuery("sortBy")),
     sortOrder: S.optional(S.String).pipe(T.HttpQuery("sortOrder")),
     nextToken: S.optional(S.String).pipe(T.HttpQuery("nextToken")),
@@ -2324,7 +2326,7 @@ export interface ListProjectsInput {
   domainIdentifier: string;
   userIdentifier?: string;
   groupIdentifier?: string;
-  name?: string;
+  name?: string | Redacted.Redacted<string>;
   nextToken?: string;
   maxResults?: number;
 }
@@ -2333,7 +2335,7 @@ export const ListProjectsInput = S.suspend(() =>
     domainIdentifier: S.String.pipe(T.HttpLabel("domainIdentifier")),
     userIdentifier: S.optional(S.String).pipe(T.HttpQuery("userIdentifier")),
     groupIdentifier: S.optional(S.String).pipe(T.HttpQuery("groupIdentifier")),
-    name: S.optional(S.String).pipe(T.HttpQuery("name")),
+    name: S.optional(SensitiveString).pipe(T.HttpQuery("name")),
     nextToken: S.optional(S.String).pipe(T.HttpQuery("nextToken")),
     maxResults: S.optional(S.Number).pipe(T.HttpQuery("maxResults")),
   }).pipe(
@@ -2611,13 +2613,13 @@ export const PostLineageEventInput = S.suspend(() =>
 export interface RejectSubscriptionRequestInput {
   domainIdentifier: string;
   identifier: string;
-  decisionComment?: string;
+  decisionComment?: string | Redacted.Redacted<string>;
 }
 export const RejectSubscriptionRequestInput = S.suspend(() =>
   S.Struct({
     domainIdentifier: S.String.pipe(T.HttpLabel("domainIdentifier")),
     identifier: S.String.pipe(T.HttpLabel("identifier")),
-    decisionComment: S.optional(S.String),
+    decisionComment: S.optional(SensitiveString),
   }).pipe(
     T.all(
       T.Http({
@@ -2846,7 +2848,7 @@ export const RevokeSubscriptionInput = S.suspend(() =>
 export interface SearchGroupProfilesInput {
   domainIdentifier: string;
   groupType: string;
-  searchText?: string;
+  searchText?: string | Redacted.Redacted<string>;
   maxResults?: number;
   nextToken?: string;
 }
@@ -2854,7 +2856,7 @@ export const SearchGroupProfilesInput = S.suspend(() =>
   S.Struct({
     domainIdentifier: S.String.pipe(T.HttpLabel("domainIdentifier")),
     groupType: S.String,
-    searchText: S.optional(S.String),
+    searchText: S.optional(SensitiveString),
     maxResults: S.optional(S.Number),
     nextToken: S.optional(S.String),
   }).pipe(
@@ -2949,7 +2951,7 @@ export const SearchTypesInput = S.suspend(() =>
 export interface SearchUserProfilesInput {
   domainIdentifier: string;
   userType: string;
-  searchText?: string;
+  searchText?: string | Redacted.Redacted<string>;
   maxResults?: number;
   nextToken?: string;
 }
@@ -2957,7 +2959,7 @@ export const SearchUserProfilesInput = S.suspend(() =>
   S.Struct({
     domainIdentifier: S.String.pipe(T.HttpLabel("domainIdentifier")),
     userType: S.String,
-    searchText: S.optional(S.String),
+    searchText: S.optional(SensitiveString),
     maxResults: S.optional(S.Number),
     nextToken: S.optional(S.String),
   }).pipe(
@@ -3033,13 +3035,13 @@ export const AwsRegionList = S.Array(S.String);
 export interface AccountInfo {
   awsAccountId: string;
   supportedRegions: AwsRegionList;
-  awsAccountName?: string;
+  awsAccountName?: string | Redacted.Redacted<string>;
 }
 export const AccountInfo = S.suspend(() =>
   S.Struct({
     awsAccountId: S.String,
     supportedRegions: AwsRegionList,
-    awsAccountName: S.optional(S.String),
+    awsAccountName: S.optional(SensitiveString),
   }),
 ).annotations({ identifier: "AccountInfo" }) as any as S.Schema<AccountInfo>;
 export type AccountInfoList = AccountInfo[];
@@ -3066,8 +3068,8 @@ export const AccountSource = S.Union(
 export interface UpdateAccountPoolInput {
   domainIdentifier: string;
   identifier: string;
-  name?: string;
-  description?: string;
+  name?: string | Redacted.Redacted<string>;
+  description?: string | Redacted.Redacted<string>;
   resolutionStrategy?: string;
   accountSource?: (typeof AccountSource)["Type"];
 }
@@ -3075,8 +3077,8 @@ export const UpdateAccountPoolInput = S.suspend(() =>
   S.Struct({
     domainIdentifier: S.String.pipe(T.HttpLabel("domainIdentifier")),
     identifier: S.String.pipe(T.HttpLabel("identifier")),
-    name: S.optional(S.String),
-    description: S.optional(S.String),
+    name: S.optional(SensitiveString),
+    description: S.optional(SensitiveString),
     resolutionStrategy: S.optional(S.String),
     accountSource: S.optional(AccountSource),
   }).pipe(
@@ -3276,7 +3278,7 @@ export interface UpdateAssetFilterInput {
   assetIdentifier: string;
   identifier: string;
   name?: string;
-  description?: string;
+  description?: string | Redacted.Redacted<string>;
   configuration?: (typeof AssetFilterConfiguration)["Type"];
 }
 export const UpdateAssetFilterInput = S.suspend(() =>
@@ -3285,7 +3287,7 @@ export const UpdateAssetFilterInput = S.suspend(() =>
     assetIdentifier: S.String.pipe(T.HttpLabel("assetIdentifier")),
     identifier: S.String.pipe(T.HttpLabel("identifier")),
     name: S.optional(S.String),
-    description: S.optional(S.String),
+    description: S.optional(SensitiveString),
     configuration: S.optional(AssetFilterConfiguration),
   }).pipe(
     T.all(
@@ -3397,7 +3399,7 @@ export const ProvisioningProperties = S.Union(
 );
 export interface CustomParameter {
   keyName: string;
-  description?: string;
+  description?: string | Redacted.Redacted<string>;
   fieldType: string;
   defaultValue?: string;
   isEditable?: boolean;
@@ -3407,7 +3409,7 @@ export interface CustomParameter {
 export const CustomParameter = S.suspend(() =>
   S.Struct({
     keyName: S.String,
-    description: S.optional(S.String),
+    description: S.optional(SensitiveString),
     fieldType: S.String,
     defaultValue: S.optional(S.String),
     isEditable: S.optional(S.Boolean),
@@ -3452,7 +3454,7 @@ export const UpdateEnvironmentBlueprintInput = S.suspend(() =>
 export interface UpdateEnvironmentProfileInput {
   domainIdentifier: string;
   identifier: string;
-  name?: string;
+  name?: string | Redacted.Redacted<string>;
   description?: string;
   userParameters?: EnvironmentParametersList;
   awsAccountId?: string;
@@ -3462,7 +3464,7 @@ export const UpdateEnvironmentProfileInput = S.suspend(() =>
   S.Struct({
     domainIdentifier: S.String.pipe(T.HttpLabel("domainIdentifier")),
     identifier: S.String.pipe(T.HttpLabel("identifier")),
-    name: S.optional(S.String),
+    name: S.optional(SensitiveString),
     description: S.optional(S.String),
     userParameters: S.optional(EnvironmentParametersList),
     awsAccountId: S.optional(S.String),
@@ -3569,10 +3571,10 @@ export const Region = S.Union(
   S.Struct({ regionNamePath: S.String }),
 );
 export interface EnvironmentConfiguration {
-  name: string;
-  id?: string;
+  name: string | Redacted.Redacted<string>;
+  id?: string | Redacted.Redacted<string>;
   environmentBlueprintId: string;
-  description?: string;
+  description?: string | Redacted.Redacted<string>;
   deploymentMode?: string;
   configurationParameters?: EnvironmentConfigurationParametersDetails;
   awsAccount?: (typeof AwsAccount)["Type"];
@@ -3582,10 +3584,10 @@ export interface EnvironmentConfiguration {
 }
 export const EnvironmentConfiguration = S.suspend(() =>
   S.Struct({
-    name: S.String,
-    id: S.optional(S.String),
+    name: SensitiveString,
+    id: S.optional(SensitiveString),
     environmentBlueprintId: S.String,
-    description: S.optional(S.String),
+    description: S.optional(SensitiveString),
     deploymentMode: S.optional(S.String),
     configurationParameters: S.optional(
       EnvironmentConfigurationParametersDetails,
@@ -3603,12 +3605,12 @@ export const EnvironmentConfigurationsList = S.Array(EnvironmentConfiguration);
 export interface UpdateProjectProfileInput {
   domainIdentifier: string;
   identifier: string;
-  name?: string;
-  description?: string;
+  name?: string | Redacted.Redacted<string>;
+  description?: string | Redacted.Redacted<string>;
   status?: string;
   projectResourceTags?: ProjectResourceTagParameters;
   allowCustomProjectResourceTags?: boolean;
-  projectResourceTagsDescription?: string;
+  projectResourceTagsDescription?: string | Redacted.Redacted<string>;
   environmentConfigurations?: EnvironmentConfigurationsList;
   domainUnitIdentifier?: string;
 }
@@ -3616,12 +3618,12 @@ export const UpdateProjectProfileInput = S.suspend(() =>
   S.Struct({
     domainIdentifier: S.String.pipe(T.HttpLabel("domainIdentifier")),
     identifier: S.String.pipe(T.HttpLabel("identifier")),
-    name: S.optional(S.String),
-    description: S.optional(S.String),
+    name: S.optional(SensitiveString),
+    description: S.optional(SensitiveString),
     status: S.optional(S.String),
     projectResourceTags: S.optional(ProjectResourceTagParameters),
     allowCustomProjectResourceTags: S.optional(S.Boolean),
-    projectResourceTagsDescription: S.optional(S.String),
+    projectResourceTagsDescription: S.optional(SensitiveString),
     environmentConfigurations: S.optional(EnvironmentConfigurationsList),
     domainUnitIdentifier: S.optional(S.String),
   }).pipe(
@@ -3677,13 +3679,13 @@ export const UpdateRootDomainUnitOwnerOutput = S.suspend(() =>
 export interface UpdateSubscriptionRequestInput {
   domainIdentifier: string;
   identifier: string;
-  requestReason: string;
+  requestReason: string | Redacted.Redacted<string>;
 }
 export const UpdateSubscriptionRequestInput = S.suspend(() =>
   S.Struct({
     domainIdentifier: S.String.pipe(T.HttpLabel("domainIdentifier")),
     identifier: S.String.pipe(T.HttpLabel("identifier")),
-    requestReason: S.String,
+    requestReason: SensitiveString,
   }).pipe(
     T.all(
       T.Http({
@@ -3715,7 +3717,7 @@ export interface UpdateSubscriptionTargetInput {
   domainIdentifier: string;
   environmentIdentifier: string;
   identifier: string;
-  name?: string;
+  name?: string | Redacted.Redacted<string>;
   authorizedPrincipals?: AuthorizedPrincipalIdentifiers;
   applicableAssetTypes?: ApplicableAssetTypes;
   subscriptionTargetConfig?: SubscriptionTargetForms;
@@ -3727,7 +3729,7 @@ export const UpdateSubscriptionTargetInput = S.suspend(() =>
     domainIdentifier: S.String.pipe(T.HttpLabel("domainIdentifier")),
     environmentIdentifier: S.String.pipe(T.HttpLabel("environmentIdentifier")),
     identifier: S.String.pipe(T.HttpLabel("identifier")),
-    name: S.optional(S.String),
+    name: S.optional(SensitiveString),
     authorizedPrincipals: S.optional(AuthorizedPrincipalIdentifiers),
     applicableAssetTypes: S.optional(ApplicableAssetTypes),
     subscriptionTargetConfig: S.optional(SubscriptionTargetForms),
@@ -3850,11 +3852,11 @@ export const PredictionConfiguration = S.suspend(() =>
   identifier: "PredictionConfiguration",
 }) as any as S.Schema<PredictionConfiguration>;
 export interface CreateAssetRevisionInput {
-  name: string;
+  name: string | Redacted.Redacted<string>;
   domainIdentifier: string;
   identifier: string;
   typeRevision?: string;
-  description?: string;
+  description?: string | Redacted.Redacted<string>;
   glossaryTerms?: GlossaryTerms;
   formsInput?: FormInputList;
   predictionConfiguration?: PredictionConfiguration;
@@ -3862,11 +3864,11 @@ export interface CreateAssetRevisionInput {
 }
 export const CreateAssetRevisionInput = S.suspend(() =>
   S.Struct({
-    name: S.String,
+    name: SensitiveString,
     domainIdentifier: S.String.pipe(T.HttpLabel("domainIdentifier")),
     identifier: S.String.pipe(T.HttpLabel("identifier")),
     typeRevision: S.optional(S.String),
-    description: S.optional(S.String),
+    description: S.optional(SensitiveString),
     glossaryTerms: S.optional(GlossaryTerms),
     formsInput: S.optional(FormInputList),
     predictionConfiguration: S.optional(PredictionConfiguration),
@@ -4020,8 +4022,8 @@ export const DataProductItems = S.Array(DataProductItem);
 export interface CreateDataProductRevisionInput {
   domainIdentifier: string;
   identifier: string;
-  name: string;
-  description?: string;
+  name: string | Redacted.Redacted<string>;
+  description?: string | Redacted.Redacted<string>;
   glossaryTerms?: GlossaryTerms;
   items?: DataProductItems;
   formsInput?: FormInputList;
@@ -4031,8 +4033,8 @@ export const CreateDataProductRevisionInput = S.suspend(() =>
   S.Struct({
     domainIdentifier: S.String.pipe(T.HttpLabel("domainIdentifier")),
     identifier: S.String.pipe(T.HttpLabel("identifier")),
-    name: S.String,
-    description: S.optional(S.String),
+    name: SensitiveString,
+    description: S.optional(SensitiveString),
     glossaryTerms: S.optional(GlossaryTerms),
     items: S.optional(DataProductItems),
     formsInput: S.optional(FormInputList),
@@ -4215,8 +4217,8 @@ export const RecommendationConfiguration = S.suspend(() =>
 export interface UpdateDataSourceInput {
   domainIdentifier: string;
   identifier: string;
-  name?: string;
-  description?: string;
+  name?: string | Redacted.Redacted<string>;
+  description?: string | Redacted.Redacted<string>;
   enableSetting?: string;
   publishOnImport?: boolean;
   assetFormsInput?: FormInputList;
@@ -4229,8 +4231,8 @@ export const UpdateDataSourceInput = S.suspend(() =>
   S.Struct({
     domainIdentifier: S.String.pipe(T.HttpLabel("domainIdentifier")),
     identifier: S.String.pipe(T.HttpLabel("identifier")),
-    name: S.optional(S.String),
-    description: S.optional(S.String),
+    name: S.optional(SensitiveString),
+    description: S.optional(SensitiveString),
     enableSetting: S.optional(S.String),
     publishOnImport: S.optional(S.Boolean),
     assetFormsInput: S.optional(FormInputList),
@@ -4291,7 +4293,7 @@ export interface ListDataSourcesInput {
   connectionIdentifier?: string;
   type?: string;
   status?: string;
-  name?: string;
+  name?: string | Redacted.Redacted<string>;
   nextToken?: string;
   maxResults?: number;
 }
@@ -4307,7 +4309,7 @@ export const ListDataSourcesInput = S.suspend(() =>
     ),
     type: S.optional(S.String).pipe(T.HttpQuery("type")),
     status: S.optional(S.String).pipe(T.HttpQuery("status")),
-    name: S.optional(S.String).pipe(T.HttpQuery("name")),
+    name: S.optional(SensitiveString).pipe(T.HttpQuery("name")),
     nextToken: S.optional(S.String).pipe(T.HttpQuery("nextToken")),
     maxResults: S.optional(S.Number).pipe(T.HttpQuery("maxResults")),
   }).pipe(
@@ -4516,17 +4518,17 @@ export const ListDomainsInput = S.suspend(() =>
 }) as any as S.Schema<ListDomainsInput>;
 export interface CreateDomainUnitInput {
   domainIdentifier: string;
-  name: string;
+  name: string | Redacted.Redacted<string>;
   parentDomainUnitIdentifier: string;
-  description?: string;
+  description?: string | Redacted.Redacted<string>;
   clientToken?: string;
 }
 export const CreateDomainUnitInput = S.suspend(() =>
   S.Struct({
     domainIdentifier: S.String.pipe(T.HttpLabel("domainIdentifier")),
-    name: S.String,
+    name: SensitiveString,
     parentDomainUnitIdentifier: S.String,
-    description: S.optional(S.String),
+    description: S.optional(SensitiveString),
     clientToken: S.optional(S.String),
   }).pipe(
     T.all(
@@ -4571,15 +4573,15 @@ export const GetDomainUnitInput = S.suspend(() =>
 export interface UpdateDomainUnitInput {
   domainIdentifier: string;
   identifier: string;
-  description?: string;
-  name?: string;
+  description?: string | Redacted.Redacted<string>;
+  name?: string | Redacted.Redacted<string>;
 }
 export const UpdateDomainUnitInput = S.suspend(() =>
   S.Struct({
     domainIdentifier: S.String.pipe(T.HttpLabel("domainIdentifier")),
     identifier: S.String.pipe(T.HttpLabel("identifier")),
-    description: S.optional(S.String),
-    name: S.optional(S.String),
+    description: S.optional(SensitiveString),
+    name: S.optional(SensitiveString),
   }).pipe(
     T.all(
       T.Http({
@@ -4794,9 +4796,9 @@ export const GetFormTypeInput = S.suspend(() =>
 }) as any as S.Schema<GetFormTypeInput>;
 export interface CreateGlossaryInput {
   domainIdentifier: string;
-  name: string;
+  name: string | Redacted.Redacted<string>;
   owningProjectIdentifier: string;
-  description?: string;
+  description?: string | Redacted.Redacted<string>;
   status?: string;
   usageRestrictions?: GlossaryUsageRestrictions;
   clientToken?: string;
@@ -4804,9 +4806,9 @@ export interface CreateGlossaryInput {
 export const CreateGlossaryInput = S.suspend(() =>
   S.Struct({
     domainIdentifier: S.String.pipe(T.HttpLabel("domainIdentifier")),
-    name: S.String,
+    name: SensitiveString,
     owningProjectIdentifier: S.String,
-    description: S.optional(S.String),
+    description: S.optional(SensitiveString),
     status: S.optional(S.String),
     usageRestrictions: S.optional(GlossaryUsageRestrictions),
     clientToken: S.optional(S.String),
@@ -4853,8 +4855,8 @@ export const GetGlossaryInput = S.suspend(() =>
 export interface UpdateGlossaryInput {
   domainIdentifier: string;
   identifier: string;
-  name?: string;
-  description?: string;
+  name?: string | Redacted.Redacted<string>;
+  description?: string | Redacted.Redacted<string>;
   status?: string;
   clientToken?: string;
 }
@@ -4862,8 +4864,8 @@ export const UpdateGlossaryInput = S.suspend(() =>
   S.Struct({
     domainIdentifier: S.String.pipe(T.HttpLabel("domainIdentifier")),
     identifier: S.String.pipe(T.HttpLabel("identifier")),
-    name: S.optional(S.String),
-    description: S.optional(S.String),
+    name: S.optional(SensitiveString),
+    description: S.optional(SensitiveString),
     status: S.optional(S.String),
     clientToken: S.optional(S.String),
   }).pipe(
@@ -4950,9 +4952,9 @@ export interface UpdateGlossaryTermInput {
   domainIdentifier: string;
   glossaryIdentifier?: string;
   identifier: string;
-  name?: string;
-  shortDescription?: string;
-  longDescription?: string;
+  name?: string | Redacted.Redacted<string>;
+  shortDescription?: string | Redacted.Redacted<string>;
+  longDescription?: string | Redacted.Redacted<string>;
   termRelations?: TermRelations;
   status?: string;
 }
@@ -4961,9 +4963,9 @@ export const UpdateGlossaryTermInput = S.suspend(() =>
     domainIdentifier: S.String.pipe(T.HttpLabel("domainIdentifier")),
     glossaryIdentifier: S.optional(S.String),
     identifier: S.String.pipe(T.HttpLabel("identifier")),
-    name: S.optional(S.String),
-    shortDescription: S.optional(S.String),
-    longDescription: S.optional(S.String),
+    name: S.optional(SensitiveString),
+    shortDescription: S.optional(SensitiveString),
+    longDescription: S.optional(SensitiveString),
     termRelations: S.optional(TermRelations),
     status: S.optional(S.String),
   }).pipe(
@@ -5259,8 +5261,8 @@ export const RuleDetail = S.Union(
 export interface UpdateRuleInput {
   domainIdentifier: string;
   identifier: string;
-  name?: string;
-  description?: string;
+  name?: string | Redacted.Redacted<string>;
+  description?: string | Redacted.Redacted<string>;
   scope?: RuleScope;
   detail?: (typeof RuleDetail)["Type"];
   includeChildDomainUnits?: boolean;
@@ -5269,8 +5271,8 @@ export const UpdateRuleInput = S.suspend(() =>
   S.Struct({
     domainIdentifier: S.String.pipe(T.HttpLabel("domainIdentifier")),
     identifier: S.String.pipe(T.HttpLabel("identifier")),
-    name: S.optional(S.String),
-    description: S.optional(S.String),
+    name: S.optional(SensitiveString),
+    description: S.optional(SensitiveString),
     scope: S.optional(RuleScope),
     detail: S.optional(RuleDetail),
     includeChildDomainUnits: S.optional(S.Boolean),
@@ -5384,13 +5386,13 @@ export const AcceptRule = S.suspend(() =>
 export interface AcceptChoice {
   predictionTarget: string;
   predictionChoice?: number;
-  editedValue?: string;
+  editedValue?: string | Redacted.Redacted<string>;
 }
 export const AcceptChoice = S.suspend(() =>
   S.Struct({
     predictionTarget: S.String,
     predictionChoice: S.optional(S.Number),
-    editedValue: S.optional(S.String),
+    editedValue: S.optional(SensitiveString),
   }),
 ).annotations({ identifier: "AcceptChoice" }) as any as S.Schema<AcceptChoice>;
 export type AcceptChoices = AcceptChoice[];
@@ -5456,10 +5458,10 @@ export type MetadataFormInputs = FormInput[];
 export const MetadataFormInputs = S.Array(FormInput);
 export interface SubscribedProject {
   id?: string;
-  name?: string;
+  name?: string | Redacted.Redacted<string>;
 }
 export const SubscribedProject = S.suspend(() =>
-  S.Struct({ id: S.optional(S.String), name: S.optional(S.String) }),
+  S.Struct({ id: S.optional(S.String), name: S.optional(SensitiveString) }),
 ).annotations({
   identifier: "SubscribedProject",
 }) as any as S.Schema<SubscribedProject>;
@@ -5473,15 +5475,15 @@ export const IamUserProfileDetails = S.suspend(() =>
   identifier: "IamUserProfileDetails",
 }) as any as S.Schema<IamUserProfileDetails>;
 export interface SsoUserProfileDetails {
-  username?: string;
-  firstName?: string;
-  lastName?: string;
+  username?: string | Redacted.Redacted<string>;
+  firstName?: string | Redacted.Redacted<string>;
+  lastName?: string | Redacted.Redacted<string>;
 }
 export const SsoUserProfileDetails = S.suspend(() =>
   S.Struct({
-    username: S.optional(S.String),
-    firstName: S.optional(S.String),
-    lastName: S.optional(S.String),
+    username: S.optional(SensitiveString),
+    firstName: S.optional(SensitiveString),
+    lastName: S.optional(SensitiveString),
   }),
 ).annotations({
   identifier: "SsoUserProfileDetails",
@@ -5507,10 +5509,10 @@ export const SubscribedUser = S.suspend(() =>
 }) as any as S.Schema<SubscribedUser>;
 export interface SubscribedGroup {
   id?: string;
-  name?: string;
+  name?: string | Redacted.Redacted<string>;
 }
 export const SubscribedGroup = S.suspend(() =>
-  S.Struct({ id: S.optional(S.String), name: S.optional(S.String) }),
+  S.Struct({ id: S.optional(S.String), name: S.optional(SensitiveString) }),
 ).annotations({
   identifier: "SubscribedGroup",
 }) as any as S.Schema<SubscribedGroup>;
@@ -5526,13 +5528,13 @@ export const SubscribedPrincipal = S.Union(
 export type SubscribedPrincipals = (typeof SubscribedPrincipal)["Type"][];
 export const SubscribedPrincipals = S.Array(SubscribedPrincipal);
 export interface DetailedGlossaryTerm {
-  name?: string;
-  shortDescription?: string;
+  name?: string | Redacted.Redacted<string>;
+  shortDescription?: string | Redacted.Redacted<string>;
 }
 export const DetailedGlossaryTerm = S.suspend(() =>
   S.Struct({
-    name: S.optional(S.String),
-    shortDescription: S.optional(S.String),
+    name: S.optional(SensitiveString),
+    shortDescription: S.optional(SensitiveString),
   }),
 ).annotations({
   identifier: "DetailedGlossaryTerm",
@@ -5628,7 +5630,7 @@ export interface SubscribedListing {
   id: string;
   revision?: string;
   name: string;
-  description: string;
+  description: string | Redacted.Redacted<string>;
   item: (typeof SubscribedListingItem)["Type"];
   ownerProjectId: string;
   ownerProjectName?: string;
@@ -5638,7 +5640,7 @@ export const SubscribedListing = S.suspend(() =>
     id: S.String,
     revision: S.optional(S.String),
     name: S.String,
-    description: S.String,
+    description: SensitiveString,
     item: SubscribedListingItem,
     ownerProjectId: S.String,
     ownerProjectName: S.optional(S.String),
@@ -5650,14 +5652,14 @@ export type SubscribedListings = SubscribedListing[];
 export const SubscribedListings = S.Array(SubscribedListing);
 export interface FormOutput {
   formName: string;
-  typeName?: string;
+  typeName?: string | Redacted.Redacted<string>;
   typeRevision?: string;
   content?: string;
 }
 export const FormOutput = S.suspend(() =>
   S.Struct({
     formName: S.String,
-    typeName: S.optional(S.String),
+    typeName: S.optional(SensitiveString),
     typeRevision: S.optional(S.String),
     content: S.optional(S.String),
   }),
@@ -5872,8 +5874,8 @@ export interface CreateEnvironmentProfileOutput {
   createdBy: string;
   createdAt?: Date;
   updatedAt?: Date;
-  name: string;
-  description?: string;
+  name: string | Redacted.Redacted<string>;
+  description?: string | Redacted.Redacted<string>;
   environmentBlueprintId: string;
   projectId?: string;
   userParameters?: CustomParameterList;
@@ -5887,8 +5889,8 @@ export const CreateEnvironmentProfileOutput = S.suspend(() =>
     createdBy: S.String,
     createdAt: S.optional(S.Date.pipe(T.TimestampFormat("date-time"))),
     updatedAt: S.optional(S.Date.pipe(T.TimestampFormat("date-time"))),
-    name: S.String,
-    description: S.optional(S.String),
+    name: SensitiveString,
+    description: S.optional(SensitiveString),
     environmentBlueprintId: S.String,
     projectId: S.optional(S.String),
     userParameters: S.optional(CustomParameterList),
@@ -5900,14 +5902,14 @@ export interface CreateGroupProfileOutput {
   domainId?: string;
   id?: string;
   status?: string;
-  groupName?: string;
+  groupName?: string | Redacted.Redacted<string>;
 }
 export const CreateGroupProfileOutput = S.suspend(() =>
   S.Struct({
     domainId: S.optional(S.String),
     id: S.optional(S.String),
     status: S.optional(S.String),
-    groupName: S.optional(S.String),
+    groupName: S.optional(SensitiveString),
   }),
 ).annotations({
   identifier: "CreateGroupProfileOutput",
@@ -5963,7 +5965,7 @@ export const CreateProjectMembershipOutput = S.suspend(() =>
 export interface CreateSubscriptionTargetInput {
   domainIdentifier: string;
   environmentIdentifier: string;
-  name: string;
+  name: string | Redacted.Redacted<string>;
   type: string;
   subscriptionTargetConfig: SubscriptionTargetForms;
   authorizedPrincipals: AuthorizedPrincipalIdentifiers;
@@ -5976,7 +5978,7 @@ export const CreateSubscriptionTargetInput = S.suspend(() =>
   S.Struct({
     domainIdentifier: S.String.pipe(T.HttpLabel("domainIdentifier")),
     environmentIdentifier: S.String.pipe(T.HttpLabel("environmentIdentifier")),
-    name: S.String,
+    name: SensitiveString,
     type: S.String,
     subscriptionTargetConfig: SubscriptionTargetForms,
     authorizedPrincipals: AuthorizedPrincipalIdentifiers,
@@ -6010,9 +6012,9 @@ export const DeleteConnectionOutput = S.suspend(() =>
 }) as any as S.Schema<DeleteConnectionOutput>;
 export interface GetAccountPoolOutput {
   domainId?: string;
-  name?: string;
+  name?: string | Redacted.Redacted<string>;
   id?: string;
-  description?: string;
+  description?: string | Redacted.Redacted<string>;
   resolutionStrategy?: string;
   accountSource: (typeof AccountSource)["Type"];
   createdBy: string;
@@ -6024,9 +6026,9 @@ export interface GetAccountPoolOutput {
 export const GetAccountPoolOutput = S.suspend(() =>
   S.Struct({
     domainId: S.optional(S.String),
-    name: S.optional(S.String),
+    name: S.optional(SensitiveString),
     id: S.optional(S.String),
-    description: S.optional(S.String),
+    description: S.optional(SensitiveString),
     resolutionStrategy: S.optional(S.String),
     accountSource: AccountSource,
     createdBy: S.String,
@@ -6042,8 +6044,8 @@ export interface GetAssetFilterOutput {
   id: string;
   domainId: string;
   assetId: string;
-  name: string;
-  description?: string;
+  name: string | Redacted.Redacted<string>;
+  description?: string | Redacted.Redacted<string>;
   status?: string;
   configuration: (typeof AssetFilterConfiguration)["Type"];
   createdAt?: Date;
@@ -6056,8 +6058,8 @@ export const GetAssetFilterOutput = S.suspend(() =>
     id: S.String,
     domainId: S.String,
     assetId: S.String,
-    name: S.String,
-    description: S.optional(S.String),
+    name: SensitiveString,
+    description: S.optional(SensitiveString),
     status: S.optional(S.String),
     configuration: AssetFilterConfiguration,
     createdAt: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
@@ -6123,7 +6125,7 @@ export const DeploymentProperties = S.suspend(() =>
 export interface GetEnvironmentBlueprintOutput {
   id: string;
   name: string;
-  description?: string;
+  description?: string | Redacted.Redacted<string>;
   provider: string;
   provisioningProperties: (typeof ProvisioningProperties)["Type"];
   deploymentProperties?: DeploymentProperties;
@@ -6136,7 +6138,7 @@ export const GetEnvironmentBlueprintOutput = S.suspend(() =>
   S.Struct({
     id: S.String,
     name: S.String,
-    description: S.optional(S.String),
+    description: S.optional(SensitiveString),
     provider: S.String,
     provisioningProperties: ProvisioningProperties,
     deploymentProperties: S.optional(DeploymentProperties),
@@ -6172,8 +6174,8 @@ export interface GetEnvironmentProfileOutput {
   createdBy: string;
   createdAt?: Date;
   updatedAt?: Date;
-  name: string;
-  description?: string;
+  name: string | Redacted.Redacted<string>;
+  description?: string | Redacted.Redacted<string>;
   environmentBlueprintId: string;
   projectId?: string;
   userParameters?: CustomParameterList;
@@ -6187,8 +6189,8 @@ export const GetEnvironmentProfileOutput = S.suspend(() =>
     createdBy: S.String,
     createdAt: S.optional(S.Date.pipe(T.TimestampFormat("date-time"))),
     updatedAt: S.optional(S.Date.pipe(T.TimestampFormat("date-time"))),
-    name: S.String,
-    description: S.optional(S.String),
+    name: SensitiveString,
+    description: S.optional(SensitiveString),
     environmentBlueprintId: S.String,
     projectId: S.optional(S.String),
     userParameters: S.optional(CustomParameterList),
@@ -6200,14 +6202,14 @@ export interface GetGroupProfileOutput {
   domainId?: string;
   id?: string;
   status?: string;
-  groupName?: string;
+  groupName?: string | Redacted.Redacted<string>;
 }
 export const GetGroupProfileOutput = S.suspend(() =>
   S.Struct({
     domainId: S.optional(S.String),
     id: S.optional(S.String),
     status: S.optional(S.String),
-    groupName: S.optional(S.String),
+    groupName: S.optional(SensitiveString),
   }),
 ).annotations({
   identifier: "GetGroupProfileOutput",
@@ -6252,12 +6254,12 @@ export const GetLineageEventOutput = S.suspend(() =>
 export interface GetProjectProfileOutput {
   domainId: string;
   id: string;
-  name: string;
-  description?: string;
+  name: string | Redacted.Redacted<string>;
+  description?: string | Redacted.Redacted<string>;
   status?: string;
   projectResourceTags?: ProjectResourceTagParameters;
   allowCustomProjectResourceTags?: boolean;
-  projectResourceTagsDescription?: string;
+  projectResourceTagsDescription?: string | Redacted.Redacted<string>;
   environmentConfigurations?: EnvironmentConfigurationsList;
   createdBy: string;
   createdAt?: Date;
@@ -6268,12 +6270,12 @@ export const GetProjectProfileOutput = S.suspend(() =>
   S.Struct({
     domainId: S.String,
     id: S.String,
-    name: S.String,
-    description: S.optional(S.String),
+    name: SensitiveString,
+    description: S.optional(SensitiveString),
     status: S.optional(S.String),
     projectResourceTags: S.optional(ProjectResourceTagParameters),
     allowCustomProjectResourceTags: S.optional(S.Boolean),
-    projectResourceTagsDescription: S.optional(S.String),
+    projectResourceTagsDescription: S.optional(SensitiveString),
     environmentConfigurations: S.optional(EnvironmentConfigurationsList),
     createdBy: S.String,
     createdAt: S.optional(S.Date.pipe(T.TimestampFormat("date-time"))),
@@ -6396,11 +6398,11 @@ export interface GetSubscriptionRequestDetailsOutput {
   status: string;
   createdAt: Date;
   updatedAt: Date;
-  requestReason: string;
+  requestReason: string | Redacted.Redacted<string>;
   subscribedPrincipals: SubscribedPrincipals;
   subscribedListings: SubscribedListings;
   reviewerId?: string;
-  decisionComment?: string;
+  decisionComment?: string | Redacted.Redacted<string>;
   existingSubscriptionId?: string;
   metadataForms?: MetadataForms;
 }
@@ -6413,11 +6415,11 @@ export const GetSubscriptionRequestDetailsOutput = S.suspend(() =>
     status: S.String,
     createdAt: S.Date.pipe(T.TimestampFormat("epoch-seconds")),
     updatedAt: S.Date.pipe(T.TimestampFormat("epoch-seconds")),
-    requestReason: S.String,
+    requestReason: SensitiveString,
     subscribedPrincipals: SubscribedPrincipals,
     subscribedListings: SubscribedListings,
     reviewerId: S.optional(S.String),
-    decisionComment: S.optional(S.String),
+    decisionComment: S.optional(SensitiveString),
     existingSubscriptionId: S.optional(S.String),
     metadataForms: S.optional(MetadataForms),
   }),
@@ -6430,7 +6432,7 @@ export interface GetSubscriptionTargetOutput {
   domainId: string;
   projectId: string;
   environmentId: string;
-  name: string;
+  name: string | Redacted.Redacted<string>;
   type: string;
   createdBy: string;
   updatedBy?: string;
@@ -6448,7 +6450,7 @@ export const GetSubscriptionTargetOutput = S.suspend(() =>
     domainId: S.String,
     projectId: S.String,
     environmentId: S.String,
-    name: S.String,
+    name: SensitiveString,
     type: S.String,
     createdBy: S.String,
     updatedBy: S.optional(S.String),
@@ -6613,11 +6615,11 @@ export interface RejectSubscriptionRequestOutput {
   status: string;
   createdAt: Date;
   updatedAt: Date;
-  requestReason: string;
+  requestReason: string | Redacted.Redacted<string>;
   subscribedPrincipals: SubscribedPrincipals;
   subscribedListings: SubscribedListings;
   reviewerId?: string;
-  decisionComment?: string;
+  decisionComment?: string | Redacted.Redacted<string>;
   existingSubscriptionId?: string;
   metadataForms?: MetadataForms;
 }
@@ -6630,11 +6632,11 @@ export const RejectSubscriptionRequestOutput = S.suspend(() =>
     status: S.String,
     createdAt: S.Date.pipe(T.TimestampFormat("epoch-seconds")),
     updatedAt: S.Date.pipe(T.TimestampFormat("epoch-seconds")),
-    requestReason: S.String,
+    requestReason: SensitiveString,
     subscribedPrincipals: SubscribedPrincipals,
     subscribedListings: SubscribedListings,
     reviewerId: S.optional(S.String),
-    decisionComment: S.optional(S.String),
+    decisionComment: S.optional(SensitiveString),
     existingSubscriptionId: S.optional(S.String),
     metadataForms: S.optional(MetadataForms),
   }),
@@ -6711,9 +6713,9 @@ export const SearchListingsInput = S.suspend(() =>
 }) as any as S.Schema<SearchListingsInput>;
 export interface UpdateAccountPoolOutput {
   domainId?: string;
-  name?: string;
+  name?: string | Redacted.Redacted<string>;
   id?: string;
-  description?: string;
+  description?: string | Redacted.Redacted<string>;
   resolutionStrategy?: string;
   accountSource: (typeof AccountSource)["Type"];
   createdBy: string;
@@ -6725,9 +6727,9 @@ export interface UpdateAccountPoolOutput {
 export const UpdateAccountPoolOutput = S.suspend(() =>
   S.Struct({
     domainId: S.optional(S.String),
-    name: S.optional(S.String),
+    name: S.optional(SensitiveString),
     id: S.optional(S.String),
-    description: S.optional(S.String),
+    description: S.optional(SensitiveString),
     resolutionStrategy: S.optional(S.String),
     accountSource: AccountSource,
     createdBy: S.String,
@@ -6743,8 +6745,8 @@ export interface UpdateAssetFilterOutput {
   id: string;
   domainId: string;
   assetId: string;
-  name: string;
-  description?: string;
+  name: string | Redacted.Redacted<string>;
+  description?: string | Redacted.Redacted<string>;
   status?: string;
   configuration: (typeof AssetFilterConfiguration)["Type"];
   createdAt?: Date;
@@ -6757,8 +6759,8 @@ export const UpdateAssetFilterOutput = S.suspend(() =>
     id: S.String,
     domainId: S.String,
     assetId: S.String,
-    name: S.String,
-    description: S.optional(S.String),
+    name: SensitiveString,
+    description: S.optional(SensitiveString),
     status: S.optional(S.String),
     configuration: AssetFilterConfiguration,
     createdAt: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
@@ -6850,8 +6852,8 @@ export interface UpdateEnvironmentOutput {
   createdBy: string;
   createdAt?: Date;
   updatedAt?: Date;
-  name: string;
-  description?: string;
+  name: string | Redacted.Redacted<string>;
+  description?: string | Redacted.Redacted<string>;
   environmentProfileId?: string;
   awsAccountId?: string;
   awsAccountRegion?: string;
@@ -6865,7 +6867,7 @@ export interface UpdateEnvironmentOutput {
   provisioningProperties?: (typeof ProvisioningProperties)["Type"];
   deploymentProperties?: DeploymentProperties;
   environmentBlueprintId?: string;
-  environmentConfigurationId?: string;
+  environmentConfigurationId?: string | Redacted.Redacted<string>;
 }
 export const UpdateEnvironmentOutput = S.suspend(() =>
   S.Struct({
@@ -6875,8 +6877,8 @@ export const UpdateEnvironmentOutput = S.suspend(() =>
     createdBy: S.String,
     createdAt: S.optional(S.Date.pipe(T.TimestampFormat("date-time"))),
     updatedAt: S.optional(S.Date.pipe(T.TimestampFormat("date-time"))),
-    name: S.String,
-    description: S.optional(S.String),
+    name: SensitiveString,
+    description: S.optional(SensitiveString),
     environmentProfileId: S.optional(S.String),
     awsAccountId: S.optional(S.String),
     awsAccountRegion: S.optional(S.String),
@@ -6890,7 +6892,7 @@ export const UpdateEnvironmentOutput = S.suspend(() =>
     provisioningProperties: S.optional(ProvisioningProperties),
     deploymentProperties: S.optional(DeploymentProperties),
     environmentBlueprintId: S.optional(S.String),
-    environmentConfigurationId: S.optional(S.String),
+    environmentConfigurationId: S.optional(SensitiveString),
   }),
 ).annotations({
   identifier: "UpdateEnvironmentOutput",
@@ -6918,7 +6920,7 @@ export const UpdateEnvironmentActionOutput = S.suspend(() =>
 export interface UpdateEnvironmentBlueprintOutput {
   id: string;
   name: string;
-  description?: string;
+  description?: string | Redacted.Redacted<string>;
   provider: string;
   provisioningProperties: (typeof ProvisioningProperties)["Type"];
   deploymentProperties?: DeploymentProperties;
@@ -6931,7 +6933,7 @@ export const UpdateEnvironmentBlueprintOutput = S.suspend(() =>
   S.Struct({
     id: S.String,
     name: S.String,
-    description: S.optional(S.String),
+    description: S.optional(SensitiveString),
     provider: S.String,
     provisioningProperties: ProvisioningProperties,
     deploymentProperties: S.optional(DeploymentProperties),
@@ -6951,8 +6953,8 @@ export interface UpdateEnvironmentProfileOutput {
   createdBy: string;
   createdAt?: Date;
   updatedAt?: Date;
-  name: string;
-  description?: string;
+  name: string | Redacted.Redacted<string>;
+  description?: string | Redacted.Redacted<string>;
   environmentBlueprintId: string;
   projectId?: string;
   userParameters?: CustomParameterList;
@@ -6966,8 +6968,8 @@ export const UpdateEnvironmentProfileOutput = S.suspend(() =>
     createdBy: S.String,
     createdAt: S.optional(S.Date.pipe(T.TimestampFormat("date-time"))),
     updatedAt: S.optional(S.Date.pipe(T.TimestampFormat("date-time"))),
-    name: S.String,
-    description: S.optional(S.String),
+    name: SensitiveString,
+    description: S.optional(SensitiveString),
     environmentBlueprintId: S.String,
     projectId: S.optional(S.String),
     userParameters: S.optional(CustomParameterList),
@@ -6979,14 +6981,14 @@ export interface UpdateGroupProfileOutput {
   domainId?: string;
   id?: string;
   status?: string;
-  groupName?: string;
+  groupName?: string | Redacted.Redacted<string>;
 }
 export const UpdateGroupProfileOutput = S.suspend(() =>
   S.Struct({
     domainId: S.optional(S.String),
     id: S.optional(S.String),
     status: S.optional(S.String),
-    groupName: S.optional(S.String),
+    groupName: S.optional(SensitiveString),
   }),
 ).annotations({
   identifier: "UpdateGroupProfileOutput",
@@ -6994,12 +6996,12 @@ export const UpdateGroupProfileOutput = S.suspend(() =>
 export interface UpdateProjectProfileOutput {
   domainId: string;
   id: string;
-  name: string;
-  description?: string;
+  name: string | Redacted.Redacted<string>;
+  description?: string | Redacted.Redacted<string>;
   status?: string;
   projectResourceTags?: ProjectResourceTagParameters;
   allowCustomProjectResourceTags?: boolean;
-  projectResourceTagsDescription?: string;
+  projectResourceTagsDescription?: string | Redacted.Redacted<string>;
   environmentConfigurations?: EnvironmentConfigurationsList;
   createdBy: string;
   createdAt?: Date;
@@ -7010,12 +7012,12 @@ export const UpdateProjectProfileOutput = S.suspend(() =>
   S.Struct({
     domainId: S.String,
     id: S.String,
-    name: S.String,
-    description: S.optional(S.String),
+    name: SensitiveString,
+    description: S.optional(SensitiveString),
     status: S.optional(S.String),
     projectResourceTags: S.optional(ProjectResourceTagParameters),
     allowCustomProjectResourceTags: S.optional(S.Boolean),
-    projectResourceTagsDescription: S.optional(S.String),
+    projectResourceTagsDescription: S.optional(SensitiveString),
     environmentConfigurations: S.optional(EnvironmentConfigurationsList),
     createdBy: S.String,
     createdAt: S.optional(S.Date.pipe(T.TimestampFormat("date-time"))),
@@ -7065,11 +7067,11 @@ export interface UpdateSubscriptionRequestOutput {
   status: string;
   createdAt: Date;
   updatedAt: Date;
-  requestReason: string;
+  requestReason: string | Redacted.Redacted<string>;
   subscribedPrincipals: SubscribedPrincipals;
   subscribedListings: SubscribedListings;
   reviewerId?: string;
-  decisionComment?: string;
+  decisionComment?: string | Redacted.Redacted<string>;
   existingSubscriptionId?: string;
   metadataForms?: MetadataForms;
 }
@@ -7082,11 +7084,11 @@ export const UpdateSubscriptionRequestOutput = S.suspend(() =>
     status: S.String,
     createdAt: S.Date.pipe(T.TimestampFormat("epoch-seconds")),
     updatedAt: S.Date.pipe(T.TimestampFormat("epoch-seconds")),
-    requestReason: S.String,
+    requestReason: SensitiveString,
     subscribedPrincipals: SubscribedPrincipals,
     subscribedListings: SubscribedListings,
     reviewerId: S.optional(S.String),
-    decisionComment: S.optional(S.String),
+    decisionComment: S.optional(SensitiveString),
     existingSubscriptionId: S.optional(S.String),
     metadataForms: S.optional(MetadataForms),
   }),
@@ -7099,7 +7101,7 @@ export interface UpdateSubscriptionTargetOutput {
   domainId: string;
   projectId: string;
   environmentId: string;
-  name: string;
+  name: string | Redacted.Redacted<string>;
   type: string;
   createdBy: string;
   updatedBy?: string;
@@ -7117,7 +7119,7 @@ export const UpdateSubscriptionTargetOutput = S.suspend(() =>
     domainId: S.String,
     projectId: S.String,
     environmentId: S.String,
-    name: S.String,
+    name: SensitiveString,
     type: S.String,
     createdBy: S.String,
     updatedBy: S.optional(S.String),
@@ -7187,12 +7189,12 @@ export const TimeSeriesDataPointSummaryFormOutputList = S.Array(
 );
 export interface CreateAssetRevisionOutput {
   id: string;
-  name: string;
+  name: string | Redacted.Redacted<string>;
   typeIdentifier: string;
   typeRevision: string;
   externalIdentifier?: string;
   revision: string;
-  description?: string;
+  description?: string | Redacted.Redacted<string>;
   createdAt?: Date;
   createdBy?: string;
   firstRevisionCreatedAt?: Date;
@@ -7210,12 +7212,12 @@ export interface CreateAssetRevisionOutput {
 export const CreateAssetRevisionOutput = S.suspend(() =>
   S.Struct({
     id: S.String,
-    name: S.String,
+    name: SensitiveString,
     typeIdentifier: S.String,
     typeRevision: S.String,
     externalIdentifier: S.optional(S.String),
     revision: S.String,
-    description: S.optional(S.String),
+    description: S.optional(SensitiveString),
     createdAt: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
     createdBy: S.optional(S.String),
     firstRevisionCreatedAt: S.optional(
@@ -7239,9 +7241,9 @@ export const CreateAssetRevisionOutput = S.suspend(() =>
 }) as any as S.Schema<CreateAssetRevisionOutput>;
 export interface CreateDataProductInput {
   domainIdentifier: string;
-  name: string;
+  name: string | Redacted.Redacted<string>;
   owningProjectIdentifier: string;
-  description?: string;
+  description?: string | Redacted.Redacted<string>;
   glossaryTerms?: GlossaryTerms;
   formsInput?: FormInputList;
   items?: DataProductItems;
@@ -7250,9 +7252,9 @@ export interface CreateDataProductInput {
 export const CreateDataProductInput = S.suspend(() =>
   S.Struct({
     domainIdentifier: S.String.pipe(T.HttpLabel("domainIdentifier")),
-    name: S.String,
+    name: SensitiveString,
     owningProjectIdentifier: S.String,
-    description: S.optional(S.String),
+    description: S.optional(SensitiveString),
     glossaryTerms: S.optional(GlossaryTerms),
     formsInput: S.optional(FormInputList),
     items: S.optional(DataProductItems),
@@ -7278,9 +7280,9 @@ export interface GetDataProductOutput {
   id: string;
   revision: string;
   owningProjectId: string;
-  name: string;
+  name: string | Redacted.Redacted<string>;
   status: string;
-  description?: string;
+  description?: string | Redacted.Redacted<string>;
   glossaryTerms?: GlossaryTerms;
   items?: DataProductItems;
   formsOutput?: FormOutputList;
@@ -7295,9 +7297,9 @@ export const GetDataProductOutput = S.suspend(() =>
     id: S.String,
     revision: S.String,
     owningProjectId: S.String,
-    name: S.String,
+    name: SensitiveString,
     status: S.String,
-    description: S.optional(S.String),
+    description: S.optional(SensitiveString),
     glossaryTerms: S.optional(GlossaryTerms),
     items: S.optional(DataProductItems),
     formsOutput: S.optional(FormOutputList),
@@ -7316,9 +7318,9 @@ export interface CreateDataProductRevisionOutput {
   id: string;
   revision: string;
   owningProjectId: string;
-  name: string;
+  name: string | Redacted.Redacted<string>;
   status: string;
-  description?: string;
+  description?: string | Redacted.Redacted<string>;
   glossaryTerms?: GlossaryTerms;
   items?: DataProductItems;
   formsOutput?: FormOutputList;
@@ -7333,9 +7335,9 @@ export const CreateDataProductRevisionOutput = S.suspend(() =>
     id: S.String,
     revision: S.String,
     owningProjectId: S.String,
-    name: S.String,
+    name: SensitiveString,
     status: S.String,
-    description: S.optional(S.String),
+    description: S.optional(SensitiveString),
     glossaryTerms: S.optional(GlossaryTerms),
     items: S.optional(DataProductItems),
     formsOutput: S.optional(FormOutputList),
@@ -7468,8 +7470,8 @@ export interface UpdateDataSourceOutput {
   id: string;
   status?: string;
   type?: string;
-  name: string;
-  description?: string;
+  name: string | Redacted.Redacted<string>;
+  description?: string | Redacted.Redacted<string>;
   domainId: string;
   projectId: string;
   environmentId?: string;
@@ -7494,8 +7496,8 @@ export const UpdateDataSourceOutput = S.suspend(() =>
     id: S.String,
     status: S.optional(S.String),
     type: S.optional(S.String),
-    name: S.String,
-    description: S.optional(S.String),
+    name: SensitiveString,
+    description: S.optional(SensitiveString),
     domainId: S.String,
     projectId: S.String,
     environmentId: S.optional(S.String),
@@ -7522,8 +7524,8 @@ export interface DeleteDataSourceOutput {
   id: string;
   status?: string;
   type?: string;
-  name: string;
-  description?: string;
+  name: string | Redacted.Redacted<string>;
+  description?: string | Redacted.Redacted<string>;
   domainId: string;
   projectId: string;
   environmentId?: string;
@@ -7547,8 +7549,8 @@ export const DeleteDataSourceOutput = S.suspend(() =>
     id: S.String,
     status: S.optional(S.String),
     type: S.optional(S.String),
-    name: S.String,
-    description: S.optional(S.String),
+    name: SensitiveString,
+    description: S.optional(SensitiveString),
     domainId: S.String,
     projectId: S.String,
     environmentId: S.optional(S.String),
@@ -7703,9 +7705,9 @@ export const DomainUnitOwners = S.Array(DomainUnitOwnerProperties);
 export interface GetDomainUnitOutput {
   id: string;
   domainId: string;
-  name: string;
+  name: string | Redacted.Redacted<string>;
   parentDomainUnitId?: string;
-  description?: string;
+  description?: string | Redacted.Redacted<string>;
   owners: DomainUnitOwners;
   createdAt?: Date;
   lastUpdatedAt?: Date;
@@ -7716,9 +7718,9 @@ export const GetDomainUnitOutput = S.suspend(() =>
   S.Struct({
     id: S.String,
     domainId: S.String,
-    name: S.String,
+    name: SensitiveString,
     parentDomainUnitId: S.optional(S.String),
-    description: S.optional(S.String),
+    description: S.optional(SensitiveString),
     owners: DomainUnitOwners,
     createdAt: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
     lastUpdatedAt: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
@@ -7731,9 +7733,9 @@ export const GetDomainUnitOutput = S.suspend(() =>
 export interface UpdateDomainUnitOutput {
   id: string;
   domainId: string;
-  name: string;
+  name: string | Redacted.Redacted<string>;
   owners: DomainUnitOwners;
-  description?: string;
+  description?: string | Redacted.Redacted<string>;
   parentDomainUnitId?: string;
   createdAt?: Date;
   lastUpdatedAt?: Date;
@@ -7744,9 +7746,9 @@ export const UpdateDomainUnitOutput = S.suspend(() =>
   S.Struct({
     id: S.String,
     domainId: S.String,
-    name: S.String,
+    name: SensitiveString,
     owners: DomainUnitOwners,
-    description: S.optional(S.String),
+    description: S.optional(SensitiveString),
     parentDomainUnitId: S.optional(S.String),
     createdAt: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
     lastUpdatedAt: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
@@ -7814,20 +7816,20 @@ export const GetEnvironmentBlueprintConfigurationOutput = S.suspend(() =>
 }) as any as S.Schema<GetEnvironmentBlueprintConfigurationOutput>;
 export interface CreateFormTypeInput {
   domainIdentifier: string;
-  name: string;
+  name: string | Redacted.Redacted<string>;
   model: (typeof Model)["Type"];
   owningProjectIdentifier: string;
   status?: string;
-  description?: string;
+  description?: string | Redacted.Redacted<string>;
 }
 export const CreateFormTypeInput = S.suspend(() =>
   S.Struct({
     domainIdentifier: S.String.pipe(T.HttpLabel("domainIdentifier")),
-    name: S.String,
+    name: SensitiveString,
     model: Model,
     owningProjectIdentifier: S.String,
     status: S.optional(S.String),
-    description: S.optional(S.String),
+    description: S.optional(SensitiveString),
   }).pipe(
     T.all(
       T.Http({
@@ -7847,9 +7849,9 @@ export const CreateFormTypeInput = S.suspend(() =>
 export interface CreateGlossaryOutput {
   domainId: string;
   id: string;
-  name: string;
+  name: string | Redacted.Redacted<string>;
   owningProjectId: string;
-  description?: string;
+  description?: string | Redacted.Redacted<string>;
   status?: string;
   usageRestrictions?: GlossaryUsageRestrictions;
 }
@@ -7857,9 +7859,9 @@ export const CreateGlossaryOutput = S.suspend(() =>
   S.Struct({
     domainId: S.String,
     id: S.String,
-    name: S.String,
+    name: SensitiveString,
     owningProjectId: S.String,
-    description: S.optional(S.String),
+    description: S.optional(SensitiveString),
     status: S.optional(S.String),
     usageRestrictions: S.optional(GlossaryUsageRestrictions),
   }),
@@ -7870,8 +7872,8 @@ export interface GetGlossaryOutput {
   domainId: string;
   id: string;
   owningProjectId: string;
-  name: string;
-  description?: string;
+  name: string | Redacted.Redacted<string>;
+  description?: string | Redacted.Redacted<string>;
   status: string;
   createdAt?: Date;
   createdBy?: string;
@@ -7884,8 +7886,8 @@ export const GetGlossaryOutput = S.suspend(() =>
     domainId: S.String,
     id: S.String,
     owningProjectId: S.String,
-    name: S.String,
-    description: S.optional(S.String),
+    name: SensitiveString,
+    description: S.optional(SensitiveString),
     status: S.String,
     createdAt: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
     createdBy: S.optional(S.String),
@@ -7899,9 +7901,9 @@ export const GetGlossaryOutput = S.suspend(() =>
 export interface UpdateGlossaryOutput {
   domainId: string;
   id: string;
-  name: string;
+  name: string | Redacted.Redacted<string>;
   owningProjectId: string;
-  description?: string;
+  description?: string | Redacted.Redacted<string>;
   status?: string;
   usageRestrictions?: GlossaryUsageRestrictions;
 }
@@ -7909,9 +7911,9 @@ export const UpdateGlossaryOutput = S.suspend(() =>
   S.Struct({
     domainId: S.String,
     id: S.String,
-    name: S.String,
+    name: SensitiveString,
     owningProjectId: S.String,
-    description: S.optional(S.String),
+    description: S.optional(SensitiveString),
     status: S.optional(S.String),
     usageRestrictions: S.optional(GlossaryUsageRestrictions),
   }),
@@ -7921,10 +7923,10 @@ export const UpdateGlossaryOutput = S.suspend(() =>
 export interface CreateGlossaryTermInput {
   domainIdentifier: string;
   glossaryIdentifier: string;
-  name: string;
+  name: string | Redacted.Redacted<string>;
   status?: string;
-  shortDescription?: string;
-  longDescription?: string;
+  shortDescription?: string | Redacted.Redacted<string>;
+  longDescription?: string | Redacted.Redacted<string>;
   termRelations?: TermRelations;
   clientToken?: string;
 }
@@ -7932,10 +7934,10 @@ export const CreateGlossaryTermInput = S.suspend(() =>
   S.Struct({
     domainIdentifier: S.String.pipe(T.HttpLabel("domainIdentifier")),
     glossaryIdentifier: S.String,
-    name: S.String,
+    name: SensitiveString,
     status: S.optional(S.String),
-    shortDescription: S.optional(S.String),
-    longDescription: S.optional(S.String),
+    shortDescription: S.optional(SensitiveString),
+    longDescription: S.optional(SensitiveString),
     termRelations: S.optional(TermRelations),
     clientToken: S.optional(S.String),
   }).pipe(
@@ -7958,9 +7960,9 @@ export interface GetGlossaryTermOutput {
   domainId: string;
   glossaryId: string;
   id: string;
-  name: string;
-  shortDescription?: string;
-  longDescription?: string;
+  name: string | Redacted.Redacted<string>;
+  shortDescription?: string | Redacted.Redacted<string>;
+  longDescription?: string | Redacted.Redacted<string>;
   termRelations?: TermRelations;
   status: string;
   createdAt?: Date;
@@ -7974,9 +7976,9 @@ export const GetGlossaryTermOutput = S.suspend(() =>
     domainId: S.String,
     glossaryId: S.String,
     id: S.String,
-    name: S.String,
-    shortDescription: S.optional(S.String),
-    longDescription: S.optional(S.String),
+    name: SensitiveString,
+    shortDescription: S.optional(SensitiveString),
+    longDescription: S.optional(SensitiveString),
     termRelations: S.optional(TermRelations),
     status: S.String,
     createdAt: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
@@ -7992,10 +7994,10 @@ export interface UpdateGlossaryTermOutput {
   id: string;
   domainId: string;
   glossaryId: string;
-  name: string;
+  name: string | Redacted.Redacted<string>;
   status: string;
-  shortDescription?: string;
-  longDescription?: string;
+  shortDescription?: string | Redacted.Redacted<string>;
+  longDescription?: string | Redacted.Redacted<string>;
   termRelations?: TermRelations;
   usageRestrictions?: GlossaryUsageRestrictions;
 }
@@ -8004,10 +8006,10 @@ export const UpdateGlossaryTermOutput = S.suspend(() =>
     id: S.String,
     domainId: S.String,
     glossaryId: S.String,
-    name: S.String,
+    name: SensitiveString,
     status: S.String,
-    shortDescription: S.optional(S.String),
-    longDescription: S.optional(S.String),
+    shortDescription: S.optional(SensitiveString),
+    longDescription: S.optional(SensitiveString),
     termRelations: S.optional(TermRelations),
     usageRestrictions: S.optional(GlossaryUsageRestrictions),
   }),
@@ -8065,14 +8067,14 @@ export const RuleTarget = S.Union(
 export interface GetRuleOutput {
   identifier: string;
   revision: string;
-  name: string;
+  name: string | Redacted.Redacted<string>;
   ruleType: string;
   target: (typeof RuleTarget)["Type"];
   action: string;
   scope: RuleScope;
   detail: (typeof RuleDetail)["Type"];
   targetType?: string;
-  description?: string;
+  description?: string | Redacted.Redacted<string>;
   createdAt: Date;
   updatedAt: Date;
   createdBy: string;
@@ -8082,14 +8084,14 @@ export const GetRuleOutput = S.suspend(() =>
   S.Struct({
     identifier: S.String,
     revision: S.String,
-    name: S.String,
+    name: SensitiveString,
     ruleType: S.String,
     target: RuleTarget,
     action: S.String,
     scope: RuleScope,
     detail: RuleDetail,
     targetType: S.optional(S.String),
-    description: S.optional(S.String),
+    description: S.optional(SensitiveString),
     createdAt: S.Date.pipe(T.TimestampFormat("epoch-seconds")),
     updatedAt: S.Date.pipe(T.TimestampFormat("epoch-seconds")),
     createdBy: S.String,
@@ -8101,13 +8103,13 @@ export const GetRuleOutput = S.suspend(() =>
 export interface UpdateRuleOutput {
   identifier: string;
   revision: string;
-  name: string;
+  name: string | Redacted.Redacted<string>;
   ruleType: string;
   target: (typeof RuleTarget)["Type"];
   action: string;
   scope: RuleScope;
   detail: (typeof RuleDetail)["Type"];
-  description?: string;
+  description?: string | Redacted.Redacted<string>;
   createdAt: Date;
   updatedAt: Date;
   createdBy: string;
@@ -8117,13 +8119,13 @@ export const UpdateRuleOutput = S.suspend(() =>
   S.Struct({
     identifier: S.String,
     revision: S.String,
-    name: S.String,
+    name: SensitiveString,
     ruleType: S.String,
     target: RuleTarget,
     action: S.String,
     scope: RuleScope,
     detail: RuleDetail,
-    description: S.optional(S.String),
+    description: S.optional(SensitiveString),
     createdAt: S.Date.pipe(T.TimestampFormat("epoch-seconds")),
     updatedAt: S.Date.pipe(T.TimestampFormat("epoch-seconds")),
     createdBy: S.String,
@@ -8374,11 +8376,11 @@ export const RedshiftStorageProperties = S.Union(
   S.Struct({ workgroupName: S.String }),
 );
 export interface UsernamePassword {
-  password: string;
+  password: string | Redacted.Redacted<string>;
   username: string;
 }
 export const UsernamePassword = S.suspend(() =>
-  S.Struct({ password: S.String, username: S.String }),
+  S.Struct({ password: SensitiveString, username: S.String }),
 ).annotations({
   identifier: "UsernamePassword",
 }) as any as S.Schema<UsernamePassword>;
@@ -8588,14 +8590,14 @@ export const AttributesErrors = S.Array(AttributeError);
 export interface EnvironmentConfigurationUserParameter {
   environmentId?: string;
   environmentResolvedAccount?: EnvironmentResolvedAccount;
-  environmentConfigurationName?: string;
+  environmentConfigurationName?: string | Redacted.Redacted<string>;
   environmentParameters?: EnvironmentParametersList;
 }
 export const EnvironmentConfigurationUserParameter = S.suspend(() =>
   S.Struct({
     environmentId: S.optional(S.String),
     environmentResolvedAccount: S.optional(EnvironmentResolvedAccount),
-    environmentConfigurationName: S.optional(S.String),
+    environmentConfigurationName: S.optional(SensitiveString),
     environmentParameters: S.optional(EnvironmentParametersList),
   }),
 ).annotations({
@@ -8702,7 +8704,7 @@ export const TimeSeriesDataPointFormOutput = S.suspend(() =>
 export interface AccountPoolSummary {
   domainId?: string;
   id?: string;
-  name?: string;
+  name?: string | Redacted.Redacted<string>;
   resolutionStrategy?: string;
   domainUnitId?: string;
   createdBy?: string;
@@ -8712,7 +8714,7 @@ export const AccountPoolSummary = S.suspend(() =>
   S.Struct({
     domainId: S.optional(S.String),
     id: S.optional(S.String),
-    name: S.optional(S.String),
+    name: S.optional(SensitiveString),
     resolutionStrategy: S.optional(S.String),
     domainUnitId: S.optional(S.String),
     createdBy: S.optional(S.String),
@@ -8727,8 +8729,8 @@ export interface AssetFilterSummary {
   id: string;
   domainId: string;
   assetId: string;
-  name: string;
-  description?: string;
+  name: string | Redacted.Redacted<string>;
+  description?: string | Redacted.Redacted<string>;
   status?: string;
   effectiveColumnNames?: ColumnNameList;
   effectiveRowFilter?: string;
@@ -8740,8 +8742,8 @@ export const AssetFilterSummary = S.suspend(() =>
     id: S.String,
     domainId: S.String,
     assetId: S.String,
-    name: S.String,
-    description: S.optional(S.String),
+    name: SensitiveString,
+    description: S.optional(SensitiveString),
     status: S.optional(S.String),
     effectiveColumnNames: S.optional(ColumnNameList),
     effectiveRowFilter: S.optional(S.String),
@@ -9256,7 +9258,7 @@ export const ListEnvironmentActionSummaries = S.Array(EnvironmentActionSummary);
 export interface EnvironmentBlueprintSummary {
   id: string;
   name: string;
-  description?: string;
+  description?: string | Redacted.Redacted<string>;
   provider: string;
   provisioningProperties: (typeof ProvisioningProperties)["Type"];
   createdAt?: Date;
@@ -9266,7 +9268,7 @@ export const EnvironmentBlueprintSummary = S.suspend(() =>
   S.Struct({
     id: S.String,
     name: S.String,
-    description: S.optional(S.String),
+    description: S.optional(SensitiveString),
     provider: S.String,
     provisioningProperties: ProvisioningProperties,
     createdAt: S.optional(S.Date.pipe(T.TimestampFormat("date-time"))),
@@ -9287,8 +9289,8 @@ export interface EnvironmentProfileSummary {
   createdBy: string;
   createdAt?: Date;
   updatedAt?: Date;
-  name: string;
-  description?: string;
+  name: string | Redacted.Redacted<string>;
+  description?: string | Redacted.Redacted<string>;
   environmentBlueprintId: string;
   projectId?: string;
 }
@@ -9301,8 +9303,8 @@ export const EnvironmentProfileSummary = S.suspend(() =>
     createdBy: S.String,
     createdAt: S.optional(S.Date.pipe(T.TimestampFormat("date-time"))),
     updatedAt: S.optional(S.Date.pipe(T.TimestampFormat("date-time"))),
-    name: S.String,
-    description: S.optional(S.String),
+    name: SensitiveString,
+    description: S.optional(SensitiveString),
     environmentBlueprintId: S.String,
     projectId: S.optional(S.String),
   }),
@@ -9318,14 +9320,14 @@ export interface EnvironmentSummary {
   createdBy: string;
   createdAt?: Date;
   updatedAt?: Date;
-  name: string;
-  description?: string;
+  name: string | Redacted.Redacted<string>;
+  description?: string | Redacted.Redacted<string>;
   environmentProfileId?: string;
   awsAccountId?: string;
   awsAccountRegion?: string;
   provider: string;
   status?: string;
-  environmentConfigurationId?: string;
+  environmentConfigurationId?: string | Redacted.Redacted<string>;
 }
 export const EnvironmentSummary = S.suspend(() =>
   S.Struct({
@@ -9335,14 +9337,14 @@ export const EnvironmentSummary = S.suspend(() =>
     createdBy: S.String,
     createdAt: S.optional(S.Date.pipe(T.TimestampFormat("date-time"))),
     updatedAt: S.optional(S.Date.pipe(T.TimestampFormat("date-time"))),
-    name: S.String,
-    description: S.optional(S.String),
+    name: SensitiveString,
+    description: S.optional(SensitiveString),
     environmentProfileId: S.optional(S.String),
     awsAccountId: S.optional(S.String),
     awsAccountRegion: S.optional(S.String),
     provider: S.String,
     status: S.optional(S.String),
-    environmentConfigurationId: S.optional(S.String),
+    environmentConfigurationId: S.optional(SensitiveString),
   }),
 ).annotations({
   identifier: "EnvironmentSummary",
@@ -9438,8 +9440,8 @@ export const PolicyGrantList = S.Array(PolicyGrantMember);
 export interface ProjectProfileSummary {
   domainId: string;
   id: string;
-  name: string;
-  description?: string;
+  name: string | Redacted.Redacted<string>;
+  description?: string | Redacted.Redacted<string>;
   status?: string;
   createdBy: string;
   createdAt?: Date;
@@ -9450,8 +9452,8 @@ export const ProjectProfileSummary = S.suspend(() =>
   S.Struct({
     domainId: S.String,
     id: S.String,
-    name: S.String,
-    description: S.optional(S.String),
+    name: SensitiveString,
+    description: S.optional(SensitiveString),
     status: S.optional(S.String),
     createdBy: S.String,
     createdAt: S.optional(S.Date.pipe(T.TimestampFormat("date-time"))),
@@ -9466,8 +9468,8 @@ export const ProjectProfileSummaries = S.Array(ProjectProfileSummary);
 export interface ProjectSummary {
   domainId: string;
   id: string;
-  name: string;
-  description?: string;
+  name: string | Redacted.Redacted<string>;
+  description?: string | Redacted.Redacted<string>;
   projectStatus?: string;
   failureReasons?: FailureReasons;
   createdBy: string;
@@ -9479,8 +9481,8 @@ export const ProjectSummary = S.suspend(() =>
   S.Struct({
     domainId: S.String,
     id: S.String,
-    name: S.String,
-    description: S.optional(S.String),
+    name: SensitiveString,
+    description: S.optional(SensitiveString),
     projectStatus: S.optional(S.String),
     failureReasons: S.optional(FailureReasons),
     createdBy: S.String,
@@ -9565,7 +9567,7 @@ export interface SubscriptionTargetSummary {
   domainId: string;
   projectId: string;
   environmentId: string;
-  name: string;
+  name: string | Redacted.Redacted<string>;
   type: string;
   createdBy: string;
   updatedBy?: string;
@@ -9583,7 +9585,7 @@ export const SubscriptionTargetSummary = S.suspend(() =>
     domainId: S.String,
     projectId: S.String,
     environmentId: S.String,
-    name: S.String,
+    name: SensitiveString,
     type: S.String,
     createdBy: S.String,
     updatedBy: S.optional(S.String),
@@ -9607,14 +9609,14 @@ export interface GroupProfileSummary {
   domainId?: string;
   id?: string;
   status?: string;
-  groupName?: string;
+  groupName?: string | Redacted.Redacted<string>;
 }
 export const GroupProfileSummary = S.suspend(() =>
   S.Struct({
     domainId: S.optional(S.String),
     id: S.optional(S.String),
     status: S.optional(S.String),
-    groupName: S.optional(S.String),
+    groupName: S.optional(SensitiveString),
   }),
 ).annotations({
   identifier: "GroupProfileSummary",
@@ -9648,7 +9650,7 @@ export interface DataSourceSummary {
   environmentId?: string;
   connectionId?: string;
   dataSourceId: string;
-  name: string;
+  name: string | Redacted.Redacted<string>;
   type: string;
   status: string;
   enableSetting?: string;
@@ -9659,7 +9661,7 @@ export interface DataSourceSummary {
   lastRunAssetCount?: number;
   createdAt?: Date;
   updatedAt?: Date;
-  description?: string;
+  description?: string | Redacted.Redacted<string>;
 }
 export const DataSourceSummary = S.suspend(() =>
   S.Struct({
@@ -9667,7 +9669,7 @@ export const DataSourceSummary = S.suspend(() =>
     environmentId: S.optional(S.String),
     connectionId: S.optional(S.String),
     dataSourceId: S.String,
-    name: S.String,
+    name: SensitiveString,
     type: S.String,
     status: S.String,
     enableSetting: S.optional(S.String),
@@ -9678,7 +9680,7 @@ export const DataSourceSummary = S.suspend(() =>
     lastRunAssetCount: S.optional(S.Number),
     createdAt: S.optional(S.Date.pipe(T.TimestampFormat("date-time"))),
     updatedAt: S.optional(S.Date.pipe(T.TimestampFormat("date-time"))),
-    description: S.optional(S.String),
+    description: S.optional(SensitiveString),
   }),
 ).annotations({
   identifier: "DataSourceSummary",
@@ -9747,8 +9749,8 @@ export type DataSourceRunSummaries = DataSourceRunSummary[];
 export const DataSourceRunSummaries = S.Array(DataSourceRunSummary);
 export interface DomainSummary {
   id: string;
-  name: string;
-  description?: string;
+  name: string | Redacted.Redacted<string>;
+  description?: string | Redacted.Redacted<string>;
   arn: string;
   managedAccountId: string;
   status: string;
@@ -9760,8 +9762,8 @@ export interface DomainSummary {
 export const DomainSummary = S.suspend(() =>
   S.Struct({
     id: S.String,
-    name: S.String,
-    description: S.optional(S.String),
+    name: SensitiveString,
+    description: S.optional(SensitiveString),
     arn: S.String,
     managedAccountId: S.String,
     status: S.String,
@@ -9820,11 +9822,11 @@ export const EnvironmentBlueprintConfigurations = S.Array(
   EnvironmentBlueprintConfigurationItem,
 );
 export interface Import {
-  name: string;
+  name: string | Redacted.Redacted<string>;
   revision: string;
 }
 export const Import = S.suspend(() =>
-  S.Struct({ name: S.String, revision: S.String }),
+  S.Struct({ name: SensitiveString, revision: S.String }),
 ).annotations({ identifier: "Import" }) as any as S.Schema<Import>;
 export type ImportList = Import[];
 export const ImportList = S.Array(Import);
@@ -9878,7 +9880,7 @@ export interface RuleSummary {
   identifier?: string;
   revision?: string;
   ruleType?: string;
-  name?: string;
+  name?: string | Redacted.Redacted<string>;
   targetType?: string;
   target?: (typeof RuleTarget)["Type"];
   action?: string;
@@ -9891,7 +9893,7 @@ export const RuleSummary = S.suspend(() =>
     identifier: S.optional(S.String),
     revision: S.optional(S.String),
     ruleType: S.optional(S.String),
-    name: S.optional(S.String),
+    name: S.optional(SensitiveString),
     targetType: S.optional(S.String),
     target: S.optional(RuleTarget),
     action: S.optional(S.String),
@@ -9917,7 +9919,7 @@ export const AcceptPredictionsOutput = S.suspend(() =>
 export interface AcceptSubscriptionRequestInput {
   domainIdentifier: string;
   identifier: string;
-  decisionComment?: string;
+  decisionComment?: string | Redacted.Redacted<string>;
   assetScopes?: AcceptedAssetScopes;
   assetPermissions?: AssetPermissions;
 }
@@ -9925,7 +9927,7 @@ export const AcceptSubscriptionRequestInput = S.suspend(() =>
   S.Struct({
     domainIdentifier: S.String.pipe(T.HttpLabel("domainIdentifier")),
     identifier: S.String.pipe(T.HttpLabel("identifier")),
-    decisionComment: S.optional(S.String),
+    decisionComment: S.optional(SensitiveString),
     assetScopes: S.optional(AcceptedAssetScopes),
     assetPermissions: S.optional(AssetPermissions),
   }).pipe(
@@ -9992,16 +9994,16 @@ export const BatchGetAttributesMetadataOutput = S.suspend(() =>
 }) as any as S.Schema<BatchGetAttributesMetadataOutput>;
 export interface CreateAccountPoolInput {
   domainIdentifier: string;
-  name: string;
-  description?: string;
+  name: string | Redacted.Redacted<string>;
+  description?: string | Redacted.Redacted<string>;
   resolutionStrategy: string;
   accountSource: (typeof AccountSource)["Type"];
 }
 export const CreateAccountPoolInput = S.suspend(() =>
   S.Struct({
     domainIdentifier: S.String.pipe(T.HttpLabel("domainIdentifier")),
-    name: S.String,
-    description: S.optional(S.String),
+    name: SensitiveString,
+    description: S.optional(SensitiveString),
     resolutionStrategy: S.String,
     accountSource: AccountSource,
   }).pipe(
@@ -10027,8 +10029,8 @@ export interface CreateEnvironmentOutput {
   createdBy: string;
   createdAt?: Date;
   updatedAt?: Date;
-  name: string;
-  description?: string;
+  name: string | Redacted.Redacted<string>;
+  description?: string | Redacted.Redacted<string>;
   environmentProfileId?: string;
   awsAccountId?: string;
   awsAccountRegion?: string;
@@ -10042,7 +10044,7 @@ export interface CreateEnvironmentOutput {
   provisioningProperties?: (typeof ProvisioningProperties)["Type"];
   deploymentProperties?: DeploymentProperties;
   environmentBlueprintId?: string;
-  environmentConfigurationId?: string;
+  environmentConfigurationId?: string | Redacted.Redacted<string>;
 }
 export const CreateEnvironmentOutput = S.suspend(() =>
   S.Struct({
@@ -10052,8 +10054,8 @@ export const CreateEnvironmentOutput = S.suspend(() =>
     createdBy: S.String,
     createdAt: S.optional(S.Date.pipe(T.TimestampFormat("date-time"))),
     updatedAt: S.optional(S.Date.pipe(T.TimestampFormat("date-time"))),
-    name: S.String,
-    description: S.optional(S.String),
+    name: SensitiveString,
+    description: S.optional(SensitiveString),
     environmentProfileId: S.optional(S.String),
     awsAccountId: S.optional(S.String),
     awsAccountRegion: S.optional(S.String),
@@ -10067,7 +10069,7 @@ export const CreateEnvironmentOutput = S.suspend(() =>
     provisioningProperties: S.optional(ProvisioningProperties),
     deploymentProperties: S.optional(DeploymentProperties),
     environmentBlueprintId: S.optional(S.String),
-    environmentConfigurationId: S.optional(S.String),
+    environmentConfigurationId: S.optional(SensitiveString),
   }),
 ).annotations({
   identifier: "CreateEnvironmentOutput",
@@ -10105,7 +10107,7 @@ export const CreateEnvironmentActionInput = S.suspend(() =>
 export interface CreateEnvironmentBlueprintInput {
   domainIdentifier: string;
   name: string;
-  description?: string;
+  description?: string | Redacted.Redacted<string>;
   provisioningProperties: (typeof ProvisioningProperties)["Type"];
   userParameters?: CustomParameterList;
 }
@@ -10113,7 +10115,7 @@ export const CreateEnvironmentBlueprintInput = S.suspend(() =>
   S.Struct({
     domainIdentifier: S.String.pipe(T.HttpLabel("domainIdentifier")),
     name: S.String,
-    description: S.optional(S.String),
+    description: S.optional(SensitiveString),
     provisioningProperties: ProvisioningProperties,
     userParameters: S.optional(CustomParameterList),
   }).pipe(
@@ -10134,8 +10136,8 @@ export const CreateEnvironmentBlueprintInput = S.suspend(() =>
 }) as any as S.Schema<CreateEnvironmentBlueprintInput>;
 export interface CreateProjectInput {
   domainIdentifier: string;
-  name: string;
-  description?: string;
+  name: string | Redacted.Redacted<string>;
+  description?: string | Redacted.Redacted<string>;
   resourceTags?: Tags;
   glossaryTerms?: GlossaryTerms;
   domainUnitId?: string;
@@ -10145,8 +10147,8 @@ export interface CreateProjectInput {
 export const CreateProjectInput = S.suspend(() =>
   S.Struct({
     domainIdentifier: S.String.pipe(T.HttpLabel("domainIdentifier")),
-    name: S.String,
-    description: S.optional(S.String),
+    name: SensitiveString,
+    description: S.optional(SensitiveString),
     resourceTags: S.optional(Tags),
     glossaryTerms: S.optional(GlossaryTerms),
     domainUnitId: S.optional(S.String),
@@ -10204,7 +10206,7 @@ export interface CreateSubscriptionRequestInput {
   domainIdentifier: string;
   subscribedPrincipals: SubscribedPrincipalInputs;
   subscribedListings: SubscribedListingInputs;
-  requestReason: string;
+  requestReason: string | Redacted.Redacted<string>;
   clientToken?: string;
   metadataForms?: MetadataFormInputs;
   assetPermissions?: AssetPermissions;
@@ -10215,7 +10217,7 @@ export const CreateSubscriptionRequestInput = S.suspend(() =>
     domainIdentifier: S.String.pipe(T.HttpLabel("domainIdentifier")),
     subscribedPrincipals: SubscribedPrincipalInputs,
     subscribedListings: SubscribedListingInputs,
-    requestReason: S.String,
+    requestReason: SensitiveString,
     clientToken: S.optional(S.String),
     metadataForms: S.optional(MetadataFormInputs),
     assetPermissions: S.optional(AssetPermissions),
@@ -10242,7 +10244,7 @@ export interface CreateSubscriptionTargetOutput {
   domainId: string;
   projectId: string;
   environmentId: string;
-  name: string;
+  name: string | Redacted.Redacted<string>;
   type: string;
   createdBy: string;
   updatedBy?: string;
@@ -10260,7 +10262,7 @@ export const CreateSubscriptionTargetOutput = S.suspend(() =>
     domainId: S.String,
     projectId: S.String,
     environmentId: S.String,
-    name: S.String,
+    name: SensitiveString,
     type: S.String,
     createdBy: S.String,
     updatedBy: S.optional(S.String),
@@ -10334,8 +10336,8 @@ export const EnvironmentDeploymentDetails = S.suspend(() =>
 export interface GetProjectOutput {
   domainId: string;
   id: string;
-  name: string;
-  description?: string;
+  name: string | Redacted.Redacted<string>;
+  description?: string | Redacted.Redacted<string>;
   projectStatus?: string;
   failureReasons?: FailureReasons;
   createdBy: string;
@@ -10352,8 +10354,8 @@ export const GetProjectOutput = S.suspend(() =>
   S.Struct({
     domainId: S.String,
     id: S.String,
-    name: S.String,
-    description: S.optional(S.String),
+    name: SensitiveString,
+    description: S.optional(SensitiveString),
     projectStatus: S.optional(S.String),
     failureReasons: S.optional(FailureReasons),
     createdBy: S.String,
@@ -10697,12 +10699,12 @@ export const UpdateSubscriptionGrantStatusOutput = S.suspend(() =>
   identifier: "UpdateSubscriptionGrantStatusOutput",
 }) as any as S.Schema<UpdateSubscriptionGrantStatusOutput>;
 export interface CreateAssetInput {
-  name: string;
+  name: string | Redacted.Redacted<string>;
   domainIdentifier: string;
   externalIdentifier?: string;
   typeIdentifier: string;
   typeRevision?: string;
-  description?: string;
+  description?: string | Redacted.Redacted<string>;
   glossaryTerms?: GlossaryTerms;
   formsInput?: FormInputList;
   owningProjectIdentifier: string;
@@ -10711,12 +10713,12 @@ export interface CreateAssetInput {
 }
 export const CreateAssetInput = S.suspend(() =>
   S.Struct({
-    name: S.String,
+    name: SensitiveString,
     domainIdentifier: S.String.pipe(T.HttpLabel("domainIdentifier")),
     externalIdentifier: S.optional(S.String),
     typeIdentifier: S.String,
     typeRevision: S.optional(S.String),
-    description: S.optional(S.String),
+    description: S.optional(SensitiveString),
     glossaryTerms: S.optional(GlossaryTerms),
     formsInput: S.optional(FormInputList),
     owningProjectIdentifier: S.String,
@@ -10737,12 +10739,12 @@ export const CreateAssetInput = S.suspend(() =>
 }) as any as S.Schema<CreateAssetInput>;
 export interface GetAssetOutput {
   id: string;
-  name: string;
+  name: string | Redacted.Redacted<string>;
   typeIdentifier: string;
   typeRevision: string;
   externalIdentifier?: string;
   revision: string;
-  description?: string;
+  description?: string | Redacted.Redacted<string>;
   createdAt?: Date;
   createdBy?: string;
   firstRevisionCreatedAt?: Date;
@@ -10759,12 +10761,12 @@ export interface GetAssetOutput {
 export const GetAssetOutput = S.suspend(() =>
   S.Struct({
     id: S.String,
-    name: S.String,
+    name: SensitiveString,
     typeIdentifier: S.String,
     typeRevision: S.String,
     externalIdentifier: S.optional(S.String),
     revision: S.String,
-    description: S.optional(S.String),
+    description: S.optional(SensitiveString),
     createdAt: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
     createdBy: S.optional(S.String),
     firstRevisionCreatedAt: S.optional(
@@ -10788,7 +10790,7 @@ export const GetAssetOutput = S.suspend(() =>
 export interface CreateAssetTypeInput {
   domainIdentifier: string;
   name: string;
-  description?: string;
+  description?: string | Redacted.Redacted<string>;
   formsInput: FormsInputMap;
   owningProjectIdentifier: string;
 }
@@ -10796,7 +10798,7 @@ export const CreateAssetTypeInput = S.suspend(() =>
   S.Struct({
     domainIdentifier: S.String.pipe(T.HttpLabel("domainIdentifier")),
     name: S.String,
-    description: S.optional(S.String),
+    description: S.optional(SensitiveString),
     formsInput: FormsInputMap,
     owningProjectIdentifier: S.String,
   }).pipe(
@@ -10820,9 +10822,9 @@ export interface CreateDataProductOutput {
   id: string;
   revision: string;
   owningProjectId: string;
-  name: string;
+  name: string | Redacted.Redacted<string>;
   status: string;
-  description?: string;
+  description?: string | Redacted.Redacted<string>;
   glossaryTerms?: GlossaryTerms;
   items?: DataProductItems;
   formsOutput?: FormOutputList;
@@ -10837,9 +10839,9 @@ export const CreateDataProductOutput = S.suspend(() =>
     id: S.String,
     revision: S.String,
     owningProjectId: S.String,
-    name: S.String,
+    name: SensitiveString,
     status: S.String,
-    description: S.optional(S.String),
+    description: S.optional(SensitiveString),
     glossaryTerms: S.optional(GlossaryTerms),
     items: S.optional(DataProductItems),
     formsOutput: S.optional(FormOutputList),
@@ -11047,9 +11049,9 @@ export const ListEnvironmentBlueprintConfigurationsOutput = S.suspend(() =>
 }) as any as S.Schema<ListEnvironmentBlueprintConfigurationsOutput>;
 export interface CreateFormTypeOutput {
   domainId: string;
-  name: string;
+  name: string | Redacted.Redacted<string>;
   revision: string;
-  description?: string;
+  description?: string | Redacted.Redacted<string>;
   owningProjectId?: string;
   originDomainId?: string;
   originProjectId?: string;
@@ -11057,9 +11059,9 @@ export interface CreateFormTypeOutput {
 export const CreateFormTypeOutput = S.suspend(() =>
   S.Struct({
     domainId: S.String,
-    name: S.String,
+    name: SensitiveString,
     revision: S.String,
-    description: S.optional(S.String),
+    description: S.optional(SensitiveString),
     owningProjectId: S.optional(S.String),
     originDomainId: S.optional(S.String),
     originProjectId: S.optional(S.String),
@@ -11069,7 +11071,7 @@ export const CreateFormTypeOutput = S.suspend(() =>
 }) as any as S.Schema<CreateFormTypeOutput>;
 export interface GetFormTypeOutput {
   domainId: string;
-  name: string;
+  name: string | Redacted.Redacted<string>;
   revision: string;
   model: (typeof Model)["Type"];
   owningProjectId?: string;
@@ -11078,13 +11080,13 @@ export interface GetFormTypeOutput {
   status?: string;
   createdAt?: Date;
   createdBy?: string;
-  description?: string;
+  description?: string | Redacted.Redacted<string>;
   imports?: ImportList;
 }
 export const GetFormTypeOutput = S.suspend(() =>
   S.Struct({
     domainId: S.String,
-    name: S.String,
+    name: SensitiveString,
     revision: S.String,
     model: Model,
     owningProjectId: S.optional(S.String),
@@ -11093,7 +11095,7 @@ export const GetFormTypeOutput = S.suspend(() =>
     status: S.optional(S.String),
     createdAt: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
     createdBy: S.optional(S.String),
-    description: S.optional(S.String),
+    description: S.optional(SensitiveString),
     imports: S.optional(ImportList),
   }),
 ).annotations({
@@ -11103,10 +11105,10 @@ export interface CreateGlossaryTermOutput {
   id: string;
   domainId: string;
   glossaryId: string;
-  name: string;
+  name: string | Redacted.Redacted<string>;
   status: string;
-  shortDescription?: string;
-  longDescription?: string;
+  shortDescription?: string | Redacted.Redacted<string>;
+  longDescription?: string | Redacted.Redacted<string>;
   termRelations?: TermRelations;
   usageRestrictions?: GlossaryUsageRestrictions;
 }
@@ -11115,10 +11117,10 @@ export const CreateGlossaryTermOutput = S.suspend(() =>
     id: S.String,
     domainId: S.String,
     glossaryId: S.String,
-    name: S.String,
+    name: SensitiveString,
     status: S.String,
-    shortDescription: S.optional(S.String),
-    longDescription: S.optional(S.String),
+    shortDescription: S.optional(SensitiveString),
+    longDescription: S.optional(SensitiveString),
     termRelations: S.optional(TermRelations),
     usageRestrictions: S.optional(GlossaryUsageRestrictions),
   }),
@@ -11254,13 +11256,13 @@ export type MetadataMap = { [key: string]: string };
 export const MetadataMap = S.Record({ key: S.String, value: S.String });
 export interface MetadataFormSummary {
   formName?: string;
-  typeName: string;
+  typeName: string | Redacted.Redacted<string>;
   typeRevision: string;
 }
 export const MetadataFormSummary = S.suspend(() =>
   S.Struct({
     formName: S.optional(S.String),
-    typeName: S.String,
+    typeName: SensitiveString,
     typeRevision: S.String,
   }),
 ).annotations({
@@ -11269,13 +11271,13 @@ export const MetadataFormSummary = S.suspend(() =>
 export type MetadataFormsSummary = MetadataFormSummary[];
 export const MetadataFormsSummary = S.Array(MetadataFormSummary);
 export interface FormEntryOutput {
-  typeName: string;
+  typeName: string | Redacted.Redacted<string>;
   typeRevision: string;
   required?: boolean;
 }
 export const FormEntryOutput = S.suspend(() =>
   S.Struct({
-    typeName: S.String,
+    typeName: SensitiveString,
     typeRevision: S.String,
     required: S.optional(S.Boolean),
   }),
@@ -11291,7 +11293,7 @@ export interface AssetTypeItem {
   domainId: string;
   name: string;
   revision: string;
-  description?: string;
+  description?: string | Redacted.Redacted<string>;
   formsOutput: FormsOutputMap;
   owningProjectId: string;
   originDomainId?: string;
@@ -11306,7 +11308,7 @@ export const AssetTypeItem = S.suspend(() =>
     domainId: S.String,
     name: S.String,
     revision: S.String,
-    description: S.optional(S.String),
+    description: S.optional(SensitiveString),
     formsOutput: FormsOutputMap,
     owningProjectId: S.String,
     originDomainId: S.optional(S.String),
@@ -11321,7 +11323,7 @@ export const AssetTypeItem = S.suspend(() =>
 }) as any as S.Schema<AssetTypeItem>;
 export interface FormTypeData {
   domainId: string;
-  name: string;
+  name: string | Redacted.Redacted<string>;
   revision: string;
   model?: (typeof Model)["Type"];
   status?: string;
@@ -11330,13 +11332,13 @@ export interface FormTypeData {
   originProjectId?: string;
   createdAt?: Date;
   createdBy?: string;
-  description?: string;
+  description?: string | Redacted.Redacted<string>;
   imports?: ImportList;
 }
 export const FormTypeData = S.suspend(() =>
   S.Struct({
     domainId: S.String,
-    name: S.String,
+    name: SensitiveString,
     revision: S.String,
     model: S.optional(Model),
     status: S.optional(S.String),
@@ -11345,7 +11347,7 @@ export const FormTypeData = S.suspend(() =>
     originProjectId: S.optional(S.String),
     createdAt: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
     createdBy: S.optional(S.String),
-    description: S.optional(S.String),
+    description: S.optional(SensitiveString),
     imports: S.optional(ImportList),
   }),
 ).annotations({ identifier: "FormTypeData" }) as any as S.Schema<FormTypeData>;
@@ -11420,13 +11422,13 @@ export const BatchPutAttributeOutput = S.suspend(() =>
 export type BatchPutAttributeItems = BatchPutAttributeOutput[];
 export const BatchPutAttributeItems = S.Array(BatchPutAttributeOutput);
 export interface DataSourceRunActivity {
-  database: string;
+  database: string | Redacted.Redacted<string>;
   dataSourceRunId: string;
-  technicalName: string;
+  technicalName: string | Redacted.Redacted<string>;
   dataAssetStatus: string;
   projectId: string;
   dataAssetId?: string;
-  technicalDescription?: string;
+  technicalDescription?: string | Redacted.Redacted<string>;
   errorMessage?: DataSourceErrorMessage;
   lineageSummary?: LineageInfo;
   createdAt: Date;
@@ -11434,13 +11436,13 @@ export interface DataSourceRunActivity {
 }
 export const DataSourceRunActivity = S.suspend(() =>
   S.Struct({
-    database: S.String,
+    database: SensitiveString,
     dataSourceRunId: S.String,
-    technicalName: S.String,
+    technicalName: SensitiveString,
     dataAssetStatus: S.String,
     projectId: S.String,
     dataAssetId: S.optional(S.String),
-    technicalDescription: S.optional(S.String),
+    technicalDescription: S.optional(SensitiveString),
     errorMessage: S.optional(DataSourceErrorMessage),
     lineageSummary: S.optional(LineageInfo),
     createdAt: S.Date.pipe(T.TimestampFormat("date-time")),
@@ -11468,11 +11470,11 @@ export interface SubscriptionRequestSummary {
   status: string;
   createdAt: Date;
   updatedAt: Date;
-  requestReason: string;
+  requestReason: string | Redacted.Redacted<string>;
   subscribedPrincipals: SubscribedPrincipals;
   subscribedListings: SubscribedListings;
   reviewerId?: string;
-  decisionComment?: string;
+  decisionComment?: string | Redacted.Redacted<string>;
   existingSubscriptionId?: string;
   metadataFormsSummary?: MetadataFormsSummary;
 }
@@ -11485,11 +11487,11 @@ export const SubscriptionRequestSummary = S.suspend(() =>
     status: S.String,
     createdAt: S.Date.pipe(T.TimestampFormat("epoch-seconds")),
     updatedAt: S.Date.pipe(T.TimestampFormat("epoch-seconds")),
-    requestReason: S.String,
+    requestReason: SensitiveString,
     subscribedPrincipals: SubscribedPrincipals,
     subscribedListings: SubscribedListings,
     reviewerId: S.optional(S.String),
-    decisionComment: S.optional(S.String),
+    decisionComment: S.optional(SensitiveString),
     existingSubscriptionId: S.optional(S.String),
     metadataFormsSummary: S.optional(MetadataFormsSummary),
   }),
@@ -11587,11 +11589,11 @@ export interface AcceptSubscriptionRequestOutput {
   status: string;
   createdAt: Date;
   updatedAt: Date;
-  requestReason: string;
+  requestReason: string | Redacted.Redacted<string>;
   subscribedPrincipals: SubscribedPrincipals;
   subscribedListings: SubscribedListings;
   reviewerId?: string;
-  decisionComment?: string;
+  decisionComment?: string | Redacted.Redacted<string>;
   existingSubscriptionId?: string;
   metadataForms?: MetadataForms;
 }
@@ -11604,11 +11606,11 @@ export const AcceptSubscriptionRequestOutput = S.suspend(() =>
     status: S.String,
     createdAt: S.Date.pipe(T.TimestampFormat("epoch-seconds")),
     updatedAt: S.Date.pipe(T.TimestampFormat("epoch-seconds")),
-    requestReason: S.String,
+    requestReason: SensitiveString,
     subscribedPrincipals: SubscribedPrincipals,
     subscribedListings: SubscribedListings,
     reviewerId: S.optional(S.String),
-    decisionComment: S.optional(S.String),
+    decisionComment: S.optional(SensitiveString),
     existingSubscriptionId: S.optional(S.String),
     metadataForms: S.optional(MetadataForms),
   }),
@@ -11629,9 +11631,9 @@ export const BatchPutAttributesMetadataOutput = S.suspend(() =>
 }) as any as S.Schema<BatchPutAttributesMetadataOutput>;
 export interface CreateAccountPoolOutput {
   domainId?: string;
-  name?: string;
+  name?: string | Redacted.Redacted<string>;
   id?: string;
-  description?: string;
+  description?: string | Redacted.Redacted<string>;
   resolutionStrategy?: string;
   accountSource: (typeof AccountSource)["Type"];
   createdBy: string;
@@ -11643,9 +11645,9 @@ export interface CreateAccountPoolOutput {
 export const CreateAccountPoolOutput = S.suspend(() =>
   S.Struct({
     domainId: S.optional(S.String),
-    name: S.optional(S.String),
+    name: S.optional(SensitiveString),
     id: S.optional(S.String),
-    description: S.optional(S.String),
+    description: S.optional(SensitiveString),
     resolutionStrategy: S.optional(S.String),
     accountSource: AccountSource,
     createdBy: S.String,
@@ -11682,7 +11684,7 @@ export const CreateEnvironmentActionOutput = S.suspend(() =>
 export interface CreateEnvironmentBlueprintOutput {
   id: string;
   name: string;
-  description?: string;
+  description?: string | Redacted.Redacted<string>;
   provider: string;
   provisioningProperties: (typeof ProvisioningProperties)["Type"];
   deploymentProperties?: DeploymentProperties;
@@ -11695,7 +11697,7 @@ export const CreateEnvironmentBlueprintOutput = S.suspend(() =>
   S.Struct({
     id: S.String,
     name: S.String,
-    description: S.optional(S.String),
+    description: S.optional(SensitiveString),
     provider: S.String,
     provisioningProperties: ProvisioningProperties,
     deploymentProperties: S.optional(DeploymentProperties),
@@ -11710,8 +11712,8 @@ export const CreateEnvironmentBlueprintOutput = S.suspend(() =>
 export interface CreateProjectOutput {
   domainId: string;
   id: string;
-  name: string;
-  description?: string;
+  name: string | Redacted.Redacted<string>;
+  description?: string | Redacted.Redacted<string>;
   projectStatus?: string;
   failureReasons?: FailureReasons;
   createdBy: string;
@@ -11728,8 +11730,8 @@ export const CreateProjectOutput = S.suspend(() =>
   S.Struct({
     domainId: S.String,
     id: S.String,
-    name: S.String,
-    description: S.optional(S.String),
+    name: SensitiveString,
+    description: S.optional(SensitiveString),
     projectStatus: S.optional(S.String),
     failureReasons: S.optional(FailureReasons),
     createdBy: S.String,
@@ -11747,24 +11749,24 @@ export const CreateProjectOutput = S.suspend(() =>
 }) as any as S.Schema<CreateProjectOutput>;
 export interface CreateProjectProfileInput {
   domainIdentifier: string;
-  name: string;
-  description?: string;
+  name: string | Redacted.Redacted<string>;
+  description?: string | Redacted.Redacted<string>;
   status?: string;
   projectResourceTags?: ProjectResourceTagParameters;
   allowCustomProjectResourceTags?: boolean;
-  projectResourceTagsDescription?: string;
+  projectResourceTagsDescription?: string | Redacted.Redacted<string>;
   environmentConfigurations?: EnvironmentConfigurationsList;
   domainUnitIdentifier?: string;
 }
 export const CreateProjectProfileInput = S.suspend(() =>
   S.Struct({
     domainIdentifier: S.String.pipe(T.HttpLabel("domainIdentifier")),
-    name: S.String,
-    description: S.optional(S.String),
+    name: SensitiveString,
+    description: S.optional(SensitiveString),
     status: S.optional(S.String),
     projectResourceTags: S.optional(ProjectResourceTagParameters),
     allowCustomProjectResourceTags: S.optional(S.Boolean),
-    projectResourceTagsDescription: S.optional(S.String),
+    projectResourceTagsDescription: S.optional(SensitiveString),
     environmentConfigurations: S.optional(EnvironmentConfigurationsList),
     domainUnitIdentifier: S.optional(S.String),
   }).pipe(
@@ -11823,11 +11825,11 @@ export interface CreateSubscriptionRequestOutput {
   status: string;
   createdAt: Date;
   updatedAt: Date;
-  requestReason: string;
+  requestReason: string | Redacted.Redacted<string>;
   subscribedPrincipals: SubscribedPrincipals;
   subscribedListings: SubscribedListings;
   reviewerId?: string;
-  decisionComment?: string;
+  decisionComment?: string | Redacted.Redacted<string>;
   existingSubscriptionId?: string;
   metadataForms?: MetadataForms;
 }
@@ -11840,11 +11842,11 @@ export const CreateSubscriptionRequestOutput = S.suspend(() =>
     status: S.String,
     createdAt: S.Date.pipe(T.TimestampFormat("epoch-seconds")),
     updatedAt: S.Date.pipe(T.TimestampFormat("epoch-seconds")),
-    requestReason: S.String,
+    requestReason: SensitiveString,
     subscribedPrincipals: SubscribedPrincipals,
     subscribedListings: SubscribedListings,
     reviewerId: S.optional(S.String),
-    decisionComment: S.optional(S.String),
+    decisionComment: S.optional(SensitiveString),
     existingSubscriptionId: S.optional(S.String),
     metadataForms: S.optional(MetadataForms),
   }),
@@ -11908,8 +11910,8 @@ export interface GetEnvironmentOutput {
   createdBy: string;
   createdAt?: Date;
   updatedAt?: Date;
-  name: string;
-  description?: string;
+  name: string | Redacted.Redacted<string>;
+  description?: string | Redacted.Redacted<string>;
   environmentProfileId?: string;
   awsAccountId?: string;
   awsAccountRegion?: string;
@@ -11923,7 +11925,7 @@ export interface GetEnvironmentOutput {
   provisioningProperties?: (typeof ProvisioningProperties)["Type"];
   deploymentProperties?: DeploymentProperties;
   environmentBlueprintId?: string;
-  environmentConfigurationId?: string;
+  environmentConfigurationId?: string | Redacted.Redacted<string>;
 }
 export const GetEnvironmentOutput = S.suspend(() =>
   S.Struct({
@@ -11933,8 +11935,8 @@ export const GetEnvironmentOutput = S.suspend(() =>
     createdBy: S.String,
     createdAt: S.optional(S.Date.pipe(T.TimestampFormat("date-time"))),
     updatedAt: S.optional(S.Date.pipe(T.TimestampFormat("date-time"))),
-    name: S.String,
-    description: S.optional(S.String),
+    name: SensitiveString,
+    description: S.optional(SensitiveString),
     environmentProfileId: S.optional(S.String),
     awsAccountId: S.optional(S.String),
     awsAccountRegion: S.optional(S.String),
@@ -11948,7 +11950,7 @@ export const GetEnvironmentOutput = S.suspend(() =>
     provisioningProperties: S.optional(ProvisioningProperties),
     deploymentProperties: S.optional(DeploymentProperties),
     environmentBlueprintId: S.optional(S.String),
-    environmentConfigurationId: S.optional(S.String),
+    environmentConfigurationId: S.optional(SensitiveString),
   }),
 ).annotations({
   identifier: "GetEnvironmentOutput",
@@ -11997,8 +11999,8 @@ export const SearchTypesOutput = S.suspend(() =>
 export interface UpdateProjectInput {
   domainIdentifier: string;
   identifier: string;
-  name?: string;
-  description?: string;
+  name?: string | Redacted.Redacted<string>;
+  description?: string | Redacted.Redacted<string>;
   resourceTags?: Tags;
   glossaryTerms?: GlossaryTerms;
   domainUnitId?: string;
@@ -12010,8 +12012,8 @@ export const UpdateProjectInput = S.suspend(() =>
   S.Struct({
     domainIdentifier: S.String.pipe(T.HttpLabel("domainIdentifier")),
     identifier: S.String.pipe(T.HttpLabel("identifier")),
-    name: S.optional(S.String),
-    description: S.optional(S.String),
+    name: S.optional(SensitiveString),
+    description: S.optional(SensitiveString),
     resourceTags: S.optional(Tags),
     glossaryTerms: S.optional(GlossaryTerms),
     domainUnitId: S.optional(S.String),
@@ -12036,12 +12038,12 @@ export const UpdateProjectInput = S.suspend(() =>
 }) as any as S.Schema<UpdateProjectInput>;
 export interface CreateAssetOutput {
   id: string;
-  name: string;
+  name: string | Redacted.Redacted<string>;
   typeIdentifier: string;
   typeRevision: string;
   externalIdentifier?: string;
   revision: string;
-  description?: string;
+  description?: string | Redacted.Redacted<string>;
   createdAt?: Date;
   createdBy?: string;
   firstRevisionCreatedAt?: Date;
@@ -12059,12 +12061,12 @@ export interface CreateAssetOutput {
 export const CreateAssetOutput = S.suspend(() =>
   S.Struct({
     id: S.String,
-    name: S.String,
+    name: SensitiveString,
     typeIdentifier: S.String,
     typeRevision: S.String,
     externalIdentifier: S.optional(S.String),
     revision: S.String,
-    description: S.optional(S.String),
+    description: S.optional(SensitiveString),
     createdAt: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
     createdBy: S.optional(S.String),
     firstRevisionCreatedAt: S.optional(
@@ -12090,7 +12092,7 @@ export interface CreateAssetTypeOutput {
   domainId: string;
   name: string;
   revision: string;
-  description?: string;
+  description?: string | Redacted.Redacted<string>;
   formsOutput: FormsOutputMap;
   owningProjectId?: string;
   originDomainId?: string;
@@ -12105,7 +12107,7 @@ export const CreateAssetTypeOutput = S.suspend(() =>
     domainId: S.String,
     name: S.String,
     revision: S.String,
-    description: S.optional(S.String),
+    description: S.optional(SensitiveString),
     formsOutput: FormsOutputMap,
     owningProjectId: S.optional(S.String),
     originDomainId: S.optional(S.String),
@@ -12122,7 +12124,7 @@ export interface GetAssetTypeOutput {
   domainId: string;
   name: string;
   revision: string;
-  description?: string;
+  description?: string | Redacted.Redacted<string>;
   formsOutput: FormsOutputMap;
   owningProjectId: string;
   originDomainId?: string;
@@ -12137,7 +12139,7 @@ export const GetAssetTypeOutput = S.suspend(() =>
     domainId: S.String,
     name: S.String,
     revision: S.String,
-    description: S.optional(S.String),
+    description: S.optional(SensitiveString),
     formsOutput: FormsOutputMap,
     owningProjectId: S.String,
     originDomainId: S.optional(S.String),
@@ -12153,9 +12155,9 @@ export const GetAssetTypeOutput = S.suspend(() =>
 export interface CreateDomainUnitOutput {
   id: string;
   domainId: string;
-  name: string;
+  name: string | Redacted.Redacted<string>;
   parentDomainUnitId?: string;
-  description?: string;
+  description?: string | Redacted.Redacted<string>;
   owners: DomainUnitOwners;
   ancestorDomainUnitIds: DomainUnitIds;
   createdAt?: Date;
@@ -12165,9 +12167,9 @@ export const CreateDomainUnitOutput = S.suspend(() =>
   S.Struct({
     id: S.String,
     domainId: S.String,
-    name: S.String,
+    name: SensitiveString,
     parentDomainUnitId: S.optional(S.String),
-    description: S.optional(S.String),
+    description: S.optional(SensitiveString),
     owners: DomainUnitOwners,
     ancestorDomainUnitIds: DomainUnitIds,
     createdAt: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
@@ -12206,23 +12208,23 @@ export const PutEnvironmentBlueprintConfigurationOutput = S.suspend(() =>
 }) as any as S.Schema<PutEnvironmentBlueprintConfigurationOutput>;
 export interface CreateRuleInput {
   domainIdentifier: string;
-  name: string;
+  name: string | Redacted.Redacted<string>;
   target: (typeof RuleTarget)["Type"];
   action: string;
   scope: RuleScope;
   detail: (typeof RuleDetail)["Type"];
-  description?: string;
+  description?: string | Redacted.Redacted<string>;
   clientToken?: string;
 }
 export const CreateRuleInput = S.suspend(() =>
   S.Struct({
     domainIdentifier: S.String.pipe(T.HttpLabel("domainIdentifier")),
-    name: S.String,
+    name: SensitiveString,
     target: RuleTarget,
     action: S.String,
     scope: RuleScope,
     detail: RuleDetail,
-    description: S.optional(S.String),
+    description: S.optional(SensitiveString),
     clientToken: S.optional(S.String),
   }).pipe(
     T.all(
@@ -12363,10 +12365,10 @@ export interface NotificationOutput {
   domainIdentifier: string;
   type: string;
   topic: Topic;
-  title: string;
-  message: string;
+  title: string | Redacted.Redacted<string>;
+  message: string | Redacted.Redacted<string>;
   status?: string;
-  actionLink: string;
+  actionLink: string | Redacted.Redacted<string>;
   creationTimestamp: Date;
   lastUpdatedTimestamp: Date;
   metadata?: MetadataMap;
@@ -12377,10 +12379,10 @@ export const NotificationOutput = S.suspend(() =>
     domainIdentifier: S.String,
     type: S.String,
     topic: Topic,
-    title: S.String,
-    message: S.String,
+    title: SensitiveString,
+    message: SensitiveString,
     status: S.optional(S.String),
-    actionLink: S.String,
+    actionLink: SensitiveString,
     creationTimestamp: S.Date.pipe(T.TimestampFormat("epoch-seconds")),
     lastUpdatedTimestamp: S.Date.pipe(T.TimestampFormat("epoch-seconds")),
     metadata: S.optional(MetadataMap),
@@ -12560,12 +12562,12 @@ export const AddPolicyGrantInput = S.suspend(() =>
 export interface CreateProjectProfileOutput {
   domainId: string;
   id: string;
-  name: string;
-  description?: string;
+  name: string | Redacted.Redacted<string>;
+  description?: string | Redacted.Redacted<string>;
   status?: string;
   projectResourceTags?: ProjectResourceTagParameters;
   allowCustomProjectResourceTags?: boolean;
-  projectResourceTagsDescription?: string;
+  projectResourceTagsDescription?: string | Redacted.Redacted<string>;
   environmentConfigurations?: EnvironmentConfigurationsList;
   createdBy: string;
   createdAt?: Date;
@@ -12576,12 +12578,12 @@ export const CreateProjectProfileOutput = S.suspend(() =>
   S.Struct({
     domainId: S.String,
     id: S.String,
-    name: S.String,
-    description: S.optional(S.String),
+    name: SensitiveString,
+    description: S.optional(SensitiveString),
     status: S.optional(S.String),
     projectResourceTags: S.optional(ProjectResourceTagParameters),
     allowCustomProjectResourceTags: S.optional(S.Boolean),
-    projectResourceTagsDescription: S.optional(S.String),
+    projectResourceTagsDescription: S.optional(SensitiveString),
     environmentConfigurations: S.optional(EnvironmentConfigurationsList),
     createdBy: S.String,
     createdAt: S.optional(S.Date.pipe(T.TimestampFormat("date-time"))),
@@ -12594,7 +12596,7 @@ export const CreateProjectProfileOutput = S.suspend(() =>
 export interface GetConnectionOutput {
   connectionCredentials?: ConnectionCredentials;
   connectionId: string;
-  description?: string;
+  description?: string | Redacted.Redacted<string>;
   domainId: string;
   domainUnitId: string;
   environmentId?: string;
@@ -12610,7 +12612,7 @@ export const GetConnectionOutput = S.suspend(() =>
   S.Struct({
     connectionCredentials: S.optional(ConnectionCredentials),
     connectionId: S.String,
-    description: S.optional(S.String),
+    description: S.optional(SensitiveString),
     domainId: S.String,
     domainUnitId: S.String,
     environmentId: S.optional(S.String),
@@ -12681,7 +12683,7 @@ export const ListProjectMembershipsOutput = S.suspend(() =>
 export interface UpdateConnectionInput {
   domainIdentifier: string;
   identifier: string;
-  description?: string;
+  description?: string | Redacted.Redacted<string>;
   awsLocation?: AwsLocation;
   props?: (typeof ConnectionPropertiesPatch)["Type"];
 }
@@ -12689,7 +12691,7 @@ export const UpdateConnectionInput = S.suspend(() =>
   S.Struct({
     domainIdentifier: S.String.pipe(T.HttpLabel("domainIdentifier")),
     identifier: S.String.pipe(T.HttpLabel("identifier")),
-    description: S.optional(S.String),
+    description: S.optional(SensitiveString),
     awsLocation: S.optional(AwsLocation),
     props: S.optional(ConnectionPropertiesPatch),
   }).pipe(
@@ -12711,8 +12713,8 @@ export const UpdateConnectionInput = S.suspend(() =>
 export interface UpdateProjectOutput {
   domainId: string;
   id: string;
-  name: string;
-  description?: string;
+  name: string | Redacted.Redacted<string>;
+  description?: string | Redacted.Redacted<string>;
   projectStatus?: string;
   failureReasons?: FailureReasons;
   createdBy: string;
@@ -12729,8 +12731,8 @@ export const UpdateProjectOutput = S.suspend(() =>
   S.Struct({
     domainId: S.String,
     id: S.String,
-    name: S.String,
-    description: S.optional(S.String),
+    name: SensitiveString,
+    description: S.optional(SensitiveString),
     projectStatus: S.optional(S.String),
     failureReasons: S.optional(FailureReasons),
     createdBy: S.String,
@@ -12747,8 +12749,8 @@ export const UpdateProjectOutput = S.suspend(() =>
   identifier: "UpdateProjectOutput",
 }) as any as S.Schema<UpdateProjectOutput>;
 export interface CreateDataSourceInput {
-  name: string;
-  description?: string;
+  name: string | Redacted.Redacted<string>;
+  description?: string | Redacted.Redacted<string>;
   domainIdentifier: string;
   projectIdentifier: string;
   environmentIdentifier?: string;
@@ -12764,8 +12766,8 @@ export interface CreateDataSourceInput {
 }
 export const CreateDataSourceInput = S.suspend(() =>
   S.Struct({
-    name: S.String,
-    description: S.optional(S.String),
+    name: SensitiveString,
+    description: S.optional(SensitiveString),
     domainIdentifier: S.String.pipe(T.HttpLabel("domainIdentifier")),
     projectIdentifier: S.String,
     environmentIdentifier: S.optional(S.String),
@@ -12798,8 +12800,8 @@ export interface GetDataSourceOutput {
   id: string;
   status?: string;
   type?: string;
-  name: string;
-  description?: string;
+  name: string | Redacted.Redacted<string>;
+  description?: string | Redacted.Redacted<string>;
   domainId: string;
   projectId: string;
   environmentId?: string;
@@ -12824,8 +12826,8 @@ export const GetDataSourceOutput = S.suspend(() =>
     id: S.String,
     status: S.optional(S.String),
     type: S.optional(S.String),
-    name: S.String,
-    description: S.optional(S.String),
+    name: SensitiveString,
+    description: S.optional(SensitiveString),
     domainId: S.String,
     projectId: S.String,
     environmentId: S.optional(S.String),
@@ -12858,7 +12860,7 @@ export interface GetListingOutput {
   updatedBy?: string;
   item?: (typeof ListingItem)["Type"];
   name?: string;
-  description?: string;
+  description?: string | Redacted.Redacted<string>;
   status?: string;
 }
 export const GetListingOutput = S.suspend(() =>
@@ -12872,7 +12874,7 @@ export const GetListingOutput = S.suspend(() =>
     updatedBy: S.optional(S.String),
     item: S.optional(ListingItem),
     name: S.optional(S.String),
-    description: S.optional(S.String),
+    description: S.optional(SensitiveString),
     status: S.optional(S.String),
   }),
 ).annotations({
@@ -12880,28 +12882,28 @@ export const GetListingOutput = S.suspend(() =>
 }) as any as S.Schema<GetListingOutput>;
 export interface CreateRuleOutput {
   identifier: string;
-  name: string;
+  name: string | Redacted.Redacted<string>;
   ruleType: string;
   target: (typeof RuleTarget)["Type"];
   action: string;
   scope: RuleScope;
   detail: (typeof RuleDetail)["Type"];
   targetType?: string;
-  description?: string;
+  description?: string | Redacted.Redacted<string>;
   createdAt: Date;
   createdBy: string;
 }
 export const CreateRuleOutput = S.suspend(() =>
   S.Struct({
     identifier: S.String,
-    name: S.String,
+    name: SensitiveString,
     ruleType: S.String,
     target: RuleTarget,
     action: S.String,
     scope: RuleScope,
     detail: RuleDetail,
     targetType: S.optional(S.String),
-    description: S.optional(S.String),
+    description: S.optional(SensitiveString),
     createdAt: S.Date.pipe(T.TimestampFormat("epoch-seconds")),
     createdBy: S.String,
   }),
@@ -12917,10 +12919,10 @@ export const EventSummary = S.Union(
 export interface DataProductListingItem {
   listingId?: string;
   listingRevision?: string;
-  name?: string;
+  name?: string | Redacted.Redacted<string>;
   entityId?: string;
   entityRevision?: string;
-  description?: string;
+  description?: string | Redacted.Redacted<string>;
   createdAt?: Date;
   listingCreatedBy?: string;
   listingUpdatedBy?: string;
@@ -12933,10 +12935,10 @@ export const DataProductListingItem = S.suspend(() =>
   S.Struct({
     listingId: S.optional(S.String),
     listingRevision: S.optional(S.String),
-    name: S.optional(S.String),
+    name: S.optional(SensitiveString),
     entityId: S.optional(S.String),
     entityRevision: S.optional(S.String),
-    description: S.optional(S.String),
+    description: S.optional(SensitiveString),
     createdAt: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
     listingCreatedBy: S.optional(S.String),
     listingUpdatedBy: S.optional(S.String),
@@ -13109,8 +13111,8 @@ export const CancelSubscriptionOutput = S.suspend(() =>
 export interface CreateAssetFilterInput {
   domainIdentifier: string;
   assetIdentifier: string;
-  name: string;
-  description?: string;
+  name: string | Redacted.Redacted<string>;
+  description?: string | Redacted.Redacted<string>;
   configuration: (typeof AssetFilterConfiguration)["Type"];
   clientToken?: string;
 }
@@ -13118,8 +13120,8 @@ export const CreateAssetFilterInput = S.suspend(() =>
   S.Struct({
     domainIdentifier: S.String.pipe(T.HttpLabel("domainIdentifier")),
     assetIdentifier: S.String.pipe(T.HttpLabel("assetIdentifier")),
-    name: S.String,
-    description: S.optional(S.String),
+    name: SensitiveString,
+    description: S.optional(SensitiveString),
     configuration: AssetFilterConfiguration,
     clientToken: S.optional(S.String),
   }).pipe(
@@ -13152,7 +13154,7 @@ export const ListLineageEventsOutput = S.suspend(() =>
 }) as any as S.Schema<ListLineageEventsOutput>;
 export interface UpdateConnectionOutput {
   connectionId: string;
-  description?: string;
+  description?: string | Redacted.Redacted<string>;
   domainId: string;
   domainUnitId: string;
   environmentId?: string;
@@ -13166,7 +13168,7 @@ export interface UpdateConnectionOutput {
 export const UpdateConnectionOutput = S.suspend(() =>
   S.Struct({
     connectionId: S.String,
-    description: S.optional(S.String),
+    description: S.optional(SensitiveString),
     domainId: S.String,
     domainUnitId: S.String,
     environmentId: S.optional(S.String),
@@ -13184,8 +13186,8 @@ export interface CreateDataSourceOutput {
   id: string;
   status?: string;
   type?: string;
-  name: string;
-  description?: string;
+  name: string | Redacted.Redacted<string>;
+  description?: string | Redacted.Redacted<string>;
   domainId: string;
   projectId: string;
   environmentId?: string;
@@ -13208,8 +13210,8 @@ export const CreateDataSourceOutput = S.suspend(() =>
     id: S.String,
     status: S.optional(S.String),
     type: S.optional(S.String),
-    name: S.String,
-    description: S.optional(S.String),
+    name: SensitiveString,
+    description: S.optional(SensitiveString),
     domainId: S.String,
     projectId: S.String,
     environmentId: S.optional(S.String),
@@ -13241,9 +13243,9 @@ export const GluePropertiesInput = S.suspend(() =>
 export interface GlossaryItem {
   domainId: string;
   id: string;
-  name: string;
+  name: string | Redacted.Redacted<string>;
   owningProjectId: string;
-  description?: string;
+  description?: string | Redacted.Redacted<string>;
   status: string;
   usageRestrictions?: GlossaryUsageRestrictions;
   createdAt?: Date;
@@ -13256,9 +13258,9 @@ export const GlossaryItem = S.suspend(() =>
   S.Struct({
     domainId: S.String,
     id: S.String,
-    name: S.String,
+    name: SensitiveString,
     owningProjectId: S.String,
-    description: S.optional(S.String),
+    description: S.optional(SensitiveString),
     status: S.String,
     usageRestrictions: S.optional(GlossaryUsageRestrictions),
     createdAt: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
@@ -13272,10 +13274,10 @@ export interface GlossaryTermItem {
   domainId: string;
   glossaryId: string;
   id: string;
-  name: string;
-  shortDescription?: string;
+  name: string | Redacted.Redacted<string>;
+  shortDescription?: string | Redacted.Redacted<string>;
   usageRestrictions?: GlossaryUsageRestrictions;
-  longDescription?: string;
+  longDescription?: string | Redacted.Redacted<string>;
   termRelations?: TermRelations;
   status: string;
   createdAt?: Date;
@@ -13289,10 +13291,10 @@ export const GlossaryTermItem = S.suspend(() =>
     domainId: S.String,
     glossaryId: S.String,
     id: S.String,
-    name: S.String,
-    shortDescription: S.optional(S.String),
+    name: SensitiveString,
+    shortDescription: S.optional(SensitiveString),
     usageRestrictions: S.optional(GlossaryUsageRestrictions),
-    longDescription: S.optional(S.String),
+    longDescription: S.optional(SensitiveString),
     termRelations: S.optional(TermRelations),
     status: S.String,
     createdAt: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
@@ -13307,11 +13309,11 @@ export const GlossaryTermItem = S.suspend(() =>
 export interface AssetItem {
   domainId: string;
   identifier: string;
-  name: string;
+  name: string | Redacted.Redacted<string>;
   typeIdentifier: string;
   typeRevision: string;
   externalIdentifier?: string;
-  description?: string;
+  description?: string | Redacted.Redacted<string>;
   createdAt?: Date;
   createdBy?: string;
   firstRevisionCreatedAt?: Date;
@@ -13325,11 +13327,11 @@ export const AssetItem = S.suspend(() =>
   S.Struct({
     domainId: S.String,
     identifier: S.String,
-    name: S.String,
+    name: SensitiveString,
     typeIdentifier: S.String,
     typeRevision: S.String,
     externalIdentifier: S.optional(S.String),
-    description: S.optional(S.String),
+    description: S.optional(SensitiveString),
     createdAt: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
     createdBy: S.optional(S.String),
     firstRevisionCreatedAt: S.optional(
@@ -13345,9 +13347,9 @@ export const AssetItem = S.suspend(() =>
 export interface DataProductResultItem {
   domainId: string;
   id: string;
-  name: string;
+  name: string | Redacted.Redacted<string>;
   owningProjectId: string;
-  description?: string;
+  description?: string | Redacted.Redacted<string>;
   glossaryTerms?: GlossaryTerms;
   createdAt?: Date;
   createdBy?: string;
@@ -13359,9 +13361,9 @@ export const DataProductResultItem = S.suspend(() =>
   S.Struct({
     domainId: S.String,
     id: S.String,
-    name: S.String,
+    name: SensitiveString,
     owningProjectId: S.String,
-    description: S.optional(S.String),
+    description: S.optional(SensitiveString),
     glossaryTerms: S.optional(GlossaryTerms),
     createdAt: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
     createdBy: S.optional(S.String),
@@ -13415,8 +13417,8 @@ export interface CreateAssetFilterOutput {
   id: string;
   domainId: string;
   assetId: string;
-  name: string;
-  description?: string;
+  name: string | Redacted.Redacted<string>;
+  description?: string | Redacted.Redacted<string>;
   status?: string;
   configuration: (typeof AssetFilterConfiguration)["Type"];
   createdAt?: Date;
@@ -13429,8 +13431,8 @@ export const CreateAssetFilterOutput = S.suspend(() =>
     id: S.String,
     domainId: S.String,
     assetId: S.String,
-    name: S.String,
-    description: S.optional(S.String),
+    name: SensitiveString,
+    description: S.optional(SensitiveString),
     status: S.optional(S.String),
     configuration: AssetFilterConfiguration,
     createdAt: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
@@ -13444,7 +13446,7 @@ export const CreateAssetFilterOutput = S.suspend(() =>
 export interface CreateConnectionInput {
   awsLocation?: AwsLocation;
   clientToken?: string;
-  description?: string;
+  description?: string | Redacted.Redacted<string>;
   domainIdentifier: string;
   environmentIdentifier?: string;
   name: string;
@@ -13456,7 +13458,7 @@ export const CreateConnectionInput = S.suspend(() =>
   S.Struct({
     awsLocation: S.optional(AwsLocation),
     clientToken: S.optional(S.String),
-    description: S.optional(S.String),
+    description: S.optional(SensitiveString),
     domainIdentifier: S.String.pipe(T.HttpLabel("domainIdentifier")),
     environmentIdentifier: S.optional(S.String),
     name: S.String,
@@ -13509,7 +13511,7 @@ export const AssetListingItemAdditionalAttributes = S.suspend(() =>
 }) as any as S.Schema<AssetListingItemAdditionalAttributes>;
 export interface CreateConnectionOutput {
   connectionId: string;
-  description?: string;
+  description?: string | Redacted.Redacted<string>;
   domainId: string;
   domainUnitId: string;
   environmentId?: string;
@@ -13523,7 +13525,7 @@ export interface CreateConnectionOutput {
 export const CreateConnectionOutput = S.suspend(() =>
   S.Struct({
     connectionId: S.String,
-    description: S.optional(S.String),
+    description: S.optional(SensitiveString),
     domainId: S.String,
     domainUnitId: S.String,
     environmentId: S.optional(S.String),
@@ -13540,11 +13542,11 @@ export const CreateConnectionOutput = S.suspend(() =>
 export interface AssetListingItem {
   listingId?: string;
   listingRevision?: string;
-  name?: string;
+  name?: string | Redacted.Redacted<string>;
   entityId?: string;
   entityRevision?: string;
   entityType?: string;
-  description?: string;
+  description?: string | Redacted.Redacted<string>;
   createdAt?: Date;
   listingCreatedBy?: string;
   listingUpdatedBy?: string;
@@ -13557,11 +13559,11 @@ export const AssetListingItem = S.suspend(() =>
   S.Struct({
     listingId: S.optional(S.String),
     listingRevision: S.optional(S.String),
-    name: S.optional(S.String),
+    name: S.optional(SensitiveString),
     entityId: S.optional(S.String),
     entityRevision: S.optional(S.String),
     entityType: S.optional(S.String),
-    description: S.optional(S.String),
+    description: S.optional(SensitiveString),
     createdAt: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
     listingCreatedBy: S.optional(S.String),
     listingUpdatedBy: S.optional(S.String),

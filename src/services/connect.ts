@@ -1,5 +1,6 @@
 import { HttpClient } from "@effect/platform";
 import * as Effect from "effect/Effect";
+import * as Redacted from "effect/Redacted";
 import * as S from "effect/Schema";
 import * as Stream from "effect/Stream";
 import * as API from "../api.ts";
@@ -10,6 +11,7 @@ import {
   ErrorCategory,
   Errors,
 } from "../index.ts";
+import { SensitiveString, SensitiveBlob } from "../sensitive.ts";
 const svc = T.AwsApiService({
   sdkId: "Connect",
   serviceShapeName: "AmazonConnectService",
@@ -301,8 +303,8 @@ export type AgentStatusName = string;
 export type AgentStatusDescription = string;
 export type AgentStatusOrderNumber = number;
 export type ExpiryDurationInMinutes = number;
-export type Name = string;
-export type Description = string;
+export type Name = string | Redacted.Redacted<string>;
+export type Description = string | Redacted.Redacted<string>;
 export type ContactFlowName = string;
 export type ContactFlowDescription = string;
 export type ContactFlowContent = string;
@@ -320,8 +322,8 @@ export type RegionName = string;
 export type DataTableName = string;
 export type DataTableDescription = string;
 export type TimeZone = string;
-export type EmailAddress = string;
-export type EmailAddressDisplayName = string;
+export type EmailAddress = string | Redacted.Redacted<string>;
+export type EmailAddressDisplayName = string | Redacted.Redacted<string>;
 export type EvaluationFormTitle = string;
 export type EvaluationFormDescription = string;
 export type CommonNameLength127 = string;
@@ -330,7 +332,7 @@ export type HoursOfOperationId = string;
 export type CommonHumanReadableName = string;
 export type CommonHumanReadableDescription = string;
 export type HoursOfOperationOverrideYearMonthDayDateFormat = string;
-export type DirectoryAlias = string;
+export type DirectoryAlias = string | Redacted.Redacted<string>;
 export type DirectoryId = string;
 export type URI = string;
 export type SourceApplicationName = string;
@@ -359,14 +361,14 @@ export type Name128 = string;
 export type Description250 = string;
 export type IntegrationAssociationId = string;
 export type AgentUsername = string;
-export type Password = string;
+export type Password = string | Redacted.Redacted<string>;
 export type DirectoryUserId = string;
 export type SecurityProfileId = string;
 export type HierarchyGroupName = string;
 export type ViewsInstanceId = string;
 export type ViewsClientToken = string;
 export type ViewDescription = string;
-export type ViewName = string;
+export type ViewName = string | Redacted.Redacted<string>;
 export type ViewId = string;
 export type ViewContentSha256 = string;
 export type VocabularyName = string;
@@ -417,7 +419,7 @@ export type FileName = string;
 export type FileSizeInBytes = number;
 export type ChatDurationInMinutes = number;
 export type SupportedMessagingContentType = string;
-export type CustomerIdNonEmpty = string;
+export type CustomerIdNonEmpty = string | Redacted.Redacted<string>;
 export type CampaignId = string;
 export type RingTimeoutInSeconds = number;
 export type StreamingId = string;
@@ -434,9 +436,9 @@ export type QueuePriority = number;
 export type UpdateHoursOfOperationDescription = string;
 export type InstanceAttributeValue = string;
 export type ParticipantToken = string;
-export type AuthorizationCode = string;
-export type AuthenticationError = string;
-export type AuthenticationErrorDescription = string;
+export type AuthorizationCode = string | Redacted.Redacted<string>;
+export type AuthenticationError = string | Redacted.Redacted<string>;
+export type AuthenticationErrorDescription = string | Redacted.Redacted<string>;
 export type UpdateQuickConnectDescription = string;
 export type AliasArn = string;
 export type Priority = number;
@@ -463,12 +465,12 @@ export type Permission = string;
 export type FlowModuleId = string;
 export type TaskTemplateFieldDescription = string;
 export type TaskTemplateSingleSelectOption = string;
-export type AgentFirstName = string;
-export type AgentLastName = string;
-export type Email = string;
+export type AgentFirstName = string | Redacted.Redacted<string>;
+export type AgentLastName = string | Redacted.Redacted<string>;
+export type Email = string | Redacted.Redacted<string>;
 export type AfterContactWorkTimeLimit = number;
 export type ViewTemplate = string;
-export type ViewAction = string;
+export type ViewAction = string | Redacted.Redacted<string>;
 export type RoutingExpression = string;
 export type ValidationTestType = string;
 export type CurrentMetricId = string;
@@ -521,14 +523,14 @@ export type ThresholdValue = number;
 export type NullableProficiencyLimitValue = number;
 export type DateTimeFormat = string;
 export type NullableDouble = number;
-export type SearchText = string;
+export type SearchText = string | Redacted.Redacted<string>;
 export type DateYearMonthDayFormat = string;
 export type TagKeyString = string;
 export type TagValueString = string;
-export type OutboundSubject = string;
-export type Body = string;
+export type OutboundSubject = string | Redacted.Redacted<string>;
+export type Body = string | Redacted.Redacted<string>;
 export type EmailMessageContentType = string;
-export type InboundSubject = string;
+export type InboundSubject = string | Redacted.Redacted<string>;
 export type CustomerProfileAttributesSerialized = string;
 export type EvaluationNoteString = string;
 export type Percentage = number;
@@ -549,7 +551,7 @@ export type InstanceArn = string;
 export type HierarchyLevelId = string;
 export type VocabularyFailureReason = string;
 export type MetadataUrl = string;
-export type SecurityToken = string;
+export type SecurityToken = string | Redacted.Redacted<string>;
 export type HoursOfOperationName = string;
 export type PromptName = string;
 export type QueueName = string;
@@ -557,17 +559,21 @@ export type KeyId = string;
 export type FieldValueId = string;
 export type SlaName = string;
 export type TargetSlaMinutes = number;
-export type SearchableContactAttributeKey = string;
-export type SearchableContactAttributeValue = string;
-export type SearchableSegmentAttributeKey = string;
-export type SearchableSegmentAttributeValue = string;
+export type SearchableContactAttributeKey = string | Redacted.Redacted<string>;
+export type SearchableContactAttributeValue =
+  | string
+  | Redacted.Redacted<string>;
+export type SearchableSegmentAttributeKey = string | Redacted.Redacted<string>;
+export type SearchableSegmentAttributeValue =
+  | string
+  | Redacted.Redacted<string>;
 export type EmailHeaderValue = string;
 export type EvaluationAnswerDataStringValue = string;
 export type EvaluationAnswerDataNumericValue = number;
 export type DurationInSeconds = number;
 export type ApproximateTotalCount = number;
 export type ParticipantId = string;
-export type ViewInputSchema = string;
+export type ViewInputSchema = string | Redacted.Redacted<string>;
 export type AgentPauseDurationInSeconds = number;
 export type Duration = number;
 export type EndpointDisplayName = string;
@@ -627,7 +633,7 @@ export type Value = number;
 export type UrlMetadataSignedHeadersKey = string;
 export type UrlMetadataSignedHeadersValue = string;
 export type AttendeeId = string;
-export type JoinToken = string;
+export type JoinToken = string | Redacted.Redacted<string>;
 export type MediaRegion = string;
 export type MeetingId = string;
 export type AudioQualityScore = number;
@@ -1480,19 +1486,19 @@ export const CreateDataTableRequest = S.suspend(() =>
   identifier: "CreateDataTableRequest",
 }) as any as S.Schema<CreateDataTableRequest>;
 export interface CreateEmailAddressRequest {
-  Description?: string;
+  Description?: string | Redacted.Redacted<string>;
   InstanceId: string;
-  EmailAddress: string;
-  DisplayName?: string;
+  EmailAddress: string | Redacted.Redacted<string>;
+  DisplayName?: string | Redacted.Redacted<string>;
   Tags?: TagMap;
   ClientToken?: string;
 }
 export const CreateEmailAddressRequest = S.suspend(() =>
   S.Struct({
-    Description: S.optional(S.String),
+    Description: S.optional(SensitiveString),
     InstanceId: S.String.pipe(T.HttpLabel("InstanceId")),
-    EmailAddress: S.String,
-    DisplayName: S.optional(S.String),
+    EmailAddress: SensitiveString,
+    DisplayName: S.optional(SensitiveString),
     Tags: S.optional(TagMap),
     ClientToken: S.optional(S.String),
   }).pipe(
@@ -1511,7 +1517,7 @@ export const CreateEmailAddressRequest = S.suspend(() =>
 export interface CreateInstanceRequest {
   ClientToken?: string;
   IdentityManagementType: string;
-  InstanceAlias?: string;
+  InstanceAlias?: string | Redacted.Redacted<string>;
   DirectoryId?: string;
   InboundCallsEnabled: boolean;
   OutboundCallsEnabled: boolean;
@@ -1521,7 +1527,7 @@ export const CreateInstanceRequest = S.suspend(() =>
   S.Struct({
     ClientToken: S.optional(S.String),
     IdentityManagementType: S.String,
-    InstanceAlias: S.optional(S.String),
+    InstanceAlias: S.optional(SensitiveString),
     DirectoryId: S.optional(S.String),
     InboundCallsEnabled: S.Boolean,
     OutboundCallsEnabled: S.Boolean,
@@ -5992,14 +5998,14 @@ export interface ReplicateInstanceRequest {
   InstanceId: string;
   ReplicaRegion: string;
   ClientToken?: string;
-  ReplicaAlias: string;
+  ReplicaAlias: string | Redacted.Redacted<string>;
 }
 export const ReplicateInstanceRequest = S.suspend(() =>
   S.Struct({
     InstanceId: S.String.pipe(T.HttpLabel("InstanceId")),
     ReplicaRegion: S.String,
     ClientToken: S.optional(S.String),
-    ReplicaAlias: S.String,
+    ReplicaAlias: SensitiveString,
   }).pipe(
     T.all(
       T.Http({ method: "POST", uri: "/instance/{InstanceId}/replicate" }),
@@ -6166,11 +6172,14 @@ export const StartContactMediaProcessingResponse = S.suspend(() =>
   identifier: "StartContactMediaProcessingResponse",
 }) as any as S.Schema<StartContactMediaProcessingResponse>;
 export interface EmailAddressInfo {
-  EmailAddress: string;
-  DisplayName?: string;
+  EmailAddress: string | Redacted.Redacted<string>;
+  DisplayName?: string | Redacted.Redacted<string>;
 }
 export const EmailAddressInfo = S.suspend(() =>
-  S.Struct({ EmailAddress: S.String, DisplayName: S.optional(S.String) }),
+  S.Struct({
+    EmailAddress: SensitiveString,
+    DisplayName: S.optional(SensitiveString),
+  }),
 ).annotations({
   identifier: "EmailAddressInfo",
 }) as any as S.Schema<EmailAddressInfo>;
@@ -6213,12 +6222,16 @@ export const TemplatedMessageConfig = S.suspend(() =>
   identifier: "TemplatedMessageConfig",
 }) as any as S.Schema<TemplatedMessageConfig>;
 export interface OutboundRawMessage {
-  Subject: string;
-  Body: string;
+  Subject: string | Redacted.Redacted<string>;
+  Body: string | Redacted.Redacted<string>;
   ContentType: string;
 }
 export const OutboundRawMessage = S.suspend(() =>
-  S.Struct({ Subject: S.String, Body: S.String, ContentType: S.String }),
+  S.Struct({
+    Subject: SensitiveString,
+    Body: SensitiveString,
+    ContentType: S.String,
+  }),
 ).annotations({
   identifier: "OutboundRawMessage",
 }) as any as S.Schema<OutboundRawMessage>;
@@ -6352,9 +6365,9 @@ export interface StartTaskContactRequest {
   PreviousContactId?: string;
   ContactFlowId?: string;
   Attributes?: Attributes;
-  Name: string;
+  Name: string | Redacted.Redacted<string>;
   References?: ContactReferences;
-  Description?: string;
+  Description?: string | Redacted.Redacted<string>;
   ClientToken?: string;
   ScheduledTime?: Date;
   TaskTemplateId?: string;
@@ -6368,9 +6381,9 @@ export const StartTaskContactRequest = S.suspend(() =>
     PreviousContactId: S.optional(S.String),
     ContactFlowId: S.optional(S.String),
     Attributes: S.optional(Attributes),
-    Name: S.String,
+    Name: SensitiveString,
     References: S.optional(ContactReferences),
-    Description: S.optional(S.String),
+    Description: S.optional(SensitiveString),
     ClientToken: S.optional(S.String),
     ScheduledTime: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
     TaskTemplateId: S.optional(S.String),
@@ -7161,16 +7174,16 @@ export const UpdateDataTableMetadataRequest = S.suspend(() =>
 export interface UpdateEmailAddressMetadataRequest {
   InstanceId: string;
   EmailAddressId: string;
-  Description?: string;
-  DisplayName?: string;
+  Description?: string | Redacted.Redacted<string>;
+  DisplayName?: string | Redacted.Redacted<string>;
   ClientToken?: string;
 }
 export const UpdateEmailAddressMetadataRequest = S.suspend(() =>
   S.Struct({
     InstanceId: S.String.pipe(T.HttpLabel("InstanceId")),
     EmailAddressId: S.String.pipe(T.HttpLabel("EmailAddressId")),
-    Description: S.optional(S.String),
-    DisplayName: S.optional(S.String),
+    Description: S.optional(SensitiveString),
+    DisplayName: S.optional(SensitiveString),
     ClientToken: S.optional(S.String),
   }).pipe(
     T.all(
@@ -7554,17 +7567,17 @@ export const UpdateInstanceStorageConfigResponse = S.suspend(() =>
 export interface UpdateParticipantAuthenticationRequest {
   State: string;
   InstanceId: string;
-  Code?: string;
-  Error?: string;
-  ErrorDescription?: string;
+  Code?: string | Redacted.Redacted<string>;
+  Error?: string | Redacted.Redacted<string>;
+  ErrorDescription?: string | Redacted.Redacted<string>;
 }
 export const UpdateParticipantAuthenticationRequest = S.suspend(() =>
   S.Struct({
     State: S.String,
     InstanceId: S.String,
-    Code: S.optional(S.String),
-    Error: S.optional(S.String),
-    ErrorDescription: S.optional(S.String),
+    Code: S.optional(SensitiveString),
+    Error: S.optional(SensitiveString),
+    ErrorDescription: S.optional(SensitiveString),
   }).pipe(
     T.all(
       T.Http({
@@ -8812,18 +8825,18 @@ export const UpdateUserHierarchyGroupNameResponse = S.suspend(() =>
   identifier: "UpdateUserHierarchyGroupNameResponse",
 }) as any as S.Schema<UpdateUserHierarchyGroupNameResponse>;
 export interface UserIdentityInfo {
-  FirstName?: string;
-  LastName?: string;
-  Email?: string;
-  SecondaryEmail?: string;
+  FirstName?: string | Redacted.Redacted<string>;
+  LastName?: string | Redacted.Redacted<string>;
+  Email?: string | Redacted.Redacted<string>;
+  SecondaryEmail?: string | Redacted.Redacted<string>;
   Mobile?: string;
 }
 export const UserIdentityInfo = S.suspend(() =>
   S.Struct({
-    FirstName: S.optional(S.String),
-    LastName: S.optional(S.String),
-    Email: S.optional(S.String),
-    SecondaryEmail: S.optional(S.String),
+    FirstName: S.optional(SensitiveString),
+    LastName: S.optional(SensitiveString),
+    Email: S.optional(SensitiveString),
+    SecondaryEmail: S.optional(SensitiveString),
     Mobile: S.optional(S.String),
   }),
 ).annotations({
@@ -9023,8 +9036,8 @@ export const UpdateUserSecurityProfilesResponse = S.suspend(() =>
 ).annotations({
   identifier: "UpdateUserSecurityProfilesResponse",
 }) as any as S.Schema<UpdateUserSecurityProfilesResponse>;
-export type ViewActions = string[];
-export const ViewActions = S.Array(S.String);
+export type ViewActions = string | Redacted.Redacted<string>[];
+export const ViewActions = S.Array(SensitiveString);
 export interface ViewInputContent {
   Template?: string;
   Actions?: ViewActions;
@@ -9065,14 +9078,14 @@ export const UpdateViewContentRequest = S.suspend(() =>
 export interface UpdateViewMetadataRequest {
   InstanceId: string;
   ViewId: string;
-  Name?: string;
+  Name?: string | Redacted.Redacted<string>;
   Description?: string;
 }
 export const UpdateViewMetadataRequest = S.suspend(() =>
   S.Struct({
     InstanceId: S.String.pipe(T.HttpLabel("InstanceId")),
     ViewId: S.String.pipe(T.HttpLabel("ViewId")),
-    Name: S.optional(S.String),
+    Name: S.optional(SensitiveString),
     Description: S.optional(S.String),
   }).pipe(
     T.all(
@@ -10649,8 +10662,8 @@ export type ContactStates = string[];
 export const ContactStates = S.Array(S.String);
 export type MetricFilterValueList = string[];
 export const MetricFilterValueList = S.Array(S.String);
-export type SearchTextList = string[];
-export const SearchTextList = S.Array(S.String);
+export type SearchTextList = string | Redacted.Redacted<string>[];
+export const SearchTextList = S.Array(SensitiveString);
 export type HierarchyGroupIdList = string[];
 export const HierarchyGroupIdList = S.Array(S.String);
 export interface ActivateEvaluationFormResponse {
@@ -11267,7 +11280,7 @@ export const CreateUseCaseResponse = S.suspend(() =>
 }) as any as S.Schema<CreateUseCaseResponse>;
 export interface CreateUserRequest {
   Username: string;
-  Password?: string;
+  Password?: string | Redacted.Redacted<string>;
   IdentityInfo?: UserIdentityInfo;
   PhoneConfig: UserPhoneConfig;
   DirectoryUserId?: string;
@@ -11280,7 +11293,7 @@ export interface CreateUserRequest {
 export const CreateUserRequest = S.suspend(() =>
   S.Struct({
     Username: S.String,
-    Password: S.optional(S.String),
+    Password: S.optional(SensitiveString),
     IdentityInfo: S.optional(UserIdentityInfo),
     PhoneConfig: UserPhoneConfig,
     DirectoryUserId: S.optional(S.String),
@@ -11320,7 +11333,7 @@ export interface CreateViewRequest {
   Status: string;
   Content: ViewInputContent;
   Description?: string;
-  Name: string;
+  Name: string | Redacted.Redacted<string>;
   Tags?: TagMap;
 }
 export const CreateViewRequest = S.suspend(() =>
@@ -11330,7 +11343,7 @@ export const CreateViewRequest = S.suspend(() =>
     Status: S.String,
     Content: ViewInputContent,
     Description: S.optional(S.String),
-    Name: S.String,
+    Name: SensitiveString,
     Tags: S.optional(TagMap),
   }).pipe(
     T.all(
@@ -11398,9 +11411,9 @@ export const DeleteVocabularyResponse = S.suspend(() =>
 export interface DescribeEmailAddressResponse {
   EmailAddressId?: string;
   EmailAddressArn?: string;
-  EmailAddress?: string;
-  DisplayName?: string;
-  Description?: string;
+  EmailAddress?: string | Redacted.Redacted<string>;
+  DisplayName?: string | Redacted.Redacted<string>;
+  Description?: string | Redacted.Redacted<string>;
   CreateTimestamp?: string;
   ModifiedTimestamp?: string;
   AliasConfigurations?: AliasConfigurationList;
@@ -11410,9 +11423,9 @@ export const DescribeEmailAddressResponse = S.suspend(() =>
   S.Struct({
     EmailAddressId: S.optional(S.String),
     EmailAddressArn: S.optional(S.String),
-    EmailAddress: S.optional(S.String),
-    DisplayName: S.optional(S.String),
-    Description: S.optional(S.String),
+    EmailAddress: S.optional(SensitiveString),
+    DisplayName: S.optional(SensitiveString),
+    Description: S.optional(SensitiveString),
     CreateTimestamp: S.optional(S.String),
     ModifiedTimestamp: S.optional(S.String),
     AliasConfigurations: S.optional(AliasConfigurationList),
@@ -11430,13 +11443,13 @@ export const DescribeInstanceStorageConfigResponse = S.suspend(() =>
   identifier: "DescribeInstanceStorageConfigResponse",
 }) as any as S.Schema<DescribeInstanceStorageConfigResponse>;
 export interface ViewContent {
-  InputSchema?: string;
+  InputSchema?: string | Redacted.Redacted<string>;
   Template?: string;
   Actions?: ViewActions;
 }
 export const ViewContent = S.suspend(() =>
   S.Struct({
-    InputSchema: S.optional(S.String),
+    InputSchema: S.optional(SensitiveString),
     Template: S.optional(S.String),
     Actions: S.optional(ViewActions),
   }),
@@ -11444,7 +11457,7 @@ export const ViewContent = S.suspend(() =>
 export interface View {
   Id?: string;
   Arn?: string;
-  Name?: string;
+  Name?: string | Redacted.Redacted<string>;
   Status?: string;
   Type?: string;
   Description?: string;
@@ -11460,7 +11473,7 @@ export const View = S.suspend(() =>
   S.Struct({
     Id: S.optional(S.String),
     Arn: S.optional(S.String),
-    Name: S.optional(S.String),
+    Name: S.optional(SensitiveString),
     Status: S.optional(S.String),
     Type: S.optional(S.String),
     Description: S.optional(S.String),
@@ -12592,7 +12605,7 @@ export interface StartChatContactRequest {
   PersistentChat?: PersistentChat;
   RelatedContactId?: string;
   SegmentAttributes?: SegmentAttributes;
-  CustomerId?: string;
+  CustomerId?: string | Redacted.Redacted<string>;
   DisconnectOnCustomerExit?: DisconnectOnCustomerExit;
 }
 export const StartChatContactRequest = S.suspend(() =>
@@ -12609,7 +12622,7 @@ export const StartChatContactRequest = S.suspend(() =>
     PersistentChat: S.optional(PersistentChat),
     RelatedContactId: S.optional(S.String),
     SegmentAttributes: S.optional(SegmentAttributes),
-    CustomerId: S.optional(S.String),
+    CustomerId: S.optional(SensitiveString),
     DisconnectOnCustomerExit: S.optional(DisconnectOnCustomerExit),
   }).pipe(
     T.all(
@@ -12734,7 +12747,7 @@ export interface StartWebRTCContactRequest {
   ParticipantDetails: ParticipantDetails;
   RelatedContactId?: string;
   References?: ContactReferences;
-  Description?: string;
+  Description?: string | Redacted.Redacted<string>;
 }
 export const StartWebRTCContactRequest = S.suspend(() =>
   S.Struct({
@@ -12746,7 +12759,7 @@ export const StartWebRTCContactRequest = S.suspend(() =>
     ParticipantDetails: ParticipantDetails,
     RelatedContactId: S.optional(S.String),
     References: S.optional(ContactReferences),
-    Description: S.optional(S.String),
+    Description: S.optional(SensitiveString),
   }).pipe(
     T.all(
       T.Http({ method: "PUT", uri: "/contact/webrtc" }),
@@ -12829,8 +12842,8 @@ export const TransferContactResponse = S.suspend(() =>
 export interface UpdateContactRequest {
   InstanceId: string;
   ContactId: string;
-  Name?: string;
-  Description?: string;
+  Name?: string | Redacted.Redacted<string>;
+  Description?: string | Redacted.Redacted<string>;
   References?: ContactReferences;
   SegmentAttributes?: SegmentAttributes;
   QueueInfo?: QueueInfoInput;
@@ -12842,8 +12855,8 @@ export const UpdateContactRequest = S.suspend(() =>
   S.Struct({
     InstanceId: S.String.pipe(T.HttpLabel("InstanceId")),
     ContactId: S.String.pipe(T.HttpLabel("ContactId")),
-    Name: S.optional(S.String),
-    Description: S.optional(S.String),
+    Name: S.optional(SensitiveString),
+    Description: S.optional(SensitiveString),
     References: S.optional(ContactReferences),
     SegmentAttributes: S.optional(SegmentAttributes),
     QueueInfo: S.optional(QueueInfoInput),
@@ -13187,10 +13200,14 @@ export const HierarchyLevelUpdate = S.suspend(() =>
 ).annotations({
   identifier: "HierarchyLevelUpdate",
 }) as any as S.Schema<HierarchyLevelUpdate>;
-export type SearchableContactAttributeValueList = string[];
-export const SearchableContactAttributeValueList = S.Array(S.String);
-export type SearchableSegmentAttributeValueList = string[];
-export const SearchableSegmentAttributeValueList = S.Array(S.String);
+export type SearchableContactAttributeValueList =
+  | string
+  | Redacted.Redacted<string>[];
+export const SearchableContactAttributeValueList = S.Array(SensitiveString);
+export type SearchableSegmentAttributeValueList =
+  | string
+  | Redacted.Redacted<string>[];
+export const SearchableSegmentAttributeValueList = S.Array(SensitiveString);
 export type Expressions = Expression[];
 export const Expressions = S.Array(
   S.suspend((): S.Schema<Expression, any> => Expression).annotations({
@@ -13982,18 +13999,18 @@ export const UserDataFilters = S.suspend(() =>
   identifier: "UserDataFilters",
 }) as any as S.Schema<UserDataFilters>;
 export interface Credentials {
-  AccessToken?: string;
+  AccessToken?: string | Redacted.Redacted<string>;
   AccessTokenExpiration?: Date;
-  RefreshToken?: string;
+  RefreshToken?: string | Redacted.Redacted<string>;
   RefreshTokenExpiration?: Date;
 }
 export const Credentials = S.suspend(() =>
   S.Struct({
-    AccessToken: S.optional(S.String),
+    AccessToken: S.optional(SensitiveString),
     AccessTokenExpiration: S.optional(
       S.Date.pipe(T.TimestampFormat("epoch-seconds")),
     ),
-    RefreshToken: S.optional(S.String),
+    RefreshToken: S.optional(SensitiveString),
     RefreshTokenExpiration: S.optional(
       S.Date.pipe(T.TimestampFormat("epoch-seconds")),
     ),
@@ -14383,7 +14400,7 @@ export interface InstanceSummary {
   Id?: string;
   Arn?: string;
   IdentityManagementType?: string;
-  InstanceAlias?: string;
+  InstanceAlias?: string | Redacted.Redacted<string>;
   CreatedTime?: Date;
   ServiceRole?: string;
   InstanceStatus?: string;
@@ -14396,7 +14413,7 @@ export const InstanceSummary = S.suspend(() =>
     Id: S.optional(S.String),
     Arn: S.optional(S.String),
     IdentityManagementType: S.optional(S.String),
-    InstanceAlias: S.optional(S.String),
+    InstanceAlias: S.optional(SensitiveString),
     CreatedTime: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
     ServiceRole: S.optional(S.String),
     InstanceStatus: S.optional(S.String),
@@ -14776,7 +14793,7 @@ export const UserSummaryList = S.Array(UserSummary);
 export interface ViewSummary {
   Id?: string;
   Arn?: string;
-  Name?: string;
+  Name?: string | Redacted.Redacted<string>;
   Type?: string;
   Status?: string;
   Description?: string;
@@ -14785,7 +14802,7 @@ export const ViewSummary = S.suspend(() =>
   S.Struct({
     Id: S.optional(S.String),
     Arn: S.optional(S.String),
-    Name: S.optional(S.String),
+    Name: S.optional(SensitiveString),
     Type: S.optional(S.String),
     Status: S.optional(S.String),
     Description: S.optional(S.String),
@@ -14797,7 +14814,7 @@ export interface ViewVersionSummary {
   Id?: string;
   Arn?: string;
   Description?: string;
-  Name?: string;
+  Name?: string | Redacted.Redacted<string>;
   Type?: string;
   Version?: number;
   VersionDescription?: string;
@@ -14807,7 +14824,7 @@ export const ViewVersionSummary = S.suspend(() =>
     Id: S.optional(S.String),
     Arn: S.optional(S.String),
     Description: S.optional(S.String),
-    Name: S.optional(S.String),
+    Name: S.optional(SensitiveString),
     Type: S.optional(S.String),
     Version: S.optional(S.Number),
     VersionDescription: S.optional(S.String),
@@ -15146,11 +15163,14 @@ export const ContactFlowAttributeOrConditionList = S.Array(
   ContactFlowAttributeAndCondition,
 );
 export interface SearchableContactAttributesCriteria {
-  Key: string;
+  Key: string | Redacted.Redacted<string>;
   Values: SearchableContactAttributeValueList;
 }
 export const SearchableContactAttributesCriteria = S.suspend(() =>
-  S.Struct({ Key: S.String, Values: SearchableContactAttributeValueList }),
+  S.Struct({
+    Key: SensitiveString,
+    Values: SearchableContactAttributeValueList,
+  }),
 ).annotations({
   identifier: "SearchableContactAttributesCriteria",
 }) as any as S.Schema<SearchableContactAttributesCriteria>;
@@ -15160,11 +15180,14 @@ export const SearchableContactAttributesCriteriaList = S.Array(
   SearchableContactAttributesCriteria,
 );
 export interface SearchableSegmentAttributesCriteria {
-  Key: string;
+  Key: string | Redacted.Redacted<string>;
   Values: SearchableSegmentAttributeValueList;
 }
 export const SearchableSegmentAttributesCriteria = S.suspend(() =>
-  S.Struct({ Key: S.String, Values: SearchableSegmentAttributeValueList }),
+  S.Struct({
+    Key: SensitiveString,
+    Values: SearchableSegmentAttributeValueList,
+  }),
 ).annotations({
   identifier: "SearchableSegmentAttributesCriteria",
 }) as any as S.Schema<SearchableSegmentAttributesCriteria>;
@@ -17275,15 +17298,15 @@ export const ListCondition = S.suspend(() =>
   identifier: "ListCondition",
 }) as any as S.Schema<ListCondition>;
 export interface InboundRawMessage {
-  Subject: string;
-  Body: string;
+  Subject: string | Redacted.Redacted<string>;
+  Body: string | Redacted.Redacted<string>;
   ContentType: string;
   Headers?: EmailHeaders;
 }
 export const InboundRawMessage = S.suspend(() =>
   S.Struct({
-    Subject: S.String,
-    Body: S.String,
+    Subject: SensitiveString,
+    Body: SensitiveString,
     ContentType: S.String,
     Headers: S.optional(EmailHeaders),
   }),
@@ -17474,7 +17497,7 @@ export interface Instance {
   Id?: string;
   Arn?: string;
   IdentityManagementType?: string;
-  InstanceAlias?: string;
+  InstanceAlias?: string | Redacted.Redacted<string>;
   CreatedTime?: Date;
   ServiceRole?: string;
   InstanceStatus?: string;
@@ -17489,7 +17512,7 @@ export const Instance = S.suspend(() =>
     Id: S.optional(S.String),
     Arn: S.optional(S.String),
     IdentityManagementType: S.optional(S.String),
-    InstanceAlias: S.optional(S.String),
+    InstanceAlias: S.optional(SensitiveString),
     CreatedTime: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
     ServiceRole: S.optional(S.String),
     InstanceStatus: S.optional(S.String),
@@ -17762,18 +17785,18 @@ export const ContactFlowSearchFilter = S.suspend(() =>
 export interface EmailAddressMetadata {
   EmailAddressId?: string;
   EmailAddressArn?: string;
-  EmailAddress?: string;
-  Description?: string;
-  DisplayName?: string;
+  EmailAddress?: string | Redacted.Redacted<string>;
+  Description?: string | Redacted.Redacted<string>;
+  DisplayName?: string | Redacted.Redacted<string>;
   AliasConfigurations?: AliasConfigurationList;
 }
 export const EmailAddressMetadata = S.suspend(() =>
   S.Struct({
     EmailAddressId: S.optional(S.String),
     EmailAddressArn: S.optional(S.String),
-    EmailAddress: S.optional(S.String),
-    Description: S.optional(S.String),
-    DisplayName: S.optional(S.String),
+    EmailAddress: S.optional(SensitiveString),
+    Description: S.optional(SensitiveString),
+    DisplayName: S.optional(SensitiveString),
     AliasConfigurations: S.optional(AliasConfigurationList),
   }),
 ).annotations({
@@ -18288,8 +18311,8 @@ export interface CreateContactRequest {
   ExpiryDurationInMinutes?: number;
   UserInfo?: UserInfo;
   InitiateAs?: string;
-  Name?: string;
-  Description?: string;
+  Name?: string | Redacted.Redacted<string>;
+  Description?: string | Redacted.Redacted<string>;
   SegmentAttributes?: SegmentAttributes;
   PreviousContactId?: string;
 }
@@ -18305,8 +18328,8 @@ export const CreateContactRequest = S.suspend(() =>
     ExpiryDurationInMinutes: S.optional(S.Number),
     UserInfo: S.optional(UserInfo),
     InitiateAs: S.optional(S.String),
-    Name: S.optional(S.String),
-    Description: S.optional(S.String),
+    Name: S.optional(SensitiveString),
+    Description: S.optional(SensitiveString),
     SegmentAttributes: S.optional(SegmentAttributes),
     PreviousContactId: S.optional(S.String),
   }).pipe(
@@ -18774,10 +18797,10 @@ export const SearchWorkspacesResponse = S.suspend(() =>
 export interface StartEmailContactRequest {
   InstanceId: string;
   FromEmailAddress: EmailAddressInfo;
-  DestinationEmailAddress: string;
-  Description?: string;
+  DestinationEmailAddress: string | Redacted.Redacted<string>;
+  Description?: string | Redacted.Redacted<string>;
   References?: ContactReferences;
-  Name?: string;
+  Name?: string | Redacted.Redacted<string>;
   EmailMessage: InboundEmailContent;
   AdditionalRecipients?: InboundAdditionalRecipients;
   Attachments?: EmailAttachments;
@@ -18791,10 +18814,10 @@ export const StartEmailContactRequest = S.suspend(() =>
   S.Struct({
     InstanceId: S.String,
     FromEmailAddress: EmailAddressInfo,
-    DestinationEmailAddress: S.String,
-    Description: S.optional(S.String),
+    DestinationEmailAddress: SensitiveString,
+    Description: S.optional(SensitiveString),
     References: S.optional(ContactReferences),
-    Name: S.optional(S.String),
+    Name: S.optional(SensitiveString),
     EmailMessage: InboundEmailContent,
     AdditionalRecipients: S.optional(InboundAdditionalRecipients),
     Attachments: S.optional(EmailAttachments),
@@ -18997,12 +19020,12 @@ export const UrlMetadataSignedHeaders = S.Record({
 });
 export interface Attendee {
   AttendeeId?: string;
-  JoinToken?: string;
+  JoinToken?: string | Redacted.Redacted<string>;
 }
 export const Attendee = S.suspend(() =>
   S.Struct({
     AttendeeId: S.optional(S.String),
-    JoinToken: S.optional(S.String),
+    JoinToken: S.optional(SensitiveString),
   }),
 ).annotations({ identifier: "Attendee" }) as any as S.Schema<Attendee>;
 export type AgentIds = string[];
@@ -20135,8 +20158,8 @@ export interface Contact {
   PreviousContactId?: string;
   ContactAssociationId?: string;
   InitiationMethod?: string;
-  Name?: string;
-  Description?: string;
+  Name?: string | Redacted.Redacted<string>;
+  Description?: string | Redacted.Redacted<string>;
   Channel?: string;
   QueueInfo?: QueueInfo;
   AgentInfo?: AgentInfo;
@@ -20186,8 +20209,8 @@ export const Contact = S.suspend(() =>
     PreviousContactId: S.optional(S.String),
     ContactAssociationId: S.optional(S.String),
     InitiationMethod: S.optional(S.String),
-    Name: S.optional(S.String),
-    Description: S.optional(S.String),
+    Name: S.optional(SensitiveString),
+    Description: S.optional(SensitiveString),
     Channel: S.optional(S.String),
     QueueInfo: S.optional(QueueInfo),
     AgentInfo: S.optional(AgentInfo),
@@ -20515,8 +20538,8 @@ export const SearchContactEvaluationsResponse = S.suspend(() =>
   identifier: "SearchContactEvaluationsResponse",
 }) as any as S.Schema<SearchContactEvaluationsResponse>;
 export interface StartOutboundVoiceContactRequest {
-  Name?: string;
-  Description?: string;
+  Name?: string | Redacted.Redacted<string>;
+  Description?: string | Redacted.Redacted<string>;
   References?: ContactReferences;
   RelatedContactId?: string;
   DestinationPhoneNumber: string;
@@ -20534,8 +20557,8 @@ export interface StartOutboundVoiceContactRequest {
 }
 export const StartOutboundVoiceContactRequest = S.suspend(() =>
   S.Struct({
-    Name: S.optional(S.String),
-    Description: S.optional(S.String),
+    Name: S.optional(SensitiveString),
+    Description: S.optional(SensitiveString),
     References: S.optional(ContactReferences),
     RelatedContactId: S.optional(S.String),
     DestinationPhoneNumber: S.String,
@@ -20628,11 +20651,14 @@ export const HierarchyPathReference = S.suspend(() =>
   identifier: "HierarchyPathReference",
 }) as any as S.Schema<HierarchyPathReference>;
 export interface UserIdentityInfoLite {
-  FirstName?: string;
-  LastName?: string;
+  FirstName?: string | Redacted.Redacted<string>;
+  LastName?: string | Redacted.Redacted<string>;
 }
 export const UserIdentityInfoLite = S.suspend(() =>
-  S.Struct({ FirstName: S.optional(S.String), LastName: S.optional(S.String) }),
+  S.Struct({
+    FirstName: S.optional(SensitiveString),
+    LastName: S.optional(SensitiveString),
+  }),
 ).annotations({
   identifier: "UserIdentityInfoLite",
 }) as any as S.Schema<UserIdentityInfoLite>;
@@ -21142,7 +21168,7 @@ export interface ContactSearchSummary {
   DisconnectTimestamp?: Date;
   ScheduledTimestamp?: Date;
   SegmentAttributes?: ContactSearchSummarySegmentAttributes;
-  Name?: string;
+  Name?: string | Redacted.Redacted<string>;
   RoutingCriteria?: RoutingCriteria;
   GlobalResiliencyMetadata?: GlobalResiliencyMetadata;
 }
@@ -21166,7 +21192,7 @@ export const ContactSearchSummary = S.suspend(() =>
       S.Date.pipe(T.TimestampFormat("epoch-seconds")),
     ),
     SegmentAttributes: S.optional(ContactSearchSummarySegmentAttributes),
-    Name: S.optional(S.String),
+    Name: S.optional(SensitiveString),
     RoutingCriteria: S.optional(RoutingCriteria),
     GlobalResiliencyMetadata: S.optional(GlobalResiliencyMetadata),
   }),

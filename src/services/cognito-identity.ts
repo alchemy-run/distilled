@@ -1,5 +1,6 @@
 import { HttpClient } from "@effect/platform";
 import * as Effect from "effect/Effect";
+import * as Redacted from "effect/Redacted";
 import * as S from "effect/Schema";
 import * as Stream from "effect/Stream";
 import * as API from "../api.ts";
@@ -10,6 +11,7 @@ import {
   ErrorCategory,
   Errors,
 } from "../index.ts";
+import { SensitiveString, SensitiveBlob } from "../sensitive.ts";
 const ns = T.XmlNamespace(
   "http://cognito-identity.amazonaws.com/doc/2014-06-30/",
 );
@@ -345,15 +347,15 @@ export type IdentityProviderId = string;
 export type CognitoIdentityProviderName = string;
 export type CognitoIdentityProviderClientId = string;
 export type TagValueType = string;
-export type IdentityProviderToken = string;
+export type IdentityProviderToken = string | Redacted.Redacted<string>;
 export type PrincipalTagID = string;
 export type PrincipalTagValue = string;
 export type RoleType = string;
-export type OIDCToken = string;
+export type OIDCToken = string | Redacted.Redacted<string>;
 export type ClaimName = string;
 export type ClaimValue = string;
 export type AccessKeyString = string;
-export type SecretKeyString = string;
+export type SecretKeyString = string | Redacted.Redacted<string>;
 export type SessionTokenString = string;
 
 //# Schemas
@@ -445,8 +447,8 @@ export const DescribeIdentityPoolInput = S.suspend(() =>
 ).annotations({
   identifier: "DescribeIdentityPoolInput",
 }) as any as S.Schema<DescribeIdentityPoolInput>;
-export type LoginsMap = { [key: string]: string };
-export const LoginsMap = S.Record({ key: S.String, value: S.String });
+export type LoginsMap = { [key: string]: string | Redacted.Redacted<string> };
+export const LoginsMap = S.Record({ key: S.String, value: SensitiveString });
 export interface GetIdInput {
   AccountId?: string;
   IdentityPoolId: string;
@@ -987,12 +989,12 @@ export const GetIdentityPoolRolesResponse = S.suspend(() =>
 }) as any as S.Schema<GetIdentityPoolRolesResponse>;
 export interface GetOpenIdTokenResponse {
   IdentityId?: string;
-  Token?: string;
+  Token?: string | Redacted.Redacted<string>;
 }
 export const GetOpenIdTokenResponse = S.suspend(() =>
   S.Struct({
     IdentityId: S.optional(S.String),
-    Token: S.optional(S.String),
+    Token: S.optional(SensitiveString),
   }).pipe(ns),
 ).annotations({
   identifier: "GetOpenIdTokenResponse",
@@ -1141,12 +1143,12 @@ export const DeleteIdentitiesResponse = S.suspend(() =>
 }) as any as S.Schema<DeleteIdentitiesResponse>;
 export interface GetOpenIdTokenForDeveloperIdentityResponse {
   IdentityId?: string;
-  Token?: string;
+  Token?: string | Redacted.Redacted<string>;
 }
 export const GetOpenIdTokenForDeveloperIdentityResponse = S.suspend(() =>
   S.Struct({
     IdentityId: S.optional(S.String),
-    Token: S.optional(S.String),
+    Token: S.optional(SensitiveString),
   }).pipe(ns),
 ).annotations({
   identifier: "GetOpenIdTokenForDeveloperIdentityResponse",
@@ -1165,14 +1167,14 @@ export const ListIdentityPoolsResponse = S.suspend(() =>
 }) as any as S.Schema<ListIdentityPoolsResponse>;
 export interface Credentials {
   AccessKeyId?: string;
-  SecretKey?: string;
+  SecretKey?: string | Redacted.Redacted<string>;
   SessionToken?: string;
   Expiration?: Date;
 }
 export const Credentials = S.suspend(() =>
   S.Struct({
     AccessKeyId: S.optional(S.String),
-    SecretKey: S.optional(S.String),
+    SecretKey: S.optional(SensitiveString),
     SessionToken: S.optional(S.String),
     Expiration: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
   }),

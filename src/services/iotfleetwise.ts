@@ -1,5 +1,6 @@
 import { HttpClient } from "@effect/platform";
 import * as Effect from "effect/Effect";
+import * as Redacted from "effect/Redacted";
 import * as S from "effect/Schema";
 import * as Stream from "effect/Stream";
 import * as API from "../api.ts";
@@ -10,6 +11,7 @@ import {
   ErrorCategory,
   Errors,
 } from "../index.ts";
+import { SensitiveString, SensitiveBlob } from "../sensitive.ts";
 const svc = T.AwsApiService({
   sdkId: "IoTFleetWise",
   serviceShapeName: "IoTAutobahnControlPlane",
@@ -281,17 +283,17 @@ export type wildcardSignalName = string;
 export type maxSampleCount = number;
 export type DataPartitionId = string;
 export type languageVersion = number;
-export type actionEventExpression = string;
+export type actionEventExpression = string | Redacted.Redacted<string>;
 export type campaignArn = string;
 export type message = string;
 export type ResourceUniqueId = string;
 export type collectionPeriodMs = number;
-export type eventExpression = string;
+export type eventExpression = string | Redacted.Redacted<string>;
 export type S3BucketArn = string;
 export type Prefix = string;
 export type TimestreamTableArn = string;
 export type MqttTopicArn = string;
-export type StorageLocation = string;
+export type StorageLocation = string | Redacted.Redacted<string>;
 export type nonNegativeInteger = number;
 export type double = number;
 export type CanSignalName = string;
@@ -310,7 +312,7 @@ export type CustomDecodingSignalInterfaceName = string;
 export type StorageMaximumSizeValue = number;
 export type StorageMinimumTimeToLiveValue = number;
 export type positiveLong = number;
-export type fetchConfigEventExpression = string;
+export type fetchConfigEventExpression = string | Redacted.Redacted<string>;
 export type RetryAfterSeconds = number;
 export type StructureMessageName = string;
 export type maxStringSize = number;
@@ -1848,8 +1850,8 @@ export const ListFleetsForVehicleRequest = S.suspend(() =>
 ).annotations({
   identifier: "ListFleetsForVehicleRequest",
 }) as any as S.Schema<ListFleetsForVehicleRequest>;
-export type EventExpressionList = string[];
-export const EventExpressionList = S.Array(S.String);
+export type EventExpressionList = string | Redacted.Redacted<string>[];
+export const EventExpressionList = S.Array(SensitiveString);
 export interface CreateVehicleRequestItem {
   vehicleName: string;
   modelManifestArn: string;
@@ -2114,14 +2116,14 @@ export const TimeBasedCollectionScheme = S.suspend(() =>
   identifier: "TimeBasedCollectionScheme",
 }) as any as S.Schema<TimeBasedCollectionScheme>;
 export interface ConditionBasedCollectionScheme {
-  expression: string;
+  expression: string | Redacted.Redacted<string>;
   minimumTriggerIntervalMs?: number;
   triggerMode?: string;
   conditionLanguageVersion?: number;
 }
 export const ConditionBasedCollectionScheme = S.suspend(() =>
   S.Struct({
-    expression: S.String,
+    expression: SensitiveString,
     minimumTriggerIntervalMs: S.optional(S.Number),
     triggerMode: S.optional(S.String),
     conditionLanguageVersion: S.optional(S.Number),
@@ -2199,25 +2201,25 @@ export const StorageMinimumTimeToLive = S.suspend(() =>
 }) as any as S.Schema<StorageMinimumTimeToLive>;
 export interface DataPartitionStorageOptions {
   maximumSize: StorageMaximumSize;
-  storageLocation: string;
+  storageLocation: string | Redacted.Redacted<string>;
   minimumTimeToLive: StorageMinimumTimeToLive;
 }
 export const DataPartitionStorageOptions = S.suspend(() =>
   S.Struct({
     maximumSize: StorageMaximumSize,
-    storageLocation: S.String,
+    storageLocation: SensitiveString,
     minimumTimeToLive: StorageMinimumTimeToLive,
   }),
 ).annotations({
   identifier: "DataPartitionStorageOptions",
 }) as any as S.Schema<DataPartitionStorageOptions>;
 export interface DataPartitionUploadOptions {
-  expression: string;
+  expression: string | Redacted.Redacted<string>;
   conditionLanguageVersion?: number;
 }
 export const DataPartitionUploadOptions = S.suspend(() =>
   S.Struct({
-    expression: S.String,
+    expression: SensitiveString,
     conditionLanguageVersion: S.optional(S.Number),
   }),
 ).annotations({
@@ -2248,11 +2250,11 @@ export const TimeBasedSignalFetchConfig = S.suspend(() =>
   identifier: "TimeBasedSignalFetchConfig",
 }) as any as S.Schema<TimeBasedSignalFetchConfig>;
 export interface ConditionBasedSignalFetchConfig {
-  conditionExpression: string;
+  conditionExpression: string | Redacted.Redacted<string>;
   triggerMode: string;
 }
 export const ConditionBasedSignalFetchConfig = S.suspend(() =>
-  S.Struct({ conditionExpression: S.String, triggerMode: S.String }),
+  S.Struct({ conditionExpression: SensitiveString, triggerMode: S.String }),
 ).annotations({
   identifier: "ConditionBasedSignalFetchConfig",
 }) as any as S.Schema<ConditionBasedSignalFetchConfig>;

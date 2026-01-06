@@ -1,5 +1,6 @@
 import { HttpClient } from "@effect/platform";
 import * as Effect from "effect/Effect";
+import * as Redacted from "effect/Redacted";
 import * as S from "effect/Schema";
 import * as Stream from "effect/Stream";
 import * as API from "../api.ts";
@@ -10,6 +11,7 @@ import {
   ErrorCategory,
   Errors,
 } from "../index.ts";
+import { SensitiveString, SensitiveBlob } from "../sensitive.ts";
 const svc = T.AwsApiService({
   sdkId: "Lex Models V2",
   serviceShapeName: "LexModelBuildingServiceV2",
@@ -261,7 +263,7 @@ export type SessionTTL = number;
 export type NumericalBotVersion = string;
 export type ConfidenceThreshold = number;
 export type ReplicaRegion = string;
-export type ImportExportFilePassword = string;
+export type ImportExportFilePassword = string | Redacted.Redacted<string>;
 export type DisplayName = string;
 export type IntentSignature = string;
 export type AmazonResourceName = string;
@@ -298,7 +300,7 @@ export type SubSlotExpression = string;
 export type FilterValue = string;
 export type AnalyticsFilterValue = string;
 export type KmsKeyArn = string;
-export type FilePassword = string;
+export type FilePassword = string | Redacted.Redacted<string>;
 export type S3BucketName = string;
 export type S3ObjectPath = string;
 export type PriorityValue = number;
@@ -2087,14 +2089,14 @@ export const UpdateBotLocaleRequest = S.suspend(() =>
 }) as any as S.Schema<UpdateBotLocaleRequest>;
 export interface EncryptionSetting {
   kmsKeyArn?: string;
-  botLocaleExportPassword?: string;
-  associatedTranscriptsPassword?: string;
+  botLocaleExportPassword?: string | Redacted.Redacted<string>;
+  associatedTranscriptsPassword?: string | Redacted.Redacted<string>;
 }
 export const EncryptionSetting = S.suspend(() =>
   S.Struct({
     kmsKeyArn: S.optional(S.String),
-    botLocaleExportPassword: S.optional(S.String),
-    associatedTranscriptsPassword: S.optional(S.String),
+    botLocaleExportPassword: S.optional(SensitiveString),
+    associatedTranscriptsPassword: S.optional(SensitiveString),
   }),
 ).annotations({
   identifier: "EncryptionSetting",
@@ -2131,12 +2133,12 @@ export const UpdateBotRecommendationRequest = S.suspend(() =>
 }) as any as S.Schema<UpdateBotRecommendationRequest>;
 export interface UpdateExportRequest {
   exportId: string;
-  filePassword?: string;
+  filePassword?: string | Redacted.Redacted<string>;
 }
 export const UpdateExportRequest = S.suspend(() =>
   S.Struct({
     exportId: S.String.pipe(T.HttpLabel("exportId")),
-    filePassword: S.optional(S.String),
+    filePassword: S.optional(SensitiveString),
   }).pipe(
     T.all(
       T.Http({ method: "PUT", uri: "/exports/{exportId}" }),
@@ -6296,13 +6298,13 @@ export const CreateBotVersionRequest = S.suspend(() =>
 export interface CreateExportRequest {
   resourceSpecification: ExportResourceSpecification;
   fileFormat: string;
-  filePassword?: string;
+  filePassword?: string | Redacted.Redacted<string>;
 }
 export const CreateExportRequest = S.suspend(() =>
   S.Struct({
     resourceSpecification: ExportResourceSpecification,
     fileFormat: S.String,
-    filePassword: S.optional(S.String),
+    filePassword: S.optional(SensitiveString),
   }).pipe(
     T.all(
       T.Http({ method: "PUT", uri: "/exports" }),
@@ -7550,14 +7552,14 @@ export interface StartImportRequest {
   importId: string;
   resourceSpecification: ImportResourceSpecification;
   mergeStrategy: string;
-  filePassword?: string;
+  filePassword?: string | Redacted.Redacted<string>;
 }
 export const StartImportRequest = S.suspend(() =>
   S.Struct({
     importId: S.String,
     resourceSpecification: ImportResourceSpecification,
     mergeStrategy: S.String,
-    filePassword: S.optional(S.String),
+    filePassword: S.optional(SensitiveString),
   }).pipe(
     T.all(
       T.Http({ method: "PUT", uri: "/imports" }),

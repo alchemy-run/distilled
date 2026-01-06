@@ -1,5 +1,6 @@
 import { HttpClient } from "@effect/platform";
 import * as Effect from "effect/Effect";
+import * as Redacted from "effect/Redacted";
 import * as S from "effect/Schema";
 import * as Stream from "effect/Stream";
 import * as API from "../api.ts";
@@ -10,6 +11,7 @@ import {
   ErrorCategory,
   Errors,
 } from "../index.ts";
+import { SensitiveString, SensitiveBlob } from "../sensitive.ts";
 const svc = T.AwsApiService({
   sdkId: "Inspector2",
   serviceShapeName: "Inspector2",
@@ -319,14 +321,14 @@ export type EcrRescanDuration = string;
 export type EcrPullDateRescanDuration = string;
 export type EcrPullDateRescanMode = string;
 export type Ec2ScanMode = string;
-export type AuthorizationUrl = string;
+export type AuthorizationUrl = string | Redacted.Redacted<string>;
 export type ExternalReportStatus = string;
 export type ReportingErrorCode = string;
 export type ErrorMessage = string;
 export type TargetResourceTagsKey = string;
 export type TargetResourceTagsValue = string;
-export type InstanceUrl = string;
-export type GitLabAccessToken = string;
+export type InstanceUrl = string | Redacted.Redacted<string>;
+export type GitLabAccessToken = string | Redacted.Redacted<string>;
 export type FrequencyExpression = string;
 export type MapComparison = string;
 export type Port = number;
@@ -356,8 +358,8 @@ export type CheckCount = number;
 export type Vendor = string;
 export type Product = string;
 export type PlatformVersion = string;
-export type GitLabAuthCode = string;
-export type GitHubAuthCode = string;
+export type GitLabAuthCode = string | Redacted.Redacted<string>;
+export type GitHubAuthCode = string | Redacted.Redacted<string>;
 export type GitHubInstallationId = string;
 export type Status = string;
 export type ErrorCode = string;
@@ -2325,7 +2327,7 @@ export interface GetCodeSecurityIntegrationResponse {
   createdOn: Date;
   lastUpdateOn: Date;
   tags?: TagMap;
-  authorizationUrl?: string;
+  authorizationUrl?: string | Redacted.Redacted<string>;
 }
 export const GetCodeSecurityIntegrationResponse = S.suspend(() =>
   S.Struct({
@@ -2337,7 +2339,7 @@ export const GetCodeSecurityIntegrationResponse = S.suspend(() =>
     createdOn: S.Date.pipe(T.TimestampFormat("epoch-seconds")),
     lastUpdateOn: S.Date.pipe(T.TimestampFormat("epoch-seconds")),
     tags: S.optional(TagMap),
-    authorizationUrl: S.optional(S.String),
+    authorizationUrl: S.optional(SensitiveString),
   }),
 ).annotations({
   identifier: "GetCodeSecurityIntegrationResponse",
@@ -2768,11 +2770,11 @@ export const VulnerabilityReferenceUrls = S.Array(S.String);
 export type Cwes = string[];
 export const Cwes = S.Array(S.String);
 export interface CreateGitLabSelfManagedIntegrationDetail {
-  instanceUrl: string;
-  accessToken: string;
+  instanceUrl: string | Redacted.Redacted<string>;
+  accessToken: string | Redacted.Redacted<string>;
 }
 export const CreateGitLabSelfManagedIntegrationDetail = S.suspend(() =>
-  S.Struct({ instanceUrl: S.String, accessToken: S.String }),
+  S.Struct({ instanceUrl: SensitiveString, accessToken: SensitiveString }),
 ).annotations({
   identifier: "CreateGitLabSelfManagedIntegrationDetail",
 }) as any as S.Schema<CreateGitLabSelfManagedIntegrationDetail>;
@@ -3171,19 +3173,19 @@ export const ComputePlatform = S.suspend(() =>
   identifier: "ComputePlatform",
 }) as any as S.Schema<ComputePlatform>;
 export interface UpdateGitLabSelfManagedIntegrationDetail {
-  authCode: string;
+  authCode: string | Redacted.Redacted<string>;
 }
 export const UpdateGitLabSelfManagedIntegrationDetail = S.suspend(() =>
-  S.Struct({ authCode: S.String }),
+  S.Struct({ authCode: SensitiveString }),
 ).annotations({
   identifier: "UpdateGitLabSelfManagedIntegrationDetail",
 }) as any as S.Schema<UpdateGitLabSelfManagedIntegrationDetail>;
 export interface UpdateGitHubIntegrationDetail {
-  code: string;
+  code: string | Redacted.Redacted<string>;
   installationId: string;
 }
 export const UpdateGitHubIntegrationDetail = S.suspend(() =>
-  S.Struct({ code: S.String, installationId: S.String }),
+  S.Struct({ code: SensitiveString, installationId: S.String }),
 ).annotations({
   identifier: "UpdateGitHubIntegrationDetail",
 }) as any as S.Schema<UpdateGitHubIntegrationDetail>;
@@ -4481,13 +4483,13 @@ export const CreateCisScanConfigurationRequest = S.suspend(() =>
 export interface CreateCodeSecurityIntegrationResponse {
   integrationArn: string;
   status: string;
-  authorizationUrl?: string;
+  authorizationUrl?: string | Redacted.Redacted<string>;
 }
 export const CreateCodeSecurityIntegrationResponse = S.suspend(() =>
   S.Struct({
     integrationArn: S.String,
     status: S.String,
-    authorizationUrl: S.optional(S.String),
+    authorizationUrl: S.optional(SensitiveString),
   }),
 ).annotations({
   identifier: "CreateCodeSecurityIntegrationResponse",

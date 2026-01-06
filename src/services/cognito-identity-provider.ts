@@ -1,5 +1,6 @@
 import { HttpClient } from "@effect/platform";
 import * as Effect from "effect/Effect";
+import * as Redacted from "effect/Redacted";
 import * as S from "effect/Schema";
 import * as Stream from "effect/Stream";
 import * as API from "../api.ts";
@@ -10,6 +11,7 @@ import {
   ErrorCategory,
   Errors,
 } from "../index.ts";
+import { SensitiveString, SensitiveBlob } from "../sensitive.ts";
 const ns = T.XmlNamespace("http://cognito-idp.amazonaws.com/doc/2016-04-18/");
 const svc = T.AwsApiService({
   sdkId: "Cognito Identity Provider",
@@ -328,21 +330,21 @@ const rules = T.EndpointRuleSet({
 
 //# Newtypes
 export type UserPoolIdType = string;
-export type UsernameType = string;
+export type UsernameType = string | Redacted.Redacted<string>;
 export type GroupNameType = string;
-export type PasswordType = string;
+export type PasswordType = string | Redacted.Redacted<string>;
 export type AttributeNameType = string;
 export type StringType = string;
 export type DeviceKeyType = string;
-export type ClientIdType = string;
-export type SessionType = string;
+export type ClientIdType = string | Redacted.Redacted<string>;
+export type SessionType = string | Redacted.Redacted<string>;
 export type QueryLimitType = number;
 export type SearchPaginationTokenType = string;
 export type PaginationKey = string;
 export type EventIdType = string;
-export type TokenModelType = string;
+export type TokenModelType = string | Redacted.Redacted<string>;
 export type DeviceNameType = string;
-export type SecretHashType = string;
+export type SecretHashType = string | Redacted.Redacted<string>;
 export type ConfirmationCodeType = string;
 export type DescriptionType = string;
 export type ArnType = string;
@@ -371,7 +373,7 @@ export type WrappedIntegerType = number;
 export type ManagedLoginBrandingIdType = string;
 export type TermsIdType = string;
 export type UserImportJobIdType = string;
-export type ClientSecretType = string;
+export type ClientSecretType = string | Redacted.Redacted<string>;
 export type ListProvidersLimitType = number;
 export type PaginationKeyType = string;
 export type ListResourceServersLimitType = number;
@@ -382,9 +384,9 @@ export type UserFilterType = string;
 export type WebAuthnCredentialsQueryLimitType = number;
 export type CSSType = string;
 export type TagKeysType = string;
-export type SoftwareTokenMFAUserCodeType = string;
+export type SoftwareTokenMFAUserCodeType = string | Redacted.Redacted<string>;
 export type CustomAttributeNameType = string;
-export type AttributeValueType = string;
+export type AttributeValueType = string | Redacted.Redacted<string>;
 export type AttributeMappingKeyType = string;
 export type ResourceIdType = string;
 export type ResourceServerScopeNameType = string;
@@ -404,7 +406,7 @@ export type EmailMfaMessageType = string;
 export type EmailMfaSubjectType = string;
 export type RelyingPartyIdType = string;
 export type MessageType = string;
-export type SecretCodeType = string;
+export type SecretCodeType = string | Redacted.Redacted<string>;
 export type PasswordPolicyMinLengthType = number;
 export type PasswordHistorySizeType = number;
 export type TemporaryPasswordValidityDaysType = number;
@@ -505,13 +507,13 @@ export type UserPoolTagsListType = string[];
 export const UserPoolTagsListType = S.Array(S.String);
 export interface AdminAddUserToGroupRequest {
   UserPoolId: string;
-  Username: string;
+  Username: string | Redacted.Redacted<string>;
   GroupName: string;
 }
 export const AdminAddUserToGroupRequest = S.suspend(() =>
   S.Struct({
     UserPoolId: S.String,
-    Username: S.String,
+    Username: SensitiveString,
     GroupName: S.String,
   }).pipe(
     T.all(
@@ -535,10 +537,10 @@ export const AdminAddUserToGroupResponse = S.suspend(() =>
 }) as any as S.Schema<AdminAddUserToGroupResponse>;
 export interface AdminDeleteUserRequest {
   UserPoolId: string;
-  Username: string;
+  Username: string | Redacted.Redacted<string>;
 }
 export const AdminDeleteUserRequest = S.suspend(() =>
-  S.Struct({ UserPoolId: S.String, Username: S.String }).pipe(
+  S.Struct({ UserPoolId: S.String, Username: SensitiveString }).pipe(
     T.all(
       ns,
       T.Http({ method: "POST", uri: "/" }),
@@ -560,13 +562,13 @@ export const AdminDeleteUserResponse = S.suspend(() =>
 }) as any as S.Schema<AdminDeleteUserResponse>;
 export interface AdminDeleteUserAttributesRequest {
   UserPoolId: string;
-  Username: string;
+  Username: string | Redacted.Redacted<string>;
   UserAttributeNames: AttributeNameListType;
 }
 export const AdminDeleteUserAttributesRequest = S.suspend(() =>
   S.Struct({
     UserPoolId: S.String,
-    Username: S.String,
+    Username: SensitiveString,
     UserAttributeNames: AttributeNameListType,
   }).pipe(
     T.all(
@@ -590,10 +592,10 @@ export const AdminDeleteUserAttributesResponse = S.suspend(() =>
 }) as any as S.Schema<AdminDeleteUserAttributesResponse>;
 export interface AdminDisableUserRequest {
   UserPoolId: string;
-  Username: string;
+  Username: string | Redacted.Redacted<string>;
 }
 export const AdminDisableUserRequest = S.suspend(() =>
-  S.Struct({ UserPoolId: S.String, Username: S.String }).pipe(
+  S.Struct({ UserPoolId: S.String, Username: SensitiveString }).pipe(
     T.all(
       ns,
       T.Http({ method: "POST", uri: "/" }),
@@ -615,10 +617,10 @@ export const AdminDisableUserResponse = S.suspend(() =>
 }) as any as S.Schema<AdminDisableUserResponse>;
 export interface AdminEnableUserRequest {
   UserPoolId: string;
-  Username: string;
+  Username: string | Redacted.Redacted<string>;
 }
 export const AdminEnableUserRequest = S.suspend(() =>
-  S.Struct({ UserPoolId: S.String, Username: S.String }).pipe(
+  S.Struct({ UserPoolId: S.String, Username: SensitiveString }).pipe(
     T.all(
       ns,
       T.Http({ method: "POST", uri: "/" }),
@@ -640,13 +642,13 @@ export const AdminEnableUserResponse = S.suspend(() =>
 }) as any as S.Schema<AdminEnableUserResponse>;
 export interface AdminForgetDeviceRequest {
   UserPoolId: string;
-  Username: string;
+  Username: string | Redacted.Redacted<string>;
   DeviceKey: string;
 }
 export const AdminForgetDeviceRequest = S.suspend(() =>
   S.Struct({
     UserPoolId: S.String,
-    Username: S.String,
+    Username: SensitiveString,
     DeviceKey: S.String,
   }).pipe(
     T.all(
@@ -671,13 +673,13 @@ export const AdminForgetDeviceResponse = S.suspend(() =>
 export interface AdminGetDeviceRequest {
   DeviceKey: string;
   UserPoolId: string;
-  Username: string;
+  Username: string | Redacted.Redacted<string>;
 }
 export const AdminGetDeviceRequest = S.suspend(() =>
   S.Struct({
     DeviceKey: S.String,
     UserPoolId: S.String,
-    Username: S.String,
+    Username: SensitiveString,
   }).pipe(
     T.all(
       ns,
@@ -694,10 +696,10 @@ export const AdminGetDeviceRequest = S.suspend(() =>
 }) as any as S.Schema<AdminGetDeviceRequest>;
 export interface AdminGetUserRequest {
   UserPoolId: string;
-  Username: string;
+  Username: string | Redacted.Redacted<string>;
 }
 export const AdminGetUserRequest = S.suspend(() =>
-  S.Struct({ UserPoolId: S.String, Username: S.String }).pipe(
+  S.Struct({ UserPoolId: S.String, Username: SensitiveString }).pipe(
     T.all(
       ns,
       T.Http({ method: "POST", uri: "/" }),
@@ -757,14 +759,14 @@ export const AdminLinkProviderForUserResponse = S.suspend(() =>
 }) as any as S.Schema<AdminLinkProviderForUserResponse>;
 export interface AdminListDevicesRequest {
   UserPoolId: string;
-  Username: string;
+  Username: string | Redacted.Redacted<string>;
   Limit?: number;
   PaginationToken?: string;
 }
 export const AdminListDevicesRequest = S.suspend(() =>
   S.Struct({
     UserPoolId: S.String,
-    Username: S.String,
+    Username: SensitiveString,
     Limit: S.optional(S.Number),
     PaginationToken: S.optional(S.String),
   }).pipe(
@@ -782,14 +784,14 @@ export const AdminListDevicesRequest = S.suspend(() =>
   identifier: "AdminListDevicesRequest",
 }) as any as S.Schema<AdminListDevicesRequest>;
 export interface AdminListGroupsForUserRequest {
-  Username: string;
+  Username: string | Redacted.Redacted<string>;
   UserPoolId: string;
   Limit?: number;
   NextToken?: string;
 }
 export const AdminListGroupsForUserRequest = S.suspend(() =>
   S.Struct({
-    Username: S.String,
+    Username: SensitiveString,
     UserPoolId: S.String,
     Limit: S.optional(S.Number),
     NextToken: S.optional(S.String),
@@ -809,14 +811,14 @@ export const AdminListGroupsForUserRequest = S.suspend(() =>
 }) as any as S.Schema<AdminListGroupsForUserRequest>;
 export interface AdminListUserAuthEventsRequest {
   UserPoolId: string;
-  Username: string;
+  Username: string | Redacted.Redacted<string>;
   MaxResults?: number;
   NextToken?: string;
 }
 export const AdminListUserAuthEventsRequest = S.suspend(() =>
   S.Struct({
     UserPoolId: S.String,
-    Username: S.String,
+    Username: SensitiveString,
     MaxResults: S.optional(S.Number),
     NextToken: S.optional(S.String),
   }).pipe(
@@ -835,13 +837,13 @@ export const AdminListUserAuthEventsRequest = S.suspend(() =>
 }) as any as S.Schema<AdminListUserAuthEventsRequest>;
 export interface AdminRemoveUserFromGroupRequest {
   UserPoolId: string;
-  Username: string;
+  Username: string | Redacted.Redacted<string>;
   GroupName: string;
 }
 export const AdminRemoveUserFromGroupRequest = S.suspend(() =>
   S.Struct({
     UserPoolId: S.String,
-    Username: S.String,
+    Username: SensitiveString,
     GroupName: S.String,
   }).pipe(
     T.all(
@@ -867,13 +869,13 @@ export type ClientMetadataType = { [key: string]: string };
 export const ClientMetadataType = S.Record({ key: S.String, value: S.String });
 export interface AdminResetUserPasswordRequest {
   UserPoolId: string;
-  Username: string;
+  Username: string | Redacted.Redacted<string>;
   ClientMetadata?: ClientMetadataType;
 }
 export const AdminResetUserPasswordRequest = S.suspend(() =>
   S.Struct({
     UserPoolId: S.String,
-    Username: S.String,
+    Username: SensitiveString,
     ClientMetadata: S.optional(ClientMetadataType),
   }).pipe(
     T.all(
@@ -897,15 +899,15 @@ export const AdminResetUserPasswordResponse = S.suspend(() =>
 }) as any as S.Schema<AdminResetUserPasswordResponse>;
 export interface AdminSetUserPasswordRequest {
   UserPoolId: string;
-  Username: string;
-  Password: string;
+  Username: string | Redacted.Redacted<string>;
+  Password: string | Redacted.Redacted<string>;
   Permanent?: boolean;
 }
 export const AdminSetUserPasswordRequest = S.suspend(() =>
   S.Struct({
     UserPoolId: S.String,
-    Username: S.String,
-    Password: S.String,
+    Username: SensitiveString,
+    Password: SensitiveString,
     Permanent: S.optional(S.Boolean),
   }).pipe(
     T.all(
@@ -929,14 +931,14 @@ export const AdminSetUserPasswordResponse = S.suspend(() =>
 }) as any as S.Schema<AdminSetUserPasswordResponse>;
 export interface AdminUpdateAuthEventFeedbackRequest {
   UserPoolId: string;
-  Username: string;
+  Username: string | Redacted.Redacted<string>;
   EventId: string;
   FeedbackValue: string;
 }
 export const AdminUpdateAuthEventFeedbackRequest = S.suspend(() =>
   S.Struct({
     UserPoolId: S.String,
-    Username: S.String,
+    Username: SensitiveString,
     EventId: S.String,
     FeedbackValue: S.String,
   }).pipe(
@@ -961,14 +963,14 @@ export const AdminUpdateAuthEventFeedbackResponse = S.suspend(() =>
 }) as any as S.Schema<AdminUpdateAuthEventFeedbackResponse>;
 export interface AdminUpdateDeviceStatusRequest {
   UserPoolId: string;
-  Username: string;
+  Username: string | Redacted.Redacted<string>;
   DeviceKey: string;
   DeviceRememberedStatus?: string;
 }
 export const AdminUpdateDeviceStatusRequest = S.suspend(() =>
   S.Struct({
     UserPoolId: S.String,
-    Username: S.String,
+    Username: SensitiveString,
     DeviceKey: S.String,
     DeviceRememberedStatus: S.optional(S.String),
   }).pipe(
@@ -993,10 +995,10 @@ export const AdminUpdateDeviceStatusResponse = S.suspend(() =>
 }) as any as S.Schema<AdminUpdateDeviceStatusResponse>;
 export interface AttributeType {
   Name: string;
-  Value?: string;
+  Value?: string | Redacted.Redacted<string>;
 }
 export const AttributeType = S.suspend(() =>
-  S.Struct({ Name: S.String, Value: S.optional(S.String) }),
+  S.Struct({ Name: S.String, Value: S.optional(SensitiveString) }),
 ).annotations({
   identifier: "AttributeType",
 }) as any as S.Schema<AttributeType>;
@@ -1004,14 +1006,14 @@ export type AttributeListType = AttributeType[];
 export const AttributeListType = S.Array(AttributeType);
 export interface AdminUpdateUserAttributesRequest {
   UserPoolId: string;
-  Username: string;
+  Username: string | Redacted.Redacted<string>;
   UserAttributes: AttributeListType;
   ClientMetadata?: ClientMetadataType;
 }
 export const AdminUpdateUserAttributesRequest = S.suspend(() =>
   S.Struct({
     UserPoolId: S.String,
-    Username: S.String,
+    Username: SensitiveString,
     UserAttributes: AttributeListType,
     ClientMetadata: S.optional(ClientMetadataType),
   }).pipe(
@@ -1036,10 +1038,10 @@ export const AdminUpdateUserAttributesResponse = S.suspend(() =>
 }) as any as S.Schema<AdminUpdateUserAttributesResponse>;
 export interface AdminUserGlobalSignOutRequest {
   UserPoolId: string;
-  Username: string;
+  Username: string | Redacted.Redacted<string>;
 }
 export const AdminUserGlobalSignOutRequest = S.suspend(() =>
-  S.Struct({ UserPoolId: S.String, Username: S.String }).pipe(
+  S.Struct({ UserPoolId: S.String, Username: SensitiveString }).pipe(
     T.all(
       ns,
       T.Http({ method: "POST", uri: "/" }),
@@ -1060,13 +1062,13 @@ export const AdminUserGlobalSignOutResponse = S.suspend(() =>
   identifier: "AdminUserGlobalSignOutResponse",
 }) as any as S.Schema<AdminUserGlobalSignOutResponse>;
 export interface AssociateSoftwareTokenRequest {
-  AccessToken?: string;
-  Session?: string;
+  AccessToken?: string | Redacted.Redacted<string>;
+  Session?: string | Redacted.Redacted<string>;
 }
 export const AssociateSoftwareTokenRequest = S.suspend(() =>
   S.Struct({
-    AccessToken: S.optional(S.String),
-    Session: S.optional(S.String),
+    AccessToken: S.optional(SensitiveString),
+    Session: S.optional(SensitiveString),
   }).pipe(
     T.all(
       ns,
@@ -1082,15 +1084,15 @@ export const AssociateSoftwareTokenRequest = S.suspend(() =>
   identifier: "AssociateSoftwareTokenRequest",
 }) as any as S.Schema<AssociateSoftwareTokenRequest>;
 export interface ChangePasswordRequest {
-  PreviousPassword?: string;
-  ProposedPassword: string;
-  AccessToken: string;
+  PreviousPassword?: string | Redacted.Redacted<string>;
+  ProposedPassword: string | Redacted.Redacted<string>;
+  AccessToken: string | Redacted.Redacted<string>;
 }
 export const ChangePasswordRequest = S.suspend(() =>
   S.Struct({
-    PreviousPassword: S.optional(S.String),
-    ProposedPassword: S.String,
-    AccessToken: S.String,
+    PreviousPassword: S.optional(SensitiveString),
+    ProposedPassword: SensitiveString,
+    AccessToken: SensitiveString,
   }).pipe(
     T.all(
       ns,
@@ -1112,11 +1114,11 @@ export const ChangePasswordResponse = S.suspend(() =>
   identifier: "ChangePasswordResponse",
 }) as any as S.Schema<ChangePasswordResponse>;
 export interface CompleteWebAuthnRegistrationRequest {
-  AccessToken: string;
+  AccessToken: string | Redacted.Redacted<string>;
   Credential: any;
 }
 export const CompleteWebAuthnRegistrationRequest = S.suspend(() =>
-  S.Struct({ AccessToken: S.String, Credential: S.Any }).pipe(
+  S.Struct({ AccessToken: SensitiveString, Credential: S.Any }).pipe(
     T.all(
       ns,
       T.Http({ method: "POST", uri: "/" }),
@@ -1157,27 +1159,27 @@ export const UserContextDataType = S.suspend(() =>
   identifier: "UserContextDataType",
 }) as any as S.Schema<UserContextDataType>;
 export interface ConfirmSignUpRequest {
-  ClientId: string;
-  SecretHash?: string;
-  Username: string;
+  ClientId: string | Redacted.Redacted<string>;
+  SecretHash?: string | Redacted.Redacted<string>;
+  Username: string | Redacted.Redacted<string>;
   ConfirmationCode: string;
   ForceAliasCreation?: boolean;
   AnalyticsMetadata?: AnalyticsMetadataType;
   UserContextData?: UserContextDataType;
   ClientMetadata?: ClientMetadataType;
-  Session?: string;
+  Session?: string | Redacted.Redacted<string>;
 }
 export const ConfirmSignUpRequest = S.suspend(() =>
   S.Struct({
-    ClientId: S.String,
-    SecretHash: S.optional(S.String),
-    Username: S.String,
+    ClientId: SensitiveString,
+    SecretHash: S.optional(SensitiveString),
+    Username: SensitiveString,
     ConfirmationCode: S.String,
     ForceAliasCreation: S.optional(S.Boolean),
     AnalyticsMetadata: S.optional(AnalyticsMetadataType),
     UserContextData: S.optional(UserContextDataType),
     ClientMetadata: S.optional(ClientMetadataType),
-    Session: S.optional(S.String),
+    Session: S.optional(SensitiveString),
   }).pipe(
     T.all(
       ns,
@@ -1370,10 +1372,10 @@ export const DeleteTermsResponse = S.suspend(() =>
   identifier: "DeleteTermsResponse",
 }) as any as S.Schema<DeleteTermsResponse>;
 export interface DeleteUserRequest {
-  AccessToken: string;
+  AccessToken: string | Redacted.Redacted<string>;
 }
 export const DeleteUserRequest = S.suspend(() =>
-  S.Struct({ AccessToken: S.String }).pipe(
+  S.Struct({ AccessToken: SensitiveString }).pipe(
     T.all(
       ns,
       T.Http({ method: "POST", uri: "/" }),
@@ -1395,12 +1397,12 @@ export const DeleteUserResponse = S.suspend(() =>
 }) as any as S.Schema<DeleteUserResponse>;
 export interface DeleteUserAttributesRequest {
   UserAttributeNames: AttributeNameListType;
-  AccessToken: string;
+  AccessToken: string | Redacted.Redacted<string>;
 }
 export const DeleteUserAttributesRequest = S.suspend(() =>
   S.Struct({
     UserAttributeNames: AttributeNameListType,
-    AccessToken: S.String,
+    AccessToken: SensitiveString,
   }).pipe(
     T.all(
       ns,
@@ -1447,10 +1449,10 @@ export const DeleteUserPoolResponse = S.suspend(() =>
 }) as any as S.Schema<DeleteUserPoolResponse>;
 export interface DeleteUserPoolClientRequest {
   UserPoolId: string;
-  ClientId: string;
+  ClientId: string | Redacted.Redacted<string>;
 }
 export const DeleteUserPoolClientRequest = S.suspend(() =>
-  S.Struct({ UserPoolId: S.String, ClientId: S.String }).pipe(
+  S.Struct({ UserPoolId: S.String, ClientId: SensitiveString }).pipe(
     T.all(
       ns,
       T.Http({ method: "POST", uri: "/" }),
@@ -1496,11 +1498,11 @@ export const DeleteUserPoolDomainResponse = S.suspend(() =>
   identifier: "DeleteUserPoolDomainResponse",
 }) as any as S.Schema<DeleteUserPoolDomainResponse>;
 export interface DeleteWebAuthnCredentialRequest {
-  AccessToken: string;
+  AccessToken: string | Redacted.Redacted<string>;
   CredentialId: string;
 }
 export const DeleteWebAuthnCredentialRequest = S.suspend(() =>
-  S.Struct({ AccessToken: S.String, CredentialId: S.String }).pipe(
+  S.Struct({ AccessToken: SensitiveString, CredentialId: S.String }).pipe(
     T.all(
       ns,
       T.Http({ method: "POST", uri: "/" }),
@@ -1565,13 +1567,13 @@ export const DescribeManagedLoginBrandingRequest = S.suspend(() =>
 }) as any as S.Schema<DescribeManagedLoginBrandingRequest>;
 export interface DescribeManagedLoginBrandingByClientRequest {
   UserPoolId: string;
-  ClientId: string;
+  ClientId: string | Redacted.Redacted<string>;
   ReturnMergedResources?: boolean;
 }
 export const DescribeManagedLoginBrandingByClientRequest = S.suspend(() =>
   S.Struct({
     UserPoolId: S.String,
-    ClientId: S.String,
+    ClientId: SensitiveString,
     ReturnMergedResources: S.optional(S.Boolean),
   }).pipe(
     T.all(
@@ -1608,10 +1610,13 @@ export const DescribeResourceServerRequest = S.suspend(() =>
 }) as any as S.Schema<DescribeResourceServerRequest>;
 export interface DescribeRiskConfigurationRequest {
   UserPoolId: string;
-  ClientId?: string;
+  ClientId?: string | Redacted.Redacted<string>;
 }
 export const DescribeRiskConfigurationRequest = S.suspend(() =>
-  S.Struct({ UserPoolId: S.String, ClientId: S.optional(S.String) }).pipe(
+  S.Struct({
+    UserPoolId: S.String,
+    ClientId: S.optional(SensitiveString),
+  }).pipe(
     T.all(
       ns,
       T.Http({ method: "POST", uri: "/" }),
@@ -1683,10 +1688,10 @@ export const DescribeUserPoolRequest = S.suspend(() =>
 }) as any as S.Schema<DescribeUserPoolRequest>;
 export interface DescribeUserPoolClientRequest {
   UserPoolId: string;
-  ClientId: string;
+  ClientId: string | Redacted.Redacted<string>;
 }
 export const DescribeUserPoolClientRequest = S.suspend(() =>
-  S.Struct({ UserPoolId: S.String, ClientId: S.String }).pipe(
+  S.Struct({ UserPoolId: S.String, ClientId: SensitiveString }).pipe(
     T.all(
       ns,
       T.Http({ method: "POST", uri: "/" }),
@@ -1719,11 +1724,14 @@ export const DescribeUserPoolDomainRequest = S.suspend(() =>
   identifier: "DescribeUserPoolDomainRequest",
 }) as any as S.Schema<DescribeUserPoolDomainRequest>;
 export interface ForgetDeviceRequest {
-  AccessToken?: string;
+  AccessToken?: string | Redacted.Redacted<string>;
   DeviceKey: string;
 }
 export const ForgetDeviceRequest = S.suspend(() =>
-  S.Struct({ AccessToken: S.optional(S.String), DeviceKey: S.String }).pipe(
+  S.Struct({
+    AccessToken: S.optional(SensitiveString),
+    DeviceKey: S.String,
+  }).pipe(
     T.all(
       ns,
       T.Http({ method: "POST", uri: "/" }),
@@ -1744,19 +1752,19 @@ export const ForgetDeviceResponse = S.suspend(() =>
   identifier: "ForgetDeviceResponse",
 }) as any as S.Schema<ForgetDeviceResponse>;
 export interface ForgotPasswordRequest {
-  ClientId: string;
-  SecretHash?: string;
+  ClientId: string | Redacted.Redacted<string>;
+  SecretHash?: string | Redacted.Redacted<string>;
   UserContextData?: UserContextDataType;
-  Username: string;
+  Username: string | Redacted.Redacted<string>;
   AnalyticsMetadata?: AnalyticsMetadataType;
   ClientMetadata?: ClientMetadataType;
 }
 export const ForgotPasswordRequest = S.suspend(() =>
   S.Struct({
-    ClientId: S.String,
-    SecretHash: S.optional(S.String),
+    ClientId: SensitiveString,
+    SecretHash: S.optional(SensitiveString),
     UserContextData: S.optional(UserContextDataType),
-    Username: S.String,
+    Username: SensitiveString,
     AnalyticsMetadata: S.optional(AnalyticsMetadataType),
     ClientMetadata: S.optional(ClientMetadataType),
   }).pipe(
@@ -1793,10 +1801,13 @@ export const GetCSVHeaderRequest = S.suspend(() =>
 }) as any as S.Schema<GetCSVHeaderRequest>;
 export interface GetDeviceRequest {
   DeviceKey: string;
-  AccessToken?: string;
+  AccessToken?: string | Redacted.Redacted<string>;
 }
 export const GetDeviceRequest = S.suspend(() =>
-  S.Struct({ DeviceKey: S.String, AccessToken: S.optional(S.String) }).pipe(
+  S.Struct({
+    DeviceKey: S.String,
+    AccessToken: S.optional(SensitiveString),
+  }).pipe(
     T.all(
       ns,
       T.Http({ method: "POST", uri: "/" }),
@@ -1885,17 +1896,17 @@ export const GetSigningCertificateRequest = S.suspend(() =>
   identifier: "GetSigningCertificateRequest",
 }) as any as S.Schema<GetSigningCertificateRequest>;
 export interface GetTokensFromRefreshTokenRequest {
-  RefreshToken: string;
-  ClientId: string;
-  ClientSecret?: string;
+  RefreshToken: string | Redacted.Redacted<string>;
+  ClientId: string | Redacted.Redacted<string>;
+  ClientSecret?: string | Redacted.Redacted<string>;
   DeviceKey?: string;
   ClientMetadata?: ClientMetadataType;
 }
 export const GetTokensFromRefreshTokenRequest = S.suspend(() =>
   S.Struct({
-    RefreshToken: S.String,
-    ClientId: S.String,
-    ClientSecret: S.optional(S.String),
+    RefreshToken: SensitiveString,
+    ClientId: SensitiveString,
+    ClientSecret: S.optional(SensitiveString),
     DeviceKey: S.optional(S.String),
     ClientMetadata: S.optional(ClientMetadataType),
   }).pipe(
@@ -1914,10 +1925,13 @@ export const GetTokensFromRefreshTokenRequest = S.suspend(() =>
 }) as any as S.Schema<GetTokensFromRefreshTokenRequest>;
 export interface GetUICustomizationRequest {
   UserPoolId: string;
-  ClientId?: string;
+  ClientId?: string | Redacted.Redacted<string>;
 }
 export const GetUICustomizationRequest = S.suspend(() =>
-  S.Struct({ UserPoolId: S.String, ClientId: S.optional(S.String) }).pipe(
+  S.Struct({
+    UserPoolId: S.String,
+    ClientId: S.optional(SensitiveString),
+  }).pipe(
     T.all(
       ns,
       T.Http({ method: "POST", uri: "/" }),
@@ -1932,10 +1946,10 @@ export const GetUICustomizationRequest = S.suspend(() =>
   identifier: "GetUICustomizationRequest",
 }) as any as S.Schema<GetUICustomizationRequest>;
 export interface GetUserRequest {
-  AccessToken: string;
+  AccessToken: string | Redacted.Redacted<string>;
 }
 export const GetUserRequest = S.suspend(() =>
-  S.Struct({ AccessToken: S.String }).pipe(
+  S.Struct({ AccessToken: SensitiveString }).pipe(
     T.all(
       ns,
       T.Http({ method: "POST", uri: "/" }),
@@ -1950,13 +1964,13 @@ export const GetUserRequest = S.suspend(() =>
   identifier: "GetUserRequest",
 }) as any as S.Schema<GetUserRequest>;
 export interface GetUserAttributeVerificationCodeRequest {
-  AccessToken: string;
+  AccessToken: string | Redacted.Redacted<string>;
   AttributeName: string;
   ClientMetadata?: ClientMetadataType;
 }
 export const GetUserAttributeVerificationCodeRequest = S.suspend(() =>
   S.Struct({
-    AccessToken: S.String,
+    AccessToken: SensitiveString,
     AttributeName: S.String,
     ClientMetadata: S.optional(ClientMetadataType),
   }).pipe(
@@ -1974,10 +1988,10 @@ export const GetUserAttributeVerificationCodeRequest = S.suspend(() =>
   identifier: "GetUserAttributeVerificationCodeRequest",
 }) as any as S.Schema<GetUserAttributeVerificationCodeRequest>;
 export interface GetUserAuthFactorsRequest {
-  AccessToken: string;
+  AccessToken: string | Redacted.Redacted<string>;
 }
 export const GetUserAuthFactorsRequest = S.suspend(() =>
-  S.Struct({ AccessToken: S.String }).pipe(
+  S.Struct({ AccessToken: SensitiveString }).pipe(
     T.all(
       ns,
       T.Http({ method: "POST", uri: "/" }),
@@ -2010,10 +2024,10 @@ export const GetUserPoolMfaConfigRequest = S.suspend(() =>
   identifier: "GetUserPoolMfaConfigRequest",
 }) as any as S.Schema<GetUserPoolMfaConfigRequest>;
 export interface GlobalSignOutRequest {
-  AccessToken: string;
+  AccessToken: string | Redacted.Redacted<string>;
 }
 export const GlobalSignOutRequest = S.suspend(() =>
-  S.Struct({ AccessToken: S.String }).pipe(
+  S.Struct({ AccessToken: SensitiveString }).pipe(
     T.all(
       ns,
       T.Http({ method: "POST", uri: "/" }),
@@ -2039,20 +2053,20 @@ export interface InitiateAuthRequest {
   AuthFlow: string;
   AuthParameters?: AuthParametersType;
   ClientMetadata?: ClientMetadataType;
-  ClientId: string;
+  ClientId: string | Redacted.Redacted<string>;
   AnalyticsMetadata?: AnalyticsMetadataType;
   UserContextData?: UserContextDataType;
-  Session?: string;
+  Session?: string | Redacted.Redacted<string>;
 }
 export const InitiateAuthRequest = S.suspend(() =>
   S.Struct({
     AuthFlow: S.String,
     AuthParameters: S.optional(AuthParametersType),
     ClientMetadata: S.optional(ClientMetadataType),
-    ClientId: S.String,
+    ClientId: SensitiveString,
     AnalyticsMetadata: S.optional(AnalyticsMetadataType),
     UserContextData: S.optional(UserContextDataType),
-    Session: S.optional(S.String),
+    Session: S.optional(SensitiveString),
   }).pipe(
     T.all(
       ns,
@@ -2068,13 +2082,13 @@ export const InitiateAuthRequest = S.suspend(() =>
   identifier: "InitiateAuthRequest",
 }) as any as S.Schema<InitiateAuthRequest>;
 export interface ListDevicesRequest {
-  AccessToken: string;
+  AccessToken: string | Redacted.Redacted<string>;
   Limit?: number;
   PaginationToken?: string;
 }
 export const ListDevicesRequest = S.suspend(() =>
   S.Struct({
-    AccessToken: S.String,
+    AccessToken: SensitiveString,
     Limit: S.optional(S.Number),
     PaginationToken: S.optional(S.String),
   }).pipe(
@@ -2327,13 +2341,13 @@ export const ListUsersInGroupRequest = S.suspend(() =>
   identifier: "ListUsersInGroupRequest",
 }) as any as S.Schema<ListUsersInGroupRequest>;
 export interface ListWebAuthnCredentialsRequest {
-  AccessToken: string;
+  AccessToken: string | Redacted.Redacted<string>;
   NextToken?: string;
   MaxResults?: number;
 }
 export const ListWebAuthnCredentialsRequest = S.suspend(() =>
   S.Struct({
-    AccessToken: S.String,
+    AccessToken: SensitiveString,
     NextToken: S.optional(S.String),
     MaxResults: S.optional(S.Number),
   }).pipe(
@@ -2351,19 +2365,19 @@ export const ListWebAuthnCredentialsRequest = S.suspend(() =>
   identifier: "ListWebAuthnCredentialsRequest",
 }) as any as S.Schema<ListWebAuthnCredentialsRequest>;
 export interface ResendConfirmationCodeRequest {
-  ClientId: string;
-  SecretHash?: string;
+  ClientId: string | Redacted.Redacted<string>;
+  SecretHash?: string | Redacted.Redacted<string>;
   UserContextData?: UserContextDataType;
-  Username: string;
+  Username: string | Redacted.Redacted<string>;
   AnalyticsMetadata?: AnalyticsMetadataType;
   ClientMetadata?: ClientMetadataType;
 }
 export const ResendConfirmationCodeRequest = S.suspend(() =>
   S.Struct({
-    ClientId: S.String,
-    SecretHash: S.optional(S.String),
+    ClientId: SensitiveString,
+    SecretHash: S.optional(SensitiveString),
     UserContextData: S.optional(UserContextDataType),
-    Username: S.String,
+    Username: SensitiveString,
     AnalyticsMetadata: S.optional(AnalyticsMetadataType),
     ClientMetadata: S.optional(ClientMetadataType),
   }).pipe(
@@ -2386,9 +2400,9 @@ export const ChallengeResponsesType = S.Record({
   value: S.String,
 });
 export interface RespondToAuthChallengeRequest {
-  ClientId: string;
+  ClientId: string | Redacted.Redacted<string>;
   ChallengeName: string;
-  Session?: string;
+  Session?: string | Redacted.Redacted<string>;
   ChallengeResponses?: ChallengeResponsesType;
   AnalyticsMetadata?: AnalyticsMetadataType;
   UserContextData?: UserContextDataType;
@@ -2396,9 +2410,9 @@ export interface RespondToAuthChallengeRequest {
 }
 export const RespondToAuthChallengeRequest = S.suspend(() =>
   S.Struct({
-    ClientId: S.String,
+    ClientId: SensitiveString,
     ChallengeName: S.String,
-    Session: S.optional(S.String),
+    Session: S.optional(SensitiveString),
     ChallengeResponses: S.optional(ChallengeResponsesType),
     AnalyticsMetadata: S.optional(AnalyticsMetadataType),
     UserContextData: S.optional(UserContextDataType),
@@ -2418,15 +2432,15 @@ export const RespondToAuthChallengeRequest = S.suspend(() =>
   identifier: "RespondToAuthChallengeRequest",
 }) as any as S.Schema<RespondToAuthChallengeRequest>;
 export interface RevokeTokenRequest {
-  Token: string;
-  ClientId: string;
-  ClientSecret?: string;
+  Token: string | Redacted.Redacted<string>;
+  ClientId: string | Redacted.Redacted<string>;
+  ClientSecret?: string | Redacted.Redacted<string>;
 }
 export const RevokeTokenRequest = S.suspend(() =>
   S.Struct({
-    Token: S.String,
-    ClientId: S.String,
-    ClientSecret: S.optional(S.String),
+    Token: SensitiveString,
+    ClientId: SensitiveString,
+    ClientSecret: S.optional(SensitiveString),
   }).pipe(
     T.all(
       ns,
@@ -2449,14 +2463,14 @@ export const RevokeTokenResponse = S.suspend(() =>
 }) as any as S.Schema<RevokeTokenResponse>;
 export interface SetUICustomizationRequest {
   UserPoolId: string;
-  ClientId?: string;
+  ClientId?: string | Redacted.Redacted<string>;
   CSS?: string;
   ImageFile?: Uint8Array;
 }
 export const SetUICustomizationRequest = S.suspend(() =>
   S.Struct({
     UserPoolId: S.String,
-    ClientId: S.optional(S.String),
+    ClientId: S.optional(SensitiveString),
     CSS: S.optional(S.String),
     ImageFile: S.optional(T.Blob),
   }).pipe(
@@ -2513,14 +2527,14 @@ export interface SetUserMFAPreferenceRequest {
   SMSMfaSettings?: SMSMfaSettingsType;
   SoftwareTokenMfaSettings?: SoftwareTokenMfaSettingsType;
   EmailMfaSettings?: EmailMfaSettingsType;
-  AccessToken: string;
+  AccessToken: string | Redacted.Redacted<string>;
 }
 export const SetUserMFAPreferenceRequest = S.suspend(() =>
   S.Struct({
     SMSMfaSettings: S.optional(SMSMfaSettingsType),
     SoftwareTokenMfaSettings: S.optional(SoftwareTokenMfaSettingsType),
     EmailMfaSettings: S.optional(EmailMfaSettingsType),
-    AccessToken: S.String,
+    AccessToken: SensitiveString,
   }).pipe(
     T.all(
       ns,
@@ -2556,11 +2570,14 @@ export const MFAOptionType = S.suspend(() =>
 export type MFAOptionListType = MFAOptionType[];
 export const MFAOptionListType = S.Array(MFAOptionType);
 export interface SetUserSettingsRequest {
-  AccessToken: string;
+  AccessToken: string | Redacted.Redacted<string>;
   MFAOptions: MFAOptionListType;
 }
 export const SetUserSettingsRequest = S.suspend(() =>
-  S.Struct({ AccessToken: S.String, MFAOptions: MFAOptionListType }).pipe(
+  S.Struct({
+    AccessToken: SensitiveString,
+    MFAOptions: MFAOptionListType,
+  }).pipe(
     T.all(
       ns,
       T.Http({ method: "POST", uri: "/" }),
@@ -2581,10 +2598,10 @@ export const SetUserSettingsResponse = S.suspend(() =>
   identifier: "SetUserSettingsResponse",
 }) as any as S.Schema<SetUserSettingsResponse>;
 export interface SignUpRequest {
-  ClientId: string;
-  SecretHash?: string;
-  Username: string;
-  Password?: string;
+  ClientId: string | Redacted.Redacted<string>;
+  SecretHash?: string | Redacted.Redacted<string>;
+  Username: string | Redacted.Redacted<string>;
+  Password?: string | Redacted.Redacted<string>;
   UserAttributes?: AttributeListType;
   ValidationData?: AttributeListType;
   AnalyticsMetadata?: AnalyticsMetadataType;
@@ -2593,10 +2610,10 @@ export interface SignUpRequest {
 }
 export const SignUpRequest = S.suspend(() =>
   S.Struct({
-    ClientId: S.String,
-    SecretHash: S.optional(S.String),
-    Username: S.String,
-    Password: S.optional(S.String),
+    ClientId: SensitiveString,
+    SecretHash: S.optional(SensitiveString),
+    Username: SensitiveString,
+    Password: S.optional(SensitiveString),
     UserAttributes: S.optional(AttributeListType),
     ValidationData: S.optional(AttributeListType),
     AnalyticsMetadata: S.optional(AnalyticsMetadataType),
@@ -2636,10 +2653,10 @@ export const StartUserImportJobRequest = S.suspend(() =>
   identifier: "StartUserImportJobRequest",
 }) as any as S.Schema<StartUserImportJobRequest>;
 export interface StartWebAuthnRegistrationRequest {
-  AccessToken: string;
+  AccessToken: string | Redacted.Redacted<string>;
 }
 export const StartWebAuthnRegistrationRequest = S.suspend(() =>
-  S.Struct({ AccessToken: S.String }).pipe(
+  S.Struct({ AccessToken: SensitiveString }).pipe(
     T.all(
       ns,
       T.Http({ method: "POST", uri: "/" }),
@@ -2726,17 +2743,17 @@ export const UntagResourceResponse = S.suspend(() =>
 }) as any as S.Schema<UntagResourceResponse>;
 export interface UpdateAuthEventFeedbackRequest {
   UserPoolId: string;
-  Username: string;
+  Username: string | Redacted.Redacted<string>;
   EventId: string;
-  FeedbackToken: string;
+  FeedbackToken: string | Redacted.Redacted<string>;
   FeedbackValue: string;
 }
 export const UpdateAuthEventFeedbackRequest = S.suspend(() =>
   S.Struct({
     UserPoolId: S.String,
-    Username: S.String,
+    Username: SensitiveString,
     EventId: S.String,
-    FeedbackToken: S.String,
+    FeedbackToken: SensitiveString,
     FeedbackValue: S.String,
   }).pipe(
     T.all(
@@ -2759,13 +2776,13 @@ export const UpdateAuthEventFeedbackResponse = S.suspend(() =>
   identifier: "UpdateAuthEventFeedbackResponse",
 }) as any as S.Schema<UpdateAuthEventFeedbackResponse>;
 export interface UpdateDeviceStatusRequest {
-  AccessToken: string;
+  AccessToken: string | Redacted.Redacted<string>;
   DeviceKey: string;
   DeviceRememberedStatus?: string;
 }
 export const UpdateDeviceStatusRequest = S.suspend(() =>
   S.Struct({
-    AccessToken: S.String,
+    AccessToken: SensitiveString,
     DeviceKey: S.String,
     DeviceRememberedStatus: S.optional(S.String),
   }).pipe(
@@ -2968,13 +2985,13 @@ export const UpdateTermsRequest = S.suspend(() =>
 }) as any as S.Schema<UpdateTermsRequest>;
 export interface UpdateUserAttributesRequest {
   UserAttributes: AttributeListType;
-  AccessToken: string;
+  AccessToken: string | Redacted.Redacted<string>;
   ClientMetadata?: ClientMetadataType;
 }
 export const UpdateUserAttributesRequest = S.suspend(() =>
   S.Struct({
     UserAttributes: AttributeListType,
-    AccessToken: S.String,
+    AccessToken: SensitiveString,
     ClientMetadata: S.optional(ClientMetadataType),
   }).pipe(
     T.all(
@@ -3358,7 +3375,7 @@ export const RefreshTokenRotationType = S.suspend(() =>
 }) as any as S.Schema<RefreshTokenRotationType>;
 export interface UpdateUserPoolClientRequest {
   UserPoolId: string;
-  ClientId: string;
+  ClientId: string | Redacted.Redacted<string>;
   ClientName?: string;
   RefreshTokenValidity?: number;
   AccessTokenValidity?: number;
@@ -3384,7 +3401,7 @@ export interface UpdateUserPoolClientRequest {
 export const UpdateUserPoolClientRequest = S.suspend(() =>
   S.Struct({
     UserPoolId: S.String,
-    ClientId: S.String,
+    ClientId: SensitiveString,
     ClientName: S.optional(S.String),
     RefreshTokenValidity: S.optional(S.Number),
     AccessTokenValidity: S.optional(S.Number),
@@ -3455,16 +3472,16 @@ export const UpdateUserPoolDomainRequest = S.suspend(() =>
   identifier: "UpdateUserPoolDomainRequest",
 }) as any as S.Schema<UpdateUserPoolDomainRequest>;
 export interface VerifySoftwareTokenRequest {
-  AccessToken?: string;
-  Session?: string;
-  UserCode: string;
+  AccessToken?: string | Redacted.Redacted<string>;
+  Session?: string | Redacted.Redacted<string>;
+  UserCode: string | Redacted.Redacted<string>;
   FriendlyDeviceName?: string;
 }
 export const VerifySoftwareTokenRequest = S.suspend(() =>
   S.Struct({
-    AccessToken: S.optional(S.String),
-    Session: S.optional(S.String),
-    UserCode: S.String,
+    AccessToken: S.optional(SensitiveString),
+    Session: S.optional(SensitiveString),
+    UserCode: SensitiveString,
     FriendlyDeviceName: S.optional(S.String),
   }).pipe(
     T.all(
@@ -3481,13 +3498,13 @@ export const VerifySoftwareTokenRequest = S.suspend(() =>
   identifier: "VerifySoftwareTokenRequest",
 }) as any as S.Schema<VerifySoftwareTokenRequest>;
 export interface VerifyUserAttributeRequest {
-  AccessToken: string;
+  AccessToken: string | Redacted.Redacted<string>;
   AttributeName: string;
   Code: string;
 }
 export const VerifyUserAttributeRequest = S.suspend(() =>
   S.Struct({
-    AccessToken: S.String,
+    AccessToken: SensitiveString,
     AttributeName: S.String,
     Code: S.String,
   }).pipe(
@@ -3693,13 +3710,13 @@ export type CodeDeliveryDetailsListType = CodeDeliveryDetailsType[];
 export const CodeDeliveryDetailsListType = S.Array(CodeDeliveryDetailsType);
 export interface AdminConfirmSignUpRequest {
   UserPoolId: string;
-  Username: string;
+  Username: string | Redacted.Redacted<string>;
   ClientMetadata?: ClientMetadataType;
 }
 export const AdminConfirmSignUpRequest = S.suspend(() =>
   S.Struct({
     UserPoolId: S.String,
-    Username: S.String,
+    Username: SensitiveString,
     ClientMetadata: S.optional(ClientMetadataType),
   }).pipe(
     T.all(
@@ -3723,10 +3740,10 @@ export const AdminConfirmSignUpResponse = S.suspend(() =>
 }) as any as S.Schema<AdminConfirmSignUpResponse>;
 export interface AdminCreateUserRequest {
   UserPoolId: string;
-  Username: string;
+  Username: string | Redacted.Redacted<string>;
   UserAttributes?: AttributeListType;
   ValidationData?: AttributeListType;
-  TemporaryPassword?: string;
+  TemporaryPassword?: string | Redacted.Redacted<string>;
   ForceAliasCreation?: boolean;
   MessageAction?: string;
   DesiredDeliveryMediums?: DeliveryMediumListType;
@@ -3735,10 +3752,10 @@ export interface AdminCreateUserRequest {
 export const AdminCreateUserRequest = S.suspend(() =>
   S.Struct({
     UserPoolId: S.String,
-    Username: S.String,
+    Username: SensitiveString,
     UserAttributes: S.optional(AttributeListType),
     ValidationData: S.optional(AttributeListType),
-    TemporaryPassword: S.optional(S.String),
+    TemporaryPassword: S.optional(SensitiveString),
     ForceAliasCreation: S.optional(S.Boolean),
     MessageAction: S.optional(S.String),
     DesiredDeliveryMediums: S.optional(DeliveryMediumListType),
@@ -3783,7 +3800,7 @@ export const AdminDisableProviderForUserResponse = S.suspend(() =>
   identifier: "AdminDisableProviderForUserResponse",
 }) as any as S.Schema<AdminDisableProviderForUserResponse>;
 export interface AdminGetUserResponse {
-  Username: string;
+  Username: string | Redacted.Redacted<string>;
   UserAttributes?: AttributeListType;
   UserCreateDate?: Date;
   UserLastModifiedDate?: Date;
@@ -3795,7 +3812,7 @@ export interface AdminGetUserResponse {
 }
 export const AdminGetUserResponse = S.suspend(() =>
   S.Struct({
-    Username: S.String,
+    Username: SensitiveString,
     UserAttributes: S.optional(AttributeListType),
     UserCreateDate: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
     UserLastModifiedDate: S.optional(
@@ -3854,10 +3871,10 @@ export const ContextDataType = S.suspend(() =>
 }) as any as S.Schema<ContextDataType>;
 export interface AdminRespondToAuthChallengeRequest {
   UserPoolId: string;
-  ClientId: string;
+  ClientId: string | Redacted.Redacted<string>;
   ChallengeName: string;
   ChallengeResponses?: ChallengeResponsesType;
-  Session?: string;
+  Session?: string | Redacted.Redacted<string>;
   AnalyticsMetadata?: AnalyticsMetadataType;
   ContextData?: ContextDataType;
   ClientMetadata?: ClientMetadataType;
@@ -3865,10 +3882,10 @@ export interface AdminRespondToAuthChallengeRequest {
 export const AdminRespondToAuthChallengeRequest = S.suspend(() =>
   S.Struct({
     UserPoolId: S.String,
-    ClientId: S.String,
+    ClientId: SensitiveString,
     ChallengeName: S.String,
     ChallengeResponses: S.optional(ChallengeResponsesType),
-    Session: S.optional(S.String),
+    Session: S.optional(SensitiveString),
     AnalyticsMetadata: S.optional(AnalyticsMetadataType),
     ContextData: S.optional(ContextDataType),
     ClientMetadata: S.optional(ClientMetadataType),
@@ -3890,7 +3907,7 @@ export interface AdminSetUserMFAPreferenceRequest {
   SMSMfaSettings?: SMSMfaSettingsType;
   SoftwareTokenMfaSettings?: SoftwareTokenMfaSettingsType;
   EmailMfaSettings?: EmailMfaSettingsType;
-  Username: string;
+  Username: string | Redacted.Redacted<string>;
   UserPoolId: string;
 }
 export const AdminSetUserMFAPreferenceRequest = S.suspend(() =>
@@ -3898,7 +3915,7 @@ export const AdminSetUserMFAPreferenceRequest = S.suspend(() =>
     SMSMfaSettings: S.optional(SMSMfaSettingsType),
     SoftwareTokenMfaSettings: S.optional(SoftwareTokenMfaSettingsType),
     EmailMfaSettings: S.optional(EmailMfaSettingsType),
-    Username: S.String,
+    Username: SensitiveString,
     UserPoolId: S.String,
   }).pipe(
     T.all(
@@ -3922,13 +3939,13 @@ export const AdminSetUserMFAPreferenceResponse = S.suspend(() =>
 }) as any as S.Schema<AdminSetUserMFAPreferenceResponse>;
 export interface AdminSetUserSettingsRequest {
   UserPoolId: string;
-  Username: string;
+  Username: string | Redacted.Redacted<string>;
   MFAOptions: MFAOptionListType;
 }
 export const AdminSetUserSettingsRequest = S.suspend(() =>
   S.Struct({
     UserPoolId: S.String,
-    Username: S.String,
+    Username: SensitiveString,
     MFAOptions: MFAOptionListType,
   }).pipe(
     T.all(
@@ -3951,26 +3968,26 @@ export const AdminSetUserSettingsResponse = S.suspend(() =>
   identifier: "AdminSetUserSettingsResponse",
 }) as any as S.Schema<AdminSetUserSettingsResponse>;
 export interface AssociateSoftwareTokenResponse {
-  SecretCode?: string;
-  Session?: string;
+  SecretCode?: string | Redacted.Redacted<string>;
+  Session?: string | Redacted.Redacted<string>;
 }
 export const AssociateSoftwareTokenResponse = S.suspend(() =>
   S.Struct({
-    SecretCode: S.optional(S.String),
-    Session: S.optional(S.String),
+    SecretCode: S.optional(SensitiveString),
+    Session: S.optional(SensitiveString),
   }).pipe(ns),
 ).annotations({
   identifier: "AssociateSoftwareTokenResponse",
 }) as any as S.Schema<AssociateSoftwareTokenResponse>;
 export interface ConfirmDeviceRequest {
-  AccessToken: string;
+  AccessToken: string | Redacted.Redacted<string>;
   DeviceKey: string;
   DeviceSecretVerifierConfig?: DeviceSecretVerifierConfigType;
   DeviceName?: string;
 }
 export const ConfirmDeviceRequest = S.suspend(() =>
   S.Struct({
-    AccessToken: S.String,
+    AccessToken: SensitiveString,
     DeviceKey: S.String,
     DeviceSecretVerifierConfig: S.optional(DeviceSecretVerifierConfigType),
     DeviceName: S.optional(S.String),
@@ -3989,22 +4006,22 @@ export const ConfirmDeviceRequest = S.suspend(() =>
   identifier: "ConfirmDeviceRequest",
 }) as any as S.Schema<ConfirmDeviceRequest>;
 export interface ConfirmForgotPasswordRequest {
-  ClientId: string;
-  SecretHash?: string;
-  Username: string;
+  ClientId: string | Redacted.Redacted<string>;
+  SecretHash?: string | Redacted.Redacted<string>;
+  Username: string | Redacted.Redacted<string>;
   ConfirmationCode: string;
-  Password: string;
+  Password: string | Redacted.Redacted<string>;
   AnalyticsMetadata?: AnalyticsMetadataType;
   UserContextData?: UserContextDataType;
   ClientMetadata?: ClientMetadataType;
 }
 export const ConfirmForgotPasswordRequest = S.suspend(() =>
   S.Struct({
-    ClientId: S.String,
-    SecretHash: S.optional(S.String),
-    Username: S.String,
+    ClientId: SensitiveString,
+    SecretHash: S.optional(SensitiveString),
+    Username: SensitiveString,
     ConfirmationCode: S.String,
-    Password: S.String,
+    Password: SensitiveString,
     AnalyticsMetadata: S.optional(AnalyticsMetadataType),
     UserContextData: S.optional(UserContextDataType),
     ClientMetadata: S.optional(ClientMetadataType),
@@ -4029,10 +4046,10 @@ export const ConfirmForgotPasswordResponse = S.suspend(() =>
   identifier: "ConfirmForgotPasswordResponse",
 }) as any as S.Schema<ConfirmForgotPasswordResponse>;
 export interface ConfirmSignUpResponse {
-  Session?: string;
+  Session?: string | Redacted.Redacted<string>;
 }
 export const ConfirmSignUpResponse = S.suspend(() =>
-  S.Struct({ Session: S.optional(S.String) }).pipe(ns),
+  S.Struct({ Session: S.optional(SensitiveString) }).pipe(ns),
 ).annotations({
   identifier: "ConfirmSignUpResponse",
 }) as any as S.Schema<ConfirmSignUpResponse>;
@@ -4098,7 +4115,7 @@ export const CreateIdentityProviderRequest = S.suspend(() =>
 }) as any as S.Schema<CreateIdentityProviderRequest>;
 export interface CreateManagedLoginBrandingRequest {
   UserPoolId: string;
-  ClientId: string;
+  ClientId: string | Redacted.Redacted<string>;
   UseCognitoProvidedValues?: boolean;
   Settings?: any;
   Assets?: AssetListType;
@@ -4106,7 +4123,7 @@ export interface CreateManagedLoginBrandingRequest {
 export const CreateManagedLoginBrandingRequest = S.suspend(() =>
   S.Struct({
     UserPoolId: S.String,
-    ClientId: S.String,
+    ClientId: SensitiveString,
     UseCognitoProvidedValues: S.optional(S.Boolean),
     Settings: S.optional(S.Any),
     Assets: S.optional(AssetListType),
@@ -4152,7 +4169,7 @@ export const CreateResourceServerRequest = S.suspend(() =>
 }) as any as S.Schema<CreateResourceServerRequest>;
 export interface CreateTermsRequest {
   UserPoolId: string;
-  ClientId: string;
+  ClientId: string | Redacted.Redacted<string>;
   TermsName: string;
   TermsSource: string;
   Enforcement: string;
@@ -4161,7 +4178,7 @@ export interface CreateTermsRequest {
 export const CreateTermsRequest = S.suspend(() =>
   S.Struct({
     UserPoolId: S.String,
-    ClientId: S.String,
+    ClientId: SensitiveString,
     TermsName: S.String,
     TermsSource: S.String,
     Enforcement: S.String,
@@ -4383,7 +4400,7 @@ export const GetSigningCertificateResponse = S.suspend(() =>
   identifier: "GetSigningCertificateResponse",
 }) as any as S.Schema<GetSigningCertificateResponse>;
 export interface GetUserResponse {
-  Username: string;
+  Username: string | Redacted.Redacted<string>;
   UserAttributes: AttributeListType;
   MFAOptions?: MFAOptionListType;
   PreferredMfaSetting?: string;
@@ -4391,7 +4408,7 @@ export interface GetUserResponse {
 }
 export const GetUserResponse = S.suspend(() =>
   S.Struct({
-    Username: S.String,
+    Username: SensitiveString,
     UserAttributes: AttributeListType,
     MFAOptions: S.optional(MFAOptionListType),
     PreferredMfaSetting: S.optional(S.String),
@@ -4411,14 +4428,14 @@ export const GetUserAttributeVerificationCodeResponse = S.suspend(() =>
   identifier: "GetUserAttributeVerificationCodeResponse",
 }) as any as S.Schema<GetUserAttributeVerificationCodeResponse>;
 export interface GetUserAuthFactorsResponse {
-  Username: string;
+  Username: string | Redacted.Redacted<string>;
   PreferredMfaSetting?: string;
   UserMFASettingList?: UserMFASettingListType;
   ConfiguredUserAuthFactors?: ConfiguredUserAuthFactorsListType;
 }
 export const GetUserAuthFactorsResponse = S.suspend(() =>
   S.Struct({
-    Username: S.String,
+    Username: SensitiveString,
     PreferredMfaSetting: S.optional(S.String),
     UserMFASettingList: S.optional(UserMFASettingListType),
     ConfiguredUserAuthFactors: S.optional(ConfiguredUserAuthFactorsListType),
@@ -4503,7 +4520,7 @@ export const ListUserImportJobsResponse = S.suspend(() =>
   identifier: "ListUserImportJobsResponse",
 }) as any as S.Schema<ListUserImportJobsResponse>;
 export interface UserType {
-  Username?: string;
+  Username?: string | Redacted.Redacted<string>;
   Attributes?: AttributeListType;
   UserCreateDate?: Date;
   UserLastModifiedDate?: Date;
@@ -4513,7 +4530,7 @@ export interface UserType {
 }
 export const UserType = S.suspend(() =>
   S.Struct({
-    Username: S.optional(S.String),
+    Username: S.optional(SensitiveString),
     Attributes: S.optional(AttributeListType),
     UserCreateDate: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
     UserLastModifiedDate: S.optional(
@@ -4566,20 +4583,20 @@ export const NewDeviceMetadataType = S.suspend(() =>
   identifier: "NewDeviceMetadataType",
 }) as any as S.Schema<NewDeviceMetadataType>;
 export interface AuthenticationResultType {
-  AccessToken?: string;
+  AccessToken?: string | Redacted.Redacted<string>;
   ExpiresIn?: number;
   TokenType?: string;
-  RefreshToken?: string;
-  IdToken?: string;
+  RefreshToken?: string | Redacted.Redacted<string>;
+  IdToken?: string | Redacted.Redacted<string>;
   NewDeviceMetadata?: NewDeviceMetadataType;
 }
 export const AuthenticationResultType = S.suspend(() =>
   S.Struct({
-    AccessToken: S.optional(S.String),
+    AccessToken: S.optional(SensitiveString),
     ExpiresIn: S.optional(S.Number),
     TokenType: S.optional(S.String),
-    RefreshToken: S.optional(S.String),
-    IdToken: S.optional(S.String),
+    RefreshToken: S.optional(SensitiveString),
+    IdToken: S.optional(SensitiveString),
     NewDeviceMetadata: S.optional(NewDeviceMetadataType),
   }),
 ).annotations({
@@ -4587,14 +4604,14 @@ export const AuthenticationResultType = S.suspend(() =>
 }) as any as S.Schema<AuthenticationResultType>;
 export interface RespondToAuthChallengeResponse {
   ChallengeName?: string;
-  Session?: string;
+  Session?: string | Redacted.Redacted<string>;
   ChallengeParameters?: ChallengeParametersType;
   AuthenticationResult?: AuthenticationResultType;
 }
 export const RespondToAuthChallengeResponse = S.suspend(() =>
   S.Struct({
     ChallengeName: S.optional(S.String),
-    Session: S.optional(S.String),
+    Session: S.optional(SensitiveString),
     ChallengeParameters: S.optional(ChallengeParametersType),
     AuthenticationResult: S.optional(AuthenticationResultType),
   }).pipe(ns),
@@ -4603,7 +4620,7 @@ export const RespondToAuthChallengeResponse = S.suspend(() =>
 }) as any as S.Schema<RespondToAuthChallengeResponse>;
 export interface UICustomizationType {
   UserPoolId?: string;
-  ClientId?: string;
+  ClientId?: string | Redacted.Redacted<string>;
   ImageUrl?: string;
   CSS?: string;
   CSSVersion?: string;
@@ -4613,7 +4630,7 @@ export interface UICustomizationType {
 export const UICustomizationType = S.suspend(() =>
   S.Struct({
     UserPoolId: S.optional(S.String),
-    ClientId: S.optional(S.String),
+    ClientId: S.optional(SensitiveString),
     ImageUrl: S.optional(S.String),
     CSS: S.optional(S.String),
     CSSVersion: S.optional(S.String),
@@ -4667,14 +4684,14 @@ export interface SignUpResponse {
   UserConfirmed: boolean;
   CodeDeliveryDetails?: CodeDeliveryDetailsType;
   UserSub: string;
-  Session?: string;
+  Session?: string | Redacted.Redacted<string>;
 }
 export const SignUpResponse = S.suspend(() =>
   S.Struct({
     UserConfirmed: S.Boolean,
     CodeDeliveryDetails: S.optional(CodeDeliveryDetailsType),
     UserSub: S.String,
-    Session: S.optional(S.String),
+    Session: S.optional(SensitiveString),
   }).pipe(ns),
 ).annotations({
   identifier: "SignUpResponse",
@@ -4740,7 +4757,7 @@ export const UpdateResourceServerResponse = S.suspend(() =>
 export interface TermsType {
   TermsId: string;
   UserPoolId: string;
-  ClientId: string;
+  ClientId: string | Redacted.Redacted<string>;
   TermsName: string;
   TermsSource: string;
   Enforcement: string;
@@ -4752,7 +4769,7 @@ export const TermsType = S.suspend(() =>
   S.Struct({
     TermsId: S.String,
     UserPoolId: S.String,
-    ClientId: S.String,
+    ClientId: SensitiveString,
     TermsName: S.String,
     TermsSource: S.String,
     Enforcement: S.String,
@@ -4782,8 +4799,8 @@ export const UpdateUserAttributesResponse = S.suspend(() =>
 export interface UserPoolClientType {
   UserPoolId?: string;
   ClientName?: string;
-  ClientId?: string;
-  ClientSecret?: string;
+  ClientId?: string | Redacted.Redacted<string>;
+  ClientSecret?: string | Redacted.Redacted<string>;
   LastModifiedDate?: Date;
   CreationDate?: Date;
   RefreshTokenValidity?: number;
@@ -4811,8 +4828,8 @@ export const UserPoolClientType = S.suspend(() =>
   S.Struct({
     UserPoolId: S.optional(S.String),
     ClientName: S.optional(S.String),
-    ClientId: S.optional(S.String),
-    ClientSecret: S.optional(S.String),
+    ClientId: S.optional(SensitiveString),
+    ClientSecret: S.optional(SensitiveString),
     LastModifiedDate: S.optional(
       S.Date.pipe(T.TimestampFormat("epoch-seconds")),
     ),
@@ -4863,12 +4880,12 @@ export const UpdateUserPoolDomainResponse = S.suspend(() =>
 }) as any as S.Schema<UpdateUserPoolDomainResponse>;
 export interface VerifySoftwareTokenResponse {
   Status?: string;
-  Session?: string;
+  Session?: string | Redacted.Redacted<string>;
 }
 export const VerifySoftwareTokenResponse = S.suspend(() =>
   S.Struct({
     Status: S.optional(S.String),
-    Session: S.optional(S.String),
+    Session: S.optional(SensitiveString),
   }).pipe(ns),
 ).annotations({
   identifier: "VerifySoftwareTokenResponse",
@@ -4992,7 +5009,7 @@ export const AccountTakeoverRiskConfigurationType = S.suspend(() =>
 }) as any as S.Schema<AccountTakeoverRiskConfigurationType>;
 export interface RiskConfigurationType {
   UserPoolId?: string;
-  ClientId?: string;
+  ClientId?: string | Redacted.Redacted<string>;
   CompromisedCredentialsRiskConfiguration?: CompromisedCredentialsRiskConfigurationType;
   AccountTakeoverRiskConfiguration?: AccountTakeoverRiskConfigurationType;
   RiskExceptionConfiguration?: RiskExceptionConfigurationType;
@@ -5001,7 +5018,7 @@ export interface RiskConfigurationType {
 export const RiskConfigurationType = S.suspend(() =>
   S.Struct({
     UserPoolId: S.optional(S.String),
-    ClientId: S.optional(S.String),
+    ClientId: S.optional(SensitiveString),
     CompromisedCredentialsRiskConfiguration: S.optional(
       CompromisedCredentialsRiskConfigurationType,
     ),
@@ -5191,13 +5208,13 @@ export const TermsDescriptionType = S.suspend(() =>
 export type TermsDescriptionListType = TermsDescriptionType[];
 export const TermsDescriptionListType = S.Array(TermsDescriptionType);
 export interface UserPoolClientDescription {
-  ClientId?: string;
+  ClientId?: string | Redacted.Redacted<string>;
   UserPoolId?: string;
   ClientName?: string;
 }
 export const UserPoolClientDescription = S.suspend(() =>
   S.Struct({
-    ClientId: S.optional(S.String),
+    ClientId: S.optional(SensitiveString),
     UserPoolId: S.optional(S.String),
     ClientName: S.optional(S.String),
   }),
@@ -5301,24 +5318,24 @@ export const AdminGetDeviceResponse = S.suspend(() =>
 }) as any as S.Schema<AdminGetDeviceResponse>;
 export interface AdminInitiateAuthRequest {
   UserPoolId: string;
-  ClientId: string;
+  ClientId: string | Redacted.Redacted<string>;
   AuthFlow: string;
   AuthParameters?: AuthParametersType;
   ClientMetadata?: ClientMetadataType;
   AnalyticsMetadata?: AnalyticsMetadataType;
   ContextData?: ContextDataType;
-  Session?: string;
+  Session?: string | Redacted.Redacted<string>;
 }
 export const AdminInitiateAuthRequest = S.suspend(() =>
   S.Struct({
     UserPoolId: S.String,
-    ClientId: S.String,
+    ClientId: SensitiveString,
     AuthFlow: S.String,
     AuthParameters: S.optional(AuthParametersType),
     ClientMetadata: S.optional(ClientMetadataType),
     AnalyticsMetadata: S.optional(AnalyticsMetadataType),
     ContextData: S.optional(ContextDataType),
-    Session: S.optional(S.String),
+    Session: S.optional(SensitiveString),
   }).pipe(
     T.all(
       ns,
@@ -5347,14 +5364,14 @@ export const AdminListGroupsForUserResponse = S.suspend(() =>
 }) as any as S.Schema<AdminListGroupsForUserResponse>;
 export interface AdminRespondToAuthChallengeResponse {
   ChallengeName?: string;
-  Session?: string;
+  Session?: string | Redacted.Redacted<string>;
   ChallengeParameters?: ChallengeParametersType;
   AuthenticationResult?: AuthenticationResultType;
 }
 export const AdminRespondToAuthChallengeResponse = S.suspend(() =>
   S.Struct({
     ChallengeName: S.optional(S.String),
-    Session: S.optional(S.String),
+    Session: S.optional(SensitiveString),
     ChallengeParameters: S.optional(ChallengeParametersType),
     AuthenticationResult: S.optional(AuthenticationResultType),
   }).pipe(ns),
@@ -5593,7 +5610,7 @@ export const GetUICustomizationResponse = S.suspend(() =>
 }) as any as S.Schema<GetUICustomizationResponse>;
 export interface InitiateAuthResponse {
   ChallengeName?: string;
-  Session?: string;
+  Session?: string | Redacted.Redacted<string>;
   ChallengeParameters?: ChallengeParametersType;
   AuthenticationResult?: AuthenticationResultType;
   AvailableChallenges?: AvailableChallengeListType;
@@ -5601,7 +5618,7 @@ export interface InitiateAuthResponse {
 export const InitiateAuthResponse = S.suspend(() =>
   S.Struct({
     ChallengeName: S.optional(S.String),
-    Session: S.optional(S.String),
+    Session: S.optional(SensitiveString),
     ChallengeParameters: S.optional(ChallengeParametersType),
     AuthenticationResult: S.optional(AuthenticationResultType),
     AvailableChallenges: S.optional(AvailableChallengeListType),
@@ -5809,7 +5826,7 @@ export type AuthEventsType = AuthEventType[];
 export const AuthEventsType = S.Array(AuthEventType);
 export interface AdminInitiateAuthResponse {
   ChallengeName?: string;
-  Session?: string;
+  Session?: string | Redacted.Redacted<string>;
   ChallengeParameters?: ChallengeParametersType;
   AuthenticationResult?: AuthenticationResultType;
   AvailableChallenges?: AvailableChallengeListType;
@@ -5817,7 +5834,7 @@ export interface AdminInitiateAuthResponse {
 export const AdminInitiateAuthResponse = S.suspend(() =>
   S.Struct({
     ChallengeName: S.optional(S.String),
-    Session: S.optional(S.String),
+    Session: S.optional(SensitiveString),
     ChallengeParameters: S.optional(ChallengeParametersType),
     AuthenticationResult: S.optional(AuthenticationResultType),
     AvailableChallenges: S.optional(AvailableChallengeListType),
@@ -5867,7 +5884,7 @@ export const SetLogDeliveryConfigurationResponse = S.suspend(() =>
 }) as any as S.Schema<SetLogDeliveryConfigurationResponse>;
 export interface SetRiskConfigurationRequest {
   UserPoolId: string;
-  ClientId?: string;
+  ClientId?: string | Redacted.Redacted<string>;
   CompromisedCredentialsRiskConfiguration?: CompromisedCredentialsRiskConfigurationType;
   AccountTakeoverRiskConfiguration?: AccountTakeoverRiskConfigurationType;
   RiskExceptionConfiguration?: RiskExceptionConfigurationType;
@@ -5875,7 +5892,7 @@ export interface SetRiskConfigurationRequest {
 export const SetRiskConfigurationRequest = S.suspend(() =>
   S.Struct({
     UserPoolId: S.String,
-    ClientId: S.optional(S.String),
+    ClientId: S.optional(SensitiveString),
     CompromisedCredentialsRiskConfiguration: S.optional(
       CompromisedCredentialsRiskConfigurationType,
     ),

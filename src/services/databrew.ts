@@ -1,5 +1,6 @@
 import { HttpClient } from "@effect/platform";
 import * as Effect from "effect/Effect";
+import * as Redacted from "effect/Redacted";
 import * as S from "effect/Schema";
 import * as Stream from "effect/Stream";
 import * as API from "../api.ts";
@@ -10,6 +11,7 @@ import {
   ErrorCategory,
   Errors,
 } from "../index.ts";
+import { SensitiveString, SensitiveBlob } from "../sensitive.ts";
 const svc = T.AwsApiService({
   sdkId: "DataBrew",
   serviceShapeName: "AWSGlueDataBrew",
@@ -283,7 +285,7 @@ export type JobRunId = string;
 export type MaxResults100 = number;
 export type NextToken = string;
 export type StepIndex = number;
-export type ClientSessionId = string;
+export type ClientSessionId = string | Redacted.Redacted<string>;
 export type TagKey = string;
 export type TagValue = string;
 export type Bucket = string;
@@ -2078,7 +2080,7 @@ export interface SendProjectSessionActionRequest {
   Name: string;
   RecipeStep?: RecipeStep;
   StepIndex?: number;
-  ClientSessionId?: string;
+  ClientSessionId?: string | Redacted.Redacted<string>;
   ViewFrame?: ViewFrame;
 }
 export const SendProjectSessionActionRequest = S.suspend(() =>
@@ -2087,7 +2089,7 @@ export const SendProjectSessionActionRequest = S.suspend(() =>
     Name: S.String.pipe(T.HttpLabel("Name")),
     RecipeStep: S.optional(RecipeStep),
     StepIndex: S.optional(S.Number),
-    ClientSessionId: S.optional(S.String),
+    ClientSessionId: S.optional(SensitiveString),
     ViewFrame: S.optional(ViewFrame),
   }).pipe(
     T.all(
@@ -2115,10 +2117,10 @@ export const StartJobRunResponse = S.suspend(() =>
 }) as any as S.Schema<StartJobRunResponse>;
 export interface StartProjectSessionResponse {
   Name: string;
-  ClientSessionId?: string;
+  ClientSessionId?: string | Redacted.Redacted<string>;
 }
 export const StartProjectSessionResponse = S.suspend(() =>
-  S.Struct({ Name: S.String, ClientSessionId: S.optional(S.String) }),
+  S.Struct({ Name: S.String, ClientSessionId: S.optional(SensitiveString) }),
 ).annotations({
   identifier: "StartProjectSessionResponse",
 }) as any as S.Schema<StartProjectSessionResponse>;

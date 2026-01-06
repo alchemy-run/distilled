@@ -1,5 +1,6 @@
 import { HttpClient } from "@effect/platform";
 import * as Effect from "effect/Effect";
+import * as Redacted from "effect/Redacted";
 import * as S from "effect/Schema";
 import * as Stream from "effect/Stream";
 import * as API from "../api.ts";
@@ -10,6 +11,7 @@ import {
   ErrorCategory,
   Errors,
 } from "../index.ts";
+import { SensitiveString, SensitiveBlob } from "../sensitive.ts";
 const svc = T.AwsApiService({
   sdkId: "Resource Explorer 2",
   serviceShapeName: "ResourceExplorer",
@@ -253,7 +255,7 @@ const rules = T.EndpointRuleSet({
 export type IndexType = string;
 export type IndexState = string;
 export type AccountId = string;
-export type QueryString = string;
+export type QueryString = string | Redacted.Redacted<string>;
 export type ViewName = string;
 export type AWSServiceAccessStatus = string;
 export type OperationStatus = string;
@@ -598,14 +600,14 @@ export const ListTagsForResourceInput = S.suspend(() =>
   identifier: "ListTagsForResourceInput",
 }) as any as S.Schema<ListTagsForResourceInput>;
 export interface SearchInput {
-  QueryString: string;
+  QueryString: string | Redacted.Redacted<string>;
   MaxResults?: number;
   ViewArn?: string;
   NextToken?: string;
 }
 export const SearchInput = S.suspend(() =>
   S.Struct({
-    QueryString: S.String,
+    QueryString: SensitiveString,
     MaxResults: S.optional(S.Number),
     ViewArn: S.optional(S.String),
     NextToken: S.optional(S.String),

@@ -1,5 +1,6 @@
 import { HttpClient } from "@effect/platform";
 import * as Effect from "effect/Effect";
+import * as Redacted from "effect/Redacted";
 import * as S from "effect/Schema";
 import * as Stream from "effect/Stream";
 import * as API from "../api.ts";
@@ -10,6 +11,7 @@ import {
   ErrorCategory,
   Errors,
 } from "../index.ts";
+import { SensitiveString, SensitiveBlob } from "../sensitive.ts";
 const svc = T.AwsApiService({
   sdkId: "AppConfig",
   serviceShapeName: "AmazonAppConfig",
@@ -303,7 +305,9 @@ export type QueryName = string;
 export type TagKey = string;
 export type KmsKeyIdentifierOrEmpty = string;
 export type TagValue = string;
-export type StringWithLengthBetween0And32768 = string;
+export type StringWithLengthBetween0And32768 =
+  | string
+  | Redacted.Redacted<string>;
 export type StringWithLengthBetween1And2048 = string;
 export type DeletionProtectionDuration = number;
 export type DynamicParameterKey = string;
@@ -1187,10 +1191,10 @@ export const UpdateApplicationRequest = S.suspend(() =>
 }) as any as S.Schema<UpdateApplicationRequest>;
 export interface Validator {
   Type: string;
-  Content: string;
+  Content: string | Redacted.Redacted<string>;
 }
 export const Validator = S.suspend(() =>
-  S.Struct({ Type: S.String, Content: S.String }),
+  S.Struct({ Type: S.String, Content: SensitiveString }),
 ).annotations({ identifier: "Validator" }) as any as S.Schema<Validator>;
 export type ValidatorList = Validator[];
 export const ValidatorList = S.Array(Validator);

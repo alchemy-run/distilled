@@ -1,5 +1,6 @@
 import { HttpClient } from "@effect/platform";
 import * as Effect from "effect/Effect";
+import * as Redacted from "effect/Redacted";
 import * as S from "effect/Schema";
 import * as Stream from "effect/Stream";
 import * as API from "../api.ts";
@@ -10,6 +11,7 @@ import {
   ErrorCategory,
   Errors,
 } from "../index.ts";
+import { SensitiveString, SensitiveBlob } from "../sensitive.ts";
 const svc = T.AwsApiService({
   sdkId: "Bedrock Data Automation",
   serviceShapeName: "AmazonBedrockKeystoneBuildTimeService",
@@ -308,13 +310,15 @@ export type TaggableResourceArn = string;
 export type TagKey = string;
 export type DataAutomationProfileArn = string;
 export type BlueprintOptimizationInvocationArn = string;
-export type BlueprintName = string;
-export type BlueprintSchema = string;
+export type BlueprintName = string | Redacted.Redacted<string>;
+export type BlueprintSchema = string | Redacted.Redacted<string>;
 export type BlueprintVersion = string;
 export type MaxResults = number;
 export type NextToken = string;
-export type DataAutomationProjectName = string;
-export type DataAutomationProjectDescription = string;
+export type DataAutomationProjectName = string | Redacted.Redacted<string>;
+export type DataAutomationProjectDescription =
+  | string
+  | Redacted.Redacted<string>;
 export type DataAutomationProjectArn = string;
 export type TagValue = string;
 export type KmsKeyId = string;
@@ -465,20 +469,20 @@ export const Tag = S.suspend(() =>
 export type TagList = Tag[];
 export const TagList = S.Array(Tag);
 export interface CreateBlueprintRequest {
-  blueprintName: string;
+  blueprintName: string | Redacted.Redacted<string>;
   type: string;
   blueprintStage?: string;
-  schema: string;
+  schema: string | Redacted.Redacted<string>;
   clientToken?: string;
   encryptionConfiguration?: EncryptionConfiguration;
   tags?: TagList;
 }
 export const CreateBlueprintRequest = S.suspend(() =>
   S.Struct({
-    blueprintName: S.String,
+    blueprintName: SensitiveString,
     type: S.String,
     blueprintStage: S.optional(S.String),
-    schema: S.String,
+    schema: SensitiveString,
     clientToken: S.optional(S.String),
     encryptionConfiguration: S.optional(EncryptionConfiguration),
     tags: S.optional(TagList),
@@ -520,14 +524,14 @@ export const GetBlueprintRequest = S.suspend(() =>
 }) as any as S.Schema<GetBlueprintRequest>;
 export interface UpdateBlueprintRequest {
   blueprintArn: string;
-  schema: string;
+  schema: string | Redacted.Redacted<string>;
   blueprintStage?: string;
   encryptionConfiguration?: EncryptionConfiguration;
 }
 export const UpdateBlueprintRequest = S.suspend(() =>
   S.Struct({
     blueprintArn: S.String.pipe(T.HttpLabel("blueprintArn")),
-    schema: S.String,
+    schema: SensitiveString,
     blueprintStage: S.optional(S.String),
     encryptionConfiguration: S.optional(EncryptionConfiguration),
   }).pipe(
@@ -1075,7 +1079,7 @@ export const OverrideConfiguration = S.suspend(() =>
 export interface UpdateDataAutomationProjectRequest {
   projectArn: string;
   projectStage?: string;
-  projectDescription?: string;
+  projectDescription?: string | Redacted.Redacted<string>;
   standardOutputConfiguration: StandardOutputConfiguration;
   customOutputConfiguration?: CustomOutputConfiguration;
   overrideConfiguration?: OverrideConfiguration;
@@ -1085,7 +1089,7 @@ export const UpdateDataAutomationProjectRequest = S.suspend(() =>
   S.Struct({
     projectArn: S.String.pipe(T.HttpLabel("projectArn")),
     projectStage: S.optional(S.String),
-    projectDescription: S.optional(S.String),
+    projectDescription: S.optional(SensitiveString),
     standardOutputConfiguration: StandardOutputConfiguration,
     customOutputConfiguration: S.optional(CustomOutputConfiguration),
     overrideConfiguration: S.optional(OverrideConfiguration),
@@ -1231,11 +1235,11 @@ export const BlueprintOptimizationSamples = S.Array(
 );
 export interface Blueprint {
   blueprintArn: string;
-  schema: string;
+  schema: string | Redacted.Redacted<string>;
   type: string;
   creationTime: Date;
   lastModifiedTime: Date;
-  blueprintName: string;
+  blueprintName: string | Redacted.Redacted<string>;
   blueprintVersion?: string;
   blueprintStage?: string;
   kmsKeyId?: string;
@@ -1246,11 +1250,11 @@ export interface Blueprint {
 export const Blueprint = S.suspend(() =>
   S.Struct({
     blueprintArn: S.String,
-    schema: S.String,
+    schema: SensitiveString,
     type: S.String,
     creationTime: S.Date.pipe(T.TimestampFormat("date-time")),
     lastModifiedTime: S.Date.pipe(T.TimestampFormat("date-time")),
-    blueprintName: S.String,
+    blueprintName: SensitiveString,
     blueprintVersion: S.optional(S.String),
     blueprintStage: S.optional(S.String),
     kmsKeyId: S.optional(S.String),
@@ -1366,10 +1370,10 @@ export interface DataAutomationProject {
   projectArn: string;
   creationTime: Date;
   lastModifiedTime: Date;
-  projectName: string;
+  projectName: string | Redacted.Redacted<string>;
   projectStage?: string;
   projectType?: string;
-  projectDescription?: string;
+  projectDescription?: string | Redacted.Redacted<string>;
   standardOutputConfiguration?: StandardOutputConfiguration;
   customOutputConfiguration?: CustomOutputConfiguration;
   overrideConfiguration?: OverrideConfiguration;
@@ -1382,10 +1386,10 @@ export const DataAutomationProject = S.suspend(() =>
     projectArn: S.String,
     creationTime: S.Date.pipe(T.TimestampFormat("date-time")),
     lastModifiedTime: S.Date.pipe(T.TimestampFormat("date-time")),
-    projectName: S.String,
+    projectName: SensitiveString,
     projectStage: S.optional(S.String),
     projectType: S.optional(S.String),
-    projectDescription: S.optional(S.String),
+    projectDescription: S.optional(SensitiveString),
     standardOutputConfiguration: S.optional(StandardOutputConfiguration),
     customOutputConfiguration: S.optional(CustomOutputConfiguration),
     overrideConfiguration: S.optional(OverrideConfiguration),
@@ -1445,7 +1449,7 @@ export interface BlueprintSummary {
   blueprintArn: string;
   blueprintVersion?: string;
   blueprintStage?: string;
-  blueprintName?: string;
+  blueprintName?: string | Redacted.Redacted<string>;
   creationTime: Date;
   lastModifiedTime?: Date;
 }
@@ -1454,7 +1458,7 @@ export const BlueprintSummary = S.suspend(() =>
     blueprintArn: S.String,
     blueprintVersion: S.optional(S.String),
     blueprintStage: S.optional(S.String),
-    blueprintName: S.optional(S.String),
+    blueprintName: S.optional(SensitiveString),
     creationTime: S.Date.pipe(T.TimestampFormat("date-time")),
     lastModifiedTime: S.optional(S.Date.pipe(T.TimestampFormat("date-time"))),
   }),
@@ -1467,7 +1471,7 @@ export interface DataAutomationProjectSummary {
   projectArn: string;
   projectStage?: string;
   projectType?: string;
-  projectName?: string;
+  projectName?: string | Redacted.Redacted<string>;
   creationTime: Date;
 }
 export const DataAutomationProjectSummary = S.suspend(() =>
@@ -1475,7 +1479,7 @@ export const DataAutomationProjectSummary = S.suspend(() =>
     projectArn: S.String,
     projectStage: S.optional(S.String),
     projectType: S.optional(S.String),
-    projectName: S.optional(S.String),
+    projectName: S.optional(SensitiveString),
     creationTime: S.Date.pipe(T.TimestampFormat("date-time")),
   }),
 ).annotations({
@@ -1526,8 +1530,8 @@ export const ValidationExceptionField = S.suspend(() =>
 export type ValidationExceptionFieldList = ValidationExceptionField[];
 export const ValidationExceptionFieldList = S.Array(ValidationExceptionField);
 export interface CreateDataAutomationProjectRequest {
-  projectName: string;
-  projectDescription?: string;
+  projectName: string | Redacted.Redacted<string>;
+  projectDescription?: string | Redacted.Redacted<string>;
   projectStage?: string;
   projectType?: string;
   standardOutputConfiguration: StandardOutputConfiguration;
@@ -1539,8 +1543,8 @@ export interface CreateDataAutomationProjectRequest {
 }
 export const CreateDataAutomationProjectRequest = S.suspend(() =>
   S.Struct({
-    projectName: S.String,
-    projectDescription: S.optional(S.String),
+    projectName: SensitiveString,
+    projectDescription: S.optional(SensitiveString),
     projectStage: S.optional(S.String),
     projectType: S.optional(S.String),
     standardOutputConfiguration: StandardOutputConfiguration,

@@ -1,5 +1,6 @@
 import { HttpClient } from "@effect/platform";
 import * as Effect from "effect/Effect";
+import * as Redacted from "effect/Redacted";
 import * as S from "effect/Schema";
 import * as Stream from "effect/Stream";
 import * as API from "../api.ts";
@@ -10,6 +11,7 @@ import {
   ErrorCategory,
   Errors,
 } from "../index.ts";
+import { SensitiveString, SensitiveBlob } from "../sensitive.ts";
 const svc = T.AwsApiService({
   sdkId: "Geo Maps",
   serviceShapeName: "MapsService",
@@ -486,15 +488,15 @@ const rules = T.EndpointRuleSet({
 export type MapStyle = string;
 export type ColorScheme = string;
 export type Variant = string;
-export type PositionListString = string;
-export type PositionString = string;
-export type CompactOverlay = string;
-export type GeoJsonOverlay = string;
+export type PositionListString = string | Redacted.Redacted<string>;
+export type PositionString = string | Redacted.Redacted<string>;
+export type CompactOverlay = string | Redacted.Redacted<string>;
+export type GeoJsonOverlay = string | Redacted.Redacted<string>;
 export type SensitiveInteger = number;
-export type ApiKey = string;
+export type ApiKey = string | Redacted.Redacted<string>;
 export type LabelSize = string;
 export type LanguageTag = string;
-export type CountryCode = string;
+export type CountryCode = string | Redacted.Redacted<string>;
 export type MapFeatureMode = string;
 export type DistanceMeters = number;
 export type ScaleBarUnit = string;
@@ -506,7 +508,7 @@ export type Traffic = string;
 export type TravelMode = string;
 export type TileAdditionalFeature = string;
 export type Tileset = string;
-export type SensitiveString = string;
+export type SensitiveString = string | Redacted.Redacted<string>;
 export type ValidationExceptionReason = string;
 
 //# Schemas
@@ -564,19 +566,19 @@ export const GetSpritesRequest = S.suspend(() =>
   identifier: "GetSpritesRequest",
 }) as any as S.Schema<GetSpritesRequest>;
 export interface GetStaticMapRequest {
-  BoundingBox?: string;
-  BoundedPositions?: string;
-  Center?: string;
+  BoundingBox?: string | Redacted.Redacted<string>;
+  BoundedPositions?: string | Redacted.Redacted<string>;
+  Center?: string | Redacted.Redacted<string>;
   ColorScheme?: string;
-  CompactOverlay?: string;
+  CompactOverlay?: string | Redacted.Redacted<string>;
   CropLabels?: boolean;
-  GeoJsonOverlay?: string;
+  GeoJsonOverlay?: string | Redacted.Redacted<string>;
   Height: number;
-  Key?: string;
+  Key?: string | Redacted.Redacted<string>;
   LabelSize?: string;
   Language?: string;
   Padding?: number;
-  PoliticalView?: string;
+  PoliticalView?: string | Redacted.Redacted<string>;
   PointsOfInterests?: string;
   Radius?: number;
   FileName: string;
@@ -587,21 +589,27 @@ export interface GetStaticMapRequest {
 }
 export const GetStaticMapRequest = S.suspend(() =>
   S.Struct({
-    BoundingBox: S.optional(S.String).pipe(T.HttpQuery("bounding-box")),
-    BoundedPositions: S.optional(S.String).pipe(
+    BoundingBox: S.optional(SensitiveString).pipe(T.HttpQuery("bounding-box")),
+    BoundedPositions: S.optional(SensitiveString).pipe(
       T.HttpQuery("bounded-positions"),
     ),
-    Center: S.optional(S.String).pipe(T.HttpQuery("center")),
+    Center: S.optional(SensitiveString).pipe(T.HttpQuery("center")),
     ColorScheme: S.optional(S.String).pipe(T.HttpQuery("color-scheme")),
-    CompactOverlay: S.optional(S.String).pipe(T.HttpQuery("compact-overlay")),
+    CompactOverlay: S.optional(SensitiveString).pipe(
+      T.HttpQuery("compact-overlay"),
+    ),
     CropLabels: S.optional(S.Boolean).pipe(T.HttpQuery("crop-labels")),
-    GeoJsonOverlay: S.optional(S.String).pipe(T.HttpQuery("geojson-overlay")),
+    GeoJsonOverlay: S.optional(SensitiveString).pipe(
+      T.HttpQuery("geojson-overlay"),
+    ),
     Height: S.Number.pipe(T.HttpQuery("height")),
-    Key: S.optional(S.String).pipe(T.HttpQuery("key")),
+    Key: S.optional(SensitiveString).pipe(T.HttpQuery("key")),
     LabelSize: S.optional(S.String).pipe(T.HttpQuery("label-size")),
     Language: S.optional(S.String).pipe(T.HttpQuery("lang")),
     Padding: S.optional(S.Number).pipe(T.HttpQuery("padding")),
-    PoliticalView: S.optional(S.String).pipe(T.HttpQuery("political-view")),
+    PoliticalView: S.optional(SensitiveString).pipe(
+      T.HttpQuery("political-view"),
+    ),
     PointsOfInterests: S.optional(S.String).pipe(T.HttpQuery("pois")),
     Radius: S.optional(S.Number).pipe(T.HttpQuery("radius")),
     FileName: S.String.pipe(T.HttpLabel("FileName")),
@@ -625,23 +633,25 @@ export const GetStaticMapRequest = S.suspend(() =>
 export interface GetStyleDescriptorRequest {
   Style: string;
   ColorScheme?: string;
-  PoliticalView?: string;
+  PoliticalView?: string | Redacted.Redacted<string>;
   Terrain?: string;
   ContourDensity?: string;
   Traffic?: string;
   TravelModes?: TravelModeList;
-  Key?: string;
+  Key?: string | Redacted.Redacted<string>;
 }
 export const GetStyleDescriptorRequest = S.suspend(() =>
   S.Struct({
     Style: S.String.pipe(T.HttpLabel("Style")),
     ColorScheme: S.optional(S.String).pipe(T.HttpQuery("color-scheme")),
-    PoliticalView: S.optional(S.String).pipe(T.HttpQuery("political-view")),
+    PoliticalView: S.optional(SensitiveString).pipe(
+      T.HttpQuery("political-view"),
+    ),
     Terrain: S.optional(S.String).pipe(T.HttpQuery("terrain")),
     ContourDensity: S.optional(S.String).pipe(T.HttpQuery("contour-density")),
     Traffic: S.optional(S.String).pipe(T.HttpQuery("traffic")),
     TravelModes: S.optional(TravelModeList).pipe(T.HttpQuery("travel-modes")),
-    Key: S.optional(S.String).pipe(T.HttpQuery("key")),
+    Key: S.optional(SensitiveString).pipe(T.HttpQuery("key")),
   }).pipe(
     T.all(
       T.Http({ method: "GET", uri: "/styles/{Style}/descriptor" }),
@@ -658,10 +668,10 @@ export const GetStyleDescriptorRequest = S.suspend(() =>
 export interface GetTileRequest {
   AdditionalFeatures?: TileAdditionalFeatureList;
   Tileset: string;
-  Z: string;
-  X: string;
-  Y: string;
-  Key?: string;
+  Z: string | Redacted.Redacted<string>;
+  X: string | Redacted.Redacted<string>;
+  Y: string | Redacted.Redacted<string>;
+  Key?: string | Redacted.Redacted<string>;
 }
 export const GetTileRequest = S.suspend(() =>
   S.Struct({
@@ -669,10 +679,10 @@ export const GetTileRequest = S.suspend(() =>
       T.HttpQuery("additional-features"),
     ),
     Tileset: S.String.pipe(T.HttpLabel("Tileset")),
-    Z: S.String.pipe(T.HttpLabel("Z")),
-    X: S.String.pipe(T.HttpLabel("X")),
-    Y: S.String.pipe(T.HttpLabel("Y")),
-    Key: S.optional(S.String).pipe(T.HttpQuery("key")),
+    Z: SensitiveString.pipe(T.HttpLabel("Z")),
+    X: SensitiveString.pipe(T.HttpLabel("X")),
+    Y: SensitiveString.pipe(T.HttpLabel("Y")),
+    Key: S.optional(SensitiveString).pipe(T.HttpQuery("key")),
   }).pipe(
     T.all(
       T.Http({ method: "GET", uri: "/tiles/{Tileset}/{Z}/{X}/{Y}" }),

@@ -1,5 +1,6 @@
 import { HttpClient } from "@effect/platform";
 import * as Effect from "effect/Effect";
+import * as Redacted from "effect/Redacted";
 import * as S from "effect/Schema";
 import * as Stream from "effect/Stream";
 import * as API from "../api.ts";
@@ -10,6 +11,7 @@ import {
   ErrorCategory,
   Errors,
 } from "../index.ts";
+import { SensitiveString, SensitiveBlob } from "../sensitive.ts";
 const svc = T.AwsApiService({
   sdkId: "SocialMessaging",
   serviceShapeName: "SocialMessaging",
@@ -312,7 +314,7 @@ export type MetaTemplateCategory = string;
 export type WhatsAppPhoneNumberId = string;
 export type WhatsAppMediaId = string;
 export type MetaTemplateLanguage = string;
-export type AssociateInProgressToken = string;
+export type AssociateInProgressToken = string | Redacted.Redacted<string>;
 export type EventDestinationArn = string;
 export type RoleArn = string;
 export type ErrorMessage = string;
@@ -322,7 +324,7 @@ export type PhoneNumber = string;
 export type OtpType = string;
 export type CodeExpirationMinutes = number;
 export type WhatsAppPhoneNumber = string;
-export type TwoFactorPin = string;
+export type TwoFactorPin = string | Redacted.Redacted<string>;
 export type IsoCountryCode = string;
 export type WhatsAppBusinessAccountId = string;
 export type MetaTemplateStatus = string;
@@ -649,13 +651,13 @@ export const PostWhatsAppMessageMediaInput = S.suspend(() =>
 }) as any as S.Schema<PostWhatsAppMessageMediaInput>;
 export interface SendWhatsAppMessageInput {
   originationPhoneNumberId: string;
-  message: Uint8Array;
+  message: Uint8Array | Redacted.Redacted<Uint8Array>;
   metaApiVersion: string;
 }
 export const SendWhatsAppMessageInput = S.suspend(() =>
   S.Struct({
     originationPhoneNumberId: S.String,
-    message: T.Blob,
+    message: SensitiveBlob,
     metaApiVersion: S.String,
   }).pipe(
     T.all(
@@ -875,14 +877,14 @@ export const LibraryTemplateBodyInputs = S.suspend(() =>
 }) as any as S.Schema<LibraryTemplateBodyInputs>;
 export interface WabaPhoneNumberSetupFinalization {
   id: string;
-  twoFactorPin: string;
+  twoFactorPin: string | Redacted.Redacted<string>;
   dataLocalizationRegion?: string;
   tags?: TagList;
 }
 export const WabaPhoneNumberSetupFinalization = S.suspend(() =>
   S.Struct({
     id: S.String,
-    twoFactorPin: S.String,
+    twoFactorPin: SensitiveString,
     dataLocalizationRegion: S.optional(S.String),
     tags: S.optional(TagList),
   }),
@@ -931,14 +933,14 @@ export const TemplateSummary = S.suspend(() =>
 export type TemplateSummaryList = TemplateSummary[];
 export const TemplateSummaryList = S.Array(TemplateSummary);
 export interface WhatsAppSetupFinalization {
-  associateInProgressToken: string;
+  associateInProgressToken: string | Redacted.Redacted<string>;
   phoneNumbers: WabaPhoneNumberSetupFinalizationList;
   phoneNumberParent?: string;
   waba?: WabaSetupFinalization;
 }
 export const WhatsAppSetupFinalization = S.suspend(() =>
   S.Struct({
-    associateInProgressToken: S.String,
+    associateInProgressToken: SensitiveString,
     phoneNumbers: WabaPhoneNumberSetupFinalizationList,
     phoneNumberParent: S.optional(S.String),
     waba: S.optional(WabaSetupFinalization),
@@ -1345,12 +1347,12 @@ export const LinkedAccountWithIncompleteSetup = S.Record({
   value: LinkedWhatsAppBusinessAccountIdMetaData,
 });
 export interface WhatsAppSignupCallbackResult {
-  associateInProgressToken?: string;
+  associateInProgressToken?: string | Redacted.Redacted<string>;
   linkedAccountsWithIncompleteSetup?: LinkedAccountWithIncompleteSetup;
 }
 export const WhatsAppSignupCallbackResult = S.suspend(() =>
   S.Struct({
-    associateInProgressToken: S.optional(S.String),
+    associateInProgressToken: S.optional(SensitiveString),
     linkedAccountsWithIncompleteSetup: S.optional(
       LinkedAccountWithIncompleteSetup,
     ),

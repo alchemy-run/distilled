@@ -1,5 +1,6 @@
 import { HttpClient } from "@effect/platform";
 import * as Effect from "effect/Effect";
+import * as Redacted from "effect/Redacted";
 import * as S from "effect/Schema";
 import * as Stream from "effect/Stream";
 import * as API from "../api.ts";
@@ -10,6 +11,7 @@ import {
   ErrorCategory,
   Errors,
 } from "../index.ts";
+import { SensitiveString, SensitiveBlob } from "../sensitive.ts";
 const svc = T.AwsApiService({
   sdkId: "QBusiness",
   serviceShapeName: "ExpertQ",
@@ -253,7 +255,7 @@ export type InstanceArn = string;
 export type ClientIdForOIDC = string;
 export type Description = string;
 export type MaxResultsIntegerForListApplications = number;
-export type DataAccessorName = string;
+export type DataAccessorName = string | Redacted.Redacted<string>;
 export type DataAccessorId = string;
 export type NextToken1500 = string;
 export type MaxResultsIntegerForListDataAccessors = number;
@@ -287,7 +289,7 @@ export type SystemMessageOverride = string;
 export type TopicConfigurationName = string;
 export type TopicDescription = string;
 export type ExampleChatMessage = string;
-export type KmsKeyId = string;
+export type KmsKeyId = string | Redacted.Redacted<string>;
 export type ClientNamespace = string;
 export type DataAccessorExternalId = string;
 export type IndexCapacityInteger = number;
@@ -320,7 +322,7 @@ export type S3BucketName = string;
 export type S3ObjectKey = string;
 export type LambdaArn = string;
 export type SecretArn = string;
-export type Payload = string;
+export type Payload = string | Redacted.Redacted<string>;
 export type Long = number;
 export type KendraIndexId = string;
 export type SamlAuthenticationUrl = string;
@@ -1627,7 +1629,7 @@ export interface UpdateDataAccessorRequest {
   dataAccessorId: string;
   actionConfigurations: ActionConfigurationList;
   authenticationDetail?: DataAccessorAuthenticationDetail;
-  displayName?: string;
+  displayName?: string | Redacted.Redacted<string>;
 }
 export const UpdateDataAccessorRequest = S.suspend(() =>
   S.Struct({
@@ -1635,7 +1637,7 @@ export const UpdateDataAccessorRequest = S.suspend(() =>
     dataAccessorId: S.String.pipe(T.HttpLabel("dataAccessorId")),
     actionConfigurations: ActionConfigurationList,
     authenticationDetail: S.optional(DataAccessorAuthenticationDetail),
-    displayName: S.optional(S.String),
+    displayName: S.optional(SensitiveString),
   }).pipe(
     T.all(
       T.Http({
@@ -2084,9 +2086,11 @@ export interface S3 {
 export const S3 = S.suspend(() =>
   S.Struct({ bucket: S.String, key: S.String }),
 ).annotations({ identifier: "S3" }) as any as S.Schema<S3>;
-export type APISchema = { payload: string } | { s3: S3 };
+export type APISchema =
+  | { payload: string | Redacted.Redacted<string> }
+  | { s3: S3 };
 export const APISchema = S.Union(
-  S.Struct({ payload: S.String }),
+  S.Struct({ payload: SensitiveString }),
   S.Struct({ s3: S3 }),
 );
 export interface CustomPluginConfiguration {
@@ -2664,10 +2668,10 @@ export const HallucinationReductionConfiguration = S.suspend(() =>
   identifier: "HallucinationReductionConfiguration",
 }) as any as S.Schema<HallucinationReductionConfiguration>;
 export interface EncryptionConfiguration {
-  kmsKeyId?: string;
+  kmsKeyId?: string | Redacted.Redacted<string>;
 }
 export const EncryptionConfiguration = S.suspend(() =>
-  S.Struct({ kmsKeyId: S.optional(S.String) }),
+  S.Struct({ kmsKeyId: S.optional(SensitiveString) }),
 ).annotations({
   identifier: "EncryptionConfiguration",
 }) as any as S.Schema<EncryptionConfiguration>;
@@ -3126,7 +3130,7 @@ export const UpdateApplicationResponse = S.suspend(() =>
   identifier: "UpdateApplicationResponse",
 }) as any as S.Schema<UpdateApplicationResponse>;
 export interface GetDataAccessorResponse {
-  displayName?: string;
+  displayName?: string | Redacted.Redacted<string>;
   dataAccessorId?: string;
   dataAccessorArn?: string;
   applicationId?: string;
@@ -3139,7 +3143,7 @@ export interface GetDataAccessorResponse {
 }
 export const GetDataAccessorResponse = S.suspend(() =>
   S.Struct({
-    displayName: S.optional(S.String),
+    displayName: S.optional(SensitiveString),
     dataAccessorId: S.optional(S.String),
     dataAccessorArn: S.optional(S.String),
     applicationId: S.optional(S.String),
@@ -3825,7 +3829,7 @@ export const Application = S.suspend(() =>
 export type Applications = Application[];
 export const Applications = S.Array(Application);
 export interface DataAccessor {
-  displayName?: string;
+  displayName?: string | Redacted.Redacted<string>;
   dataAccessorId?: string;
   dataAccessorArn?: string;
   idcApplicationArn?: string;
@@ -3836,7 +3840,7 @@ export interface DataAccessor {
 }
 export const DataAccessor = S.suspend(() =>
   S.Struct({
-    displayName: S.optional(S.String),
+    displayName: S.optional(SensitiveString),
     dataAccessorId: S.optional(S.String),
     dataAccessorArn: S.optional(S.String),
     idcApplicationArn: S.optional(S.String),
@@ -4837,7 +4841,7 @@ export interface CreateDataAccessorRequest {
   principal: string;
   actionConfigurations: ActionConfigurationList;
   clientToken?: string;
-  displayName: string;
+  displayName: string | Redacted.Redacted<string>;
   authenticationDetail?: DataAccessorAuthenticationDetail;
   tags?: Tags;
 }
@@ -4847,7 +4851,7 @@ export const CreateDataAccessorRequest = S.suspend(() =>
     principal: S.String,
     actionConfigurations: ActionConfigurationList,
     clientToken: S.optional(S.String),
-    displayName: S.String,
+    displayName: SensitiveString,
     authenticationDetail: S.optional(DataAccessorAuthenticationDetail),
     tags: S.optional(Tags),
   }).pipe(

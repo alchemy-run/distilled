@@ -7,7 +7,7 @@
  */
 
 import { expect } from "@effect/vitest";
-import { Effect, Option, Stream } from "effect";
+import { Effect, Option, Redacted, Stream } from "effect";
 import {
   createDistribution,
   createInvalidation,
@@ -298,9 +298,11 @@ test(
         // Get distribution to verify it exists
         const dist = yield* getDistribution({ Id: id });
         expect(dist.Distribution?.Id).toEqual(id);
-        expect(dist.Distribution?.DistributionConfig?.Comment).toEqual(
-          "itty-aws test distribution",
-        );
+        // Comment is a sensitive field, extract from Redacted
+        const comment = dist.Distribution?.DistributionConfig?.Comment;
+        expect(
+          Redacted.isRedacted(comment) ? Redacted.value(comment) : comment,
+        ).toEqual("itty-aws test distribution");
 
         // Get distribution config
         const config = yield* getDistributionConfig({ Id: id });

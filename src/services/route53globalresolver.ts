@@ -1,5 +1,6 @@
 import { HttpClient } from "@effect/platform";
 import * as Effect from "effect/Effect";
+import * as Redacted from "effect/Redacted";
 import * as S from "effect/Schema";
 import * as Stream from "effect/Stream";
 import * as API from "../api.ts";
@@ -10,6 +11,7 @@ import {
   ErrorCategory,
   Errors,
 } from "../index.ts";
+import { SensitiveString, SensitiveBlob } from "../sensitive.ts";
 const svc = T.AwsApiService({
   sdkId: "Route53GlobalResolver",
   serviceShapeName: "EC2DNSGlobalResolverCustomerAPI",
@@ -130,7 +132,7 @@ export type DnsQueryType = string;
 export type Region = string;
 export type TagValue = string;
 export type HostedZoneName = string;
-export type AccessTokenValue = string;
+export type AccessTokenValue = string | Redacted.Redacted<string>;
 export type Sni = string;
 export type IPv4Address = string;
 
@@ -1448,7 +1450,7 @@ export interface CreateAccessTokenOutput {
   expiresAt: Date;
   name?: string;
   status: string;
-  value: string;
+  value: string | Redacted.Redacted<string>;
 }
 export const CreateAccessTokenOutput = S.suspend(() =>
   S.Struct({
@@ -1460,7 +1462,7 @@ export const CreateAccessTokenOutput = S.suspend(() =>
     expiresAt: S.Date.pipe(T.TimestampFormat("date-time")),
     name: S.optional(S.String),
     status: S.String,
-    value: S.String,
+    value: SensitiveString,
   }),
 ).annotations({
   identifier: "CreateAccessTokenOutput",
@@ -1476,7 +1478,7 @@ export interface GetAccessTokenOutput {
   name?: string;
   status: string;
   updatedAt: Date;
-  value: string;
+  value: string | Redacted.Redacted<string>;
 }
 export const GetAccessTokenOutput = S.suspend(() =>
   S.Struct({
@@ -1490,7 +1492,7 @@ export const GetAccessTokenOutput = S.suspend(() =>
     name: S.optional(S.String),
     status: S.String,
     updatedAt: S.Date.pipe(T.TimestampFormat("date-time")),
-    value: S.String,
+    value: SensitiveString,
   }),
 ).annotations({
   identifier: "GetAccessTokenOutput",

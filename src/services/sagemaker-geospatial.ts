@@ -1,5 +1,6 @@
 import { HttpClient } from "@effect/platform";
 import * as Effect from "effect/Effect";
+import * as Redacted from "effect/Redacted";
 import * as S from "effect/Schema";
 import * as Stream from "effect/Stream";
 import * as API from "../api.ts";
@@ -10,6 +11,7 @@ import {
   ErrorCategory,
   Errors,
 } from "../index.ts";
+import { SensitiveString, SensitiveBlob } from "../sensitive.ts";
 const svc = T.AwsApiService({
   sdkId: "SageMaker Geospatial",
   serviceShapeName: "SageMakerGeospatial",
@@ -308,7 +310,7 @@ export type ExecutionRoleArn = string;
 export type EarthObservationJobArn = string;
 export type EarthObservationJobStatus = string;
 export type SortOrder = string;
-export type NextToken = string;
+export type NextToken = string | Redacted.Redacted<string>;
 export type TargetOptions = string;
 export type OutputType = string;
 export type DataCollectionArn = string;
@@ -426,7 +428,7 @@ export interface ListEarthObservationJobInput {
   StatusEquals?: string;
   SortOrder?: string;
   SortBy?: string;
-  NextToken?: string;
+  NextToken?: string | Redacted.Redacted<string>;
   MaxResults?: number;
 }
 export const ListEarthObservationJobInput = S.suspend(() =>
@@ -434,7 +436,7 @@ export const ListEarthObservationJobInput = S.suspend(() =>
     StatusEquals: S.optional(S.String),
     SortOrder: S.optional(S.String),
     SortBy: S.optional(S.String),
-    NextToken: S.optional(S.String),
+    NextToken: S.optional(SensitiveString),
     MaxResults: S.optional(S.Number),
   }).pipe(
     T.all(
@@ -531,12 +533,12 @@ export const GetRasterDataCollectionInput = S.suspend(() =>
   identifier: "GetRasterDataCollectionInput",
 }) as any as S.Schema<GetRasterDataCollectionInput>;
 export interface ListRasterDataCollectionsInput {
-  NextToken?: string;
+  NextToken?: string | Redacted.Redacted<string>;
   MaxResults?: number;
 }
 export const ListRasterDataCollectionsInput = S.suspend(() =>
   S.Struct({
-    NextToken: S.optional(S.String).pipe(T.HttpQuery("NextToken")),
+    NextToken: S.optional(SensitiveString).pipe(T.HttpQuery("NextToken")),
     MaxResults: S.optional(S.Number).pipe(T.HttpQuery("MaxResults")),
   }).pipe(
     T.all(
@@ -595,7 +597,7 @@ export interface ListVectorEnrichmentJobInput {
   StatusEquals?: string;
   SortOrder?: string;
   SortBy?: string;
-  NextToken?: string;
+  NextToken?: string | Redacted.Redacted<string>;
   MaxResults?: number;
 }
 export const ListVectorEnrichmentJobInput = S.suspend(() =>
@@ -603,7 +605,7 @@ export const ListVectorEnrichmentJobInput = S.suspend(() =>
     StatusEquals: S.optional(S.String),
     SortOrder: S.optional(S.String),
     SortBy: S.optional(S.String),
-    NextToken: S.optional(S.String),
+    NextToken: S.optional(SensitiveString),
     MaxResults: S.optional(S.Number),
   }).pipe(
     T.all(
@@ -1162,12 +1164,12 @@ export const OutputResolutionStackInput = S.suspend(() =>
 }) as any as S.Schema<OutputResolutionStackInput>;
 export interface ListEarthObservationJobOutput {
   EarthObservationJobSummaries: EarthObservationJobList;
-  NextToken?: string;
+  NextToken?: string | Redacted.Redacted<string>;
 }
 export const ListEarthObservationJobOutput = S.suspend(() =>
   S.Struct({
     EarthObservationJobSummaries: EarthObservationJobList,
-    NextToken: S.optional(S.String),
+    NextToken: S.optional(SensitiveString),
   }),
 ).annotations({
   identifier: "ListEarthObservationJobOutput",
@@ -1225,12 +1227,12 @@ export const GetRasterDataCollectionOutput = S.suspend(() =>
 }) as any as S.Schema<GetRasterDataCollectionOutput>;
 export interface ListRasterDataCollectionsOutput {
   RasterDataCollectionSummaries: DataCollectionsList;
-  NextToken?: string;
+  NextToken?: string | Redacted.Redacted<string>;
 }
 export const ListRasterDataCollectionsOutput = S.suspend(() =>
   S.Struct({
     RasterDataCollectionSummaries: DataCollectionsList,
-    NextToken: S.optional(S.String),
+    NextToken: S.optional(SensitiveString),
   }),
 ).annotations({
   identifier: "ListRasterDataCollectionsOutput",
@@ -1304,12 +1306,12 @@ export const GetVectorEnrichmentJobOutput = S.suspend(() =>
 }) as any as S.Schema<GetVectorEnrichmentJobOutput>;
 export interface ListVectorEnrichmentJobOutput {
   VectorEnrichmentJobSummaries: VectorEnrichmentJobList;
-  NextToken?: string;
+  NextToken?: string | Redacted.Redacted<string>;
 }
 export const ListVectorEnrichmentJobOutput = S.suspend(() =>
   S.Struct({
     VectorEnrichmentJobSummaries: VectorEnrichmentJobList,
-    NextToken: S.optional(S.String),
+    NextToken: S.optional(SensitiveString),
   }),
 ).annotations({
   identifier: "ListVectorEnrichmentJobOutput",
@@ -1673,13 +1675,13 @@ export const StartEarthObservationJobOutput = S.suspend(() =>
 export interface SearchRasterDataCollectionInput {
   Arn: string;
   RasterDataCollectionQuery: RasterDataCollectionQueryWithBandFilterInput;
-  NextToken?: string;
+  NextToken?: string | Redacted.Redacted<string>;
 }
 export const SearchRasterDataCollectionInput = S.suspend(() =>
   S.Struct({
     Arn: S.String,
     RasterDataCollectionQuery: RasterDataCollectionQueryWithBandFilterInput,
-    NextToken: S.optional(S.String),
+    NextToken: S.optional(SensitiveString),
   }).pipe(
     T.all(
       T.Http({ method: "POST", uri: "/search-raster-data-collection" }),
@@ -1746,13 +1748,13 @@ export type ItemSourceList = ItemSource[];
 export const ItemSourceList = S.Array(ItemSource);
 export interface SearchRasterDataCollectionOutput {
   ApproximateResultCount: number;
-  NextToken?: string;
+  NextToken?: string | Redacted.Redacted<string>;
   Items?: ItemSourceList;
 }
 export const SearchRasterDataCollectionOutput = S.suspend(() =>
   S.Struct({
     ApproximateResultCount: S.Number,
-    NextToken: S.optional(S.String),
+    NextToken: S.optional(SensitiveString),
     Items: S.optional(ItemSourceList),
   }),
 ).annotations({

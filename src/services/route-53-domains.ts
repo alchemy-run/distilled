@@ -1,5 +1,6 @@
 import { HttpClient } from "@effect/platform";
 import * as Effect from "effect/Effect";
+import * as Redacted from "effect/Redacted";
 import * as S from "effect/Schema";
 import * as Stream from "effect/Stream";
 import * as API from "../api.ts";
@@ -10,6 +11,7 @@ import {
   ErrorCategory,
   Errors,
 } from "../index.ts";
+import { SensitiveString, SensitiveBlob } from "../sensitive.ts";
 const ns = T.XmlNamespace(
   "https://route53domains.amazonaws.com/doc/2014-05-15/",
 );
@@ -254,9 +256,9 @@ const rules = T.EndpointRuleSet({
 
 //# Newtypes
 export type DomainName = string;
-export type Password = string;
+export type Password = string | Redacted.Redacted<string>;
 export type LangCode = string;
-export type DomainAuthCode = string;
+export type DomainAuthCode = string | Redacted.Redacted<string>;
 export type TagKey = string;
 export type Integer = number;
 export type OperationId = string;
@@ -268,17 +270,17 @@ export type Label = string;
 export type DurationInYears = number;
 export type CurrentExpiryYear = number;
 export type AccountId = string;
-export type FIAuthKey = string;
+export type FIAuthKey = string | Redacted.Redacted<string>;
 export type NullableInteger = number;
 export type DnssecPublicKey = string;
 export type Value = string;
-export type ContactName = string;
-export type AddressLine = string;
-export type City = string;
-export type State = string;
-export type ZipCode = string;
-export type ContactNumber = string;
-export type Email = string;
+export type ContactName = string | Redacted.Redacted<string>;
+export type AddressLine = string | Redacted.Redacted<string>;
+export type City = string | Redacted.Redacted<string>;
+export type State = string | Redacted.Redacted<string>;
+export type ZipCode = string | Redacted.Redacted<string>;
+export type ContactNumber = string | Redacted.Redacted<string>;
+export type Email = string | Redacted.Redacted<string>;
 export type HostName = string;
 export type GlueIp = string;
 export type Price = number;
@@ -293,7 +295,7 @@ export type RegistryDomainId = string;
 export type Reseller = string;
 export type DNSSec = string;
 export type DomainStatus = string;
-export type ExtraParamValue = string;
+export type ExtraParamValue = string | Redacted.Redacted<string>;
 export type DomainPriceName = string;
 export type InvoiceId = string;
 export type RequestId = string;
@@ -307,10 +309,10 @@ export type OperationTypeList = string[];
 export const OperationTypeList = S.Array(S.String);
 export interface AcceptDomainTransferFromAnotherAwsAccountRequest {
   DomainName: string;
-  Password: string;
+  Password: string | Redacted.Redacted<string>;
 }
 export const AcceptDomainTransferFromAnotherAwsAccountRequest = S.suspend(() =>
-  S.Struct({ DomainName: S.String, Password: S.String }).pipe(
+  S.Struct({ DomainName: S.String, Password: SensitiveString }).pipe(
     T.all(
       ns,
       T.Http({ method: "POST", uri: "/" }),
@@ -363,10 +365,13 @@ export const CheckDomainAvailabilityRequest = S.suspend(() =>
 }) as any as S.Schema<CheckDomainAvailabilityRequest>;
 export interface CheckDomainTransferabilityRequest {
   DomainName: string;
-  AuthCode?: string;
+  AuthCode?: string | Redacted.Redacted<string>;
 }
 export const CheckDomainTransferabilityRequest = S.suspend(() =>
-  S.Struct({ DomainName: S.String, AuthCode: S.optional(S.String) }).pipe(
+  S.Struct({
+    DomainName: S.String,
+    AuthCode: S.optional(SensitiveString),
+  }).pipe(
     T.all(
       ns,
       T.Http({ method: "POST", uri: "/" }),
@@ -865,13 +870,13 @@ export type NameserverList = Nameserver[];
 export const NameserverList = S.Array(Nameserver);
 export interface UpdateDomainNameserversRequest {
   DomainName: string;
-  FIAuthKey?: string;
+  FIAuthKey?: string | Redacted.Redacted<string>;
   Nameservers: NameserverList;
 }
 export const UpdateDomainNameserversRequest = S.suspend(() =>
   S.Struct({
     DomainName: S.String,
-    FIAuthKey: S.optional(S.String),
+    FIAuthKey: S.optional(SensitiveString),
     Nameservers: NameserverList,
   }).pipe(
     T.all(
@@ -1136,66 +1141,66 @@ export const RenewDomainResponse = S.suspend(() =>
 }) as any as S.Schema<RenewDomainResponse>;
 export interface ResendContactReachabilityEmailResponse {
   domainName?: string;
-  emailAddress?: string;
+  emailAddress?: string | Redacted.Redacted<string>;
   isAlreadyVerified?: boolean;
 }
 export const ResendContactReachabilityEmailResponse = S.suspend(() =>
   S.Struct({
     domainName: S.optional(S.String),
-    emailAddress: S.optional(S.String),
+    emailAddress: S.optional(SensitiveString),
     isAlreadyVerified: S.optional(S.Boolean),
   }).pipe(ns),
 ).annotations({
   identifier: "ResendContactReachabilityEmailResponse",
 }) as any as S.Schema<ResendContactReachabilityEmailResponse>;
 export interface RetrieveDomainAuthCodeResponse {
-  AuthCode?: string;
+  AuthCode?: string | Redacted.Redacted<string>;
 }
 export const RetrieveDomainAuthCodeResponse = S.suspend(() =>
-  S.Struct({ AuthCode: S.optional(S.String) }).pipe(ns),
+  S.Struct({ AuthCode: S.optional(SensitiveString) }).pipe(ns),
 ).annotations({
   identifier: "RetrieveDomainAuthCodeResponse",
 }) as any as S.Schema<RetrieveDomainAuthCodeResponse>;
 export interface ExtraParam {
   Name: string;
-  Value: string;
+  Value: string | Redacted.Redacted<string>;
 }
 export const ExtraParam = S.suspend(() =>
-  S.Struct({ Name: S.String, Value: S.String }),
+  S.Struct({ Name: S.String, Value: SensitiveString }),
 ).annotations({ identifier: "ExtraParam" }) as any as S.Schema<ExtraParam>;
 export type ExtraParamList = ExtraParam[];
 export const ExtraParamList = S.Array(ExtraParam);
 export interface ContactDetail {
-  FirstName?: string;
-  LastName?: string;
+  FirstName?: string | Redacted.Redacted<string>;
+  LastName?: string | Redacted.Redacted<string>;
   ContactType?: string;
-  OrganizationName?: string;
-  AddressLine1?: string;
-  AddressLine2?: string;
-  City?: string;
-  State?: string;
+  OrganizationName?: string | Redacted.Redacted<string>;
+  AddressLine1?: string | Redacted.Redacted<string>;
+  AddressLine2?: string | Redacted.Redacted<string>;
+  City?: string | Redacted.Redacted<string>;
+  State?: string | Redacted.Redacted<string>;
   CountryCode?: string;
-  ZipCode?: string;
-  PhoneNumber?: string;
-  Email?: string;
-  Fax?: string;
+  ZipCode?: string | Redacted.Redacted<string>;
+  PhoneNumber?: string | Redacted.Redacted<string>;
+  Email?: string | Redacted.Redacted<string>;
+  Fax?: string | Redacted.Redacted<string>;
   ExtraParams?: ExtraParamList;
 }
 export const ContactDetail = S.suspend(() =>
   S.Struct({
-    FirstName: S.optional(S.String),
-    LastName: S.optional(S.String),
+    FirstName: S.optional(SensitiveString),
+    LastName: S.optional(SensitiveString),
     ContactType: S.optional(S.String),
-    OrganizationName: S.optional(S.String),
-    AddressLine1: S.optional(S.String),
-    AddressLine2: S.optional(S.String),
-    City: S.optional(S.String),
-    State: S.optional(S.String),
+    OrganizationName: S.optional(SensitiveString),
+    AddressLine1: S.optional(SensitiveString),
+    AddressLine2: S.optional(SensitiveString),
+    City: S.optional(SensitiveString),
+    State: S.optional(SensitiveString),
     CountryCode: S.optional(S.String),
-    ZipCode: S.optional(S.String),
-    PhoneNumber: S.optional(S.String),
-    Email: S.optional(S.String),
-    Fax: S.optional(S.String),
+    ZipCode: S.optional(SensitiveString),
+    PhoneNumber: S.optional(SensitiveString),
+    Email: S.optional(SensitiveString),
+    Fax: S.optional(SensitiveString),
     ExtraParams: S.optional(ExtraParamList),
   }),
 ).annotations({
@@ -1206,7 +1211,7 @@ export interface TransferDomainRequest {
   IdnLangCode?: string;
   DurationInYears: number;
   Nameservers?: NameserverList;
-  AuthCode?: string;
+  AuthCode?: string | Redacted.Redacted<string>;
   AutoRenew?: boolean;
   AdminContact: ContactDetail;
   RegistrantContact: ContactDetail;
@@ -1223,7 +1228,7 @@ export const TransferDomainRequest = S.suspend(() =>
     IdnLangCode: S.optional(S.String),
     DurationInYears: S.Number,
     Nameservers: S.optional(NameserverList),
-    AuthCode: S.optional(S.String),
+    AuthCode: S.optional(SensitiveString),
     AutoRenew: S.optional(S.Boolean),
     AdminContact: ContactDetail,
     RegistrantContact: ContactDetail,
@@ -1249,12 +1254,12 @@ export const TransferDomainRequest = S.suspend(() =>
 }) as any as S.Schema<TransferDomainRequest>;
 export interface TransferDomainToAnotherAwsAccountResponse {
   OperationId?: string;
-  Password?: string;
+  Password?: string | Redacted.Redacted<string>;
 }
 export const TransferDomainToAnotherAwsAccountResponse = S.suspend(() =>
   S.Struct({
     OperationId: S.optional(S.String),
-    Password: S.optional(S.String),
+    Password: S.optional(SensitiveString),
   }).pipe(ns),
 ).annotations({
   identifier: "TransferDomainToAnotherAwsAccountResponse",
@@ -1455,8 +1460,8 @@ export interface GetDomainDetailResponse {
   RegistrarName?: string;
   WhoIsServer?: string;
   RegistrarUrl?: string;
-  AbuseContactEmail?: string;
-  AbuseContactPhone?: string;
+  AbuseContactEmail?: string | Redacted.Redacted<string>;
+  AbuseContactPhone?: string | Redacted.Redacted<string>;
   RegistryDomainId?: string;
   CreationDate?: Date;
   UpdatedDate?: Date;
@@ -1482,8 +1487,8 @@ export const GetDomainDetailResponse = S.suspend(() =>
     RegistrarName: S.optional(S.String),
     WhoIsServer: S.optional(S.String),
     RegistrarUrl: S.optional(S.String),
-    AbuseContactEmail: S.optional(S.String),
-    AbuseContactPhone: S.optional(S.String),
+    AbuseContactEmail: S.optional(SensitiveString),
+    AbuseContactPhone: S.optional(SensitiveString),
     RegistryDomainId: S.optional(S.String),
     CreationDate: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
     UpdatedDate: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),

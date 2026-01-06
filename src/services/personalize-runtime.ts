@@ -1,5 +1,6 @@
 import { HttpClient } from "@effect/platform";
 import * as Effect from "effect/Effect";
+import * as Redacted from "effect/Redacted";
 import * as S from "effect/Schema";
 import * as Stream from "effect/Stream";
 import * as API from "../api.ts";
@@ -10,6 +11,7 @@ import {
   ErrorCategory,
   Errors,
 } from "../index.ts";
+import { SensitiveString, SensitiveBlob } from "../sensitive.ts";
 const svc = T.AwsApiService({
   sdkId: "Personalize Runtime",
   serviceShapeName: "AmazonPersonalizeRuntime",
@@ -255,9 +257,9 @@ export type UserID = string;
 export type NumResults = number;
 export type ItemID = string;
 export type FilterAttributeName = string;
-export type FilterAttributeValue = string;
+export type FilterAttributeValue = string | Redacted.Redacted<string>;
 export type AttributeName = string;
-export type AttributeValue = string;
+export type AttributeValue = string | Redacted.Redacted<string>;
 export type DatasetType = string;
 export type ColumnName = string;
 export type Name = string;
@@ -274,10 +276,12 @@ export type InputList = string[];
 export const InputList = S.Array(S.String);
 export type ColumnNamesList = string[];
 export const ColumnNamesList = S.Array(S.String);
-export type FilterValues = { [key: string]: string };
-export const FilterValues = S.Record({ key: S.String, value: S.String });
-export type Context = { [key: string]: string };
-export const Context = S.Record({ key: S.String, value: S.String });
+export type FilterValues = {
+  [key: string]: string | Redacted.Redacted<string>;
+};
+export const FilterValues = S.Record({ key: S.String, value: SensitiveString });
+export type Context = { [key: string]: string | Redacted.Redacted<string> };
+export const Context = S.Record({ key: S.String, value: SensitiveString });
 export type MetadataColumns = { [key: string]: ColumnNamesList };
 export const MetadataColumns = S.Record({
   key: S.String,

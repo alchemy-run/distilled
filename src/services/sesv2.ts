@@ -1,5 +1,6 @@
 import { HttpClient } from "@effect/platform";
 import * as Effect from "effect/Effect";
+import * as Redacted from "effect/Redacted";
 import * as S from "effect/Schema";
 import * as Stream from "effect/Stream";
 import * as API from "../api.ts";
@@ -10,6 +11,7 @@ import {
   ErrorCategory,
   Errors,
 } from "../index.ts";
+import { SensitiveString, SensitiveBlob } from "../sensitive.ts";
 const svc = T.AwsApiService({
   sdkId: "SESv2",
   serviceShapeName: "SimpleEmailService_v2",
@@ -416,9 +418,9 @@ export type ReputationEntityReference = string;
 export type Domain = string;
 export type NextTokenV2 = string;
 export type PageSizeV2 = number;
-export type WebsiteURL = string;
-export type UseCaseDescription = string;
-export type AdditionalContactEmailAddress = string;
+export type WebsiteURL = string | Redacted.Redacted<string>;
+export type UseCaseDescription = string | Redacted.Redacted<string>;
+export type AdditionalContactEmailAddress = string | Redacted.Redacted<string>;
 export type ArchiveArn = string;
 export type SendingPoolName = string;
 export type MaxDeliverySeconds = number;
@@ -433,7 +435,7 @@ export type TagValue = string;
 export type TopicName = string;
 export type DisplayName = string;
 export type Selector = string;
-export type PrivateKey = string;
+export type PrivateKey = string | Redacted.Redacted<string>;
 export type EmailTemplateText = string;
 export type EmailTemplateHtml = string;
 export type S3Url = string;
@@ -450,8 +452,8 @@ export type TenantId = string;
 export type MessageContent = string;
 export type ProcessedRecordsCount = number;
 export type FailedRecordsCount = number;
-export type InsightsEmailAddress = string;
-export type EmailSubject = string;
+export type InsightsEmailAddress = string | Redacted.Redacted<string>;
+export type EmailSubject = string | Redacted.Redacted<string>;
 export type DnsToken = string;
 export type HostedZone = string;
 export type RenderedEmailTemplate = string;
@@ -529,8 +531,10 @@ export type BlacklistItemNames = string[];
 export const BlacklistItemNames = S.Array(S.String);
 export type SuppressionListReasons = string[];
 export const SuppressionListReasons = S.Array(S.String);
-export type AdditionalContactEmailAddresses = string[];
-export const AdditionalContactEmailAddresses = S.Array(S.String);
+export type AdditionalContactEmailAddresses =
+  | string
+  | Redacted.Redacted<string>[];
+export const AdditionalContactEmailAddresses = S.Array(SensitiveString);
 export type EmailAddressList = string[];
 export const EmailAddressList = S.Array(S.String);
 export type TagKeyList = string[];
@@ -1882,18 +1886,18 @@ export const PutAccountDedicatedIpWarmupAttributesResponse = S.suspend(() =>
 }) as any as S.Schema<PutAccountDedicatedIpWarmupAttributesResponse>;
 export interface PutAccountDetailsRequest {
   MailType: string;
-  WebsiteURL: string;
+  WebsiteURL: string | Redacted.Redacted<string>;
   ContactLanguage?: string;
-  UseCaseDescription?: string;
+  UseCaseDescription?: string | Redacted.Redacted<string>;
   AdditionalContactEmailAddresses?: AdditionalContactEmailAddresses;
   ProductionAccessEnabled?: boolean;
 }
 export const PutAccountDetailsRequest = S.suspend(() =>
   S.Struct({
     MailType: S.String,
-    WebsiteURL: S.String,
+    WebsiteURL: SensitiveString,
     ContactLanguage: S.optional(S.String),
-    UseCaseDescription: S.optional(S.String),
+    UseCaseDescription: S.optional(SensitiveString),
     AdditionalContactEmailAddresses: S.optional(
       AdditionalContactEmailAddresses,
     ),
@@ -2413,14 +2417,14 @@ export const PutEmailIdentityDkimAttributesResponse = S.suspend(() =>
 }) as any as S.Schema<PutEmailIdentityDkimAttributesResponse>;
 export interface DkimSigningAttributes {
   DomainSigningSelector?: string;
-  DomainSigningPrivateKey?: string;
+  DomainSigningPrivateKey?: string | Redacted.Redacted<string>;
   NextSigningKeyLength?: string;
   DomainSigningAttributesOrigin?: string;
 }
 export const DkimSigningAttributes = S.suspend(() =>
   S.Struct({
     DomainSigningSelector: S.optional(S.String),
-    DomainSigningPrivateKey: S.optional(S.String),
+    DomainSigningPrivateKey: S.optional(SensitiveString),
     NextSigningKeyLength: S.optional(S.String),
     DomainSigningAttributesOrigin: S.optional(S.String),
   }),
@@ -4028,10 +4032,10 @@ export type Regions = string[];
 export const Regions = S.Array(S.String);
 export type ExportDimensionValue = string[];
 export const ExportDimensionValue = S.Array(S.String);
-export type EmailAddressFilterList = string[];
-export const EmailAddressFilterList = S.Array(S.String);
-export type EmailSubjectFilterList = string[];
-export const EmailSubjectFilterList = S.Array(S.String);
+export type EmailAddressFilterList = string | Redacted.Redacted<string>[];
+export const EmailAddressFilterList = S.Array(SensitiveString);
+export type EmailSubjectFilterList = string | Redacted.Redacted<string>[];
+export const EmailSubjectFilterList = S.Array(SensitiveString);
 export type IspFilterList = string[];
 export const IspFilterList = S.Array(S.String);
 export type LastDeliveryEventList = string[];
@@ -4068,18 +4072,18 @@ export const Details = S.suspend(() =>
 ).annotations({ identifier: "Details" }) as any as S.Schema<Details>;
 export interface AccountDetails {
   MailType?: string;
-  WebsiteURL?: string;
+  WebsiteURL?: string | Redacted.Redacted<string>;
   ContactLanguage?: string;
-  UseCaseDescription?: string;
+  UseCaseDescription?: string | Redacted.Redacted<string>;
   AdditionalContactEmailAddresses?: AdditionalContactEmailAddresses;
   ReviewDetails?: ReviewDetails;
 }
 export const AccountDetails = S.suspend(() =>
   S.Struct({
     MailType: S.optional(S.String),
-    WebsiteURL: S.optional(S.String),
+    WebsiteURL: S.optional(SensitiveString),
     ContactLanguage: S.optional(S.String),
-    UseCaseDescription: S.optional(S.String),
+    UseCaseDescription: S.optional(SensitiveString),
     AdditionalContactEmailAddresses: S.optional(
       AdditionalContactEmailAddresses,
     ),
@@ -5671,13 +5675,13 @@ export const InsightsEvent = S.suspend(() =>
 export type InsightsEvents = InsightsEvent[];
 export const InsightsEvents = S.Array(InsightsEvent);
 export interface EmailInsights {
-  Destination?: string;
+  Destination?: string | Redacted.Redacted<string>;
   Isp?: string;
   Events?: InsightsEvents;
 }
 export const EmailInsights = S.suspend(() =>
   S.Struct({
-    Destination: S.optional(S.String),
+    Destination: S.optional(SensitiveString),
     Isp: S.optional(S.String),
     Events: S.optional(InsightsEvents),
   }),
@@ -5704,16 +5708,16 @@ export type BulkEmailEntryResultList = BulkEmailEntryResult[];
 export const BulkEmailEntryResultList = S.Array(BulkEmailEntryResult);
 export interface GetMessageInsightsResponse {
   MessageId?: string;
-  FromEmailAddress?: string;
-  Subject?: string;
+  FromEmailAddress?: string | Redacted.Redacted<string>;
+  Subject?: string | Redacted.Redacted<string>;
   EmailTags?: MessageTagList;
   Insights?: EmailInsightsList;
 }
 export const GetMessageInsightsResponse = S.suspend(() =>
   S.Struct({
     MessageId: S.optional(S.String),
-    FromEmailAddress: S.optional(S.String),
-    Subject: S.optional(S.String),
+    FromEmailAddress: S.optional(SensitiveString),
+    Subject: S.optional(SensitiveString),
     EmailTags: S.optional(MessageTagList),
     Insights: S.optional(EmailInsightsList),
   }),

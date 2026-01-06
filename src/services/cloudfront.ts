@@ -1,5 +1,6 @@
 import { HttpClient } from "@effect/platform";
 import * as Effect from "effect/Effect";
+import * as Redacted from "effect/Redacted";
 import * as S from "effect/Schema";
 import * as Stream from "effect/Stream";
 import * as API from "../api.ts";
@@ -10,6 +11,7 @@ import {
   ErrorCategory,
   Errors,
 } from "../index.ts";
+import { SensitiveString, SensitiveBlob } from "../sensitive.ts";
 const ns = T.XmlNamespace("http://cloudfront.amazonaws.com/doc/2020-05-31/");
 const svc = T.AwsApiService({
   sdkId: "CloudFront",
@@ -443,14 +445,14 @@ export type distributionIdString = string;
 export type aliasString = string;
 export type listConflictingAliasesMaxItemsInteger = number;
 export type ResourceARN = string;
-export type CommentType = string;
+export type CommentType = string | Redacted.Redacted<string>;
 export type ParameterName = string;
 export type ParameterValue = string;
 export type TagKey = string;
 export type TagValue = string;
 export type ServerCertificateId = string;
 export type SamplingRate = number;
-export type sensitiveStringType = string;
+export type sensitiveStringType = string | Redacted.Redacted<string>;
 export type KeyValueStoreARN = string;
 export type float = number;
 export type OriginShieldRegion = string;
@@ -664,13 +666,13 @@ export const FunctionConfig = S.suspend(() =>
 export interface CreateFunctionRequest {
   Name: string;
   FunctionConfig: FunctionConfig;
-  FunctionCode: Uint8Array;
+  FunctionCode: Uint8Array | Redacted.Redacted<Uint8Array>;
 }
 export const CreateFunctionRequest = S.suspend(() =>
   S.Struct({
     Name: S.String,
     FunctionConfig: FunctionConfig,
-    FunctionCode: T.Blob,
+    FunctionCode: SensitiveBlob,
   }).pipe(
     T.all(
       ns,
@@ -3275,14 +3277,14 @@ export interface TestConnectionFunctionRequest {
   Id: string;
   IfMatch: string;
   Stage?: string;
-  ConnectionObject: Uint8Array;
+  ConnectionObject: Uint8Array | Redacted.Redacted<Uint8Array>;
 }
 export const TestConnectionFunctionRequest = S.suspend(() =>
   S.Struct({
     Id: S.String.pipe(T.HttpLabel("Id")),
     IfMatch: S.String.pipe(T.HttpHeader("If-Match")),
     Stage: S.optional(S.String),
-    ConnectionObject: T.Blob,
+    ConnectionObject: SensitiveBlob,
   }).pipe(
     T.all(
       ns,
@@ -3304,14 +3306,14 @@ export interface TestFunctionRequest {
   Name: string;
   IfMatch: string;
   Stage?: string;
-  EventObject: Uint8Array;
+  EventObject: Uint8Array | Redacted.Redacted<Uint8Array>;
 }
 export const TestFunctionRequest = S.suspend(() =>
   S.Struct({
     Name: S.String.pipe(T.HttpLabel("Name")),
     IfMatch: S.String.pipe(T.HttpHeader("If-Match")),
     Stage: S.optional(S.String),
-    EventObject: T.Blob,
+    EventObject: SensitiveBlob,
   }).pipe(
     T.all(
       ns,
@@ -3520,14 +3522,14 @@ export interface UpdateConnectionFunctionRequest {
   Id: string;
   IfMatch: string;
   ConnectionFunctionConfig: FunctionConfig;
-  ConnectionFunctionCode: Uint8Array;
+  ConnectionFunctionCode: Uint8Array | Redacted.Redacted<Uint8Array>;
 }
 export const UpdateConnectionFunctionRequest = S.suspend(() =>
   S.Struct({
     Id: S.String.pipe(T.HttpLabel("Id")),
     IfMatch: S.String.pipe(T.HttpHeader("If-Match")),
     ConnectionFunctionConfig: FunctionConfig,
-    ConnectionFunctionCode: T.Blob,
+    ConnectionFunctionCode: SensitiveBlob,
   }).pipe(
     T.all(
       ns,
@@ -3685,10 +3687,10 @@ export const Aliases = S.suspend(() =>
 ).annotations({ identifier: "Aliases" }) as any as S.Schema<Aliases>;
 export interface OriginCustomHeader {
   HeaderName: string;
-  HeaderValue: string;
+  HeaderValue: string | Redacted.Redacted<string>;
 }
 export const OriginCustomHeader = S.suspend(() =>
-  S.Struct({ HeaderName: S.String, HeaderValue: S.String }),
+  S.Struct({ HeaderName: S.String, HeaderValue: SensitiveString }),
 ).annotations({
   identifier: "OriginCustomHeader",
 }) as any as S.Schema<OriginCustomHeader>;
@@ -4247,13 +4249,13 @@ export const Restrictions = S.suspend(() =>
   S.Struct({ GeoRestriction: GeoRestriction }),
 ).annotations({ identifier: "Restrictions" }) as any as S.Schema<Restrictions>;
 export interface StringSchemaConfig {
-  Comment?: string;
+  Comment?: string | Redacted.Redacted<string>;
   DefaultValue?: string;
   Required: boolean;
 }
 export const StringSchemaConfig = S.suspend(() =>
   S.Struct({
-    Comment: S.optional(S.String),
+    Comment: S.optional(SensitiveString),
     DefaultValue: S.optional(S.String),
     Required: S.Boolean,
   }),
@@ -4328,7 +4330,7 @@ export interface DistributionConfig {
   DefaultCacheBehavior: DefaultCacheBehavior;
   CacheBehaviors?: CacheBehaviors;
   CustomErrorResponses?: CustomErrorResponses;
-  Comment: string;
+  Comment: string | Redacted.Redacted<string>;
   Logging?: LoggingConfig;
   PriceClass?: string;
   Enabled: boolean;
@@ -4355,7 +4357,7 @@ export const DistributionConfig = S.suspend(() =>
     DefaultCacheBehavior: DefaultCacheBehavior,
     CacheBehaviors: S.optional(CacheBehaviors),
     CustomErrorResponses: S.optional(CustomErrorResponses),
-    Comment: S.String,
+    Comment: SensitiveString,
     Logging: S.optional(LoggingConfig),
     PriceClass: S.optional(S.String),
     Enabled: S.Boolean,
@@ -4787,14 +4789,14 @@ export interface UpdateFunctionRequest {
   Name: string;
   IfMatch: string;
   FunctionConfig: FunctionConfig;
-  FunctionCode: Uint8Array;
+  FunctionCode: Uint8Array | Redacted.Redacted<Uint8Array>;
 }
 export const UpdateFunctionRequest = S.suspend(() =>
   S.Struct({
     Name: S.String.pipe(T.HttpLabel("Name")),
     IfMatch: S.String.pipe(T.HttpHeader("If-Match")),
     FunctionConfig: FunctionConfig,
-    FunctionCode: T.Blob,
+    FunctionCode: SensitiveBlob,
   }).pipe(
     T.all(
       ns,
@@ -6552,7 +6554,7 @@ export interface DistributionSummary {
   DefaultCacheBehavior: DefaultCacheBehavior;
   CacheBehaviors: CacheBehaviors;
   CustomErrorResponses: CustomErrorResponses;
-  Comment: string;
+  Comment: string | Redacted.Redacted<string>;
   PriceClass: string;
   Enabled: boolean;
   ViewerCertificate: ViewerCertificate;
@@ -6581,7 +6583,7 @@ export const DistributionSummary = S.suspend(() =>
     DefaultCacheBehavior: DefaultCacheBehavior,
     CacheBehaviors: CacheBehaviors,
     CustomErrorResponses: CustomErrorResponses,
-    Comment: S.String,
+    Comment: SensitiveString,
     PriceClass: S.String,
     Enabled: S.Boolean,
     ViewerCertificate: ViewerCertificate,
@@ -7640,16 +7642,16 @@ export interface ConnectionFunctionTestResult {
   ConnectionFunctionSummary?: ConnectionFunctionSummary;
   ComputeUtilization?: string;
   ConnectionFunctionExecutionLogs?: FunctionExecutionLogList;
-  ConnectionFunctionErrorMessage?: string;
-  ConnectionFunctionOutput?: string;
+  ConnectionFunctionErrorMessage?: string | Redacted.Redacted<string>;
+  ConnectionFunctionOutput?: string | Redacted.Redacted<string>;
 }
 export const ConnectionFunctionTestResult = S.suspend(() =>
   S.Struct({
     ConnectionFunctionSummary: S.optional(ConnectionFunctionSummary),
     ComputeUtilization: S.optional(S.String),
     ConnectionFunctionExecutionLogs: S.optional(FunctionExecutionLogList),
-    ConnectionFunctionErrorMessage: S.optional(S.String),
-    ConnectionFunctionOutput: S.optional(S.String),
+    ConnectionFunctionErrorMessage: S.optional(SensitiveString),
+    ConnectionFunctionOutput: S.optional(SensitiveString),
   }),
 ).annotations({
   identifier: "ConnectionFunctionTestResult",
@@ -7658,16 +7660,16 @@ export interface TestResult {
   FunctionSummary?: FunctionSummary;
   ComputeUtilization?: string;
   FunctionExecutionLogs?: FunctionExecutionLogList;
-  FunctionErrorMessage?: string;
-  FunctionOutput?: string;
+  FunctionErrorMessage?: string | Redacted.Redacted<string>;
+  FunctionOutput?: string | Redacted.Redacted<string>;
 }
 export const TestResult = S.suspend(() =>
   S.Struct({
     FunctionSummary: S.optional(FunctionSummary),
     ComputeUtilization: S.optional(S.String),
     FunctionExecutionLogs: S.optional(FunctionExecutionLogList),
-    FunctionErrorMessage: S.optional(S.String),
-    FunctionOutput: S.optional(S.String),
+    FunctionErrorMessage: S.optional(SensitiveString),
+    FunctionOutput: S.optional(SensitiveString),
   }),
 ).annotations({ identifier: "TestResult" }) as any as S.Schema<TestResult>;
 export interface DnsConfiguration {
@@ -9094,14 +9096,14 @@ export const CreateCachePolicyRequest = S.suspend(() =>
 export interface CreateConnectionFunctionRequest {
   Name: string;
   ConnectionFunctionConfig: FunctionConfig;
-  ConnectionFunctionCode: Uint8Array;
+  ConnectionFunctionCode: Uint8Array | Redacted.Redacted<Uint8Array>;
   Tags?: Tags;
 }
 export const CreateConnectionFunctionRequest = S.suspend(() =>
   S.Struct({
     Name: S.String,
     ConnectionFunctionConfig: FunctionConfig,
-    ConnectionFunctionCode: T.Blob,
+    ConnectionFunctionCode: SensitiveBlob,
     Tags: S.optional(Tags),
   }).pipe(
     T.all(

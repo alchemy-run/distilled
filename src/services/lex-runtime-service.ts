@@ -1,5 +1,6 @@
 import { HttpClient } from "@effect/platform";
 import * as Effect from "effect/Effect";
+import * as Redacted from "effect/Redacted";
 import * as S from "effect/Schema";
 import * as Stream from "effect/Stream";
 import * as API from "../api.ts";
@@ -10,6 +11,7 @@ import {
   ErrorCategory,
   Errors,
 } from "../index.ts";
+import { SensitiveString, SensitiveBlob } from "../sensitive.ts";
 const svc = T.AwsApiService({
   sdkId: "Lex Runtime Service",
   serviceShapeName: "AWSDeepSenseRunTimeService",
@@ -334,16 +336,20 @@ export type BotName = string;
 export type BotAlias = string;
 export type UserId = string;
 export type IntentSummaryCheckpointLabel = string;
-export type SynthesizedJsonAttributesString = string;
+export type SynthesizedJsonAttributesString =
+  | string
+  | Redacted.Redacted<string>;
 export type HttpContentType = string;
 export type Accept = string;
-export type SynthesizedJsonActiveContextsString = string;
-export type Text = string;
+export type SynthesizedJsonActiveContextsString =
+  | string
+  | Redacted.Redacted<string>;
+export type Text = string | Redacted.Redacted<string>;
 export type ActiveContextName = string;
 export type IntentName = string;
 export type SynthesizedJsonString = string;
-export type SensitiveString = string;
-export type SensitiveStringUnbounded = string;
+export type SensitiveString = string | Redacted.Redacted<string>;
+export type SensitiveStringUnbounded = string | Redacted.Redacted<string>;
 export type BotVersion = string;
 export type ActiveContextTimeToLiveInSeconds = number;
 export type ActiveContextTurnsToLive = number;
@@ -418,28 +424,28 @@ export interface PostContentRequest {
   botName: string;
   botAlias: string;
   userId: string;
-  sessionAttributes?: string;
-  requestAttributes?: string;
+  sessionAttributes?: string | Redacted.Redacted<string>;
+  requestAttributes?: string | Redacted.Redacted<string>;
   contentType: string;
   accept?: string;
   inputStream: T.StreamingInputBody;
-  activeContexts?: string;
+  activeContexts?: string | Redacted.Redacted<string>;
 }
 export const PostContentRequest = S.suspend(() =>
   S.Struct({
     botName: S.String.pipe(T.HttpLabel("botName")),
     botAlias: S.String.pipe(T.HttpLabel("botAlias")),
     userId: S.String.pipe(T.HttpLabel("userId")),
-    sessionAttributes: S.optional(S.String).pipe(
+    sessionAttributes: S.optional(SensitiveString).pipe(
       T.HttpHeader("x-amz-lex-session-attributes"),
     ),
-    requestAttributes: S.optional(S.String).pipe(
+    requestAttributes: S.optional(SensitiveString).pipe(
       T.HttpHeader("x-amz-lex-request-attributes"),
     ),
     contentType: S.String.pipe(T.HttpHeader("Content-Type")),
     accept: S.optional(S.String).pipe(T.HttpHeader("Accept")),
     inputStream: T.StreamingInput.pipe(T.HttpPayload()),
-    activeContexts: S.optional(S.String).pipe(
+    activeContexts: S.optional(SensitiveString).pipe(
       T.HttpHeader("x-amz-lex-active-contexts"),
     ),
   }).pipe(
@@ -466,7 +472,7 @@ export interface DialogAction {
   slots?: StringMap;
   slotToElicit?: string;
   fulfillmentState?: string;
-  message?: string;
+  message?: string | Redacted.Redacted<string>;
   messageFormat?: string;
 }
 export const DialogAction = S.suspend(() =>
@@ -476,7 +482,7 @@ export const DialogAction = S.suspend(() =>
     slots: S.optional(StringMap),
     slotToElicit: S.optional(S.String),
     fulfillmentState: S.optional(S.String),
-    message: S.optional(S.String),
+    message: S.optional(SensitiveString),
     messageFormat: S.optional(S.String),
   }),
 ).annotations({ identifier: "DialogAction" }) as any as S.Schema<DialogAction>;
@@ -532,10 +538,12 @@ export const ActiveContextTimeToLive = S.suspend(() =>
 ).annotations({
   identifier: "ActiveContextTimeToLive",
 }) as any as S.Schema<ActiveContextTimeToLive>;
-export type ActiveContextParametersMap = { [key: string]: string };
+export type ActiveContextParametersMap = {
+  [key: string]: string | Redacted.Redacted<string>;
+};
 export const ActiveContextParametersMap = S.Record({
   key: S.String,
-  value: S.String,
+  value: SensitiveString,
 });
 export interface ActiveContext {
   name: string;
@@ -579,17 +587,17 @@ export interface PostContentResponse {
   slots?: string;
   sessionAttributes?: string;
   sentimentResponse?: string;
-  message?: string;
-  encodedMessage?: string;
+  message?: string | Redacted.Redacted<string>;
+  encodedMessage?: string | Redacted.Redacted<string>;
   messageFormat?: string;
   dialogState?: string;
   slotToElicit?: string;
   inputTranscript?: string;
-  encodedInputTranscript?: string;
+  encodedInputTranscript?: string | Redacted.Redacted<string>;
   audioStream?: T.StreamingOutputBody;
   botVersion?: string;
   sessionId?: string;
-  activeContexts?: string;
+  activeContexts?: string | Redacted.Redacted<string>;
 }
 export const PostContentResponse = S.suspend(() =>
   S.Struct({
@@ -610,8 +618,10 @@ export const PostContentResponse = S.suspend(() =>
     sentimentResponse: S.optional(S.String).pipe(
       T.HttpHeader("x-amz-lex-sentiment"),
     ),
-    message: S.optional(S.String).pipe(T.HttpHeader("x-amz-lex-message")),
-    encodedMessage: S.optional(S.String).pipe(
+    message: S.optional(SensitiveString).pipe(
+      T.HttpHeader("x-amz-lex-message"),
+    ),
+    encodedMessage: S.optional(SensitiveString).pipe(
       T.HttpHeader("x-amz-lex-encoded-message"),
     ),
     messageFormat: S.optional(S.String).pipe(
@@ -626,7 +636,7 @@ export const PostContentResponse = S.suspend(() =>
     inputTranscript: S.optional(S.String).pipe(
       T.HttpHeader("x-amz-lex-input-transcript"),
     ),
-    encodedInputTranscript: S.optional(S.String).pipe(
+    encodedInputTranscript: S.optional(SensitiveString).pipe(
       T.HttpHeader("x-amz-lex-encoded-input-transcript"),
     ),
     audioStream: S.optional(T.StreamingOutput).pipe(T.HttpPayload()),
@@ -634,7 +644,7 @@ export const PostContentResponse = S.suspend(() =>
       T.HttpHeader("x-amz-lex-bot-version"),
     ),
     sessionId: S.optional(S.String).pipe(T.HttpHeader("x-amz-lex-session-id")),
-    activeContexts: S.optional(S.String).pipe(
+    activeContexts: S.optional(SensitiveString).pipe(
       T.HttpHeader("x-amz-lex-active-contexts"),
     ),
   }),
@@ -683,7 +693,7 @@ export interface PostTextRequest {
   userId: string;
   sessionAttributes?: StringMap;
   requestAttributes?: StringMap;
-  inputText: string;
+  inputText: string | Redacted.Redacted<string>;
   activeContexts?: ActiveContextsList;
 }
 export const PostTextRequest = S.suspend(() =>
@@ -693,7 +703,7 @@ export const PostTextRequest = S.suspend(() =>
     userId: S.String.pipe(T.HttpLabel("userId")),
     sessionAttributes: S.optional(StringMap),
     requestAttributes: S.optional(StringMap),
-    inputText: S.String,
+    inputText: SensitiveString,
     activeContexts: S.optional(ActiveContextsList),
   }).pipe(
     T.all(
@@ -716,14 +726,14 @@ export interface PutSessionResponse {
   intentName?: string;
   slots?: string;
   sessionAttributes?: string;
-  message?: string;
-  encodedMessage?: string;
+  message?: string | Redacted.Redacted<string>;
+  encodedMessage?: string | Redacted.Redacted<string>;
   messageFormat?: string;
   dialogState?: string;
   slotToElicit?: string;
   audioStream?: T.StreamingOutputBody;
   sessionId?: string;
-  activeContexts?: string;
+  activeContexts?: string | Redacted.Redacted<string>;
 }
 export const PutSessionResponse = S.suspend(() =>
   S.Struct({
@@ -735,8 +745,10 @@ export const PutSessionResponse = S.suspend(() =>
     sessionAttributes: S.optional(S.String).pipe(
       T.HttpHeader("x-amz-lex-session-attributes"),
     ),
-    message: S.optional(S.String).pipe(T.HttpHeader("x-amz-lex-message")),
-    encodedMessage: S.optional(S.String).pipe(
+    message: S.optional(SensitiveString).pipe(
+      T.HttpHeader("x-amz-lex-message"),
+    ),
+    encodedMessage: S.optional(SensitiveString).pipe(
       T.HttpHeader("x-amz-lex-encoded-message"),
     ),
     messageFormat: S.optional(S.String).pipe(
@@ -750,7 +762,7 @@ export const PutSessionResponse = S.suspend(() =>
     ),
     audioStream: S.optional(T.StreamingOutput).pipe(T.HttpPayload()),
     sessionId: S.optional(S.String).pipe(T.HttpHeader("x-amz-lex-session-id")),
-    activeContexts: S.optional(S.String).pipe(
+    activeContexts: S.optional(SensitiveString).pipe(
       T.HttpHeader("x-amz-lex-active-contexts"),
     ),
   }),
@@ -840,7 +852,7 @@ export interface PostTextResponse {
   alternativeIntents?: IntentList;
   slots?: StringMap;
   sessionAttributes?: StringMap;
-  message?: string;
+  message?: string | Redacted.Redacted<string>;
   sentimentResponse?: SentimentResponse;
   messageFormat?: string;
   dialogState?: string;
@@ -857,7 +869,7 @@ export const PostTextResponse = S.suspend(() =>
     alternativeIntents: S.optional(IntentList),
     slots: S.optional(StringMap),
     sessionAttributes: S.optional(StringMap),
-    message: S.optional(S.String),
+    message: S.optional(SensitiveString),
     sentimentResponse: S.optional(SentimentResponse),
     messageFormat: S.optional(S.String),
     dialogState: S.optional(S.String),

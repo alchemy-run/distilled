@@ -1,5 +1,6 @@
 import { HttpClient } from "@effect/platform";
 import * as Effect from "effect/Effect";
+import * as Redacted from "effect/Redacted";
 import * as S from "effect/Schema";
 import * as Stream from "effect/Stream";
 import * as API from "../api.ts";
@@ -10,6 +11,7 @@ import {
   ErrorCategory,
   Errors,
 } from "../index.ts";
+import { SensitiveString, SensitiveBlob } from "../sensitive.ts";
 const ns = T.XmlNamespace("http://polly.amazonaws.com/doc/v1");
 const svc = T.AwsApiService({ sdkId: "Polly", serviceShapeName: "Parrot_v1" });
 const auth = T.AwsAuthSigv4({ name: "polly" });
@@ -252,7 +254,7 @@ export type LexiconName = string;
 export type NextToken = string;
 export type TaskId = string;
 export type MaxResults = number;
-export type LexiconContent = string;
+export type LexiconContent = string | Redacted.Redacted<string>;
 export type OutputS3BucketName = string;
 export type OutputS3KeyPrefix = string;
 export type SampleRate = string;
@@ -409,12 +411,12 @@ export const ListSpeechSynthesisTasksInput = S.suspend(() =>
 }) as any as S.Schema<ListSpeechSynthesisTasksInput>;
 export interface PutLexiconInput {
   Name: string;
-  Content: string;
+  Content: string | Redacted.Redacted<string>;
 }
 export const PutLexiconInput = S.suspend(() =>
   S.Struct({
     Name: S.String.pipe(T.HttpLabel("Name")),
-    Content: S.String,
+    Content: SensitiveString,
   }).pipe(
     T.all(
       ns,
@@ -616,11 +618,14 @@ export const Voice = S.suspend(() =>
 export type VoiceList = Voice[];
 export const VoiceList = S.Array(Voice);
 export interface Lexicon {
-  Content?: string;
+  Content?: string | Redacted.Redacted<string>;
   Name?: string;
 }
 export const Lexicon = S.suspend(() =>
-  S.Struct({ Content: S.optional(S.String), Name: S.optional(S.String) }),
+  S.Struct({
+    Content: S.optional(SensitiveString),
+    Name: S.optional(S.String),
+  }),
 ).annotations({ identifier: "Lexicon" }) as any as S.Schema<Lexicon>;
 export interface LexiconAttributes {
   Alphabet?: string;

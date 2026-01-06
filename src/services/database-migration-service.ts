@@ -1,5 +1,6 @@
 import { HttpClient } from "@effect/platform";
 import * as Effect from "effect/Effect";
+import * as Redacted from "effect/Redacted";
 import * as S from "effect/Schema";
 import * as Stream from "effect/Stream";
 import * as API from "../api.ts";
@@ -10,6 +11,7 @@ import {
   ErrorCategory,
   Errors,
 } from "../index.ts";
+import { SensitiveString, SensitiveBlob } from "../sensitive.ts";
 const ns = T.XmlNamespace("http://dms.amazonaws.com/doc/2016-01-01/");
 const svc = T.AwsApiService({
   sdkId: "Database Migration Service",
@@ -313,7 +315,7 @@ const rules = T.EndpointRuleSet({
 //# Newtypes
 export type MigrationProjectIdentifier = string;
 export type IntegerOptional = number;
-export type SecretString = string;
+export type SecretString = string | Redacted.Redacted<string>;
 export type ReplicationInstanceClass = string;
 export type Marker = string;
 export type Integer = number;
@@ -2109,7 +2111,7 @@ export const GetTargetSelectionRulesMessage = S.suspend(() =>
 }) as any as S.Schema<GetTargetSelectionRulesMessage>;
 export interface ImportCertificateMessage {
   CertificateIdentifier: string;
-  CertificatePem?: string;
+  CertificatePem?: string | Redacted.Redacted<string>;
   CertificateWallet?: Uint8Array;
   Tags?: TagList;
   KmsKeyId?: string;
@@ -2117,7 +2119,7 @@ export interface ImportCertificateMessage {
 export const ImportCertificateMessage = S.suspend(() =>
   S.Struct({
     CertificateIdentifier: S.String,
-    CertificatePem: S.optional(S.String),
+    CertificatePem: S.optional(SensitiveString),
     CertificateWallet: S.optional(T.Blob),
     Tags: S.optional(TagList),
     KmsKeyId: S.optional(S.String),
@@ -2216,7 +2218,7 @@ export interface ModifyDataMigrationMessage {
   SourceDataSettings?: SourceDataSettings;
   TargetDataSettings?: TargetDataSettings;
   NumberOfJobs?: number;
-  SelectionRules?: string;
+  SelectionRules?: string | Redacted.Redacted<string>;
 }
 export const ModifyDataMigrationMessage = S.suspend(() =>
   S.Struct({
@@ -2228,7 +2230,7 @@ export const ModifyDataMigrationMessage = S.suspend(() =>
     SourceDataSettings: S.optional(SourceDataSettings),
     TargetDataSettings: S.optional(TargetDataSettings),
     NumberOfJobs: S.optional(S.Number),
-    SelectionRules: S.optional(S.String),
+    SelectionRules: S.optional(SensitiveString),
   }).pipe(
     T.all(
       ns,
@@ -2652,7 +2654,7 @@ export const DmsTransferSettings = S.suspend(() =>
 }) as any as S.Schema<DmsTransferSettings>;
 export interface MongoDbSettings {
   Username?: string;
-  Password?: string;
+  Password?: string | Redacted.Redacted<string>;
   ServerName?: string;
   Port?: number;
   DatabaseName?: string;
@@ -2671,7 +2673,7 @@ export interface MongoDbSettings {
 export const MongoDbSettings = S.suspend(() =>
   S.Struct({
     Username: S.optional(S.String),
-    Password: S.optional(S.String),
+    Password: S.optional(SensitiveString),
     ServerName: S.optional(S.String),
     Port: S.optional(S.Number),
     DatabaseName: S.optional(S.String),
@@ -2734,10 +2736,10 @@ export interface KafkaSettings {
   SecurityProtocol?: string;
   SslClientCertificateArn?: string;
   SslClientKeyArn?: string;
-  SslClientKeyPassword?: string;
+  SslClientKeyPassword?: string | Redacted.Redacted<string>;
   SslCaCertificateArn?: string;
   SaslUsername?: string;
-  SaslPassword?: string;
+  SaslPassword?: string | Redacted.Redacted<string>;
   NoHexPrefix?: boolean;
   SaslMechanism?: string;
   SslEndpointIdentificationAlgorithm?: string;
@@ -2758,10 +2760,10 @@ export const KafkaSettings = S.suspend(() =>
     SecurityProtocol: S.optional(S.String),
     SslClientCertificateArn: S.optional(S.String),
     SslClientKeyArn: S.optional(S.String),
-    SslClientKeyPassword: S.optional(S.String),
+    SslClientKeyPassword: S.optional(SensitiveString),
     SslCaCertificateArn: S.optional(S.String),
     SaslUsername: S.optional(S.String),
-    SaslPassword: S.optional(S.String),
+    SaslPassword: S.optional(SensitiveString),
     NoHexPrefix: S.optional(S.Boolean),
     SaslMechanism: S.optional(S.String),
     SslEndpointIdentificationAlgorithm: S.optional(S.String),
@@ -2826,7 +2828,7 @@ export interface RedshiftSettings {
   FileTransferUploadStreams?: number;
   LoadTimeout?: number;
   MaxFileSize?: number;
-  Password?: string;
+  Password?: string | Redacted.Redacted<string>;
   Port?: number;
   RemoveQuotes?: boolean;
   ReplaceInvalidChars?: string;
@@ -2860,7 +2862,7 @@ export const RedshiftSettings = S.suspend(() =>
     FileTransferUploadStreams: S.optional(S.Number),
     LoadTimeout: S.optional(S.Number),
     MaxFileSize: S.optional(S.Number),
-    Password: S.optional(S.String),
+    Password: S.optional(SensitiveString),
     Port: S.optional(S.Number),
     RemoveQuotes: S.optional(S.Boolean),
     ReplaceInvalidChars: S.optional(S.String),
@@ -2891,7 +2893,7 @@ export interface PostgreSQLSettings {
   HeartbeatEnable?: boolean;
   HeartbeatSchema?: string;
   HeartbeatFrequency?: number;
-  Password?: string;
+  Password?: string | Redacted.Redacted<string>;
   Port?: number;
   ServerName?: string;
   Username?: string;
@@ -2921,7 +2923,7 @@ export const PostgreSQLSettings = S.suspend(() =>
     HeartbeatEnable: S.optional(S.Boolean),
     HeartbeatSchema: S.optional(S.String),
     HeartbeatFrequency: S.optional(S.Number),
-    Password: S.optional(S.String),
+    Password: S.optional(SensitiveString),
     Port: S.optional(S.Number),
     ServerName: S.optional(S.String),
     Username: S.optional(S.String),
@@ -2950,7 +2952,7 @@ export interface MySQLSettings {
   TargetDbType?: string;
   MaxFileSize?: number;
   ParallelLoadThreads?: number;
-  Password?: string;
+  Password?: string | Redacted.Redacted<string>;
   Port?: number;
   ServerName?: string;
   ServerTimezone?: string;
@@ -2970,7 +2972,7 @@ export const MySQLSettings = S.suspend(() =>
     TargetDbType: S.optional(S.String),
     MaxFileSize: S.optional(S.Number),
     ParallelLoadThreads: S.optional(S.Number),
-    Password: S.optional(S.String),
+    Password: S.optional(SensitiveString),
     Port: S.optional(S.Number),
     ServerName: S.optional(S.String),
     ServerTimezone: S.optional(S.String),
@@ -3002,7 +3004,7 @@ export interface OracleSettings {
   EnableHomogenousTablespace?: boolean;
   DirectPathNoLog?: boolean;
   ArchivedLogsOnly?: boolean;
-  AsmPassword?: string;
+  AsmPassword?: string | Redacted.Redacted<string>;
   AsmServer?: string;
   AsmUser?: string;
   CharLengthSemantics?: string;
@@ -3010,11 +3012,11 @@ export interface OracleSettings {
   DirectPathParallelLoad?: boolean;
   FailTasksOnLobTruncation?: boolean;
   NumberDatatypeScale?: number;
-  Password?: string;
+  Password?: string | Redacted.Redacted<string>;
   Port?: number;
   ReadTableSpaceName?: boolean;
   RetryInterval?: number;
-  SecurityDbEncryption?: string;
+  SecurityDbEncryption?: string | Redacted.Redacted<string>;
   SecurityDbEncryptionName?: string;
   ServerName?: string;
   SpatialDataOptionToGeoJsonFunctionName?: string;
@@ -3049,7 +3051,7 @@ export const OracleSettings = S.suspend(() =>
     EnableHomogenousTablespace: S.optional(S.Boolean),
     DirectPathNoLog: S.optional(S.Boolean),
     ArchivedLogsOnly: S.optional(S.Boolean),
-    AsmPassword: S.optional(S.String),
+    AsmPassword: S.optional(SensitiveString),
     AsmServer: S.optional(S.String),
     AsmUser: S.optional(S.String),
     CharLengthSemantics: S.optional(S.String),
@@ -3057,11 +3059,11 @@ export const OracleSettings = S.suspend(() =>
     DirectPathParallelLoad: S.optional(S.Boolean),
     FailTasksOnLobTruncation: S.optional(S.Boolean),
     NumberDatatypeScale: S.optional(S.Number),
-    Password: S.optional(S.String),
+    Password: S.optional(SensitiveString),
     Port: S.optional(S.Number),
     ReadTableSpaceName: S.optional(S.Boolean),
     RetryInterval: S.optional(S.Number),
-    SecurityDbEncryption: S.optional(S.String),
+    SecurityDbEncryption: S.optional(SensitiveString),
     SecurityDbEncryptionName: S.optional(S.String),
     ServerName: S.optional(S.String),
     SpatialDataOptionToGeoJsonFunctionName: S.optional(S.String),
@@ -3084,7 +3086,7 @@ export const OracleSettings = S.suspend(() =>
 }) as any as S.Schema<OracleSettings>;
 export interface SybaseSettings {
   DatabaseName?: string;
-  Password?: string;
+  Password?: string | Redacted.Redacted<string>;
   Port?: number;
   ServerName?: string;
   Username?: string;
@@ -3094,7 +3096,7 @@ export interface SybaseSettings {
 export const SybaseSettings = S.suspend(() =>
   S.Struct({
     DatabaseName: S.optional(S.String),
-    Password: S.optional(S.String),
+    Password: S.optional(SensitiveString),
     Port: S.optional(S.Number),
     ServerName: S.optional(S.String),
     Username: S.optional(S.String),
@@ -3109,7 +3111,7 @@ export interface MicrosoftSQLServerSettings {
   BcpPacketSize?: number;
   DatabaseName?: string;
   ControlTablesFileGroup?: string;
-  Password?: string;
+  Password?: string | Redacted.Redacted<string>;
   QuerySingleAlwaysOnNode?: boolean;
   ReadBackupOnly?: boolean;
   SafeguardPolicy?: string;
@@ -3130,7 +3132,7 @@ export const MicrosoftSQLServerSettings = S.suspend(() =>
     BcpPacketSize: S.optional(S.Number),
     DatabaseName: S.optional(S.String),
     ControlTablesFileGroup: S.optional(S.String),
-    Password: S.optional(S.String),
+    Password: S.optional(SensitiveString),
     QuerySingleAlwaysOnNode: S.optional(S.Boolean),
     ReadBackupOnly: S.optional(S.Boolean),
     SafeguardPolicy: S.optional(S.String),
@@ -3150,7 +3152,7 @@ export const MicrosoftSQLServerSettings = S.suspend(() =>
 }) as any as S.Schema<MicrosoftSQLServerSettings>;
 export interface IBMDb2Settings {
   DatabaseName?: string;
-  Password?: string;
+  Password?: string | Redacted.Redacted<string>;
   Port?: number;
   ServerName?: string;
   SetDataCaptureChanges?: boolean;
@@ -3167,7 +3169,7 @@ export interface IBMDb2Settings {
 export const IBMDb2Settings = S.suspend(() =>
   S.Struct({
     DatabaseName: S.optional(S.String),
-    Password: S.optional(S.String),
+    Password: S.optional(SensitiveString),
     Port: S.optional(S.Number),
     ServerName: S.optional(S.String),
     SetDataCaptureChanges: S.optional(S.Boolean),
@@ -3186,7 +3188,7 @@ export const IBMDb2Settings = S.suspend(() =>
 }) as any as S.Schema<IBMDb2Settings>;
 export interface DocDbSettings {
   Username?: string;
-  Password?: string;
+  Password?: string | Redacted.Redacted<string>;
   ServerName?: string;
   Port?: number;
   DatabaseName?: string;
@@ -3202,7 +3204,7 @@ export interface DocDbSettings {
 export const DocDbSettings = S.suspend(() =>
   S.Struct({
     Username: S.optional(S.String),
-    Password: S.optional(S.String),
+    Password: S.optional(SensitiveString),
     ServerName: S.optional(S.String),
     Port: S.optional(S.Number),
     DatabaseName: S.optional(S.String),
@@ -3224,7 +3226,7 @@ export interface RedisSettings {
   SslSecurityProtocol?: string;
   AuthType?: string;
   AuthUserName?: string;
-  AuthPassword?: string;
+  AuthPassword?: string | Redacted.Redacted<string>;
   SslCaCertificateArn?: string;
 }
 export const RedisSettings = S.suspend(() =>
@@ -3234,7 +3236,7 @@ export const RedisSettings = S.suspend(() =>
     SslSecurityProtocol: S.optional(S.String),
     AuthType: S.optional(S.String),
     AuthUserName: S.optional(S.String),
-    AuthPassword: S.optional(S.String),
+    AuthPassword: S.optional(SensitiveString),
     SslCaCertificateArn: S.optional(S.String),
   }),
 ).annotations({
@@ -3248,7 +3250,7 @@ export interface GcpMySQLSettings {
   TargetDbType?: string;
   MaxFileSize?: number;
   ParallelLoadThreads?: number;
-  Password?: string;
+  Password?: string | Redacted.Redacted<string>;
   Port?: number;
   ServerName?: string;
   ServerTimezone?: string;
@@ -3265,7 +3267,7 @@ export const GcpMySQLSettings = S.suspend(() =>
     TargetDbType: S.optional(S.String),
     MaxFileSize: S.optional(S.Number),
     ParallelLoadThreads: S.optional(S.Number),
-    Password: S.optional(S.String),
+    Password: S.optional(SensitiveString),
     Port: S.optional(S.Number),
     ServerName: S.optional(S.String),
     ServerTimezone: S.optional(S.String),
@@ -3300,7 +3302,7 @@ export interface ModifyEndpointMessage {
   EndpointType?: string;
   EngineName?: string;
   Username?: string;
-  Password?: string;
+  Password?: string | Redacted.Redacted<string>;
   ServerName?: string;
   Port?: number;
   DatabaseName?: string;
@@ -3337,7 +3339,7 @@ export const ModifyEndpointMessage = S.suspend(() =>
     EndpointType: S.optional(S.String),
     EngineName: S.optional(S.String),
     Username: S.optional(S.String),
-    Password: S.optional(S.String),
+    Password: S.optional(SensitiveString),
     ServerName: S.optional(S.String),
     Port: S.optional(S.Number),
     DatabaseName: S.optional(S.String),
@@ -4262,13 +4264,13 @@ export const ConnectionList = S.Array(
 export interface DataMigrationSettings {
   NumberOfJobs?: number;
   CloudwatchLogsEnabled?: boolean;
-  SelectionRules?: string;
+  SelectionRules?: string | Redacted.Redacted<string>;
 }
 export const DataMigrationSettings = S.suspend(() =>
   S.Struct({
     NumberOfJobs: S.optional(S.Number),
     CloudwatchLogsEnabled: S.optional(S.Boolean),
-    SelectionRules: S.optional(S.String),
+    SelectionRules: S.optional(SensitiveString),
   }),
 ).annotations({
   identifier: "DataMigrationSettings",
@@ -5230,7 +5232,7 @@ export interface CreateDataMigrationMessage {
   TargetDataSettings?: TargetDataSettings;
   NumberOfJobs?: number;
   Tags?: TagList;
-  SelectionRules?: string;
+  SelectionRules?: string | Redacted.Redacted<string>;
 }
 export const CreateDataMigrationMessage = S.suspend(() =>
   S.Struct({
@@ -5243,7 +5245,7 @@ export const CreateDataMigrationMessage = S.suspend(() =>
     TargetDataSettings: S.optional(TargetDataSettings),
     NumberOfJobs: S.optional(S.Number),
     Tags: S.optional(TagList),
-    SelectionRules: S.optional(S.String),
+    SelectionRules: S.optional(SensitiveString),
   }).pipe(
     T.all(
       ns,
@@ -5263,7 +5265,7 @@ export interface CreateEndpointMessage {
   EndpointType: string;
   EngineName: string;
   Username?: string;
-  Password?: string;
+  Password?: string | Redacted.Redacted<string>;
   ServerName?: string;
   Port?: number;
   DatabaseName?: string;
@@ -5301,7 +5303,7 @@ export const CreateEndpointMessage = S.suspend(() =>
     EndpointType: S.String,
     EngineName: S.String,
     Username: S.optional(S.String),
-    Password: S.optional(S.String),
+    Password: S.optional(SensitiveString),
     ServerName: S.optional(S.String),
     Port: S.optional(S.Number),
     DatabaseName: S.optional(S.String),
@@ -6673,7 +6675,7 @@ export interface ReplicationTaskAssessmentResult {
   AssessmentStatus?: string;
   AssessmentResultsFile?: string;
   AssessmentResults?: string;
-  S3ObjectUrl?: string;
+  S3ObjectUrl?: string | Redacted.Redacted<string>;
 }
 export const ReplicationTaskAssessmentResult = S.suspend(() =>
   S.Struct({
@@ -6685,7 +6687,7 @@ export const ReplicationTaskAssessmentResult = S.suspend(() =>
     AssessmentStatus: S.optional(S.String),
     AssessmentResultsFile: S.optional(S.String),
     AssessmentResults: S.optional(S.String),
-    S3ObjectUrl: S.optional(S.String),
+    S3ObjectUrl: S.optional(SensitiveString),
   }),
 ).annotations({
   identifier: "ReplicationTaskAssessmentResult",

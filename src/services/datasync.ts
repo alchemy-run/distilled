@@ -1,5 +1,6 @@
 import { HttpClient } from "@effect/platform";
 import * as Effect from "effect/Effect";
+import * as Redacted from "effect/Redacted";
 import * as S from "effect/Schema";
 import * as Stream from "effect/Stream";
 import * as API from "../api.ts";
@@ -10,6 +11,7 @@ import {
   ErrorCategory,
   Errors,
 } from "../index.ts";
+import { SensitiveString, SensitiveBlob } from "../sensitive.ts";
 const svc = T.AwsApiService({
   sdkId: "DataSync",
   serviceShapeName: "FmrsService",
@@ -271,7 +273,7 @@ export type FsxOpenZfsSubdirectory = string;
 export type FsxWindowsSubdirectory = string;
 export type SmbUser = string;
 export type SmbDomain = string;
-export type SmbPassword = string;
+export type SmbPassword = string | Redacted.Redacted<string>;
 export type HdfsSubdirectory = string;
 export type HdfsBlockSize = number;
 export type HdfsReplicationFactor = number;
@@ -284,7 +286,7 @@ export type ObjectStorageServerPort = number;
 export type S3Subdirectory = string;
 export type ObjectStorageBucketName = string;
 export type ObjectStorageAccessKey = string;
-export type ObjectStorageSecretKey = string;
+export type ObjectStorageSecretKey = string | Redacted.Redacted<string>;
 export type S3BucketArn = string;
 export type SmbSubdirectory = string;
 export type ServerIpAddress = string;
@@ -298,7 +300,7 @@ export type TagKey = string;
 export type UpdatedEfsAccessPointArn = string;
 export type UpdatedEfsIamRoleArn = string;
 export type UpdateSmbDomain = string;
-export type AzureBlobSasToken = string;
+export type AzureBlobSasToken = string | Redacted.Redacted<string>;
 export type SecretArn = string;
 export type KmsKeyArn = string;
 export type IamRoleArnOrEmptyString = string;
@@ -401,14 +403,14 @@ export const SmbMountOptions = S.suspend(() =>
 export interface FsxProtocolSmb {
   Domain?: string;
   MountOptions?: SmbMountOptions;
-  Password: string;
+  Password: string | Redacted.Redacted<string>;
   User: string;
 }
 export const FsxProtocolSmb = S.suspend(() =>
   S.Struct({
     Domain: S.optional(S.String),
     MountOptions: S.optional(SmbMountOptions),
-    Password: S.String,
+    Password: SensitiveString,
     User: S.String,
   }),
 ).annotations({
@@ -451,7 +453,7 @@ export interface CreateLocationFsxWindowsRequest {
   Tags?: InputTagList;
   User: string;
   Domain?: string;
-  Password: string;
+  Password: string | Redacted.Redacted<string>;
 }
 export const CreateLocationFsxWindowsRequest = S.suspend(() =>
   S.Struct({
@@ -461,7 +463,7 @@ export const CreateLocationFsxWindowsRequest = S.suspend(() =>
     Tags: S.optional(InputTagList),
     User: S.String,
     Domain: S.optional(S.String),
-    Password: S.String,
+    Password: SensitiveString,
   }).pipe(
     T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
   ),
@@ -499,7 +501,7 @@ export interface CreateLocationObjectStorageRequest {
   Subdirectory?: string;
   BucketName: string;
   AccessKey?: string;
-  SecretKey?: string;
+  SecretKey?: string | Redacted.Redacted<string>;
   AgentArns?: AgentArnList;
   Tags?: InputTagList;
   ServerCertificate?: Uint8Array;
@@ -514,7 +516,7 @@ export const CreateLocationObjectStorageRequest = S.suspend(() =>
     Subdirectory: S.optional(S.String),
     BucketName: S.String,
     AccessKey: S.optional(S.String),
-    SecretKey: S.optional(S.String),
+    SecretKey: S.optional(SensitiveString),
     AgentArns: S.optional(AgentArnList),
     Tags: S.optional(InputTagList),
     ServerCertificate: S.optional(T.Blob),
@@ -971,10 +973,10 @@ export const UpdateAgentResponse = S.suspend(() => S.Struct({})).annotations({
   identifier: "UpdateAgentResponse",
 }) as any as S.Schema<UpdateAgentResponse>;
 export interface AzureBlobSasConfiguration {
-  Token: string;
+  Token: string | Redacted.Redacted<string>;
 }
 export const AzureBlobSasConfiguration = S.suspend(() =>
-  S.Struct({ Token: S.String }),
+  S.Struct({ Token: SensitiveString }),
 ).annotations({
   identifier: "AzureBlobSasConfiguration",
 }) as any as S.Schema<AzureBlobSasConfiguration>;
@@ -1082,7 +1084,7 @@ export interface UpdateLocationFsxWindowsRequest {
   Subdirectory?: string;
   Domain?: string;
   User?: string;
-  Password?: string;
+  Password?: string | Redacted.Redacted<string>;
 }
 export const UpdateLocationFsxWindowsRequest = S.suspend(() =>
   S.Struct({
@@ -1090,7 +1092,7 @@ export const UpdateLocationFsxWindowsRequest = S.suspend(() =>
     Subdirectory: S.optional(S.String),
     Domain: S.optional(S.String),
     User: S.optional(S.String),
-    Password: S.optional(S.String),
+    Password: S.optional(SensitiveString),
   }).pipe(
     T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
   ),
@@ -1205,7 +1207,7 @@ export interface UpdateLocationObjectStorageRequest {
   Subdirectory?: string;
   ServerHostname?: string;
   AccessKey?: string;
-  SecretKey?: string;
+  SecretKey?: string | Redacted.Redacted<string>;
   AgentArns?: AgentArnList;
   ServerCertificate?: Uint8Array;
   CmkSecretConfig?: CmkSecretConfig;
@@ -1219,7 +1221,7 @@ export const UpdateLocationObjectStorageRequest = S.suspend(() =>
     Subdirectory: S.optional(S.String),
     ServerHostname: S.optional(S.String),
     AccessKey: S.optional(S.String),
-    SecretKey: S.optional(S.String),
+    SecretKey: S.optional(SensitiveString),
     AgentArns: S.optional(AgentArnList),
     ServerCertificate: S.optional(T.Blob),
     CmkSecretConfig: S.optional(CmkSecretConfig),
@@ -1272,7 +1274,7 @@ export interface UpdateLocationSmbRequest {
   ServerHostname?: string;
   User?: string;
   Domain?: string;
-  Password?: string;
+  Password?: string | Redacted.Redacted<string>;
   CmkSecretConfig?: CmkSecretConfig;
   CustomSecretConfig?: CustomSecretConfig;
   AgentArns?: AgentArnList;
@@ -1290,7 +1292,7 @@ export const UpdateLocationSmbRequest = S.suspend(() =>
     ServerHostname: S.optional(S.String),
     User: S.optional(S.String),
     Domain: S.optional(S.String),
-    Password: S.optional(S.String),
+    Password: S.optional(SensitiveString),
     CmkSecretConfig: S.optional(CmkSecretConfig),
     CustomSecretConfig: S.optional(CustomSecretConfig),
     AgentArns: S.optional(AgentArnList),
@@ -1596,7 +1598,7 @@ export interface CreateLocationSmbRequest {
   ServerHostname: string;
   User?: string;
   Domain?: string;
-  Password?: string;
+  Password?: string | Redacted.Redacted<string>;
   CmkSecretConfig?: CmkSecretConfig;
   CustomSecretConfig?: CustomSecretConfig;
   AgentArns: AgentArnList;
@@ -1614,7 +1616,7 @@ export const CreateLocationSmbRequest = S.suspend(() =>
     ServerHostname: S.String,
     User: S.optional(S.String),
     Domain: S.optional(S.String),
-    Password: S.optional(S.String),
+    Password: S.optional(SensitiveString),
     CmkSecretConfig: S.optional(CmkSecretConfig),
     CustomSecretConfig: S.optional(CustomSecretConfig),
     AgentArns: AgentArnList,
@@ -1926,14 +1928,14 @@ export const StartTaskExecutionResponse = S.suspend(() =>
 export interface FsxUpdateProtocolSmb {
   Domain?: string;
   MountOptions?: SmbMountOptions;
-  Password?: string;
+  Password?: string | Redacted.Redacted<string>;
   User?: string;
 }
 export const FsxUpdateProtocolSmb = S.suspend(() =>
   S.Struct({
     Domain: S.optional(S.String),
     MountOptions: S.optional(SmbMountOptions),
-    Password: S.optional(S.String),
+    Password: S.optional(SensitiveString),
     User: S.optional(S.String),
   }),
 ).annotations({

@@ -1,5 +1,6 @@
 import { HttpClient } from "@effect/platform";
 import * as Effect from "effect/Effect";
+import * as Redacted from "effect/Redacted";
 import * as S from "effect/Schema";
 import * as Stream from "effect/Stream";
 import * as API from "../api.ts";
@@ -10,6 +11,7 @@ import {
   ErrorCategory,
   Errors,
 } from "../index.ts";
+import { SensitiveString, SensitiveBlob } from "../sensitive.ts";
 const svc = T.AwsApiService({
   sdkId: "AppStream",
   serviceShapeName: "PhotonAdminProxyService",
@@ -310,8 +312,8 @@ export type FeedbackURL = string;
 export type EmbedHostDomain = string;
 export type StreamingUrlUserId = string;
 export type ThemeTitleText = string;
-export type Username = string;
-export type UserAttributeValue = string;
+export type Username = string | Redacted.Redacted<string>;
+export type UserAttributeValue = string | Redacted.Redacted<string>;
 export type AwsAccountId = string;
 export type ErrorMessage = string;
 export type MaxResults = number;
@@ -322,13 +324,13 @@ export type TagKey = string;
 export type S3Bucket = string;
 export type S3Key = string;
 export type TagValue = string;
-export type AccountName = string;
-export type AccountPassword = string;
+export type AccountName = string | Redacted.Redacted<string>;
+export type AccountPassword = string | Redacted.Redacted<string>;
 export type InstanceType = string;
 export type AppName = string;
 export type AppDisplayName = string;
-export type FilePath = string;
-export type LaunchParameters = string;
+export type FilePath = string | Redacted.Redacted<string>;
+export type LaunchParameters = string | Redacted.Redacted<string>;
 export type ResourceIdentifier = string;
 export type Domain = string;
 export type SettingsGroup = string;
@@ -466,14 +468,14 @@ export const AssociateSoftwareToImageBuilderResult = S.suspend(() =>
 }) as any as S.Schema<AssociateSoftwareToImageBuilderResult>;
 export interface UserStackAssociation {
   StackName: string;
-  UserName: string;
+  UserName: string | Redacted.Redacted<string>;
   AuthenticationType: string;
   SendEmailNotification?: boolean;
 }
 export const UserStackAssociation = S.suspend(() =>
   S.Struct({
     StackName: S.String,
-    UserName: S.String,
+    UserName: SensitiveString,
     AuthenticationType: S.String,
     SendEmailNotification: S.optional(S.Boolean),
   }),
@@ -738,18 +740,18 @@ export const CreateUsageReportSubscriptionResult = S.suspend(() =>
   identifier: "CreateUsageReportSubscriptionResult",
 }) as any as S.Schema<CreateUsageReportSubscriptionResult>;
 export interface CreateUserRequest {
-  UserName: string;
+  UserName: string | Redacted.Redacted<string>;
   MessageAction?: string;
-  FirstName?: string;
-  LastName?: string;
+  FirstName?: string | Redacted.Redacted<string>;
+  LastName?: string | Redacted.Redacted<string>;
   AuthenticationType: string;
 }
 export const CreateUserRequest = S.suspend(() =>
   S.Struct({
-    UserName: S.String,
+    UserName: SensitiveString,
     MessageAction: S.optional(S.String),
-    FirstName: S.optional(S.String),
-    LastName: S.optional(S.String),
+    FirstName: S.optional(SensitiveString),
+    LastName: S.optional(SensitiveString),
     AuthenticationType: S.String,
   }).pipe(
     T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
@@ -922,11 +924,11 @@ export const DeleteThemeForStackResult = S.suspend(() =>
   identifier: "DeleteThemeForStackResult",
 }) as any as S.Schema<DeleteThemeForStackResult>;
 export interface DeleteUserRequest {
-  UserName: string;
+  UserName: string | Redacted.Redacted<string>;
   AuthenticationType: string;
 }
 export const DeleteUserRequest = S.suspend(() =>
-  S.Struct({ UserName: S.String, AuthenticationType: S.String }).pipe(
+  S.Struct({ UserName: SensitiveString, AuthenticationType: S.String }).pipe(
     T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
   ),
 ).annotations({
@@ -1235,7 +1237,7 @@ export const DescribeUsersRequest = S.suspend(() =>
 }) as any as S.Schema<DescribeUsersRequest>;
 export interface DescribeUserStackAssociationsRequest {
   StackName?: string;
-  UserName?: string;
+  UserName?: string | Redacted.Redacted<string>;
   AuthenticationType?: string;
   MaxResults?: number;
   NextToken?: string;
@@ -1243,7 +1245,7 @@ export interface DescribeUserStackAssociationsRequest {
 export const DescribeUserStackAssociationsRequest = S.suspend(() =>
   S.Struct({
     StackName: S.optional(S.String),
-    UserName: S.optional(S.String),
+    UserName: S.optional(SensitiveString),
     AuthenticationType: S.optional(S.String),
     MaxResults: S.optional(S.Number),
     NextToken: S.optional(S.String),
@@ -1254,11 +1256,11 @@ export const DescribeUserStackAssociationsRequest = S.suspend(() =>
   identifier: "DescribeUserStackAssociationsRequest",
 }) as any as S.Schema<DescribeUserStackAssociationsRequest>;
 export interface DisableUserRequest {
-  UserName: string;
+  UserName: string | Redacted.Redacted<string>;
   AuthenticationType: string;
 }
 export const DisableUserRequest = S.suspend(() =>
-  S.Struct({ UserName: S.String, AuthenticationType: S.String }).pipe(
+  S.Struct({ UserName: SensitiveString, AuthenticationType: S.String }).pipe(
     T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
   ),
 ).annotations({
@@ -1359,11 +1361,11 @@ export const DisassociateSoftwareFromImageBuilderResult = S.suspend(() =>
   identifier: "DisassociateSoftwareFromImageBuilderResult",
 }) as any as S.Schema<DisassociateSoftwareFromImageBuilderResult>;
 export interface EnableUserRequest {
-  UserName: string;
+  UserName: string | Redacted.Redacted<string>;
   AuthenticationType: string;
 }
 export const EnableUserRequest = S.suspend(() =>
-  S.Struct({ UserName: S.String, AuthenticationType: S.String }).pipe(
+  S.Struct({ UserName: SensitiveString, AuthenticationType: S.String }).pipe(
     T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
   ),
 ).annotations({
@@ -1628,11 +1630,11 @@ export const UpdateApplicationRequest = S.suspend(() =>
   identifier: "UpdateApplicationRequest",
 }) as any as S.Schema<UpdateApplicationRequest>;
 export interface ServiceAccountCredentials {
-  AccountName: string;
-  AccountPassword: string;
+  AccountName: string | Redacted.Redacted<string>;
+  AccountPassword: string | Redacted.Redacted<string>;
 }
 export const ServiceAccountCredentials = S.suspend(() =>
-  S.Struct({ AccountName: S.String, AccountPassword: S.String }),
+  S.Struct({ AccountName: SensitiveString, AccountPassword: SensitiveString }),
 ).annotations({
   identifier: "ServiceAccountCredentials",
 }) as any as S.Schema<ServiceAccountCredentials>;
@@ -1923,21 +1925,21 @@ export const RuntimeValidationConfig = S.suspend(() =>
 export interface ApplicationConfig {
   Name: string;
   DisplayName?: string;
-  AbsoluteAppPath: string;
-  AbsoluteIconPath?: string;
-  AbsoluteManifestPath?: string;
-  WorkingDirectory?: string;
-  LaunchParameters?: string;
+  AbsoluteAppPath: string | Redacted.Redacted<string>;
+  AbsoluteIconPath?: string | Redacted.Redacted<string>;
+  AbsoluteManifestPath?: string | Redacted.Redacted<string>;
+  WorkingDirectory?: string | Redacted.Redacted<string>;
+  LaunchParameters?: string | Redacted.Redacted<string>;
 }
 export const ApplicationConfig = S.suspend(() =>
   S.Struct({
     Name: S.String,
     DisplayName: S.optional(S.String),
-    AbsoluteAppPath: S.String,
-    AbsoluteIconPath: S.optional(S.String),
-    AbsoluteManifestPath: S.optional(S.String),
-    WorkingDirectory: S.optional(S.String),
-    LaunchParameters: S.optional(S.String),
+    AbsoluteAppPath: SensitiveString,
+    AbsoluteIconPath: S.optional(SensitiveString),
+    AbsoluteManifestPath: S.optional(SensitiveString),
+    WorkingDirectory: S.optional(SensitiveString),
+    LaunchParameters: S.optional(SensitiveString),
   }),
 ).annotations({
   identifier: "ApplicationConfig",
@@ -3158,22 +3160,22 @@ export type SoftwareAssociationsList = SoftwareAssociations[];
 export const SoftwareAssociationsList = S.Array(SoftwareAssociations);
 export interface User {
   Arn?: string;
-  UserName?: string;
+  UserName?: string | Redacted.Redacted<string>;
   Enabled?: boolean;
   Status?: string;
-  FirstName?: string;
-  LastName?: string;
+  FirstName?: string | Redacted.Redacted<string>;
+  LastName?: string | Redacted.Redacted<string>;
   CreatedTime?: Date;
   AuthenticationType: string;
 }
 export const User = S.suspend(() =>
   S.Struct({
     Arn: S.optional(S.String),
-    UserName: S.optional(S.String),
+    UserName: S.optional(SensitiveString),
     Enabled: S.optional(S.Boolean),
     Status: S.optional(S.String),
-    FirstName: S.optional(S.String),
-    LastName: S.optional(S.String),
+    FirstName: S.optional(SensitiveString),
+    LastName: S.optional(SensitiveString),
     CreatedTime: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
     AuthenticationType: S.String,
   }),

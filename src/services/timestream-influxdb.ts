@@ -1,5 +1,6 @@
 import { HttpClient } from "@effect/platform";
 import * as Effect from "effect/Effect";
+import * as Redacted from "effect/Redacted";
 import * as S from "effect/Schema";
 import * as Stream from "effect/Stream";
 import * as API from "../api.ts";
@@ -10,6 +11,7 @@ import {
   ErrorCategory,
   Errors,
 } from "../index.ts";
+import { SensitiveString, SensitiveBlob } from "../sensitive.ts";
 const svc = T.AwsApiService({
   sdkId: "Timestream InfluxDB",
   serviceShapeName: "AmazonTimestreamInfluxDB",
@@ -305,8 +307,8 @@ const rules = T.EndpointRuleSet({
 export type Arn = string;
 export type TagKey = string;
 export type DbClusterName = string;
-export type Username = string;
-export type Password = string;
+export type Username = string | Redacted.Redacted<string>;
+export type Password = string | Redacted.Redacted<string>;
 export type Organization = string;
 export type Bucket = string;
 export type Port = number;
@@ -468,8 +470,8 @@ export type RequestTagMap = { [key: string]: string };
 export const RequestTagMap = S.Record({ key: S.String, value: S.String });
 export interface CreateDbInstanceInput {
   name: string;
-  username?: string;
-  password: string;
+  username?: string | Redacted.Redacted<string>;
+  password: string | Redacted.Redacted<string>;
   organization?: string;
   bucket?: string;
   dbInstanceType: string;
@@ -488,8 +490,8 @@ export interface CreateDbInstanceInput {
 export const CreateDbInstanceInput = S.suspend(() =>
   S.Struct({
     name: S.String,
-    username: S.optional(S.String),
-    password: S.String,
+    username: S.optional(SensitiveString),
+    password: SensitiveString,
     organization: S.optional(S.String),
     bucket: S.optional(S.String),
     dbInstanceType: S.String,
@@ -1402,8 +1404,8 @@ export const ListTagsForResourceResponse = S.suspend(() =>
 }) as any as S.Schema<ListTagsForResourceResponse>;
 export interface CreateDbClusterInput {
   name: string;
-  username?: string;
-  password?: string;
+  username?: string | Redacted.Redacted<string>;
+  password?: string | Redacted.Redacted<string>;
   organization?: string;
   bucket?: string;
   port?: number;
@@ -1423,8 +1425,8 @@ export interface CreateDbClusterInput {
 export const CreateDbClusterInput = S.suspend(() =>
   S.Struct({
     name: S.String,
-    username: S.optional(S.String),
-    password: S.optional(S.String),
+    username: S.optional(SensitiveString),
+    password: S.optional(SensitiveString),
     organization: S.optional(S.String),
     bucket: S.optional(S.String),
     port: S.optional(S.Number),

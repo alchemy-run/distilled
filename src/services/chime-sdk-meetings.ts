@@ -1,5 +1,6 @@
 import { HttpClient } from "@effect/platform";
 import * as Effect from "effect/Effect";
+import * as Redacted from "effect/Redacted";
 import * as S from "effect/Schema";
 import * as Stream from "effect/Stream";
 import * as API from "../api.ts";
@@ -10,6 +11,7 @@ import {
   ErrorCategory,
   Errors,
 } from "../index.ts";
+import { SensitiveString, SensitiveBlob } from "../sensitive.ts";
 const svc = T.AwsApiService({
   sdkId: "Chime SDK Meetings",
   serviceShapeName: "ChimeMeetingsSDKService",
@@ -251,23 +253,23 @@ const rules = T.EndpointRuleSet({
 
 //# Newtypes
 export type GuidString = string;
-export type ExternalUserId = string;
-export type ClientRequestToken = string;
+export type ExternalUserId = string | Redacted.Redacted<string>;
+export type ClientRequestToken = string | Redacted.Redacted<string>;
 export type MediaRegion = string;
-export type ExternalMeetingId = string;
+export type ExternalMeetingId = string | Redacted.Redacted<string>;
 export type PrimaryMeetingId = string;
 export type TenantId = string;
 export type ResultMax = number;
 export type AmazonResourceName = string;
 export type TagKey = string;
-export type Arn = string;
+export type Arn = string | Redacted.Redacted<string>;
 export type TagValue = string;
 export type AttendeeMax = number;
 export type TranscribePiiEntityTypes = string;
 export type TranscribeLanguageModelName = string;
 export type TranscribeLanguageOptions = string;
 export type TranscribeVocabularyNamesOrFilterNamesString = string;
-export type JoinTokenString = string;
+export type JoinTokenString = string | Redacted.Redacted<string>;
 export type RetryAfterSeconds = string;
 
 //# Schemas
@@ -284,12 +286,12 @@ export const AttendeeCapabilities = S.suspend(() =>
   identifier: "AttendeeCapabilities",
 }) as any as S.Schema<AttendeeCapabilities>;
 export interface CreateAttendeeRequestItem {
-  ExternalUserId: string;
+  ExternalUserId: string | Redacted.Redacted<string>;
   Capabilities?: AttendeeCapabilities;
 }
 export const CreateAttendeeRequestItem = S.suspend(() =>
   S.Struct({
-    ExternalUserId: S.String,
+    ExternalUserId: SensitiveString,
     Capabilities: S.optional(AttendeeCapabilities),
   }),
 ).annotations({
@@ -304,13 +306,13 @@ export type TagKeyList = string[];
 export const TagKeyList = S.Array(S.String);
 export interface CreateAttendeeRequest {
   MeetingId: string;
-  ExternalUserId: string;
+  ExternalUserId: string | Redacted.Redacted<string>;
   Capabilities?: AttendeeCapabilities;
 }
 export const CreateAttendeeRequest = S.suspend(() =>
   S.Struct({
     MeetingId: S.String.pipe(T.HttpLabel("MeetingId")),
-    ExternalUserId: S.String,
+    ExternalUserId: SensitiveString,
     Capabilities: S.optional(AttendeeCapabilities),
   }).pipe(
     T.all(
@@ -374,15 +376,15 @@ export const MeetingFeaturesConfiguration = S.suspend(() =>
   identifier: "MeetingFeaturesConfiguration",
 }) as any as S.Schema<MeetingFeaturesConfiguration>;
 export interface NotificationsConfiguration {
-  LambdaFunctionArn?: string;
-  SnsTopicArn?: string;
-  SqsQueueArn?: string;
+  LambdaFunctionArn?: string | Redacted.Redacted<string>;
+  SnsTopicArn?: string | Redacted.Redacted<string>;
+  SqsQueueArn?: string | Redacted.Redacted<string>;
 }
 export const NotificationsConfiguration = S.suspend(() =>
   S.Struct({
-    LambdaFunctionArn: S.optional(S.String),
-    SnsTopicArn: S.optional(S.String),
-    SqsQueueArn: S.optional(S.String),
+    LambdaFunctionArn: S.optional(SensitiveString),
+    SnsTopicArn: S.optional(SensitiveString),
+    SqsQueueArn: S.optional(SensitiveString),
   }),
 ).annotations({
   identifier: "NotificationsConfiguration",
@@ -397,10 +399,10 @@ export const Tag = S.suspend(() =>
 export type TagList = Tag[];
 export const TagList = S.Array(Tag);
 export interface CreateMeetingWithAttendeesRequest {
-  ClientRequestToken: string;
+  ClientRequestToken: string | Redacted.Redacted<string>;
   MediaRegion: string;
-  MeetingHostId?: string;
-  ExternalMeetingId: string;
+  MeetingHostId?: string | Redacted.Redacted<string>;
+  ExternalMeetingId: string | Redacted.Redacted<string>;
   MeetingFeatures?: MeetingFeaturesConfiguration;
   NotificationsConfiguration?: NotificationsConfiguration;
   Attendees: CreateMeetingWithAttendeesRequestItemList;
@@ -411,10 +413,10 @@ export interface CreateMeetingWithAttendeesRequest {
 }
 export const CreateMeetingWithAttendeesRequest = S.suspend(() =>
   S.Struct({
-    ClientRequestToken: S.String,
+    ClientRequestToken: SensitiveString,
     MediaRegion: S.String,
-    MeetingHostId: S.optional(S.String),
-    ExternalMeetingId: S.String,
+    MeetingHostId: S.optional(SensitiveString),
+    ExternalMeetingId: SensitiveString,
     MeetingFeatures: S.optional(MeetingFeaturesConfiguration),
     NotificationsConfiguration: S.optional(NotificationsConfiguration),
     Attendees: CreateMeetingWithAttendeesRequestItemList,
@@ -674,16 +676,16 @@ export const AttendeeIdItem = S.suspend(() =>
 export type AttendeeIdsList = AttendeeIdItem[];
 export const AttendeeIdsList = S.Array(AttendeeIdItem);
 export interface Attendee {
-  ExternalUserId?: string;
+  ExternalUserId?: string | Redacted.Redacted<string>;
   AttendeeId?: string;
-  JoinToken?: string;
+  JoinToken?: string | Redacted.Redacted<string>;
   Capabilities?: AttendeeCapabilities;
 }
 export const Attendee = S.suspend(() =>
   S.Struct({
-    ExternalUserId: S.optional(S.String),
+    ExternalUserId: S.optional(SensitiveString),
     AttendeeId: S.optional(S.String),
-    JoinToken: S.optional(S.String),
+    JoinToken: S.optional(SensitiveString),
     Capabilities: S.optional(AttendeeCapabilities),
   }),
 ).annotations({ identifier: "Attendee" }) as any as S.Schema<Attendee>;
@@ -779,8 +781,8 @@ export const MediaPlacement = S.suspend(() =>
 }) as any as S.Schema<MediaPlacement>;
 export interface Meeting {
   MeetingId?: string;
-  MeetingHostId?: string;
-  ExternalMeetingId?: string;
+  MeetingHostId?: string | Redacted.Redacted<string>;
+  ExternalMeetingId?: string | Redacted.Redacted<string>;
   MediaRegion?: string;
   MediaPlacement?: MediaPlacement;
   MeetingFeatures?: MeetingFeaturesConfiguration;
@@ -791,8 +793,8 @@ export interface Meeting {
 export const Meeting = S.suspend(() =>
   S.Struct({
     MeetingId: S.optional(S.String),
-    MeetingHostId: S.optional(S.String),
-    ExternalMeetingId: S.optional(S.String),
+    MeetingHostId: S.optional(SensitiveString),
+    ExternalMeetingId: S.optional(SensitiveString),
     MediaRegion: S.optional(S.String),
     MediaPlacement: S.optional(MediaPlacement),
     MeetingFeatures: S.optional(MeetingFeaturesConfiguration),
@@ -898,13 +900,13 @@ export const EngineTranscribeMedicalSettings = S.suspend(() =>
   identifier: "EngineTranscribeMedicalSettings",
 }) as any as S.Schema<EngineTranscribeMedicalSettings>;
 export interface CreateAttendeeError {
-  ExternalUserId?: string;
+  ExternalUserId?: string | Redacted.Redacted<string>;
   ErrorCode?: string;
   ErrorMessage?: string;
 }
 export const CreateAttendeeError = S.suspend(() =>
   S.Struct({
-    ExternalUserId: S.optional(S.String),
+    ExternalUserId: S.optional(SensitiveString),
     ErrorCode: S.optional(S.String),
     ErrorMessage: S.optional(S.String),
   }),
@@ -948,10 +950,10 @@ export const CreateAttendeeResponse = S.suspend(() =>
   identifier: "CreateAttendeeResponse",
 }) as any as S.Schema<CreateAttendeeResponse>;
 export interface CreateMeetingRequest {
-  ClientRequestToken: string;
+  ClientRequestToken: string | Redacted.Redacted<string>;
   MediaRegion: string;
-  MeetingHostId?: string;
-  ExternalMeetingId: string;
+  MeetingHostId?: string | Redacted.Redacted<string>;
+  ExternalMeetingId: string | Redacted.Redacted<string>;
   NotificationsConfiguration?: NotificationsConfiguration;
   MeetingFeatures?: MeetingFeaturesConfiguration;
   PrimaryMeetingId?: string;
@@ -961,10 +963,10 @@ export interface CreateMeetingRequest {
 }
 export const CreateMeetingRequest = S.suspend(() =>
   S.Struct({
-    ClientRequestToken: S.String,
+    ClientRequestToken: SensitiveString,
     MediaRegion: S.String,
-    MeetingHostId: S.optional(S.String),
-    ExternalMeetingId: S.String,
+    MeetingHostId: S.optional(SensitiveString),
+    ExternalMeetingId: SensitiveString,
     NotificationsConfiguration: S.optional(NotificationsConfiguration),
     MeetingFeatures: S.optional(MeetingFeaturesConfiguration),
     PrimaryMeetingId: S.optional(S.String),

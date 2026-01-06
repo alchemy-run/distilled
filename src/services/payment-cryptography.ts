@@ -1,5 +1,6 @@
 import { HttpClient } from "@effect/platform";
 import * as Effect from "effect/Effect";
+import * as Redacted from "effect/Redacted";
 import * as S from "effect/Schema";
 import * as Stream from "effect/Stream";
 import * as API from "../api.ts";
@@ -10,6 +11,7 @@ import {
   ErrorCategory,
   Errors,
 } from "../index.ts";
+import { SensitiveString, SensitiveBlob } from "../sensitive.ts";
 const svc = T.AwsApiService({
   sdkId: "Payment Cryptography",
   serviceShapeName: "PaymentCryptographyControlPlane",
@@ -326,21 +328,21 @@ export type Tr34KeyBlockFormat = string;
 export type EvenHexLengthBetween16And32 = string;
 export type WrappingKeySpec = string;
 export type HexLength20Or24 = string;
-export type Tr31WrappedKeyBlock = string;
-export type Tr34WrappedKeyBlock = string;
-export type WrappedKeyCryptogram = string;
+export type Tr31WrappedKeyBlock = string | Redacted.Redacted<string>;
+export type Tr34WrappedKeyBlock = string | Redacted.Redacted<string>;
+export type WrappedKeyCryptogram = string | Redacted.Redacted<string>;
 export type KeyCheckValue = string;
 export type KeyOrigin = string;
 export type MultiRegionKeyType = string;
 export type KeyExportability = string;
 export type KeyVersion = string;
 export type SharedInformation = string;
-export type CertificateSigningRequestType = string;
-export type OptionalBlockId = string;
-export type OptionalBlockValue = string;
+export type CertificateSigningRequestType = string | Redacted.Redacted<string>;
+export type OptionalBlockId = string | Redacted.Redacted<string>;
+export type OptionalBlockValue = string | Redacted.Redacted<string>;
 export type KeyReplicationState = string;
 export type WrappedKeyMaterialFormat = string;
-export type KeyMaterial = string;
+export type KeyMaterial = string | Redacted.Redacted<string>;
 
 //# Schemas
 export interface GetDefaultKeyReplicationRegionsInput {}
@@ -922,8 +924,13 @@ export const StopKeyUsageOutput = S.suspend(() =>
 ).annotations({
   identifier: "StopKeyUsageOutput",
 }) as any as S.Schema<StopKeyUsageOutput>;
-export type OptionalBlocks = { [key: string]: string };
-export const OptionalBlocks = S.Record({ key: S.String, value: S.String });
+export type OptionalBlocks = {
+  [key: string]: string | Redacted.Redacted<string>;
+};
+export const OptionalBlocks = S.Record({
+  key: S.String,
+  value: SensitiveString,
+});
 export interface KeyBlockHeaders {
   KeyModesOfUse?: KeyModesOfUse;
   KeyExportability?: string;
@@ -1020,10 +1027,13 @@ export const TrustedCertificatePublicKey = S.suspend(() =>
 }) as any as S.Schema<TrustedCertificatePublicKey>;
 export interface ImportTr31KeyBlock {
   WrappingKeyIdentifier: string;
-  WrappedKeyBlock: string;
+  WrappedKeyBlock: string | Redacted.Redacted<string>;
 }
 export const ImportTr31KeyBlock = S.suspend(() =>
-  S.Struct({ WrappingKeyIdentifier: S.String, WrappedKeyBlock: S.String }),
+  S.Struct({
+    WrappingKeyIdentifier: S.String,
+    WrappedKeyBlock: SensitiveString,
+  }),
 ).annotations({
   identifier: "ImportTr31KeyBlock",
 }) as any as S.Schema<ImportTr31KeyBlock>;
@@ -1033,7 +1043,7 @@ export interface ImportTr34KeyBlock {
   ImportToken?: string;
   WrappingKeyIdentifier?: string;
   WrappingKeyCertificate?: string;
-  WrappedKeyBlock: string;
+  WrappedKeyBlock: string | Redacted.Redacted<string>;
   KeyBlockFormat: string;
   RandomNonce?: string;
 }
@@ -1044,7 +1054,7 @@ export const ImportTr34KeyBlock = S.suspend(() =>
     ImportToken: S.optional(S.String),
     WrappingKeyIdentifier: S.optional(S.String),
     WrappingKeyCertificate: S.optional(S.String),
-    WrappedKeyBlock: S.String,
+    WrappedKeyBlock: SensitiveString,
     KeyBlockFormat: S.String,
     RandomNonce: S.optional(S.String),
   }),
@@ -1054,7 +1064,7 @@ export const ImportTr34KeyBlock = S.suspend(() =>
 export interface ImportKeyCryptogram {
   KeyAttributes: KeyAttributes;
   Exportable: boolean;
-  WrappedKeyCryptogram: string;
+  WrappedKeyCryptogram: string | Redacted.Redacted<string>;
   ImportToken: string;
   WrappingSpec?: string;
 }
@@ -1062,7 +1072,7 @@ export const ImportKeyCryptogram = S.suspend(() =>
   S.Struct({
     KeyAttributes: KeyAttributes,
     Exportable: S.Boolean,
-    WrappedKeyCryptogram: S.String,
+    WrappedKeyCryptogram: SensitiveString,
     ImportToken: S.String,
     WrappingSpec: S.optional(S.String),
   }),
@@ -1081,7 +1091,7 @@ export interface ImportDiffieHellmanTr31KeyBlock {
   KeyDerivationFunction: string;
   KeyDerivationHashAlgorithm: string;
   DerivationData: (typeof DiffieHellmanDerivationData)["Type"];
-  WrappedKeyBlock: string;
+  WrappedKeyBlock: string | Redacted.Redacted<string>;
 }
 export const ImportDiffieHellmanTr31KeyBlock = S.suspend(() =>
   S.Struct({
@@ -1092,7 +1102,7 @@ export const ImportDiffieHellmanTr31KeyBlock = S.suspend(() =>
     KeyDerivationFunction: S.String,
     KeyDerivationHashAlgorithm: S.String,
     DerivationData: DiffieHellmanDerivationData,
-    WrappedKeyBlock: S.String,
+    WrappedKeyBlock: SensitiveString,
   }),
 ).annotations({
   identifier: "ImportDiffieHellmanTr31KeyBlock",
@@ -1103,7 +1113,7 @@ export interface ImportAs2805KeyCryptogram {
   KeyAlgorithm: string;
   Exportable: boolean;
   WrappingKeyIdentifier: string;
-  WrappedKeyCryptogram: string;
+  WrappedKeyCryptogram: string | Redacted.Redacted<string>;
 }
 export const ImportAs2805KeyCryptogram = S.suspend(() =>
   S.Struct({
@@ -1112,7 +1122,7 @@ export const ImportAs2805KeyCryptogram = S.suspend(() =>
     KeyAlgorithm: S.String,
     Exportable: S.Boolean,
     WrappingKeyIdentifier: S.String,
-    WrappedKeyCryptogram: S.String,
+    WrappedKeyCryptogram: SensitiveString,
   }),
 ).annotations({
   identifier: "ImportAs2805KeyCryptogram",
@@ -1171,10 +1181,10 @@ export const KeySummary = S.suspend(() =>
 export type KeySummaryList = KeySummary[];
 export const KeySummaryList = S.Array(KeySummary);
 export interface GetCertificateSigningRequestOutput {
-  CertificateSigningRequest: string;
+  CertificateSigningRequest: string | Redacted.Redacted<string>;
 }
 export const GetCertificateSigningRequestOutput = S.suspend(() =>
-  S.Struct({ CertificateSigningRequest: S.String }),
+  S.Struct({ CertificateSigningRequest: SensitiveString }),
 ).annotations({
   identifier: "GetCertificateSigningRequestOutput",
 }) as any as S.Schema<GetCertificateSigningRequestOutput>;
@@ -1329,7 +1339,7 @@ export const GetKeyOutput = S.suspend(() => S.Struct({ Key: Key })).annotations(
 export interface WrappedKey {
   WrappingKeyArn: string;
   WrappedKeyMaterialFormat: string;
-  KeyMaterial: string;
+  KeyMaterial: string | Redacted.Redacted<string>;
   KeyCheckValue?: string;
   KeyCheckValueAlgorithm?: string;
 }
@@ -1337,7 +1347,7 @@ export const WrappedKey = S.suspend(() =>
   S.Struct({
     WrappingKeyArn: S.String,
     WrappedKeyMaterialFormat: S.String,
-    KeyMaterial: S.String,
+    KeyMaterial: SensitiveString,
     KeyCheckValue: S.optional(S.String),
     KeyCheckValueAlgorithm: S.optional(S.String),
   }),

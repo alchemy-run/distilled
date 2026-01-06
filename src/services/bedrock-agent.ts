@@ -1,5 +1,6 @@
 import { HttpClient } from "@effect/platform";
 import * as Effect from "effect/Effect";
+import * as Redacted from "effect/Redacted";
 import * as S from "effect/Schema";
 import * as Stream from "effect/Stream";
 import * as API from "../api.ts";
@@ -10,6 +11,7 @@ import {
   ErrorCategory,
   Errors,
 } from "../index.ts";
+import { SensitiveString, SensitiveBlob } from "../sensitive.ts";
 const svc = T.AwsApiService({
   sdkId: "Bedrock Agent",
   serviceShapeName: "AmazonBedrockAgentBuildTimeLambda",
@@ -310,8 +312,8 @@ export type Description = string;
 export type Version = string;
 export type MaxResults = number;
 export type NextToken = string;
-export type CollaborationInstruction = string;
-export type Instruction = string;
+export type CollaborationInstruction = string | Redacted.Redacted<string>;
+export type Instruction = string | Redacted.Redacted<string>;
 export type ModelIdentifier = string;
 export type SessionTTL = number;
 export type AgentRoleArn = string;
@@ -331,7 +333,7 @@ export type PromptIdentifier = string;
 export type TaggableResourcesArn = string;
 export type TagKey = string;
 export type LambdaArn = string;
-export type Payload = string;
+export type Payload = string | Redacted.Redacted<string>;
 export type AgentAliasArn = string;
 export type TagValue = string;
 export type GuardrailIdentifier = string;
@@ -352,10 +354,10 @@ export type FlowConnectionName = string;
 export type S3BucketName = string;
 export type S3ObjectKey = string;
 export type FunctionDescription = string;
-export type BasePromptTemplate = string;
+export type BasePromptTemplate = string | Redacted.Redacted<string>;
 export type MaxRecentSessions = number;
 export type S3BucketArn = string;
-export type S3Prefix = string;
+export type S3Prefix = string | Redacted.Redacted<string>;
 export type BucketOwnerAccountId = string;
 export type S3BucketUri = string;
 export type BedrockEmbeddingModelArn = string;
@@ -364,7 +366,9 @@ export type OpenSearchServerlessCollectionArn = string;
 export type OpenSearchServerlessIndexName = string;
 export type OpenSearchManagedClusterDomainEndpoint = string;
 export type OpenSearchManagedClusterDomainArn = string;
-export type OpenSearchManagedClusterIndexName = string;
+export type OpenSearchManagedClusterIndexName =
+  | string
+  | Redacted.Redacted<string>;
 export type PineconeConnectionString = string;
 export type SecretArn = string;
 export type PineconeNamespace = string;
@@ -378,56 +382,56 @@ export type MongoDbAtlasDatabaseName = string;
 export type MongoDbAtlasCollectionName = string;
 export type MongoDbAtlasIndexName = string;
 export type MongoDbAtlasEndpointServiceName = string;
-export type GraphArn = string;
-export type VectorBucketArn = string;
-export type IndexArn = string;
-export type IndexName = string;
-export type PromptMetadataKey = string;
-export type PromptMetadataValue = string;
+export type GraphArn = string | Redacted.Redacted<string>;
+export type VectorBucketArn = string | Redacted.Redacted<string>;
+export type IndexArn = string | Redacted.Redacted<string>;
+export type IndexName = string | Redacted.Redacted<string>;
+export type PromptMetadataKey = string | Redacted.Redacted<string>;
+export type PromptMetadataValue = string | Redacted.Redacted<string>;
 export type AgentArn = string;
 export type FailureReason = string;
 export type RecommendedAction = string;
 export type KnowledgeBaseArn = string;
 export type FlowNodeInputName = string;
-export type FlowNodeInputExpression = string;
+export type FlowNodeInputExpression = string | Redacted.Redacted<string>;
 export type FlowNodeOutputName = string;
 export type Temperature = number;
 export type TopP = number;
 export type TopK = number;
 export type MaximumLength = number;
-export type FilterPattern = string;
-export type UserAgent = string;
-export type UserAgentHeader = string;
+export type FilterPattern = string | Redacted.Redacted<string>;
+export type UserAgent = string | Redacted.Redacted<string>;
+export type UserAgentHeader = string | Redacted.Redacted<string>;
 export type HttpsUrl = string;
 export type Microsoft365TenantId = string;
 export type SharePointDomain = string;
 export type BedrockModelArn = string;
-export type Key = string;
+export type Key = string | Redacted.Redacted<string>;
 export type S3ObjectUri = string;
 export type FieldName = string;
 export type ColumnName = string;
-export type TextPrompt = string;
+export type TextPrompt = string | Redacted.Redacted<string>;
 export type FlowKnowledgeBaseId = string;
 export type KnowledgeBaseModelIdentifier = string;
 export type FlowLexBotAliasArn = string;
 export type FlowLexBotLocaleId = string;
 export type FlowLambdaArn = string;
 export type FlowAgentAliasArn = string;
-export type InlineCode = string;
+export type InlineCode = string | Redacted.Redacted<string>;
 export type FlowConditionName = string;
 export type ParameterDescription = string;
 export type ParsingPromptText = string;
 export type NumberValue = number;
-export type StringValue = string;
+export type StringValue = string | Redacted.Redacted<string>;
 export type Dimensions = number;
 export type QueryExecutionTimeoutSeconds = number;
 export type PromptInputVariableName = string;
 export type NonEmptyString = string;
-export type FlowConditionExpression = string;
+export type FlowConditionExpression = string | Redacted.Redacted<string>;
 export type ErrorMessage = string;
-export type KnowledgeBaseTextPrompt = string;
+export type KnowledgeBaseTextPrompt = string | Redacted.Redacted<string>;
 export type Url = string;
-export type Data = string;
+export type Data = string | Redacted.Redacted<string>;
 export type AwsDataCatalogTableName = string;
 export type RedshiftDatabase = string;
 export type WorkgroupArn = string;
@@ -436,7 +440,7 @@ export type AdditionalModelRequestFieldsKey = string;
 export type FlowPromptArn = string;
 export type FlowPromptModelIdentifier = string;
 export type FlowS3BucketName = string;
-export type FilteredObjectType = string;
+export type FilteredObjectType = string | Redacted.Redacted<string>;
 export type QueryGenerationTableName = string;
 export type DescriptionString = string;
 export type NaturalLanguageString = string;
@@ -560,10 +564,12 @@ export const S3Identifier = S.suspend(() =>
     s3ObjectKey: S.optional(S.String),
   }),
 ).annotations({ identifier: "S3Identifier" }) as any as S.Schema<S3Identifier>;
-export type APISchema = { s3: S3Identifier } | { payload: string };
+export type APISchema =
+  | { s3: S3Identifier }
+  | { payload: string | Redacted.Redacted<string> };
 export const APISchema = S.Union(
   S.Struct({ s3: S3Identifier }),
-  S.Struct({ payload: S.String }),
+  S.Struct({ payload: SensitiveString }),
 );
 export interface ParameterDetail {
   description?: string;
@@ -741,7 +747,7 @@ export interface UpdateAgentCollaboratorRequest {
   collaboratorId: string;
   agentDescriptor: AgentDescriptor;
   collaboratorName: string;
-  collaborationInstruction: string;
+  collaborationInstruction: string | Redacted.Redacted<string>;
   relayConversationHistory?: string;
 }
 export const UpdateAgentCollaboratorRequest = S.suspend(() =>
@@ -751,7 +757,7 @@ export const UpdateAgentCollaboratorRequest = S.suspend(() =>
     collaboratorId: S.String.pipe(T.HttpLabel("collaboratorId")),
     agentDescriptor: AgentDescriptor,
     collaboratorName: S.String,
-    collaborationInstruction: S.String,
+    collaborationInstruction: SensitiveString,
     relayConversationHistory: S.optional(S.String),
   }).pipe(
     T.all(
@@ -881,7 +887,7 @@ export interface PromptConfiguration {
   promptType?: string;
   promptCreationMode?: string;
   promptState?: string;
-  basePromptTemplate?: string;
+  basePromptTemplate?: string | Redacted.Redacted<string>;
   inferenceConfiguration?: InferenceConfiguration;
   parserMode?: string;
   foundationModel?: string;
@@ -892,7 +898,7 @@ export const PromptConfiguration = S.suspend(() =>
     promptType: S.optional(S.String),
     promptCreationMode: S.optional(S.String),
     promptState: S.optional(S.String),
-    basePromptTemplate: S.optional(S.String),
+    basePromptTemplate: S.optional(SensitiveString),
     inferenceConfiguration: S.optional(InferenceConfiguration),
     parserMode: S.optional(S.String),
     foundationModel: S.optional(S.String),
@@ -954,7 +960,7 @@ export const MemoryConfiguration = S.suspend(() =>
 export interface UpdateAgentRequest {
   agentId: string;
   agentName: string;
-  instruction?: string;
+  instruction?: string | Redacted.Redacted<string>;
   foundationModel: string;
   description?: string;
   orchestrationType?: string;
@@ -971,7 +977,7 @@ export const UpdateAgentRequest = S.suspend(() =>
   S.Struct({
     agentId: S.String.pipe(T.HttpLabel("agentId")),
     agentName: S.String,
-    instruction: S.optional(S.String),
+    instruction: S.optional(SensitiveString),
     foundationModel: S.String,
     description: S.optional(S.String),
     orchestrationType: S.optional(S.String),
@@ -1190,8 +1196,8 @@ export const ListDataSourcesRequest = S.suspend(() =>
 ).annotations({
   identifier: "ListDataSourcesRequest",
 }) as any as S.Schema<ListDataSourcesRequest>;
-export type S3Prefixes = string[];
-export const S3Prefixes = S.Array(S.String);
+export type S3Prefixes = string | Redacted.Redacted<string>[];
+export const S3Prefixes = S.Array(SensitiveString);
 export interface S3DataSourceConfiguration {
   bucketArn: string;
   inclusionPrefixes?: S3Prefixes;
@@ -1239,15 +1245,15 @@ export const WebCrawlerLimits = S.suspend(() =>
 ).annotations({
   identifier: "WebCrawlerLimits",
 }) as any as S.Schema<WebCrawlerLimits>;
-export type FilterList = string[];
-export const FilterList = S.Array(S.String);
+export type FilterList = string | Redacted.Redacted<string>[];
+export const FilterList = S.Array(SensitiveString);
 export interface WebCrawlerConfiguration {
   crawlerLimits?: WebCrawlerLimits;
   inclusionFilters?: FilterList;
   exclusionFilters?: FilterList;
   scope?: string;
-  userAgent?: string;
-  userAgentHeader?: string;
+  userAgent?: string | Redacted.Redacted<string>;
+  userAgentHeader?: string | Redacted.Redacted<string>;
 }
 export const WebCrawlerConfiguration = S.suspend(() =>
   S.Struct({
@@ -1255,8 +1261,8 @@ export const WebCrawlerConfiguration = S.suspend(() =>
     inclusionFilters: S.optional(FilterList),
     exclusionFilters: S.optional(FilterList),
     scope: S.optional(S.String),
-    userAgent: S.optional(S.String),
-    userAgentHeader: S.optional(S.String),
+    userAgent: S.optional(SensitiveString),
+    userAgentHeader: S.optional(SensitiveString),
   }),
 ).annotations({
   identifier: "WebCrawlerConfiguration",
@@ -1290,13 +1296,13 @@ export const ConfluenceSourceConfiguration = S.suspend(() =>
   identifier: "ConfluenceSourceConfiguration",
 }) as any as S.Schema<ConfluenceSourceConfiguration>;
 export interface PatternObjectFilter {
-  objectType: string;
+  objectType: string | Redacted.Redacted<string>;
   inclusionFilters?: FilterList;
   exclusionFilters?: FilterList;
 }
 export const PatternObjectFilter = S.suspend(() =>
   S.Struct({
-    objectType: S.String,
+    objectType: SensitiveString,
     inclusionFilters: S.optional(FilterList),
     exclusionFilters: S.optional(FilterList),
   }),
@@ -2870,14 +2876,14 @@ export const OpenSearchManagedClusterFieldMapping = S.suspend(() =>
 export interface OpenSearchManagedClusterConfiguration {
   domainEndpoint: string;
   domainArn: string;
-  vectorIndexName: string;
+  vectorIndexName: string | Redacted.Redacted<string>;
   fieldMapping: OpenSearchManagedClusterFieldMapping;
 }
 export const OpenSearchManagedClusterConfiguration = S.suspend(() =>
   S.Struct({
     domainEndpoint: S.String,
     domainArn: S.String,
-    vectorIndexName: S.String,
+    vectorIndexName: SensitiveString,
     fieldMapping: OpenSearchManagedClusterFieldMapping,
   }),
 ).annotations({
@@ -3022,24 +3028,27 @@ export const NeptuneAnalyticsFieldMapping = S.suspend(() =>
   identifier: "NeptuneAnalyticsFieldMapping",
 }) as any as S.Schema<NeptuneAnalyticsFieldMapping>;
 export interface NeptuneAnalyticsConfiguration {
-  graphArn: string;
+  graphArn: string | Redacted.Redacted<string>;
   fieldMapping: NeptuneAnalyticsFieldMapping;
 }
 export const NeptuneAnalyticsConfiguration = S.suspend(() =>
-  S.Struct({ graphArn: S.String, fieldMapping: NeptuneAnalyticsFieldMapping }),
+  S.Struct({
+    graphArn: SensitiveString,
+    fieldMapping: NeptuneAnalyticsFieldMapping,
+  }),
 ).annotations({
   identifier: "NeptuneAnalyticsConfiguration",
 }) as any as S.Schema<NeptuneAnalyticsConfiguration>;
 export interface S3VectorsConfiguration {
-  vectorBucketArn?: string;
-  indexArn?: string;
-  indexName?: string;
+  vectorBucketArn?: string | Redacted.Redacted<string>;
+  indexArn?: string | Redacted.Redacted<string>;
+  indexName?: string | Redacted.Redacted<string>;
 }
 export const S3VectorsConfiguration = S.suspend(() =>
   S.Struct({
-    vectorBucketArn: S.optional(S.String),
-    indexArn: S.optional(S.String),
-    indexName: S.optional(S.String),
+    vectorBucketArn: S.optional(SensitiveString),
+    indexArn: S.optional(SensitiveString),
+    indexName: S.optional(SensitiveString),
   }),
 ).annotations({
   identifier: "S3VectorsConfiguration",
@@ -3145,13 +3154,13 @@ export const PromptInputVariable = S.suspend(() =>
 export type PromptInputVariablesList = PromptInputVariable[];
 export const PromptInputVariablesList = S.Array(PromptInputVariable);
 export interface TextPromptTemplateConfiguration {
-  text: string;
+  text: string | Redacted.Redacted<string>;
   cachePoint?: CachePointBlock;
   inputVariables?: PromptInputVariablesList;
 }
 export const TextPromptTemplateConfiguration = S.suspend(() =>
   S.Struct({
-    text: S.String,
+    text: SensitiveString,
     cachePoint: S.optional(CachePointBlock),
     inputVariables: S.optional(PromptInputVariablesList),
   }),
@@ -3288,11 +3297,11 @@ export const PromptInferenceConfiguration = S.Union(
   S.Struct({ text: PromptModelInferenceConfiguration }),
 );
 export interface PromptMetadataEntry {
-  key: string;
-  value: string;
+  key: string | Redacted.Redacted<string>;
+  value: string | Redacted.Redacted<string>;
 }
 export const PromptMetadataEntry = S.suspend(() =>
-  S.Struct({ key: S.String, value: S.String }),
+  S.Struct({ key: SensitiveString, value: SensitiveString }),
 ).annotations({
   identifier: "PromptMetadataEntry",
 }) as any as S.Schema<PromptMetadataEntry>;
@@ -3654,7 +3663,7 @@ export interface AssociateAgentCollaboratorRequest {
   agentVersion: string;
   agentDescriptor: AgentDescriptor;
   collaboratorName: string;
-  collaborationInstruction: string;
+  collaborationInstruction: string | Redacted.Redacted<string>;
   relayConversationHistory?: string;
   clientToken?: string;
 }
@@ -3664,7 +3673,7 @@ export const AssociateAgentCollaboratorRequest = S.suspend(() =>
     agentVersion: S.String.pipe(T.HttpLabel("agentVersion")),
     agentDescriptor: AgentDescriptor,
     collaboratorName: S.String,
-    collaborationInstruction: S.String,
+    collaborationInstruction: SensitiveString,
     relayConversationHistory: S.optional(S.String),
     clientToken: S.optional(S.String),
   }).pipe(
@@ -3688,7 +3697,7 @@ export interface AgentCollaborator {
   agentVersion: string;
   agentDescriptor: AgentDescriptor;
   collaboratorId: string;
-  collaborationInstruction: string;
+  collaborationInstruction: string | Redacted.Redacted<string>;
   collaboratorName: string;
   createdAt: Date;
   lastUpdatedAt: Date;
@@ -3701,7 +3710,7 @@ export const AgentCollaborator = S.suspend(() =>
     agentVersion: S.String,
     agentDescriptor: AgentDescriptor,
     collaboratorId: S.String,
-    collaborationInstruction: S.String,
+    collaborationInstruction: SensitiveString,
     collaboratorName: S.String,
     createdAt: S.Date.pipe(T.TimestampFormat("date-time")),
     lastUpdatedAt: S.Date.pipe(T.TimestampFormat("date-time")),
@@ -3754,7 +3763,7 @@ export interface Agent {
   agentArn: string;
   agentVersion: string;
   clientToken?: string;
-  instruction?: string;
+  instruction?: string | Redacted.Redacted<string>;
   agentStatus: string;
   foundationModel?: string;
   description?: string;
@@ -3780,7 +3789,7 @@ export const Agent = S.suspend(() =>
     agentArn: S.String,
     agentVersion: S.String,
     clientToken: S.optional(S.String),
-    instruction: S.optional(S.String),
+    instruction: S.optional(SensitiveString),
     agentStatus: S.String,
     foundationModel: S.optional(S.String),
     description: S.optional(S.String),
@@ -4580,7 +4589,7 @@ export interface AgentCollaboratorSummary {
   agentVersion: string;
   collaboratorId: string;
   agentDescriptor: AgentDescriptor;
-  collaborationInstruction: string;
+  collaborationInstruction: string | Redacted.Redacted<string>;
   relayConversationHistory: string;
   collaboratorName: string;
   createdAt: Date;
@@ -4592,7 +4601,7 @@ export const AgentCollaboratorSummary = S.suspend(() =>
     agentVersion: S.String,
     collaboratorId: S.String,
     agentDescriptor: AgentDescriptor,
-    collaborationInstruction: S.String,
+    collaborationInstruction: SensitiveString,
     relayConversationHistory: S.String,
     collaboratorName: S.String,
     createdAt: S.Date.pipe(T.TimestampFormat("date-time")),
@@ -4812,7 +4821,7 @@ export interface AgentVersion {
   agentName: string;
   agentArn: string;
   version: string;
-  instruction?: string;
+  instruction?: string | Redacted.Redacted<string>;
   agentStatus: string;
   foundationModel?: string;
   description?: string;
@@ -4834,7 +4843,7 @@ export const AgentVersion = S.suspend(() =>
     agentName: S.String,
     agentArn: S.String,
     version: S.String,
-    instruction: S.optional(S.String),
+    instruction: S.optional(SensitiveString),
     agentStatus: S.String,
     foundationModel: S.optional(S.String),
     description: S.optional(S.String),
@@ -4878,14 +4887,14 @@ export const AgentVersionSummaries = S.Array(AgentVersionSummary);
 export interface FlowNodeInput {
   name: string;
   type: string;
-  expression: string;
+  expression: string | Redacted.Redacted<string>;
   category?: string;
 }
 export const FlowNodeInput = S.suspend(() =>
   S.Struct({
     name: S.String,
     type: S.String,
-    expression: S.String,
+    expression: SensitiveString,
     category: S.optional(S.String),
   }),
 ).annotations({
@@ -5137,8 +5146,8 @@ export const GetKnowledgeBaseDocumentsResponse = S.suspend(() =>
 ).annotations({
   identifier: "GetKnowledgeBaseDocumentsResponse",
 }) as any as S.Schema<GetKnowledgeBaseDocumentsResponse>;
-export type StringListValue = string[];
-export const StringListValue = S.Array(S.String);
+export type StringListValue = string | Redacted.Redacted<string>[];
+export const StringListValue = S.Array(SensitiveString);
 export interface AssociateAgentKnowledgeBaseResponse {
   agentKnowledgeBase: AgentKnowledgeBase;
 }
@@ -5237,11 +5246,11 @@ export const AgentFlowNodeConfiguration = S.suspend(() =>
   identifier: "AgentFlowNodeConfiguration",
 }) as any as S.Schema<AgentFlowNodeConfiguration>;
 export interface InlineCodeFlowNodeConfiguration {
-  code: string;
+  code: string | Redacted.Redacted<string>;
   language: string;
 }
 export const InlineCodeFlowNodeConfiguration = S.suspend(() =>
-  S.Struct({ code: S.String, language: S.String }),
+  S.Struct({ code: SensitiveString, language: S.String }),
 ).annotations({
   identifier: "InlineCodeFlowNodeConfiguration",
 }) as any as S.Schema<InlineCodeFlowNodeConfiguration>;
@@ -5259,10 +5268,10 @@ export const LoopFlowNodeConfiguration = S.suspend(() =>
 }) as any as S.Schema<LoopFlowNodeConfiguration>;
 export interface FlowCondition {
   name: string;
-  expression?: string;
+  expression?: string | Redacted.Redacted<string>;
 }
 export const FlowCondition = S.suspend(() =>
-  S.Struct({ name: S.String, expression: S.optional(S.String) }),
+  S.Struct({ name: S.String, expression: S.optional(SensitiveString) }),
 ).annotations({
   identifier: "FlowCondition",
 }) as any as S.Schema<FlowCondition>;
@@ -5282,7 +5291,7 @@ export interface MetadataAttributeValue {
   type: string;
   numberValue?: number;
   booleanValue?: boolean;
-  stringValue?: string;
+  stringValue?: string | Redacted.Redacted<string>;
   stringListValue?: StringListValue;
 }
 export const MetadataAttributeValue = S.suspend(() =>
@@ -5290,7 +5299,7 @@ export const MetadataAttributeValue = S.suspend(() =>
     type: S.String,
     numberValue: S.optional(S.Number),
     booleanValue: S.optional(S.Boolean),
-    stringValue: S.optional(S.String),
+    stringValue: S.optional(SensitiveString),
     stringListValue: S.optional(StringListValue),
   }),
 ).annotations({
@@ -5341,10 +5350,10 @@ export const DuplicateConnectionsFlowValidationDetails = S.suspend(() =>
 }) as any as S.Schema<DuplicateConnectionsFlowValidationDetails>;
 export interface DuplicateConditionExpressionFlowValidationDetails {
   node: string;
-  expression: string;
+  expression: string | Redacted.Redacted<string>;
 }
 export const DuplicateConditionExpressionFlowValidationDetails = S.suspend(() =>
-  S.Struct({ node: S.String, expression: S.String }),
+  S.Struct({ node: S.String, expression: SensitiveString }),
 ).annotations({
   identifier: "DuplicateConditionExpressionFlowValidationDetails",
 }) as any as S.Schema<DuplicateConditionExpressionFlowValidationDetails>;
@@ -5587,21 +5596,21 @@ export const InvalidLoopBoundaryFlowValidationDetails = S.suspend(() =>
   identifier: "InvalidLoopBoundaryFlowValidationDetails",
 }) as any as S.Schema<InvalidLoopBoundaryFlowValidationDetails>;
 export interface MetadataAttribute {
-  key: string;
+  key: string | Redacted.Redacted<string>;
   value: MetadataAttributeValue;
 }
 export const MetadataAttribute = S.suspend(() =>
-  S.Struct({ key: S.String, value: MetadataAttributeValue }),
+  S.Struct({ key: SensitiveString, value: MetadataAttributeValue }),
 ).annotations({
   identifier: "MetadataAttribute",
 }) as any as S.Schema<MetadataAttribute>;
 export type MetadataAttributes = MetadataAttribute[];
 export const MetadataAttributes = S.Array(MetadataAttribute);
 export interface KnowledgeBasePromptTemplate {
-  textPromptTemplate?: string;
+  textPromptTemplate?: string | Redacted.Redacted<string>;
 }
 export const KnowledgeBasePromptTemplate = S.suspend(() =>
-  S.Struct({ textPromptTemplate: S.optional(S.String) }),
+  S.Struct({ textPromptTemplate: S.optional(SensitiveString) }),
 ).annotations({
   identifier: "KnowledgeBasePromptTemplate",
 }) as any as S.Schema<KnowledgeBasePromptTemplate>;
@@ -5610,7 +5619,7 @@ export const FlowConditions = S.Array(FlowCondition);
 export interface CreateAgentRequest {
   agentName: string;
   clientToken?: string;
-  instruction?: string;
+  instruction?: string | Redacted.Redacted<string>;
   foundationModel?: string;
   description?: string;
   orchestrationType?: string;
@@ -5628,7 +5637,7 @@ export const CreateAgentRequest = S.suspend(() =>
   S.Struct({
     agentName: S.String,
     clientToken: S.optional(S.String),
-    instruction: S.optional(S.String),
+    instruction: S.optional(SensitiveString),
     foundationModel: S.optional(S.String),
     description: S.optional(S.String),
     orchestrationType: S.optional(S.String),
@@ -5692,18 +5701,18 @@ export const DeleteKnowledgeBaseDocumentsResponse = S.suspend(() =>
 }) as any as S.Schema<DeleteKnowledgeBaseDocumentsResponse>;
 export interface ByteContentDoc {
   mimeType: string;
-  data: Uint8Array;
+  data: Uint8Array | Redacted.Redacted<Uint8Array>;
 }
 export const ByteContentDoc = S.suspend(() =>
-  S.Struct({ mimeType: S.String, data: T.Blob }),
+  S.Struct({ mimeType: S.String, data: SensitiveBlob }),
 ).annotations({
   identifier: "ByteContentDoc",
 }) as any as S.Schema<ByteContentDoc>;
 export interface TextContentDoc {
-  data: string;
+  data: string | Redacted.Redacted<string>;
 }
 export const TextContentDoc = S.suspend(() =>
-  S.Struct({ data: S.String }),
+  S.Struct({ data: SensitiveString }),
 ).annotations({
   identifier: "TextContentDoc",
 }) as any as S.Schema<TextContentDoc>;

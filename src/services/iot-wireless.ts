@@ -1,5 +1,6 @@
 import { HttpClient } from "@effect/platform";
 import * as Effect from "effect/Effect";
+import * as Redacted from "effect/Redacted";
 import * as S from "effect/Schema";
 import * as Stream from "effect/Stream";
 import * as API from "../api.ts";
@@ -10,6 +11,7 @@ import {
   ErrorCategory,
   Errors,
 } from "../index.ts";
+import { SensitiveString, SensitiveBlob } from "../sensitive.ts";
 const svc = T.AwsApiService({
   sdkId: "IoT Wireless",
   serviceShapeName: "iotwireless",
@@ -299,7 +301,7 @@ export type JoinEui = string;
 export type NetId = string;
 export type GatewayMaxEirp = number;
 export type AmazonId = string;
-export type AppServerPrivateKey = string;
+export type AppServerPrivateKey = string | Redacted.Redacted<string>;
 export type TagValue = string;
 export type ClassBTimeout = number;
 export type PingSlotPeriod = number;
@@ -397,10 +399,10 @@ export type BaseLat = number;
 export type BaseLng = number;
 export type Seq = number;
 export type AckModeRetryDurationSecs = number;
-export type ApplicationServerPublicKey = string;
+export type ApplicationServerPublicKey = string | Redacted.Redacted<string>;
 export type NumberOfDevicesRequested = number;
 export type NumberOfDevicesInGroup = number;
-export type Fingerprint = string;
+export type Fingerprint = string | Redacted.Redacted<string>;
 export type PartnerAccountArn = string;
 export type HorizontalAccuracy = number;
 export type VerticalAccuracy = number;
@@ -2875,12 +2877,12 @@ export type AssistPosition = number[];
 export const AssistPosition = S.Array(S.Number);
 export interface SidewalkAccountInfo {
   AmazonId?: string;
-  AppServerPrivateKey?: string;
+  AppServerPrivateKey?: string | Redacted.Redacted<string>;
 }
 export const SidewalkAccountInfo = S.suspend(() =>
   S.Struct({
     AmazonId: S.optional(S.String),
-    AppServerPrivateKey: S.optional(S.String),
+    AppServerPrivateKey: S.optional(SensitiveString),
   }),
 ).annotations({
   identifier: "SidewalkAccountInfo",
@@ -2994,13 +2996,13 @@ export const Gnss = S.suspend(() =>
 ).annotations({ identifier: "Gnss" }) as any as S.Schema<Gnss>;
 export interface SidewalkAccountInfoWithFingerprint {
   AmazonId?: string;
-  Fingerprint?: string;
+  Fingerprint?: string | Redacted.Redacted<string>;
   Arn?: string;
 }
 export const SidewalkAccountInfoWithFingerprint = S.suspend(() =>
   S.Struct({
     AmazonId: S.optional(S.String),
-    Fingerprint: S.optional(S.String),
+    Fingerprint: S.optional(SensitiveString),
     Arn: S.optional(S.String),
   }),
 ).annotations({
@@ -3071,10 +3073,10 @@ export const SidewalkStartImportInfo = S.suspend(() =>
   identifier: "SidewalkStartImportInfo",
 }) as any as S.Schema<SidewalkStartImportInfo>;
 export interface SidewalkUpdateAccount {
-  AppServerPrivateKey?: string;
+  AppServerPrivateKey?: string | Redacted.Redacted<string>;
 }
 export const SidewalkUpdateAccount = S.suspend(() =>
-  S.Struct({ AppServerPrivateKey: S.optional(S.String) }),
+  S.Struct({ AppServerPrivateKey: S.optional(SensitiveString) }),
 ).annotations({
   identifier: "SidewalkUpdateAccount",
 }) as any as S.Schema<SidewalkUpdateAccount>;
@@ -5459,13 +5461,13 @@ export const LoRaWANDevice = S.suspend(() =>
   identifier: "LoRaWANDevice",
 }) as any as S.Schema<LoRaWANDevice>;
 export interface SidewalkGetDeviceProfile {
-  ApplicationServerPublicKey?: string;
+  ApplicationServerPublicKey?: string | Redacted.Redacted<string>;
   QualificationStatus?: boolean;
   DakCertificateMetadata?: DakCertificateMetadataList;
 }
 export const SidewalkGetDeviceProfile = S.suspend(() =>
   S.Struct({
-    ApplicationServerPublicKey: S.optional(S.String),
+    ApplicationServerPublicKey: S.optional(SensitiveString),
     QualificationStatus: S.optional(S.Boolean),
     DakCertificateMetadata: S.optional(DakCertificateMetadataList),
   }),

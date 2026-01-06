@@ -1,5 +1,6 @@
 import { HttpClient } from "@effect/platform";
 import * as Effect from "effect/Effect";
+import * as Redacted from "effect/Redacted";
 import * as S from "effect/Schema";
 import * as Stream from "effect/Stream";
 import * as API from "../api.ts";
@@ -10,6 +11,7 @@ import {
   ErrorCategory,
   Errors,
 } from "../index.ts";
+import { SensitiveString, SensitiveBlob } from "../sensitive.ts";
 const ns = T.XmlNamespace("http://storagegateway.amazonaws.com/doc/2013-06-30");
 const svc = T.AwsApiService({
   sdkId: "Storage Gateway",
@@ -264,7 +266,7 @@ export type ResourceARN = string;
 export type TapeARN = string;
 export type PoolId = string;
 export type DomainUserName = string;
-export type DomainUserPassword = string;
+export type DomainUserPassword = string | Redacted.Redacted<string>;
 export type ClientToken = string;
 export type FileSystemLocationARN = string;
 export type AuditDestinationARN = string;
@@ -307,11 +309,11 @@ export type Host = string;
 export type TimeoutInSeconds = number;
 export type Folder = string;
 export type TagKey = string;
-export type LocalConsolePassword = string;
-export type SMBGuestPassword = string;
+export type LocalConsolePassword = string | Redacted.Redacted<string>;
+export type SMBGuestPassword = string | Redacted.Redacted<string>;
 export type BandwidthUploadRateLimit = number;
 export type BandwidthDownloadRateLimit = number;
-export type ChapSecret = string;
+export type ChapSecret = string | Redacted.Redacted<string>;
 export type CloudWatchLogGroupARN = string;
 export type HourOfDay = number;
 export type MinuteOfHour = number;
@@ -1589,7 +1591,7 @@ export interface JoinDomainInput {
   DomainControllers?: Hosts;
   TimeoutInSeconds?: number;
   UserName: string;
-  Password: string;
+  Password: string | Redacted.Redacted<string>;
 }
 export const JoinDomainInput = S.suspend(() =>
   S.Struct({
@@ -1599,7 +1601,7 @@ export const JoinDomainInput = S.suspend(() =>
     DomainControllers: S.optional(Hosts),
     TimeoutInSeconds: S.optional(S.Number),
     UserName: S.String,
-    Password: S.String,
+    Password: SensitiveString,
   }).pipe(
     T.all(
       ns,
@@ -1986,10 +1988,13 @@ export const RetrieveTapeRecoveryPointInput = S.suspend(() =>
 }) as any as S.Schema<RetrieveTapeRecoveryPointInput>;
 export interface SetLocalConsolePasswordInput {
   GatewayARN: string;
-  LocalConsolePassword: string;
+  LocalConsolePassword: string | Redacted.Redacted<string>;
 }
 export const SetLocalConsolePasswordInput = S.suspend(() =>
-  S.Struct({ GatewayARN: S.String, LocalConsolePassword: S.String }).pipe(
+  S.Struct({
+    GatewayARN: S.String,
+    LocalConsolePassword: SensitiveString,
+  }).pipe(
     T.all(
       ns,
       T.Http({ method: "POST", uri: "/" }),
@@ -2005,10 +2010,10 @@ export const SetLocalConsolePasswordInput = S.suspend(() =>
 }) as any as S.Schema<SetLocalConsolePasswordInput>;
 export interface SetSMBGuestPasswordInput {
   GatewayARN: string;
-  Password: string;
+  Password: string | Redacted.Redacted<string>;
 }
 export const SetSMBGuestPasswordInput = S.suspend(() =>
-  S.Struct({ GatewayARN: S.String, Password: S.String }).pipe(
+  S.Struct({ GatewayARN: S.String, Password: SensitiveString }).pipe(
     T.all(
       ns,
       T.Http({ method: "POST", uri: "/" }),
@@ -2102,16 +2107,16 @@ export const UpdateBandwidthRateLimitInput = S.suspend(() =>
 }) as any as S.Schema<UpdateBandwidthRateLimitInput>;
 export interface UpdateChapCredentialsInput {
   TargetARN: string;
-  SecretToAuthenticateInitiator: string;
+  SecretToAuthenticateInitiator: string | Redacted.Redacted<string>;
   InitiatorName: string;
-  SecretToAuthenticateTarget?: string;
+  SecretToAuthenticateTarget?: string | Redacted.Redacted<string>;
 }
 export const UpdateChapCredentialsInput = S.suspend(() =>
   S.Struct({
     TargetARN: S.String,
-    SecretToAuthenticateInitiator: S.String,
+    SecretToAuthenticateInitiator: SensitiveString,
     InitiatorName: S.String,
-    SecretToAuthenticateTarget: S.optional(S.String),
+    SecretToAuthenticateTarget: S.optional(SensitiveString),
   }).pipe(
     T.all(
       ns,
@@ -2129,7 +2134,7 @@ export const UpdateChapCredentialsInput = S.suspend(() =>
 export interface UpdateFileSystemAssociationInput {
   FileSystemAssociationARN: string;
   UserName?: string;
-  Password?: string;
+  Password?: string | Redacted.Redacted<string>;
   AuditDestinationARN?: string;
   CacheAttributes?: CacheAttributes;
 }
@@ -2137,7 +2142,7 @@ export const UpdateFileSystemAssociationInput = S.suspend(() =>
   S.Struct({
     FileSystemAssociationARN: S.String,
     UserName: S.optional(S.String),
-    Password: S.optional(S.String),
+    Password: S.optional(SensitiveString),
     AuditDestinationARN: S.optional(S.String),
     CacheAttributes: S.optional(CacheAttributes),
   }).pipe(
@@ -2608,7 +2613,7 @@ export const AssignTapePoolOutput = S.suspend(() =>
 }) as any as S.Schema<AssignTapePoolOutput>;
 export interface AssociateFileSystemInput {
   UserName: string;
-  Password: string;
+  Password: string | Redacted.Redacted<string>;
   ClientToken: string;
   GatewayARN: string;
   LocationARN: string;
@@ -2620,7 +2625,7 @@ export interface AssociateFileSystemInput {
 export const AssociateFileSystemInput = S.suspend(() =>
   S.Struct({
     UserName: S.String,
-    Password: S.String,
+    Password: SensitiveString,
     ClientToken: S.String,
     GatewayARN: S.String,
     LocationARN: S.String,
@@ -3477,16 +3482,16 @@ export type DiskAttributeList = string[];
 export const DiskAttributeList = S.Array(S.String);
 export interface ChapInfo {
   TargetARN?: string;
-  SecretToAuthenticateInitiator?: string;
+  SecretToAuthenticateInitiator?: string | Redacted.Redacted<string>;
   InitiatorName?: string;
-  SecretToAuthenticateTarget?: string;
+  SecretToAuthenticateTarget?: string | Redacted.Redacted<string>;
 }
 export const ChapInfo = S.suspend(() =>
   S.Struct({
     TargetARN: S.optional(S.String),
-    SecretToAuthenticateInitiator: S.optional(S.String),
+    SecretToAuthenticateInitiator: S.optional(SensitiveString),
     InitiatorName: S.optional(S.String),
-    SecretToAuthenticateTarget: S.optional(S.String),
+    SecretToAuthenticateTarget: S.optional(SensitiveString),
   }),
 ).annotations({ identifier: "ChapInfo" }) as any as S.Schema<ChapInfo>;
 export type ChapCredentials = ChapInfo[];

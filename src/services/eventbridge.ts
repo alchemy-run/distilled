@@ -1,5 +1,6 @@
 import { HttpClient } from "@effect/platform";
 import * as Effect from "effect/Effect";
+import * as Redacted from "effect/Redacted";
 import * as S from "effect/Schema";
 import * as Stream from "effect/Stream";
 import * as API from "../api.ts";
@@ -10,6 +11,7 @@ import {
   ErrorCategory,
   Errors,
 } from "../index.ts";
+import { SensitiveString, SensitiveBlob } from "../sensitive.ts";
 const ns = T.XmlNamespace("http://events.amazonaws.com/doc/2015-10-07");
 const svc = T.AwsApiService({
   sdkId: "EventBridge",
@@ -505,7 +507,7 @@ export type ManagedBy = string;
 export type CreatedBy = string;
 export type Integer = number;
 export type AuthHeaderParameters = string;
-export type AuthHeaderParametersSensitive = string;
+export type AuthHeaderParametersSensitive = string | Redacted.Redacted<string>;
 export type ResourceConfigurationArn = string;
 export type TransformerInput = string;
 export type TargetPartitionKeyPath = string;
@@ -516,17 +518,17 @@ export type PathParameter = string;
 export type RedshiftSecretManagerArn = string;
 export type Database = string;
 export type DbUser = string;
-export type Sql = string;
+export type Sql = string | Redacted.Redacted<string>;
 export type StatementName = string;
 export type MaximumRetryAttempts = number;
 export type MaximumEventAgeInSeconds = number;
-export type GraphQLOperation = string;
+export type GraphQLOperation = string | Redacted.Redacted<string>;
 export type ErrorCode = string;
 export type HeaderKey = string;
-export type HeaderValueSensitive = string;
+export type HeaderValueSensitive = string | Redacted.Redacted<string>;
 export type QueryStringKey = string;
-export type QueryStringValueSensitive = string;
-export type SensitiveString = string;
+export type QueryStringValueSensitive = string | Redacted.Redacted<string>;
+export type SensitiveString = string | Redacted.Redacted<string>;
 export type HealthCheck = string;
 export type Route = string;
 export type InputTransformerPathKey = string;
@@ -1841,8 +1843,8 @@ export const ReplayDestination = S.suspend(() =>
 }) as any as S.Schema<ReplayDestination>;
 export type PathParameterList = string[];
 export const PathParameterList = S.Array(S.String);
-export type Sqls = string[];
-export const Sqls = S.Array(S.String);
+export type Sqls = string | Redacted.Redacted<string>[];
+export const Sqls = S.Array(SensitiveString);
 export interface CancelReplayResponse {
   ReplayArn?: string;
   State?: string;
@@ -2420,7 +2422,7 @@ export interface RedshiftDataParameters {
   SecretManagerArn?: string;
   Database: string;
   DbUser?: string;
-  Sql?: string;
+  Sql?: string | Redacted.Redacted<string>;
   StatementName?: string;
   WithEvent?: boolean;
   Sqls?: Sqls;
@@ -2430,7 +2432,7 @@ export const RedshiftDataParameters = S.suspend(() =>
     SecretManagerArn: S.optional(S.String),
     Database: S.String,
     DbUser: S.optional(S.String),
-    Sql: S.optional(S.String),
+    Sql: S.optional(SensitiveString),
     StatementName: S.optional(S.String),
     WithEvent: S.optional(S.Boolean),
     Sqls: S.optional(Sqls),
@@ -2472,10 +2474,10 @@ export const RetryPolicy = S.suspend(() =>
   }),
 ).annotations({ identifier: "RetryPolicy" }) as any as S.Schema<RetryPolicy>;
 export interface AppSyncParameters {
-  GraphQLOperation?: string;
+  GraphQLOperation?: string | Redacted.Redacted<string>;
 }
 export const AppSyncParameters = S.suspend(() =>
-  S.Struct({ GraphQLOperation: S.optional(S.String) }),
+  S.Struct({ GraphQLOperation: S.optional(SensitiveString) }),
 ).annotations({
   identifier: "AppSyncParameters",
 }) as any as S.Schema<AppSyncParameters>;
@@ -2737,19 +2739,19 @@ export const UpdateEventBusResponse = S.suspend(() =>
 }) as any as S.Schema<UpdateEventBusResponse>;
 export interface CreateConnectionBasicAuthRequestParameters {
   Username: string;
-  Password: string;
+  Password: string | Redacted.Redacted<string>;
 }
 export const CreateConnectionBasicAuthRequestParameters = S.suspend(() =>
-  S.Struct({ Username: S.String, Password: S.String }),
+  S.Struct({ Username: S.String, Password: SensitiveString }),
 ).annotations({
   identifier: "CreateConnectionBasicAuthRequestParameters",
 }) as any as S.Schema<CreateConnectionBasicAuthRequestParameters>;
 export interface CreateConnectionApiKeyAuthRequestParameters {
   ApiKeyName: string;
-  ApiKeyValue: string;
+  ApiKeyValue: string | Redacted.Redacted<string>;
 }
 export const CreateConnectionApiKeyAuthRequestParameters = S.suspend(() =>
-  S.Struct({ ApiKeyName: S.String, ApiKeyValue: S.String }),
+  S.Struct({ ApiKeyName: S.String, ApiKeyValue: SensitiveString }),
 ).annotations({
   identifier: "CreateConnectionApiKeyAuthRequestParameters",
 }) as any as S.Schema<CreateConnectionApiKeyAuthRequestParameters>;
@@ -2763,21 +2765,24 @@ export const ConnectivityResourceConfigurationArn = S.suspend(() =>
 }) as any as S.Schema<ConnectivityResourceConfigurationArn>;
 export interface UpdateConnectionBasicAuthRequestParameters {
   Username?: string;
-  Password?: string;
+  Password?: string | Redacted.Redacted<string>;
 }
 export const UpdateConnectionBasicAuthRequestParameters = S.suspend(() =>
-  S.Struct({ Username: S.optional(S.String), Password: S.optional(S.String) }),
+  S.Struct({
+    Username: S.optional(S.String),
+    Password: S.optional(SensitiveString),
+  }),
 ).annotations({
   identifier: "UpdateConnectionBasicAuthRequestParameters",
 }) as any as S.Schema<UpdateConnectionBasicAuthRequestParameters>;
 export interface UpdateConnectionApiKeyAuthRequestParameters {
   ApiKeyName?: string;
-  ApiKeyValue?: string;
+  ApiKeyValue?: string | Redacted.Redacted<string>;
 }
 export const UpdateConnectionApiKeyAuthRequestParameters = S.suspend(() =>
   S.Struct({
     ApiKeyName: S.optional(S.String),
-    ApiKeyValue: S.optional(S.String),
+    ApiKeyValue: S.optional(SensitiveString),
   }),
 ).annotations({
   identifier: "UpdateConnectionApiKeyAuthRequestParameters",
@@ -3053,22 +3058,22 @@ export type RemoveTargetsResultEntryList = RemoveTargetsResultEntry[];
 export const RemoveTargetsResultEntryList = S.Array(RemoveTargetsResultEntry);
 export interface CreateConnectionOAuthClientRequestParameters {
   ClientID: string;
-  ClientSecret: string;
+  ClientSecret: string | Redacted.Redacted<string>;
 }
 export const CreateConnectionOAuthClientRequestParameters = S.suspend(() =>
-  S.Struct({ ClientID: S.String, ClientSecret: S.String }),
+  S.Struct({ ClientID: S.String, ClientSecret: SensitiveString }),
 ).annotations({
   identifier: "CreateConnectionOAuthClientRequestParameters",
 }) as any as S.Schema<CreateConnectionOAuthClientRequestParameters>;
 export interface ConnectionHeaderParameter {
   Key?: string;
-  Value?: string;
+  Value?: string | Redacted.Redacted<string>;
   IsValueSecret?: boolean;
 }
 export const ConnectionHeaderParameter = S.suspend(() =>
   S.Struct({
     Key: S.optional(S.String),
-    Value: S.optional(S.String),
+    Value: S.optional(SensitiveString),
     IsValueSecret: S.optional(S.Boolean),
   }),
 ).annotations({
@@ -3080,13 +3085,13 @@ export const ConnectionHeaderParametersList = S.Array(
 );
 export interface ConnectionQueryStringParameter {
   Key?: string;
-  Value?: string;
+  Value?: string | Redacted.Redacted<string>;
   IsValueSecret?: boolean;
 }
 export const ConnectionQueryStringParameter = S.suspend(() =>
   S.Struct({
     Key: S.optional(S.String),
-    Value: S.optional(S.String),
+    Value: S.optional(SensitiveString),
     IsValueSecret: S.optional(S.Boolean),
   }),
 ).annotations({
@@ -3099,13 +3104,13 @@ export const ConnectionQueryStringParametersList = S.Array(
 );
 export interface ConnectionBodyParameter {
   Key?: string;
-  Value?: string;
+  Value?: string | Redacted.Redacted<string>;
   IsValueSecret?: boolean;
 }
 export const ConnectionBodyParameter = S.suspend(() =>
   S.Struct({
     Key: S.optional(S.String),
-    Value: S.optional(S.String),
+    Value: S.optional(SensitiveString),
     IsValueSecret: S.optional(S.Boolean),
   }),
 ).annotations({
@@ -3115,12 +3120,12 @@ export type ConnectionBodyParametersList = ConnectionBodyParameter[];
 export const ConnectionBodyParametersList = S.Array(ConnectionBodyParameter);
 export interface UpdateConnectionOAuthClientRequestParameters {
   ClientID?: string;
-  ClientSecret?: string;
+  ClientSecret?: string | Redacted.Redacted<string>;
 }
 export const UpdateConnectionOAuthClientRequestParameters = S.suspend(() =>
   S.Struct({
     ClientID: S.optional(S.String),
-    ClientSecret: S.optional(S.String),
+    ClientSecret: S.optional(SensitiveString),
   }),
 ).annotations({
   identifier: "UpdateConnectionOAuthClientRequestParameters",

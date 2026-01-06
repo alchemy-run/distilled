@@ -1,5 +1,6 @@
 import { HttpClient } from "@effect/platform";
 import * as Effect from "effect/Effect";
+import * as Redacted from "effect/Redacted";
 import * as S from "effect/Schema";
 import * as Stream from "effect/Stream";
 import * as API from "../api.ts";
@@ -10,6 +11,7 @@ import {
   ErrorCategory,
   Errors,
 } from "../index.ts";
+import { SensitiveString, SensitiveBlob } from "../sensitive.ts";
 const svc = T.AwsApiService({
   sdkId: "CleanRooms",
   serviceShapeName: "AWSBastionControlPlaneServiceLambda",
@@ -340,7 +342,7 @@ export type ProtectedQueryStatus = string;
 export type ProtectedQueryType = string;
 export type TargetProtectedQueryStatus = string;
 export type TagValue = string;
-export type AnalysisTemplateText = string;
+export type AnalysisTemplateText = string | Redacted.Redacted<string>;
 export type ParameterName = string;
 export type ParameterValue = string;
 export type IdMappingTableInputReferenceArn = string;
@@ -3002,10 +3004,10 @@ export const AnalysisTemplateArtifacts = S.suspend(() =>
   identifier: "AnalysisTemplateArtifacts",
 }) as any as S.Schema<AnalysisTemplateArtifacts>;
 export type AnalysisSource =
-  | { text: string }
+  | { text: string | Redacted.Redacted<string> }
   | { artifacts: AnalysisTemplateArtifacts };
 export const AnalysisSource = S.Union(
-  S.Struct({ text: S.String }),
+  S.Struct({ text: SensitiveString }),
   S.Struct({ artifacts: AnalysisTemplateArtifacts }),
 );
 export interface Hash {

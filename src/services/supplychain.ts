@@ -1,5 +1,6 @@
 import { HttpClient } from "@effect/platform";
 import * as Effect from "effect/Effect";
+import * as Redacted from "effect/Redacted";
 import * as S from "effect/Schema";
 import * as Stream from "effect/Stream";
 import * as API from "../api.ts";
@@ -10,6 +11,7 @@ import {
   ErrorCategory,
   Errors,
 } from "../index.ts";
+import { SensitiveString, SensitiveBlob } from "../sensitive.ts";
 const svc = T.AwsApiService({
   sdkId: "SupplyChain",
   serviceShapeName: "GalaxyPublicAPIGateway",
@@ -309,7 +311,7 @@ export type DataIntegrationEventMaxResults = number;
 export type DataIntegrationFlowExecutionNextToken = string;
 export type DataIntegrationFlowExecutionMaxResults = number;
 export type AscResourceArn = string;
-export type DataIntegrationEventData = string;
+export type DataIntegrationEventData = string | Redacted.Redacted<string>;
 export type DataIntegrationEventGroupId = string;
 export type ClientToken = string;
 export type TagKey = string;
@@ -337,7 +339,7 @@ export type DataLakeDatasetSchemaName = string;
 export type S3BucketName = string;
 export type DataIntegrationFlowS3Prefix = string;
 export type DatasetIdentifier = string;
-export type DataIntegrationFlowSQLQuery = string;
+export type DataIntegrationFlowSQLQuery = string | Redacted.Redacted<string>;
 export type DataLakeDatasetSchemaFieldName = string;
 export type AwsAccountId = string;
 export type DataIntegrationFlowExecutionDiagnosticReportsRootS3URI = string;
@@ -677,10 +679,10 @@ export const DataIntegrationFlowSource = S.suspend(() =>
 export type DataIntegrationFlowSourceList = DataIntegrationFlowSource[];
 export const DataIntegrationFlowSourceList = S.Array(DataIntegrationFlowSource);
 export interface DataIntegrationFlowSQLTransformationConfiguration {
-  query: string;
+  query: string | Redacted.Redacted<string>;
 }
 export const DataIntegrationFlowSQLTransformationConfiguration = S.suspend(() =>
-  S.Struct({ query: S.String }),
+  S.Struct({ query: SensitiveString }),
 ).annotations({
   identifier: "DataIntegrationFlowSQLTransformationConfiguration",
 }) as any as S.Schema<DataIntegrationFlowSQLTransformationConfiguration>;
@@ -1508,7 +1510,7 @@ export const ListTagsForResourceResponse = S.suspend(() =>
 export interface SendDataIntegrationEventRequest {
   instanceId: string;
   eventType: string;
-  data: string;
+  data: string | Redacted.Redacted<string>;
   eventGroupId: string;
   eventTimestamp?: Date;
   clientToken?: string;
@@ -1518,7 +1520,7 @@ export const SendDataIntegrationEventRequest = S.suspend(() =>
   S.Struct({
     instanceId: S.String.pipe(T.HttpLabel("instanceId")),
     eventType: S.String,
-    data: S.String,
+    data: SensitiveString,
     eventGroupId: S.String,
     eventTimestamp: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
     clientToken: S.optional(S.String),

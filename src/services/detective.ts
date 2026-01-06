@@ -1,5 +1,6 @@
 import { HttpClient } from "@effect/platform";
 import * as Effect from "effect/Effect";
+import * as Redacted from "effect/Redacted";
 import * as S from "effect/Schema";
 import * as Stream from "effect/Stream";
 import * as API from "../api.ts";
@@ -10,6 +11,7 @@ import {
   ErrorCategory,
   Errors,
 } from "../index.ts";
+import { SensitiveString, SensitiveBlob } from "../sensitive.ts";
 const svc = T.AwsApiService({
   sdkId: "Detective",
   serviceShapeName: "AmazonDetective",
@@ -385,7 +387,7 @@ const rules = T.EndpointRuleSet({
 //# Newtypes
 export type GraphArn = string;
 export type AccountId = string;
-export type EmailMessage = string;
+export type EmailMessage = string | Redacted.Redacted<string>;
 export type ErrorMessage = string;
 export type ErrorCodeReason = string;
 export type InvestigationId = string;
@@ -396,7 +398,7 @@ export type MaxResults = number;
 export type EntityArn = string;
 export type TagKey = string;
 export type TagValue = string;
-export type EmailAddress = string;
+export type EmailAddress = string | Redacted.Redacted<string>;
 export type Value = string;
 export type UnprocessedReason = string;
 export type ByteValue = number;
@@ -1002,10 +1004,10 @@ export const UpdateOrganizationConfigurationResponse = S.suspend(() =>
 }) as any as S.Schema<UpdateOrganizationConfigurationResponse>;
 export interface Account {
   AccountId: string;
-  EmailAddress: string;
+  EmailAddress: string | Redacted.Redacted<string>;
 }
 export const Account = S.suspend(() =>
-  S.Struct({ AccountId: S.String, EmailAddress: S.String }),
+  S.Struct({ AccountId: S.String, EmailAddress: SensitiveString }),
 ).annotations({ identifier: "Account" }) as any as S.Schema<Account>;
 export type AccountList = Account[];
 export const AccountList = S.Array(Account);
@@ -1035,14 +1037,14 @@ export const CreateGraphRequest = S.suspend(() =>
 }) as any as S.Schema<CreateGraphRequest>;
 export interface CreateMembersRequest {
   GraphArn: string;
-  Message?: string;
+  Message?: string | Redacted.Redacted<string>;
   DisableEmailNotification?: boolean;
   Accounts: AccountList;
 }
 export const CreateMembersRequest = S.suspend(() =>
   S.Struct({
     GraphArn: S.String,
-    Message: S.optional(S.String),
+    Message: S.optional(SensitiveString),
     DisableEmailNotification: S.optional(S.Boolean),
     Accounts: AccountList,
   }).pipe(
@@ -1145,7 +1147,7 @@ export const DatasourcePackageIngestStates = S.Record({
 });
 export interface MemberDetail {
   AccountId?: string;
-  EmailAddress?: string;
+  EmailAddress?: string | Redacted.Redacted<string>;
   GraphArn?: string;
   MasterId?: string;
   AdministratorId?: string;
@@ -1164,7 +1166,7 @@ export interface MemberDetail {
 export const MemberDetail = S.suspend(() =>
   S.Struct({
     AccountId: S.optional(S.String),
-    EmailAddress: S.optional(S.String),
+    EmailAddress: S.optional(SensitiveString),
     GraphArn: S.optional(S.String),
     MasterId: S.optional(S.String),
     AdministratorId: S.optional(S.String),

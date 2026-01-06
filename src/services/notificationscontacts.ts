@@ -1,5 +1,6 @@
 import { HttpClient } from "@effect/platform";
 import * as Effect from "effect/Effect";
+import * as Redacted from "effect/Redacted";
 import * as S from "effect/Schema";
 import * as Stream from "effect/Stream";
 import * as API from "../api.ts";
@@ -10,6 +11,7 @@ import {
   ErrorCategory,
   Errors,
 } from "../index.ts";
+import { SensitiveString, SensitiveBlob } from "../sensitive.ts";
 const svc = T.AwsApiService({
   sdkId: "NotificationsContacts",
   serviceShapeName: "NotificationsContacts",
@@ -132,12 +134,12 @@ const rules = T.EndpointRuleSet({
 //# Newtypes
 export type EmailContactArn = string;
 export type TagKey = string;
-export type EmailContactName = string;
+export type EmailContactName = string | Redacted.Redacted<string>;
 export type EmailContactAddress = string;
-export type Token = string;
+export type Token = string | Redacted.Redacted<string>;
 export type TagValue = string;
 export type ErrorMessage = string;
-export type SensitiveEmailContactAddress = string;
+export type SensitiveEmailContactAddress = string | Redacted.Redacted<string>;
 export type EmailContactStatus = string;
 export type ResourceId = string;
 export type ResourceType = string;
@@ -192,13 +194,13 @@ export const UntagResourceResponse = S.suspend(() => S.Struct({})).annotations({
 export type TagMap = { [key: string]: string };
 export const TagMap = S.Record({ key: S.String, value: S.String });
 export interface CreateEmailContactRequest {
-  name: string;
+  name: string | Redacted.Redacted<string>;
   emailAddress: string;
   tags?: TagMap;
 }
 export const CreateEmailContactRequest = S.suspend(() =>
   S.Struct({
-    name: S.String,
+    name: SensitiveString,
     emailAddress: S.String,
     tags: S.optional(TagMap),
   }).pipe(
@@ -277,12 +279,12 @@ export const ListEmailContactsRequest = S.suspend(() =>
 }) as any as S.Schema<ListEmailContactsRequest>;
 export interface ActivateEmailContactRequest {
   arn: string;
-  code: string;
+  code: string | Redacted.Redacted<string>;
 }
 export const ActivateEmailContactRequest = S.suspend(() =>
   S.Struct({
     arn: S.String.pipe(T.HttpLabel("arn")),
-    code: S.String.pipe(T.HttpLabel("code")),
+    code: SensitiveString.pipe(T.HttpLabel("code")),
   }).pipe(
     T.all(
       T.Http({ method: "PUT", uri: "/emailcontacts/{arn}/activate/{code}" }),
@@ -330,8 +332,8 @@ export const SendActivationCodeResponse = S.suspend(() =>
 }) as any as S.Schema<SendActivationCodeResponse>;
 export interface EmailContact {
   arn: string;
-  name: string;
-  address: string;
+  name: string | Redacted.Redacted<string>;
+  address: string | Redacted.Redacted<string>;
   status: string;
   creationTime: Date;
   updateTime: Date;
@@ -339,8 +341,8 @@ export interface EmailContact {
 export const EmailContact = S.suspend(() =>
   S.Struct({
     arn: S.String,
-    name: S.String,
-    address: S.String,
+    name: SensitiveString,
+    address: SensitiveString,
     status: S.String,
     creationTime: S.Date.pipe(T.TimestampFormat("date-time")),
     updateTime: S.Date.pipe(T.TimestampFormat("date-time")),

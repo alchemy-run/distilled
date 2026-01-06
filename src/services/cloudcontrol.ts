@@ -1,5 +1,6 @@
 import { HttpClient } from "@effect/platform";
 import * as Effect from "effect/Effect";
+import * as Redacted from "effect/Redacted";
 import * as S from "effect/Schema";
 import * as Stream from "effect/Stream";
 import * as API from "../api.ts";
@@ -10,6 +11,7 @@ import {
   ErrorCategory,
   Errors,
 } from "../index.ts";
+import { SensitiveString, SensitiveBlob } from "../sensitive.ts";
 const svc = T.AwsApiService({
   sdkId: "CloudControl",
   serviceShapeName: "CloudApiService",
@@ -255,12 +257,12 @@ export type TypeName = string;
 export type TypeVersionId = string;
 export type RoleArn = string;
 export type ClientToken = string;
-export type Properties = string;
+export type Properties = string | Redacted.Redacted<string>;
 export type Identifier = string;
 export type MaxResults = number;
 export type NextToken = string;
 export type HandlerNextToken = string;
-export type PatchDocument = string;
+export type PatchDocument = string | Redacted.Redacted<string>;
 export type Operation = string;
 export type OperationStatus = string;
 export type StatusMessage = string;
@@ -287,7 +289,7 @@ export interface CreateResourceInput {
   TypeVersionId?: string;
   RoleArn?: string;
   ClientToken?: string;
-  DesiredState: string;
+  DesiredState: string | Redacted.Redacted<string>;
 }
 export const CreateResourceInput = S.suspend(() =>
   S.Struct({
@@ -295,7 +297,7 @@ export const CreateResourceInput = S.suspend(() =>
     TypeVersionId: S.optional(S.String),
     RoleArn: S.optional(S.String),
     ClientToken: S.optional(S.String),
-    DesiredState: S.String,
+    DesiredState: SensitiveString,
   }).pipe(
     T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
   ),
@@ -356,7 +358,7 @@ export interface ListResourcesInput {
   RoleArn?: string;
   NextToken?: string;
   MaxResults?: number;
-  ResourceModel?: string;
+  ResourceModel?: string | Redacted.Redacted<string>;
 }
 export const ListResourcesInput = S.suspend(() =>
   S.Struct({
@@ -365,7 +367,7 @@ export const ListResourcesInput = S.suspend(() =>
     RoleArn: S.optional(S.String),
     NextToken: S.optional(S.String),
     MaxResults: S.optional(S.Number),
-    ResourceModel: S.optional(S.String),
+    ResourceModel: S.optional(SensitiveString),
   }).pipe(
     T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
   ),
@@ -378,7 +380,7 @@ export interface UpdateResourceInput {
   RoleArn?: string;
   ClientToken?: string;
   Identifier: string;
-  PatchDocument: string;
+  PatchDocument: string | Redacted.Redacted<string>;
 }
 export const UpdateResourceInput = S.suspend(() =>
   S.Struct({
@@ -387,7 +389,7 @@ export const UpdateResourceInput = S.suspend(() =>
     RoleArn: S.optional(S.String),
     ClientToken: S.optional(S.String),
     Identifier: S.String,
-    PatchDocument: S.String,
+    PatchDocument: SensitiveString,
   }).pipe(
     T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
   ),
@@ -412,12 +414,12 @@ export const ResourceRequestStatusFilter = S.suspend(() =>
 }) as any as S.Schema<ResourceRequestStatusFilter>;
 export interface ResourceDescription {
   Identifier?: string;
-  Properties?: string;
+  Properties?: string | Redacted.Redacted<string>;
 }
 export const ResourceDescription = S.suspend(() =>
   S.Struct({
     Identifier: S.optional(S.String),
-    Properties: S.optional(S.String),
+    Properties: S.optional(SensitiveString),
   }),
 ).annotations({
   identifier: "ResourceDescription",
@@ -432,7 +434,7 @@ export interface ProgressEvent {
   Operation?: string;
   OperationStatus?: string;
   EventTime?: Date;
-  ResourceModel?: string;
+  ResourceModel?: string | Redacted.Redacted<string>;
   StatusMessage?: string;
   ErrorCode?: string;
   RetryAfter?: Date;
@@ -446,7 +448,7 @@ export const ProgressEvent = S.suspend(() =>
     Operation: S.optional(S.String),
     OperationStatus: S.optional(S.String),
     EventTime: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
-    ResourceModel: S.optional(S.String),
+    ResourceModel: S.optional(SensitiveString),
     StatusMessage: S.optional(S.String),
     ErrorCode: S.optional(S.String),
     RetryAfter: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),

@@ -1,5 +1,6 @@
 import { HttpClient } from "@effect/platform";
 import * as Effect from "effect/Effect";
+import * as Redacted from "effect/Redacted";
 import * as S from "effect/Schema";
 import * as Stream from "effect/Stream";
 import * as API from "../api.ts";
@@ -10,6 +11,7 @@ import {
   ErrorCategory,
   Errors,
 } from "../index.ts";
+import { SensitiveString, SensitiveBlob } from "../sensitive.ts";
 const svc = T.AwsApiService({
   sdkId: "ACM",
   serviceShapeName: "CertificateManager",
@@ -282,7 +284,7 @@ export type PositiveInteger = number;
 export type ServiceErrorMessage = string;
 export type CertificateBody = string;
 export type CertificateChain = string;
-export type PrivateKey = string;
+export type PrivateKey = string | Redacted.Redacted<string>;
 export type AvailabilityErrorMessage = string;
 export type ValidationExceptionMessage = string;
 
@@ -327,10 +329,10 @@ export const DescribeCertificateRequest = S.suspend(() =>
 }) as any as S.Schema<DescribeCertificateRequest>;
 export interface ExportCertificateRequest {
   CertificateArn: string;
-  Passphrase: Uint8Array;
+  Passphrase: Uint8Array | Redacted.Redacted<Uint8Array>;
 }
 export const ExportCertificateRequest = S.suspend(() =>
-  S.Struct({ CertificateArn: S.String, Passphrase: T.Blob }).pipe(
+  S.Struct({ CertificateArn: S.String, Passphrase: SensitiveBlob }).pipe(
     T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
   ),
 ).annotations({
@@ -358,7 +360,7 @@ export const TagList = S.Array(Tag);
 export interface ImportCertificateRequest {
   CertificateArn?: string;
   Certificate: Uint8Array;
-  PrivateKey: Uint8Array;
+  PrivateKey: Uint8Array | Redacted.Redacted<Uint8Array>;
   CertificateChain?: Uint8Array;
   Tags?: TagList;
 }
@@ -366,7 +368,7 @@ export const ImportCertificateRequest = S.suspend(() =>
   S.Struct({
     CertificateArn: S.optional(S.String),
     Certificate: T.Blob,
-    PrivateKey: T.Blob,
+    PrivateKey: SensitiveBlob,
     CertificateChain: S.optional(T.Blob),
     Tags: S.optional(TagList),
   }).pipe(
@@ -561,13 +563,13 @@ export const AddTagsToCertificateResponse = S.suspend(() =>
 export interface ExportCertificateResponse {
   Certificate?: string;
   CertificateChain?: string;
-  PrivateKey?: string;
+  PrivateKey?: string | Redacted.Redacted<string>;
 }
 export const ExportCertificateResponse = S.suspend(() =>
   S.Struct({
     Certificate: S.optional(S.String),
     CertificateChain: S.optional(S.String),
-    PrivateKey: S.optional(S.String),
+    PrivateKey: S.optional(SensitiveString),
   }),
 ).annotations({
   identifier: "ExportCertificateResponse",

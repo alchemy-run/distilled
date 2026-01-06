@@ -1,5 +1,6 @@
 import { HttpClient } from "@effect/platform";
 import * as Effect from "effect/Effect";
+import * as Redacted from "effect/Redacted";
 import * as S from "effect/Schema";
 import * as Stream from "effect/Stream";
 import * as API from "../api.ts";
@@ -10,6 +11,7 @@ import {
   ErrorCategory,
   Errors,
 } from "../index.ts";
+import { SensitiveString, SensitiveBlob } from "../sensitive.ts";
 const ns = T.XmlNamespace("http://devicefarm.amazonaws.com/doc/2015-06-23/");
 const svc = T.AwsApiService({
   sdkId: "Device Farm",
@@ -282,11 +284,11 @@ export type EnvironmentVariableValue = string;
 export type AWSAccountNumber = string;
 export type Filter = string;
 export type TagValue = string;
-export type SensitiveString = string;
+export type SensitiveString = string | Redacted.Redacted<string>;
 export type DeviceProxyHost = string;
 export type DeviceProxyPort = number;
 export type Double = number;
-export type SensitiveURL = string;
+export type SensitiveURL = string | Redacted.Redacted<string>;
 export type Metadata = string;
 export type URL = string;
 export type TransactionIdentifier = string;
@@ -2185,13 +2187,13 @@ export const DeviceProxy = S.suspend(() =>
   S.Struct({ host: S.String, port: S.Number }),
 ).annotations({ identifier: "DeviceProxy" }) as any as S.Schema<DeviceProxy>;
 export interface RemoteAccessEndpoints {
-  remoteDriverEndpoint?: string;
-  interactiveEndpoint?: string;
+  remoteDriverEndpoint?: string | Redacted.Redacted<string>;
+  interactiveEndpoint?: string | Redacted.Redacted<string>;
 }
 export const RemoteAccessEndpoints = S.suspend(() =>
   S.Struct({
-    remoteDriverEndpoint: S.optional(S.String),
-    interactiveEndpoint: S.optional(S.String),
+    remoteDriverEndpoint: S.optional(SensitiveString),
+    interactiveEndpoint: S.optional(SensitiveString),
   }),
 ).annotations({
   identifier: "RemoteAccessEndpoints",
@@ -2487,7 +2489,7 @@ export interface Upload {
   created?: Date;
   type?: string;
   status?: string;
-  url?: string;
+  url?: string | Redacted.Redacted<string>;
   metadata?: string;
   contentType?: string;
   message?: string;
@@ -2500,7 +2502,7 @@ export const Upload = S.suspend(() =>
     created: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
     type: S.optional(S.String),
     status: S.optional(S.String),
-    url: S.optional(S.String),
+    url: S.optional(SensitiveString),
     metadata: S.optional(S.String),
     contentType: S.optional(S.String),
     message: S.optional(S.String),
@@ -2646,12 +2648,12 @@ export const CreateTestGridProjectRequest = S.suspend(() =>
   identifier: "CreateTestGridProjectRequest",
 }) as any as S.Schema<CreateTestGridProjectRequest>;
 export interface CreateTestGridUrlResult {
-  url?: string;
+  url?: string | Redacted.Redacted<string>;
   expires?: Date;
 }
 export const CreateTestGridUrlResult = S.suspend(() =>
   S.Struct({
-    url: S.optional(S.String),
+    url: S.optional(SensitiveString),
     expires: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
   }).pipe(ns),
 ).annotations({
@@ -3304,13 +3306,13 @@ export const TestGridSessionActions = S.Array(TestGridSessionAction);
 export interface TestGridSessionArtifact {
   filename?: string;
   type?: string;
-  url?: string;
+  url?: string | Redacted.Redacted<string>;
 }
 export const TestGridSessionArtifact = S.suspend(() =>
   S.Struct({
     filename: S.optional(S.String),
     type: S.optional(S.String),
-    url: S.optional(S.String),
+    url: S.optional(SensitiveString),
   }),
 ).annotations({
   identifier: "TestGridSessionArtifact",

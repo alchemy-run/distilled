@@ -1,5 +1,6 @@
 import { HttpClient } from "@effect/platform";
 import * as Effect from "effect/Effect";
+import * as Redacted from "effect/Redacted";
 import * as S from "effect/Schema";
 import * as Stream from "effect/Stream";
 import * as API from "../api.ts";
@@ -10,6 +11,7 @@ import {
   ErrorCategory,
   Errors,
 } from "../index.ts";
+import { SensitiveString, SensitiveBlob } from "../sensitive.ts";
 const svc = T.AwsApiService({
   sdkId: "SSO OIDC",
   serviceShapeName: "AWSSSOOIDCService",
@@ -271,24 +273,24 @@ const rules = T.EndpointRuleSet({
 
 //# Newtypes
 export type ClientId = string;
-export type ClientSecret = string;
+export type ClientSecret = string | Redacted.Redacted<string>;
 export type GrantType = string;
 export type DeviceCode = string;
 export type AuthCode = string;
-export type RefreshToken = string;
+export type RefreshToken = string | Redacted.Redacted<string>;
 export type Scope = string;
 export type URI = string;
-export type CodeVerifier = string;
-export type Assertion = string;
-export type SubjectToken = string;
+export type CodeVerifier = string | Redacted.Redacted<string>;
+export type Assertion = string | Redacted.Redacted<string>;
+export type SubjectToken = string | Redacted.Redacted<string>;
 export type TokenTypeURI = string;
 export type ClientName = string;
 export type ClientType = string;
 export type ArnType = string;
-export type AccessToken = string;
+export type AccessToken = string | Redacted.Redacted<string>;
 export type TokenType = string;
 export type ExpirationInSeconds = number;
-export type IdToken = string;
+export type IdToken = string | Redacted.Redacted<string>;
 export type LongTimeStampType = number;
 export type UserCode = string;
 export type IntervalInSeconds = number;
@@ -306,26 +308,26 @@ export type GrantTypes = string[];
 export const GrantTypes = S.Array(S.String);
 export interface CreateTokenRequest {
   clientId: string;
-  clientSecret: string;
+  clientSecret: string | Redacted.Redacted<string>;
   grantType: string;
   deviceCode?: string;
   code?: string;
-  refreshToken?: string;
+  refreshToken?: string | Redacted.Redacted<string>;
   scope?: Scopes;
   redirectUri?: string;
-  codeVerifier?: string;
+  codeVerifier?: string | Redacted.Redacted<string>;
 }
 export const CreateTokenRequest = S.suspend(() =>
   S.Struct({
     clientId: S.String,
-    clientSecret: S.String,
+    clientSecret: SensitiveString,
     grantType: S.String,
     deviceCode: S.optional(S.String),
     code: S.optional(S.String),
-    refreshToken: S.optional(S.String),
+    refreshToken: S.optional(SensitiveString),
     scope: S.optional(Scopes),
     redirectUri: S.optional(S.String),
-    codeVerifier: S.optional(S.String),
+    codeVerifier: S.optional(SensitiveString),
   }).pipe(
     T.all(
       T.Http({ method: "POST", uri: "/token" }),
@@ -343,28 +345,28 @@ export interface CreateTokenWithIAMRequest {
   clientId: string;
   grantType: string;
   code?: string;
-  refreshToken?: string;
-  assertion?: string;
+  refreshToken?: string | Redacted.Redacted<string>;
+  assertion?: string | Redacted.Redacted<string>;
   scope?: Scopes;
   redirectUri?: string;
-  subjectToken?: string;
+  subjectToken?: string | Redacted.Redacted<string>;
   subjectTokenType?: string;
   requestedTokenType?: string;
-  codeVerifier?: string;
+  codeVerifier?: string | Redacted.Redacted<string>;
 }
 export const CreateTokenWithIAMRequest = S.suspend(() =>
   S.Struct({
     clientId: S.String,
     grantType: S.String,
     code: S.optional(S.String),
-    refreshToken: S.optional(S.String),
-    assertion: S.optional(S.String),
+    refreshToken: S.optional(SensitiveString),
+    assertion: S.optional(SensitiveString),
     scope: S.optional(Scopes),
     redirectUri: S.optional(S.String),
-    subjectToken: S.optional(S.String),
+    subjectToken: S.optional(SensitiveString),
     subjectTokenType: S.optional(S.String),
     requestedTokenType: S.optional(S.String),
-    codeVerifier: S.optional(S.String),
+    codeVerifier: S.optional(SensitiveString),
   }).pipe(
     T.all(
       T.Http({ method: "POST", uri: "/token?aws_iam=t" }),
@@ -411,13 +413,13 @@ export const RegisterClientRequest = S.suspend(() =>
 }) as any as S.Schema<RegisterClientRequest>;
 export interface StartDeviceAuthorizationRequest {
   clientId: string;
-  clientSecret: string;
+  clientSecret: string | Redacted.Redacted<string>;
   startUrl: string;
 }
 export const StartDeviceAuthorizationRequest = S.suspend(() =>
   S.Struct({
     clientId: S.String,
-    clientSecret: S.String,
+    clientSecret: SensitiveString,
     startUrl: S.String,
   }).pipe(
     T.all(
@@ -433,26 +435,26 @@ export const StartDeviceAuthorizationRequest = S.suspend(() =>
   identifier: "StartDeviceAuthorizationRequest",
 }) as any as S.Schema<StartDeviceAuthorizationRequest>;
 export interface CreateTokenResponse {
-  accessToken?: string;
+  accessToken?: string | Redacted.Redacted<string>;
   tokenType?: string;
   expiresIn?: number;
-  refreshToken?: string;
-  idToken?: string;
+  refreshToken?: string | Redacted.Redacted<string>;
+  idToken?: string | Redacted.Redacted<string>;
 }
 export const CreateTokenResponse = S.suspend(() =>
   S.Struct({
-    accessToken: S.optional(S.String),
+    accessToken: S.optional(SensitiveString),
     tokenType: S.optional(S.String),
     expiresIn: S.optional(S.Number),
-    refreshToken: S.optional(S.String),
-    idToken: S.optional(S.String),
+    refreshToken: S.optional(SensitiveString),
+    idToken: S.optional(SensitiveString),
   }),
 ).annotations({
   identifier: "CreateTokenResponse",
 }) as any as S.Schema<CreateTokenResponse>;
 export interface RegisterClientResponse {
   clientId?: string;
-  clientSecret?: string;
+  clientSecret?: string | Redacted.Redacted<string>;
   clientIdIssuedAt?: number;
   clientSecretExpiresAt?: number;
   authorizationEndpoint?: string;
@@ -461,7 +463,7 @@ export interface RegisterClientResponse {
 export const RegisterClientResponse = S.suspend(() =>
   S.Struct({
     clientId: S.optional(S.String),
-    clientSecret: S.optional(S.String),
+    clientSecret: S.optional(SensitiveString),
     clientIdIssuedAt: S.optional(S.Number),
     clientSecretExpiresAt: S.optional(S.Number),
     authorizationEndpoint: S.optional(S.String),
@@ -499,22 +501,22 @@ export const AwsAdditionalDetails = S.suspend(() =>
   identifier: "AwsAdditionalDetails",
 }) as any as S.Schema<AwsAdditionalDetails>;
 export interface CreateTokenWithIAMResponse {
-  accessToken?: string;
+  accessToken?: string | Redacted.Redacted<string>;
   tokenType?: string;
   expiresIn?: number;
-  refreshToken?: string;
-  idToken?: string;
+  refreshToken?: string | Redacted.Redacted<string>;
+  idToken?: string | Redacted.Redacted<string>;
   issuedTokenType?: string;
   scope?: Scopes;
   awsAdditionalDetails?: AwsAdditionalDetails;
 }
 export const CreateTokenWithIAMResponse = S.suspend(() =>
   S.Struct({
-    accessToken: S.optional(S.String),
+    accessToken: S.optional(SensitiveString),
     tokenType: S.optional(S.String),
     expiresIn: S.optional(S.Number),
-    refreshToken: S.optional(S.String),
-    idToken: S.optional(S.String),
+    refreshToken: S.optional(SensitiveString),
+    idToken: S.optional(SensitiveString),
     issuedTokenType: S.optional(S.String),
     scope: S.optional(Scopes),
     awsAdditionalDetails: S.optional(AwsAdditionalDetails),

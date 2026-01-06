@@ -100,6 +100,14 @@ export type { Operation } from "./operation.ts";
 export * as Traits from "./traits.ts";
 
 /**
+ * Sensitive data schemas for the smithy.api#sensitive trait.
+ * Wraps values in Effect's Redacted type to prevent accidental logging.
+ *
+ * @since 0.0.0
+ */
+export { Sensitive, SensitiveBlob, SensitiveString } from "./sensitive.ts";
+
+/**
  * Retry policy configuration for AWS API calls.
  *
  * @example

@@ -1,5 +1,6 @@
 import { HttpClient } from "@effect/platform";
 import * as Effect from "effect/Effect";
+import * as Redacted from "effect/Redacted";
 import * as S from "effect/Schema";
 import * as Stream from "effect/Stream";
 import * as API from "../api.ts";
@@ -10,6 +11,7 @@ import {
   ErrorCategory,
   Errors,
 } from "../index.ts";
+import { SensitiveString, SensitiveBlob } from "../sensitive.ts";
 const svc = T.AwsApiService({
   sdkId: "PartnerCentral Account",
   serviceShapeName: "PartnerCentralAccount",
@@ -120,7 +122,7 @@ export type Email = string;
 export type ClientToken = string;
 export type TagKey = string;
 export type UnicodeString = string;
-export type SensitiveUnicodeString = string;
+export type SensitiveUnicodeString = string | Redacted.Redacted<string>;
 export type ParticipantIdentifier = string;
 export type ConnectionInvitationId = string;
 export type NextToken = string;
@@ -128,7 +130,7 @@ export type MaxResults = number;
 export type Revision = number;
 export type ConnectionId = string;
 export type ConnectionTypeFilter = string;
-export type EmailVerificationCode = string;
+export type EmailVerificationCode = string | Redacted.Redacted<string>;
 export type PartnerIdentifier = string;
 export type ProfileTaskId = string;
 export type DomainName = string;
@@ -143,8 +145,8 @@ export type AwsAccountId = string;
 export type PartnerArn = string;
 export type PartnerId = string;
 export type PartnerProfileId = string;
-export type LegalName = string;
-export type RegistrationId = string;
+export type LegalName = string | Redacted.Redacted<string>;
+export type RegistrationId = string | Redacted.Redacted<string>;
 export type CountryCode = string;
 export type JurisdictionCode = string;
 export type CompletionUrl = string;
@@ -213,7 +215,7 @@ export interface CreateConnectionInvitationRequest {
   ConnectionType: string;
   Email: string;
   Message: string;
-  Name: string;
+  Name: string | Redacted.Redacted<string>;
   ReceiverIdentifier: string;
 }
 export const CreateConnectionInvitationRequest = S.suspend(() =>
@@ -223,7 +225,7 @@ export const CreateConnectionInvitationRequest = S.suspend(() =>
     ConnectionType: S.String,
     Email: S.String,
     Message: S.String,
-    Name: S.String,
+    Name: SensitiveString,
     ReceiverIdentifier: S.String,
   }).pipe(
     T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
@@ -422,7 +424,7 @@ export interface AssociateAwsTrainingCertificationEmailDomainRequest {
   Identifier: string;
   ClientToken?: string;
   Email: string;
-  EmailVerificationCode: string;
+  EmailVerificationCode: string | Redacted.Redacted<string>;
 }
 export const AssociateAwsTrainingCertificationEmailDomainRequest = S.suspend(
   () =>
@@ -431,7 +433,7 @@ export const AssociateAwsTrainingCertificationEmailDomainRequest = S.suspend(
       Identifier: S.String,
       ClientToken: S.optional(S.String),
       Email: S.String,
-      EmailVerificationCode: S.String,
+      EmailVerificationCode: SensitiveString,
     }).pipe(
       T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
     ),
@@ -520,17 +522,17 @@ export const GetProfileVisibilityRequest = S.suspend(() =>
   identifier: "GetProfileVisibilityRequest",
 }) as any as S.Schema<GetProfileVisibilityRequest>;
 export interface AllianceLeadContact {
-  FirstName: string;
-  LastName: string;
+  FirstName: string | Redacted.Redacted<string>;
+  LastName: string | Redacted.Redacted<string>;
   Email: string;
-  BusinessTitle: string;
+  BusinessTitle: string | Redacted.Redacted<string>;
 }
 export const AllianceLeadContact = S.suspend(() =>
   S.Struct({
-    FirstName: S.String,
-    LastName: S.String,
+    FirstName: SensitiveString,
+    LastName: SensitiveString,
     Email: S.String,
-    BusinessTitle: S.String,
+    BusinessTitle: SensitiveString,
   }),
 ).annotations({
   identifier: "AllianceLeadContact",
@@ -539,14 +541,14 @@ export interface PutAllianceLeadContactRequest {
   Catalog: string;
   Identifier: string;
   AllianceLeadContact: AllianceLeadContact;
-  EmailVerificationCode?: string;
+  EmailVerificationCode?: string | Redacted.Redacted<string>;
 }
 export const PutAllianceLeadContactRequest = S.suspend(() =>
   S.Struct({
     Catalog: S.String,
     Identifier: S.String,
     AllianceLeadContact: AllianceLeadContact,
-    EmailVerificationCode: S.optional(S.String),
+    EmailVerificationCode: S.optional(SensitiveString),
   }).pipe(
     T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
   ),
@@ -624,7 +626,7 @@ export interface CreateConnectionInvitationResponse {
   Status: string;
   InvitationMessage: string;
   InviterEmail: string;
-  InviterName: string;
+  InviterName: string | Redacted.Redacted<string>;
 }
 export const CreateConnectionInvitationResponse = S.suspend(() =>
   S.Struct({
@@ -641,7 +643,7 @@ export const CreateConnectionInvitationResponse = S.suspend(() =>
     Status: S.String,
     InvitationMessage: S.String,
     InviterEmail: S.String,
-    InviterName: S.String,
+    InviterName: SensitiveString,
   }),
 ).annotations({
   identifier: "CreateConnectionInvitationResponse",
@@ -660,7 +662,7 @@ export interface GetConnectionInvitationResponse {
   Status: string;
   InvitationMessage: string;
   InviterEmail: string;
-  InviterName: string;
+  InviterName: string | Redacted.Redacted<string>;
 }
 export const GetConnectionInvitationResponse = S.suspend(() =>
   S.Struct({
@@ -677,7 +679,7 @@ export const GetConnectionInvitationResponse = S.suspend(() =>
     Status: S.String,
     InvitationMessage: S.String,
     InviterEmail: S.String,
-    InviterName: S.String,
+    InviterName: SensitiveString,
   }),
 ).annotations({
   identifier: "GetConnectionInvitationResponse",
@@ -696,7 +698,7 @@ export interface CancelConnectionInvitationResponse {
   Status: string;
   InvitationMessage: string;
   InviterEmail: string;
-  InviterName: string;
+  InviterName: string | Redacted.Redacted<string>;
 }
 export const CancelConnectionInvitationResponse = S.suspend(() =>
   S.Struct({
@@ -713,7 +715,7 @@ export const CancelConnectionInvitationResponse = S.suspend(() =>
     Status: S.String,
     InvitationMessage: S.String,
     InviterEmail: S.String,
-    InviterName: S.String,
+    InviterName: SensitiveString,
   }),
 ).annotations({
   identifier: "CancelConnectionInvitationResponse",
@@ -732,7 +734,7 @@ export interface RejectConnectionInvitationResponse {
   Status: string;
   InvitationMessage: string;
   InviterEmail: string;
-  InviterName: string;
+  InviterName: string | Redacted.Redacted<string>;
 }
 export const RejectConnectionInvitationResponse = S.suspend(() =>
   S.Struct({
@@ -749,7 +751,7 @@ export const RejectConnectionInvitationResponse = S.suspend(() =>
     Status: S.String,
     InvitationMessage: S.String,
     InviterEmail: S.String,
-    InviterName: S.String,
+    InviterName: SensitiveString,
   }),
 ).annotations({
   identifier: "RejectConnectionInvitationResponse",
@@ -832,7 +834,7 @@ export const Participant = S.Union(
 export interface ConnectionTypeDetail {
   CreatedAt: Date;
   InviterEmail: string;
-  InviterName: string;
+  InviterName: string | Redacted.Redacted<string>;
   Status: string;
   CanceledAt?: Date;
   CanceledBy?: string;
@@ -842,7 +844,7 @@ export const ConnectionTypeDetail = S.suspend(() =>
   S.Struct({
     CreatedAt: S.Date.pipe(T.TimestampFormat("date-time")),
     InviterEmail: S.String,
-    InviterName: S.String,
+    InviterName: SensitiveString,
     Status: S.String,
     CanceledAt: S.optional(S.Date.pipe(T.TimestampFormat("date-time"))),
     CanceledBy: S.optional(S.String),
@@ -879,20 +881,20 @@ export const CancelConnectionResponse = S.suspend(() =>
 export interface CreatePartnerRequest {
   Catalog: string;
   ClientToken?: string;
-  LegalName: string;
+  LegalName: string | Redacted.Redacted<string>;
   PrimarySolutionType: string;
   AllianceLeadContact: AllianceLeadContact;
-  EmailVerificationCode: string;
+  EmailVerificationCode: string | Redacted.Redacted<string>;
   Tags?: TagList;
 }
 export const CreatePartnerRequest = S.suspend(() =>
   S.Struct({
     Catalog: S.String,
     ClientToken: S.optional(S.String),
-    LegalName: S.String,
+    LegalName: SensitiveString,
     PrimarySolutionType: S.String,
     AllianceLeadContact: AllianceLeadContact,
-    EmailVerificationCode: S.String,
+    EmailVerificationCode: SensitiveString,
     Tags: S.optional(TagList),
   }).pipe(
     T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
@@ -1047,15 +1049,15 @@ export const PutProfileVisibilityResponse = S.suspend(() =>
   identifier: "PutProfileVisibilityResponse",
 }) as any as S.Schema<PutProfileVisibilityResponse>;
 export interface BusinessVerificationDetails {
-  LegalName: string;
-  RegistrationId: string;
+  LegalName: string | Redacted.Redacted<string>;
+  RegistrationId: string | Redacted.Redacted<string>;
   CountryCode: string;
   JurisdictionOfIncorporation?: string;
 }
 export const BusinessVerificationDetails = S.suspend(() =>
   S.Struct({
-    LegalName: S.String,
-    RegistrationId: S.String,
+    LegalName: SensitiveString,
+    RegistrationId: SensitiveString,
     CountryCode: S.String,
     JurisdictionOfIncorporation: S.optional(S.String),
   }),
@@ -1165,7 +1167,7 @@ export interface PartnerSummary {
   Catalog: string;
   Arn: string;
   Id: string;
-  LegalName: string;
+  LegalName: string | Redacted.Redacted<string>;
   CreatedAt: Date;
 }
 export const PartnerSummary = S.suspend(() =>
@@ -1173,7 +1175,7 @@ export const PartnerSummary = S.suspend(() =>
     Catalog: S.String,
     Arn: S.String,
     Id: S.String,
-    LegalName: S.String,
+    LegalName: SensitiveString,
     CreatedAt: S.Date.pipe(T.TimestampFormat("date-time")),
   }),
 ).annotations({
@@ -1219,7 +1221,7 @@ export interface CreatePartnerResponse {
   Catalog: string;
   Arn: string;
   Id: string;
-  LegalName: string;
+  LegalName: string | Redacted.Redacted<string>;
   CreatedAt: Date;
   Profile: PartnerProfile;
   AwsTrainingCertificationEmailDomains?: PartnerDomainList;
@@ -1230,7 +1232,7 @@ export const CreatePartnerResponse = S.suspend(() =>
     Catalog: S.String,
     Arn: S.String,
     Id: S.String,
-    LegalName: S.String,
+    LegalName: SensitiveString,
     CreatedAt: S.Date.pipe(T.TimestampFormat("date-time")),
     Profile: PartnerProfile,
     AwsTrainingCertificationEmailDomains: S.optional(PartnerDomainList),
@@ -1243,7 +1245,7 @@ export interface GetPartnerResponse {
   Catalog: string;
   Arn: string;
   Id: string;
-  LegalName: string;
+  LegalName: string | Redacted.Redacted<string>;
   CreatedAt: Date;
   Profile: PartnerProfile;
   AwsTrainingCertificationEmailDomains?: PartnerDomainList;
@@ -1253,7 +1255,7 @@ export const GetPartnerResponse = S.suspend(() =>
     Catalog: S.String,
     Arn: S.String,
     Id: S.String,
-    LegalName: S.String,
+    LegalName: SensitiveString,
     CreatedAt: S.Date.pipe(T.TimestampFormat("date-time")),
     Profile: PartnerProfile,
     AwsTrainingCertificationEmailDomains: S.optional(PartnerDomainList),

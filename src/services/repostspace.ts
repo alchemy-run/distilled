@@ -1,5 +1,6 @@
 import { HttpClient } from "@effect/platform";
 import * as Effect from "effect/Effect";
+import * as Redacted from "effect/Redacted";
 import * as S from "effect/Schema";
 import * as Stream from "effect/Stream";
 import * as API from "../api.ts";
@@ -10,6 +11,7 @@ import {
   ErrorCategory,
   Errors,
 } from "../index.ts";
+import { SensitiveString, SensitiveBlob } from "../sensitive.ts";
 const svc = T.AwsApiService({
   sdkId: "repostspace",
   serviceShapeName: "RepostSpace",
@@ -305,21 +307,21 @@ const rules = T.EndpointRuleSet({
 export type SpaceId = string;
 export type ChannelId = string;
 export type AccessorId = string;
-export type ChannelName = string;
-export type ChannelDescription = string;
-export type SpaceName = string;
+export type ChannelName = string | Redacted.Redacted<string>;
+export type ChannelDescription = string | Redacted.Redacted<string>;
+export type SpaceName = string | Redacted.Redacted<string>;
 export type SpaceSubdomain = string;
-export type SpaceDescription = string;
+export type SpaceDescription = string | Redacted.Redacted<string>;
 export type KMSKey = string;
 export type Arn = string;
 export type AdminId = string;
 export type ListChannelsLimit = number;
 export type ListSpacesLimit = number;
-export type InviteTitle = string;
-export type InviteBody = string;
+export type InviteTitle = string | Redacted.Redacted<string>;
+export type InviteBody = string | Redacted.Redacted<string>;
 export type TagKey = string;
 export type TagValue = string;
-export type EmailDomain = string;
+export type EmailDomain = string | Redacted.Redacted<string>;
 export type ProvisioningStatus = string;
 export type ClientId = string;
 export type IdentityStoreId = string;
@@ -440,14 +442,14 @@ export const BatchRemoveRoleInput = S.suspend(() =>
 }) as any as S.Schema<BatchRemoveRoleInput>;
 export interface CreateChannelInput {
   spaceId: string;
-  channelName: string;
-  channelDescription?: string;
+  channelName: string | Redacted.Redacted<string>;
+  channelDescription?: string | Redacted.Redacted<string>;
 }
 export const CreateChannelInput = S.suspend(() =>
   S.Struct({
     spaceId: S.String.pipe(T.HttpLabel("spaceId")),
-    channelName: S.String,
-    channelDescription: S.optional(S.String),
+    channelName: SensitiveString,
+    channelDescription: S.optional(SensitiveString),
   }).pipe(
     T.all(
       T.Http({ method: "POST", uri: "/spaces/{spaceId}/channels" }),
@@ -636,15 +638,15 @@ export const RegisterAdminResponse = S.suspend(() => S.Struct({})).annotations({
 export interface SendInvitesInput {
   spaceId: string;
   accessorIds: AccessorIdList;
-  title: string;
-  body: string;
+  title: string | Redacted.Redacted<string>;
+  body: string | Redacted.Redacted<string>;
 }
 export const SendInvitesInput = S.suspend(() =>
   S.Struct({
     spaceId: S.String.pipe(T.HttpLabel("spaceId")),
     accessorIds: AccessorIdList,
-    title: S.String,
-    body: S.String,
+    title: SensitiveString,
+    body: SensitiveString,
   }).pipe(
     T.all(
       T.Http({ method: "POST", uri: "/spaces/{spaceId}/invite" }),
@@ -717,15 +719,15 @@ export const UntagResourceResponse = S.suspend(() => S.Struct({})).annotations({
 export interface UpdateChannelInput {
   spaceId: string;
   channelId: string;
-  channelName: string;
-  channelDescription?: string;
+  channelName: string | Redacted.Redacted<string>;
+  channelDescription?: string | Redacted.Redacted<string>;
 }
 export const UpdateChannelInput = S.suspend(() =>
   S.Struct({
     spaceId: S.String.pipe(T.HttpLabel("spaceId")),
     channelId: S.String.pipe(T.HttpLabel("channelId")),
-    channelName: S.String,
-    channelDescription: S.optional(S.String),
+    channelName: SensitiveString,
+    channelDescription: S.optional(SensitiveString),
   }).pipe(
     T.all(
       T.Http({ method: "PUT", uri: "/spaces/{spaceId}/channels/{channelId}" }),
@@ -743,8 +745,8 @@ export interface UpdateChannelOutput {}
 export const UpdateChannelOutput = S.suspend(() => S.Struct({})).annotations({
   identifier: "UpdateChannelOutput",
 }) as any as S.Schema<UpdateChannelOutput>;
-export type AllowedDomainsList = string[];
-export const AllowedDomainsList = S.Array(S.String);
+export type AllowedDomainsList = string | Redacted.Redacted<string>[];
+export const AllowedDomainsList = S.Array(SensitiveString);
 export interface SupportedEmailDomainsParameters {
   enabled?: string;
   allowedDomains?: AllowedDomainsList;
@@ -759,7 +761,7 @@ export const SupportedEmailDomainsParameters = S.suspend(() =>
 }) as any as S.Schema<SupportedEmailDomainsParameters>;
 export interface UpdateSpaceInput {
   spaceId: string;
-  description?: string;
+  description?: string | Redacted.Redacted<string>;
   tier?: string;
   roleArn?: string;
   supportedEmailDomains?: SupportedEmailDomainsParameters;
@@ -767,7 +769,7 @@ export interface UpdateSpaceInput {
 export const UpdateSpaceInput = S.suspend(() =>
   S.Struct({
     spaceId: S.String.pipe(T.HttpLabel("spaceId")),
-    description: S.optional(S.String),
+    description: S.optional(SensitiveString),
     tier: S.optional(S.String),
     roleArn: S.optional(S.String),
     supportedEmailDomains: S.optional(SupportedEmailDomainsParameters),
@@ -838,10 +840,10 @@ export const CreateChannelOutput = S.suspend(() =>
   identifier: "CreateChannelOutput",
 }) as any as S.Schema<CreateChannelOutput>;
 export interface CreateSpaceInput {
-  name: string;
+  name: string | Redacted.Redacted<string>;
   subdomain: string;
   tier: string;
-  description?: string;
+  description?: string | Redacted.Redacted<string>;
   userKMSKey?: string;
   tags?: Tags;
   roleArn?: string;
@@ -849,10 +851,10 @@ export interface CreateSpaceInput {
 }
 export const CreateSpaceInput = S.suspend(() =>
   S.Struct({
-    name: S.String,
+    name: SensitiveString,
     subdomain: S.String,
     tier: S.String,
-    description: S.optional(S.String),
+    description: S.optional(SensitiveString),
     userKMSKey: S.optional(S.String),
     tags: S.optional(Tags),
     roleArn: S.optional(S.String),
@@ -901,8 +903,8 @@ export const SupportedEmailDomainsStatus = S.suspend(() =>
 export interface ChannelData {
   spaceId: string;
   channelId: string;
-  channelName: string;
-  channelDescription?: string;
+  channelName: string | Redacted.Redacted<string>;
+  channelDescription?: string | Redacted.Redacted<string>;
   createDateTime: Date;
   deleteDateTime?: Date;
   channelStatus: string;
@@ -913,8 +915,8 @@ export const ChannelData = S.suspend(() =>
   S.Struct({
     spaceId: S.String,
     channelId: S.String,
-    channelName: S.String,
-    channelDescription: S.optional(S.String),
+    channelName: SensitiveString,
+    channelDescription: S.optional(SensitiveString),
     createDateTime: S.Date.pipe(T.TimestampFormat("date-time")),
     deleteDateTime: S.optional(S.Date.pipe(T.TimestampFormat("date-time"))),
     channelStatus: S.String,
@@ -927,8 +929,8 @@ export const ChannelsList = S.Array(ChannelData);
 export interface SpaceData {
   spaceId: string;
   arn: string;
-  name: string;
-  description?: string;
+  name: string | Redacted.Redacted<string>;
+  description?: string | Redacted.Redacted<string>;
   status: string;
   configurationStatus: string;
   vanityDomainStatus: string;
@@ -947,8 +949,8 @@ export const SpaceData = S.suspend(() =>
   S.Struct({
     spaceId: S.String,
     arn: S.String,
-    name: S.String,
-    description: S.optional(S.String),
+    name: SensitiveString,
+    description: S.optional(SensitiveString),
     status: S.String,
     configurationStatus: S.String,
     vanityDomainStatus: S.String,
@@ -986,8 +988,8 @@ export const CreateSpaceOutput = S.suspend(() =>
 export interface GetChannelOutput {
   spaceId: string;
   channelId: string;
-  channelName: string;
-  channelDescription?: string;
+  channelName: string | Redacted.Redacted<string>;
+  channelDescription?: string | Redacted.Redacted<string>;
   createDateTime: Date;
   deleteDateTime?: Date;
   channelRoles?: ChannelRoles;
@@ -997,8 +999,8 @@ export const GetChannelOutput = S.suspend(() =>
   S.Struct({
     spaceId: S.String,
     channelId: S.String,
-    channelName: S.String,
-    channelDescription: S.optional(S.String),
+    channelName: SensitiveString,
+    channelDescription: S.optional(SensitiveString),
     createDateTime: S.Date.pipe(T.TimestampFormat("date-time")),
     deleteDateTime: S.optional(S.Date.pipe(T.TimestampFormat("date-time"))),
     channelRoles: S.optional(ChannelRoles),
@@ -1010,13 +1012,13 @@ export const GetChannelOutput = S.suspend(() =>
 export interface GetSpaceOutput {
   spaceId: string;
   arn: string;
-  name: string;
+  name: string | Redacted.Redacted<string>;
   status: string;
   configurationStatus: string;
   clientId: string;
   identityStoreId?: string;
   applicationArn?: string;
-  description?: string;
+  description?: string | Redacted.Redacted<string>;
   vanityDomainStatus: string;
   vanityDomain: string;
   randomDomain: string;
@@ -1037,13 +1039,13 @@ export const GetSpaceOutput = S.suspend(() =>
   S.Struct({
     spaceId: S.String,
     arn: S.String,
-    name: S.String,
+    name: SensitiveString,
     status: S.String,
     configurationStatus: S.String,
     clientId: S.String,
     identityStoreId: S.optional(S.String),
     applicationArn: S.optional(S.String),
-    description: S.optional(S.String),
+    description: S.optional(SensitiveString),
     vanityDomainStatus: S.String,
     vanityDomain: S.String,
     randomDomain: S.String,

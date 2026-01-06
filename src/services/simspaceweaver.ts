@@ -1,5 +1,6 @@
 import { HttpClient } from "@effect/platform";
 import * as Effect from "effect/Effect";
+import * as Redacted from "effect/Redacted";
 import * as S from "effect/Schema";
 import * as Stream from "effect/Stream";
 import * as API from "../api.ts";
@@ -10,6 +11,7 @@ import {
   ErrorCategory,
   Errors,
 } from "../index.ts";
+import { SensitiveString, SensitiveBlob } from "../sensitive.ts";
 const svc = T.AwsApiService({
   sdkId: "SimSpaceWeaver",
   serviceShapeName: "SimSpaceWeaver",
@@ -304,7 +306,7 @@ const rules = T.EndpointRuleSet({
 //# Newtypes
 export type SimSpaceWeaverArn = string;
 export type TagKey = string;
-export type ClientToken = string;
+export type ClientToken = string | Redacted.Redacted<string>;
 export type SimSpaceWeaverResourceName = string;
 export type Description = string;
 export type RoleArn = string;
@@ -653,7 +655,7 @@ export const TagResourceOutput = S.suspend(() => S.Struct({})).annotations({
   identifier: "TagResourceOutput",
 }) as any as S.Schema<TagResourceOutput>;
 export interface StartSimulationInput {
-  ClientToken?: string;
+  ClientToken?: string | Redacted.Redacted<string>;
   Name: string;
   Description?: string;
   RoleArn: string;
@@ -664,7 +666,7 @@ export interface StartSimulationInput {
 }
 export const StartSimulationInput = S.suspend(() =>
   S.Struct({
-    ClientToken: S.optional(S.String),
+    ClientToken: S.optional(SensitiveString),
     Name: S.String,
     Description: S.optional(S.String),
     RoleArn: S.String,
@@ -708,7 +710,7 @@ export const CreateSnapshotOutput = S.suspend(() => S.Struct({})).annotations({
   identifier: "CreateSnapshotOutput",
 }) as any as S.Schema<CreateSnapshotOutput>;
 export interface StartAppInput {
-  ClientToken?: string;
+  ClientToken?: string | Redacted.Redacted<string>;
   Simulation: string;
   Domain: string;
   Name: string;
@@ -717,7 +719,7 @@ export interface StartAppInput {
 }
 export const StartAppInput = S.suspend(() =>
   S.Struct({
-    ClientToken: S.optional(S.String),
+    ClientToken: S.optional(SensitiveString),
     Simulation: S.String,
     Domain: S.String,
     Name: S.String,

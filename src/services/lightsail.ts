@@ -1,5 +1,6 @@
 import { HttpClient } from "@effect/platform";
 import * as Effect from "effect/Effect";
+import * as Redacted from "effect/Redacted";
 import * as S from "effect/Schema";
 import * as Stream from "effect/Stream";
 import * as API from "../api.ts";
@@ -10,6 +11,7 @@ import {
   ErrorCategory,
   Errors,
 } from "../index.ts";
+import { SensitiveString, SensitiveBlob } from "../sensitive.ts";
 const svc = T.AwsApiService({
   sdkId: "Lightsail",
   serviceShapeName: "Lightsail_20161128",
@@ -260,14 +262,14 @@ export type ContainerServiceName = string;
 export type ContainerServiceScale = number;
 export type integer = number;
 export type Port = number;
-export type SensitiveString = string;
+export type SensitiveString = string | Redacted.Redacted<string>;
 export type AutoSnapshotDate = string;
 export type Base64 = string;
 export type MetricPeriod = number;
 export type SetupHistoryPageToken = string;
 export type double = number;
 export type ContainerLabel = string;
-export type EmailAddress = string;
+export type EmailAddress = string | Redacted.Redacted<string>;
 export type SetupDomainName = string;
 export type ResourceArn = string;
 export type TagKey = string;
@@ -281,8 +283,8 @@ export type TimeOfDay = string;
 export type DomainEntryOptionsKeys = string;
 export type BucketCorsRuleId = string;
 export type BucketCorsAllowedMethod = string;
-export type IAMAccessKeyId = string;
-export type SensitiveNonEmptyString = string;
+export type IAMAccessKeyId = string | Redacted.Redacted<string>;
+export type SensitiveNonEmptyString = string | Redacted.Redacted<string>;
 export type IpAddress = string;
 export type Ipv6Address = string;
 export type SerialNumber = string;
@@ -984,7 +986,7 @@ export interface CreateRelationalDatabaseRequest {
   relationalDatabaseBundleId: string;
   masterDatabaseName: string;
   masterUsername: string;
-  masterUserPassword?: string;
+  masterUserPassword?: string | Redacted.Redacted<string>;
   preferredBackupWindow?: string;
   preferredMaintenanceWindow?: string;
   publiclyAccessible?: boolean;
@@ -998,7 +1000,7 @@ export const CreateRelationalDatabaseRequest = S.suspend(() =>
     relationalDatabaseBundleId: S.String,
     masterDatabaseName: S.String,
     masterUsername: S.String,
-    masterUserPassword: S.optional(S.String),
+    masterUserPassword: S.optional(SensitiveString),
     preferredBackupWindow: S.optional(S.String),
     preferredMaintenanceWindow: S.optional(S.String),
     publiclyAccessible: S.optional(S.Boolean),
@@ -3284,14 +3286,14 @@ export const SetResourceAccessForBucketRequest = S.suspend(() =>
 }) as any as S.Schema<SetResourceAccessForBucketRequest>;
 export interface SetupInstanceHttpsRequest {
   instanceName: string;
-  emailAddress: string;
+  emailAddress: string | Redacted.Redacted<string>;
   domainNames: SetupDomainNameList;
   certificateProvider: string;
 }
 export const SetupInstanceHttpsRequest = S.suspend(() =>
   S.Struct({
     instanceName: S.String,
-    emailAddress: S.String,
+    emailAddress: SensitiveString,
     domainNames: SetupDomainNameList,
     certificateProvider: S.String,
   }).pipe(
@@ -3848,7 +3850,7 @@ export const UpdateLoadBalancerAttributeRequest = S.suspend(() =>
 }) as any as S.Schema<UpdateLoadBalancerAttributeRequest>;
 export interface UpdateRelationalDatabaseRequest {
   relationalDatabaseName: string;
-  masterUserPassword?: string;
+  masterUserPassword?: string | Redacted.Redacted<string>;
   rotateMasterUserPassword?: boolean;
   preferredBackupWindow?: string;
   preferredMaintenanceWindow?: string;
@@ -3862,7 +3864,7 @@ export interface UpdateRelationalDatabaseRequest {
 export const UpdateRelationalDatabaseRequest = S.suspend(() =>
   S.Struct({
     relationalDatabaseName: S.String,
-    masterUserPassword: S.optional(S.String),
+    masterUserPassword: S.optional(SensitiveString),
     rotateMasterUserPassword: S.optional(S.Boolean),
     preferredBackupWindow: S.optional(S.String),
     preferredMaintenanceWindow: S.optional(S.String),
@@ -4007,7 +4009,7 @@ export const AccessKeyLastUsed = S.suspend(() =>
   identifier: "AccessKeyLastUsed",
 }) as any as S.Schema<AccessKeyLastUsed>;
 export interface AccessKey {
-  accessKeyId?: string;
+  accessKeyId?: string | Redacted.Redacted<string>;
   secretAccessKey?: string;
   status?: string;
   createdAt?: Date;
@@ -4015,7 +4017,7 @@ export interface AccessKey {
 }
 export const AccessKey = S.suspend(() =>
   S.Struct({
-    accessKeyId: S.optional(S.String),
+    accessKeyId: S.optional(SensitiveString),
     secretAccessKey: S.optional(S.String),
     status: S.optional(S.String),
     createdAt: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
@@ -5602,12 +5604,12 @@ export const GetRelationalDatabaseLogStreamsResult = S.suspend(() =>
   identifier: "GetRelationalDatabaseLogStreamsResult",
 }) as any as S.Schema<GetRelationalDatabaseLogStreamsResult>;
 export interface GetRelationalDatabaseMasterUserPasswordResult {
-  masterUserPassword?: string;
+  masterUserPassword?: string | Redacted.Redacted<string>;
   createdAt?: Date;
 }
 export const GetRelationalDatabaseMasterUserPasswordResult = S.suspend(() =>
   S.Struct({
-    masterUserPassword: S.optional(S.String),
+    masterUserPassword: S.optional(SensitiveString),
     createdAt: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
   }),
 ).annotations({
@@ -6106,13 +6108,13 @@ export type BucketCorsRules = BucketCorsRule[];
 export const BucketCorsRules = S.Array(BucketCorsRule);
 export interface Session {
   name?: string;
-  url?: string;
+  url?: string | Redacted.Redacted<string>;
   isPrimary?: boolean;
 }
 export const Session = S.suspend(() =>
   S.Struct({
     name: S.optional(S.String),
-    url: S.optional(S.String),
+    url: S.optional(SensitiveString),
     isPrimary: S.optional(S.Boolean),
   }),
 ).annotations({ identifier: "Session" }) as any as S.Schema<Session>;

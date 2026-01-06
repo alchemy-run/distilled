@@ -1,5 +1,6 @@
 import { HttpClient } from "@effect/platform";
 import * as Effect from "effect/Effect";
+import * as Redacted from "effect/Redacted";
 import * as S from "effect/Schema";
 import * as Stream from "effect/Stream";
 import * as API from "../api.ts";
@@ -10,6 +11,7 @@ import {
   ErrorCategory,
   Errors,
 } from "../index.ts";
+import { SensitiveString, SensitiveBlob } from "../sensitive.ts";
 const ns = T.XmlNamespace("http://pi.amazonaws.com/doc/2018-02-27/");
 const svc = T.AwsApiService({
   sdkId: "PI",
@@ -264,7 +266,7 @@ export type TagValue = string;
 export type Limit = number;
 export type ErrorString = string;
 export type Description = string;
-export type MarkdownString = string;
+export type MarkdownString = string | Redacted.Redacted<string>;
 export type Double = number;
 export type DescriptiveString = string;
 
@@ -820,12 +822,12 @@ export const FeatureMetadataMap = S.Record({
 });
 export interface Recommendation {
   RecommendationId?: string;
-  RecommendationDescription?: string;
+  RecommendationDescription?: string | Redacted.Redacted<string>;
 }
 export const Recommendation = S.suspend(() =>
   S.Struct({
     RecommendationId: S.optional(S.String),
-    RecommendationDescription: S.optional(S.String),
+    RecommendationDescription: S.optional(SensitiveString),
   }),
 ).annotations({
   identifier: "Recommendation",
@@ -1042,7 +1044,7 @@ export interface Insight {
   EndTime?: Date;
   Severity?: string;
   SupportingInsights?: InsightList;
-  Description?: string;
+  Description?: string | Redacted.Redacted<string>;
   Recommendations?: RecommendationList;
   InsightData?: DataList;
   BaselineData?: DataList;
@@ -1058,7 +1060,7 @@ export const Insight = S.suspend(() =>
     SupportingInsights: S.optional(
       S.suspend(() => InsightList).annotations({ identifier: "InsightList" }),
     ),
-    Description: S.optional(S.String),
+    Description: S.optional(SensitiveString),
     Recommendations: S.optional(RecommendationList),
     InsightData: S.optional(DataList),
     BaselineData: S.optional(DataList),

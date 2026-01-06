@@ -1,5 +1,6 @@
 import { HttpClient } from "@effect/platform";
 import * as Effect from "effect/Effect";
+import * as Redacted from "effect/Redacted";
 import * as S from "effect/Schema";
 import * as Stream from "effect/Stream";
 import * as API from "../api.ts";
@@ -10,6 +11,7 @@ import {
   ErrorCategory,
   Errors,
 } from "../index.ts";
+import { SensitiveString, SensitiveBlob } from "../sensitive.ts";
 const svc = T.AwsApiService({
   sdkId: "TaxSettings",
   serviceShapeName: "TaxSettings",
@@ -330,7 +332,7 @@ export type TaxDocumentName = string;
 export type CountryCode = string;
 export type State = string;
 export type ExemptionDocumentName = string;
-export type ErrorMessage = string;
+export type ErrorMessage = string | Redacted.Redacted<string>;
 export type ErrorCode = string;
 export type AddressLine1 = string;
 export type AddressLine2 = string;
@@ -1180,13 +1182,13 @@ export type TaxDocumentMetadatas = TaxDocumentMetadata[];
 export const TaxDocumentMetadatas = S.Array(TaxDocumentMetadata);
 export interface BatchDeleteTaxRegistrationError {
   accountId: string;
-  message: string;
+  message: string | Redacted.Redacted<string>;
   code?: string;
 }
 export const BatchDeleteTaxRegistrationError = S.suspend(() =>
   S.Struct({
     accountId: S.String,
-    message: S.String,
+    message: SensitiveString,
     code: S.optional(S.String),
   }),
 ).annotations({
@@ -1514,13 +1516,13 @@ export const ListTaxRegistrationsResponse = S.suspend(() =>
 }) as any as S.Schema<ListTaxRegistrationsResponse>;
 export interface BatchPutTaxRegistrationError {
   accountId: string;
-  message: string;
+  message: string | Redacted.Redacted<string>;
   code?: string;
 }
 export const BatchPutTaxRegistrationError = S.suspend(() =>
   S.Struct({
     accountId: S.String,
-    message: S.String,
+    message: SensitiveString,
     code: S.optional(S.String),
   }),
 ).annotations({
@@ -1546,37 +1548,37 @@ export const BatchPutTaxRegistrationResponse = S.suspend(() =>
 //# Errors
 export class ConflictException extends S.TaggedError<ConflictException>()(
   "ConflictException",
-  { message: S.String, errorCode: S.String },
+  { message: SensitiveString, errorCode: S.String },
 ) {}
 export class InternalServerException extends S.TaggedError<InternalServerException>()(
   "InternalServerException",
-  { message: S.String, errorCode: S.String },
+  { message: SensitiveString, errorCode: S.String },
 ).pipe(
   ErrorCategory.withCategory(ErrorCategory.ERROR_CATEGORIES.SERVER_ERROR),
 ) {}
 export class ResourceNotFoundException extends S.TaggedError<ResourceNotFoundException>()(
   "ResourceNotFoundException",
-  { message: S.String, errorCode: S.String },
+  { message: SensitiveString, errorCode: S.String },
 ) {}
 export class AccessDeniedException extends S.TaggedError<AccessDeniedException>()(
   "AccessDeniedException",
-  { message: S.String },
+  { message: SensitiveString },
 ) {}
 export class ValidationException extends S.TaggedError<ValidationException>()(
   "ValidationException",
   {
-    message: S.String,
+    message: SensitiveString,
     errorCode: S.String,
     fieldList: S.optional(ValidationExceptionFieldList),
   },
 ) {}
 export class AttachmentUploadException extends S.TaggedError<AttachmentUploadException>()(
   "AttachmentUploadException",
-  { message: S.String },
+  { message: SensitiveString },
 ) {}
 export class CaseCreationLimitExceededException extends S.TaggedError<CaseCreationLimitExceededException>()(
   "CaseCreationLimitExceededException",
-  { message: S.String },
+  { message: SensitiveString },
 ) {}
 
 //# Operations

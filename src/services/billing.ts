@@ -1,5 +1,6 @@
 import { HttpClient } from "@effect/platform";
 import * as Effect from "effect/Effect";
+import * as Redacted from "effect/Redacted";
 import * as S from "effect/Schema";
 import * as Stream from "effect/Stream";
 import * as API from "../api.ts";
@@ -10,6 +11,7 @@ import {
   ErrorCategory,
   Errors,
 } from "../index.ts";
+import { SensitiveString, SensitiveBlob } from "../sensitive.ts";
 const svc = T.AwsApiService({
   sdkId: "Billing",
   serviceShapeName: "AWSBilling",
@@ -374,8 +376,8 @@ const rules = T.EndpointRuleSet({
 
 //# Newtypes
 export type BillingViewArn = string;
-export type BillingViewName = string;
-export type BillingViewDescription = string;
+export type BillingViewName = string | Redacted.Redacted<string>;
+export type BillingViewDescription = string | Redacted.Redacted<string>;
 export type ClientToken = string;
 export type ResourceArn = string;
 export type AccountId = string;
@@ -567,15 +569,15 @@ export const Expression = S.suspend(() =>
 ).annotations({ identifier: "Expression" }) as any as S.Schema<Expression>;
 export interface UpdateBillingViewRequest {
   arn: string;
-  name?: string;
-  description?: string;
+  name?: string | Redacted.Redacted<string>;
+  description?: string | Redacted.Redacted<string>;
   dataFilterExpression?: Expression;
 }
 export const UpdateBillingViewRequest = S.suspend(() =>
   S.Struct({
     arn: S.String,
-    name: S.optional(S.String),
-    description: S.optional(S.String),
+    name: S.optional(SensitiveString),
+    description: S.optional(SensitiveString),
     dataFilterExpression: S.optional(Expression),
   }).pipe(
     T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
@@ -698,8 +700,8 @@ export const UpdateBillingViewResponse = S.suspend(() =>
 export type BillingViewStatusReasons = string[];
 export const BillingViewStatusReasons = S.Array(S.String);
 export interface CreateBillingViewRequest {
-  name: string;
-  description?: string;
+  name: string | Redacted.Redacted<string>;
+  description?: string | Redacted.Redacted<string>;
   sourceViews: BillingViewSourceViewsList;
   dataFilterExpression?: Expression;
   clientToken?: string;
@@ -707,8 +709,8 @@ export interface CreateBillingViewRequest {
 }
 export const CreateBillingViewRequest = S.suspend(() =>
   S.Struct({
-    name: S.String,
-    description: S.optional(S.String),
+    name: SensitiveString,
+    description: S.optional(SensitiveString),
     sourceViews: BillingViewSourceViewsList,
     dataFilterExpression: S.optional(Expression),
     clientToken: S.optional(S.String).pipe(T.HttpHeader("X-Amzn-Client-Token")),
@@ -733,8 +735,8 @@ export const BillingViewHealthStatus = S.suspend(() =>
 }) as any as S.Schema<BillingViewHealthStatus>;
 export interface BillingViewElement {
   arn?: string;
-  name?: string;
-  description?: string;
+  name?: string | Redacted.Redacted<string>;
+  description?: string | Redacted.Redacted<string>;
   billingViewType?: string;
   ownerAccountId?: string;
   sourceAccountId?: string;
@@ -749,8 +751,8 @@ export interface BillingViewElement {
 export const BillingViewElement = S.suspend(() =>
   S.Struct({
     arn: S.optional(S.String),
-    name: S.optional(S.String),
-    description: S.optional(S.String),
+    name: S.optional(SensitiveString),
+    description: S.optional(SensitiveString),
     billingViewType: S.optional(S.String),
     ownerAccountId: S.optional(S.String),
     sourceAccountId: S.optional(S.String),
@@ -769,8 +771,8 @@ export const BillingViewElement = S.suspend(() =>
 }) as any as S.Schema<BillingViewElement>;
 export interface BillingViewListElement {
   arn?: string;
-  name?: string;
-  description?: string;
+  name?: string | Redacted.Redacted<string>;
+  description?: string | Redacted.Redacted<string>;
   ownerAccountId?: string;
   sourceAccountId?: string;
   billingViewType?: string;
@@ -779,8 +781,8 @@ export interface BillingViewListElement {
 export const BillingViewListElement = S.suspend(() =>
   S.Struct({
     arn: S.optional(S.String),
-    name: S.optional(S.String),
-    description: S.optional(S.String),
+    name: S.optional(SensitiveString),
+    description: S.optional(SensitiveString),
     ownerAccountId: S.optional(S.String),
     sourceAccountId: S.optional(S.String),
     billingViewType: S.optional(S.String),

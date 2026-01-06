@@ -1,5 +1,6 @@
 import { HttpClient } from "@effect/platform";
 import * as Effect from "effect/Effect";
+import * as Redacted from "effect/Redacted";
 import * as S from "effect/Schema";
 import * as Stream from "effect/Stream";
 import * as API from "../api.ts";
@@ -10,6 +11,7 @@ import {
   ErrorCategory,
   Errors,
 } from "../index.ts";
+import { SensitiveString, SensitiveBlob } from "../sensitive.ts";
 const svc = T.AwsApiService({
   sdkId: "IoTSiteWise",
   serviceShapeName: "AWSIoTSiteWise",
@@ -268,7 +270,7 @@ export type RestrictedDescription = string;
 export type DashboardDefinition = string;
 export type GatewayName = string;
 export type GatewayVersion = string;
-export type Email = string;
+export type Email = string | Redacted.Redacted<string>;
 export type IamArn = string;
 export type AssetModelVersionFilter = string;
 export type ComputationModelVersionFilter = string;
@@ -287,7 +289,7 @@ export type MaxInterpolatedResults = number;
 export type InterpolationType = string;
 export type IntervalWindowInSeconds = number;
 export type ConversationId = string;
-export type MessageInput = string;
+export type MessageInput = string | Redacted.Redacted<string>;
 export type IdentityId = string;
 export type MaxResults = number;
 export type AmazonResourceName = string;
@@ -1770,13 +1772,13 @@ export const GetInterpolatedAssetPropertyValuesRequest = S.suspend(() =>
 }) as any as S.Schema<GetInterpolatedAssetPropertyValuesRequest>;
 export interface InvokeAssistantRequest {
   conversationId?: string;
-  message: string;
+  message: string | Redacted.Redacted<string>;
   enableTrace?: boolean;
 }
 export const InvokeAssistantRequest = S.suspend(() =>
   S.Struct({
     conversationId: S.optional(S.String),
-    message: S.String,
+    message: SensitiveString,
     enableTrace: S.optional(S.Boolean),
   }).pipe(
     T.all(
@@ -4072,11 +4074,11 @@ export interface UpdatePortalRequest {
   portalId: string;
   portalName: string;
   portalDescription?: string;
-  portalContactEmail: string;
+  portalContactEmail: string | Redacted.Redacted<string>;
   portalLogoImage?: Image;
   roleArn: string;
   clientToken?: string;
-  notificationSenderEmail?: string;
+  notificationSenderEmail?: string | Redacted.Redacted<string>;
   alarms?: Alarms;
   portalType?: string;
   portalTypeConfiguration?: PortalTypeConfiguration;
@@ -4086,11 +4088,11 @@ export const UpdatePortalRequest = S.suspend(() =>
     portalId: S.String.pipe(T.HttpLabel("portalId")),
     portalName: S.String,
     portalDescription: S.optional(S.String),
-    portalContactEmail: S.String,
+    portalContactEmail: SensitiveString,
     portalLogoImage: S.optional(Image),
     roleArn: S.String,
     clientToken: S.optional(S.String),
-    notificationSenderEmail: S.optional(S.String),
+    notificationSenderEmail: S.optional(SensitiveString),
     alarms: S.optional(Alarms),
     portalType: S.optional(S.String),
     portalTypeConfiguration: S.optional(PortalTypeConfiguration),
@@ -4958,13 +4960,13 @@ export const CreateGatewayRequest = S.suspend(() =>
 export interface CreatePortalRequest {
   portalName: string;
   portalDescription?: string;
-  portalContactEmail: string;
+  portalContactEmail: string | Redacted.Redacted<string>;
   clientToken?: string;
   portalLogoImageFile?: ImageFile;
   roleArn: string;
   tags?: TagMap;
   portalAuthMode?: string;
-  notificationSenderEmail?: string;
+  notificationSenderEmail?: string | Redacted.Redacted<string>;
   alarms?: Alarms;
   portalType?: string;
   portalTypeConfiguration?: PortalTypeConfiguration;
@@ -4973,13 +4975,13 @@ export const CreatePortalRequest = S.suspend(() =>
   S.Struct({
     portalName: S.String,
     portalDescription: S.optional(S.String),
-    portalContactEmail: S.String,
+    portalContactEmail: SensitiveString,
     clientToken: S.optional(S.String),
     portalLogoImageFile: S.optional(ImageFile),
     roleArn: S.String,
     tags: S.optional(TagMap),
     portalAuthMode: S.optional(S.String),
-    notificationSenderEmail: S.optional(S.String),
+    notificationSenderEmail: S.optional(SensitiveString),
     alarms: S.optional(Alarms),
     portalType: S.optional(S.String),
     portalTypeConfiguration: S.optional(PortalTypeConfiguration),
@@ -5209,14 +5211,14 @@ export interface DescribePortalResponse {
   portalDescription?: string;
   portalClientId: string;
   portalStartUrl: string;
-  portalContactEmail: string;
+  portalContactEmail: string | Redacted.Redacted<string>;
   portalStatus: PortalStatus;
   portalCreationDate: Date;
   portalLastUpdateDate: Date;
   portalLogoImageLocation?: ImageLocation;
   roleArn?: string;
   portalAuthMode?: string;
-  notificationSenderEmail?: string;
+  notificationSenderEmail?: string | Redacted.Redacted<string>;
   alarms?: Alarms;
   portalType?: string;
   portalTypeConfiguration?: PortalTypeConfiguration;
@@ -5229,14 +5231,14 @@ export const DescribePortalResponse = S.suspend(() =>
     portalDescription: S.optional(S.String),
     portalClientId: S.String,
     portalStartUrl: S.String,
-    portalContactEmail: S.String,
+    portalContactEmail: SensitiveString,
     portalStatus: PortalStatus,
     portalCreationDate: S.Date.pipe(T.TimestampFormat("epoch-seconds")),
     portalLastUpdateDate: S.Date.pipe(T.TimestampFormat("epoch-seconds")),
     portalLogoImageLocation: S.optional(ImageLocation),
     roleArn: S.optional(S.String),
     portalAuthMode: S.optional(S.String),
-    notificationSenderEmail: S.optional(S.String),
+    notificationSenderEmail: S.optional(SensitiveString),
     alarms: S.optional(Alarms),
     portalType: S.optional(S.String),
     portalTypeConfiguration: S.optional(PortalTypeConfiguration),

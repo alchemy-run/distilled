@@ -1,5 +1,6 @@
 import { HttpClient } from "@effect/platform";
 import * as Effect from "effect/Effect";
+import * as Redacted from "effect/Redacted";
 import * as S from "effect/Schema";
 import * as Stream from "effect/Stream";
 import * as API from "../api.ts";
@@ -10,6 +11,7 @@ import {
   ErrorCategory,
   Errors,
 } from "../index.ts";
+import { SensitiveString, SensitiveBlob } from "../sensitive.ts";
 const svc = T.AwsApiService({ sdkId: "Ssm Sap", serviceShapeName: "SsmSap" });
 const auth = T.AwsAuthSigv4({ name: "ssm-sap" });
 const ver = T.ServiceVersion("2018-05-10");
@@ -317,7 +319,7 @@ export type FilterName = string;
 export type FilterValue = string;
 export type TagValue = string;
 export type DatabaseName = string;
-export type SecretId = string;
+export type SecretId = string | Redacted.Redacted<string>;
 export type OperationType = string;
 export type ResourceType = string;
 export type ResourceId = string;
@@ -959,13 +961,13 @@ export const OperationList = S.Array(Operation);
 export interface ApplicationCredential {
   DatabaseName: string;
   CredentialType: string;
-  SecretId: string;
+  SecretId: string | Redacted.Redacted<string>;
 }
 export const ApplicationCredential = S.suspend(() =>
   S.Struct({
     DatabaseName: S.String,
     CredentialType: S.String,
-    SecretId: S.String,
+    SecretId: SensitiveString,
   }),
 ).annotations({
   identifier: "ApplicationCredential",

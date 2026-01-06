@@ -1,5 +1,6 @@
 import { HttpClient } from "@effect/platform";
 import * as Effect from "effect/Effect";
+import * as Redacted from "effect/Redacted";
 import * as S from "effect/Schema";
 import * as Stream from "effect/Stream";
 import * as API from "../api.ts";
@@ -10,6 +11,7 @@ import {
   ErrorCategory,
   Errors,
 } from "../index.ts";
+import { SensitiveString, SensitiveBlob } from "../sensitive.ts";
 const svc = T.AwsApiService({
   sdkId: "WorkSpaces Thin Client",
   serviceShapeName: "ThinClient",
@@ -302,9 +304,9 @@ const rules = T.EndpointRuleSet({
 });
 
 //# Newtypes
-export type EnvironmentName = string;
+export type EnvironmentName = string | Redacted.Redacted<string>;
 export type Arn = string;
-export type DesktopEndpoint = string;
+export type DesktopEndpoint = string | Redacted.Redacted<string>;
 export type SoftwareSetId = string;
 export type KmsKeyArn = string;
 export type ClientToken = string;
@@ -312,15 +314,15 @@ export type DeviceId = string;
 export type EnvironmentId = string;
 export type PaginationToken = string;
 export type MaxResults = number;
-export type DeviceName = string;
+export type DeviceName = string | Redacted.Redacted<string>;
 export type SoftwareSetIdOrEmptyString = string;
 export type Hour = number;
 export type Minute = number;
 export type DeviceCreationTagKey = string;
 export type DeviceCreationTagValue = string;
 export type ExceptionMessage = string;
-export type UserId = string;
-export type ActivationCode = string;
+export type UserId = string | Redacted.Redacted<string>;
+export type ActivationCode = string | Redacted.Redacted<string>;
 export type ResourceId = string;
 export type ResourceType = string;
 export type RetryAfterSeconds = number;
@@ -597,14 +599,14 @@ export const UntagResourceResponse = S.suspend(() => S.Struct({})).annotations({
 }) as any as S.Schema<UntagResourceResponse>;
 export interface UpdateDeviceRequest {
   id: string;
-  name?: string;
+  name?: string | Redacted.Redacted<string>;
   desiredSoftwareSetId?: string;
   softwareSetUpdateSchedule?: string;
 }
 export const UpdateDeviceRequest = S.suspend(() =>
   S.Struct({
     id: S.String.pipe(T.HttpLabel("id")),
-    name: S.optional(S.String),
+    name: S.optional(SensitiveString),
     desiredSoftwareSetId: S.optional(S.String),
     softwareSetUpdateSchedule: S.optional(S.String),
   }).pipe(
@@ -651,9 +653,9 @@ export const DeviceCreationTagsMap = S.Record({
 });
 export interface UpdateEnvironmentRequest {
   id: string;
-  name?: string;
+  name?: string | Redacted.Redacted<string>;
   desktopArn?: string;
-  desktopEndpoint?: string;
+  desktopEndpoint?: string | Redacted.Redacted<string>;
   softwareSetUpdateSchedule?: string;
   maintenanceWindow?: MaintenanceWindow;
   softwareSetUpdateMode?: string;
@@ -663,9 +665,9 @@ export interface UpdateEnvironmentRequest {
 export const UpdateEnvironmentRequest = S.suspend(() =>
   S.Struct({
     id: S.String.pipe(T.HttpLabel("id")),
-    name: S.optional(S.String),
+    name: S.optional(SensitiveString),
     desktopArn: S.optional(S.String),
-    desktopEndpoint: S.optional(S.String),
+    desktopEndpoint: S.optional(SensitiveString),
     softwareSetUpdateSchedule: S.optional(S.String),
     maintenanceWindow: S.optional(MaintenanceWindow),
     softwareSetUpdateMode: S.optional(S.String),
@@ -712,9 +714,9 @@ export const UpdateSoftwareSetResponse = S.suspend(() =>
   identifier: "UpdateSoftwareSetResponse",
 }) as any as S.Schema<UpdateSoftwareSetResponse>;
 export interface CreateEnvironmentRequest {
-  name?: string;
+  name?: string | Redacted.Redacted<string>;
   desktopArn: string;
-  desktopEndpoint?: string;
+  desktopEndpoint?: string | Redacted.Redacted<string>;
   softwareSetUpdateSchedule?: string;
   maintenanceWindow?: MaintenanceWindow;
   softwareSetUpdateMode?: string;
@@ -726,9 +728,9 @@ export interface CreateEnvironmentRequest {
 }
 export const CreateEnvironmentRequest = S.suspend(() =>
   S.Struct({
-    name: S.optional(S.String),
+    name: S.optional(SensitiveString),
     desktopArn: S.String,
-    desktopEndpoint: S.optional(S.String),
+    desktopEndpoint: S.optional(SensitiveString),
     softwareSetUpdateSchedule: S.optional(S.String),
     maintenanceWindow: S.optional(MaintenanceWindow),
     softwareSetUpdateMode: S.optional(S.String),
@@ -761,7 +763,7 @@ export const ListTagsForResourceResponse = S.suspend(() =>
 export interface DeviceSummary {
   id?: string;
   serialNumber?: string;
-  name?: string;
+  name?: string | Redacted.Redacted<string>;
   model?: string;
   environmentId?: string;
   status?: string;
@@ -774,13 +776,13 @@ export interface DeviceSummary {
   createdAt?: Date;
   updatedAt?: Date;
   arn?: string;
-  lastUserId?: string;
+  lastUserId?: string | Redacted.Redacted<string>;
 }
 export const DeviceSummary = S.suspend(() =>
   S.Struct({
     id: S.optional(S.String),
     serialNumber: S.optional(S.String),
-    name: S.optional(S.String),
+    name: S.optional(SensitiveString),
     model: S.optional(S.String),
     environmentId: S.optional(S.String),
     status: S.optional(S.String),
@@ -795,7 +797,7 @@ export const DeviceSummary = S.suspend(() =>
     createdAt: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
     updatedAt: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
     arn: S.optional(S.String),
-    lastUserId: S.optional(S.String),
+    lastUserId: S.optional(SensitiveString),
   }),
 ).annotations({
   identifier: "DeviceSummary",
@@ -810,11 +812,11 @@ export const UpdateDeviceResponse = S.suspend(() =>
 }) as any as S.Schema<UpdateDeviceResponse>;
 export interface EnvironmentSummary {
   id?: string;
-  name?: string;
+  name?: string | Redacted.Redacted<string>;
   desktopArn?: string;
-  desktopEndpoint?: string;
+  desktopEndpoint?: string | Redacted.Redacted<string>;
   desktopType?: string;
-  activationCode?: string;
+  activationCode?: string | Redacted.Redacted<string>;
   softwareSetUpdateSchedule?: string;
   maintenanceWindow?: MaintenanceWindow;
   softwareSetUpdateMode?: string;
@@ -827,11 +829,11 @@ export interface EnvironmentSummary {
 export const EnvironmentSummary = S.suspend(() =>
   S.Struct({
     id: S.optional(S.String),
-    name: S.optional(S.String),
+    name: S.optional(SensitiveString),
     desktopArn: S.optional(S.String),
-    desktopEndpoint: S.optional(S.String),
+    desktopEndpoint: S.optional(SensitiveString),
     desktopType: S.optional(S.String),
-    activationCode: S.optional(S.String),
+    activationCode: S.optional(SensitiveString),
     softwareSetUpdateSchedule: S.optional(S.String),
     maintenanceWindow: S.optional(MaintenanceWindow),
     softwareSetUpdateMode: S.optional(S.String),
@@ -855,7 +857,7 @@ export const UpdateEnvironmentResponse = S.suspend(() =>
 export interface Device {
   id?: string;
   serialNumber?: string;
-  name?: string;
+  name?: string | Redacted.Redacted<string>;
   model?: string;
   environmentId?: string;
   status?: string;
@@ -873,13 +875,13 @@ export interface Device {
   updatedAt?: Date;
   arn?: string;
   kmsKeyArn?: string;
-  lastUserId?: string;
+  lastUserId?: string | Redacted.Redacted<string>;
 }
 export const Device = S.suspend(() =>
   S.Struct({
     id: S.optional(S.String),
     serialNumber: S.optional(S.String),
-    name: S.optional(S.String),
+    name: S.optional(SensitiveString),
     model: S.optional(S.String),
     environmentId: S.optional(S.String),
     status: S.optional(S.String),
@@ -899,16 +901,16 @@ export const Device = S.suspend(() =>
     updatedAt: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
     arn: S.optional(S.String),
     kmsKeyArn: S.optional(S.String),
-    lastUserId: S.optional(S.String),
+    lastUserId: S.optional(SensitiveString),
   }),
 ).annotations({ identifier: "Device" }) as any as S.Schema<Device>;
 export interface Environment {
   id?: string;
-  name?: string;
+  name?: string | Redacted.Redacted<string>;
   desktopArn?: string;
-  desktopEndpoint?: string;
+  desktopEndpoint?: string | Redacted.Redacted<string>;
   desktopType?: string;
-  activationCode?: string;
+  activationCode?: string | Redacted.Redacted<string>;
   registeredDevicesCount?: number;
   softwareSetUpdateSchedule?: string;
   maintenanceWindow?: MaintenanceWindow;
@@ -926,11 +928,11 @@ export interface Environment {
 export const Environment = S.suspend(() =>
   S.Struct({
     id: S.optional(S.String),
-    name: S.optional(S.String),
+    name: S.optional(SensitiveString),
     desktopArn: S.optional(S.String),
-    desktopEndpoint: S.optional(S.String),
+    desktopEndpoint: S.optional(SensitiveString),
     desktopType: S.optional(S.String),
-    activationCode: S.optional(S.String),
+    activationCode: S.optional(SensitiveString),
     registeredDevicesCount: S.optional(S.Number),
     softwareSetUpdateSchedule: S.optional(S.String),
     maintenanceWindow: S.optional(MaintenanceWindow),

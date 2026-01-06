@@ -1,5 +1,6 @@
 import { HttpClient } from "@effect/platform";
 import * as Effect from "effect/Effect";
+import * as Redacted from "effect/Redacted";
 import * as S from "effect/Schema";
 import * as Stream from "effect/Stream";
 import * as API from "../api.ts";
@@ -10,6 +11,7 @@ import {
   ErrorCategory,
   Errors,
 } from "../index.ts";
+import { SensitiveString, SensitiveBlob } from "../sensitive.ts";
 const svc = T.AwsApiService({
   sdkId: "Snowball",
   serviceShapeName: "AWSIESnowballJobManagementService",
@@ -260,8 +262,8 @@ export type LongTermPricingId = string;
 export type ListLimit = number;
 export type Integer = number;
 export type SnsTopicARN = string;
-export type PhoneNumber = string;
-export type Email = string;
+export type PhoneNumber = string | Redacted.Redacted<string>;
+export type Email = string | Redacted.Redacted<string>;
 export type DevicePickupId = string;
 export type ResourceARN = string;
 export type AmiId = string;
@@ -723,8 +725,8 @@ export const UpdateClusterResult = S.suspend(() => S.Struct({})).annotations({
 }) as any as S.Schema<UpdateClusterResult>;
 export interface PickupDetails {
   Name?: string;
-  PhoneNumber?: string;
-  Email?: string;
+  PhoneNumber?: string | Redacted.Redacted<string>;
+  Email?: string | Redacted.Redacted<string>;
   IdentificationNumber?: string;
   IdentificationExpirationDate?: Date;
   IdentificationIssuingOrg?: string;
@@ -733,8 +735,8 @@ export interface PickupDetails {
 export const PickupDetails = S.suspend(() =>
   S.Struct({
     Name: S.optional(S.String),
-    PhoneNumber: S.optional(S.String),
-    Email: S.optional(S.String),
+    PhoneNumber: S.optional(SensitiveString),
+    Email: S.optional(SensitiveString),
     IdentificationNumber: S.optional(S.String),
     IdentificationExpirationDate: S.optional(
       S.Date.pipe(T.TimestampFormat("epoch-seconds")),

@@ -1,5 +1,6 @@
 import { HttpClient } from "@effect/platform";
 import * as Effect from "effect/Effect";
+import * as Redacted from "effect/Redacted";
 import * as S from "effect/Schema";
 import * as Stream from "effect/Stream";
 import * as API from "../api.ts";
@@ -10,6 +11,7 @@ import {
   ErrorCategory,
   Errors,
 } from "../index.ts";
+import { SensitiveString, SensitiveBlob } from "../sensitive.ts";
 const svc = T.AwsApiService({
   sdkId: "kendra",
   serviceShapeName: "AWSKendraFrontendService",
@@ -306,7 +308,7 @@ export type VpcSecurityGroupId = string;
 export type TagValue = string;
 export type S3BucketName = string;
 export type S3ObjectKey = string;
-export type KmsKeyId = string;
+export type KmsKeyId = string | Redacted.Redacted<string>;
 export type TopDocumentAttributeValueCountPairsSize = number;
 export type DocumentMetadataConfigurationName = string;
 export type Token = string;
@@ -372,7 +374,7 @@ export type QuerySuggestionsId = string;
 export type IndexedQuestionAnswersCount = number;
 export type IndexedTextDocumentsCount = number;
 export type IndexedTextBytes = number;
-export type NameType = string;
+export type NameType = string | Redacted.Redacted<string>;
 export type SalesforceCustomKnowledgeArticleTypeName = string;
 export type SeedUrl = string;
 export type SiteMap = string;
@@ -2719,10 +2721,10 @@ export const Document = S.suspend(() =>
 export type DocumentList = Document[];
 export const DocumentList = S.Array(Document);
 export interface ServerSideEncryptionConfiguration {
-  KmsKeyId?: string;
+  KmsKeyId?: string | Redacted.Redacted<string>;
 }
 export const ServerSideEncryptionConfiguration = S.suspend(() =>
-  S.Struct({ KmsKeyId: S.optional(S.String) }),
+  S.Struct({ KmsKeyId: S.optional(SensitiveString) }),
 ).annotations({
   identifier: "ServerSideEncryptionConfiguration",
 }) as any as S.Schema<ServerSideEncryptionConfiguration>;
@@ -4171,19 +4173,19 @@ export const TextDocumentStatistics = S.suspend(() =>
   identifier: "TextDocumentStatistics",
 }) as any as S.Schema<TextDocumentStatistics>;
 export interface EntityDisplayData {
-  UserName?: string;
-  GroupName?: string;
-  IdentifiedUserName?: string;
-  FirstName?: string;
-  LastName?: string;
+  UserName?: string | Redacted.Redacted<string>;
+  GroupName?: string | Redacted.Redacted<string>;
+  IdentifiedUserName?: string | Redacted.Redacted<string>;
+  FirstName?: string | Redacted.Redacted<string>;
+  LastName?: string | Redacted.Redacted<string>;
 }
 export const EntityDisplayData = S.suspend(() =>
   S.Struct({
-    UserName: S.optional(S.String),
-    GroupName: S.optional(S.String),
-    IdentifiedUserName: S.optional(S.String),
-    FirstName: S.optional(S.String),
-    LastName: S.optional(S.String),
+    UserName: S.optional(SensitiveString),
+    GroupName: S.optional(SensitiveString),
+    IdentifiedUserName: S.optional(SensitiveString),
+    FirstName: S.optional(SensitiveString),
+    LastName: S.optional(SensitiveString),
   }),
 ).annotations({
   identifier: "EntityDisplayData",

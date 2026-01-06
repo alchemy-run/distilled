@@ -1,5 +1,6 @@
 import { HttpClient } from "@effect/platform";
 import * as Effect from "effect/Effect";
+import * as Redacted from "effect/Redacted";
 import * as S from "effect/Schema";
 import * as Stream from "effect/Stream";
 import * as API from "../api.ts";
@@ -10,6 +11,7 @@ import {
   ErrorCategory,
   Errors,
 } from "../index.ts";
+import { SensitiveString, SensitiveBlob } from "../sensitive.ts";
 const ns = T.XmlNamespace("http://gamelift.amazonaws.com/doc/");
 const svc = T.AwsApiService({
   sdkId: "GameLift",
@@ -252,7 +254,7 @@ const rules = T.EndpointRuleSet({
 
 //# Newtypes
 export type MatchmakingIdStringModel = string;
-export type PlayerId = string;
+export type PlayerId = string | Redacted.Redacted<string>;
 export type GameServerGroupNameOrArn = string;
 export type GameServerId = string;
 export type GameServerData = string;
@@ -311,13 +313,13 @@ export type Integer = number;
 export type Double = number;
 export type ComputeName = string;
 export type DnsNameInput = string;
-export type IpAddress = string;
+export type IpAddress = string | Redacted.Redacted<string>;
 export type GameServerConnectionInfo = string;
 export type TagKey = string;
 export type FreeText = string;
 export type TagValue = string;
 export type PortNumber = number;
-export type IpRange = string;
+export type IpRange = string | Redacted.Redacted<string>;
 export type LogGroupArnStringModel = string;
 export type NonZeroAnd128MaxAsciiString = string;
 export type ImageUriString = string;
@@ -389,8 +391,8 @@ export const DescribeVpcPeeringAuthorizationsInput = S.suspend(() =>
 ).annotations({
   identifier: "DescribeVpcPeeringAuthorizationsInput",
 }) as any as S.Schema<DescribeVpcPeeringAuthorizationsInput>;
-export type PlayerIdsForAcceptMatch = string[];
-export const PlayerIdsForAcceptMatch = S.Array(S.String);
+export type PlayerIdsForAcceptMatch = string | Redacted.Redacted<string>[];
+export const PlayerIdsForAcceptMatch = S.Array(SensitiveString);
 export type MetricGroupList = string[];
 export const MetricGroupList = S.Array(S.String);
 export type StringList = string[];
@@ -399,8 +401,8 @@ export type VpcSubnets = string[];
 export const VpcSubnets = S.Array(S.String);
 export type QueueArnsList = string[];
 export const QueueArnsList = S.Array(S.String);
-export type PlayerIdList = string[];
-export const PlayerIdList = S.Array(S.String);
+export type PlayerIdList = string | Redacted.Redacted<string>[];
+export const PlayerIdList = S.Array(SensitiveString);
 export type LocationList = string[];
 export const LocationList = S.Array(S.String);
 export type FleetIdOrArnList = string[];
@@ -595,13 +597,13 @@ export const CreateMatchmakingRuleSetInput = S.suspend(() =>
 }) as any as S.Schema<CreateMatchmakingRuleSetInput>;
 export interface CreatePlayerSessionInput {
   GameSessionId: string;
-  PlayerId: string;
+  PlayerId: string | Redacted.Redacted<string>;
   PlayerData?: string;
 }
 export const CreatePlayerSessionInput = S.suspend(() =>
   S.Struct({
     GameSessionId: S.String,
-    PlayerId: S.String,
+    PlayerId: SensitiveString,
     PlayerData: S.optional(S.String),
   }).pipe(
     T.all(
@@ -1703,7 +1705,7 @@ export const DescribeMatchmakingRuleSetsInput = S.suspend(() =>
 }) as any as S.Schema<DescribeMatchmakingRuleSetsInput>;
 export interface DescribePlayerSessionsInput {
   GameSessionId?: string;
-  PlayerId?: string;
+  PlayerId?: string | Redacted.Redacted<string>;
   PlayerSessionId?: string;
   PlayerSessionStatusFilter?: string;
   Limit?: number;
@@ -1712,7 +1714,7 @@ export interface DescribePlayerSessionsInput {
 export const DescribePlayerSessionsInput = S.suspend(() =>
   S.Struct({
     GameSessionId: S.optional(S.String),
-    PlayerId: S.optional(S.String),
+    PlayerId: S.optional(SensitiveString),
     PlayerSessionId: S.optional(S.String),
     PlayerSessionStatusFilter: S.optional(S.String),
     Limit: S.optional(S.Number),
@@ -2207,7 +2209,7 @@ export interface RegisterComputeInput {
   ComputeName: string;
   CertificatePath?: string;
   DnsName?: string;
-  IpAddress?: string;
+  IpAddress?: string | Redacted.Redacted<string>;
   Location?: string;
 }
 export const RegisterComputeInput = S.suspend(() =>
@@ -2216,7 +2218,7 @@ export const RegisterComputeInput = S.suspend(() =>
     ComputeName: S.String,
     CertificatePath: S.optional(S.String),
     DnsName: S.optional(S.String),
-    IpAddress: S.optional(S.String),
+    IpAddress: S.optional(SensitiveString),
     Location: S.optional(S.String),
   }).pipe(
     T.all(
@@ -2405,14 +2407,14 @@ export const PlayerAttributeMap = S.Record({
 export type LatencyMap = { [key: string]: number };
 export const LatencyMap = S.Record({ key: S.String, value: S.Number });
 export interface Player {
-  PlayerId?: string;
+  PlayerId?: string | Redacted.Redacted<string>;
   PlayerAttributes?: PlayerAttributeMap;
   Team?: string;
   LatencyInMs?: LatencyMap;
 }
 export const Player = S.suspend(() =>
   S.Struct({
-    PlayerId: S.optional(S.String),
+    PlayerId: S.optional(SensitiveString),
     PlayerAttributes: S.optional(PlayerAttributeMap),
     Team: S.optional(S.String),
     LatencyInMs: S.optional(LatencyMap),
@@ -2919,14 +2921,14 @@ export const UpdateFleetCapacityInput = S.suspend(() =>
 export interface IpPermission {
   FromPort: number;
   ToPort: number;
-  IpRange: string;
+  IpRange: string | Redacted.Redacted<string>;
   Protocol: string;
 }
 export const IpPermission = S.suspend(() =>
   S.Struct({
     FromPort: S.Number,
     ToPort: S.Number,
-    IpRange: S.String,
+    IpRange: SensitiveString,
     Protocol: S.String,
   }),
 ).annotations({ identifier: "IpPermission" }) as any as S.Schema<IpPermission>;
@@ -3438,14 +3440,14 @@ export type MatchmakingRuleSetList = MatchmakingRuleSet[];
 export const MatchmakingRuleSetList = S.Array(MatchmakingRuleSet);
 export interface PlayerSession {
   PlayerSessionId?: string;
-  PlayerId?: string;
+  PlayerId?: string | Redacted.Redacted<string>;
   GameSessionId?: string;
   FleetId?: string;
   FleetArn?: string;
   CreationTime?: Date;
   TerminationTime?: Date;
   Status?: string;
-  IpAddress?: string;
+  IpAddress?: string | Redacted.Redacted<string>;
   DnsName?: string;
   Port?: number;
   PlayerData?: string;
@@ -3453,7 +3455,7 @@ export interface PlayerSession {
 export const PlayerSession = S.suspend(() =>
   S.Struct({
     PlayerSessionId: S.optional(S.String),
-    PlayerId: S.optional(S.String),
+    PlayerId: S.optional(SensitiveString),
     GameSessionId: S.optional(S.String),
     FleetId: S.optional(S.String),
     FleetArn: S.optional(S.String),
@@ -3462,7 +3464,7 @@ export const PlayerSession = S.suspend(() =>
       S.Date.pipe(T.TimestampFormat("epoch-seconds")),
     ),
     Status: S.optional(S.String),
-    IpAddress: S.optional(S.String),
+    IpAddress: S.optional(SensitiveString),
     DnsName: S.optional(S.String),
     Port: S.optional(S.Number),
     PlayerData: S.optional(S.String),
@@ -3561,7 +3563,7 @@ export interface Compute {
   FleetArn?: string;
   ComputeName?: string;
   ComputeArn?: string;
-  IpAddress?: string;
+  IpAddress?: string | Redacted.Redacted<string>;
   DnsName?: string;
   ComputeStatus?: string;
   Location?: string;
@@ -3580,7 +3582,7 @@ export const Compute = S.suspend(() =>
     FleetArn: S.optional(S.String),
     ComputeName: S.optional(S.String),
     ComputeArn: S.optional(S.String),
-    IpAddress: S.optional(S.String),
+    IpAddress: S.optional(SensitiveString),
     DnsName: S.optional(S.String),
     ComputeStatus: S.optional(S.String),
     Location: S.optional(S.String),
@@ -3940,13 +3942,13 @@ export const TargetConfiguration = S.suspend(() =>
   identifier: "TargetConfiguration",
 }) as any as S.Schema<TargetConfiguration>;
 export interface PlayerLatency {
-  PlayerId?: string;
+  PlayerId?: string | Redacted.Redacted<string>;
   RegionIdentifier?: string;
   LatencyInMilliseconds?: number;
 }
 export const PlayerLatency = S.suspend(() =>
   S.Struct({
-    PlayerId: S.optional(S.String),
+    PlayerId: S.optional(SensitiveString),
     RegionIdentifier: S.optional(S.String),
     LatencyInMilliseconds: S.optional(S.Number),
   }),
@@ -3956,12 +3958,12 @@ export const PlayerLatency = S.suspend(() =>
 export type PlayerLatencyList = PlayerLatency[];
 export const PlayerLatencyList = S.Array(PlayerLatency);
 export interface DesiredPlayerSession {
-  PlayerId?: string;
+  PlayerId?: string | Redacted.Redacted<string>;
   PlayerData?: string;
 }
 export const DesiredPlayerSession = S.suspend(() =>
   S.Struct({
-    PlayerId: S.optional(S.String),
+    PlayerId: S.optional(SensitiveString),
     PlayerData: S.optional(S.String),
   }),
 ).annotations({
@@ -4704,7 +4706,7 @@ export interface GameSession {
   Status?: string;
   StatusReason?: string;
   GameProperties?: GamePropertyList;
-  IpAddress?: string;
+  IpAddress?: string | Redacted.Redacted<string>;
   DnsName?: string;
   Port?: number;
   PlayerSessionCreationPolicy?: string;
@@ -4728,7 +4730,7 @@ export const GameSession = S.suspend(() =>
     Status: S.optional(S.String),
     StatusReason: S.optional(S.String),
     GameProperties: S.optional(GamePropertyList),
-    IpAddress: S.optional(S.String),
+    IpAddress: S.optional(SensitiveString),
     DnsName: S.optional(S.String),
     Port: S.optional(S.Number),
     PlayerSessionCreationPolicy: S.optional(S.String),
@@ -4801,12 +4803,12 @@ export const StartGameSessionPlacementInput = S.suspend(() =>
   identifier: "StartGameSessionPlacementInput",
 }) as any as S.Schema<StartGameSessionPlacementInput>;
 export interface MatchedPlayerSession {
-  PlayerId?: string;
+  PlayerId?: string | Redacted.Redacted<string>;
   PlayerSessionId?: string;
 }
 export const MatchedPlayerSession = S.suspend(() =>
   S.Struct({
-    PlayerId: S.optional(S.String),
+    PlayerId: S.optional(SensitiveString),
     PlayerSessionId: S.optional(S.String),
   }),
 ).annotations({
@@ -4816,7 +4818,7 @@ export type MatchedPlayerSessionList = MatchedPlayerSession[];
 export const MatchedPlayerSessionList = S.Array(MatchedPlayerSession);
 export interface GameSessionConnectionInfo {
   GameSessionArn?: string;
-  IpAddress?: string;
+  IpAddress?: string | Redacted.Redacted<string>;
   DnsName?: string;
   Port?: number;
   MatchedPlayerSessions?: MatchedPlayerSessionList;
@@ -4824,7 +4826,7 @@ export interface GameSessionConnectionInfo {
 export const GameSessionConnectionInfo = S.suspend(() =>
   S.Struct({
     GameSessionArn: S.optional(S.String),
-    IpAddress: S.optional(S.String),
+    IpAddress: S.optional(SensitiveString),
     DnsName: S.optional(S.String),
     Port: S.optional(S.Number),
     MatchedPlayerSessions: S.optional(MatchedPlayerSessionList),
@@ -4883,12 +4885,12 @@ export const StopFleetActionsOutput = S.suspend(() =>
   identifier: "StopFleetActionsOutput",
 }) as any as S.Schema<StopFleetActionsOutput>;
 export interface PlacedPlayerSession {
-  PlayerId?: string;
+  PlayerId?: string | Redacted.Redacted<string>;
   PlayerSessionId?: string;
 }
 export const PlacedPlayerSession = S.suspend(() =>
   S.Struct({
-    PlayerId: S.optional(S.String),
+    PlayerId: S.optional(SensitiveString),
     PlayerSessionId: S.optional(S.String),
   }),
 ).annotations({
@@ -4909,7 +4911,7 @@ export interface GameSessionPlacement {
   PlayerLatencies?: PlayerLatencyList;
   StartTime?: Date;
   EndTime?: Date;
-  IpAddress?: string;
+  IpAddress?: string | Redacted.Redacted<string>;
   DnsName?: string;
   Port?: number;
   PlacedPlayerSessions?: PlacedPlayerSessionList;
@@ -4931,7 +4933,7 @@ export const GameSessionPlacement = S.suspend(() =>
     PlayerLatencies: S.optional(PlayerLatencyList),
     StartTime: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
     EndTime: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
-    IpAddress: S.optional(S.String),
+    IpAddress: S.optional(SensitiveString),
     DnsName: S.optional(S.String),
     Port: S.optional(S.Number),
     PlacedPlayerSessions: S.optional(PlacedPlayerSessionList),
@@ -5344,7 +5346,7 @@ export interface Instance {
   FleetId?: string;
   FleetArn?: string;
   InstanceId?: string;
-  IpAddress?: string;
+  IpAddress?: string | Redacted.Redacted<string>;
   DnsName?: string;
   OperatingSystem?: string;
   Type?: string;
@@ -5357,7 +5359,7 @@ export const Instance = S.suspend(() =>
     FleetId: S.optional(S.String),
     FleetArn: S.optional(S.String),
     InstanceId: S.optional(S.String),
-    IpAddress: S.optional(S.String),
+    IpAddress: S.optional(SensitiveString),
     DnsName: S.optional(S.String),
     OperatingSystem: S.optional(S.String),
     Type: S.optional(S.String),
@@ -5898,7 +5900,7 @@ export const VpcPeeringConnectionList = S.Array(VpcPeeringConnection);
 export interface InstanceAccess {
   FleetId?: string;
   InstanceId?: string;
-  IpAddress?: string;
+  IpAddress?: string | Redacted.Redacted<string>;
   OperatingSystem?: string;
   Credentials?: InstanceCredentials;
 }
@@ -5906,7 +5908,7 @@ export const InstanceAccess = S.suspend(() =>
   S.Struct({
     FleetId: S.optional(S.String),
     InstanceId: S.optional(S.String),
-    IpAddress: S.optional(S.String),
+    IpAddress: S.optional(SensitiveString),
     OperatingSystem: S.optional(S.String),
     Credentials: S.optional(InstanceCredentials),
   }),

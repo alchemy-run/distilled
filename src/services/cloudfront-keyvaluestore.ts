@@ -1,5 +1,6 @@
 import { HttpClient } from "@effect/platform";
 import * as Effect from "effect/Effect";
+import * as Redacted from "effect/Redacted";
 import * as S from "effect/Schema";
 import * as Stream from "effect/Stream";
 import * as API from "../api.ts";
@@ -10,6 +11,7 @@ import {
   ErrorCategory,
   Errors,
 } from "../index.ts";
+import { SensitiveString, SensitiveBlob } from "../sensitive.ts";
 const svc = T.AwsApiService({
   sdkId: "CloudFront KeyValueStore",
   serviceShapeName: "CloudFrontKeyValueStore",
@@ -417,7 +419,7 @@ const rules = T.EndpointRuleSet({
 export type KvsARN = string;
 export type Key = string;
 export type Etag = string;
-export type Value = string;
+export type Value = string | Redacted.Redacted<string>;
 
 //# Schemas
 export interface DeleteKeyRequest {
@@ -511,14 +513,14 @@ export const ListKeysRequest = S.suspend(() =>
 }) as any as S.Schema<ListKeysRequest>;
 export interface PutKeyRequest {
   Key: string;
-  Value: string;
+  Value: string | Redacted.Redacted<string>;
   KvsARN: string;
   IfMatch: string;
 }
 export const PutKeyRequest = S.suspend(() =>
   S.Struct({
     Key: S.String.pipe(T.HttpLabel("Key")),
-    Value: S.String,
+    Value: SensitiveString,
     KvsARN: S.String.pipe(T.HttpLabel("KvsARN"), T.ContextParam("KvsARN")),
     IfMatch: S.String.pipe(T.HttpHeader("If-Match")),
   }).pipe(
@@ -536,10 +538,10 @@ export const PutKeyRequest = S.suspend(() =>
 }) as any as S.Schema<PutKeyRequest>;
 export interface PutKeyRequestListItem {
   Key: string;
-  Value: string;
+  Value: string | Redacted.Redacted<string>;
 }
 export const PutKeyRequestListItem = S.suspend(() =>
-  S.Struct({ Key: S.String, Value: S.String }),
+  S.Struct({ Key: S.String, Value: SensitiveString }),
 ).annotations({
   identifier: "PutKeyRequestListItem",
 }) as any as S.Schema<PutKeyRequestListItem>;
@@ -595,14 +597,14 @@ export const DescribeKeyValueStoreResponse = S.suspend(() =>
 }) as any as S.Schema<DescribeKeyValueStoreResponse>;
 export interface GetKeyResponse {
   Key: string;
-  Value: string;
+  Value: string | Redacted.Redacted<string>;
   ItemCount: number;
   TotalSizeInBytes: number;
 }
 export const GetKeyResponse = S.suspend(() =>
   S.Struct({
     Key: S.String,
-    Value: S.String,
+    Value: SensitiveString,
     ItemCount: S.Number,
     TotalSizeInBytes: S.Number,
   }),
@@ -650,10 +652,10 @@ export const UpdateKeysRequest = S.suspend(() =>
 }) as any as S.Schema<UpdateKeysRequest>;
 export interface ListKeysResponseListItem {
   Key: string;
-  Value: string;
+  Value: string | Redacted.Redacted<string>;
 }
 export const ListKeysResponseListItem = S.suspend(() =>
-  S.Struct({ Key: S.String, Value: S.String }),
+  S.Struct({ Key: S.String, Value: SensitiveString }),
 ).annotations({
   identifier: "ListKeysResponseListItem",
 }) as any as S.Schema<ListKeysResponseListItem>;

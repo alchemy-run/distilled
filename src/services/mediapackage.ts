@@ -1,5 +1,6 @@
 import { HttpClient } from "@effect/platform";
 import * as Effect from "effect/Effect";
+import * as Redacted from "effect/Redacted";
 import * as S from "effect/Schema";
 import * as Stream from "effect/Stream";
 import * as API from "../api.ts";
@@ -10,6 +11,7 @@ import {
   ErrorCategory,
   Errors,
 } from "../index.ts";
+import { SensitiveString, SensitiveBlob } from "../sensitive.ts";
 const svc = T.AwsApiService({
   sdkId: "MediaPackage",
   serviceShapeName: "MediaPackage",
@@ -253,7 +255,7 @@ const rules = T.EndpointRuleSet({
 export type __string = string;
 export type __integer = number;
 export type MaxResults = number;
-export type SensitiveString = string;
+export type SensitiveString = string | Redacted.Redacted<string>;
 
 //# Schemas
 export type __listOf__string = string[];
@@ -1073,16 +1075,16 @@ export const ListTagsForResourceResponse = S.suspend(() =>
 }) as any as S.Schema<ListTagsForResourceResponse>;
 export interface IngestEndpoint {
   Id?: string;
-  Password?: string;
+  Password?: string | Redacted.Redacted<string>;
   Url?: string;
-  Username?: string;
+  Username?: string | Redacted.Redacted<string>;
 }
 export const IngestEndpoint = S.suspend(() =>
   S.Struct({
     Id: S.optional(S.String).pipe(T.JsonName("id")),
-    Password: S.optional(S.String).pipe(T.JsonName("password")),
+    Password: S.optional(SensitiveString).pipe(T.JsonName("password")),
     Url: S.optional(S.String).pipe(T.JsonName("url")),
-    Username: S.optional(S.String).pipe(T.JsonName("username")),
+    Username: S.optional(SensitiveString).pipe(T.JsonName("username")),
   }),
 ).annotations({
   identifier: "IngestEndpoint",

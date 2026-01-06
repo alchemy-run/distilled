@@ -1,5 +1,6 @@
 import { HttpClient } from "@effect/platform";
 import * as Effect from "effect/Effect";
+import * as Redacted from "effect/Redacted";
 import * as S from "effect/Schema";
 import * as Stream from "effect/Stream";
 import * as API from "../api.ts";
@@ -10,6 +11,7 @@ import {
   ErrorCategory,
   Errors,
 } from "../index.ts";
+import { SensitiveString, SensitiveBlob } from "../sensitive.ts";
 const ns = T.XmlNamespace("http://ssm.amazonaws.com/doc/2014-11-06/");
 const svc = T.AwsApiService({ sdkId: "SSM", serviceShapeName: "AmazonSSM" });
 const auth = T.AwsAuthSigv4({ name: "ssm" });
@@ -296,7 +298,7 @@ export type DocumentDisplayName = string;
 export type DocumentVersionName = string;
 export type TargetType = string;
 export type MaintenanceWindowName = string;
-export type MaintenanceWindowDescription = string;
+export type MaintenanceWindowDescription = string | Redacted.Redacted<string>;
 export type MaintenanceWindowStringDateTime = string;
 export type MaintenanceWindowSchedule = string;
 export type MaintenanceWindowTimezone = string;
@@ -377,13 +379,13 @@ export type SharedDocumentVersion = string;
 export type ComplianceTypeName = string;
 export type ComplianceItemContentHash = string;
 export type ParameterDescription = string;
-export type PSParameterValue = string;
+export type PSParameterValue = string | Redacted.Redacted<string>;
 export type ParameterKeyId = string;
 export type AllowedPattern = string;
 export type ParameterPolicies = string;
 export type ParameterDataType = string;
 export type Policy = string;
-export type OwnerInformation = string;
+export type OwnerInformation = string | Redacted.Redacted<string>;
 export type MaintenanceWindowTaskArn = string;
 export type ServiceRole = string;
 export type MaintenanceWindowTaskPriority = number;
@@ -424,7 +426,7 @@ export type AttachmentIdentifier = string;
 export type OpsItemDataKey = string;
 export type PatchSourceName = string;
 export type PatchSourceProduct = string;
-export type PatchSourceConfiguration = string;
+export type PatchSourceConfiguration = string | Redacted.Redacted<string>;
 export type ResourceDataSyncS3BucketName = string;
 export type ResourceDataSyncS3Prefix = string;
 export type ResourceDataSyncS3Region = string;
@@ -497,7 +499,9 @@ export type StandardErrorContent = string;
 export type DocumentStatusInformation = string;
 export type MaintenanceWindowExecutionStatusDetails = string;
 export type MaintenanceWindowExecutionTaskExecutionId = string;
-export type MaintenanceWindowExecutionTaskInvocationParameters = string;
+export type MaintenanceWindowExecutionTaskInvocationParameters =
+  | string
+  | Redacted.Redacted<string>;
 export type MaintenanceWindowTaskTargetId = string;
 export type DocumentAuthor = string;
 export type TokenValue = string;
@@ -515,8 +519,12 @@ export type OpsAggregatorValueKey = string;
 export type OpsAggregatorValue = string;
 export type AttributeName = string;
 export type AttributeValue = string;
-export type MaintenanceWindowTaskParameterValue = string;
-export type MaintenanceWindowStepFunctionsInput = string;
+export type MaintenanceWindowTaskParameterValue =
+  | string
+  | Redacted.Redacted<string>;
+export type MaintenanceWindowStepFunctionsInput =
+  | string
+  | Redacted.Redacted<string>;
 export type MaintenanceWindowStepFunctionsName = string;
 export type MaintenanceWindowLambdaClientContext = string;
 export type MaintenanceWindowLambdaQualifier = string;
@@ -551,8 +559,8 @@ export type PatchSecurityNonCompliantCount = number;
 export type PatchOtherNonCompliantCount = number;
 export type InventoryDeletionLastStatusMessage = string;
 export type AccessKeyIdType = string;
-export type AccessKeySecretType = string;
-export type SessionTokenType = string;
+export type AccessKeySecretType = string | Redacted.Redacted<string>;
+export type SessionTokenType = string | Redacted.Redacted<string>;
 export type AttachmentName = string;
 export type ContentLength = number;
 export type AttachmentHash = string;
@@ -602,7 +610,7 @@ export type ResourceCountByStatus = string;
 export type AssociationResourceId = string;
 export type AssociationResourceType = string;
 export type Version = string;
-export type IPAddress = string;
+export type IPAddress = string | Redacted.Redacted<string>;
 export type ComputerName = string;
 export type SourceId = string;
 export type InstanceName = string;
@@ -747,7 +755,7 @@ export type TagList = Tag[];
 export const TagList = S.Array(Tag);
 export interface CreateMaintenanceWindowRequest {
   Name: string;
-  Description?: string;
+  Description?: string | Redacted.Redacted<string>;
   StartDate?: string;
   EndDate?: string;
   Schedule: string;
@@ -762,7 +770,7 @@ export interface CreateMaintenanceWindowRequest {
 export const CreateMaintenanceWindowRequest = S.suspend(() =>
   S.Struct({
     Name: S.String,
-    Description: S.optional(S.String),
+    Description: S.optional(SensitiveString),
     StartDate: S.optional(S.String),
     EndDate: S.optional(S.String),
     Schedule: S.String,
@@ -2609,7 +2617,7 @@ export const ModifyDocumentPermissionResponse = S.suspend(() =>
 export interface PutParameterRequest {
   Name: string;
   Description?: string;
-  Value: string;
+  Value: string | Redacted.Redacted<string>;
   Type?: string;
   KeyId?: string;
   Overwrite?: boolean;
@@ -2623,7 +2631,7 @@ export const PutParameterRequest = S.suspend(() =>
   S.Struct({
     Name: S.String,
     Description: S.optional(S.String),
-    Value: S.String,
+    Value: SensitiveString,
     Type: S.optional(S.String),
     KeyId: S.optional(S.String),
     Overwrite: S.optional(S.Boolean),
@@ -2713,9 +2721,9 @@ export interface RegisterTargetWithMaintenanceWindowRequest {
   WindowId: string;
   ResourceType: string;
   Targets: Targets;
-  OwnerInformation?: string;
+  OwnerInformation?: string | Redacted.Redacted<string>;
   Name?: string;
-  Description?: string;
+  Description?: string | Redacted.Redacted<string>;
   ClientToken?: string;
 }
 export const RegisterTargetWithMaintenanceWindowRequest = S.suspend(() =>
@@ -2723,9 +2731,9 @@ export const RegisterTargetWithMaintenanceWindowRequest = S.suspend(() =>
     WindowId: S.String,
     ResourceType: S.String,
     Targets: Targets,
-    OwnerInformation: S.optional(S.String),
+    OwnerInformation: S.optional(SensitiveString),
     Name: S.optional(S.String),
-    Description: S.optional(S.String),
+    Description: S.optional(SensitiveString),
     ClientToken: S.optional(S.String),
   }).pipe(
     T.all(
@@ -3207,7 +3215,7 @@ export const UpdateDocumentDefaultVersionRequest = S.suspend(() =>
 export interface UpdateMaintenanceWindowRequest {
   WindowId: string;
   Name?: string;
-  Description?: string;
+  Description?: string | Redacted.Redacted<string>;
   StartDate?: string;
   EndDate?: string;
   Schedule?: string;
@@ -3223,7 +3231,7 @@ export const UpdateMaintenanceWindowRequest = S.suspend(() =>
   S.Struct({
     WindowId: S.String,
     Name: S.optional(S.String),
-    Description: S.optional(S.String),
+    Description: S.optional(SensitiveString),
     StartDate: S.optional(S.String),
     EndDate: S.optional(S.String),
     Schedule: S.optional(S.String),
@@ -3252,9 +3260,9 @@ export interface UpdateMaintenanceWindowTargetRequest {
   WindowId: string;
   WindowTargetId: string;
   Targets?: Targets;
-  OwnerInformation?: string;
+  OwnerInformation?: string | Redacted.Redacted<string>;
   Name?: string;
-  Description?: string;
+  Description?: string | Redacted.Redacted<string>;
   Replace?: boolean;
 }
 export const UpdateMaintenanceWindowTargetRequest = S.suspend(() =>
@@ -3262,9 +3270,9 @@ export const UpdateMaintenanceWindowTargetRequest = S.suspend(() =>
     WindowId: S.String,
     WindowTargetId: S.String,
     Targets: S.optional(Targets),
-    OwnerInformation: S.optional(S.String),
+    OwnerInformation: S.optional(SensitiveString),
     Name: S.optional(S.String),
-    Description: S.optional(S.String),
+    Description: S.optional(SensitiveString),
     Replace: S.optional(S.Boolean),
   }).pipe(
     T.all(
@@ -3280,8 +3288,10 @@ export const UpdateMaintenanceWindowTargetRequest = S.suspend(() =>
 ).annotations({
   identifier: "UpdateMaintenanceWindowTargetRequest",
 }) as any as S.Schema<UpdateMaintenanceWindowTargetRequest>;
-export type MaintenanceWindowTaskParameterValueList = string[];
-export const MaintenanceWindowTaskParameterValueList = S.Array(S.String);
+export type MaintenanceWindowTaskParameterValueList =
+  | string
+  | Redacted.Redacted<string>[];
+export const MaintenanceWindowTaskParameterValueList = S.Array(SensitiveString);
 export interface MaintenanceWindowTaskParameterValueExpression {
   Values?: MaintenanceWindowTaskParameterValueList;
 }
@@ -3368,24 +3378,24 @@ export const MaintenanceWindowAutomationParameters = S.suspend(() =>
   identifier: "MaintenanceWindowAutomationParameters",
 }) as any as S.Schema<MaintenanceWindowAutomationParameters>;
 export interface MaintenanceWindowStepFunctionsParameters {
-  Input?: string;
+  Input?: string | Redacted.Redacted<string>;
   Name?: string;
 }
 export const MaintenanceWindowStepFunctionsParameters = S.suspend(() =>
-  S.Struct({ Input: S.optional(S.String), Name: S.optional(S.String) }),
+  S.Struct({ Input: S.optional(SensitiveString), Name: S.optional(S.String) }),
 ).annotations({
   identifier: "MaintenanceWindowStepFunctionsParameters",
 }) as any as S.Schema<MaintenanceWindowStepFunctionsParameters>;
 export interface MaintenanceWindowLambdaParameters {
   ClientContext?: string;
   Qualifier?: string;
-  Payload?: Uint8Array;
+  Payload?: Uint8Array | Redacted.Redacted<Uint8Array>;
 }
 export const MaintenanceWindowLambdaParameters = S.suspend(() =>
   S.Struct({
     ClientContext: S.optional(S.String),
     Qualifier: S.optional(S.String),
-    Payload: S.optional(T.Blob),
+    Payload: S.optional(SensitiveBlob),
   }),
 ).annotations({
   identifier: "MaintenanceWindowLambdaParameters",
@@ -3431,7 +3441,7 @@ export interface UpdateMaintenanceWindowTaskRequest {
   MaxErrors?: string;
   LoggingInfo?: LoggingInfo;
   Name?: string;
-  Description?: string;
+  Description?: string | Redacted.Redacted<string>;
   Replace?: boolean;
   CutoffBehavior?: string;
   AlarmConfiguration?: AlarmConfiguration;
@@ -3452,7 +3462,7 @@ export const UpdateMaintenanceWindowTaskRequest = S.suspend(() =>
     MaxErrors: S.optional(S.String),
     LoggingInfo: S.optional(LoggingInfo),
     Name: S.optional(S.String),
-    Description: S.optional(S.String),
+    Description: S.optional(SensitiveString),
     Replace: S.optional(S.Boolean),
     CutoffBehavior: S.optional(S.String),
     AlarmConfiguration: S.optional(AlarmConfiguration),
@@ -3673,13 +3683,13 @@ export const PatchSourceProductList = S.Array(S.String);
 export interface PatchSource {
   Name: string;
   Products: PatchSourceProductList;
-  Configuration: string;
+  Configuration: string | Redacted.Redacted<string>;
 }
 export const PatchSource = S.suspend(() =>
   S.Struct({
     Name: S.String,
     Products: PatchSourceProductList,
-    Configuration: S.String,
+    Configuration: SensitiveString,
   }),
 ).annotations({ identifier: "PatchSource" }) as any as S.Schema<PatchSource>;
 export type PatchSourceList = PatchSource[];
@@ -4218,7 +4228,7 @@ export const OpsResultAttributeList = S.Array(
 export interface Parameter {
   Name?: string;
   Type?: string;
-  Value?: string;
+  Value?: string | Redacted.Redacted<string>;
   Version?: number;
   Selector?: string;
   SourceResult?: string;
@@ -4230,7 +4240,7 @@ export const Parameter = S.suspend(() =>
   S.Struct({
     Name: S.optional(S.String),
     Type: S.optional(S.String),
-    Value: S.optional(S.String),
+    Value: S.optional(SensitiveString),
     Version: S.optional(S.Number),
     Selector: S.optional(S.String),
     SourceResult: S.optional(S.String),
@@ -5124,7 +5134,7 @@ export const GetDeployablePatchSnapshotForInstanceRequest = S.suspend(() =>
 export interface GetMaintenanceWindowResult {
   WindowId?: string;
   Name?: string;
-  Description?: string;
+  Description?: string | Redacted.Redacted<string>;
   StartDate?: string;
   EndDate?: string;
   Schedule?: string;
@@ -5142,7 +5152,7 @@ export const GetMaintenanceWindowResult = S.suspend(() =>
   S.Struct({
     WindowId: S.optional(S.String),
     Name: S.optional(S.String),
-    Description: S.optional(S.String),
+    Description: S.optional(SensitiveString),
     StartDate: S.optional(S.String),
     EndDate: S.optional(S.String),
     Schedule: S.optional(S.String),
@@ -5185,12 +5195,12 @@ export interface GetMaintenanceWindowExecutionTaskInvocationResult {
   InvocationId?: string;
   ExecutionId?: string;
   TaskType?: string;
-  Parameters?: string;
+  Parameters?: string | Redacted.Redacted<string>;
   Status?: string;
   StatusDetails?: string;
   StartTime?: Date;
   EndTime?: Date;
-  OwnerInformation?: string;
+  OwnerInformation?: string | Redacted.Redacted<string>;
   WindowTargetId?: string;
 }
 export const GetMaintenanceWindowExecutionTaskInvocationResult = S.suspend(() =>
@@ -5200,12 +5210,12 @@ export const GetMaintenanceWindowExecutionTaskInvocationResult = S.suspend(() =>
     InvocationId: S.optional(S.String),
     ExecutionId: S.optional(S.String),
     TaskType: S.optional(S.String),
-    Parameters: S.optional(S.String),
+    Parameters: S.optional(SensitiveString),
     Status: S.optional(S.String),
     StatusDetails: S.optional(S.String),
     StartTime: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
     EndTime: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
-    OwnerInformation: S.optional(S.String),
+    OwnerInformation: S.optional(SensitiveString),
     WindowTargetId: S.optional(S.String),
   }).pipe(ns),
 ).annotations({
@@ -5225,7 +5235,7 @@ export interface GetMaintenanceWindowTaskResult {
   MaxErrors?: string;
   LoggingInfo?: LoggingInfo;
   Name?: string;
-  Description?: string;
+  Description?: string | Redacted.Redacted<string>;
   CutoffBehavior?: string;
   AlarmConfiguration?: AlarmConfiguration;
 }
@@ -5246,7 +5256,7 @@ export const GetMaintenanceWindowTaskResult = S.suspend(() =>
     MaxErrors: S.optional(S.String),
     LoggingInfo: S.optional(LoggingInfo),
     Name: S.optional(S.String),
-    Description: S.optional(S.String),
+    Description: S.optional(SensitiveString),
     CutoffBehavior: S.optional(S.String),
     AlarmConfiguration: S.optional(AlarmConfiguration),
   }).pipe(ns),
@@ -6189,7 +6199,7 @@ export const UpdateDocumentResult = S.suspend(() =>
 export interface UpdateMaintenanceWindowResult {
   WindowId?: string;
   Name?: string;
-  Description?: string;
+  Description?: string | Redacted.Redacted<string>;
   StartDate?: string;
   EndDate?: string;
   Schedule?: string;
@@ -6204,7 +6214,7 @@ export const UpdateMaintenanceWindowResult = S.suspend(() =>
   S.Struct({
     WindowId: S.optional(S.String),
     Name: S.optional(S.String),
-    Description: S.optional(S.String),
+    Description: S.optional(SensitiveString),
     StartDate: S.optional(S.String),
     EndDate: S.optional(S.String),
     Schedule: S.optional(S.String),
@@ -6222,18 +6232,18 @@ export interface UpdateMaintenanceWindowTargetResult {
   WindowId?: string;
   WindowTargetId?: string;
   Targets?: Targets;
-  OwnerInformation?: string;
+  OwnerInformation?: string | Redacted.Redacted<string>;
   Name?: string;
-  Description?: string;
+  Description?: string | Redacted.Redacted<string>;
 }
 export const UpdateMaintenanceWindowTargetResult = S.suspend(() =>
   S.Struct({
     WindowId: S.optional(S.String),
     WindowTargetId: S.optional(S.String),
     Targets: S.optional(Targets),
-    OwnerInformation: S.optional(S.String),
+    OwnerInformation: S.optional(SensitiveString),
     Name: S.optional(S.String),
-    Description: S.optional(S.String),
+    Description: S.optional(SensitiveString),
   }).pipe(ns),
 ).annotations({
   identifier: "UpdateMaintenanceWindowTargetResult",
@@ -6251,7 +6261,7 @@ export interface UpdateMaintenanceWindowTaskResult {
   MaxErrors?: string;
   LoggingInfo?: LoggingInfo;
   Name?: string;
-  Description?: string;
+  Description?: string | Redacted.Redacted<string>;
   CutoffBehavior?: string;
   AlarmConfiguration?: AlarmConfiguration;
 }
@@ -6271,7 +6281,7 @@ export const UpdateMaintenanceWindowTaskResult = S.suspend(() =>
     MaxErrors: S.optional(S.String),
     LoggingInfo: S.optional(LoggingInfo),
     Name: S.optional(S.String),
-    Description: S.optional(S.String),
+    Description: S.optional(SensitiveString),
     CutoffBehavior: S.optional(S.String),
     AlarmConfiguration: S.optional(AlarmConfiguration),
   }).pipe(ns),
@@ -6545,7 +6555,7 @@ export interface InstancePatchState {
   BaselineId: string;
   SnapshotId?: string;
   InstallOverrideList?: string;
-  OwnerInformation?: string;
+  OwnerInformation?: string | Redacted.Redacted<string>;
   InstalledCount?: number;
   InstalledOtherCount?: number;
   InstalledPendingRebootCount?: number;
@@ -6571,7 +6581,7 @@ export const InstancePatchState = S.suspend(() =>
     BaselineId: S.String,
     SnapshotId: S.optional(S.String),
     InstallOverrideList: S.optional(S.String),
-    OwnerInformation: S.optional(S.String),
+    OwnerInformation: S.optional(SensitiveString),
     InstalledCount: S.optional(S.Number),
     InstalledOtherCount: S.optional(S.Number),
     InstalledPendingRebootCount: S.optional(S.Number),
@@ -6665,12 +6675,12 @@ export interface MaintenanceWindowExecutionTaskInvocationIdentity {
   InvocationId?: string;
   ExecutionId?: string;
   TaskType?: string;
-  Parameters?: string;
+  Parameters?: string | Redacted.Redacted<string>;
   Status?: string;
   StatusDetails?: string;
   StartTime?: Date;
   EndTime?: Date;
-  OwnerInformation?: string;
+  OwnerInformation?: string | Redacted.Redacted<string>;
   WindowTargetId?: string;
 }
 export const MaintenanceWindowExecutionTaskInvocationIdentity = S.suspend(() =>
@@ -6680,12 +6690,12 @@ export const MaintenanceWindowExecutionTaskInvocationIdentity = S.suspend(() =>
     InvocationId: S.optional(S.String),
     ExecutionId: S.optional(S.String),
     TaskType: S.optional(S.String),
-    Parameters: S.optional(S.String),
+    Parameters: S.optional(SensitiveString),
     Status: S.optional(S.String),
     StatusDetails: S.optional(S.String),
     StartTime: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
     EndTime: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
-    OwnerInformation: S.optional(S.String),
+    OwnerInformation: S.optional(SensitiveString),
     WindowTargetId: S.optional(S.String),
   }),
 ).annotations({
@@ -6732,7 +6742,7 @@ export const MaintenanceWindowExecutionTaskIdentityList = S.Array(
 export interface MaintenanceWindowIdentity {
   WindowId?: string;
   Name?: string;
-  Description?: string;
+  Description?: string | Redacted.Redacted<string>;
   Enabled?: boolean;
   Duration?: number;
   Cutoff?: number;
@@ -6747,7 +6757,7 @@ export const MaintenanceWindowIdentity = S.suspend(() =>
   S.Struct({
     WindowId: S.optional(S.String),
     Name: S.optional(S.String),
-    Description: S.optional(S.String),
+    Description: S.optional(SensitiveString),
     Enabled: S.optional(S.Boolean),
     Duration: S.optional(S.Number),
     Cutoff: S.optional(S.Number),
@@ -6798,9 +6808,9 @@ export interface MaintenanceWindowTarget {
   WindowTargetId?: string;
   ResourceType?: string;
   Targets?: Targets;
-  OwnerInformation?: string;
+  OwnerInformation?: string | Redacted.Redacted<string>;
   Name?: string;
-  Description?: string;
+  Description?: string | Redacted.Redacted<string>;
 }
 export const MaintenanceWindowTarget = S.suspend(() =>
   S.Struct({
@@ -6808,9 +6818,9 @@ export const MaintenanceWindowTarget = S.suspend(() =>
     WindowTargetId: S.optional(S.String),
     ResourceType: S.optional(S.String),
     Targets: S.optional(Targets),
-    OwnerInformation: S.optional(S.String),
+    OwnerInformation: S.optional(SensitiveString),
     Name: S.optional(S.String),
-    Description: S.optional(S.String),
+    Description: S.optional(SensitiveString),
   }),
 ).annotations({
   identifier: "MaintenanceWindowTarget",
@@ -6830,7 +6840,7 @@ export interface MaintenanceWindowTask {
   MaxConcurrency?: string;
   MaxErrors?: string;
   Name?: string;
-  Description?: string;
+  Description?: string | Redacted.Redacted<string>;
   CutoffBehavior?: string;
   AlarmConfiguration?: AlarmConfiguration;
 }
@@ -6848,7 +6858,7 @@ export const MaintenanceWindowTask = S.suspend(() =>
     MaxConcurrency: S.optional(S.String),
     MaxErrors: S.optional(S.String),
     Name: S.optional(S.String),
-    Description: S.optional(S.String),
+    Description: S.optional(SensitiveString),
     CutoffBehavior: S.optional(S.String),
     AlarmConfiguration: S.optional(AlarmConfiguration),
   }),
@@ -6900,15 +6910,15 @@ export type PatchPropertiesList = PatchPropertyEntry[];
 export const PatchPropertiesList = S.Array(PatchPropertyEntry);
 export interface Credentials {
   AccessKeyId: string;
-  SecretAccessKey: string;
-  SessionToken: string;
+  SecretAccessKey: string | Redacted.Redacted<string>;
+  SessionToken: string | Redacted.Redacted<string>;
   ExpirationTime: Date;
 }
 export const Credentials = S.suspend(() =>
   S.Struct({
     AccessKeyId: S.String,
-    SecretAccessKey: S.String,
-    SessionToken: S.String,
+    SecretAccessKey: SensitiveString,
+    SessionToken: SensitiveString,
     ExpirationTime: S.Date.pipe(T.TimestampFormat("epoch-seconds")),
   }),
 ).annotations({ identifier: "Credentials" }) as any as S.Schema<Credentials>;
@@ -8204,7 +8214,7 @@ export interface RegisterTaskWithMaintenanceWindowRequest {
   MaxErrors?: string;
   LoggingInfo?: LoggingInfo;
   Name?: string;
-  Description?: string;
+  Description?: string | Redacted.Redacted<string>;
   ClientToken?: string;
   CutoffBehavior?: string;
   AlarmConfiguration?: AlarmConfiguration;
@@ -8225,7 +8235,7 @@ export const RegisterTaskWithMaintenanceWindowRequest = S.suspend(() =>
     MaxErrors: S.optional(S.String),
     LoggingInfo: S.optional(LoggingInfo),
     Name: S.optional(S.String),
-    Description: S.optional(S.String),
+    Description: S.optional(SensitiveString),
     ClientToken: S.optional(S.String),
     CutoffBehavior: S.optional(S.String),
     AlarmConfiguration: S.optional(AlarmConfiguration),
@@ -8664,7 +8674,7 @@ export interface InstanceProperty {
   KeyName?: string;
   InstanceState?: string;
   Architecture?: string;
-  IPAddress?: string;
+  IPAddress?: string | Redacted.Redacted<string>;
   LaunchTime?: Date;
   PingStatus?: string;
   LastPingDateTime?: Date;
@@ -8693,7 +8703,7 @@ export const InstanceProperty = S.suspend(() =>
     KeyName: S.optional(S.String),
     InstanceState: S.optional(S.String),
     Architecture: S.optional(S.String),
-    IPAddress: S.optional(S.String),
+    IPAddress: S.optional(SensitiveString),
     LaunchTime: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
     PingStatus: S.optional(S.String),
     LastPingDateTime: S.optional(
@@ -8865,7 +8875,7 @@ export interface ParameterHistory {
   LastModifiedDate?: Date;
   LastModifiedUser?: string;
   Description?: string;
-  Value?: string;
+  Value?: string | Redacted.Redacted<string>;
   AllowedPattern?: string;
   Version?: number;
   Labels?: ParameterLabelList;
@@ -8883,7 +8893,7 @@ export const ParameterHistory = S.suspend(() =>
     ),
     LastModifiedUser: S.optional(S.String),
     Description: S.optional(S.String),
-    Value: S.optional(S.String),
+    Value: S.optional(SensitiveString),
     AllowedPattern: S.optional(S.String),
     Version: S.optional(S.Number),
     Labels: S.optional(ParameterLabelList),
@@ -9870,7 +9880,7 @@ export interface InstanceInfo {
   AgentVersion?: string;
   ComputerName?: string;
   InstanceStatus?: string;
-  IpAddress?: string;
+  IpAddress?: string | Redacted.Redacted<string>;
   ManagedStatus?: string;
   PlatformType?: string;
   PlatformName?: string;
@@ -9883,7 +9893,7 @@ export const InstanceInfo = S.suspend(() =>
     AgentVersion: S.optional(S.String),
     ComputerName: S.optional(S.String),
     InstanceStatus: S.optional(S.String),
-    IpAddress: S.optional(S.String),
+    IpAddress: S.optional(SensitiveString),
     ManagedStatus: S.optional(S.String),
     PlatformType: S.optional(S.String),
     PlatformName: S.optional(S.String),
@@ -10015,7 +10025,7 @@ export interface InstanceInformation {
   RegistrationDate?: Date;
   ResourceType?: string;
   Name?: string;
-  IPAddress?: string;
+  IPAddress?: string | Redacted.Redacted<string>;
   ComputerName?: string;
   AssociationStatus?: string;
   LastAssociationExecutionDate?: Date;
@@ -10043,7 +10053,7 @@ export const InstanceInformation = S.suspend(() =>
     ),
     ResourceType: S.optional(S.String),
     Name: S.optional(S.String),
-    IPAddress: S.optional(S.String),
+    IPAddress: S.optional(SensitiveString),
     ComputerName: S.optional(S.String),
     AssociationStatus: S.optional(S.String),
     LastAssociationExecutionDate: S.optional(

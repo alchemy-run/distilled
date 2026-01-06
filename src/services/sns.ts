@@ -1,5 +1,6 @@
 import { HttpClient } from "@effect/platform";
 import * as Effect from "effect/Effect";
+import * as Redacted from "effect/Redacted";
 import * as S from "effect/Schema";
 import * as Stream from "effect/Stream";
 import * as API from "../api.ts";
@@ -10,6 +11,7 @@ import {
   ErrorCategory,
   Errors,
 } from "../index.ts";
+import { SensitiveString, SensitiveBlob } from "../sensitive.ts";
 const ns = T.XmlNamespace("http://sns.amazonaws.com/doc/2010-03-31/");
 const svc = T.AwsApiService({
   sdkId: "SNS",
@@ -283,10 +285,10 @@ export type topicARN = string;
 export type label = string;
 export type delegate = string;
 export type action = string;
-export type PhoneNumber = string;
+export type PhoneNumber = string | Redacted.Redacted<string>;
 export type token = string;
 export type authenticateOnUnsubscribe = string;
-export type PhoneNumberString = string;
+export type PhoneNumberString = string | Redacted.Redacted<string>;
 export type topicName = string;
 export type attributeValue = string;
 export type subscriptionARN = string;
@@ -365,10 +367,10 @@ export const AddPermissionResponse = S.suspend(() =>
   identifier: "AddPermissionResponse",
 }) as any as S.Schema<AddPermissionResponse>;
 export interface CheckIfPhoneNumberIsOptedOutInput {
-  phoneNumber: string;
+  phoneNumber: string | Redacted.Redacted<string>;
 }
 export const CheckIfPhoneNumberIsOptedOutInput = S.suspend(() =>
-  S.Struct({ phoneNumber: S.String }).pipe(
+  S.Struct({ phoneNumber: SensitiveString }).pipe(
     T.all(
       ns,
       T.Http({ method: "POST", uri: "/" }),
@@ -435,11 +437,14 @@ export const CreatePlatformEndpointInput = S.suspend(() =>
   identifier: "CreatePlatformEndpointInput",
 }) as any as S.Schema<CreatePlatformEndpointInput>;
 export interface CreateSMSSandboxPhoneNumberInput {
-  PhoneNumber: string;
+  PhoneNumber: string | Redacted.Redacted<string>;
   LanguageCode?: string;
 }
 export const CreateSMSSandboxPhoneNumberInput = S.suspend(() =>
-  S.Struct({ PhoneNumber: S.String, LanguageCode: S.optional(S.String) }).pipe(
+  S.Struct({
+    PhoneNumber: SensitiveString,
+    LanguageCode: S.optional(S.String),
+  }).pipe(
     T.all(
       ns,
       T.Http({ method: "POST", uri: "/" }),
@@ -508,10 +513,10 @@ export const DeletePlatformApplicationResponse = S.suspend(() =>
   identifier: "DeletePlatformApplicationResponse",
 }) as any as S.Schema<DeletePlatformApplicationResponse>;
 export interface DeleteSMSSandboxPhoneNumberInput {
-  PhoneNumber: string;
+  PhoneNumber: string | Redacted.Redacted<string>;
 }
 export const DeleteSMSSandboxPhoneNumberInput = S.suspend(() =>
-  S.Struct({ PhoneNumber: S.String }).pipe(
+  S.Struct({ PhoneNumber: SensitiveString }).pipe(
     T.all(
       ns,
       T.Http({ method: "POST", uri: "/" }),
@@ -847,10 +852,10 @@ export const ListTopicsInput = S.suspend(() =>
   identifier: "ListTopicsInput",
 }) as any as S.Schema<ListTopicsInput>;
 export interface OptInPhoneNumberInput {
-  phoneNumber: string;
+  phoneNumber: string | Redacted.Redacted<string>;
 }
 export const OptInPhoneNumberInput = S.suspend(() =>
-  S.Struct({ phoneNumber: S.String }).pipe(
+  S.Struct({ phoneNumber: SensitiveString }).pipe(
     T.all(
       ns,
       T.Http({ method: "POST", uri: "/" }),
@@ -1141,11 +1146,11 @@ export const UntagResourceResponse = S.suspend(() =>
   identifier: "UntagResourceResponse",
 }) as any as S.Schema<UntagResourceResponse>;
 export interface VerifySMSSandboxPhoneNumberInput {
-  PhoneNumber: string;
+  PhoneNumber: string | Redacted.Redacted<string>;
   OneTimePassword: string;
 }
 export const VerifySMSSandboxPhoneNumberInput = S.suspend(() =>
-  S.Struct({ PhoneNumber: S.String, OneTimePassword: S.String }).pipe(
+  S.Struct({ PhoneNumber: SensitiveString, OneTimePassword: S.String }).pipe(
     T.all(
       ns,
       T.Http({ method: "POST", uri: "/" }),
@@ -1167,8 +1172,8 @@ export const VerifySMSSandboxPhoneNumberResult = S.suspend(() =>
 }) as any as S.Schema<VerifySMSSandboxPhoneNumberResult>;
 export type TopicAttributesMap = { [key: string]: string };
 export const TopicAttributesMap = S.Record({ key: S.String, value: S.String });
-export type PhoneNumberList = string[];
-export const PhoneNumberList = S.Array(S.String);
+export type PhoneNumberList = string | Redacted.Redacted<string>[];
+export const PhoneNumberList = S.Array(SensitiveString);
 export interface MessageAttributeValue {
   DataType: string;
   StringValue?: string;
@@ -1457,7 +1462,7 @@ export type ListOfEndpoints = Endpoint[];
 export const ListOfEndpoints = S.Array(Endpoint);
 export interface PhoneNumberInformation {
   CreatedAt?: Date;
-  PhoneNumber?: string;
+  PhoneNumber?: string | Redacted.Redacted<string>;
   Status?: string;
   Iso2CountryCode?: string;
   RouteType?: string;
@@ -1466,7 +1471,7 @@ export interface PhoneNumberInformation {
 export const PhoneNumberInformation = S.suspend(() =>
   S.Struct({
     CreatedAt: S.optional(S.Date.pipe(T.TimestampFormat("date-time"))),
-    PhoneNumber: S.optional(S.String),
+    PhoneNumber: S.optional(SensitiveString),
     Status: S.optional(S.String),
     Iso2CountryCode: S.optional(S.String),
     RouteType: S.optional(S.String),
@@ -1492,11 +1497,14 @@ export const PlatformApplication = S.suspend(() =>
 export type ListOfPlatformApplications = PlatformApplication[];
 export const ListOfPlatformApplications = S.Array(PlatformApplication);
 export interface SMSSandboxPhoneNumber {
-  PhoneNumber?: string;
+  PhoneNumber?: string | Redacted.Redacted<string>;
   Status?: string;
 }
 export const SMSSandboxPhoneNumber = S.suspend(() =>
-  S.Struct({ PhoneNumber: S.optional(S.String), Status: S.optional(S.String) }),
+  S.Struct({
+    PhoneNumber: S.optional(SensitiveString),
+    Status: S.optional(S.String),
+  }),
 ).annotations({
   identifier: "SMSSandboxPhoneNumber",
 }) as any as S.Schema<SMSSandboxPhoneNumber>;
@@ -1601,7 +1609,7 @@ export const ListTopicsResponse = S.suspend(() =>
 export interface PublishInput {
   TopicArn?: string;
   TargetArn?: string;
-  PhoneNumber?: string;
+  PhoneNumber?: string | Redacted.Redacted<string>;
   Message: string;
   Subject?: string;
   MessageStructure?: string;
@@ -1613,7 +1621,7 @@ export const PublishInput = S.suspend(() =>
   S.Struct({
     TopicArn: S.optional(S.String),
     TargetArn: S.optional(S.String),
-    PhoneNumber: S.optional(S.String),
+    PhoneNumber: S.optional(SensitiveString),
     Message: S.String,
     Subject: S.optional(S.String),
     MessageStructure: S.optional(S.String),

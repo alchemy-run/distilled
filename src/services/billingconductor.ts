@@ -1,5 +1,6 @@
 import { HttpClient } from "@effect/platform";
 import * as Effect from "effect/Effect";
+import * as Redacted from "effect/Redacted";
 import * as S from "effect/Schema";
 import * as Stream from "effect/Stream";
 import * as API from "../api.ts";
@@ -10,6 +11,7 @@ import {
   ErrorCategory,
   Errors,
 } from "../index.ts";
+import { SensitiveString, SensitiveBlob } from "../sensitive.ts";
 const svc = T.AwsApiService({
   sdkId: "billingconductor",
   serviceShapeName: "AWSBillingConductor",
@@ -288,22 +290,22 @@ export type MaxBillingGroupResults = number;
 export type Arn = string;
 export type TagKey = string;
 export type ClientToken = string;
-export type BillingGroupName = string;
+export type BillingGroupName = string | Redacted.Redacted<string>;
 export type AccountId = string;
-export type BillingGroupDescription = string;
-export type CustomLineItemName = string;
-export type CustomLineItemDescription = string;
+export type BillingGroupDescription = string | Redacted.Redacted<string>;
+export type CustomLineItemName = string | Redacted.Redacted<string>;
+export type CustomLineItemDescription = string | Redacted.Redacted<string>;
 export type CustomLineItemArn = string;
 export type MaxCustomLineItemResults = number;
 export type CustomLineItemAssociationElement = string;
-export type PricingPlanName = string;
-export type PricingPlanDescription = string;
+export type PricingPlanName = string | Redacted.Redacted<string>;
+export type PricingPlanDescription = string | Redacted.Redacted<string>;
 export type PricingRuleArn = string;
 export type PricingPlanArn = string;
 export type MaxPricingPlanResults = number;
 export type MaxPricingRuleResults = number;
-export type PricingRuleName = string;
-export type PricingRuleDescription = string;
+export type PricingRuleName = string | Redacted.Redacted<string>;
+export type PricingRuleDescription = string | Redacted.Redacted<string>;
 export type ModifierPercentage = number;
 export type Service = string;
 export type BillingEntity = string;
@@ -327,8 +329,8 @@ export type ProformaCost = string;
 export type Margin = string;
 export type MarginPercentage = string;
 export type Currency = string;
-export type AccountName = string;
-export type AccountEmail = string;
+export type AccountName = string | Redacted.Redacted<string>;
+export type AccountEmail = string | Redacted.Redacted<string>;
 export type CustomLineItemProductCode = string;
 export type NumberOfAssociations = number;
 export type NumberOfPricingPlansAssociatedWith = number;
@@ -533,16 +535,16 @@ export type TagMap = { [key: string]: string };
 export const TagMap = S.Record({ key: S.String, value: S.String });
 export interface CreatePricingPlanInput {
   ClientToken?: string;
-  Name: string;
-  Description?: string;
+  Name: string | Redacted.Redacted<string>;
+  Description?: string | Redacted.Redacted<string>;
   PricingRuleArns?: PricingRuleArnsInput;
   Tags?: TagMap;
 }
 export const CreatePricingPlanInput = S.suspend(() =>
   S.Struct({
     ClientToken: S.optional(S.String).pipe(T.HttpHeader("X-Amzn-Client-Token")),
-    Name: S.String,
-    Description: S.optional(S.String),
+    Name: SensitiveString,
+    Description: S.optional(SensitiveString),
     PricingRuleArns: S.optional(PricingRuleArnsInput),
     Tags: S.optional(TagMap),
   }).pipe(
@@ -560,14 +562,14 @@ export const CreatePricingPlanInput = S.suspend(() =>
 }) as any as S.Schema<CreatePricingPlanInput>;
 export interface UpdatePricingPlanInput {
   Arn: string;
-  Name?: string;
-  Description?: string;
+  Name?: string | Redacted.Redacted<string>;
+  Description?: string | Redacted.Redacted<string>;
 }
 export const UpdatePricingPlanInput = S.suspend(() =>
   S.Struct({
     Arn: S.String,
-    Name: S.optional(S.String),
-    Description: S.optional(S.String),
+    Name: S.optional(SensitiveString),
+    Description: S.optional(SensitiveString),
   }).pipe(
     T.all(
       T.Http({ method: "PUT", uri: "/update-pricing-plan" }),
@@ -725,8 +727,8 @@ export type BillingGroupTypeList = string[];
 export const BillingGroupTypeList = S.Array(S.String);
 export type ResponsibilityTransferArnsList = string[];
 export const ResponsibilityTransferArnsList = S.Array(S.String);
-export type CustomLineItemNameList = string[];
-export const CustomLineItemNameList = S.Array(S.String);
+export type CustomLineItemNameList = string | Redacted.Redacted<string>[];
+export const CustomLineItemNameList = S.Array(SensitiveString);
 export type CustomLineItemArns = string[];
 export const CustomLineItemArns = S.Array(S.String);
 export type PricingPlanArns = string[];
@@ -965,21 +967,21 @@ export const TagResourceResponse = S.suspend(() => S.Struct({})).annotations({
 }) as any as S.Schema<TagResourceResponse>;
 export interface CreateBillingGroupInput {
   ClientToken?: string;
-  Name: string;
+  Name: string | Redacted.Redacted<string>;
   AccountGrouping: AccountGrouping;
   ComputationPreference: ComputationPreference;
   PrimaryAccountId?: string;
-  Description?: string;
+  Description?: string | Redacted.Redacted<string>;
   Tags?: TagMap;
 }
 export const CreateBillingGroupInput = S.suspend(() =>
   S.Struct({
     ClientToken: S.optional(S.String).pipe(T.HttpHeader("X-Amzn-Client-Token")),
-    Name: S.String,
+    Name: SensitiveString,
     AccountGrouping: AccountGrouping,
     ComputationPreference: ComputationPreference,
     PrimaryAccountId: S.optional(S.String),
-    Description: S.optional(S.String),
+    Description: S.optional(SensitiveString),
     Tags: S.optional(TagMap),
   }).pipe(
     T.all(
@@ -996,19 +998,19 @@ export const CreateBillingGroupInput = S.suspend(() =>
 }) as any as S.Schema<CreateBillingGroupInput>;
 export interface UpdateBillingGroupInput {
   Arn: string;
-  Name?: string;
+  Name?: string | Redacted.Redacted<string>;
   Status?: string;
   ComputationPreference?: ComputationPreference;
-  Description?: string;
+  Description?: string | Redacted.Redacted<string>;
   AccountGrouping?: UpdateBillingGroupAccountGrouping;
 }
 export const UpdateBillingGroupInput = S.suspend(() =>
   S.Struct({
     Arn: S.String,
-    Name: S.optional(S.String),
+    Name: S.optional(SensitiveString),
     Status: S.optional(S.String),
     ComputationPreference: S.optional(ComputationPreference),
-    Description: S.optional(S.String),
+    Description: S.optional(SensitiveString),
     AccountGrouping: S.optional(UpdateBillingGroupAccountGrouping),
   }).pipe(
     T.all(
@@ -1120,16 +1122,16 @@ export const CreatePricingPlanOutput = S.suspend(() =>
 }) as any as S.Schema<CreatePricingPlanOutput>;
 export interface UpdatePricingPlanOutput {
   Arn?: string;
-  Name?: string;
-  Description?: string;
+  Name?: string | Redacted.Redacted<string>;
+  Description?: string | Redacted.Redacted<string>;
   Size?: number;
   LastModifiedTime?: number;
 }
 export const UpdatePricingPlanOutput = S.suspend(() =>
   S.Struct({
     Arn: S.optional(S.String),
-    Name: S.optional(S.String),
-    Description: S.optional(S.String),
+    Name: S.optional(SensitiveString),
+    Description: S.optional(SensitiveString),
     Size: S.optional(S.Number),
     LastModifiedTime: S.optional(S.Number),
   }),
@@ -1460,8 +1462,8 @@ export const CreateBillingGroupOutput = S.suspend(() =>
 }) as any as S.Schema<CreateBillingGroupOutput>;
 export interface UpdateBillingGroupOutput {
   Arn?: string;
-  Name?: string;
-  Description?: string;
+  Name?: string | Redacted.Redacted<string>;
+  Description?: string | Redacted.Redacted<string>;
   PrimaryAccountId?: string;
   PricingPlanArn?: string;
   Size?: number;
@@ -1473,8 +1475,8 @@ export interface UpdateBillingGroupOutput {
 export const UpdateBillingGroupOutput = S.suspend(() =>
   S.Struct({
     Arn: S.optional(S.String),
-    Name: S.optional(S.String),
-    Description: S.optional(S.String),
+    Name: S.optional(SensitiveString),
+    Description: S.optional(SensitiveString),
     PrimaryAccountId: S.optional(S.String),
     PricingPlanArn: S.optional(S.String),
     Size: S.optional(S.Number),
@@ -1513,8 +1515,8 @@ export const ListBillingGroupsInput = S.suspend(() =>
 }) as any as S.Schema<ListBillingGroupsInput>;
 export interface CreateCustomLineItemInput {
   ClientToken?: string;
-  Name: string;
-  Description: string;
+  Name: string | Redacted.Redacted<string>;
+  Description: string | Redacted.Redacted<string>;
   BillingGroupArn: string;
   BillingPeriodRange?: CustomLineItemBillingPeriodRange;
   Tags?: TagMap;
@@ -1526,8 +1528,8 @@ export interface CreateCustomLineItemInput {
 export const CreateCustomLineItemInput = S.suspend(() =>
   S.Struct({
     ClientToken: S.optional(S.String).pipe(T.HttpHeader("X-Amzn-Client-Token")),
-    Name: S.String,
-    Description: S.String,
+    Name: SensitiveString,
+    Description: SensitiveString,
     BillingGroupArn: S.String,
     BillingPeriodRange: S.optional(CustomLineItemBillingPeriodRange),
     Tags: S.optional(TagMap),
@@ -1550,16 +1552,16 @@ export const CreateCustomLineItemInput = S.suspend(() =>
 }) as any as S.Schema<CreateCustomLineItemInput>;
 export interface UpdateCustomLineItemInput {
   Arn: string;
-  Name?: string;
-  Description?: string;
+  Name?: string | Redacted.Redacted<string>;
+  Description?: string | Redacted.Redacted<string>;
   ChargeDetails?: UpdateCustomLineItemChargeDetails;
   BillingPeriodRange?: CustomLineItemBillingPeriodRange;
 }
 export const UpdateCustomLineItemInput = S.suspend(() =>
   S.Struct({
     Arn: S.String,
-    Name: S.optional(S.String),
-    Description: S.optional(S.String),
+    Name: S.optional(SensitiveString),
+    Description: S.optional(SensitiveString),
     ChargeDetails: S.optional(UpdateCustomLineItemChargeDetails),
     BillingPeriodRange: S.optional(CustomLineItemBillingPeriodRange),
   }).pipe(
@@ -1619,8 +1621,8 @@ export const ListCustomLineItemVersionsInput = S.suspend(() =>
 }) as any as S.Schema<ListCustomLineItemVersionsInput>;
 export interface CreatePricingRuleInput {
   ClientToken?: string;
-  Name: string;
-  Description?: string;
+  Name: string | Redacted.Redacted<string>;
+  Description?: string | Redacted.Redacted<string>;
   Scope: string;
   Type: string;
   ModifierPercentage?: number;
@@ -1634,8 +1636,8 @@ export interface CreatePricingRuleInput {
 export const CreatePricingRuleInput = S.suspend(() =>
   S.Struct({
     ClientToken: S.optional(S.String).pipe(T.HttpHeader("X-Amzn-Client-Token")),
-    Name: S.String,
-    Description: S.optional(S.String),
+    Name: SensitiveString,
+    Description: S.optional(SensitiveString),
     Scope: S.String,
     Type: S.String,
     ModifierPercentage: S.optional(S.Number),
@@ -1660,8 +1662,8 @@ export const CreatePricingRuleInput = S.suspend(() =>
 }) as any as S.Schema<CreatePricingRuleInput>;
 export interface UpdatePricingRuleInput {
   Arn: string;
-  Name?: string;
-  Description?: string;
+  Name?: string | Redacted.Redacted<string>;
+  Description?: string | Redacted.Redacted<string>;
   Type?: string;
   ModifierPercentage?: number;
   Tiering?: UpdateTieringInput;
@@ -1669,8 +1671,8 @@ export interface UpdatePricingRuleInput {
 export const UpdatePricingRuleInput = S.suspend(() =>
   S.Struct({
     Arn: S.String,
-    Name: S.optional(S.String),
-    Description: S.optional(S.String),
+    Name: S.optional(SensitiveString),
+    Description: S.optional(SensitiveString),
     Type: S.optional(S.String),
     ModifierPercentage: S.optional(S.Number),
     Tiering: S.optional(UpdateTieringInput),
@@ -1690,15 +1692,15 @@ export const UpdatePricingRuleInput = S.suspend(() =>
 export interface AccountAssociationsListElement {
   AccountId?: string;
   BillingGroupArn?: string;
-  AccountName?: string;
-  AccountEmail?: string;
+  AccountName?: string | Redacted.Redacted<string>;
+  AccountEmail?: string | Redacted.Redacted<string>;
 }
 export const AccountAssociationsListElement = S.suspend(() =>
   S.Struct({
     AccountId: S.optional(S.String),
     BillingGroupArn: S.optional(S.String),
-    AccountName: S.optional(S.String),
-    AccountEmail: S.optional(S.String),
+    AccountName: S.optional(SensitiveString),
+    AccountEmail: S.optional(SensitiveString),
   }),
 ).annotations({
   identifier: "AccountAssociationsListElement",
@@ -1766,18 +1768,18 @@ export const ListResourcesAssociatedToCustomLineItemResponseList = S.Array(
   ListResourcesAssociatedToCustomLineItemResponseElement,
 );
 export interface PricingPlanListElement {
-  Name?: string;
+  Name?: string | Redacted.Redacted<string>;
   Arn?: string;
-  Description?: string;
+  Description?: string | Redacted.Redacted<string>;
   Size?: number;
   CreationTime?: number;
   LastModifiedTime?: number;
 }
 export const PricingPlanListElement = S.suspend(() =>
   S.Struct({
-    Name: S.optional(S.String),
+    Name: S.optional(SensitiveString),
     Arn: S.optional(S.String),
-    Description: S.optional(S.String),
+    Description: S.optional(SensitiveString),
     Size: S.optional(S.Number),
     CreationTime: S.optional(S.Number),
     LastModifiedTime: S.optional(S.Number),
@@ -1854,8 +1856,8 @@ export const ListCustomLineItemChargeDetails = S.suspend(() =>
 export interface UpdateCustomLineItemOutput {
   Arn?: string;
   BillingGroupArn?: string;
-  Name?: string;
-  Description?: string;
+  Name?: string | Redacted.Redacted<string>;
+  Description?: string | Redacted.Redacted<string>;
   ChargeDetails?: ListCustomLineItemChargeDetails;
   LastModifiedTime?: number;
   AssociationSize?: number;
@@ -1864,8 +1866,8 @@ export const UpdateCustomLineItemOutput = S.suspend(() =>
   S.Struct({
     Arn: S.optional(S.String),
     BillingGroupArn: S.optional(S.String),
-    Name: S.optional(S.String),
-    Description: S.optional(S.String),
+    Name: S.optional(SensitiveString),
+    Description: S.optional(SensitiveString),
     ChargeDetails: S.optional(ListCustomLineItemChargeDetails),
     LastModifiedTime: S.optional(S.Number),
     AssociationSize: S.optional(S.Number),
@@ -1925,8 +1927,8 @@ export const CreatePricingRuleOutput = S.suspend(() =>
 }) as any as S.Schema<CreatePricingRuleOutput>;
 export interface UpdatePricingRuleOutput {
   Arn?: string;
-  Name?: string;
-  Description?: string;
+  Name?: string | Redacted.Redacted<string>;
+  Description?: string | Redacted.Redacted<string>;
   Scope?: string;
   Type?: string;
   ModifierPercentage?: number;
@@ -1941,8 +1943,8 @@ export interface UpdatePricingRuleOutput {
 export const UpdatePricingRuleOutput = S.suspend(() =>
   S.Struct({
     Arn: S.optional(S.String),
-    Name: S.optional(S.String),
-    Description: S.optional(S.String),
+    Name: S.optional(SensitiveString),
+    Description: S.optional(SensitiveString),
     Scope: S.optional(S.String),
     Type: S.optional(S.String),
     ModifierPercentage: S.optional(S.Number),
@@ -1994,10 +1996,10 @@ export const BillingGroupCostReportResultsList = S.Array(
   BillingGroupCostReportResultElement,
 );
 export interface CustomLineItemVersionListElement {
-  Name?: string;
+  Name?: string | Redacted.Redacted<string>;
   ChargeDetails?: ListCustomLineItemChargeDetails;
   CurrencyCode?: string;
-  Description?: string;
+  Description?: string | Redacted.Redacted<string>;
   ProductCode?: string;
   BillingGroupArn?: string;
   CreationTime?: number;
@@ -2013,10 +2015,10 @@ export interface CustomLineItemVersionListElement {
 }
 export const CustomLineItemVersionListElement = S.suspend(() =>
   S.Struct({
-    Name: S.optional(S.String),
+    Name: S.optional(SensitiveString),
     ChargeDetails: S.optional(ListCustomLineItemChargeDetails),
     CurrencyCode: S.optional(S.String),
-    Description: S.optional(S.String),
+    Description: S.optional(SensitiveString),
     ProductCode: S.optional(S.String),
     BillingGroupArn: S.optional(S.String),
     CreationTime: S.optional(S.Number),
@@ -2090,9 +2092,9 @@ export const Tiering = S.suspend(() =>
   S.Struct({ FreeTier: FreeTierConfig }),
 ).annotations({ identifier: "Tiering" }) as any as S.Schema<Tiering>;
 export interface BillingGroupListElement {
-  Name?: string;
+  Name?: string | Redacted.Redacted<string>;
   Arn?: string;
-  Description?: string;
+  Description?: string | Redacted.Redacted<string>;
   PrimaryAccountId?: string;
   ComputationPreference?: ComputationPreference;
   Size?: number;
@@ -2105,9 +2107,9 @@ export interface BillingGroupListElement {
 }
 export const BillingGroupListElement = S.suspend(() =>
   S.Struct({
-    Name: S.optional(S.String),
+    Name: S.optional(SensitiveString),
     Arn: S.optional(S.String),
-    Description: S.optional(S.String),
+    Description: S.optional(SensitiveString),
     PrimaryAccountId: S.optional(S.String),
     ComputationPreference: S.optional(ComputationPreference),
     Size: S.optional(S.Number),
@@ -2125,10 +2127,10 @@ export type BillingGroupList = BillingGroupListElement[];
 export const BillingGroupList = S.Array(BillingGroupListElement);
 export interface CustomLineItemListElement {
   Arn?: string;
-  Name?: string;
+  Name?: string | Redacted.Redacted<string>;
   ChargeDetails?: ListCustomLineItemChargeDetails;
   CurrencyCode?: string;
-  Description?: string;
+  Description?: string | Redacted.Redacted<string>;
   ProductCode?: string;
   BillingGroupArn?: string;
   CreationTime?: number;
@@ -2141,10 +2143,10 @@ export interface CustomLineItemListElement {
 export const CustomLineItemListElement = S.suspend(() =>
   S.Struct({
     Arn: S.optional(S.String),
-    Name: S.optional(S.String),
+    Name: S.optional(SensitiveString),
     ChargeDetails: S.optional(ListCustomLineItemChargeDetails),
     CurrencyCode: S.optional(S.String),
-    Description: S.optional(S.String),
+    Description: S.optional(SensitiveString),
     ProductCode: S.optional(S.String),
     BillingGroupArn: S.optional(S.String),
     CreationTime: S.optional(S.Number),
@@ -2160,9 +2162,9 @@ export const CustomLineItemListElement = S.suspend(() =>
 export type CustomLineItemList = CustomLineItemListElement[];
 export const CustomLineItemList = S.Array(CustomLineItemListElement);
 export interface PricingRuleListElement {
-  Name?: string;
+  Name?: string | Redacted.Redacted<string>;
   Arn?: string;
-  Description?: string;
+  Description?: string | Redacted.Redacted<string>;
   Scope?: string;
   Type?: string;
   ModifierPercentage?: number;
@@ -2177,9 +2179,9 @@ export interface PricingRuleListElement {
 }
 export const PricingRuleListElement = S.suspend(() =>
   S.Struct({
-    Name: S.optional(S.String),
+    Name: S.optional(SensitiveString),
     Arn: S.optional(S.String),
-    Description: S.optional(S.String),
+    Description: S.optional(SensitiveString),
     Scope: S.optional(S.String),
     Type: S.optional(S.String),
     ModifierPercentage: S.optional(S.Number),

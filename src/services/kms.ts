@@ -1,5 +1,6 @@
 import { HttpClient } from "@effect/platform";
 import * as Effect from "effect/Effect";
+import * as Redacted from "effect/Redacted";
 import * as S from "effect/Schema";
 import * as Stream from "effect/Stream";
 import * as API from "../api.ts";
@@ -10,6 +11,7 @@ import {
   ErrorCategory,
   Errors,
 } from "../index.ts";
+import { SensitiveString, SensitiveBlob } from "../sensitive.ts";
 const ns = T.XmlNamespace("https://trent.amazonaws.com/doc/2014-11-01/");
 const svc = T.AwsApiService({ sdkId: "KMS", serviceShapeName: "TrentService" });
 const auth = T.AwsAuthSigv4({ name: "kms" });
@@ -254,7 +256,7 @@ export type AliasNameType = string;
 export type CustomKeyStoreNameType = string;
 export type CloudHsmClusterIdType = string;
 export type TrustAnchorCertificateType = string;
-export type KeyStorePasswordType = string;
+export type KeyStorePasswordType = string | Redacted.Redacted<string>;
 export type XksProxyUriEndpointType = string;
 export type XksProxyUriPathType = string;
 export type XksProxyVpcEndpointServiceNameType = string;
@@ -276,8 +278,12 @@ export type GrantIdType = string;
 export type RegionType = string;
 export type PendingWindowInDaysType = number;
 export type TagKeyType = string;
-export type XksProxyAuthenticationAccessKeyIdType = string;
-export type XksProxyAuthenticationRawSecretAccessKeyType = string;
+export type XksProxyAuthenticationAccessKeyIdType =
+  | string
+  | Redacted.Redacted<string>;
+export type XksProxyAuthenticationRawSecretAccessKeyType =
+  | string
+  | Redacted.Redacted<string>;
 export type TagValueType = string;
 export type EncryptionContextKey = string;
 export type EncryptionContextValue = string;
@@ -645,7 +651,7 @@ export const EncryptionContextType = S.Record({
 });
 export interface EncryptRequest {
   KeyId: string;
-  Plaintext: Uint8Array;
+  Plaintext: Uint8Array | Redacted.Redacted<Uint8Array>;
   EncryptionContext?: EncryptionContextType;
   GrantTokens?: GrantTokenList;
   EncryptionAlgorithm?: string;
@@ -654,7 +660,7 @@ export interface EncryptRequest {
 export const EncryptRequest = S.suspend(() =>
   S.Struct({
     KeyId: S.String,
-    Plaintext: T.Blob,
+    Plaintext: SensitiveBlob,
     EncryptionContext: S.optional(EncryptionContextType),
     GrantTokens: S.optional(GrantTokenList),
     EncryptionAlgorithm: S.optional(S.String),
@@ -794,7 +800,7 @@ export const GenerateDataKeyWithoutPlaintextRequest = S.suspend(() =>
   identifier: "GenerateDataKeyWithoutPlaintextRequest",
 }) as any as S.Schema<GenerateDataKeyWithoutPlaintextRequest>;
 export interface GenerateMacRequest {
-  Message: Uint8Array;
+  Message: Uint8Array | Redacted.Redacted<Uint8Array>;
   KeyId: string;
   MacAlgorithm: string;
   GrantTokens?: GrantTokenList;
@@ -802,7 +808,7 @@ export interface GenerateMacRequest {
 }
 export const GenerateMacRequest = S.suspend(() =>
   S.Struct({
-    Message: T.Blob,
+    Message: SensitiveBlob,
     KeyId: S.String,
     MacAlgorithm: S.String,
     GrantTokens: S.optional(GrantTokenList),
@@ -1336,7 +1342,7 @@ export const ScheduleKeyDeletionRequest = S.suspend(() =>
 }) as any as S.Schema<ScheduleKeyDeletionRequest>;
 export interface SignRequest {
   KeyId: string;
-  Message: Uint8Array;
+  Message: Uint8Array | Redacted.Redacted<Uint8Array>;
   MessageType?: string;
   GrantTokens?: GrantTokenList;
   SigningAlgorithm: string;
@@ -1345,7 +1351,7 @@ export interface SignRequest {
 export const SignRequest = S.suspend(() =>
   S.Struct({
     KeyId: S.String,
-    Message: T.Blob,
+    Message: SensitiveBlob,
     MessageType: S.optional(S.String),
     GrantTokens: S.optional(GrantTokenList),
     SigningAlgorithm: S.String,
@@ -1438,18 +1444,21 @@ export const UpdateAliasResponse = S.suspend(() =>
   identifier: "UpdateAliasResponse",
 }) as any as S.Schema<UpdateAliasResponse>;
 export interface XksProxyAuthenticationCredentialType {
-  AccessKeyId: string;
-  RawSecretAccessKey: string;
+  AccessKeyId: string | Redacted.Redacted<string>;
+  RawSecretAccessKey: string | Redacted.Redacted<string>;
 }
 export const XksProxyAuthenticationCredentialType = S.suspend(() =>
-  S.Struct({ AccessKeyId: S.String, RawSecretAccessKey: S.String }),
+  S.Struct({
+    AccessKeyId: SensitiveString,
+    RawSecretAccessKey: SensitiveString,
+  }),
 ).annotations({
   identifier: "XksProxyAuthenticationCredentialType",
 }) as any as S.Schema<XksProxyAuthenticationCredentialType>;
 export interface UpdateCustomKeyStoreRequest {
   CustomKeyStoreId: string;
   NewCustomKeyStoreName?: string;
-  KeyStorePassword?: string;
+  KeyStorePassword?: string | Redacted.Redacted<string>;
   CloudHsmClusterId?: string;
   XksProxyUriEndpoint?: string;
   XksProxyUriPath?: string;
@@ -1462,7 +1471,7 @@ export const UpdateCustomKeyStoreRequest = S.suspend(() =>
   S.Struct({
     CustomKeyStoreId: S.String,
     NewCustomKeyStoreName: S.optional(S.String),
-    KeyStorePassword: S.optional(S.String),
+    KeyStorePassword: S.optional(SensitiveString),
     CloudHsmClusterId: S.optional(S.String),
     XksProxyUriEndpoint: S.optional(S.String),
     XksProxyUriPath: S.optional(S.String),
@@ -1544,7 +1553,7 @@ export const UpdatePrimaryRegionResponse = S.suspend(() =>
 }) as any as S.Schema<UpdatePrimaryRegionResponse>;
 export interface VerifyRequest {
   KeyId: string;
-  Message: Uint8Array;
+  Message: Uint8Array | Redacted.Redacted<Uint8Array>;
   MessageType?: string;
   Signature: Uint8Array;
   SigningAlgorithm: string;
@@ -1554,7 +1563,7 @@ export interface VerifyRequest {
 export const VerifyRequest = S.suspend(() =>
   S.Struct({
     KeyId: S.String,
-    Message: T.Blob,
+    Message: SensitiveBlob,
     MessageType: S.optional(S.String),
     Signature: T.Blob,
     SigningAlgorithm: S.String,
@@ -1575,7 +1584,7 @@ export const VerifyRequest = S.suspend(() =>
   identifier: "VerifyRequest",
 }) as any as S.Schema<VerifyRequest>;
 export interface VerifyMacRequest {
-  Message: Uint8Array;
+  Message: Uint8Array | Redacted.Redacted<Uint8Array>;
   KeyId: string;
   MacAlgorithm: string;
   Mac: Uint8Array;
@@ -1584,7 +1593,7 @@ export interface VerifyMacRequest {
 }
 export const VerifyMacRequest = S.suspend(() =>
   S.Struct({
-    Message: T.Blob,
+    Message: SensitiveBlob,
     KeyId: S.String,
     MacAlgorithm: S.String,
     Mac: T.Blob,
@@ -1636,7 +1645,7 @@ export interface CreateCustomKeyStoreRequest {
   CustomKeyStoreName: string;
   CloudHsmClusterId?: string;
   TrustAnchorCertificate?: string;
-  KeyStorePassword?: string;
+  KeyStorePassword?: string | Redacted.Redacted<string>;
   CustomKeyStoreType?: string;
   XksProxyUriEndpoint?: string;
   XksProxyUriPath?: string;
@@ -1650,7 +1659,7 @@ export const CreateCustomKeyStoreRequest = S.suspend(() =>
     CustomKeyStoreName: S.String,
     CloudHsmClusterId: S.optional(S.String),
     TrustAnchorCertificate: S.optional(S.String),
-    KeyStorePassword: S.optional(S.String),
+    KeyStorePassword: S.optional(SensitiveString),
     CustomKeyStoreType: S.optional(S.String),
     XksProxyUriEndpoint: S.optional(S.String),
     XksProxyUriPath: S.optional(S.String),
@@ -1794,7 +1803,7 @@ export const DeleteImportedKeyMaterialResponse = S.suspend(() =>
 }) as any as S.Schema<DeleteImportedKeyMaterialResponse>;
 export interface DeriveSharedSecretResponse {
   KeyId?: string;
-  SharedSecret?: Uint8Array;
+  SharedSecret?: Uint8Array | Redacted.Redacted<Uint8Array>;
   CiphertextForRecipient?: Uint8Array;
   KeyAgreementAlgorithm?: string;
   KeyOrigin?: string;
@@ -1802,7 +1811,7 @@ export interface DeriveSharedSecretResponse {
 export const DeriveSharedSecretResponse = S.suspend(() =>
   S.Struct({
     KeyId: S.optional(S.String),
-    SharedSecret: S.optional(T.Blob),
+    SharedSecret: S.optional(SensitiveBlob),
     CiphertextForRecipient: S.optional(T.Blob),
     KeyAgreementAlgorithm: S.optional(S.String),
     KeyOrigin: S.optional(S.String),
@@ -1826,7 +1835,7 @@ export const EncryptResponse = S.suspend(() =>
 }) as any as S.Schema<EncryptResponse>;
 export interface GenerateDataKeyResponse {
   CiphertextBlob?: Uint8Array;
-  Plaintext?: Uint8Array;
+  Plaintext?: Uint8Array | Redacted.Redacted<Uint8Array>;
   KeyId?: string;
   CiphertextForRecipient?: Uint8Array;
   KeyMaterialId?: string;
@@ -1834,7 +1843,7 @@ export interface GenerateDataKeyResponse {
 export const GenerateDataKeyResponse = S.suspend(() =>
   S.Struct({
     CiphertextBlob: S.optional(T.Blob),
-    Plaintext: S.optional(T.Blob),
+    Plaintext: S.optional(SensitiveBlob),
     KeyId: S.optional(S.String),
     CiphertextForRecipient: S.optional(T.Blob),
     KeyMaterialId: S.optional(S.String),
@@ -1844,7 +1853,7 @@ export const GenerateDataKeyResponse = S.suspend(() =>
 }) as any as S.Schema<GenerateDataKeyResponse>;
 export interface GenerateDataKeyPairResponse {
   PrivateKeyCiphertextBlob?: Uint8Array;
-  PrivateKeyPlaintext?: Uint8Array;
+  PrivateKeyPlaintext?: Uint8Array | Redacted.Redacted<Uint8Array>;
   PublicKey?: Uint8Array;
   KeyId?: string;
   KeyPairSpec?: string;
@@ -1854,7 +1863,7 @@ export interface GenerateDataKeyPairResponse {
 export const GenerateDataKeyPairResponse = S.suspend(() =>
   S.Struct({
     PrivateKeyCiphertextBlob: S.optional(T.Blob),
-    PrivateKeyPlaintext: S.optional(T.Blob),
+    PrivateKeyPlaintext: S.optional(SensitiveBlob),
     PublicKey: S.optional(T.Blob),
     KeyId: S.optional(S.String),
     KeyPairSpec: S.optional(S.String),
@@ -1911,12 +1920,12 @@ export const GenerateMacResponse = S.suspend(() =>
   identifier: "GenerateMacResponse",
 }) as any as S.Schema<GenerateMacResponse>;
 export interface GenerateRandomResponse {
-  Plaintext?: Uint8Array;
+  Plaintext?: Uint8Array | Redacted.Redacted<Uint8Array>;
   CiphertextForRecipient?: Uint8Array;
 }
 export const GenerateRandomResponse = S.suspend(() =>
   S.Struct({
-    Plaintext: S.optional(T.Blob),
+    Plaintext: S.optional(SensitiveBlob),
     CiphertextForRecipient: S.optional(T.Blob),
   }).pipe(ns),
 ).annotations({
@@ -1959,14 +1968,14 @@ export const GetKeyRotationStatusResponse = S.suspend(() =>
 export interface GetParametersForImportResponse {
   KeyId?: string;
   ImportToken?: Uint8Array;
-  PublicKey?: Uint8Array;
+  PublicKey?: Uint8Array | Redacted.Redacted<Uint8Array>;
   ParametersValidTo?: Date;
 }
 export const GetParametersForImportResponse = S.suspend(() =>
   S.Struct({
     KeyId: S.optional(S.String),
     ImportToken: S.optional(T.Blob),
-    PublicKey: S.optional(T.Blob),
+    PublicKey: S.optional(SensitiveBlob),
     ParametersValidTo: S.optional(
       S.Date.pipe(T.TimestampFormat("epoch-seconds")),
     ),
@@ -2348,7 +2357,7 @@ export const CreateKeyResponse = S.suspend(() =>
 }) as any as S.Schema<CreateKeyResponse>;
 export interface DecryptResponse {
   KeyId?: string;
-  Plaintext?: Uint8Array;
+  Plaintext?: Uint8Array | Redacted.Redacted<Uint8Array>;
   EncryptionAlgorithm?: string;
   CiphertextForRecipient?: Uint8Array;
   KeyMaterialId?: string;
@@ -2356,7 +2365,7 @@ export interface DecryptResponse {
 export const DecryptResponse = S.suspend(() =>
   S.Struct({
     KeyId: S.optional(S.String),
-    Plaintext: S.optional(T.Blob),
+    Plaintext: S.optional(SensitiveBlob),
     EncryptionAlgorithm: S.optional(S.String),
     CiphertextForRecipient: S.optional(T.Blob),
     KeyMaterialId: S.optional(S.String),
@@ -2422,7 +2431,7 @@ export const ListKeysResponse = S.suspend(() =>
 }) as any as S.Schema<ListKeysResponse>;
 export interface XksProxyConfigurationType {
   Connectivity?: string;
-  AccessKeyId?: string;
+  AccessKeyId?: string | Redacted.Redacted<string>;
   UriEndpoint?: string;
   UriPath?: string;
   VpcEndpointServiceName?: string;
@@ -2431,7 +2440,7 @@ export interface XksProxyConfigurationType {
 export const XksProxyConfigurationType = S.suspend(() =>
   S.Struct({
     Connectivity: S.optional(S.String),
-    AccessKeyId: S.optional(S.String),
+    AccessKeyId: S.optional(SensitiveString),
     UriEndpoint: S.optional(S.String),
     UriPath: S.optional(S.String),
     VpcEndpointServiceName: S.optional(S.String),

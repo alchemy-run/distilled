@@ -1,5 +1,6 @@
 import { HttpClient } from "@effect/platform";
 import * as Effect from "effect/Effect";
+import * as Redacted from "effect/Redacted";
 import * as S from "effect/Schema";
 import * as Stream from "effect/Stream";
 import * as API from "../api.ts";
@@ -10,6 +11,7 @@ import {
   ErrorCategory,
   Errors,
 } from "../index.ts";
+import { SensitiveString, SensitiveBlob } from "../sensitive.ts";
 const svc = T.AwsApiService({
   sdkId: "finspace",
   serviceShapeName: "AWSHabaneroManagementService",
@@ -288,7 +290,7 @@ export type SamlMetadataDocument = string;
 export type url = string;
 export type urn = string;
 export type FederationProviderName = string;
-export type EmailId = string;
+export type EmailId = string | Redacted.Redacted<string>;
 export type NameString = string;
 export type S3Path = string;
 export type DbPath = string;
@@ -320,7 +322,7 @@ export type DatabaseArn = string;
 export type EnvironmentArn = string;
 export type ErrorMessage2 = string;
 export type KxClusterStatusReason = string;
-export type SignedKxConnectionString = string;
+export type SignedKxConnectionString = string | Redacted.Redacted<string>;
 export type numBytes = number;
 export type numChangesets = number;
 export type numFiles = number;
@@ -1525,12 +1527,16 @@ export const SecurityGroupIdList = S.Array(S.String);
 export type SubnetIdList = string[];
 export const SubnetIdList = S.Array(S.String);
 export interface SuperuserParameters {
-  emailAddress: string;
+  emailAddress: string | Redacted.Redacted<string>;
   firstName: string;
   lastName: string;
 }
 export const SuperuserParameters = S.suspend(() =>
-  S.Struct({ emailAddress: S.String, firstName: S.String, lastName: S.String }),
+  S.Struct({
+    emailAddress: SensitiveString,
+    firstName: S.String,
+    lastName: S.String,
+  }),
 ).annotations({
   identifier: "SuperuserParameters",
 }) as any as S.Schema<SuperuserParameters>;
@@ -1937,10 +1943,10 @@ export const CreateKxVolumeRequest = S.suspend(() =>
   identifier: "CreateKxVolumeRequest",
 }) as any as S.Schema<CreateKxVolumeRequest>;
 export interface GetKxConnectionStringResponse {
-  signedConnectionString?: string;
+  signedConnectionString?: string | Redacted.Redacted<string>;
 }
 export const GetKxConnectionStringResponse = S.suspend(() =>
-  S.Struct({ signedConnectionString: S.optional(S.String) }),
+  S.Struct({ signedConnectionString: S.optional(SensitiveString) }),
 ).annotations({
   identifier: "GetKxConnectionStringResponse",
 }) as any as S.Schema<GetKxConnectionStringResponse>;

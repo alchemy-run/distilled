@@ -1,5 +1,6 @@
 import { HttpClient } from "@effect/platform";
 import * as Effect from "effect/Effect";
+import * as Redacted from "effect/Redacted";
 import * as S from "effect/Schema";
 import * as Stream from "effect/Stream";
 import * as API from "../api.ts";
@@ -10,6 +11,7 @@ import {
   ErrorCategory,
   Errors,
 } from "../index.ts";
+import { SensitiveString, SensitiveBlob } from "../sensitive.ts";
 const svc = T.AwsApiService({ sdkId: "Account", serviceShapeName: "Account" });
 const auth = T.AwsAuthSigv4({ name: "account" });
 const ver = T.ServiceVersion("2021-02-01");
@@ -312,41 +314,44 @@ const rules = T.EndpointRuleSet({
 });
 
 //# Newtypes
-export type AccountName = string;
+export type AccountName = string | Redacted.Redacted<string>;
 export type AccountId = string;
-export type Name = string;
-export type Title = string;
-export type EmailAddress = string;
-export type PhoneNumber = string;
+export type Name = string | Redacted.Redacted<string>;
+export type Title = string | Redacted.Redacted<string>;
+export type EmailAddress = string | Redacted.Redacted<string>;
+export type PhoneNumber = string | Redacted.Redacted<string>;
 export type AlternateContactType = string;
-export type PrimaryEmailAddress = string;
-export type Otp = string;
+export type PrimaryEmailAddress = string | Redacted.Redacted<string>;
+export type Otp = string | Redacted.Redacted<string>;
 export type RegionName = string;
 export type RegionOptStatus = string;
-export type FullName = string;
-export type AddressLine = string;
-export type City = string;
-export type StateOrRegion = string;
-export type DistrictOrCounty = string;
-export type PostalCode = string;
-export type CountryCode = string;
-export type ContactInformationPhoneNumber = string;
-export type CompanyName = string;
-export type WebsiteUrl = string;
+export type FullName = string | Redacted.Redacted<string>;
+export type AddressLine = string | Redacted.Redacted<string>;
+export type City = string | Redacted.Redacted<string>;
+export type StateOrRegion = string | Redacted.Redacted<string>;
+export type DistrictOrCounty = string | Redacted.Redacted<string>;
+export type PostalCode = string | Redacted.Redacted<string>;
+export type CountryCode = string | Redacted.Redacted<string>;
+export type ContactInformationPhoneNumber = string | Redacted.Redacted<string>;
+export type CompanyName = string | Redacted.Redacted<string>;
+export type WebsiteUrl = string | Redacted.Redacted<string>;
 export type AwsAccountState = string;
 export type PrimaryEmailUpdateStatus = string;
-export type SensitiveString = string;
+export type SensitiveString = string | Redacted.Redacted<string>;
 export type ValidationExceptionReason = string;
 
 //# Schemas
 export type RegionOptStatusList = string[];
 export const RegionOptStatusList = S.Array(S.String);
 export interface PutAccountNameRequest {
-  AccountName: string;
+  AccountName: string | Redacted.Redacted<string>;
   AccountId?: string;
 }
 export const PutAccountNameRequest = S.suspend(() =>
-  S.Struct({ AccountName: S.String, AccountId: S.optional(S.String) }).pipe(
+  S.Struct({
+    AccountName: SensitiveString,
+    AccountId: S.optional(S.String),
+  }).pipe(
     T.all(
       T.Http({ method: "POST", uri: "/putAccountName" }),
       svc,
@@ -381,19 +386,19 @@ export const GetAccountInformationRequest = S.suspend(() =>
   identifier: "GetAccountInformationRequest",
 }) as any as S.Schema<GetAccountInformationRequest>;
 export interface PutAlternateContactRequest {
-  Name: string;
-  Title: string;
-  EmailAddress: string;
-  PhoneNumber: string;
+  Name: string | Redacted.Redacted<string>;
+  Title: string | Redacted.Redacted<string>;
+  EmailAddress: string | Redacted.Redacted<string>;
+  PhoneNumber: string | Redacted.Redacted<string>;
   AlternateContactType: string;
   AccountId?: string;
 }
 export const PutAlternateContactRequest = S.suspend(() =>
   S.Struct({
-    Name: S.String,
-    Title: S.String,
-    EmailAddress: S.String,
-    PhoneNumber: S.String,
+    Name: SensitiveString,
+    Title: SensitiveString,
+    EmailAddress: SensitiveString,
+    PhoneNumber: SensitiveString,
     AlternateContactType: S.String,
     AccountId: S.optional(S.String),
   }).pipe(
@@ -499,11 +504,15 @@ export const GetContactInformationRequest = S.suspend(() =>
 }) as any as S.Schema<GetContactInformationRequest>;
 export interface AcceptPrimaryEmailUpdateRequest {
   AccountId: string;
-  PrimaryEmail: string;
-  Otp: string;
+  PrimaryEmail: string | Redacted.Redacted<string>;
+  Otp: string | Redacted.Redacted<string>;
 }
 export const AcceptPrimaryEmailUpdateRequest = S.suspend(() =>
-  S.Struct({ AccountId: S.String, PrimaryEmail: S.String, Otp: S.String }).pipe(
+  S.Struct({
+    AccountId: S.String,
+    PrimaryEmail: SensitiveString,
+    Otp: SensitiveString,
+  }).pipe(
     T.all(
       T.Http({ method: "POST", uri: "/acceptPrimaryEmailUpdate" }),
       svc,
@@ -535,10 +544,10 @@ export const GetPrimaryEmailRequest = S.suspend(() =>
 }) as any as S.Schema<GetPrimaryEmailRequest>;
 export interface StartPrimaryEmailUpdateRequest {
   AccountId: string;
-  PrimaryEmail: string;
+  PrimaryEmail: string | Redacted.Redacted<string>;
 }
 export const StartPrimaryEmailUpdateRequest = S.suspend(() =>
-  S.Struct({ AccountId: S.String, PrimaryEmail: S.String }).pipe(
+  S.Struct({ AccountId: S.String, PrimaryEmail: SensitiveString }).pipe(
     T.all(
       T.Http({ method: "POST", uri: "/startPrimaryEmailUpdate" }),
       svc,
@@ -639,46 +648,46 @@ export const ListRegionsRequest = S.suspend(() =>
   identifier: "ListRegionsRequest",
 }) as any as S.Schema<ListRegionsRequest>;
 export interface ContactInformation {
-  FullName: string;
-  AddressLine1: string;
-  AddressLine2?: string;
-  AddressLine3?: string;
-  City: string;
-  StateOrRegion?: string;
-  DistrictOrCounty?: string;
-  PostalCode: string;
-  CountryCode: string;
-  PhoneNumber: string;
-  CompanyName?: string;
-  WebsiteUrl?: string;
+  FullName: string | Redacted.Redacted<string>;
+  AddressLine1: string | Redacted.Redacted<string>;
+  AddressLine2?: string | Redacted.Redacted<string>;
+  AddressLine3?: string | Redacted.Redacted<string>;
+  City: string | Redacted.Redacted<string>;
+  StateOrRegion?: string | Redacted.Redacted<string>;
+  DistrictOrCounty?: string | Redacted.Redacted<string>;
+  PostalCode: string | Redacted.Redacted<string>;
+  CountryCode: string | Redacted.Redacted<string>;
+  PhoneNumber: string | Redacted.Redacted<string>;
+  CompanyName?: string | Redacted.Redacted<string>;
+  WebsiteUrl?: string | Redacted.Redacted<string>;
 }
 export const ContactInformation = S.suspend(() =>
   S.Struct({
-    FullName: S.String,
-    AddressLine1: S.String,
-    AddressLine2: S.optional(S.String),
-    AddressLine3: S.optional(S.String),
-    City: S.String,
-    StateOrRegion: S.optional(S.String),
-    DistrictOrCounty: S.optional(S.String),
-    PostalCode: S.String,
-    CountryCode: S.String,
-    PhoneNumber: S.String,
-    CompanyName: S.optional(S.String),
-    WebsiteUrl: S.optional(S.String),
+    FullName: SensitiveString,
+    AddressLine1: SensitiveString,
+    AddressLine2: S.optional(SensitiveString),
+    AddressLine3: S.optional(SensitiveString),
+    City: SensitiveString,
+    StateOrRegion: S.optional(SensitiveString),
+    DistrictOrCounty: S.optional(SensitiveString),
+    PostalCode: SensitiveString,
+    CountryCode: SensitiveString,
+    PhoneNumber: SensitiveString,
+    CompanyName: S.optional(SensitiveString),
+    WebsiteUrl: S.optional(SensitiveString),
   }),
 ).annotations({
   identifier: "ContactInformation",
 }) as any as S.Schema<ContactInformation>;
 export interface GetAccountInformationResponse {
   AccountId?: string;
-  AccountName?: string;
+  AccountName?: string | Redacted.Redacted<string>;
   AccountCreatedDate?: Date;
 }
 export const GetAccountInformationResponse = S.suspend(() =>
   S.Struct({
     AccountId: S.optional(S.String),
-    AccountName: S.optional(S.String),
+    AccountName: S.optional(SensitiveString),
     AccountCreatedDate: S.optional(S.Date.pipe(T.TimestampFormat("date-time"))),
   }),
 ).annotations({
@@ -737,10 +746,10 @@ export const AcceptPrimaryEmailUpdateResponse = S.suspend(() =>
   identifier: "AcceptPrimaryEmailUpdateResponse",
 }) as any as S.Schema<AcceptPrimaryEmailUpdateResponse>;
 export interface GetPrimaryEmailResponse {
-  PrimaryEmail?: string;
+  PrimaryEmail?: string | Redacted.Redacted<string>;
 }
 export const GetPrimaryEmailResponse = S.suspend(() =>
-  S.Struct({ PrimaryEmail: S.optional(S.String) }),
+  S.Struct({ PrimaryEmail: S.optional(SensitiveString) }),
 ).annotations({
   identifier: "GetPrimaryEmailResponse",
 }) as any as S.Schema<GetPrimaryEmailResponse>;
@@ -765,18 +774,18 @@ export const GetRegionOptStatusResponse = S.suspend(() =>
   identifier: "GetRegionOptStatusResponse",
 }) as any as S.Schema<GetRegionOptStatusResponse>;
 export interface AlternateContact {
-  Name?: string;
-  Title?: string;
-  EmailAddress?: string;
-  PhoneNumber?: string;
+  Name?: string | Redacted.Redacted<string>;
+  Title?: string | Redacted.Redacted<string>;
+  EmailAddress?: string | Redacted.Redacted<string>;
+  PhoneNumber?: string | Redacted.Redacted<string>;
   AlternateContactType?: string;
 }
 export const AlternateContact = S.suspend(() =>
   S.Struct({
-    Name: S.optional(S.String),
-    Title: S.optional(S.String),
-    EmailAddress: S.optional(S.String),
-    PhoneNumber: S.optional(S.String),
+    Name: S.optional(SensitiveString),
+    Title: S.optional(SensitiveString),
+    EmailAddress: S.optional(SensitiveString),
+    PhoneNumber: S.optional(SensitiveString),
     AlternateContactType: S.optional(S.String),
   }),
 ).annotations({
@@ -816,10 +825,10 @@ export const ListRegionsResponse = S.suspend(() =>
 }) as any as S.Schema<ListRegionsResponse>;
 export interface ValidationExceptionField {
   name: string;
-  message: string;
+  message: string | Redacted.Redacted<string>;
 }
 export const ValidationExceptionField = S.suspend(() =>
-  S.Struct({ name: S.String, message: S.String }),
+  S.Struct({ name: S.String, message: SensitiveString }),
 ).annotations({
   identifier: "ValidationExceptionField",
 }) as any as S.Schema<ValidationExceptionField>;
@@ -878,7 +887,7 @@ export class ResourceUnavailableException extends S.TaggedError<ResourceUnavaila
 export class ValidationException extends S.TaggedError<ValidationException>()(
   "ValidationException",
   {
-    message: S.String,
+    message: SensitiveString,
     reason: S.optional(S.String),
     fieldList: S.optional(ValidationExceptionFieldList),
   },

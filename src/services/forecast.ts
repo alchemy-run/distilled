@@ -1,5 +1,6 @@
 import { HttpClient } from "@effect/platform";
 import * as Effect from "effect/Effect";
+import * as Redacted from "effect/Redacted";
 import * as S from "effect/Schema";
 import * as Stream from "effect/Stream";
 import * as API from "../api.ts";
@@ -10,6 +11,7 @@ import {
   ErrorCategory,
   Errors,
 } from "../index.ts";
+import { SensitiveString, SensitiveBlob } from "../sensitive.ts";
 const svc = T.AwsApiService({
   sdkId: "forecast",
   serviceShapeName: "AmazonForecast",
@@ -263,9 +265,9 @@ export type LocalDateTime = string;
 export type LongArn = string;
 export type NextToken = string;
 export type MaxResults = number;
-export type TagKey = string;
+export type TagKey = string | Redacted.Redacted<string>;
 export type KMSKeyArn = string;
-export type TagValue = string;
+export type TagValue = string | Redacted.Redacted<string>;
 export type DayOfMonth = number;
 export type Hour = number;
 export type ParameterKey = string;
@@ -291,14 +293,14 @@ export type ArnList = string[];
 export const ArnList = S.Array(S.String);
 export type WhatIfForecastArnListForExport = string[];
 export const WhatIfForecastArnListForExport = S.Array(S.String);
-export type TagKeys = string[];
-export const TagKeys = S.Array(S.String);
+export type TagKeys = string | Redacted.Redacted<string>[];
+export const TagKeys = S.Array(SensitiveString);
 export interface Tag {
-  Key: string;
-  Value: string;
+  Key: string | Redacted.Redacted<string>;
+  Value: string | Redacted.Redacted<string>;
 }
 export const Tag = S.suspend(() =>
-  S.Struct({ Key: S.String, Value: S.String }),
+  S.Struct({ Key: SensitiveString, Value: SensitiveString }),
 ).annotations({ identifier: "Tag" }) as any as S.Schema<Tag>;
 export type Tags = Tag[];
 export const Tags = S.Array(Tag);

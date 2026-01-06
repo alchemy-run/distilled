@@ -1,5 +1,5 @@
 import { expect } from "@effect/vitest";
-import { Effect, Schedule, Stream } from "effect";
+import { Effect, Redacted, Schedule, Stream } from "effect";
 import {
   cancelKeyDeletion,
   createAlias,
@@ -287,7 +287,11 @@ test(
       expect(decryptResult.Plaintext).toBeDefined();
 
       // Verify decrypted data matches original
-      const decryptedStr = new TextDecoder().decode(decryptResult.Plaintext!);
+      // Plaintext is a sensitive field, extract from Redacted
+      const decryptedBytes = Redacted.isRedacted(decryptResult.Plaintext!)
+        ? Redacted.value(decryptResult.Plaintext!)
+        : decryptResult.Plaintext!;
+      const decryptedStr = new TextDecoder().decode(decryptedBytes);
       expect(decryptedStr).toEqual(plaintextStr);
     } finally {
       // Clean up key
@@ -337,8 +341,11 @@ test(
 
       expect(decryptResult.Plaintext).toBeDefined();
 
-      // Verify content
-      const decryptedStr = new TextDecoder().decode(decryptResult.Plaintext!);
+      // Verify content - Plaintext is a sensitive field, extract from Redacted
+      const decryptedBytes = Redacted.isRedacted(decryptResult.Plaintext!)
+        ? Redacted.value(decryptResult.Plaintext!)
+        : decryptResult.Plaintext!;
+      const decryptedStr = new TextDecoder().decode(decryptedBytes);
       const originalStr = new TextDecoder().decode(plaintext);
       expect(decryptedStr).toEqual(originalStr);
 

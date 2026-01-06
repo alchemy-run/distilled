@@ -1,5 +1,6 @@
 import { HttpClient } from "@effect/platform";
 import * as Effect from "effect/Effect";
+import * as Redacted from "effect/Redacted";
 import * as S from "effect/Schema";
 import * as Stream from "effect/Stream";
 import * as API from "../api.ts";
@@ -10,6 +11,7 @@ import {
   ErrorCategory,
   Errors,
 } from "../index.ts";
+import { SensitiveString, SensitiveBlob } from "../sensitive.ts";
 const svc = T.AwsApiService({
   sdkId: "Budgets",
   serviceShapeName: "AWSBudgetServiceGateway",
@@ -502,7 +504,7 @@ export type ResourceTagKey = string;
 export type BillingViewArn = string;
 export type ResourceTagValue = string;
 export type NotificationThreshold = number;
-export type SubscriberAddress = string;
+export type SubscriberAddress = string | Redacted.Redacted<string>;
 export type errorMessage = string;
 export type NumericValue = string;
 export type UnitValue = string;
@@ -541,10 +543,10 @@ export const Notification = S.suspend(() =>
 ).annotations({ identifier: "Notification" }) as any as S.Schema<Notification>;
 export interface Subscriber {
   SubscriptionType: string;
-  Address: string;
+  Address: string | Redacted.Redacted<string>;
 }
 export const Subscriber = S.suspend(() =>
-  S.Struct({ SubscriptionType: S.String, Address: S.String }),
+  S.Struct({ SubscriptionType: S.String, Address: SensitiveString }),
 ).annotations({ identifier: "Subscriber" }) as any as S.Schema<Subscriber>;
 export interface CreateSubscriberRequest {
   AccountId: string;

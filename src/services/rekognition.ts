@@ -1,5 +1,6 @@
 import { HttpClient } from "@effect/platform";
 import * as Effect from "effect/Effect";
+import * as Redacted from "effect/Redacted";
 import * as S from "effect/Schema";
 import * as Stream from "effect/Stream";
 import * as API from "../api.ts";
@@ -10,6 +11,7 @@ import {
   ErrorCategory,
   Errors,
 } from "../index.ts";
+import { SensitiveString, SensitiveBlob } from "../sensitive.ts";
 const svc = T.AwsApiService({
   sdkId: "Rekognition",
   serviceShapeName: "RekognitionService",
@@ -1378,13 +1380,13 @@ export const BoundingBox = S.suspend(() =>
   }),
 ).annotations({ identifier: "BoundingBox" }) as any as S.Schema<BoundingBox>;
 export interface AuditImage {
-  Bytes?: Uint8Array;
+  Bytes?: Uint8Array | Redacted.Redacted<Uint8Array>;
   S3Object?: S3Object;
   BoundingBox?: BoundingBox;
 }
 export const AuditImage = S.suspend(() =>
   S.Struct({
-    Bytes: S.optional(T.Blob),
+    Bytes: S.optional(SensitiveBlob),
     S3Object: S.optional(S3Object),
     BoundingBox: S.optional(BoundingBox),
   }),
